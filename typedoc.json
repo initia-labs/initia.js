@@ -1,0 +1,12 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "out": "docs",
+  "excludeExternals": true,
+  "exclude": ["**/*+(index|.spec|.e2e).ts"],
+  "theme": "default",
+  "name": "initia.js",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "media": "img",
+  "hideGenerator": true
+}

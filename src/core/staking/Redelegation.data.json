@@ -1,0 +1,58 @@
+[
+  {
+    "redelegation": {
+      "delegator_address": "init1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v",
+      "validator_src_address": "initvaloper14un92kpq0pvflyjd8sxmrsswglhn8mf5hkruc2",
+      "validator_dst_address": "initvaloper18t8mtyvxlxf2gjh4x5r06gjfg0nk6gqs974uxh",
+      "entries": null
+    },
+    "entries": [
+      {
+        "redelegation_entry": {
+          "creation_height": 4288713,
+          "completion_time": "2021-06-17T08:20:51.859505136Z",
+          "initial_balance": "11999999",
+          "shares_dst": "12121209.863287294700189881"
+        },
+        "balance": "11999999"
+      },
+      {
+        "redelegation_entry": {
+          "creation_height": 4288750,
+          "completion_time": "2021-06-17T08:24:15.433539611Z",
+          "initial_balance": "11000000",
+          "shares_dst": "11111109.967272517414550508"
+        },
+        "balance": "10999999"
+      },
+      {
+        "redelegation_entry": {
+          "creation_height": 4289208,
+          "completion_time": "2021-06-17T09:06:10.093949554Z",
+          "initial_balance": "10000000",
+          "shares_dst": "10101009.061156834013227735"
+        },
+        "balance": "10000000"
+      }
+    ]
+  },
+  {
+    "redelegation": {
+      "delegator_address": "init1x46rqay4d3cssq8gxxvqz8xt6nwlz4td20k38v",
+      "validator_src_address": "initvaloper14un92kpq0pvflyjd8sxmrsswglhn8mf5hkruc2",
+      "validator_dst_address": "initvaloper1krj7amhhagjnyg2tkkuh6l0550y733jnjnnlzy",
+      "entries": null
+    },
+    "entries": [
+      {
+        "redelegation_entry": {
+          "creation_height": 4289212,
+          "completion_time": "2021-06-17T09:06:31.632048465Z",
+          "initial_balance": "5000000",
+          "shares_dst": "5205622.236075405701241331"
+        },
+        "balance": "5000000"
+      }
+    ]
+  }
+]

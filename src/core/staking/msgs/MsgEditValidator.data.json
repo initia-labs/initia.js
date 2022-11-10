@@ -1,0 +1,471 @@
+{
+    "total_count": "6",
+    "count": "6",
+    "page_number": "1",
+    "page_total": "1",
+    "limit": "30",
+    "txs": [
+      {
+        "height": "4095823",
+        "txhash": "0B4AB60F84E27B719BE7DC7E02AFC1F33B1FEA7B428B3E0F94A6E2D2BC314E63",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.010000000000000000\\\"\\n  max_rate: \\\"0.050000000000000000\\\"\\n  max_change_rate: \\\"0.010000000000000000\\\"\\nupdate_time: 2021-03-25T13:22:21.248563966Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.010000000000000000\"\n  max_rate: \"0.050000000000000000\"\n  max_change_rate: \"0.010000000000000000\"\nupdate_time: 2021-03-25T13:22:21.248563966Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "62978",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "PFC Pretty Floating Chairs",
+                    "identity": "[do-not-modify]",
+                    "website": "[do-not-modify]",
+                    "security_contact": "[do-not-modify]",
+                    "details": "[do-not-modify]"
+                  },
+                  "validator_address": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "2366"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-04T01:15:13Z"
+      },
+      {
+        "height": "4095895",
+        "txhash": "3C1F002FCF6BB021295974CFD7747D3F6AFA4E34F4D5F3A5FE293EAD797D3EAD",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.010000000000000000\\\"\\n  max_rate: \\\"0.050000000000000000\\\"\\n  max_change_rate: \\\"0.010000000000000000\\\"\\nupdate_time: 2021-03-25T13:22:21.248563966Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.010000000000000000\"\n  max_rate: \"0.050000000000000000\"\n  max_change_rate: \"0.010000000000000000\"\nupdate_time: 2021-03-25T13:22:21.248563966Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "62334",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "PFC",
+                    "identity": "[do-not-modify]",
+                    "website": "[do-not-modify]",
+                    "security_contact": "[do-not-modify]",
+                    "details": "[do-not-modify]"
+                  },
+                  "validator_address": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "2366"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "Pretty Floating Chairs",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-04T01:21:45Z"
+      },
+      {
+        "height": "4096120",
+        "txhash": "D97692D7D6C53644893B189B7EDABA8542DCC267AE2B35727FD2B36C907CE70C",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.010000000000000000\\\"\\n  max_rate: \\\"0.050000000000000000\\\"\\n  max_change_rate: \\\"0.010000000000000000\\\"\\nupdate_time: 2021-03-25T13:22:21.248563966Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.010000000000000000\"\n  max_rate: \"0.050000000000000000\"\n  max_change_rate: \"0.010000000000000000\"\nupdate_time: 2021-03-25T13:22:21.248563966Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "62945",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "PFC-Purple Floating Chairs",
+                    "identity": "[do-not-modify]",
+                    "website": "[do-not-modify]",
+                    "security_contact": "[do-not-modify]",
+                    "details": "[do-not-modify]"
+                  },
+                  "validator_address": "initvaloper1usws7c2c6cs7nuc8vma9qzaky5pkgvm2ujy8ny"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "2366"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-04T01:42:08Z"
+      },
+      {
+        "height": "4098530",
+        "txhash": "FFB579C06AC2F81340827DFC25E4E4248698953BA7336A56CEA9C85F5E3DECEE",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.100000000000000000\\\"\\n  max_rate: \\\"0.200000000000000000\\\"\\n  max_change_rate: \\\"0.010000000000000000\\\"\\nupdate_time: 2021-06-04T04:08:40.113648741Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper1hpnzszng3ld6cs5dv6s0tgrs2nk2xp9f0xcqa3\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.100000000000000000\"\n  max_rate: \"0.200000000000000000\"\n  max_change_rate: \"0.010000000000000000\"\nupdate_time: 2021-06-04T04:08:40.113648741Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper1hpnzszng3ld6cs5dv6s0tgrs2nk2xp9f0xcqa3"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "62265",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "Mosaic",
+                    "identity": "[do-not-modify]",
+                    "website": "http://www.mosaic.kr",
+                    "security_contact": "[do-not-modify]",
+                    "details": "[do-not-modify]"
+                  },
+                  "validator_address": "initvaloper1hpnzszng3ld6cs5dv6s0tgrs2nk2xp9f0xcqa3"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "56000000"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-04T05:20:39Z"
+      },
+      {
+        "height": "4100870",
+        "txhash": "DCE2BD4A6C86B73271F12579B0056CFC0FC9A9FFFDE56A6879E24940974A0506",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.200000000000000000\\\"\\n  max_rate: \\\"1.000000000000000000\\\"\\n  max_change_rate: \\\"0.050000000000000000\\\"\\nupdate_time: 2021-06-04T08:52:57.476687827Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper1tdec0swznvk6r9ze7wvwqj06tt2tq2q6qzrwhr\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.200000000000000000\"\n  max_rate: \"1.000000000000000000\"\n  max_change_rate: \"0.050000000000000000\"\nupdate_time: 2021-06-04T08:52:57.476687827Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper1tdec0swznvk6r9ze7wvwqj06tt2tq2q6qzrwhr"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "63980",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "block42",
+                    "identity": "C57B29418AE33CC0",
+                    "website": "https://block42.com",
+                    "security_contact": "[do-not-modify]",
+                    "details": "A venture-driven tech company."
+                  },
+                  "validator_address": "initvaloper1tdec0swznvk6r9ze7wvwqj06tt2tq2q6qzrwhr"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "100000"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-04T08:53:19Z"
+      },
+      {
+        "height": "4136466",
+        "txhash": "52809468217A0EF8D2F89BF3BF5672A7D0E68CD95E585BA5A9F551C061763D28",
+        "data": "0A2A0A282F636F736D6F732E7374616B696E672E763162657461312E4D73674564697456616C696461746F72",
+        "raw_log": "[{\"events\":[{\"type\":\"edit_validator\",\"attributes\":[{\"key\":\"commission_rate\",\"value\":\"commissionrates:\\n  rate: \\\"0.050000000000000000\\\"\\n  max_rate: \\\"0.200000000000000000\\\"\\n  max_change_rate: \\\"0.010000000000000000\\\"\\nupdate_time: 2021-05-06T01:48:17.570021677Z\\n\"},{\"key\":\"min_self_delegation\",\"value\":\"1\"}]},{\"type\":\"message\",\"attributes\":[{\"key\":\"action\",\"value\":\"/cosmos.staking.v1beta1.MsgEditValidator\"},{\"key\":\"module\",\"value\":\"staking\"},{\"key\":\"sender\",\"value\":\"initvaloper12fdlnnc9hsphdrt07hqjzazudc8ztc999h2auz\"}]}]}]",
+        "logs": [
+          {
+            "events": [
+              {
+                "type": "edit_validator",
+                "attributes": [
+                  {
+                    "key": "commission_rate",
+                    "value": "commissionrates:\n  rate: \"0.050000000000000000\"\n  max_rate: \"0.200000000000000000\"\n  max_change_rate: \"0.010000000000000000\"\nupdate_time: 2021-05-06T01:48:17.570021677Z\n"
+                  },
+                  {
+                    "key": "min_self_delegation",
+                    "value": "1"
+                  }
+                ]
+              },
+              {
+                "type": "message",
+                "attributes": [
+                  {
+                    "key": "action",
+                    "value": "/cosmos.staking.v1beta1.MsgEditValidator"
+                  },
+                  {
+                    "key": "module",
+                    "value": "staking"
+                  },
+                  {
+                    "key": "sender",
+                    "value": "initvaloper12fdlnnc9hsphdrt07hqjzazudc8ztc999h2auz"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "gas_wanted": "200000",
+        "gas_used": "64183",
+        "tx": {
+          "type": "core/StdTx",
+          "value": {
+            "msg": [
+              {
+                "type": "staking/MsgEditValidator",
+                "value": {
+                  "description": {
+                    "moniker": "Aura Stake",
+                    "identity": "[do-not-modify]",
+                    "website": "https://www.aurastake.com",
+                    "security_contact": "security@aurastake.com",
+                    "details": "[do-not-modify]"
+                  },
+                  "validator_address": "initvaloper12fdlnnc9hsphdrt07hqjzazudc8ztc999h2auz"
+                }
+              }
+            ],
+            "fee": {
+              "amount": [
+                {
+                  "denom": "uinit",
+                  "amount": "2266"
+                }
+              ],
+              "gas": "200000"
+            },
+            "signatures": [],
+            "memo": "",
+            "timeout_height": "0"
+          }
+        },
+        "timestamp": "2021-06-06T15:12:53Z"
+      }
+    ]
+  }

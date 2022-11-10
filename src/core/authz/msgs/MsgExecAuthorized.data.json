@@ -1,0 +1,17 @@
+[{
+    "type": "cosmos-sdk/MsgExec",
+    "value": {
+        "grantee": "ini...",
+        "msgs": [{
+            "type": "cosmos-sdk/MsgSend",
+            "value": {
+                "from_address": "ini...",
+                "to_address": "ini...",
+                "amount": [{
+                    "denom": "uinit",
+                    "amount": "999"
+                }]
+            }
+        }]
+    }
+}]
