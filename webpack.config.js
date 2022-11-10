@@ -44,6 +44,17 @@ const webConfig = {
     fallback: {
       stream: require.resolve('stream-browserify'),
       buffer: require.resolve('buffer'),
+      path: require.resolve('path-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      zlib: require.resolve('browserify-zlib'),
+      crypto: require.resolve('crypto-browserify'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      url: require.resolve('url/'),
+      assert: require.resolve('assert/'),
+      fs: false,
+      net: false,
+      tls: false,
     },
   },
   plugins: [
