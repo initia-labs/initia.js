@@ -96,7 +96,7 @@ export class LCDClient {
    *
    * @param config LCD configuration
    */
-  constructor(config: LCDClientConfig) {
+  constructor(config: LCDClientConfig, apiRequester?: APIRequester) {
     this.config = {
       ...DEFAULT_LCD_OPTIONS,
       gasPrices:
@@ -105,7 +105,7 @@ export class LCDClient {
       ...config,
     };
 
-    this.apiRequester = new APIRequester(this.config.URL);
+    this.apiRequester = apiRequester ?? new APIRequester(this.config.URL);
 
     // instantiate APIs
     this.auth = new AuthAPI(this.apiRequester);
