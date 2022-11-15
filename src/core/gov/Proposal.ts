@@ -9,7 +9,10 @@ import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
-import { PublishStdModuleProposal } from '../move/proposals';
+import { 
+  PublishStdModuleProposal,
+  EntryFunctionProposal,
+} from '../move/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -233,7 +236,8 @@ export namespace Proposal {
     | SoftwareUpgradeProposal
     | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal
-    | PublishStdModuleProposal;
+    | PublishStdModuleProposal
+    | EntryFunctionProposal;
 
   export namespace Content {
     export type Amino =
@@ -243,7 +247,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Amino
       | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino
-      | PublishStdModuleProposal.Amino;
+      | PublishStdModuleProposal.Amino
+      | EntryFunctionProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -252,7 +257,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Data
       | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data
-      | PublishStdModuleProposal.Data;
+      | PublishStdModuleProposal.Data
+      | EntryFunctionProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -261,7 +267,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Proto
       | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto
-      | PublishStdModuleProposal.Proto;
+      | PublishStdModuleProposal.Proto
+      | EntryFunctionProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -279,6 +286,8 @@ export namespace Proposal {
           return ClientUpdateProposal.fromAmino(amino);
         case 'move/PublishStdModuleProposal':
           return PublishStdModuleProposal.fromAmino(amino);
+        case 'move/EntryFunctionProposal':
+          return EntryFunctionProposal.fromAmino(amino);
       }
     }
 
@@ -298,6 +307,8 @@ export namespace Proposal {
           return ClientUpdateProposal.fromData(data);
         case '/initia.move.v1.PublishStdModuleProposal':
           return PublishStdModuleProposal.fromData(data);
+        case '/initia.move.v1.EntryFunctionProposal':
+          return EntryFunctionProposal.fromData(data);
       }
     }
 
@@ -318,6 +329,8 @@ export namespace Proposal {
           return ClientUpdateProposal.unpackAny(anyProto);
         case '/initia.move.v1.PublishStdModuleProposal':
           return PublishStdModuleProposal.unpackAny(anyProto);
+        case '/initia.move.v1.EntryFunctionProposal':
+          return EntryFunctionProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;
