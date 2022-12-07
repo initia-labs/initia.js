@@ -42,44 +42,43 @@ export function serializeOption(type: string, data: any): string {
   return serialize(optionType, data);
 }
 
-function serialize(type: string, data: any): string {
+export function serialize(type: string, data: any): string {
   return ExtendedBcs.ser(type, data).toString('base64');
 }
 
 class ExtendedBcs extends bcs {
-    public static registerOptionType(name: string, valueType: string) {
-        return this.registerType(
-            name,
-            (writer: BcsWriter, data: any) => writeOption(writer, data, (writer: BcsWriter, val: any) => {
-                return bcs.getTypeInterface(valueType)._encodeRaw(writer, val);
-            }),
-            (reader: BcsReader) => readOption(reader, (reader: BcsReader) => {
-                return bcs.getTypeInterface(valueType)._decodeRaw(reader);
-            })
-        );
-
-    }
+  public static registerOptionType(name: string, valueType: string) {
+    return this.registerType(
+      name,
+      (writer: BcsWriter, data: any) => writeOption(writer, data, (writer: BcsWriter, val: any) => {
+        return bcs.getTypeInterface(valueType)._encodeRaw(writer, val);
+      }),
+      (reader: BcsReader) => readOption(reader, (reader: BcsReader) => {
+        return bcs.getTypeInterface(valueType)._decodeRaw(reader);
+      })
+    );
+  }
 }
 
 function writeOption(
-    writer: BcsWriter,
-    value: any,
-    cb: (writer: BcsWriter, value: any) => {}
+  writer: BcsWriter,
+  value: any,
+  cb: (writer: BcsWriter, value: any) => {}
 ): BcsWriter {
-    if (value != null) {
-        writer.write8(1);
-        cb(writer, value);
-    }
-    else {
-        writer.write8(0);
-    }
-    return writer;
+  if (value != null) {
+    writer.write8(1);
+    cb(writer, value);
+  }
+  else {
+    writer.write8(0);
+  }
+  return writer;
 }
 
 function readOption(reader: BcsReader, cb: (reader: BcsReader) => any): any {
-    let isSome = reader.read8().toString(10) === '1';
-    if (!isSome) {
-        return null;
-    }
-    return cb(reader);
+  let isSome = reader.read8().toString(10) === '1';
+  if (!isSome) {
+    return null;
+  }
+  return cb(reader);
 }
