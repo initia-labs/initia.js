@@ -30,7 +30,6 @@ export class APIRequester {
     this.axios = Axios.create({
       headers: {
         Accept: 'application/json',
-        'Accept-Encoding': '*',
       },
       timeout: 30000,
     });
