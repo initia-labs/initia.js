@@ -1,4 +1,5 @@
 import { bech32 } from 'bech32';
+import converter from 'bech32-converting';
 
 /** `init-` prefixed account address */
 export type AccAddress = string;
@@ -46,6 +47,24 @@ export namespace AccAddress {
   export function fromValAddress(address: ValAddress): AccAddress {
     const vals = bech32.decode(address);
     return bech32.encode('init', vals.words);
+  }
+
+  /**
+   * Converts a account address into a hex address
+   *
+   * @param address account address
+   */
+  export function toHex(address: AccAddress): string {
+    return converter('init').toHex(address);
+  }
+
+  /**
+   * Converts a hex address into an account address
+   *
+   * @param hexAddress hex address
+   */
+  export function fromHex(hexAddress: string): AccAddress {
+    return converter('init').toBech32(hexAddress);
   }
 }
 
