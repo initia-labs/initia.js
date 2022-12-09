@@ -2,28 +2,31 @@ export * from './Block';
 export * from './Coin';
 export * from './Coins';
 export * from './Denom';
-export * from './Msg';
-export * from './PublicKey';
+export * from './Deposit';
 export * from './Fee';
+export * from './Msg';
+export * from './MultiSignature';
+export * from './PublicKey';
+export * from './SignatureV2';
 export * from './SignDoc';
 export * from './Tx';
 export * from './TxInfo';
 export * from './ValidatorSet';
-export * from './Deposit';
-export * from './SignatureV2';
-export * from './MultiSignature';
+export * from './bech32';
 export * from './num';
 
 // Auth
-export * from './auth/Account';
-export * from './auth/BaseAccount';
-export * from './auth/BaseVestingAccount';
-export * from './auth/DelayedVestingAccount';
-export * from './auth/ContinuousVestingAccount';
-export * from './auth/PeriodicVestingAccount';
+export * from './auth';
+
+// Authz
+export * from './authz/msgs';
+export * from './authz/authorizations';
 
 // Bank
 export * from './bank/msgs';
+
+// Crisis
+export * from './crisis';
 
 // Distribution
 export * from './distribution/msgs';
@@ -39,9 +42,18 @@ export * from './gov/proposals';
 export * from './gov/Proposal';
 export * from './gov/Vote';
 
-// MsgAuth
-export * from './authz/msgs';
-export * from './authz/authorizations';
+// IBC
+export * from './ibc/msgs/channel';
+export * from './ibc/msgs/client';
+export * from './ibc/msgs/connection';
+
+// IBC-transfer
+export * from './ibc/applications/transfer';
+
+// MOVE
+export * from './move/msgs';
+export * from './move/proposals';
+export * from './move/MoveCoin';
 
 // Parameters
 export * from './params/proposals';
@@ -57,22 +69,8 @@ export * from './staking/Redelegation';
 export * from './staking/UnbondingDelegation';
 export * from './staking/Validator';
 
-// Vesting
-export * from './vesting';
-
 // Upgrade
 export * from './upgrade';
 
-// MOVE
-export * from './move/msgs';
-
-// IBC
-export * from './ibc/msgs/channel';
-export * from './ibc/msgs/client';
-export * from './ibc/msgs/connection';
-
-// IBC-transfer
-export * from './ibc/applications/transfer';
-
-// bech32 types
-export * from './bech32';
+// Vesting
+export * from './vesting';
