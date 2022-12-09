@@ -1,84 +1,167 @@
-import converter from 'bech32-converting';
-import { bcs, BcsWriter, BcsReader, TypeInterface, encodeStr, decodeStr } from '@mysten/bcs';
-import { toB64, fromB64, fromHEX, toHEX } from '@mysten/bcs';
-export { toB64, fromB64, fromHEX, toHEX };
-export { ExtendedBcs as bcs, BcsWriter, BcsReader, TypeInterface, encodeStr, decodeStr };
+import {
+  BCS as mystenBcs,
+  BcsWriter,
+  BcsReader,
+  StructTypeDefinition,
+} from '@mysten/bcs';
 
-export function serializeString(data: string): string {
-  return serialize(ExtendedBcs.STRING, data);
-}
+export class BCS {
+  private mystenBcs: mystenBcs;
 
-export function serializeAddress(data: string): string {
-  if (!ExtendedBcs.hasType(ExtendedBcs.ADDRESS)) {
-    ExtendedBcs.registerAddressType(ExtendedBcs.ADDRESS, 20, 'hex');
-  }
-  const converted = converter('init').toHex(data);
-  return serialize(ExtendedBcs.ADDRESS, converted);
-}
+  static readonly U8: string = 'u8';
+  static readonly U16: string = 'u16';
+  static readonly U32: string = 'u32';
+  static readonly U64: string = 'u64';
+  static readonly U128: string = 'u128';
+  static readonly U256: string = 'u256';
+  static readonly BOOL: string = 'bool';
+  static readonly VECTOR: string = 'vector';
+  static readonly ADDRESS: string = 'address';
+  static readonly STRING: string = 'string';
+  static readonly OPTION: string = 'option';
 
-export function serializeVector(type: string, data: any): string {
-  if (!ExtendedBcs.hasType(type)) {
-    throw Error(`Must register type ${type} first`)
-  }
+  constructor() {
+    this.mystenBcs = new mystenBcs({
+      genericSeparators: ['<', '>'],
+      vectorType: 'vector',
+      addressLength: 20,
+      addressEncoding: 'hex',
+    });
 
-  const vectorType = `vector<${type}>`;
-  if (!ExtendedBcs.hasType(vectorType)) {
-    ExtendedBcs.registerVectorType(vectorType, type);
-  }
-
-  return serialize(vectorType, data);
-}
-
-export function serializeOption(type: string, data: any): string {
-  if (!ExtendedBcs.hasType(type)) {
-    throw Error(`Must register type ${type} first`)
+    this.registerOptionType(BCS.OPTION);
   }
 
-  const optionType = `option<${type}>`;
-  if (!ExtendedBcs.hasType(optionType)) {
-    ExtendedBcs.registerOptionType(optionType, type);
+  /**
+   * Serialize data to bcs.
+   * Return base64 encoded string
+   *
+   * Preregistered types : `u8`, `u16`, `u32`, `u64`, `u128`, `u256`,
+   *   `bool`, `vector`, `address`, `string`, `option`
+   *
+   * @example
+   * const bcs = new BCS();
+   *
+   * const num = bcs.serialize(BCS.U64, 2187462); // numeric
+   * const bool = bcs.serialize(BCS.BOOL, true); // bool
+   * const vector = bcs.serialize('vector<u64>', [1, 2, 3, 4]); // vector
+   * const string = bcs.serialize(BCS.STRING, 'initia'); // string
+   * const optionSome = bcs.serialize('option<u64>', 18237); // option some
+   * const optionNone = bcs.serialize('option<u64>', null); // option none
+   *
+   * @param type Name of the type of serialize
+   * @param data Data to serialize
+   * @param size Serialization buffer size. Default 1024 bytes
+   * @return Base64 encoded of serialized data
+   */
+  public serialize(type: string, data: any, size: number = 1024): string {
+    return this.mystenBcs.ser(type, data, size).toString('base64');
   }
 
-  return serialize(optionType, data);
-}
+  /**
+   * Deserialize bcs.
+   *
+   * @example
+   *
+   * const bcs = new BCS();
+   *
+   * const num = bcs.serialize(BCS.U64, 2187462);
+   * const deNum = bcs.deserialize(BCS.U64, 2187462);
+   *
+   * @param type Name of the type of deserialize
+   * @param data  Data to deserialize
+   * @param encoding Encoding to use if data is of type String. Default 'base64'
+   * @returns
+   */
+  public deserialize<T>(
+    type: string,
+    data: Uint8Array | string,
+    encoding: string = 'base64'
+  ): T {
+    return this.mystenBcs.de(type, data, encoding) as T;
+  }
 
-export function serialize(type: string, data: any): string {
-  return ExtendedBcs.ser(type, data).toString('base64');
-}
+  /**
+   * Safe method to register a custom Move struct. The first argument is a name of the
+   * struct which is only used on the FrontEnd and has no affect on serialization results,
+   * and the second is a struct description passed as an Object.
+   *
+   * The description object MUST have the same order on all of the platforms (ie in Move
+   * or in Rust).
+   *
+   * @example
+   * // Move struct
+   * // struct Data {
+   * //   num: u64,
+   * //   str: std::string::String,
+   * //   vec: vector<bool>,
+   * // }
+   *
+   * const bcs = new BCS();
+   *
+   * bcs.registerStruct('data', {
+   *   num: BCS.U64,
+   *   str: BCS.STRING,
+   *   vec: 'vector<bool>'
+   * });
+   *
+   * const data = {
+   *   num: 1234,
+   *   str: '1234',
+   *   vec: [true, false, true],
+   * };
+   *
+   * const ser = bcs.serialize('data', data);
+   * const de = bcs.deserialize('data', ser);
+   *
+   * @param name Name of the type to register.
+   * @param fields Fields of the struct. Must be in the correct order.
+   */
+  public registerStruct(name: string, fields: StructTypeDefinition) {
+    this.mystenBcs.registerStructType(name, fields);
+  }
 
-class ExtendedBcs extends bcs {
-  public static registerOptionType(name: string, valueType: string) {
-    return this.registerType(
-      name,
-      (writer: BcsWriter, data: any) => writeOption(writer, data, (writer: BcsWriter, val: any) => {
-        return bcs.getTypeInterface(valueType)._encodeRaw(writer, val);
-      }),
-      (reader: BcsReader) => readOption(reader, (reader: BcsReader) => {
-        return bcs.getTypeInterface(valueType)._decodeRaw(reader);
-      })
+  private registerOptionType(name: string, elementType?: string) {
+    let { typeName, typeParams } = this.mystenBcs.parseTypeName(name);
+
+    if (typeParams.length > 1) {
+      throw new Error('Option can have only one type parameter; got ' + name);
+    }
+
+    return this.mystenBcs.registerType(
+      typeName,
+      (writer: BcsWriter, data: any, typeParams: string[]) =>
+        writer.writeVec(data === null ? [] : [data], (writer, el) => {
+          let vectorType = elementType || typeParams[0];
+
+          if (!!vectorType) {
+            let { typeName, typeParams } =
+              this.mystenBcs.parseTypeName(vectorType);
+            return this.mystenBcs
+              .getTypeInterface(elementType || typeName)
+              ._encodeRaw(writer, el, typeParams);
+          } else {
+            throw new Error(
+              `Incorrect number of type parameters passed to option '${typeName}'`
+            );
+          }
+        }),
+      (reader: BcsReader, typeParams) => {
+        const vec = reader.readVec(reader => {
+          let vectorType = elementType || typeParams[0];
+          if (!!vectorType) {
+            let { typeName, typeParams } =
+              this.mystenBcs.parseTypeName(vectorType);
+            return this.mystenBcs
+              .getTypeInterface(elementType || typeName)
+              ._decodeRaw(reader, typeParams);
+          } else {
+            throw new Error(
+              `Incorrect number of type parameters passed to option '${typeName}'`
+            );
+          }
+        });
+        return vec[0] ? vec[0] : null;
+      }
     );
   }
-}
-
-function writeOption(
-  writer: BcsWriter,
-  value: any,
-  cb: (writer: BcsWriter, value: any) => {}
-): BcsWriter {
-  if (value != null) {
-    writer.write8(1);
-    cb(writer, value);
-  }
-  else {
-    writer.write8(0);
-  }
-  return writer;
-}
-
-function readOption(reader: BcsReader, cb: (reader: BcsReader) => any): any {
-  let isSome = reader.read8().toString(10) === '1';
-  if (!isSome) {
-    return null;
-  }
-  return cb(reader);
 }
