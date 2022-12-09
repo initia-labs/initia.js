@@ -83,7 +83,7 @@
   },
   "dependencies": {
     "@initia/initia.proto": "^0.0.3-alpha1",
-    "@mysten/bcs": "^0.3.0",
+    "@mysten/bcs": "^0.5.0",
     "axios": "^0.27.2",
     "bech32": "^2.0.0",
     "bech32-converting": "^1.0.9",
