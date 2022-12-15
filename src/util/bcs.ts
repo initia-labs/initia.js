@@ -4,6 +4,7 @@ import {
   BcsReader,
   StructTypeDefinition,
 } from '@mysten/bcs';
+import { MoveFunctionABI } from 'core/move/types';
 
 export class BCS {
   private static bcs: BCS;
@@ -173,4 +174,17 @@ export class BCS {
       }
     );
   }
+}
+
+export function argsEncodeWithABI(args: any[], abi: MoveFunctionABI) {
+  const bcs = BCS.getInstance();
+  const paramTypes = abi.params
+    .map(param => {
+      param = param.replace('0x1::string::String', 'string');
+      param = param.replace('0x1::option::Option', 'option');
+      return param;
+    })
+    .filter(param => !/signer/.test(param));
+
+  return args.map((value, index) => bcs.serialize(paramTypes[index], value));
 }
