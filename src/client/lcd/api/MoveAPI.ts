@@ -1,8 +1,8 @@
 import { BaseAPI } from './BaseAPI';
 import { AccAddress } from '../../../core/bech32';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { BCS } from '../../../util';
-import { ModuleABI } from 'core';
+import { argsEncodeWithABI } from '../../../util';
+import { ModuleABI } from 'core/move/types';
 
 export interface Module {
   address: AccAddress;
@@ -101,7 +101,6 @@ export class MoveAPI extends BaseAPI {
     args: any[],
     abi: string
   ): Promise<ExecuteResult> {
-    const bcs = BCS.getInstance();
     const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
 
     const functionAbi = module.exposed_functions.find(
@@ -112,20 +111,12 @@ export class MoveAPI extends BaseAPI {
       throw Error('function not found');
     }
 
-    const paramTypes = functionAbi.params
-      .map(param => {
-        param = param.replace('0x1::string::String', 'string');
-        param = param.replace('0x1::option::Option', 'option');
-        return param;
-      })
-      .filter(param => !/signer/.test(param));
-
     return this.executeEntryFunction(
       address,
       moduleName,
       functionName,
       typeArgs,
-      args.map((value, index) => bcs.serialize(paramTypes[index], value))
+      argsEncodeWithABI(args, functionAbi)
     );
   }
 
