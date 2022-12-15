@@ -2,6 +2,8 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgExecuteScript as MsgExecuteScript_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { MoveFunctionABI } from '../types';
+import { argsEncodeWithABI } from '../../../util';
 
 export class MsgExecuteScript extends JSONSerializable<
   MsgExecuteScript.Amino,
@@ -88,6 +90,61 @@ export class MsgExecuteScript extends JSONSerializable<
       type_args,
       args,
     };
+  }
+
+  /**
+   * Generate `MsgExecuteScript` from plain arguments(not bcs encoded)
+   *
+   * @example
+   * // In case of the types of arguments are ['u64', 'u64']
+   * const abi = await lcd.move.scriptABI(script).then(res => res.abi)
+   *
+   * // msg that was generated with not encoded arguments
+   * consg msg1 = MsgExecuteScript.fromPlainArgs(
+   *   'init1abc...', // sender
+   *   script, // code bytes
+   *   [],
+   *   [1000000000000, 2000000000000],
+   *   abi
+   * );
+   *
+   * // msg that was generated with the constructor
+   * const msg2 = new MsgExecuteScript(
+   *   'init1abc...', // sender
+   *   script, // code bytes
+   *   [],
+   *   [
+   *     bcs.serialize('u64', 1000000000000),
+   *     bcs.serialize('u64', 2000000000000),
+   *   ]
+   * );
+   *
+   * console.assert(msg1.toJSON(), msg2.toJSON()
+   *
+   * @param sender
+   * @param code_bytes
+   * @param type_args
+   * @param args
+   * @param abi // base64 encoded script abi
+   * @returns
+   */
+  public static fromPlainArgs(
+    sender: AccAddress,
+    code_bytes: string,
+    type_args: string[],
+    args: any[],
+    abi: string
+  ): MsgExecuteScript {
+    const functionAbi: MoveFunctionABI = JSON.parse(
+      Buffer.from(abi, 'base64').toString()
+    );
+
+    return new MsgExecuteScript(
+      sender,
+      code_bytes,
+      type_args,
+      argsEncodeWithABI(args, functionAbi)
+    );
   }
 }
 

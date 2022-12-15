@@ -2,41 +2,8 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgExecuteEntryFunction as MsgExecuteEntryFunction_pb } from '@initia/initia.proto/initia/move/v1/tx';
-import { LCDClient } from 'client';
-import { BCS } from '../../../util';
-
-interface ModuleABI {
-  address: string;
-  name: string;
-  friends: string[];
-  exposed_functions: MoveFunctionABI[];
-  structs: MoveStructABI[];
-}
-
-interface MoveFunctionABI {
-  name: string;
-  visibility: string;
-  is_entry: boolean;
-  generic_type_params: {
-    constraints: string[];
-  }[];
-  params: string[];
-  return: string[];
-}
-
-interface MoveStructABI {
-  name: string;
-  is_native: boolean;
-  abilities: string[];
-  generic_type_params: {
-    constraints: string[];
-    is_phantom: boolean;
-  };
-  fields: {
-    name: string;
-    type: string;
-  }[];
-}
+import { argsEncodeWithABI } from '../../../util';
+import { ModuleABI } from '../types';
 
 export class MsgExecuteEntryFunction extends JSONSerializable<
   MsgExecuteEntryFunction.Amino,
@@ -175,7 +142,21 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    *
    * @example
    * // In case of the types of arguments are ['u64', 'u64']
-   * const msg1 = new MsgExecuteEntryFunction(
+   * const abi = await lcd.move.module('init1def...', 'pair').then(res => res.abi)
+   *
+   * // msg that was generated with not encoded arguments
+   * consg msg1 = MsgExectueEntryFunction.fromPlainArgs(
+   *   'init1abc...', // sender
+   *   'init1def...', // module owner
+   *   'pair', // moudle name
+   *   'provide_liquidity', // function name
+   *   [],
+   *   [1000000000000, 2000000000000],
+   *   abi
+   * );
+   *
+   * // msg that was generated with the constructor
+   * const msg2 = new MsgExecuteEntryFunction(
    *   'init1abc...', // sender
    *   'init1def...', // module owner
    *   'pair', // moudle name
@@ -187,42 +168,29 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    *   ]
    * );
    *
-   * consg msg2 = await MsgExectueEntryFunction(
-   *   lcd, // lcd client
-   *   'init1abc...', // sender
-   *   'init1def...', // module owner
-   *   'pair', // moudle name
-   *   'provide_liquidity', // function name
-   *   [],
-   *   [1000000000000, 2000000000000],
-   * );
-   *
    * console.assert(msg1.toJSON(), msg2.toJSON()
    *
-   * @param lcd
    * @param sender
    * @param module_addr
    * @param module_name
    * @param function_name
    * @param type_args
    * @param args
+   * @param abi // base64 encoded module abi
    * @returns
    */
-  public static async fromPlainArgs(
-    lcd: LCDClient,
+  public static fromPlainArgs(
     sender: AccAddress,
     module_addr: AccAddress,
     module_name: string,
     function_name: string,
     type_args: string[],
-    args: any[]
-  ): Promise<MsgExecuteEntryFunction> {
-    const bcs = BCS.getInstance();
-    const abi: ModuleABI = await lcd.move
-      .module(module_addr, module_name)
-      .then(module => JSON.parse(Buffer.from(module.abi, 'base64').toString()));
+    args: any[],
+    abi: string
+  ): MsgExecuteEntryFunction {
+    const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
 
-    const functionAbi = abi.exposed_functions.find(
+    const functionAbi = module.exposed_functions.find(
       exposedFunction => exposedFunction.name === function_name
     );
 
@@ -230,21 +198,13 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
       throw Error('function not found');
     }
 
-    const paramTypes = functionAbi.params
-      .map(param => {
-        param = param.replace('0x1::string::String', 'string');
-        param = param.replace('0x1::option::Option', 'option');
-        return param;
-      })
-      .filter(param => !/signer/.test(param));
-
     return new MsgExecuteEntryFunction(
       sender,
       module_addr,
       module_name,
       function_name,
       type_args,
-      args.map((value, index) => bcs.serialize(paramTypes[index], value))
+      argsEncodeWithABI(args, functionAbi)
     );
   }
 }
