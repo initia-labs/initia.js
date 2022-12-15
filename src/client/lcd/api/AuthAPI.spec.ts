@@ -9,7 +9,9 @@ const auth = new AuthAPI(c);
 describe('AuthAPI', () => {
   describe('accounts', () => {
     it('account exists', async () => {
-      const acct = await auth.accountInfo('init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs');
+      const acct = await auth.accountInfo(
+        'init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs'
+      );
 
       expect(acct instanceof BaseAccount).toBe(true);
     });

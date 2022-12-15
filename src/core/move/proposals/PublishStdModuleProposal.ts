@@ -23,8 +23,12 @@ export class PublishStdModuleProposal extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: PublishStdModuleProposal.Amino): PublishStdModuleProposal {
-    const { value: { title, description, code_bytes } } = data;
+  public static fromAmino(
+    data: PublishStdModuleProposal.Amino
+  ): PublishStdModuleProposal {
+    const {
+      value: { title, description, code_bytes },
+    } = data;
     return new PublishStdModuleProposal(title, description, code_bytes);
   }
 
@@ -40,7 +44,9 @@ export class PublishStdModuleProposal extends JSONSerializable<
     };
   }
 
-  public static fromData(data: PublishStdModuleProposal.Data): PublishStdModuleProposal {
+  public static fromData(
+    data: PublishStdModuleProposal.Data
+  ): PublishStdModuleProposal {
     const { title, description, code_bytes } = data;
     return new PublishStdModuleProposal(title, description, code_bytes);
   }
@@ -55,11 +61,13 @@ export class PublishStdModuleProposal extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: PublishStdModuleProposal.Proto): PublishStdModuleProposal {
+  public static fromProto(
+    proto: PublishStdModuleProposal.Proto
+  ): PublishStdModuleProposal {
     return new PublishStdModuleProposal(
       proto.title,
       proto.description,
-      Buffer.from(proto.codeBytes).toString('base64'),
+      Buffer.from(proto.codeBytes).toString('base64')
     );
   }
 
@@ -80,7 +88,9 @@ export class PublishStdModuleProposal extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): PublishStdModuleProposal {
-    return PublishStdModuleProposal.fromProto(PublishStdModuleProposal_pb.decode(msgAny.value));
+    return PublishStdModuleProposal.fromProto(
+      PublishStdModuleProposal_pb.decode(msgAny.value)
+    );
   }
 }
 

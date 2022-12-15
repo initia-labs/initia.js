@@ -329,11 +329,7 @@ export namespace Validator {
 
     public static fromAmino(data: CommissionRates.Amino): CommissionRates {
       const { rate, max_rate, max_change_rate } = data;
-      return new CommissionRates(
-        rate,
-        max_rate,
-        max_change_rate
-      );
+      return new CommissionRates(rate, max_rate, max_change_rate);
     }
 
     public toAmino(): Validator.CommissionRates.Amino {
@@ -347,11 +343,7 @@ export namespace Validator {
 
     public static fromData(data: CommissionRates.Data): CommissionRates {
       const { rate, max_rate, max_change_rate } = data;
-      return new CommissionRates(
-        rate,
-        max_rate,
-        max_change_rate
-      );
+      return new CommissionRates(rate, max_rate, max_change_rate);
     }
 
     public toData(): Validator.CommissionRates.Data {

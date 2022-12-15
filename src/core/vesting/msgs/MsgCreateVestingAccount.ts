@@ -31,7 +31,9 @@ export class MsgCreateVestingAccount extends JSONSerializable<
     this.amount = new Coins(amount);
   }
 
-  public static fromAmino(data: MsgCreateVestingAccount.Amino): MsgCreateVestingAccount {
+  public static fromAmino(
+    data: MsgCreateVestingAccount.Amino
+  ): MsgCreateVestingAccount {
     const {
       value: { from_address, to_address, amount, end_time, delayed },
     } = data;
@@ -58,7 +60,9 @@ export class MsgCreateVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromData(data: MsgCreateVestingAccount.Data): MsgCreateVestingAccount {
+  public static fromData(
+    data: MsgCreateVestingAccount.Data
+  ): MsgCreateVestingAccount {
     const { from_address, to_address, amount, end_time, delayed } = data;
 
     return new MsgCreateVestingAccount(
@@ -82,7 +86,9 @@ export class MsgCreateVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgCreateVestingAccount.Proto): MsgCreateVestingAccount {
+  public static fromProto(
+    proto: MsgCreateVestingAccount.Proto
+  ): MsgCreateVestingAccount {
     return new MsgCreateVestingAccount(
       proto.fromAddress,
       proto.toAddress,
@@ -111,7 +117,9 @@ export class MsgCreateVestingAccount extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgCreateVestingAccount {
-    return MsgCreateVestingAccount.fromProto(MsgCreateVestingAccount_pb.decode(msgAny.value));
+    return MsgCreateVestingAccount.fromProto(
+      MsgCreateVestingAccount_pb.decode(msgAny.value)
+    );
   }
 }
 

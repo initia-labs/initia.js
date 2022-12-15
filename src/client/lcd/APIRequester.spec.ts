@@ -16,9 +16,12 @@ describe('APIRequester', () => {
     const request = new APIRequester('https://stone-rest.initia.tech/');
     await request.get('/foo');
 
-    expect(mockedAxios.get).toHaveBeenCalledWith('https://stone-rest.initia.tech/foo', {
-      params: {},
-    });
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      'https://stone-rest.initia.tech/foo',
+      {
+        params: {},
+      }
+    );
   });
 
   it('accept a deep URL', async () => {

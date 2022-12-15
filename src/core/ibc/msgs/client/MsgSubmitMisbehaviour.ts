@@ -32,7 +32,9 @@ export class MsgSubmitMisbehaviour extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgSubmitMisbehaviour.Data): MsgSubmitMisbehaviour {
+  public static fromData(
+    data: MsgSubmitMisbehaviour.Data
+  ): MsgSubmitMisbehaviour {
     const { client_id, misbehaviour, signer } = data;
     return new MsgSubmitMisbehaviour(client_id, misbehaviour, signer);
   }
@@ -47,7 +49,9 @@ export class MsgSubmitMisbehaviour extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgSubmitMisbehaviour.Proto): MsgSubmitMisbehaviour {
+  public static fromProto(
+    proto: MsgSubmitMisbehaviour.Proto
+  ): MsgSubmitMisbehaviour {
     return new MsgSubmitMisbehaviour(
       proto.clientId,
       proto.misbehaviour,
