@@ -1,6 +1,8 @@
 import { BaseAPI } from './BaseAPI';
 import { AccAddress } from '../../../core/bech32';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { BCS } from '../../../util';
+import { ModuleABI } from 'core';
 
 export interface Module {
   address: AccAddress;
@@ -76,6 +78,54 @@ export class MoveAPI extends BaseAPI {
         type_args: typeArgs,
         args,
       }
+    );
+  }
+
+  /**
+   * Query entry function with not encoded arguments and abi.
+   * Arguments will be bcs encoded with type informations from abi.
+   *
+   * @param address
+   * @param moduleName
+   * @param functionName
+   * @param typeArgs
+   * @param args // not encoded arguments
+   * @param abi // base64 encoded module abi
+   * @returns
+   */
+  public async executeEntryFunctionWithABI(
+    address: AccAddress,
+    moduleName: string,
+    functionName: string,
+    typeArgs: string[],
+    args: any[],
+    abi: string
+  ): Promise<ExecuteResult> {
+    const bcs = BCS.getInstance();
+    const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
+
+    const functionAbi = module.exposed_functions.find(
+      exposedFunction => exposedFunction.name === functionName
+    );
+
+    if (!functionAbi) {
+      throw Error('function not found');
+    }
+
+    const paramTypes = functionAbi.params
+      .map(param => {
+        param = param.replace('0x1::string::String', 'string');
+        param = param.replace('0x1::option::Option', 'option');
+        return param;
+      })
+      .filter(param => !/signer/.test(param));
+
+    return this.executeEntryFunction(
+      address,
+      moduleName,
+      functionName,
+      typeArgs,
+      args.map((value, index) => bcs.serialize(paramTypes[index], value))
     );
   }
 
