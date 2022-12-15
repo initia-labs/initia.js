@@ -26,7 +26,9 @@ export class MsgCreatePeriodicVestingAccount extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: MsgCreatePeriodicVestingAccount.Amino): MsgCreatePeriodicVestingAccount {
+  public static fromAmino(
+    data: MsgCreatePeriodicVestingAccount.Amino
+  ): MsgCreatePeriodicVestingAccount {
     const {
       value: { from_address, to_address, start_time, vesting_periods },
     } = data;
@@ -51,7 +53,9 @@ export class MsgCreatePeriodicVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromData(data: MsgCreatePeriodicVestingAccount.Data): MsgCreatePeriodicVestingAccount {
+  public static fromData(
+    data: MsgCreatePeriodicVestingAccount.Data
+  ): MsgCreatePeriodicVestingAccount {
     const { from_address, to_address, start_time, vesting_periods } = data;
 
     return new MsgCreatePeriodicVestingAccount(
@@ -73,7 +77,9 @@ export class MsgCreatePeriodicVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgCreatePeriodicVestingAccount.Proto): MsgCreatePeriodicVestingAccount {
+  public static fromProto(
+    proto: MsgCreatePeriodicVestingAccount.Proto
+  ): MsgCreatePeriodicVestingAccount {
     return new MsgCreatePeriodicVestingAccount(
       proto.fromAddress,
       proto.toAddress,
@@ -100,7 +106,9 @@ export class MsgCreatePeriodicVestingAccount extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgCreatePeriodicVestingAccount {
-    return MsgCreatePeriodicVestingAccount.fromProto(MsgCreatePeriodicVestingAccount_pb.decode(msgAny.value));
+    return MsgCreatePeriodicVestingAccount.fromProto(
+      MsgCreatePeriodicVestingAccount_pb.decode(msgAny.value)
+    );
   }
 }
 

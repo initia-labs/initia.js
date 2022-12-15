@@ -50,7 +50,9 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgConnectionOpenAck.Data): MsgConnectionOpenAck {
+  public static fromData(
+    data: MsgConnectionOpenAck.Data
+  ): MsgConnectionOpenAck {
     const {
       connection_id,
       counterparty_connection_id,
@@ -107,7 +109,9 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgConnectionOpenAck.Proto): MsgConnectionOpenAck {
+  public static fromProto(
+    proto: MsgConnectionOpenAck.Proto
+  ): MsgConnectionOpenAck {
     return new MsgConnectionOpenAck(
       proto.connectionId,
       proto.counterpartyConnectionId,

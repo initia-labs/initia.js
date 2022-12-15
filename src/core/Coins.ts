@@ -60,7 +60,7 @@ export class Coins
   /**
    * Creates a new Coins object with all Decimal coins
    */
-   public toDecCoins(): Coins {
+  public toDecCoins(): Coins {
     return new Coins(this.map(c => c.toDecCoin()));
   }
 

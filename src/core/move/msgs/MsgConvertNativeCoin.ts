@@ -17,8 +17,12 @@ export class MsgConvertNativeCoin extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: MsgConvertNativeCoin.Amino): MsgConvertNativeCoin {
-    const { value: { sender, coin } } = data;
+  public static fromAmino(
+    data: MsgConvertNativeCoin.Amino
+  ): MsgConvertNativeCoin {
+    const {
+      value: { sender, coin },
+    } = data;
     return new MsgConvertNativeCoin(sender, coin && Coin.fromAmino(coin));
   }
 
@@ -33,11 +37,13 @@ export class MsgConvertNativeCoin extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgConvertNativeCoin.Proto): MsgConvertNativeCoin {
+  public static fromProto(
+    proto: MsgConvertNativeCoin.Proto
+  ): MsgConvertNativeCoin {
     return new MsgConvertNativeCoin(
       proto.sender,
-      proto.coin && Coin.fromProto(proto.coin),
-    )
+      proto.coin && Coin.fromProto(proto.coin)
+    );
   }
 
   public toProto(): MsgConvertNativeCoin.Proto {
@@ -45,7 +51,7 @@ export class MsgConvertNativeCoin extends JSONSerializable<
     return MsgConvertNativeCoin_pb.fromPartial({
       sender,
       coin: coin?.toProto(),
-    })
+    });
   }
 
   public packAny(): Any {
@@ -61,7 +67,9 @@ export class MsgConvertNativeCoin extends JSONSerializable<
     );
   }
 
-  public static fromData(data: MsgConvertNativeCoin.Data): MsgConvertNativeCoin {
+  public static fromData(
+    data: MsgConvertNativeCoin.Data
+  ): MsgConvertNativeCoin {
     const { sender, coin } = data;
     return new MsgConvertNativeCoin(sender, coin && Coin.fromData(coin));
   }
@@ -72,7 +80,7 @@ export class MsgConvertNativeCoin extends JSONSerializable<
       '@type': '/initia.move.v1.MsgConvertNativeCoin',
       sender,
       coin: coin?.toData(),
-    }
+    };
   }
 }
 

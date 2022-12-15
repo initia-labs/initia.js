@@ -28,10 +28,7 @@ export class MintAPI extends BaseAPI {
    */
   public async inflation(params: APIParams = {}): Promise<string> {
     return this.c
-      .get<{ inflation: string }>(
-        `/cosmos/mint/v1beta1/inflation`,
-        params
-      )
+      .get<{ inflation: string }>(`/cosmos/mint/v1beta1/inflation`, params)
       .then(d => d.inflation);
   }
 

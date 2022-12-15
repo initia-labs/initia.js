@@ -57,7 +57,9 @@ export class PeriodicVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromAmino(data: PeriodicVestingAccount.Amino): PeriodicVestingAccount {
+  public static fromAmino(
+    data: PeriodicVestingAccount.Amino
+  ): PeriodicVestingAccount {
     const base_vesting_account = BaseVestingAccount.fromAmino({
       type: 'cosmos-sdk/BaseVestingAccount',
       value: data.value.base_vesting_account,
@@ -82,7 +84,9 @@ export class PeriodicVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromData(data: PeriodicVestingAccount.Data): PeriodicVestingAccount {
+  public static fromData(
+    data: PeriodicVestingAccount.Data
+  ): PeriodicVestingAccount {
     const base_vesting_account = BaseVestingAccount.fromData({
       '@type': '/cosmos.vesting.v1beta1.BaseVestingAccount',
       ...data.base_vesting_account,
@@ -103,7 +107,9 @@ export class PeriodicVestingAccount extends JSONSerializable<
     });
   }
 
-  public static fromProto(proto: PeriodicVestingAccount.Proto): PeriodicVestingAccount {
+  public static fromProto(
+    proto: PeriodicVestingAccount.Proto
+  ): PeriodicVestingAccount {
     const baseVestingAccount = BaseVestingAccount.fromProto(
       proto.baseVestingAccount as BaseVestingAccount_pb
     );
@@ -123,7 +129,9 @@ export class PeriodicVestingAccount extends JSONSerializable<
   }
 
   public static unpackAny(pubkeyAny: Any): PeriodicVestingAccount {
-    return PeriodicVestingAccount.fromProto(PeriodicVestingAccount_pb.decode(pubkeyAny.value));
+    return PeriodicVestingAccount.fromProto(
+      PeriodicVestingAccount_pb.decode(pubkeyAny.value)
+    );
   }
 }
 

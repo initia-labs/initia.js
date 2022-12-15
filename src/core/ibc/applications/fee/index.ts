@@ -1,5 +1,5 @@
 export * from './Metadata';
-export * from './IdentifiedPacketFee'
+export * from './IdentifiedPacketFee';
 export * from './PacketFee';
 export * from './Fee';
 export * from './msgs/MsgPayPacketFee';

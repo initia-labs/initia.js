@@ -60,7 +60,7 @@ export class BankAPI extends BaseAPI {
    * Lqueries the spenable balance of all coins for a single account.
    * @param address address of account to look up.
    */
-   public async spendableBalances(
+  public async spendableBalances(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Coins, Pagination]> {

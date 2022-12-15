@@ -31,7 +31,7 @@ export class AuthzAPI extends BaseAPI {
   /**
    * get list of `GrantAuthorization`, granted by granter.
    */
-   public async granter(
+  public async granter(
     granter: AccAddress,
     params: APIParams = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
@@ -40,7 +40,10 @@ export class AuthzAPI extends BaseAPI {
         `/cosmos/authz/v1beta1/grants/granter/${granter}`,
         params
       )
-      .then(d => [d.grants.map(g => AuthorizationGrant.fromData(g)), d.pagination]);
+      .then(d => [
+        d.grants.map(g => AuthorizationGrant.fromData(g)),
+        d.pagination,
+      ]);
   }
 
   /**
@@ -55,6 +58,9 @@ export class AuthzAPI extends BaseAPI {
         `/cosmos/authz/v1beta1/grants/grantee/${grantee}`,
         params
       )
-      .then(d => [d.grants.map(g => AuthorizationGrant.fromData(g)), d.pagination]);
+      .then(d => [
+        d.grants.map(g => AuthorizationGrant.fromData(g)),
+        d.pagination,
+      ]);
   }
 }

@@ -32,7 +32,9 @@ export class MsgRegisterCounterpartyAddress extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgRegisterCounterpartyAddress.Data): MsgRegisterCounterpartyAddress {
+  public static fromData(
+    data: MsgRegisterCounterpartyAddress.Data
+  ): MsgRegisterCounterpartyAddress {
     const { address, counterparty_address, channel_id } = data;
 
     return new MsgRegisterCounterpartyAddress(
@@ -52,7 +54,9 @@ export class MsgRegisterCounterpartyAddress extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgRegisterCounterpartyAddress.Proto): MsgRegisterCounterpartyAddress {
+  public static fromProto(
+    proto: MsgRegisterCounterpartyAddress.Proto
+  ): MsgRegisterCounterpartyAddress {
     return new MsgRegisterCounterpartyAddress(
       proto.address,
       proto.counterpartyAddress,

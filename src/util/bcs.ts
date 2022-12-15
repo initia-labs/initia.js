@@ -62,7 +62,7 @@ export class BCS {
    * @param size Serialization buffer size. Default 1024 bytes
    * @return Base64 encoded of serialized data
    */
-  public serialize(type: string, data: any, size: number = 1024): string {
+  public serialize(type: string, data: any, size = 1024): string {
     return this.mystenBcs.ser(type, data, size).toString('base64');
   }
 
@@ -84,7 +84,7 @@ export class BCS {
   public deserialize<T>(
     type: string,
     data: Uint8Array | string,
-    encoding: string = 'base64'
+    encoding = 'base64'
   ): T {
     return this.mystenBcs.de(type, data, encoding) as T;
   }
@@ -130,7 +130,7 @@ export class BCS {
   }
 
   private registerOptionType(name: string, elementType?: string) {
-    let { typeName, typeParams } = this.mystenBcs.parseTypeName(name);
+    const { typeName, typeParams } = this.mystenBcs.parseTypeName(name);
 
     if (typeParams.length > 1) {
       throw new Error('Option can have only one type parameter; got ' + name);
@@ -140,10 +140,10 @@ export class BCS {
       typeName,
       (writer: BcsWriter, data: any, typeParams: string[]) =>
         writer.writeVec(data === null ? [] : [data], (writer, el) => {
-          let vectorType = elementType || typeParams[0];
+          const vectorType = elementType || typeParams[0];
 
-          if (!!vectorType) {
-            let { typeName, typeParams } =
+          if (vectorType) {
+            const { typeName, typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
               .getTypeInterface(elementType || typeName)
@@ -156,9 +156,9 @@ export class BCS {
         }),
       (reader: BcsReader, typeParams) => {
         const vec = reader.readVec(reader => {
-          let vectorType = elementType || typeParams[0];
-          if (!!vectorType) {
-            let { typeName, typeParams } =
+          const vectorType = elementType || typeParams[0];
+          if (vectorType) {
+            const { typeName, typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
               .getTypeInterface(elementType || typeName)

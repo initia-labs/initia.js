@@ -2,8 +2,8 @@ import { JSONSerializable } from '../../util/json';
 import { MoveCoin as MoveCoin_pb } from '@initia/initia.proto/initia/move/v1/types';
 
 export class MoveCoin extends JSONSerializable<
-  MoveCoin.Amino, 
-  MoveCoin.Data, 
+  MoveCoin.Amino,
+  MoveCoin.Data,
   MoveCoin.Proto
 > {
   /**
@@ -41,14 +41,14 @@ export class MoveCoin extends JSONSerializable<
   }
 
   public static fromProto(proto: MoveCoin.Proto): MoveCoin {
-    return new MoveCoin(proto.structTag, proto.amount)
+    return new MoveCoin(proto.structTag, proto.amount);
   }
 
   public toProto(): MoveCoin.Proto {
     return MoveCoin_pb.fromPartial({
       structTag: this.struct_tag,
       amount: this.amount,
-    })
+    });
   }
 }
 
