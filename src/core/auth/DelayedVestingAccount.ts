@@ -46,7 +46,9 @@ export class DelayedVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromAmino(data: DelayedVestingAccount.Amino): DelayedVestingAccount {
+  public static fromAmino(
+    data: DelayedVestingAccount.Amino
+  ): DelayedVestingAccount {
     const base_vesting_account = BaseVestingAccount.fromAmino({
       type: 'cosmos-sdk/BaseVestingAccount',
       value: data.value.base_vesting_account,
@@ -62,7 +64,9 @@ export class DelayedVestingAccount extends JSONSerializable<
     };
   }
 
-  public static fromData(data: DelayedVestingAccount.Data): DelayedVestingAccount {
+  public static fromData(
+    data: DelayedVestingAccount.Data
+  ): DelayedVestingAccount {
     const base_vesting_account = BaseVestingAccount.fromData({
       '@type': '/cosmos.vesting.v1beta1.BaseVestingAccount',
       ...data.base_vesting_account,
@@ -78,7 +82,9 @@ export class DelayedVestingAccount extends JSONSerializable<
     });
   }
 
-  public static fromProto(DelayedVestingAccountProto: DelayedVestingAccount.Proto): DelayedVestingAccount {
+  public static fromProto(
+    DelayedVestingAccountProto: DelayedVestingAccount.Proto
+  ): DelayedVestingAccount {
     const baseVestingAccount = BaseVestingAccount.fromProto(
       DelayedVestingAccountProto.baseVestingAccount as BaseVestingAccount_pb
     );
@@ -93,7 +99,9 @@ export class DelayedVestingAccount extends JSONSerializable<
   }
 
   public static unpackAny(pubkeyAny: Any): DelayedVestingAccount {
-    return DelayedVestingAccount.fromProto(DelayedVestingAccount_pb.decode(pubkeyAny.value));
+    return DelayedVestingAccount.fromProto(
+      DelayedVestingAccount_pb.decode(pubkeyAny.value)
+    );
   }
 }
 

@@ -31,8 +31,12 @@ export class MsgEditValidator extends JSONSerializable<
     public min_self_delegation?: string
   ) {
     super();
-    this.commission_rate = commission_rate ? num(commission_rate).toString() : undefined;
-    this.min_self_delegation = min_self_delegation ? num(min_self_delegation).toFixed(0) : undefined;
+    this.commission_rate = commission_rate
+      ? num(commission_rate).toString()
+      : undefined;
+    this.min_self_delegation = min_self_delegation
+      ? num(min_self_delegation).toFixed(0)
+      : undefined;
   }
 
   public static fromAmino(data: MsgEditValidator.Amino): MsgEditValidator {
@@ -137,7 +141,9 @@ export class MsgEditValidator extends JSONSerializable<
       '@type': '/cosmos.staking.v1beta1.MsgEditValidator',
       description,
       validator_address,
-      commission_rate: commission_rate ? num(commission_rate).toFixed(18) : undefined,
+      commission_rate: commission_rate
+        ? num(commission_rate).toFixed(18)
+        : undefined,
       min_self_delegation: min_self_delegation
         ? min_self_delegation.toString()
         : undefined,

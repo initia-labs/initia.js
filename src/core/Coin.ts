@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../util/json';
 import { Denom } from './Denom';
-import { num, checkDecimal } from './num'
+import { num, checkDecimal } from './num';
 import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin';
 
 /**
@@ -8,9 +8,7 @@ import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin';
  * a denomination with an amount value. Coins are immutable once created, and operations
  * that return Coin will return a new Coin. See [[Coins]] for a collection of Coin objects.
  */
-export class Coin
-  extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto>
-{
+export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
   public readonly amount: string;
   public readonly isDecimal: boolean;
 
@@ -30,21 +28,15 @@ export class Coin
   /**
    * Turns the Coin into an Integer coin.
    */
-   public toIntCoin(): Coin {
-    return new Coin(
-      this.denom, 
-      num(this.amount).toFixed(0)
-    );
+  public toIntCoin(): Coin {
+    return new Coin(this.denom, num(this.amount).toFixed(0));
   }
 
   /**
    * Turns the Coin into an Integer coin with ceiling the amount.
    */
   public toIntCeilCoin(): Coin {
-    return new Coin(
-      this.denom, 
-      num(this.amount).toFixed(0, 2)
-    );
+    return new Coin(this.denom, num(this.amount).toFixed(0, 2));
   }
 
   /**
@@ -52,7 +44,7 @@ export class Coin
    */
   public toDecCoin(): Coin {
     return new Coin(
-      this.denom, 
+      this.denom,
       this.amount.includes('.') ? this.amount : num(this.amount).toFixed(1)
     );
   }
@@ -63,9 +55,10 @@ export class Coin
    * Eg: `Coin('uinit', 1500) -> 1500uinit`
    */
   public toString(): string {
-    const amount = this.isDecimal && !this.amount.includes('.') 
-      ? num(this.amount).toFixed(1) 
-      : num(this.amount).toFixed();
+    const amount =
+      this.isDecimal && !this.amount.includes('.')
+        ? num(this.amount).toFixed(1)
+        : num(this.amount).toFixed();
     return `${amount}${this.denom}`;
   }
 
@@ -102,8 +95,8 @@ export class Coin
     const res = num(this.amount).plus(otherAmount);
 
     return new Coin(
-      this.denom, 
-      isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed() 
+      this.denom,
+      isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
     );
   }
 
@@ -129,7 +122,7 @@ export class Coin
     const res = num(this.amount).minus(otherAmount);
 
     return new Coin(
-      this.denom, 
+      this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
     );
   }
@@ -143,7 +136,7 @@ export class Coin
     const res = num(this.amount).multipliedBy(other);
 
     return new Coin(
-      this.denom, 
+      this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
     );
   }
@@ -157,7 +150,7 @@ export class Coin
     const res = num(this.amount).dividedBy(other);
 
     return new Coin(
-      this.denom, 
+      this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
     );
   }
@@ -171,7 +164,7 @@ export class Coin
     const res = num(this.amount).mod(other);
 
     return new Coin(
-      this.denom, 
+      this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
     );
   }

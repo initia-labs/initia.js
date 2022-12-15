@@ -30,7 +30,9 @@ export class ClientUpdateProposal extends JSONSerializable<
     this.substituteClientId = substituteClientId;
   }
 
-  public static fromAmino(data: ClientUpdateProposal.Amino): ClientUpdateProposal {
+  public static fromAmino(
+    data: ClientUpdateProposal.Amino
+  ): ClientUpdateProposal {
     const {
       value: { title, description, subjectClientId, substituteClientId },
     } = data;
@@ -55,8 +57,11 @@ export class ClientUpdateProposal extends JSONSerializable<
     };
   }
 
-  public static fromData(data: ClientUpdateProposal.Data): ClientUpdateProposal {
-    const { title, description, subject_client_id, substitute_client_id } = data;
+  public static fromData(
+    data: ClientUpdateProposal.Data
+  ): ClientUpdateProposal {
+    const { title, description, subject_client_id, substitute_client_id } =
+      data;
     return new ClientUpdateProposal(
       title,
       description,
@@ -76,7 +81,9 @@ export class ClientUpdateProposal extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: ClientUpdateProposal.Proto): ClientUpdateProposal {
+  public static fromProto(
+    proto: ClientUpdateProposal.Proto
+  ): ClientUpdateProposal {
     return new ClientUpdateProposal(
       proto.title,
       proto.description,

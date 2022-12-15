@@ -30,16 +30,19 @@ export class MoveAPI extends BaseAPI {
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Module[], Pagination]> {
     return this.c
-      .get<{ 
-        modules: Module[]; 
+      .get<{
+        modules: Module[];
         pagination: Pagination;
       }>(`/initia/move/v1/accounts/${address}/modules`, params)
-      .then((d) => [d.modules.map((mod) => ({
-        address: mod.address,
-        module_name: mod.module_name,
-        code_bytes: mod.code_bytes,
-        abi: mod.abi,
-      })), d.pagination]);
+      .then(d => [
+        d.modules.map(mod => ({
+          address: mod.address,
+          module_name: mod.module_name,
+          code_bytes: mod.code_bytes,
+          abi: mod.abi,
+        })),
+        d.pagination,
+      ]);
   }
 
   public async module(
@@ -48,7 +51,10 @@ export class MoveAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<Module> {
     return this.c
-      .get<{ module: Module }>(`/initia/move/v1/accounts/${address}/modules/${moduleName}`, params)
+      .get<{ module: Module }>(
+        `/initia/move/v1/accounts/${address}/modules/${moduleName}`,
+        params
+      )
       .then(({ module: d }) => ({
         address: d.address,
         module_name: d.module_name,
@@ -64,11 +70,13 @@ export class MoveAPI extends BaseAPI {
     typeArgs: string[],
     args: string[]
   ): Promise<ExecuteResult> {
-    return this.c
-      .post<ExecuteResult>(`/initia/move/v1/accounts/${address}/modules/${moduleName}/entry_functions/${functionName}`, {
+    return this.c.post<ExecuteResult>(
+      `/initia/move/v1/accounts/${address}/modules/${moduleName}/entry_functions/${functionName}`,
+      {
         type_args: typeArgs,
         args,
-      });
+      }
+    );
   }
 
   public async resources(
@@ -76,16 +84,19 @@ export class MoveAPI extends BaseAPI {
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Resource[], Pagination]> {
     return this.c
-      .get<{ 
+      .get<{
         resources: Resource[];
         pagination: Pagination;
       }>(`/initia/move/v1/accounts/${address}/resources`, params)
-      .then((d) => [d.resources.map((res) => ({
-        address: res.address,
-        struct_tag: res.struct_tag,
-        resource_bytes: res.resource_bytes,
-        move_resource: res.move_resource,
-      })), d.pagination]);
+      .then(d => [
+        d.resources.map(res => ({
+          address: res.address,
+          struct_tag: res.struct_tag,
+          resource_bytes: res.resource_bytes,
+          move_resource: res.move_resource,
+        })),
+        d.pagination,
+      ]);
   }
 
   public async resource(
@@ -94,7 +105,10 @@ export class MoveAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<Resource> {
     return this.c
-      .get<{ resource: Resource }>(`/initia/move/v1/accounts/${address}/resources/${structTag}`, params)
+      .get<{ resource: Resource }>(
+        `/initia/move/v1/accounts/${address}/resources/${structTag}`,
+        params
+      )
       .then(({ resource: d }) => ({
         address: d.address,
         struct_tag: d.struct_tag,
@@ -104,6 +118,8 @@ export class MoveAPI extends BaseAPI {
   }
 
   public async scriptABI(codeBytes: string): Promise<ABI> {
-    return this.c.post<ABI>(`/initia/move/v1/script/abi`, { code_bytes: codeBytes });
+    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
+      code_bytes: codeBytes,
+    });
   }
 }
