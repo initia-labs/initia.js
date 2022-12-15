@@ -6,6 +6,7 @@ import {
 } from '@mysten/bcs';
 
 export class BCS {
+  private static bcs: BCS;
   private mystenBcs: mystenBcs;
 
   static readonly U8: string = 'u8';
@@ -20,7 +21,7 @@ export class BCS {
   static readonly STRING: string = 'string';
   static readonly OPTION: string = 'option';
 
-  constructor() {
+  private constructor() {
     this.mystenBcs = new mystenBcs({
       genericSeparators: ['<', '>'],
       vectorType: 'vector',
@@ -31,6 +32,14 @@ export class BCS {
     this.registerOptionType(BCS.OPTION);
   }
 
+  public static getInstance() {
+    if (!BCS.bcs) {
+      BCS.bcs = new BCS();
+    }
+
+    return BCS.bcs;
+  }
+
   /**
    * Serialize data to bcs.
    * Return base64 encoded string
@@ -39,7 +48,7 @@ export class BCS {
    *   `bool`, `vector`, `address`, `string`, `option`
    *
    * @example
-   * const bcs = new BCS();
+   * const bcs = BCS.getInstance();
    *
    * const num = bcs.serialize(BCS.U64, 2187462); // numeric
    * const bool = bcs.serialize(BCS.BOOL, true); // bool
@@ -62,7 +71,7 @@ export class BCS {
    *
    * @example
    *
-   * const bcs = new BCS();
+   * const bcs = BCS.getInstance();
    *
    * const num = bcs.serialize(BCS.U64, 2187462);
    * const deNum = bcs.deserialize(BCS.U64, 2187462);
@@ -96,7 +105,7 @@ export class BCS {
    * //   vec: vector<bool>,
    * // }
    *
-   * const bcs = new BCS();
+   * const bcs = BCS.getInstance();
    *
    * bcs.registerStruct('data', {
    *   num: BCS.U64,
