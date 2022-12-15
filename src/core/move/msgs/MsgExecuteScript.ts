@@ -27,12 +27,7 @@ export class MsgExecuteScript extends JSONSerializable<
     const {
       value: { sender, code_bytes, type_args, args },
     } = data;
-    return new MsgExecuteScript(
-      sender,
-      code_bytes,
-      type_args,
-      args
-    );
+    return new MsgExecuteScript(sender, code_bytes, type_args, args);
   }
 
   public toAmino(): MsgExecuteScript.Amino {
@@ -44,7 +39,7 @@ export class MsgExecuteScript extends JSONSerializable<
         sender,
         code_bytes,
         type_args,
-        args
+        args,
       },
     };
   }
@@ -54,7 +49,7 @@ export class MsgExecuteScript extends JSONSerializable<
       data.sender,
       Buffer.from(data.codeBytes).toString('base64'),
       data.typeArgs,
-      data.args.map((arg) => Buffer.from(arg).toString('base64'))
+      data.args.map(arg => Buffer.from(arg).toString('base64'))
     );
   }
 
@@ -64,7 +59,7 @@ export class MsgExecuteScript extends JSONSerializable<
       sender,
       codeBytes: Buffer.from(code_bytes, 'base64'),
       typeArgs: type_args,
-      args: args.map((arg) => Buffer.from(arg, 'base64'))
+      args: args.map(arg => Buffer.from(arg, 'base64')),
     });
   }
 
@@ -76,19 +71,12 @@ export class MsgExecuteScript extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgExecuteScript {
-    return MsgExecuteScript.fromProto(
-      MsgExecuteScript_pb.decode(msgAny.value)
-    );
+    return MsgExecuteScript.fromProto(MsgExecuteScript_pb.decode(msgAny.value));
   }
 
   public static fromData(data: MsgExecuteScript.Data): MsgExecuteScript {
     const { sender, code_bytes, type_args, args } = data;
-    return new MsgExecuteScript(
-      sender,
-      code_bytes,
-      type_args,
-      args
-    );
+    return new MsgExecuteScript(sender, code_bytes, type_args, args);
   }
 
   public toData(): MsgExecuteScript.Data {
@@ -98,7 +86,7 @@ export class MsgExecuteScript extends JSONSerializable<
       sender,
       code_bytes,
       type_args,
-      args
+      args,
     };
   }
 }

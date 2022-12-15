@@ -321,7 +321,9 @@ export class TxAPI extends BaseAPI {
       gas = await this.estimateGas(tx, { gasAdjustment });
     }
 
-    const feeAmount = gasPricesCoins ? gasPricesCoins.mul(gas).toIntCeilCoins() : '0uinit';
+    const feeAmount = gasPricesCoins
+      ? gasPricesCoins.mul(gas).toIntCeilCoins()
+      : '0uinit';
 
     return new Fee(Number.parseInt(gas), feeAmount, '', '');
   }
@@ -353,7 +355,9 @@ export class TxAPI extends BaseAPI {
       })
       .then(d => SimulateResponse.fromData(d));
 
-    return num(gasAdjustment ?? 0).multipliedBy(simulateRes.gas_info.gas_used).toString();
+    return num(gasAdjustment ?? 0)
+      .multipliedBy(simulateRes.gas_info.gas_used)
+      .toString();
   }
 
   /**

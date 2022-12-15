@@ -38,7 +38,9 @@ export class MsgChannelCloseConfirm extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgChannelCloseConfirm.Data): MsgChannelCloseConfirm {
+  public static fromData(
+    data: MsgChannelCloseConfirm.Data
+  ): MsgChannelCloseConfirm {
     const { port_id, channel_id, proof_init, proof_height, signer } = data;
     return new MsgChannelCloseConfirm(
       port_id,
@@ -61,7 +63,9 @@ export class MsgChannelCloseConfirm extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgChannelCloseConfirm.Proto): MsgChannelCloseConfirm {
+  public static fromProto(
+    proto: MsgChannelCloseConfirm.Proto
+  ): MsgChannelCloseConfirm {
     return new MsgChannelCloseConfirm(
       proto.portId,
       proto.channelId,

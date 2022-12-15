@@ -1,5 +1,5 @@
 import { Coins } from '../Coins';
-import { num } from '../num'
+import { num } from '../num';
 import { JSONSerializable } from '../../util/json';
 import { CommunityPoolSpendProposal } from '../distribution/proposals';
 import { ParameterChangeProposal } from '../params/proposals';
@@ -9,7 +9,7 @@ import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
-import { 
+import {
   PublishStdModuleProposal,
   EntryFunctionProposal,
 } from '../move/proposals';

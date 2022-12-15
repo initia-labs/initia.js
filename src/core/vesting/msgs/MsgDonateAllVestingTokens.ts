@@ -18,7 +18,9 @@ export class MsgDonateAllVestingTokens extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: MsgDonateAllVestingTokens.Amino): MsgDonateAllVestingTokens {
+  public static fromAmino(
+    data: MsgDonateAllVestingTokens.Amino
+  ): MsgDonateAllVestingTokens {
     return new MsgDonateAllVestingTokens(data.value.from_address);
   }
 
@@ -31,7 +33,9 @@ export class MsgDonateAllVestingTokens extends JSONSerializable<
     };
   }
 
-  public static fromData(data: MsgDonateAllVestingTokens.Data): MsgDonateAllVestingTokens {
+  public static fromData(
+    data: MsgDonateAllVestingTokens.Data
+  ): MsgDonateAllVestingTokens {
     return new MsgDonateAllVestingTokens(data.from_address);
   }
 
@@ -42,7 +46,9 @@ export class MsgDonateAllVestingTokens extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgDonateAllVestingTokens.Proto): MsgDonateAllVestingTokens {
+  public static fromProto(
+    proto: MsgDonateAllVestingTokens.Proto
+  ): MsgDonateAllVestingTokens {
     return new MsgDonateAllVestingTokens(proto.fromAddress);
   }
 
@@ -60,7 +66,9 @@ export class MsgDonateAllVestingTokens extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgDonateAllVestingTokens {
-    return MsgDonateAllVestingTokens.fromProto(MsgDonateAllVestingTokens_pb.decode(msgAny.value));
+    return MsgDonateAllVestingTokens.fromProto(
+      MsgDonateAllVestingTokens_pb.decode(msgAny.value)
+    );
   }
 }
 

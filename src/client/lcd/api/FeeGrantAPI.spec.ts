@@ -6,19 +6,16 @@ const feeGrant = new FeeGrantAPI(c);
 
 describe('FeeGrantAPI', () => {
   it('allowances', async () => {
-  //   const res = await feeGrant.allowances(
-  //     'init1p204wtykwke52hcyt6vdh630725rdayczyzcvz'
-  //   );
-
-  //   expect(res.allowances[0]).toMatchObject({
-  //     granter: expect.any(String),
-  //     grantee: expect.any(String),
-  //   });
-
-  //   const allowanceData = res.allowances[0].allowance.toData();
-  //   expect(allowanceData['@type']).toMatch(/cosmos.feegrant.v1beta1/g);
-
-  //   expect(res.pagination).not.toBeUndefined();
+    //   const res = await feeGrant.allowances(
+    //     'init1p204wtykwke52hcyt6vdh630725rdayczyzcvz'
+    //   );
+    //   expect(res.allowances[0]).toMatchObject({
+    //     granter: expect.any(String),
+    //     grantee: expect.any(String),
+    //   });
+    //   const allowanceData = res.allowances[0].allowance.toData();
+    //   expect(allowanceData['@type']).toMatch(/cosmos.feegrant.v1beta1/g);
+    //   expect(res.pagination).not.toBeUndefined();
   });
 
   // describe('allowance', () => {

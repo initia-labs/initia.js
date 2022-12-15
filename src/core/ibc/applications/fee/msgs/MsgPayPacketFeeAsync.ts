@@ -30,7 +30,9 @@ export class MsgPayPacketFeeAsync extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgPayPacketFeeAsync.Data): MsgPayPacketFeeAsync {
+  public static fromData(
+    data: MsgPayPacketFeeAsync.Data
+  ): MsgPayPacketFeeAsync {
     const { packet_id, packet_fee } = data;
 
     return new MsgPayPacketFeeAsync(
@@ -48,7 +50,9 @@ export class MsgPayPacketFeeAsync extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgPayPacketFeeAsync.Proto): MsgPayPacketFeeAsync {
+  public static fromProto(
+    proto: MsgPayPacketFeeAsync.Proto
+  ): MsgPayPacketFeeAsync {
     return new MsgPayPacketFeeAsync(
       proto.packetId ? PacketId.fromProto(proto.packetId) : undefined,
       proto.packetFee ? PacketFee.fromProto(proto.packetFee) : undefined
@@ -71,7 +75,9 @@ export class MsgPayPacketFeeAsync extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgPayPacketFeeAsync {
-    return MsgPayPacketFeeAsync.fromProto(MsgPayPacketFeeAsync_pb.decode(msgAny.value));
+    return MsgPayPacketFeeAsync.fromProto(
+      MsgPayPacketFeeAsync_pb.decode(msgAny.value)
+    );
   }
 }
 

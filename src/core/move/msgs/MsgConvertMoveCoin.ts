@@ -18,8 +18,13 @@ export class MsgConvertMoveCoin extends JSONSerializable<
   }
 
   public static fromAmino(data: MsgConvertMoveCoin.Amino): MsgConvertMoveCoin {
-    const { value: { sender, move_coin } } = data;
-    return new MsgConvertMoveCoin(sender, move_coin && MoveCoin.fromAmino(move_coin));
+    const {
+      value: { sender, move_coin },
+    } = data;
+    return new MsgConvertMoveCoin(
+      sender,
+      move_coin && MoveCoin.fromAmino(move_coin)
+    );
   }
 
   public toAmino(): MsgConvertMoveCoin.Amino {
@@ -37,7 +42,7 @@ export class MsgConvertMoveCoin extends JSONSerializable<
     return new MsgConvertMoveCoin(
       proto.sender,
       proto.moveCoin && MoveCoin.fromProto(proto.moveCoin)
-    )
+    );
   }
 
   public toProto(): MsgConvertMoveCoin.Proto {
@@ -45,7 +50,7 @@ export class MsgConvertMoveCoin extends JSONSerializable<
     return MsgConvertMoveCoin_pb.fromPartial({
       sender,
       moveCoin: move_coin?.toProto(),
-    })
+    });
   }
 
   public packAny(): Any {
@@ -63,7 +68,10 @@ export class MsgConvertMoveCoin extends JSONSerializable<
 
   public static fromData(data: MsgConvertMoveCoin.Data): MsgConvertMoveCoin {
     const { sender, move_coin } = data;
-    return new MsgConvertMoveCoin(sender, move_coin && MoveCoin.fromData(move_coin));
+    return new MsgConvertMoveCoin(
+      sender,
+      move_coin && MoveCoin.fromData(move_coin)
+    );
   }
 
   public toData(): MsgConvertMoveCoin.Data {
@@ -72,7 +80,7 @@ export class MsgConvertMoveCoin extends JSONSerializable<
       '@type': '/initia.move.v1.MsgConvertMoveCoin',
       sender,
       move_coin: move_coin?.toData(),
-    }
+    };
   }
 }
 

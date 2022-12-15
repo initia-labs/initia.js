@@ -48,7 +48,9 @@ export class MsgChannelCloseInit extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgChannelCloseInit.Proto): MsgChannelCloseInit {
+  public static fromProto(
+    proto: MsgChannelCloseInit.Proto
+  ): MsgChannelCloseInit {
     return new MsgChannelCloseInit(proto.portId, proto.channelId, proto.signer);
   }
 

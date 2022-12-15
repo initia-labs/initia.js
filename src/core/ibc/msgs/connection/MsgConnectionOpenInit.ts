@@ -50,7 +50,9 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgConnectionOpenInit.Data): MsgConnectionOpenInit {
+  public static fromData(
+    data: MsgConnectionOpenInit.Data
+  ): MsgConnectionOpenInit {
     const { client_id, counterparty, version, delay_period, signer } = data;
     return new MsgConnectionOpenInit(
       client_id,
@@ -73,7 +75,9 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgConnectionOpenInit.Proto): MsgConnectionOpenInit {
+  public static fromProto(
+    proto: MsgConnectionOpenInit.Proto
+  ): MsgConnectionOpenInit {
     return new MsgConnectionOpenInit(
       proto.clientId,
       proto.delayPeriod.toNumber(),

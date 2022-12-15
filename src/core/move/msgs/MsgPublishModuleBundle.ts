@@ -16,7 +16,9 @@ export class MsgPublishModuleBundle extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: MsgPublishModuleBundle.Amino): MsgPublishModuleBundle {
+  public static fromAmino(
+    data: MsgPublishModuleBundle.Amino
+  ): MsgPublishModuleBundle {
     const {
       value: { sender, code_bytes },
     } = data;
@@ -34,10 +36,12 @@ export class MsgPublishModuleBundle extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgPublishModuleBundle.Proto): MsgPublishModuleBundle {
+  public static fromProto(
+    proto: MsgPublishModuleBundle.Proto
+  ): MsgPublishModuleBundle {
     return new MsgPublishModuleBundle(
       proto.sender,
-      proto.codeBytes.map((code) => Buffer.from(code).toString('base64'))
+      proto.codeBytes.map(code => Buffer.from(code).toString('base64'))
     );
   }
 
@@ -45,7 +49,7 @@ export class MsgPublishModuleBundle extends JSONSerializable<
     const { sender, code_bytes } = this;
     return MsgPublishModuleBundle_pb.fromPartial({
       sender,
-      codeBytes: code_bytes.map((code) => Buffer.from(code, 'base64')),
+      codeBytes: code_bytes.map(code => Buffer.from(code, 'base64')),
     });
   }
 
@@ -57,10 +61,14 @@ export class MsgPublishModuleBundle extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgPublishModuleBundle {
-    return MsgPublishModuleBundle.fromProto(MsgPublishModuleBundle_pb.decode(msgAny.value));
+    return MsgPublishModuleBundle.fromProto(
+      MsgPublishModuleBundle_pb.decode(msgAny.value)
+    );
   }
 
-  public static fromData(data: MsgPublishModuleBundle.Data): MsgPublishModuleBundle {
+  public static fromData(
+    data: MsgPublishModuleBundle.Data
+  ): MsgPublishModuleBundle {
     const { sender, code_bytes } = data;
     return new MsgPublishModuleBundle(sender, code_bytes);
   }

@@ -37,7 +37,9 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(data: MsgConnectionOpenConfirm.Data): MsgConnectionOpenConfirm {
+  public static fromData(
+    data: MsgConnectionOpenConfirm.Data
+  ): MsgConnectionOpenConfirm {
     const { connection_id, proof_ack, proof_height, signer } = data;
     return new MsgConnectionOpenConfirm(
       connection_id,
@@ -58,7 +60,9 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgConnectionOpenConfirm.Proto): MsgConnectionOpenConfirm {
+  public static fromProto(
+    proto: MsgConnectionOpenConfirm.Proto
+  ): MsgConnectionOpenConfirm {
     return new MsgConnectionOpenConfirm(
       proto.connectionId,
       Buffer.from(proto.proofAck).toString('base64'),

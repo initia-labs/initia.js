@@ -51,7 +51,7 @@ export class MsgTransfer extends JSONSerializable<
     this.sender = sender;
     this.receiver = receiver;
     this.timeout_height = timeout_height;
-    this.timeout_timestamp = timeout_timestamp
+    this.timeout_timestamp = timeout_timestamp;
   }
 
   public static fromAmino(data: MsgTransfer.Amino): MsgTransfer {

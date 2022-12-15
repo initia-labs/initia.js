@@ -42,7 +42,9 @@ describe('BasicAllowance', () => {
   });
 
   it('spend_limit has zero amount', () => {
-    expect(() => new BasicAllowance('1uinit,-1uinit', undefined)).toThrowError();
+    expect(
+      () => new BasicAllowance('1uinit,-1uinit', undefined)
+    ).toThrowError();
     expect(() => new BasicAllowance('0uinit', undefined)).toThrowError();
     expect(() => new BasicAllowance('-1204uinit', undefined)).toThrowError();
   });
