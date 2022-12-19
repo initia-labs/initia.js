@@ -2,7 +2,7 @@ import * as bip32 from 'bip32';
 import * as bip39 from 'bip39';
 import { RawKey } from './RawKey';
 
-export const INI_COIN_TYPE = 118;
+export const INIT_COIN_TYPE = 118;
 
 interface MnemonicKeyOptions {
   /**
@@ -29,7 +29,7 @@ interface MnemonicKeyOptions {
 const DEFAULT_OPTIONS = {
   account: 0,
   index: 0,
-  coinType: INI_COIN_TYPE,
+  coinType: INIT_COIN_TYPE,
 };
 
 /**
