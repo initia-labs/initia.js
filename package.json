@@ -86,7 +86,6 @@
     "@mysten/bcs": "^0.5.0",
     "axios": "^0.27.2",
     "bech32": "^2.0.0",
-    "bech32-converting": "^1.0.9",
     "bignumber.js": "^9.1.0",
     "bip32": "^2.0.6",
     "bip39": "^3.0.4",
