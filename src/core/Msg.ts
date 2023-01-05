@@ -43,8 +43,6 @@ import {
   MsgPublishModuleBundle,
   MsgExecuteEntryFunction,
   MsgExecuteScript,
-  MsgConvertNativeCoin,
-  MsgConvertMoveCoin,
   MoveMsg,
 } from './move/msgs';
 import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
@@ -213,10 +211,6 @@ export namespace Msg {
         return MsgExecuteEntryFunction.fromAmino(data);
       case 'move/MsgExecuteScript':
         return MsgExecuteScript.fromAmino(data);
-      case 'move/MsgConvertNativeCoin':
-        return MsgConvertNativeCoin.fromAmino(data);
-      case 'move/MsgConvertMoveCoin':
-        return MsgConvertMoveCoin.fromAmino(data);
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -301,10 +295,6 @@ export namespace Msg {
         return MsgExecuteEntryFunction.fromData(data);
       case '/initia.move.v1.MsgExecuteScript':
         return MsgExecuteScript.fromData(data);
-      case '/initia.move.v1.MsgConvertNativeCoin':
-        return MsgConvertNativeCoin.fromData(data);
-      case '/initia.move.v1.MsgConvertMoveCoin':
-        return MsgConvertMoveCoin.fromData(data);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -432,10 +422,6 @@ export namespace Msg {
         return MsgExecuteEntryFunction.unpackAny(proto);
       case '/initia.move.v1.MsgExecuteScript':
         return MsgExecuteScript.unpackAny(proto);
-      case '/initia.move.v1.MsgConvertNativeCoin':
-        return MsgConvertNativeCoin.unpackAny(proto);
-      case '/initia.move.v1.MsgConvertMoveCoin':
-        return MsgConvertMoveCoin.unpackAny(proto);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':

@@ -1,8 +1,22 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress } from '../../../core/bech32';
+import { AccAddress, Coins, StorageFee } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from 'core/move/types';
+
+export interface MoveParams {
+  max_module_size: number;
+  free_storage_bytes: number;
+  storage_fee_per_byte: Coins;
+}
+
+export namespace MoveParams {
+  export interface Data {
+    max_module_size: string;
+    free_storage_bytes: string;
+    storage_fee_per_byte: Coins.Data;
+  }
+}
 
 export interface Module {
   address: AccAddress;
@@ -158,9 +172,28 @@ export class MoveAPI extends BaseAPI {
       }));
   }
 
+  public async parameters(params: APIParams = {}): Promise<MoveParams> {
+    return this.c
+      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
+      .then(({ params: d }) => ({
+        max_module_size: Number.parseInt(d.max_module_size),
+        free_storage_bytes: Number.parseInt(d.free_storage_bytes),
+        storage_fee_per_byte: Coins.fromData(d.storage_fee_per_byte),
+      }));
+  }
+
   public async scriptABI(codeBytes: string): Promise<ABI> {
     return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
       code_bytes: codeBytes,
     });
+  }
+
+  public async storageFee(
+    address: AccAddress, 
+    params: APIParams = {}
+  ): Promise<StorageFee> {
+    return this.c
+      .get<{ storage_fee: StorageFee.Data }>(`/initia/move/v1/storage_fee/${address}`, params)
+      .then(d => StorageFee.fromData(d.storage_fee));
   }
 }

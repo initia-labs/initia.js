@@ -53,7 +53,7 @@ export * from './ibc/applications/transfer';
 // MOVE
 export * from './move/msgs';
 export * from './move/proposals';
-export * from './move/MoveCoin';
+export * from './move/StorageFee';
 
 // Parameters
 export * from './params/proposals';
