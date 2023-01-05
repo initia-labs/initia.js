@@ -12,7 +12,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
 > {
   /**
    * @param sender contract user
-   * @param module_addr module deployer address
+   * @param module_address module deployer address
    * @param module_name name of module to execute
    * @param function_name name of function to execute
    * @param type_args type arguments of function to execute
@@ -20,7 +20,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    */
   constructor(
     public sender: AccAddress,
-    public module_addr: AccAddress,
+    public module_address: AccAddress,
     public module_name: string,
     public function_name: string,
     public type_args: string[],
@@ -35,7 +35,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     const {
       value: {
         sender,
-        module_addr,
+        module_address,
         module_name,
         function_name,
         type_args,
@@ -44,7 +44,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     } = data;
     return new MsgExecuteEntryFunction(
       sender,
-      module_addr,
+      module_address,
       module_name,
       function_name,
       type_args,
@@ -53,14 +53,14 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toAmino(): MsgExecuteEntryFunction.Amino {
-    const { sender, module_addr, module_name, function_name, type_args, args } =
+    const { sender, module_address, module_name, function_name, type_args, args } =
       this;
 
     return {
       type: 'move/MsgExecuteEntryFunction',
       value: {
         sender,
-        module_addr,
+        module_address,
         module_name,
         function_name,
         type_args,
@@ -74,7 +74,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   ): MsgExecuteEntryFunction {
     return new MsgExecuteEntryFunction(
       data.sender,
-      data.moduleAddr,
+      data.moduleAddress,
       data.moduleName,
       data.functionName,
       data.typeArgs,
@@ -83,11 +83,11 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toProto(): MsgExecuteEntryFunction.Proto {
-    const { sender, module_addr, module_name, function_name, type_args, args } =
+    const { sender, module_address, module_name, function_name, type_args, args } =
       this;
     return MsgExecuteEntryFunction_pb.fromPartial({
       sender,
-      moduleAddr: module_addr,
+      moduleAddress: module_address,
       moduleName: module_name,
       functionName: function_name,
       typeArgs: type_args,
@@ -111,11 +111,11 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   public static fromData(
     data: MsgExecuteEntryFunction.Data
   ): MsgExecuteEntryFunction {
-    const { sender, module_addr, module_name, function_name, type_args, args } =
+    const { sender, module_address, module_name, function_name, type_args, args } =
       data;
     return new MsgExecuteEntryFunction(
       sender,
-      module_addr,
+      module_address,
       module_name,
       function_name,
       type_args,
@@ -124,12 +124,12 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toData(): MsgExecuteEntryFunction.Data {
-    const { sender, module_addr, module_name, function_name, type_args, args } =
+    const { sender, module_address, module_name, function_name, type_args, args } =
       this;
     return {
       '@type': '/initia.move.v1.MsgExecuteEntryFunction',
       sender,
-      module_addr,
+      module_address,
       module_name,
       function_name,
       type_args,
@@ -171,7 +171,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    * console.assert(msg1.toJSON(), msg2.toJSON()
    *
    * @param sender
-   * @param module_addr
+   * @param module_address
    * @param module_name
    * @param function_name
    * @param type_args
@@ -181,7 +181,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    */
   public static fromPlainArgs(
     sender: AccAddress,
-    module_addr: AccAddress,
+    module_address: AccAddress,
     module_name: string,
     function_name: string,
     type_args: string[],
@@ -200,7 +200,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
 
     return new MsgExecuteEntryFunction(
       sender,
-      module_addr,
+      module_address,
       module_name,
       function_name,
       type_args,
@@ -214,7 +214,7 @@ export namespace MsgExecuteEntryFunction {
     type: 'move/MsgExecuteEntryFunction';
     value: {
       sender: AccAddress;
-      module_addr: AccAddress;
+      module_address: AccAddress;
       module_name: string;
       function_name: string;
       type_args: string[];
@@ -225,7 +225,7 @@ export namespace MsgExecuteEntryFunction {
   export interface Data {
     '@type': '/initia.move.v1.MsgExecuteEntryFunction';
     sender: AccAddress;
-    module_addr: AccAddress;
+    module_address: AccAddress;
     module_name: string;
     function_name: string;
     type_args: string[];
