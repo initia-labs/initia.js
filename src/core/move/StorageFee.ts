@@ -1,5 +1,5 @@
 import { AccAddress } from 'core/bech32';
-import { Coins } from 'core/Coins';
+import { Coins } from '../Coins';
 import { JSONSerializable } from '../../util/json';
 import { StorageFee as StorageFee_pb } from '@initia/initia.proto/initia/move/v1/types';
 import Long from 'long';
