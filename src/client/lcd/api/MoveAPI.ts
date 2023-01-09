@@ -4,6 +4,10 @@ import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from 'core/move/types';
 
+const convertIf = (address: string) => {
+  return address.startsWith('0x') ? AccAddress.fromHex(address) : address;
+}
+
 export interface MoveParams {
   max_module_size: number;
   free_storage_bytes: number;
@@ -49,7 +53,7 @@ export class MoveAPI extends BaseAPI {
       .get<{
         modules: Module[];
         pagination: Pagination;
-      }>(`/initia/move/v1/accounts/${address}/modules`, params)
+      }>(`/initia/move/v1/accounts/${convertIf(address)}/modules`, params)
       .then(d => [
         d.modules.map(mod => ({
           address: mod.address,
@@ -68,7 +72,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<Module> {
     return this.c
       .get<{ module: Module }>(
-        `/initia/move/v1/accounts/${address}/modules/${moduleName}`,
+        `/initia/move/v1/accounts/${convertIf(address)}/modules/${moduleName}`,
         params
       )
       .then(({ module: d }) => ({
@@ -87,7 +91,7 @@ export class MoveAPI extends BaseAPI {
     args: string[]
   ): Promise<ExecuteResult> {
     return this.c.post<ExecuteResult>(
-      `/initia/move/v1/accounts/${address}/modules/${moduleName}/entry_functions/${functionName}`,
+      `/initia/move/v1/accounts/${convertIf(address)}/modules/${moduleName}/entry_functions/${functionName}`,
       {
         type_args: typeArgs,
         args,
@@ -142,7 +146,7 @@ export class MoveAPI extends BaseAPI {
       .get<{
         resources: Resource[];
         pagination: Pagination;
-      }>(`/initia/move/v1/accounts/${address}/resources`, params)
+      }>(`/initia/move/v1/accounts/${convertIf(address)}/resources`, params)
       .then(d => [
         d.resources.map(res => ({
           address: res.address,
@@ -161,7 +165,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<Resource> {
     return this.c
       .get<{ resource: Resource }>(
-        `/initia/move/v1/accounts/${address}/resources/${structTag}`,
+        `/initia/move/v1/accounts/${convertIf(address)}/resources/${structTag}`,
         params
       )
       .then(({ resource: d }) => ({
@@ -193,7 +197,7 @@ export class MoveAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<StorageFee> {
     return this.c
-      .get<{ storage_fee: StorageFee.Data }>(`/initia/move/v1/storage_fee/${address}`, params)
+      .get<{ storage_fee: StorageFee.Data }>(`/initia/move/v1/storage_fee/${convertIf(address)}`, params)
       .then(d => StorageFee.fromData(d.storage_fee));
   }
 }

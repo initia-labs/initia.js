@@ -10,6 +10,8 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   MsgExecuteEntryFunction.Data,
   MsgExecuteEntryFunction.Proto
 > {
+  public module_address: string;
+
   /**
    * @param sender contract user
    * @param module_address module deployer address
@@ -20,13 +22,14 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    */
   constructor(
     public sender: AccAddress,
-    public module_address: AccAddress,
+    module_address: AccAddress,
     public module_name: string,
     public function_name: string,
     public type_args: string[],
     public args: string[]
   ) {
     super();
+    this.module_address = module_address.startsWith('0x') ? AccAddress.fromHex(module_address) : module_address;
   }
 
   public static fromAmino(
