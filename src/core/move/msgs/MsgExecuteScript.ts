@@ -10,6 +10,9 @@ export class MsgExecuteScript extends JSONSerializable<
   MsgExecuteScript.Data,
   MsgExecuteScript.Proto
 > {
+  public type_args: string[];
+  public args: string[];
+
   /**
    * @param sender contract user
    * @param code_bytes base64-encoded bytecode contents
@@ -19,10 +22,12 @@ export class MsgExecuteScript extends JSONSerializable<
   constructor(
     public sender: AccAddress,
     public code_bytes: string,
-    public type_args: string[],
-    public args: string[]
+    type_args: string[] = [],
+    args: string[] = []
   ) {
     super();
+    this.type_args = type_args;
+    this.args = args;
   }
 
   public static fromAmino(data: MsgExecuteScript.Amino): MsgExecuteScript {
