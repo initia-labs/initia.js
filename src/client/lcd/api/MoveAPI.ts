@@ -1,5 +1,5 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Coins, StorageFee } from '../../../core';
+import { AccAddress, Coins, Denom, StorageFee } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from 'core/move/types';
@@ -25,8 +25,8 @@ export namespace MoveParams {
 export interface Module {
   address: AccAddress;
   module_name: string;
-  code_bytes: string;
   abi: string;
+  raw_bytes: string;
 }
 
 export interface ExecuteResult {
@@ -36,8 +36,8 @@ export interface ExecuteResult {
 export interface Resource {
   address: AccAddress;
   struct_tag: string;
-  resource_bytes: string;
   move_resource: string;
+  raw_bytes: string;
 }
 
 export interface ABI {
@@ -58,8 +58,8 @@ export class MoveAPI extends BaseAPI {
         d.modules.map(mod => ({
           address: mod.address,
           module_name: mod.module_name,
-          code_bytes: mod.code_bytes,
           abi: mod.abi,
+          raw_bytes: mod.raw_bytes,
         })),
         d.pagination,
       ]);
@@ -78,8 +78,8 @@ export class MoveAPI extends BaseAPI {
       .then(({ module: d }) => ({
         address: d.address,
         module_name: d.module_name,
-        code_bytes: d.code_bytes,
         abi: d.abi,
+        raw_bytes: d.raw_bytes,
       }));
   }
 
@@ -153,8 +153,8 @@ export class MoveAPI extends BaseAPI {
         d.resources.map(res => ({
           address: res.address,
           struct_tag: res.struct_tag,
-          resource_bytes: res.resource_bytes,
           move_resource: res.move_resource,
+          raw_bytes: res.raw_bytes,
         })),
         d.pagination,
       ]);
@@ -167,15 +167,24 @@ export class MoveAPI extends BaseAPI {
   ): Promise<Resource> {
     return this.c
       .get<{ resource: Resource }>(
-        `/initia/move/v1/accounts/${convertIf(address)}/resources/${structTag}`,
-        params
+        `/initia/move/v1/accounts/${convertIf(address)}/resources/by_struct_tag`,
+        { ...params, struct_tag: structTag }
       )
       .then(({ resource: d }) => ({
         address: d.address,
         struct_tag: d.struct_tag,
-        resource_bytes: d.resource_bytes,
         move_resource: d.move_resource,
+        raw_bytes: d.raw_bytes,
       }));
+  }
+
+  public async denom(structTag: string, params: APIParams = {}): Promise<Denom> {
+    return this.c
+      .get<{ denom: Denom }>(
+        `/initia/move/v1/denoms/by_struct_tag`, 
+        { ...params, struct_tag: structTag }
+      )
+      .then(d => d.denom);
   }
 
   public async parameters(params: APIParams = {}): Promise<MoveParams> {
@@ -200,9 +209,21 @@ export class MoveAPI extends BaseAPI {
   ): Promise<StorageFee> {
     return this.c
       .get<{ storage_fee: StorageFee.Data }>(
-        `/initia/move/v1/storage_fee/${convertIf(address)}`,
+        `/initia/move/v1/storage_fees/${convertIf(address)}`,
         params
       )
       .then(d => StorageFee.fromData(d.storage_fee));
+  }
+
+  public async structTag(
+    denom: Denom,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ struct_tag: string }> (
+        `/initia/move/v1/struct_tags/by_denom`,
+        { ...params, denom }
+      )
+      .then(d => d.struct_tag);
   }
 }

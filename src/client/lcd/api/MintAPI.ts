@@ -4,21 +4,13 @@ import { BaseAPI } from './BaseAPI';
 
 export interface MintingParams {
   mint_denom: Denom;
-  inflation_rate_change: string;
-  inflation_max: string;
-  inflation_min: string;
-  goal_bonded: string;
-  blocks_per_year: number;
+  inflation_rate: string;
 }
 
 export namespace MintingParams {
   export interface Data {
     mint_denom: string;
-    inflation_rate_change: string;
-    inflation_max: string;
-    inflation_min: string;
-    goal_bonded: string;
-    blocks_per_year: string;
+    inflation_rate: string;
   }
 }
 
@@ -55,11 +47,7 @@ export class MintAPI extends BaseAPI {
       )
       .then(({ params: d }) => ({
         mint_denom: d.mint_denom,
-        inflation_rate_change: d.inflation_rate_change,
-        inflation_max: d.inflation_max,
-        inflation_min: d.inflation_min,
-        goal_bonded: d.goal_bonded,
-        blocks_per_year: Number.parseInt(d.blocks_per_year),
+        inflation_rate: d.inflation_rate,
       }));
   }
 }
