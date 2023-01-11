@@ -6,7 +6,7 @@ import { ModuleABI } from 'core/move/types';
 
 const convertIf = (address: string) => {
   return address.startsWith('0x') ? AccAddress.fromHex(address) : address;
-}
+};
 
 export interface MoveParams {
   max_module_size: number;
@@ -87,11 +87,13 @@ export class MoveAPI extends BaseAPI {
     address: AccAddress,
     moduleName: string,
     functionName: string,
-    typeArgs: string[],
-    args: string[]
+    typeArgs: string[] = [],
+    args: string[] = []
   ): Promise<ExecuteResult> {
     return this.c.post<ExecuteResult>(
-      `/initia/move/v1/accounts/${convertIf(address)}/modules/${moduleName}/entry_functions/${functionName}`,
+      `/initia/move/v1/accounts/${convertIf(
+        address
+      )}/modules/${moduleName}/entry_functions/${functionName}`,
       {
         type_args: typeArgs,
         args,
@@ -112,12 +114,12 @@ export class MoveAPI extends BaseAPI {
    * @returns
    */
   public async executeEntryFunctionWithABI(
+    abi: string,
     address: AccAddress,
     moduleName: string,
     functionName: string,
-    typeArgs: string[],
-    args: any[],
-    abi: string
+    typeArgs: string[] = [],
+    args: any[] = []
   ): Promise<ExecuteResult> {
     const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
 
@@ -193,11 +195,14 @@ export class MoveAPI extends BaseAPI {
   }
 
   public async storageFee(
-    address: AccAddress, 
+    address: AccAddress,
     params: APIParams = {}
   ): Promise<StorageFee> {
     return this.c
-      .get<{ storage_fee: StorageFee.Data }>(`/initia/move/v1/storage_fee/${convertIf(address)}`, params)
+      .get<{ storage_fee: StorageFee.Data }>(
+        `/initia/move/v1/storage_fee/${convertIf(address)}`,
+        params
+      )
       .then(d => StorageFee.fromData(d.storage_fee));
   }
 }

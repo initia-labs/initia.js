@@ -1,14 +1,14 @@
 import { JSONSerializable } from '../../../util/json';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { ExecuteEntryFunctionProposal as ExecuteEntryFunctionProposal_pb } from '@initia/initia.proto/initia/move//v1/proposal';
+import { EntryFunctionProposal as EntryFunctionProposal_pb } from '@initia/initia.proto/initia/move//v1/proposal';
 
 /**
- * ExecuteEntryFunctionProposal gov proposal content type to execute entry function to the system
+ * EntryFunctionProposal gov proposal content type to execute entry function to the system
  */
-export class ExecuteEntryFunctionProposal extends JSONSerializable<
-  ExecuteEntryFunctionProposal.Amino,
-  ExecuteEntryFunctionProposal.Data,
-  ExecuteEntryFunctionProposal.Proto
+export class EntryFunctionProposal extends JSONSerializable<
+  EntryFunctionProposal.Amino,
+  EntryFunctionProposal.Data,
+  EntryFunctionProposal.Proto
 > {
   /**
    * @param title a short summary
@@ -30,8 +30,8 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
   }
 
   public static fromAmino(
-    data: ExecuteEntryFunctionProposal.Amino
-  ): ExecuteEntryFunctionProposal {
+    data: EntryFunctionProposal.Amino
+  ): EntryFunctionProposal {
     const {
       value: {
         title,
@@ -42,7 +42,7 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
         args,
       },
     } = data;
-    return new ExecuteEntryFunctionProposal(
+    return new EntryFunctionProposal(
       title,
       description,
       module_name,
@@ -52,11 +52,11 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
     );
   }
 
-  public toAmino(): ExecuteEntryFunctionProposal.Amino {
+  public toAmino(): EntryFunctionProposal.Amino {
     const { title, description, module_name, function_name, type_args, args } =
       this;
     return {
-      type: 'move/ExecuteEntryFunctionProposal',
+      type: 'move/EntryFunctionProposal',
       value: {
         title,
         description,
@@ -69,11 +69,11 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
   }
 
   public static fromData(
-    data: ExecuteEntryFunctionProposal.Data
-  ): ExecuteEntryFunctionProposal {
+    data: EntryFunctionProposal.Data
+  ): EntryFunctionProposal {
     const { title, description, module_name, function_name, type_args, args } =
       data;
-    return new ExecuteEntryFunctionProposal(
+    return new EntryFunctionProposal(
       title,
       description,
       module_name,
@@ -83,11 +83,11 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
     );
   }
 
-  public toData(): ExecuteEntryFunctionProposal.Data {
+  public toData(): EntryFunctionProposal.Data {
     const { title, description, module_name, function_name, type_args, args } =
       this;
     return {
-      '@type': '/initia.move.v1.ExecuteEntryFunctionProposal',
+      '@type': '/initia.move.v1.EntryFunctionProposal',
       title,
       description,
       module_name,
@@ -98,9 +98,9 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
   }
 
   public static fromProto(
-    proto: ExecuteEntryFunctionProposal.Proto
-  ): ExecuteEntryFunctionProposal {
-    return new ExecuteEntryFunctionProposal(
+    proto: EntryFunctionProposal.Proto
+  ): EntryFunctionProposal {
+    return new EntryFunctionProposal(
       proto.title,
       proto.description,
       proto.moduleName,
@@ -110,10 +110,10 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
     );
   }
 
-  public toProto(): ExecuteEntryFunctionProposal.Proto {
+  public toProto(): EntryFunctionProposal.Proto {
     const { title, description, module_name, function_name, type_args, args } =
       this;
-    return ExecuteEntryFunctionProposal_pb.fromPartial({
+    return EntryFunctionProposal_pb.fromPartial({
       title,
       description,
       moduleName: module_name,
@@ -125,21 +125,21 @@ export class ExecuteEntryFunctionProposal extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.ExecuteEntryFunctionProposal',
-      value: ExecuteEntryFunctionProposal_pb.encode(this.toProto()).finish(),
+      typeUrl: '/initia.move.v1.EntryFunctionProposal',
+      value: EntryFunctionProposal_pb.encode(this.toProto()).finish(),
     });
   }
 
-  public static unpackAny(msgAny: Any): ExecuteEntryFunctionProposal {
-    return ExecuteEntryFunctionProposal.fromProto(
-      ExecuteEntryFunctionProposal_pb.decode(msgAny.value)
+  public static unpackAny(msgAny: Any): EntryFunctionProposal {
+    return EntryFunctionProposal.fromProto(
+      EntryFunctionProposal_pb.decode(msgAny.value)
     );
   }
 }
 
-export namespace ExecuteEntryFunctionProposal {
+export namespace EntryFunctionProposal {
   export interface Amino {
-    type: 'move/ExecuteEntryFunctionProposal';
+    type: 'move/EntryFunctionProposal';
     value: {
       title: string;
       description: string;
@@ -151,7 +151,7 @@ export namespace ExecuteEntryFunctionProposal {
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.ExecuteEntryFunctionProposal';
+    '@type': '/initia.move.v1.EntryFunctionProposal';
     title: string;
     description: string;
     module_name: string;
@@ -160,5 +160,5 @@ export namespace ExecuteEntryFunctionProposal {
     args: string[];
   }
 
-  export type Proto = ExecuteEntryFunctionProposal_pb;
+  export type Proto = EntryFunctionProposal_pb;
 }

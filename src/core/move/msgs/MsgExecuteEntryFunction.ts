@@ -11,6 +11,8 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   MsgExecuteEntryFunction.Proto
 > {
   public module_address: string;
+  public type_args: string[];
+  public args: string[];
 
   /**
    * @param sender contract user
@@ -25,11 +27,16 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     module_address: AccAddress,
     public module_name: string,
     public function_name: string,
-    public type_args: string[],
-    public args: string[]
+    type_args: string[] = [],
+    args: string[] = []
   ) {
     super();
-    this.module_address = module_address.startsWith('0x') ? AccAddress.fromHex(module_address) : module_address;
+    this.module_address = module_address.startsWith('0x')
+      ? AccAddress.fromHex(module_address)
+      : module_address;
+
+    this.type_args = type_args;
+    this.args = args;
   }
 
   public static fromAmino(
@@ -56,8 +63,14 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toAmino(): MsgExecuteEntryFunction.Amino {
-    const { sender, module_address, module_name, function_name, type_args, args } =
-      this;
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = this;
 
     return {
       type: 'move/MsgExecuteEntryFunction',
@@ -77,7 +90,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   ): MsgExecuteEntryFunction {
     return new MsgExecuteEntryFunction(
       data.sender,
-      data.moduleAddress,
+      data.moduleAddr,
       data.moduleName,
       data.functionName,
       data.typeArgs,
@@ -86,11 +99,17 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toProto(): MsgExecuteEntryFunction.Proto {
-    const { sender, module_address, module_name, function_name, type_args, args } =
-      this;
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = this;
     return MsgExecuteEntryFunction_pb.fromPartial({
       sender,
-      moduleAddress: module_address,
+      moduleAddr: module_address,
       moduleName: module_name,
       functionName: function_name,
       typeArgs: type_args,
@@ -114,8 +133,14 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   public static fromData(
     data: MsgExecuteEntryFunction.Data
   ): MsgExecuteEntryFunction {
-    const { sender, module_address, module_name, function_name, type_args, args } =
-      data;
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = data;
     return new MsgExecuteEntryFunction(
       sender,
       module_address,
@@ -127,8 +152,14 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public toData(): MsgExecuteEntryFunction.Data {
-    const { sender, module_address, module_name, function_name, type_args, args } =
-      this;
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = this;
     return {
       '@type': '/initia.move.v1.MsgExecuteEntryFunction',
       sender,
@@ -187,8 +218,8 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     module_address: AccAddress,
     module_name: string,
     function_name: string,
-    type_args: string[],
-    args: any[],
+    type_args: string[] = [],
+    args: any[] = [],
     abi: string
   ): MsgExecuteEntryFunction {
     const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
