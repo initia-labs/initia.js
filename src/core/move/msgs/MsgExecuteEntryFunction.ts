@@ -90,7 +90,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   ): MsgExecuteEntryFunction {
     return new MsgExecuteEntryFunction(
       data.sender,
-      data.moduleAddr,
+      data.moduleAddress,
       data.moduleName,
       data.functionName,
       data.typeArgs,
@@ -109,7 +109,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     } = this;
     return MsgExecuteEntryFunction_pb.fromPartial({
       sender,
-      moduleAddr: module_address,
+      moduleAddress: module_address,
       moduleName: module_name,
       functionName: function_name,
       typeArgs: type_args,
