@@ -16,11 +16,7 @@ describe('MintAPI', () => {
   it('parameters', async () => {
     await expect(api.parameters()).resolves.toMatchObject({
       mint_denom: expect.any(String),
-      inflation_rate_change: expect.any(String),
-      inflation_max: expect.any(String),
-      inflation_min: expect.any(String),
-      goal_bonded: expect.any(String),
-      blocks_per_year: expect.any(Number),
+      inflation_rate: expect.any(String),
     });
   });
 });
