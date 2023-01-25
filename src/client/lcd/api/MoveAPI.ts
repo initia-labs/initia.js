@@ -29,10 +29,6 @@ export interface Module {
   raw_bytes: string;
 }
 
-export interface ExecuteResult {
-  data: string;
-}
-
 export interface Resource {
   address: AccAddress;
   struct_tag: string;
@@ -83,22 +79,24 @@ export class MoveAPI extends BaseAPI {
       }));
   }
 
-  public async executeEntryFunction(
+  public async executeEntryFunction<T>(
     address: AccAddress,
     moduleName: string,
     functionName: string,
     typeArgs: string[] = [],
     args: string[] = []
-  ): Promise<ExecuteResult> {
-    return this.c.post<ExecuteResult>(
-      `/initia/move/v1/accounts/${convertIf(
-        address
-      )}/modules/${moduleName}/entry_functions/${functionName}`,
-      {
-        type_args: typeArgs,
-        args,
-      }
-    );
+  ): Promise<T> {
+    return this.c
+      .post<{ data: string }>(
+        `/initia/move/v1/accounts/${convertIf(
+          address
+        )}/modules/${moduleName}/entry_functions/${functionName}`,
+        {
+          type_args: typeArgs,
+          args,
+        }
+      )
+      .then((res) => JSON.parse(res.data) as T);
   }
 
   /**
@@ -113,14 +111,14 @@ export class MoveAPI extends BaseAPI {
    * @param abi // base64 encoded module abi
    * @returns
    */
-  public async executeEntryFunctionWithABI(
+  public async executeEntryFunctionWithABI<T>(
     abi: string,
     address: AccAddress,
     moduleName: string,
     functionName: string,
     typeArgs: string[] = [],
     args: any[] = []
-  ): Promise<ExecuteResult> {
+  ): Promise<T> {
     const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
 
     const functionAbi = module.exposed_functions.find(
@@ -131,7 +129,7 @@ export class MoveAPI extends BaseAPI {
       throw Error('function not found');
     }
 
-    return this.executeEntryFunction(
+    return this.executeEntryFunction<T>(
       address,
       moduleName,
       functionName,
