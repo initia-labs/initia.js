@@ -1,11 +1,10 @@
 import { JSONSerializable } from '../../util/json';
-import { num } from '../num';
 import { AccAddress, ValAddress } from '../bech32';
-import { Coin } from '../Coin';
+import { Coins } from '../Coins';
 import {
   DelegationResponse as DelegationResponse_pb,
   Delegation as Delegation_pb,
-} from '@initia/initia.proto/cosmos/staking/v1beta1/staking';
+} from '@initia/initia.proto/initia/mstaking/v1/staking';
 
 /**
  * Stores information about the status of a delegation between a delegator and validator, fetched from the blockchain.
@@ -15,6 +14,9 @@ export class Delegation extends JSONSerializable<
   Delegation.Data,
   Delegation.Proto
 > {
+  public shares: Coins;
+  public balance: Coins;
+
   /**
    * @param delegator_address 	delegator's account address
    * @param validator_address 	validator's operator address
@@ -24,11 +26,12 @@ export class Delegation extends JSONSerializable<
   constructor(
     public delegator_address: AccAddress,
     public validator_address: ValAddress,
-    public shares: string,
-    public balance: Coin
+    shares: Coins.Input,
+    balance: Coins.Input
   ) {
     super();
-    this.shares = num(shares).toString();
+    this.shares = new Coins(shares);
+    this.balance = new Coins(balance);
   }
 
   public static fromAmino(data: Delegation.Amino): Delegation {
@@ -39,8 +42,8 @@ export class Delegation extends JSONSerializable<
     return new Delegation(
       delegator_address,
       validator_address,
-      shares,
-      Coin.fromAmino(balance)
+      Coins.fromAmino(shares),
+      Coins.fromAmino(balance)
     );
   }
 
@@ -51,7 +54,7 @@ export class Delegation extends JSONSerializable<
       delegation: {
         delegator_address,
         validator_address,
-        shares: num(shares).toFixed(18),
+        shares: shares.toAmino(),
       },
       balance: balance.toAmino(),
     };
@@ -65,8 +68,8 @@ export class Delegation extends JSONSerializable<
     return new Delegation(
       delegator_address,
       validator_address,
-      shares,
-      Coin.fromData(balance)
+      Coins.fromData(shares),
+      Coins.fromData(balance)
     );
   }
 
@@ -77,7 +80,7 @@ export class Delegation extends JSONSerializable<
       delegation: {
         delegator_address,
         validator_address,
-        shares: num(shares).toFixed(18),
+        shares: shares.toData(),
       },
       balance: balance.toData(),
     };
@@ -88,8 +91,8 @@ export class Delegation extends JSONSerializable<
     return new Delegation(
       delegationProto.delegatorAddress,
       delegationProto.validatorAddress,
-      delegationProto.shares,
-      Coin.fromProto(proto.balance as Coin.Proto)
+      Coins.fromProto(delegationProto.shares),
+      Coins.fromProto(proto.balance as Coins.Proto)
     );
   }
 
@@ -98,8 +101,8 @@ export class Delegation extends JSONSerializable<
     return DelegationResponse_pb.fromPartial({
       delegation: Delegation_pb.fromPartial({
         delegatorAddress: delegator_address,
-        shares: num(shares).toFixed(18),
         validatorAddress: validator_address,
+        shares: shares.toProto(),
       }),
       balance: balance.toProto(),
     });
@@ -111,18 +114,18 @@ export namespace Delegation {
     delegation: {
       delegator_address: AccAddress;
       validator_address: ValAddress;
-      shares: string;
+      shares: Coins.Amino;
     };
-    balance: Coin.Amino;
+    balance: Coins.Amino;
   }
 
   export interface Data {
     delegation: {
       delegator_address: AccAddress;
       validator_address: ValAddress;
-      shares: string;
+      shares: Coins.Data;
     };
-    balance: Coin.Data;
+    balance: Coins.Data;
   }
 
   export type Proto = DelegationResponse_pb;

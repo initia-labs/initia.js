@@ -4,6 +4,7 @@ import {
   DelayedVestingAccount,
   PeriodicVestingAccount,
   ContinuousVestingAccount,
+  ModuleAccount,
   BaseAccount,
 } from '../../../core';
 import { BaseAPI } from './BaseAPI';
@@ -43,9 +44,16 @@ export class AuthAPI extends BaseAPI {
         | BaseAccount.Data
         | DelayedVestingAccount.Data
         | PeriodicVestingAccount.Data
-        | ContinuousVestingAccount.Data;
+        | ContinuousVestingAccount.Data
+        | ModuleAccount.Data;
     }>(`/cosmos/auth/v1beta1/accounts/${address}`, params);
     return Account.fromData(account);
+  }
+
+  public async moduleAccount(name: string, params: APIParams = {}): Promise<ModuleAccount> {
+    const { account } = await this.c
+      .get<{ account: ModuleAccount.Data }>(`/cosmos/auth/v1beta1/module_accounts/${name}`, params);
+    return ModuleAccount.fromData(account);
   }
 
   public async parameters(params: APIParams = {}): Promise<AuthParams> {

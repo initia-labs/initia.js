@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json';
+import { Coins } from '../Coins';
 import { num } from '../num';
 import { ValAddress } from '../bech32';
 import { ValConsPublicKey } from '../PublicKey';
@@ -8,7 +9,7 @@ import {
   Commission as Commission_pb,
   CommissionRates as CommissionRates_pb,
   BondStatus,
-} from '@initia/initia.proto/cosmos/staking/v1beta1/staking';
+} from '@initia/initia.proto/initia/mstaking/v1/staking';
 import Long from 'long';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
@@ -23,6 +24,10 @@ export class Validator extends JSONSerializable<
   Validator.Data,
   Validator.Proto
 > {
+  public tokens: Coins;
+  public delegator_shares: Coins;
+  public voting_powers: Coins
+
   /**
    *
    * @param operator_address validator's operator address
@@ -42,16 +47,19 @@ export class Validator extends JSONSerializable<
     public consensus_pubkey: ValConsPublicKey,
     public jailed: boolean,
     public status: BondStatus,
-    public tokens: string,
-    public delegator_shares: string,
+    tokens: Coins.Input,
+    delegator_shares: Coins.Input,
     public description: Validator.Description,
     public unbonding_height: number,
     public unbonding_time: Date,
     public commission: Validator.Commission,
-    public min_self_delegation: string
+    voting_powers: Coins.Input,
+    public voting_power: string
   ) {
     super();
-    this.delegator_shares = num(delegator_shares).toString();
+    this.tokens = new Coins(tokens);
+    this.delegator_shares = new Coins(delegator_shares);
+    this.voting_powers = new Coins(voting_powers);
   }
 
   public toAmino(): Validator.Amino {
@@ -60,13 +68,14 @@ export class Validator extends JSONSerializable<
       consensus_pubkey: this.consensus_pubkey.toAmino(),
       jailed: this.jailed,
       status: this.status,
-      tokens: this.tokens.toString(),
-      delegator_shares: num(this.delegator_shares).toFixed(18),
+      tokens: this.tokens.toAmino(),
+      delegator_shares: this.delegator_shares.toAmino(),
       description: this.description,
       unbonding_height: this.unbonding_height.toFixed(),
       unbonding_time: this.unbonding_time.toISOString(),
       commission: this.commission.toAmino(),
-      min_self_delegation: this.min_self_delegation.toString(),
+      voting_powers: this.voting_powers.toAmino(),
+      voting_power: this.voting_power
     };
   }
 
@@ -76,13 +85,14 @@ export class Validator extends JSONSerializable<
       ValConsPublicKey.fromAmino(data.consensus_pubkey),
       data.jailed || false,
       data.status || 0,
-      data.tokens,
-      data.delegator_shares,
+      Coins.fromAmino(data.tokens),
+      Coins.fromAmino(data.delegator_shares),
       Validator.Description.fromAmino(data.description),
       Number.parseInt(data.unbonding_height),
       new Date(data.unbonding_time),
       Validator.Commission.fromAmino(data.commission),
-      data.min_self_delegation
+      Coins.fromAmino(data.voting_powers),
+      data.voting_power,
     );
   }
 
@@ -92,13 +102,14 @@ export class Validator extends JSONSerializable<
       consensus_pubkey: this.consensus_pubkey.toData(),
       jailed: this.jailed,
       status: this.status,
-      tokens: this.tokens.toString(),
-      delegator_shares: num(this.delegator_shares).toFixed(18),
+      tokens: this.tokens.toData(),
+      delegator_shares: this.delegator_shares.toData(),
       description: this.description,
       unbonding_height: this.unbonding_height.toFixed(),
       unbonding_time: this.unbonding_time.toISOString(),
       commission: this.commission.toData(),
-      min_self_delegation: this.min_self_delegation.toString(),
+      voting_powers: this.voting_powers.toData(),
+      voting_power: this.voting_power,
     };
   }
 
@@ -108,13 +119,14 @@ export class Validator extends JSONSerializable<
       ValConsPublicKey.fromData(data.consensus_pubkey),
       data.jailed || false,
       data.status || 0,
-      data.tokens,
-      data.delegator_shares,
+      Coins.fromData(data.tokens),
+      Coins.fromData(data.delegator_shares),
       Validator.Description.fromData(data.description),
       Number.parseInt(data.unbonding_height),
       new Date(data.unbonding_time),
       Validator.Commission.fromData(data.commission),
-      data.min_self_delegation
+      Coins.fromData(data.voting_powers),
+      data.voting_power
     );
   }
 
@@ -130,20 +142,22 @@ export class Validator extends JSONSerializable<
       unbonding_height,
       unbonding_time,
       commission,
-      min_self_delegation,
+      voting_powers,
+      voting_power
     } = this;
     return Validator_pb.fromPartial({
-      commission: commission.toProto(),
-      consensusPubkey: consensus_pubkey.packAny(),
-      delegatorShares: num(this.delegator_shares).toFixed(18),
-      description: description.toProto(),
-      jailed,
-      minSelfDelegation: min_self_delegation.toString(),
       operatorAddress: operator_address,
+      consensusPubkey: consensus_pubkey.packAny(),
+      jailed,
       status,
-      tokens: tokens.toString(),
+      tokens: tokens.toProto(),
+      delegatorShares: delegator_shares.toProto(),
+      description: description.toProto(),
       unbondingHeight: Long.fromNumber(unbonding_height),
       unbondingTime: unbonding_time,
+      commission: commission.toProto(),
+      votingPowers: voting_powers.toProto(),
+      votingPower: voting_power,
     });
   }
 
@@ -153,8 +167,8 @@ export class Validator extends JSONSerializable<
       ValConsPublicKey.unpackAny(data.consensusPubkey as Any),
       data.jailed,
       data.status,
-      data.tokens,
-      data.delegatorShares,
+      Coins.fromProto(data.tokens),
+      Coins.fromProto(data.delegatorShares),
       Validator.Description.fromProto(
         data.description as Validator.Description.Proto
       ),
@@ -163,7 +177,8 @@ export class Validator extends JSONSerializable<
       Validator.Commission.fromProto(
         data.commission as Validator.Commission.Proto
       ),
-      data.minSelfDelegation
+      Coins.fromProto(data.votingPowers),
+      data.votingPower,
     );
   }
 }
@@ -176,13 +191,14 @@ export namespace Validator {
     consensus_pubkey: ValConsPublicKey.Amino;
     jailed: boolean;
     status: BondStatus;
-    tokens: string;
-    delegator_shares: string;
+    tokens: Coins.Amino;
+    delegator_shares: Coins.Amino;
     description: Description.Amino;
     unbonding_height: string;
     unbonding_time: string;
     commission: Commission.Amino;
-    min_self_delegation: string;
+    voting_powers: Coins.Amino;
+    voting_power: string;
   }
 
   export interface Data {
@@ -190,13 +206,14 @@ export namespace Validator {
     consensus_pubkey: ValConsPublicKey.Data;
     jailed: boolean;
     status: BondStatus;
-    tokens: string;
-    delegator_shares: string;
+    tokens: Coins.Data;
+    delegator_shares: Coins.Data;
     description: Description.Data;
     unbonding_height: string;
     unbonding_time: string;
     commission: Commission.Data;
-    min_self_delegation: string;
+    voting_powers: Coins.Data;
+    voting_power: string;
   }
 
   export type Proto = Validator_pb;

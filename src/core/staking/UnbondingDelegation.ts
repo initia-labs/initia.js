@@ -1,10 +1,10 @@
 import { JSONSerializable } from '../../util/json';
-import { num } from '../num';
+import { Coins } from '../Coins';
 import { AccAddress, ValAddress } from '../bech32';
 import {
   UnbondingDelegation as UnbondingDelegation_pb,
   UnbondingDelegationEntry as UnbondingDelegationEntry_pb,
-} from '@initia/initia.proto/cosmos/staking/v1beta1/staking';
+} from '@initia/initia.proto/initia/mstaking/v1/staking';
 import Long from 'long';
 
 /**
@@ -109,6 +109,9 @@ export namespace UnbondingDelegation {
     Entry.Data,
     Entry.Proto
   > {
+    public initial_balance: Coins;
+    public balance: Coins;
+
     /**
      * Note that the size of the undelegation is `initial_balance - balance`
      * @param initial_balance balance of delegation prior to initiating unbond
@@ -117,20 +120,20 @@ export namespace UnbondingDelegation {
      * @param completion_time time when unbonding will be completed
      */
     constructor(
-      public initial_balance: string,
-      public balance: string,
+      initial_balance: Coins.Input,
+      balance: Coins.Input,
       public creation_height: number,
       public completion_time: Date
     ) {
       super();
-      this.initial_balance = num(initial_balance).toFixed(0);
-      this.balance = num(balance).toFixed(0);
+      this.initial_balance = new Coins(initial_balance);
+      this.balance = new Coins(balance);
     }
 
     public toAmino(): Entry.Amino {
       return {
-        initial_balance: this.initial_balance.toString(),
-        balance: this.balance.toString(),
+        initial_balance: this.initial_balance.toAmino(),
+        balance: this.balance.toAmino(),
         creation_height: this.creation_height.toFixed(),
         completion_time: this.completion_time.toISOString(),
       };
@@ -140,8 +143,8 @@ export namespace UnbondingDelegation {
       const { initial_balance, balance, creation_height, completion_time } =
         data;
       return new Entry(
-        initial_balance,
-        balance,
+        Coins.fromAmino(initial_balance),
+        Coins.fromAmino(balance),
         Number.parseInt(creation_height),
         new Date(completion_time)
       );
@@ -149,8 +152,8 @@ export namespace UnbondingDelegation {
 
     public toData(): Entry.Data {
       return {
-        initial_balance: this.initial_balance.toString(),
-        balance: this.balance.toString(),
+        initial_balance: this.initial_balance.toData(),
+        balance: this.balance.toData(),
         creation_height: this.creation_height.toFixed(),
         completion_time: this.completion_time.toISOString(),
       };
@@ -160,8 +163,8 @@ export namespace UnbondingDelegation {
       const { initial_balance, balance, creation_height, completion_time } =
         data;
       return new Entry(
-        initial_balance,
-        balance,
+        Coins.fromData(initial_balance),
+        Coins.fromData(balance),
         Number.parseInt(creation_height),
         new Date(completion_time)
       );
@@ -171,17 +174,17 @@ export namespace UnbondingDelegation {
       const { initial_balance, balance, creation_height, completion_time } =
         this;
       return UnbondingDelegationEntry_pb.fromPartial({
-        balance: balance.toString(),
+        balance: balance.toProto(),
         completionTime: completion_time,
         creationHeight: Long.fromNumber(creation_height),
-        initialBalance: initial_balance.toString(),
+        initialBalance: initial_balance.toProto(),
       });
     }
 
     public static fromProto(proto: Entry.Proto): Entry {
       return new Entry(
-        proto.initialBalance,
-        proto.balance,
+        Coins.fromProto(proto.initialBalance),
+        Coins.fromProto(proto.balance),
         proto.creationHeight.toNumber(),
         proto.completionTime as Date
       );
@@ -190,15 +193,15 @@ export namespace UnbondingDelegation {
 
   export namespace Entry {
     export interface Amino {
-      initial_balance: string;
-      balance: string;
+      initial_balance: Coins.Amino;
+      balance: Coins.Amino;
       creation_height: string;
       completion_time: string;
     }
 
     export interface Data {
-      initial_balance: string;
-      balance: string;
+      initial_balance: Coins.Data;
+      balance: Coins.Data;
       creation_height: string;
       completion_time: string;
     }

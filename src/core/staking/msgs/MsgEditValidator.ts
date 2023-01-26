@@ -3,7 +3,7 @@ import { num } from '../../num';
 import { ValAddress } from '../../bech32';
 import { Validator } from '../Validator';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/cosmos/staking/v1beta1/tx';
+import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
 
 /**
  * A validator can edit its delegate information, such as moniker, website, commission
@@ -19,24 +19,16 @@ export class MsgEditValidator extends JSONSerializable<
   MsgEditValidator.Proto
 > {
   /**
-   * @param Description new description to apply
-   * @param address new address to apply
+   * @param description new description to apply
+   * @param validator_address new address to apply
    * @param commission_rate new commission rates to apply
-   * @param min_self_delegation new min self delegation
    */
   constructor(
     public description: Validator.Description,
     public validator_address: ValAddress,
-    public commission_rate?: string,
-    public min_self_delegation?: string
+    public commission_rate?: string
   ) {
     super();
-    this.commission_rate = commission_rate
-      ? num(commission_rate).toString()
-      : undefined;
-    this.min_self_delegation = min_self_delegation
-      ? num(min_self_delegation).toFixed(0)
-      : undefined;
   }
 
   public static fromAmino(data: MsgEditValidator.Amino): MsgEditValidator {
@@ -45,14 +37,12 @@ export class MsgEditValidator extends JSONSerializable<
         description,
         validator_address,
         commission_rate,
-        min_self_delegation,
       },
     } = data;
     return new MsgEditValidator(
       Validator.Description.fromAmino(description),
       validator_address,
-      commission_rate,
-      min_self_delegation
+      commission_rate
     );
   }
 
@@ -61,7 +51,6 @@ export class MsgEditValidator extends JSONSerializable<
       description,
       validator_address,
       commission_rate,
-      min_self_delegation,
     } = this;
     return {
       type: 'cosmos-sdk/MsgEditValidator',
@@ -70,9 +59,6 @@ export class MsgEditValidator extends JSONSerializable<
         validator_address,
         commission_rate: commission_rate
           ? num(commission_rate).toFixed(18)
-          : undefined,
-        min_self_delegation: min_self_delegation
-          ? min_self_delegation.toString()
           : undefined,
       },
     };
@@ -85,7 +71,6 @@ export class MsgEditValidator extends JSONSerializable<
       ),
       data.validatorAddress,
       data.commissionRate !== '' ? data.commissionRate : undefined,
-      data.minSelfDelegation !== '' ? data.minSelfDelegation : undefined
     );
   }
 
@@ -94,19 +79,17 @@ export class MsgEditValidator extends JSONSerializable<
       description,
       validator_address,
       commission_rate,
-      min_self_delegation,
     } = this;
     return MsgEditValidator_pb.fromPartial({
       description: description.toProto(),
       commissionRate: commission_rate?.toString() || '',
-      minSelfDelegation: min_self_delegation?.toString() || '',
       validatorAddress: validator_address,
     });
   }
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.staking.v1beta1.MsgEditValidator',
+      typeUrl: '/initia.mstaking.v1.MsgEditValidator',
       value: MsgEditValidator_pb.encode(this.toProto()).finish(),
     });
   }
@@ -120,13 +103,11 @@ export class MsgEditValidator extends JSONSerializable<
       description,
       validator_address,
       commission_rate,
-      min_self_delegation,
     } = data;
     return new MsgEditValidator(
       Validator.Description.fromData(description),
       validator_address,
       commission_rate,
-      min_self_delegation
     );
   }
 
@@ -135,17 +116,13 @@ export class MsgEditValidator extends JSONSerializable<
       description,
       validator_address,
       commission_rate,
-      min_self_delegation,
     } = this;
     return {
-      '@type': '/cosmos.staking.v1beta1.MsgEditValidator',
+      '@type': '/initia.mstaking.v1.MsgEditValidator',
       description,
       validator_address,
       commission_rate: commission_rate
         ? num(commission_rate).toFixed(18)
-        : undefined,
-      min_self_delegation: min_self_delegation
-        ? min_self_delegation.toString()
         : undefined,
     };
   }
@@ -166,16 +143,14 @@ export namespace MsgEditValidator {
       description: Validator.Description.Amino;
       validator_address: ValAddress;
       commission_rate?: string;
-      min_self_delegation?: string;
     };
   }
 
   export interface Data {
-    '@type': '/cosmos.staking.v1beta1.MsgEditValidator';
+    '@type': '/initia.mstaking.v1.MsgEditValidator';
     description: Validator.Description.Data;
     validator_address: ValAddress;
     commission_rate?: string;
-    min_self_delegation?: string;
   }
 
   export type Proto = MsgEditValidator_pb;

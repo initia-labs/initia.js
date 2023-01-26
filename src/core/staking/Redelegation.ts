@@ -1,12 +1,12 @@
 import { JSONSerializable } from '../../util/json';
-import { num } from '../num';
+import { Coins } from '../Coins';
 import { AccAddress, ValAddress } from '../bech32';
 import {
   RedelegationResponse as RedelegationResponse_pb,
   Redelegation as Redelegation_pb,
   RedelegationEntry as RedelegationEntry_pb,
   RedelegationEntryResponse as RedelegationEntryResponse_pb,
-} from '@initia/initia.proto/cosmos/staking/v1beta1/staking';
+} from '@initia/initia.proto/initia/mstaking/v1/staking';
 import Long from 'long';
 
 /**
@@ -168,6 +168,10 @@ export namespace Redelegation {
     Entry.Data,
     Entry.Proto
   > {
+    public initial_balance: Coins;
+    public shares_dst: Coins;
+    public balance: Coins;
+
     /**
      *
      * @param initial_balance balance of delegation prior to initiating redelegation
@@ -176,27 +180,27 @@ export namespace Redelegation {
      * @param completion_time time when redelegation entry will be removed
      */
     constructor(
-      public initial_balance: string,
-      public balance: string,
-      public shares_dst: string,
+      initial_balance: Coins.Input,
+      balance: Coins.Input,
+      shares_dst: Coins.Input,
       public creation_height: number,
       public completion_time: Date
     ) {
       super();
-      this.initial_balance = num(initial_balance).toFixed(0);
-      this.balance = num(balance).toFixed(0);
-      this.shares_dst = num(shares_dst).toString();
+      this.initial_balance = new Coins(initial_balance);
+      this.balance = new Coins(balance);
+      this.shares_dst = new Coins(shares_dst);
     }
 
     public toAmino(): Entry.Amino {
       return {
         redelegation_entry: {
-          initial_balance: this.initial_balance.toString(),
-          shares_dst: num(this.shares_dst).toFixed(18),
+          initial_balance: this.initial_balance.toAmino(),
+          shares_dst: this.shares_dst.toAmino(),
           creation_height: this.creation_height,
           completion_time: this.completion_time.toISOString(),
         },
-        balance: this.balance.toString(),
+        balance: this.balance.toAmino(),
       };
     }
 
@@ -211,9 +215,9 @@ export namespace Redelegation {
         balance,
       } = data;
       return new Entry(
-        initial_balance,
-        balance,
-        shares_dst,
+        Coins.fromAmino(initial_balance),
+        Coins.fromAmino(balance),
+        Coins.fromAmino(shares_dst),
         creation_height,
         new Date(completion_time)
       );
@@ -222,12 +226,12 @@ export namespace Redelegation {
     public toData(): Entry.Data {
       return {
         redelegation_entry: {
-          initial_balance: this.initial_balance.toString(),
-          shares_dst: num(this.shares_dst).toFixed(18),
+          initial_balance: this.initial_balance.toData(),
+          shares_dst: this.shares_dst.toData(),
           creation_height: this.creation_height,
           completion_time: this.completion_time.toISOString(),
         },
-        balance: this.balance.toString(),
+        balance: this.balance.toData(),
       };
     }
 
@@ -242,9 +246,9 @@ export namespace Redelegation {
         balance,
       } = data;
       return new Entry(
-        initial_balance,
-        balance,
-        shares_dst,
+        Coins.fromData(initial_balance),
+        Coins.fromData(balance),
+        Coins.fromData(shares_dst),
         creation_height,
         new Date(completion_time)
       );
@@ -260,12 +264,12 @@ export namespace Redelegation {
       } = this;
 
       return RedelegationEntryResponse_pb.fromPartial({
-        balance: balance.toString(),
+        balance: balance.toProto(),
         redelegationEntry: RedelegationEntry_pb.fromPartial({
           completionTime: completion_time,
           creationHeight: Long.fromNumber(creation_height),
-          initialBalance: initial_balance.toString(),
-          sharesDst: num(shares_dst).toFixed(18),
+          initialBalance: initial_balance.toProto(),
+          sharesDst: shares_dst.toProto(),
         }),
       });
     }
@@ -275,9 +279,9 @@ export namespace Redelegation {
         proto.redelegationEntry as RedelegationEntry_pb;
 
       return new Entry(
-        redelegationEntryProto.initialBalance,
-        proto.balance,
-        redelegationEntryProto.sharesDst,
+        Coins.fromProto(redelegationEntryProto.initialBalance),
+        Coins.fromProto(proto.balance),
+        Coins.fromProto(redelegationEntryProto.sharesDst),
         redelegationEntryProto.creationHeight.toNumber(),
         redelegationEntryProto.completionTime as Date
       );
@@ -289,20 +293,20 @@ export namespace Redelegation {
       redelegation_entry: {
         creation_height: number;
         completion_time: string;
-        initial_balance: string;
-        shares_dst: string;
+        initial_balance: Coins.Amino;
+        shares_dst: Coins.Amino;
       };
-      balance: string;
+      balance: Coins.Amino;
     }
 
     export interface Data {
       redelegation_entry: {
         creation_height: number;
         completion_time: string;
-        initial_balance: string;
-        shares_dst: string;
+        initial_balance: Coins.Data;
+        shares_dst: Coins.Data;
       };
-      balance: string;
+      balance: Coins.Data;
     }
 
     export type Proto = RedelegationEntryResponse_pb;

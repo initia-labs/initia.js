@@ -2,7 +2,7 @@ import {
   AccAddress,
   ValAddress,
   UnbondingDelegation,
-  Coin,
+  Coins,
 } from '../../../core';
 import { BaseAPI } from './BaseAPI';
 import { Delegation } from '../../../core/staking/Delegation';
@@ -23,8 +23,10 @@ export interface StakingParams {
 
   historical_entries: number;
 
-  /** The denomination used as the staking token (probably Initia). */
-  bond_denom: Denom;
+  /** The denomination used as the staking token. */
+  bond_denoms: Denom[];
+
+  min_voting_power: number;
 }
 
 export namespace StakingParams {
@@ -33,22 +35,23 @@ export namespace StakingParams {
     max_validators: number;
     max_entries: number;
     historical_entries: number;
-    bond_denom: Denom;
+    bond_denoms: Denom[];
+    min_voting_power: string;
   }
 }
 
 export interface StakingPool {
   /** amount of tokens are bonded, including those that are currently unbonding */
-  bonded_tokens: Coin;
+  bonded_tokens: Coins;
 
   /** amount of tokens that are not bonded */
-  not_bonded_tokens: Coin;
+  not_bonded_tokens: Coins;
 }
 
 export namespace StakingPool {
   export interface Data {
-    bonded_tokens: string;
-    not_bonded_tokens: string;
+    bonded_tokens: Coins.Data;
+    not_bonded_tokens: Coins.Data;
   }
 }
 
@@ -68,7 +71,7 @@ export class StakingAPI extends BaseAPI {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
         .get<{ delegation_response: Delegation.Data }>(
-          `/cosmos/staking/v1beta1/validators/${validator}/delegations/${delegator}`,
+          `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}`,
           params
         )
         .then(({ delegation_response: data }) => [
@@ -80,7 +83,7 @@ export class StakingAPI extends BaseAPI {
         .get<{
           delegation_responses: Delegation.Data[];
           pagination: Pagination;
-        }>(`/cosmos/staking/v1beta1/delegations/${delegator}`, params)
+        }>(`/initia/mstaking/v1/delegations/${delegator}`, params)
         .then(data => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
@@ -91,7 +94,7 @@ export class StakingAPI extends BaseAPI {
           delegation_responses: Delegation.Data[];
           pagination: Pagination;
         }>(
-          `/cosmos/staking/v1beta1/validators/${validator}/delegations`,
+          `/initia/mstaking/v1/validators/${validator}/delegations`,
           params
         )
         .then(data => [
@@ -132,7 +135,7 @@ export class StakingAPI extends BaseAPI {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
         .get<{ unbond: UnbondingDelegation.Data }>(
-          `/cosmos/staking/v1beta1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
+          `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
           params
         )
         .then(({ unbond: data }) => [
@@ -145,7 +148,7 @@ export class StakingAPI extends BaseAPI {
           unbonding_responses: UnbondingDelegation.Data[];
           pagination: Pagination;
         }>(
-          `/cosmos/staking/v1beta1/delegators/${delegator}/unbonding_delegations`,
+          `/initia/mstaking/v1/delegators/${delegator}/unbonding_delegations`,
           params
         )
         .then(data => [
@@ -158,7 +161,7 @@ export class StakingAPI extends BaseAPI {
           unbonding_responses: UnbondingDelegation.Data[];
           pagination: Pagination;
         }>(
-          `/cosmos/staking/v1beta1/validators/${validator}/unbonding_delegations`,
+          `/initia/mstaking/v1/validators/${validator}/unbonding_delegations`,
           params
         )
         .then(data => [
@@ -208,7 +211,7 @@ export class StakingAPI extends BaseAPI {
         redelegation_responses: Redelegation.Data[];
         pagination: Pagination;
       }>(
-        `/cosmos/staking/v1beta1/delegators/${delegator}/redelegations`,
+        `/initia/mstaking/v1/delegators/${delegator}/redelegations`,
         params
       )
       .then(d => [
@@ -227,7 +230,7 @@ export class StakingAPI extends BaseAPI {
   ): Promise<[Validator[], Pagination]> {
     return this.c
       .get<{ validators: Validator.Data[]; pagination: Pagination }>(
-        `/cosmos/staking/v1beta1/delegators/${delegator}/validators`,
+        `/initia/mstaking/v1/delegators/${delegator}/validators`,
         params
       )
       .then(d => [d.validators.map(Validator.fromData), d.pagination]);
@@ -241,7 +244,7 @@ export class StakingAPI extends BaseAPI {
   ): Promise<[Validator[], Pagination]> {
     return this.c
       .get<{ validators: Validator.Data[]; pagination: Pagination }>(
-        `/cosmos/staking/v1beta1/validators`,
+        `/initia/mstaking/v1/validators`,
         params
       )
       .then(d => [d.validators.map(Validator.fromData), d.pagination]);
@@ -257,7 +260,7 @@ export class StakingAPI extends BaseAPI {
   ): Promise<Validator> {
     return this.c
       .get<{ validator: Validator.Data }>(
-        `/cosmos/staking/v1beta1/validators/${validator}`,
+        `/initia/mstaking/v1/validators/${validator}`,
         params
       )
       .then(d => Validator.fromData(d.validator));
@@ -268,10 +271,10 @@ export class StakingAPI extends BaseAPI {
    */
   public async pool(params: APIParams = {}): Promise<StakingPool> {
     return this.c
-      .get<{ pool: StakingPool.Data }>(`/cosmos/staking/v1beta1/pool`, params)
+      .get<{ pool: StakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
       .then(({ pool: d }) => ({
-        bonded_tokens: new Coin('uinit', d.bonded_tokens),
-        not_bonded_tokens: new Coin('uinit', d.not_bonded_tokens),
+        bonded_tokens: Coins.fromData(d.bonded_tokens),
+        not_bonded_tokens: Coins.fromData(d.not_bonded_tokens),
       }));
   }
 
@@ -281,7 +284,7 @@ export class StakingAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<StakingParams> {
     return this.c
       .get<{ params: StakingParams.Data }>(
-        `/cosmos/staking/v1beta1/params`,
+        `/initia/mstaking/v1/params`,
         params
       )
       .then(({ params: d }) => ({
@@ -289,7 +292,8 @@ export class StakingAPI extends BaseAPI {
         max_validators: d.max_validators,
         max_entries: d.max_entries,
         historical_entries: d.historical_entries,
-        bond_denom: d.bond_denom,
+        bond_denoms: d.bond_denoms,
+        min_voting_power: Number.parseInt(d.min_voting_power),
       }));
   }
 }

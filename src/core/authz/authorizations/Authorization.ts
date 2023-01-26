@@ -101,10 +101,9 @@ export namespace Authorization {
     switch (data['@type']) {
       case '/cosmos.authz.v1beta1.GenericAuthorization':
         return GenericAuthorization.fromData(data);
-
       case '/cosmos.bank.v1beta1.SendAuthorization':
         return SendAuthorization.fromData(data);
-      case '/cosmos.staking.v1beta1.StakeAuthorization':
+      case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.fromData(data);
     }
   }
@@ -114,10 +113,9 @@ export namespace Authorization {
     switch (typeUrl) {
       case '/cosmos.authz.v1beta1.GenericAuthorization':
         return GenericAuthorization.unpackAny(proto);
-
       case '/cosmos.bank.v1beta1.SendAuthorization':
         return SendAuthorization.unpackAny(proto);
-      case '/cosmos.staking.v1beta1.StakeAuthorization':
+      case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.unpackAny(proto);
     }
 
