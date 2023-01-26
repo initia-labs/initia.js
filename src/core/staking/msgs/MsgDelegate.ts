@@ -1,8 +1,8 @@
-import { Coin } from '../../Coin';
+import { Coins } from '../../Coins';
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress, ValAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgDelegate as MsgDelegate_pb } from '@initia/initia.proto/cosmos/staking/v1beta1/tx';
+import { MsgDelegate as MsgDelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
 
 /**
  * A delegator can submit this message to send more Initia to be staked through a
@@ -13,18 +13,21 @@ export class MsgDelegate extends JSONSerializable<
   MsgDelegate.Data,
   MsgDelegate.Proto
 > {
+  public amount: Coins;
+
   /**
    *
    * @param delegator_address delegator's account address
    * @param validator_address validator's operator address
-   * @param amount amount of INI to be sent for delegation
+   * @param amount amount of INIT to be sent for delegation
    */
   constructor(
     public delegator_address: AccAddress,
     public validator_address: ValAddress,
-    public amount: Coin
+    amount: Coins.Input
   ) {
     super();
+    this.amount = new Coins(amount);
   }
 
   public static fromAmino(data: MsgDelegate.Amino): MsgDelegate {
@@ -34,7 +37,7 @@ export class MsgDelegate extends JSONSerializable<
     return new MsgDelegate(
       delegator_address,
       validator_address,
-      Coin.fromAmino(amount)
+      Coins.fromAmino(amount)
     );
   }
 
@@ -54,7 +57,7 @@ export class MsgDelegate extends JSONSerializable<
     return new MsgDelegate(
       proto.delegatorAddress,
       proto.validatorAddress,
-      Coin.fromProto(proto.amount as Coin.Proto)
+      Coins.fromProto(proto.amount as Coins.Proto)
     );
   }
 
@@ -69,7 +72,7 @@ export class MsgDelegate extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.staking.v1beta1.MsgDelegate',
+      typeUrl: '/initia.mstaking.v1.MsgDelegate',
       value: MsgDelegate_pb.encode(this.toProto()).finish(),
     });
   }
@@ -83,14 +86,14 @@ export class MsgDelegate extends JSONSerializable<
     return new MsgDelegate(
       delegator_address,
       validator_address,
-      Coin.fromData(amount)
+      Coins.fromData(amount)
     );
   }
 
   public toData(): MsgDelegate.Data {
     const { delegator_address, validator_address, amount } = this;
     return {
-      '@type': '/cosmos.staking.v1beta1.MsgDelegate',
+      '@type': '/initia.mstaking.v1.MsgDelegate',
       delegator_address,
       validator_address,
       amount: amount.toData(),
@@ -104,15 +107,15 @@ export namespace MsgDelegate {
     value: {
       delegator_address: AccAddress;
       validator_address: ValAddress;
-      amount: Coin.Amino;
+      amount: Coins.Amino;
     };
   }
 
   export interface Data {
-    '@type': '/cosmos.staking.v1beta1.MsgDelegate';
+    '@type': '/initia.mstaking.v1.MsgDelegate';
     delegator_address: AccAddress;
     validator_address: ValAddress;
-    amount: Coin.Data;
+    amount: Coins.Data;
   }
 
   export type Proto = MsgDelegate_pb;

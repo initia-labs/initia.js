@@ -9,12 +9,12 @@ describe('Coins', () => {
       new Coin('uinit', 1000),
     ]);
 
-    const coinINI = coins1.get('uinit');
+    const coinINIT = coins1.get('uinit');
 
-    expect(coinINI).toBeDefined();
+    expect(coinINIT).toBeDefined();
 
-    if (coinINI !== undefined) {
-      expect(Number(coinINI.amount)).toEqual(3000);
+    if (coinINIT !== undefined) {
+      expect(Number(coinINIT.amount)).toEqual(3000);
     }
   });
 

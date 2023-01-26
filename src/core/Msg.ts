@@ -34,9 +34,7 @@ import {
   StakingMsg,
 } from './staking/msgs';
 import {
-  MsgCreatePeriodicVestingAccount,
   MsgCreateVestingAccount,
-  MsgDonateAllVestingTokens,
   VestingMsg,
 } from './vesting/msgs';
 import {
@@ -197,12 +195,8 @@ export namespace Msg {
         return MsgEditValidator.fromAmino(data);
 
       // vesting
-      case 'cosmos-sdk/MsgCreatePeriodicVestingAccount':
-        return MsgCreatePeriodicVestingAccount.fromAmino(data);
       case 'cosmos-sdk/MsgCreateVestingAccount':
         return MsgCreateVestingAccount.fromAmino(data);
-      case 'cosmos-sdk/MsgDonateAllVestingTokens':
-        return MsgDonateAllVestingTokens.fromAmino(data);
 
       // move
       case 'move/MsgPublishModuleBundle':
@@ -269,24 +263,20 @@ export namespace Msg {
         return MsgUnjail.fromData(data);
 
       // staking
-      case '/cosmos.staking.v1beta1.MsgDelegate':
+      case '/initia.mstaking.v1.MsgDelegate':
         return MsgDelegate.fromData(data);
-      case '/cosmos.staking.v1beta1.MsgUndelegate':
+      case '/initia.mstaking.v1.MsgUndelegate':
         return MsgUndelegate.fromData(data);
-      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+      case '/initia.mstaking.v1.MsgBeginRedelegate':
         return MsgBeginRedelegate.fromData(data);
-      case '/cosmos.staking.v1beta1.MsgCreateValidator':
+      case '/initia.mstaking.v1.MsgCreateValidator':
         return MsgCreateValidator.fromData(data);
-      case '/cosmos.staking.v1beta1.MsgEditValidator':
+      case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.fromData(data);
 
       // vesting
-      case '/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount':
-        return MsgCreatePeriodicVestingAccount.fromData(data);
       case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
         return MsgCreateVestingAccount.fromData(data);
-      case '/cosmos.vesting.v1beta1.MsgDonateAllVestingTokens':
-        return MsgDonateAllVestingTokens.fromData(data);
 
       // move
       case '/initia.move.v1.MsgPublishModuleBundle':
@@ -396,24 +386,20 @@ export namespace Msg {
         return MsgUnjail.unpackAny(proto);
 
       // staking
-      case '/cosmos.staking.v1beta1.MsgDelegate':
+      case '/initia.mstaking.v1.MsgDelegate':
         return MsgDelegate.unpackAny(proto);
-      case '/cosmos.staking.v1beta1.MsgUndelegate':
+      case '/initia.mstaking.v1.MsgUndelegate':
         return MsgUndelegate.unpackAny(proto);
-      case '/cosmos.staking.v1beta1.MsgBeginRedelegate':
+      case '/initia.mstaking.v1.MsgBeginRedelegate':
         return MsgBeginRedelegate.unpackAny(proto);
-      case '/cosmos.staking.v1beta1.MsgCreateValidator':
+      case '/initia.mstaking.v1.MsgCreateValidator':
         return MsgCreateValidator.unpackAny(proto);
-      case '/cosmos.staking.v1beta1.MsgEditValidator':
+      case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.unpackAny(proto);
 
       // vesting
-      case '/cosmos.vesting.v1beta1.MsgCreatePeriodicVestingAccount':
-        return MsgCreatePeriodicVestingAccount.unpackAny(proto);
       case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
         return MsgCreateVestingAccount.unpackAny(proto);
-      case '/cosmos.vesting.v1beta1.MsgDonateAllVestingTokens':
-        return MsgDonateAllVestingTokens.unpackAny(proto);
 
       // move
       case '/initia.move.v1.MsgPublishModuleBundle':

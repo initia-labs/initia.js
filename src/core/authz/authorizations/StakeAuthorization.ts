@@ -1,5 +1,5 @@
 import { JSONSerializable } from '../../../util/json';
-import { Coin } from '../../Coin';
+import { Coins } from '../../Coins';
 import { AccAddress } from '../../bech32';
 import {
   StakeAuthorization as StakeAuthorization_pb,
@@ -7,7 +7,7 @@ import {
   StakeAuthorization_Validators as StakeAuthorizationValidators_pb,
   authorizationTypeFromJSON,
   authorizationTypeToJSON,
-} from '@initia/initia.proto/cosmos/staking/v1beta1/authz';
+} from '@initia/initia.proto/initia/mstaking/v1/authz';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export class StakeAuthorization extends JSONSerializable<
@@ -15,13 +15,16 @@ export class StakeAuthorization extends JSONSerializable<
   StakeAuthorization.Data,
   StakeAuthorization.Proto
 > {
+  public max_tokens: Coins
+
   constructor(
     public authorization_type: AuthorizationType,
-    public max_tokens?: Coin,
+    max_tokens: Coins.Input,
     public allow_list?: StakeAuthorizationValidators,
     public deny_list?: StakeAuthorizationValidators
   ) {
     super();
+    this.max_tokens = new Coins(max_tokens);
   }
 
   public static fromAmino(_: any): StakeAuthorizationValidators {
@@ -36,7 +39,7 @@ export class StakeAuthorization extends JSONSerializable<
   public static fromData(data: StakeAuthorization.Data): StakeAuthorization {
     return new StakeAuthorization(
       authorizationTypeFromJSON(data.authorization_type),
-      data.max_tokens ? Coin.fromProto(data.max_tokens) : undefined,
+      Coins.fromData(data.max_tokens),
       data.allow_list
         ? StakeAuthorizationValidators.fromData(data.allow_list)
         : undefined,
@@ -49,7 +52,7 @@ export class StakeAuthorization extends JSONSerializable<
   public toData(): StakeAuthorization.Data {
     const { max_tokens, allow_list, deny_list, authorization_type } = this;
     return {
-      '@type': '/cosmos.staking.v1beta1.StakeAuthorization',
+      '@type': '/initia.mstaking.v1.StakeAuthorization',
       authorization_type: authorizationTypeToJSON(authorization_type),
       max_tokens: max_tokens?.toData(),
       allow_list: allow_list?.toData(),
@@ -60,7 +63,7 @@ export class StakeAuthorization extends JSONSerializable<
   public static fromProto(proto: StakeAuthorization.Proto): StakeAuthorization {
     return new StakeAuthorization(
       proto.authorizationType,
-      proto.maxTokens ? Coin.fromProto(proto.maxTokens) : undefined,
+      Coins.fromProto(proto.maxTokens),
       proto.allowList
         ? StakeAuthorizationValidators.fromProto(proto.allowList)
         : undefined,
@@ -82,7 +85,7 @@ export class StakeAuthorization extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.staking.v1beta1.StakeAuthorization',
+      typeUrl: '/initia.mstaking.v1.StakeAuthorization',
       value: StakeAuthorization_pb.encode(this.toProto()).finish(),
     });
   }
@@ -150,8 +153,8 @@ export namespace StakeAuthorization {
   export const Type = AuthorizationType;
 
   export interface Data {
-    '@type': '/cosmos.staking.v1beta1.StakeAuthorization';
-    max_tokens?: Coin.Data;
+    '@type': '/initia.mstaking.v1.StakeAuthorization';
+    max_tokens: Coins.Data;
     allow_list?: StakeAuthorizationValidators.Data;
     deny_list?: StakeAuthorizationValidators.Data;
     authorization_type: string;

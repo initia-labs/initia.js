@@ -1,8 +1,8 @@
-import { Coin } from '../../Coin';
+import { Coins } from '../../Coins';
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress, ValAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUndelegate as MsgUndelegate_pb } from '@initia/initia.proto/cosmos/staking/v1beta1/tx';
+import { MsgUndelegate as MsgUndelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
 
 /**
  * A delegator can undelegate an amount of bonded Initia, and will begin the unbonding
@@ -14,17 +14,20 @@ export class MsgUndelegate extends JSONSerializable<
   MsgUndelegate.Data,
   MsgUndelegate.Proto
 > {
+  public amount: Coins;
+
   /**
    * @param delegator_address delegator's account address
    * @param validator_address validator's operator address
-   * @param amount INI to be undelegated
+   * @param amount INIT to be undelegated
    */
   constructor(
     public delegator_address: AccAddress,
     public validator_address: ValAddress,
-    public amount: Coin
+    amount: Coins.Input
   ) {
     super();
+    this.amount = new Coins(amount);
   }
 
   public static fromAmino(data: MsgUndelegate.Amino): MsgUndelegate {
@@ -34,7 +37,7 @@ export class MsgUndelegate extends JSONSerializable<
     return new MsgUndelegate(
       delegator_address,
       validator_address,
-      Coin.fromAmino(amount)
+      Coins.fromAmino(amount)
     );
   }
 
@@ -54,7 +57,7 @@ export class MsgUndelegate extends JSONSerializable<
     return new MsgUndelegate(
       proto.delegatorAddress,
       proto.validatorAddress,
-      Coin.fromProto(proto.amount as Coin.Proto)
+      Coins.fromProto(proto.amount as Coins.Proto)
     );
   }
 
@@ -69,7 +72,7 @@ export class MsgUndelegate extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.staking.v1beta1.MsgUndelegate',
+      typeUrl: '/initia.mstaking.v1.MsgUndelegate',
       value: MsgUndelegate_pb.encode(this.toProto()).finish(),
     });
   }
@@ -83,14 +86,14 @@ export class MsgUndelegate extends JSONSerializable<
     return new MsgUndelegate(
       delegator_address,
       validator_address,
-      Coin.fromData(amount)
+      Coins.fromData(amount)
     );
   }
 
   public toData(): MsgUndelegate.Data {
     const { delegator_address, validator_address, amount } = this;
     return {
-      '@type': '/cosmos.staking.v1beta1.MsgUndelegate',
+      '@type': '/initia.mstaking.v1.MsgUndelegate',
       delegator_address,
       validator_address,
       amount: amount.toData(),
@@ -104,15 +107,15 @@ export namespace MsgUndelegate {
     value: {
       delegator_address: AccAddress;
       validator_address: ValAddress;
-      amount: Coin.Amino;
+      amount: Coins.Amino;
     };
   }
 
   export interface Data {
-    '@type': '/cosmos.staking.v1beta1.MsgUndelegate';
+    '@type': '/initia.mstaking.v1.MsgUndelegate';
     delegator_address: AccAddress;
     validator_address: ValAddress;
-    amount: Coin.Data;
+    amount: Coins.Data;
   }
 
   export type Proto = MsgUndelegate_pb;
