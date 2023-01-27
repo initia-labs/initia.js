@@ -8,10 +8,7 @@ const mk = new MnemonicKey({
   mnemonic:
     'sound hour era feature bacon code drift deal raw toward soldier nation winter consider tissue jewel script result mean faculty water exist lunch betray',
 });
-const initia = new LCDClient({
-  chainID: 'testnet',
-  URL: 'https://stone-rest.initia.tech/',
-});
+const initia = new LCDClient('https://stone-rest.initia.tech', { chainId: 'stone-3' });
 const wallet = initia.wallet(mk);
 
 describe('TxAPI', () => {

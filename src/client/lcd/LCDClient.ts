@@ -23,14 +23,9 @@ import { Key } from '../../key';
 
 export interface LCDClientConfig {
   /**
-   * The base URL to which LCD requests will be made.
-   */
-  URL: string;
-
-  /**
    * Chain ID of the blockchain to connect to.
    */
-  chainID: string;
+  chainId?: string;
 
   /**
    * Coins representing the default gas prices to use for fee estimation.
@@ -60,16 +55,16 @@ const DEFAULT_GAS_PRICES_BY_CHAIN_ID: { [key: string]: Coins.Input } = {
  * ### Example
  *
  * ```ts
- * import { LCDClient, Coin } from 'initia.js';
+ * import { LCDClient } from 'initia.js';
  *
- * const initia = new LCDClient({
- *    URL: "https://lcd.initia.dev",
- *    chainID: "testnet"
+ * const initia = new LCDClient("https://stone-rest.initia.tech", {
+ *    chainId: "testnet"
  * });
  * ```
  */
 
 export class LCDClient {
+  public URL: string;
   public config: LCDClientConfig;
   public apiRequester: APIRequester;
 
@@ -96,16 +91,14 @@ export class LCDClient {
    *
    * @param config LCD configuration
    */
-  constructor(config: LCDClientConfig, apiRequester?: APIRequester) {
+  constructor(URL: string, config?: LCDClientConfig, apiRequester?: APIRequester) {
+    this.URL = URL;
     this.config = {
       ...DEFAULT_LCD_OPTIONS,
-      gasPrices:
-        DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainID] ||
-        DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
+      gasPrices: DEFAULT_GAS_PRICES_BY_CHAIN_ID[config?.chainId ?? 'default'],
       ...config,
     };
-
-    this.apiRequester = apiRequester ?? new APIRequester(this.config.URL);
+    this.apiRequester = apiRequester ?? new APIRequester(this.URL);
 
     // instantiate APIs
     this.auth = new AuthAPI(this.apiRequester);

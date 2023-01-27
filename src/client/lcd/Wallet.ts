@@ -55,6 +55,10 @@ export class Wallet {
       signMode?: SignMode;
     }
   ): Promise<Tx> {
+    if (!this.lcd.config.chainId) {
+      throw new Error('Chain ID must be set to post transaction')
+    }
+
     let accountNumber = options.accountNumber;
     let sequence = options.sequence;
 
@@ -76,7 +80,7 @@ export class Wallet {
     return this.key.signTx(tx, {
       accountNumber,
       sequence,
-      chainID: this.lcd.config.chainID,
+      chainId: this.lcd.config.chainId,
       signMode: options.signMode || SignMode.SIGN_MODE_DIRECT,
     });
   }

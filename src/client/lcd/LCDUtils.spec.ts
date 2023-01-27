@@ -2,12 +2,7 @@ import { LCDClient } from './LCDClient';
 import { LCDUtils } from './LCDUtils';
 import { Validator } from '../../core';
 
-const lcdUtils = new LCDUtils(
-  new LCDClient({
-    chainID: 'testnet',
-    URL: 'https://stone-rest.initia.tech/',
-  })
-);
+const lcdUtils = new LCDUtils(new LCDClient('https://stone-rest.initia.tech/'));
 
 describe('LCDUtils', () => {
   it('validatorsWithVotingPower', async () => {

@@ -131,7 +131,7 @@ export abstract class Key {
   public async signTx(tx: Tx, options: SignOptions): Promise<Tx> {
     const copyTx = new Tx(tx.body, new AuthInfo([], tx.auth_info.fee), []);
     const sign_doc = new SignDoc(
-      options.chainID,
+      options.chainId,
       options.accountNumber,
       options.sequence,
       copyTx.auth_info,
@@ -164,5 +164,5 @@ export interface SignOptions {
   accountNumber: number;
   sequence: number;
   signMode: SignMode;
-  chainID: string;
+  chainId: string;
 }
