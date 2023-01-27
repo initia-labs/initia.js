@@ -11,6 +11,15 @@ export class TendermintAPI extends BaseAPI {
   }
 
   /**
+   * Gets the node's chain id.
+   */
+  public async chainId(params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{ default_node_info: { network: string } }>(`/cosmos/base/tendermint/v1beta1/node_info`, params)
+      .then((res) => res?.default_node_info?.network);
+  }
+
+  /**
    * Gets whether the node is currently in syncing mode to catch up with blocks.
    */
   public async syncing(params: APIParams = {}): Promise<boolean> {

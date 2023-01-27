@@ -95,7 +95,9 @@ export class LCDClient {
     this.URL = URL;
     this.config = {
       ...DEFAULT_LCD_OPTIONS,
-      gasPrices: DEFAULT_GAS_PRICES_BY_CHAIN_ID[config?.chainId ?? 'default'],
+      gasPrices: 
+        (config?.chainId && DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainId]) ?? 
+        DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
       ...config,
     };
     this.apiRequester = apiRequester ?? new APIRequester(this.URL);

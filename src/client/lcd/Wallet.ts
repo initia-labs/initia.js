@@ -56,7 +56,7 @@ export class Wallet {
     }
   ): Promise<Tx> {
     if (!this.lcd.config.chainId) {
-      throw new Error('Chain ID must be set to post transaction')
+      this.lcd.config.chainId = await this.lcd.tendermint.chainId();
     }
 
     let accountNumber = options.accountNumber;
