@@ -78,13 +78,13 @@ export class CLIKey extends Key {
     return ValAddress.fromAccAddress(this._accAddress);
   }
 
-  public async sign(): Promise<Buffer> {
+  public sign(): Buffer {
     throw new Error(
       'CLIKey does not use sign() -- use createSignature() directly.'
     );
   }
 
-  public async createSignature(tx: SignDoc): Promise<SignatureV2> {
+  public createSignature(tx: SignDoc): SignatureV2 {
     if (this.params.multisig) {
       throw new Error('multisig is not supported in direct sign mode');
     }
@@ -105,7 +105,7 @@ export class CLIKey extends Key {
     return SignatureV2.fromData(JSON.parse(result)['signatures'][0]);
   }
 
-  public async createSignatureAmino(tx: SignDoc): Promise<SignatureV2> {
+  public createSignatureAmino(tx: SignDoc): SignatureV2 {
     const tmpobj = fileSync({ postfix: '.json' });
     writeFileSync(tmpobj.fd, JSON.stringify(tx.toUnSignedTx().toData()));
 
