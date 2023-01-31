@@ -1,46 +1,46 @@
 [
   {
     "delegation": {
-      "delegator_address": "init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6",
-      "validator_address": "initvaloper1vze7n65ccq08auu2xwmptlymu3gdlx0z5j033m",
-      "shares": "0.362811214041104489"
+      "delegator_address": "init1y3qwj2nf2x9gc6ctgt4vzh6e3q23cy9xk032t4",
+      "validator_address": "initvaloper1y3qwj2nf2x9gc6ctgt4vzh6e3q23cy9xz2gn99",
+      "shares": [
+        {
+          "denom": "move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615",
+          "amount": "100000000.000000000000000000"
+        },
+        {
+          "denom": "ustake",
+          "amount": "20000000.000000000000000000"
+        }
+      ]
     },
-    "balance": {
-      "denom": "uinit",
-      "amount": "0"
-    }
+    "balance": [
+      {
+        "denom": "move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615",
+        "amount": "100000000"
+      },
+      {
+        "denom": "ustake",
+        "amount": "20000000"
+      }
+    ]
   },
   {
     "delegation": {
-      "delegator_address": "init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6",
-      "validator_address": "initvaloper1062zkmnlqhcpwsryk5kjf345x6njzzksqk9ljl",
-      "shares": "1041435300584.646580892301867080"
+      "delegator_address": "init1lf0swvvhy3vqautdemmvunfmp0grfrjgzznx9s",
+      "validator_address": "initvaloper1y3qwj2nf2x9gc6ctgt4vzh6e3q23cy9xz2gn99",
+      "shares": [
+        {
+          "denom": "move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615",
+          "amount": "5625331862.000000000000000000"
+        }
+      ]
     },
-    "balance": {
-      "denom": "uinit",
-      "amount": "970201986983"
-    }
-  },
-  {
-    "delegation": {
-      "delegator_address": "init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6",
-      "validator_address": "initvaloper14un92kpq0pvflyjd8sxmrsswglhn8mf5hkruc2",
-      "shares": "0.317889676069212335"
-    },
-    "balance": {
-      "denom": "uinit",
-      "amount": "0"
-    }
-  },
-  {
-    "delegation": {
-      "delegator_address": "init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6",
-      "validator_address": "initvaloper1kcux5ht2jslsyfzgs5wtfg4hx9dha8z4tes7xh",
-      "shares": "937199434798.716278082038875955"
-    },
-    "balance": {
-      "denom": "uinit",
-      "amount": "891000004719"
-    }
+    "balance": [
+      {
+        "denom": "move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615",
+        "amount": "5625331862"
+      }
+    ]
   }
 ]

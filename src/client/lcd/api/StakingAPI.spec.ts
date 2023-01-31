@@ -1,19 +1,10 @@
 import { APIRequester } from '../APIRequester';
 import { StakingAPI } from './StakingAPI';
-import { Coin } from '../../../core/Coin';
+import { Coins } from '../../../core';
 import { ValConsPublicKey, Delegation } from '../../../core';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');
 const staking = new StakingAPI(c);
-
-const checkDelegations = (delegations: Delegation[]) => {
-  expect(delegations).toContainEqual({
-    delegator_address: expect.any(String),
-    validator_address: expect.any(String),
-    shares: expect.any(String),
-    balance: expect.any(Coin),
-  });
-};
 
 describe('StakingAPI', () => {
   it('parameters', async () => {
@@ -22,39 +13,10 @@ describe('StakingAPI', () => {
       max_validators: expect.any(Number),
       max_entries: expect.any(Number),
       historical_entries: expect.any(Number),
-      bond_denom: expect.any(String),
+      bond_denoms: expect.any(Array<String>),
+      min_voting_power: expect.any(Number),
     });
   });
-
-  // it('delegations (delegator & validator)', async () => {
-  //   const delegations = await staking
-  //     .delegations(
-  //       'init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6',
-  //       'initvaloper1vk20anceu6h9s00d27pjlvslz3avetkvnwmr35'
-  //     )
-  //     .then(v => v[0]);
-
-  //   checkDelegations(delegations);
-  // });
-
-  // it('delegations (delegator)', async () => {
-  //   const delegations = await staking
-  //     .delegations('init1rk6tvacasnnyssfnn00zl7wz43pjnpn7vayqv6')
-  //     .then(v => v[0]);
-
-  //   checkDelegations(delegations);
-  // });
-
-  // it('delegations (validator)', async () => {
-  //   const delegations = await staking
-  //     .delegations(
-  //       undefined,
-  //       'initvaloper1vk20anceu6h9s00d27pjlvslz3avetkvnwmr35' // node0
-  //     )
-  //     .then(v => v[0]);
-
-  //   checkDelegations(delegations);
-  // });
 
   it('delegations without parameter should throw an error', async () => {
     await expect(staking.delegations()).rejects.toThrowError();
@@ -72,8 +34,8 @@ describe('StakingAPI', () => {
       consensus_pubkey: expect.any(ValConsPublicKey),
       jailed: expect.any(Boolean),
       status: expect.any(String),
-      tokens: expect.any(String),
-      delegator_shares: expect.any(String),
+      tokens: expect.any(Coins),
+      delegator_shares: expect.any(Coins),
       description: {
         moniker: expect.any(String),
         identity: expect.any(String),
@@ -91,14 +53,15 @@ describe('StakingAPI', () => {
         },
         update_time: expect.any(Date),
       },
-      min_self_delegation: expect.any(String),
+      voting_powers: expect.any(Coins),
+      voting_power: expect.any(String),
     });
   });
 
   it('pool', async () => {
     await expect(staking.pool()).resolves.toMatchObject({
-      bonded_tokens: expect.any(Coin),
-      not_bonded_tokens: expect.any(Coin),
+      bonded_tokens: expect.any(Coins),
+      not_bonded_tokens: expect.any(Coins),
     });
   });
 });
