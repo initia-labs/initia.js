@@ -141,39 +141,29 @@ export class MoveAPI extends BaseAPI {
   public async resources(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<[Resource[], Pagination]> {
+  ): Promise<[unknown[], Pagination]> {
     return this.c
       .get<{
         resources: Resource[];
         pagination: Pagination;
       }>(`/initia/move/v1/accounts/${convertIf(address)}/resources`, params)
       .then(d => [
-        d.resources.map(res => ({
-          address: res.address,
-          struct_tag: res.struct_tag,
-          move_resource: res.move_resource,
-          raw_bytes: res.raw_bytes,
-        })),
+        d.resources.map((res) => JSON.parse(res.move_resource)),
         d.pagination,
       ]);
   }
 
-  public async resource(
+  public async resource<T>(
     address: AccAddress,
     structTag: string,
     params: APIParams = {}
-  ): Promise<Resource> {
+  ): Promise<T> {
     return this.c
       .get<{ resource: Resource }>(
         `/initia/move/v1/accounts/${convertIf(address)}/resources/by_struct_tag`,
         { ...params, struct_tag: structTag }
       )
-      .then(({ resource: d }) => ({
-        address: d.address,
-        struct_tag: d.struct_tag,
-        move_resource: d.move_resource,
-        raw_bytes: d.raw_bytes,
-      }));
+      .then(({ resource: d }) => JSON.parse(d.move_resource) as T);
   }
 
   public async denom(structTag: string, params: APIParams = {}): Promise<Denom> {
