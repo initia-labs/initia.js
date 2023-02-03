@@ -141,7 +141,7 @@ export class MoveAPI extends BaseAPI {
   public async resources(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<[unknown[], Pagination]> {
+  ): Promise<[{ type: string; data: any }[], Pagination]> {
     return this.c
       .get<{
         resources: Resource[];
@@ -157,13 +157,13 @@ export class MoveAPI extends BaseAPI {
     address: AccAddress,
     structTag: string,
     params: APIParams = {}
-  ): Promise<T> {
+  ): Promise<{ type: string; data: T }> {
     return this.c
       .get<{ resource: Resource }>(
         `/initia/move/v1/accounts/${convertIf(address)}/resources/by_struct_tag`,
         { ...params, struct_tag: structTag }
       )
-      .then(({ resource: d }) => JSON.parse(d.move_resource) as T);
+      .then(({ resource: d }) => JSON.parse(d.move_resource));
   }
 
   public async denom(structTag: string, params: APIParams = {}): Promise<Denom> {
