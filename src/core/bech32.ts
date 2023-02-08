@@ -64,9 +64,10 @@ export namespace AccAddress {
    * @param hexAddress hex address
    */
   export function fromHex(hexAddress: string): AccAddress {
+    const hex = hexAddress.startsWith('0x') ? hexAddress.slice(2) : hexAddress;
     return bech32.encode(
       'init',
-      bech32.toWords(Buffer.from(hexAddress.slice(2).padStart(40, '0'), 'hex'))
+      bech32.toWords(Buffer.from(hex.padStart(40, '0'), 'hex'))
     );
   }
 }
