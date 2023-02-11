@@ -38,9 +38,9 @@ import {
   VestingMsg,
 } from './vesting/msgs';
 import {
-  MsgPublishModuleBundle,
-  MsgExecuteEntryFunction,
-  MsgExecuteScript,
+  MsgPublish,
+  MsgExecute,
+  MsgScript,
   MoveMsg,
 } from './move/msgs';
 import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
@@ -199,12 +199,12 @@ export namespace Msg {
         return MsgCreateVestingAccount.fromAmino(data);
 
       // move
-      case 'move/MsgPublishModuleBundle':
-        return MsgPublishModuleBundle.fromAmino(data);
-      case 'move/MsgExecuteEntryFunction':
-        return MsgExecuteEntryFunction.fromAmino(data);
-      case 'move/MsgExecuteScript':
-        return MsgExecuteScript.fromAmino(data);
+      case 'move/MsgPublish':
+        return MsgPublish.fromAmino(data);
+      case 'move/MsgExecute':
+        return MsgExecute.fromAmino(data);
+      case 'move/MsgScript':
+        return MsgScript.fromAmino(data);
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -279,12 +279,12 @@ export namespace Msg {
         return MsgCreateVestingAccount.fromData(data);
 
       // move
-      case '/initia.move.v1.MsgPublishModuleBundle':
-        return MsgPublishModuleBundle.fromData(data);
-      case '/initia.move.v1.MsgExecuteEntryFunction':
-        return MsgExecuteEntryFunction.fromData(data);
-      case '/initia.move.v1.MsgExecuteScript':
-        return MsgExecuteScript.fromData(data);
+      case '/initia.move.v1.MsgPublish':
+        return MsgPublish.fromData(data);
+      case '/initia.move.v1.MsgExecute':
+        return MsgExecute.fromData(data);
+      case '/initia.move.v1.MsgScript':
+        return MsgScript.fromData(data);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -402,12 +402,12 @@ export namespace Msg {
         return MsgCreateVestingAccount.unpackAny(proto);
 
       // move
-      case '/initia.move.v1.MsgPublishModuleBundle':
-        return MsgPublishModuleBundle.unpackAny(proto);
-      case '/initia.move.v1.MsgExecuteEntryFunction':
-        return MsgExecuteEntryFunction.unpackAny(proto);
-      case '/initia.move.v1.MsgExecuteScript':
-        return MsgExecuteScript.unpackAny(proto);
+      case '/initia.move.v1.MsgPublish':
+        return MsgPublish.unpackAny(proto);
+      case '/initia.move.v1.MsgExecute':
+        return MsgExecute.unpackAny(proto);
+      case '/initia.move.v1.MsgScript':
+        return MsgScript.unpackAny(proto);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
