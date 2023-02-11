@@ -1,14 +1,14 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgExecuteEntryFunction as MsgExecuteEntryFunction_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { MsgExecute as MsgExecute_pb } from '@initia/initia.proto/initia/move/v1/tx';
 import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from '../types';
 
-export class MsgExecuteEntryFunction extends JSONSerializable<
-  MsgExecuteEntryFunction.Amino,
-  MsgExecuteEntryFunction.Data,
-  MsgExecuteEntryFunction.Proto
+export class MsgExecute extends JSONSerializable<
+  MsgExecute.Amino,
+  MsgExecute.Data,
+  MsgExecute.Proto
 > {
   public module_address: string;
   public type_args: string[];
@@ -40,8 +40,8 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public static fromAmino(
-    data: MsgExecuteEntryFunction.Amino
-  ): MsgExecuteEntryFunction {
+    data: MsgExecute.Amino
+  ): MsgExecute {
     const {
       value: {
         sender,
@@ -52,7 +52,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
         args,
       },
     } = data;
-    return new MsgExecuteEntryFunction(
+    return new MsgExecute(
       sender,
       module_address,
       module_name,
@@ -62,7 +62,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     );
   }
 
-  public toAmino(): MsgExecuteEntryFunction.Amino {
+  public toAmino(): MsgExecute.Amino {
     const {
       sender,
       module_address,
@@ -73,7 +73,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     } = this;
 
     return {
-      type: 'move/MsgExecuteEntryFunction',
+      type: 'move/MsgExecute',
       value: {
         sender,
         module_address,
@@ -86,9 +86,9 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   public static fromProto(
-    data: MsgExecuteEntryFunction.Proto
-  ): MsgExecuteEntryFunction {
-    return new MsgExecuteEntryFunction(
+    data: MsgExecute.Proto
+  ): MsgExecute {
+    return new MsgExecute(
       data.sender,
       data.moduleAddress,
       data.moduleName,
@@ -98,7 +98,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     );
   }
 
-  public toProto(): MsgExecuteEntryFunction.Proto {
+  public toProto(): MsgExecute.Proto {
     const {
       sender,
       module_address,
@@ -107,7 +107,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
       type_args,
       args,
     } = this;
-    return MsgExecuteEntryFunction_pb.fromPartial({
+    return MsgExecute_pb.fromPartial({
       sender,
       moduleAddress: module_address,
       moduleName: module_name,
@@ -119,20 +119,20 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.MsgExecuteEntryFunction',
-      value: MsgExecuteEntryFunction_pb.encode(this.toProto()).finish(),
+      typeUrl: '/initia.move.v1.MsgExecute',
+      value: MsgExecute_pb.encode(this.toProto()).finish(),
     });
   }
 
-  public static unpackAny(msgAny: Any): MsgExecuteEntryFunction {
-    return MsgExecuteEntryFunction.fromProto(
-      MsgExecuteEntryFunction_pb.decode(msgAny.value)
+  public static unpackAny(msgAny: Any): MsgExecute {
+    return MsgExecute.fromProto(
+      MsgExecute_pb.decode(msgAny.value)
     );
   }
 
   public static fromData(
-    data: MsgExecuteEntryFunction.Data
-  ): MsgExecuteEntryFunction {
+    data: MsgExecute.Data
+  ): MsgExecute {
     const {
       sender,
       module_address,
@@ -141,7 +141,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
       type_args,
       args,
     } = data;
-    return new MsgExecuteEntryFunction(
+    return new MsgExecute(
       sender,
       module_address,
       module_name,
@@ -151,7 +151,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     );
   }
 
-  public toData(): MsgExecuteEntryFunction.Data {
+  public toData(): MsgExecute.Data {
     const {
       sender,
       module_address,
@@ -161,7 +161,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
       args,
     } = this;
     return {
-      '@type': '/initia.move.v1.MsgExecuteEntryFunction',
+      '@type': '/initia.move.v1.MsgExecute',
       sender,
       module_address,
       module_name,
@@ -172,7 +172,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 
   /**
-   * Generate `MsgExecuteEntryFunction` from plain arguments(not bcs encoded).
+   * Generate `MsgExecute` from plain arguments(not bcs encoded).
    *
    * @example
    * // In case of the types of arguments are ['u64', 'u64']
@@ -190,7 +190,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
    * );
    *
    * // msg that was generated with the constructor
-   * const msg2 = new MsgExecuteEntryFunction(
+   * const msg2 = new MsgExecute(
    *   'init1abc...', // sender
    *   'init1def...', // module owner
    *   'pair', // moudle name
@@ -221,7 +221,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
     type_args: string[] = [],
     args: any[] = [],
     abi: string
-  ): MsgExecuteEntryFunction {
+  ): MsgExecute {
     const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
 
     const functionAbi = module.exposed_functions.find(
@@ -232,7 +232,7 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
       throw Error('function not found');
     }
 
-    return new MsgExecuteEntryFunction(
+    return new MsgExecute(
       sender,
       module_address,
       module_name,
@@ -243,9 +243,9 @@ export class MsgExecuteEntryFunction extends JSONSerializable<
   }
 }
 
-export namespace MsgExecuteEntryFunction {
+export namespace MsgExecute {
   export interface Amino {
-    type: 'move/MsgExecuteEntryFunction';
+    type: 'move/MsgExecute';
     value: {
       sender: AccAddress;
       module_address: AccAddress;
@@ -257,7 +257,7 @@ export namespace MsgExecuteEntryFunction {
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgExecuteEntryFunction';
+    '@type': '/initia.move.v1.MsgExecute';
     sender: AccAddress;
     module_address: AccAddress;
     module_name: string;
@@ -266,5 +266,5 @@ export namespace MsgExecuteEntryFunction {
     args: string[];
   }
 
-  export type Proto = MsgExecuteEntryFunction_pb;
+  export type Proto = MsgExecute_pb;
 }

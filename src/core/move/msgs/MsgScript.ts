@@ -1,14 +1,14 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgExecuteScript as MsgExecuteScript_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { MsgScript as MsgScript_pb } from '@initia/initia.proto/initia/move/v1/tx';
 import { MoveFunctionABI } from '../types';
 import { argsEncodeWithABI } from '../../../util';
 
-export class MsgExecuteScript extends JSONSerializable<
-  MsgExecuteScript.Amino,
-  MsgExecuteScript.Data,
-  MsgExecuteScript.Proto
+export class MsgScript extends JSONSerializable<
+  MsgScript.Amino,
+  MsgScript.Data,
+  MsgScript.Proto
 > {
   public type_args: string[];
   public args: string[];
@@ -30,18 +30,18 @@ export class MsgExecuteScript extends JSONSerializable<
     this.args = args;
   }
 
-  public static fromAmino(data: MsgExecuteScript.Amino): MsgExecuteScript {
+  public static fromAmino(data: MsgScript.Amino): MsgScript {
     const {
       value: { sender, code_bytes, type_args, args },
     } = data;
-    return new MsgExecuteScript(sender, code_bytes, type_args, args);
+    return new MsgScript(sender, code_bytes, type_args, args);
   }
 
-  public toAmino(): MsgExecuteScript.Amino {
+  public toAmino(): MsgScript.Amino {
     const { sender, code_bytes, type_args, args } = this;
 
     return {
-      type: 'move/MsgExecuteScript',
+      type: 'move/MsgScript',
       value: {
         sender,
         code_bytes,
@@ -51,8 +51,8 @@ export class MsgExecuteScript extends JSONSerializable<
     };
   }
 
-  public static fromProto(data: MsgExecuteScript.Proto): MsgExecuteScript {
-    return new MsgExecuteScript(
+  public static fromProto(data: MsgScript.Proto): MsgScript {
+    return new MsgScript(
       data.sender,
       Buffer.from(data.codeBytes).toString('base64'),
       data.typeArgs,
@@ -60,9 +60,9 @@ export class MsgExecuteScript extends JSONSerializable<
     );
   }
 
-  public toProto(): MsgExecuteScript.Proto {
+  public toProto(): MsgScript.Proto {
     const { sender, code_bytes, type_args, args } = this;
-    return MsgExecuteScript_pb.fromPartial({
+    return MsgScript_pb.fromPartial({
       sender,
       codeBytes: Buffer.from(code_bytes, 'base64'),
       typeArgs: type_args,
@@ -72,24 +72,24 @@ export class MsgExecuteScript extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.MsgExecuteScript',
-      value: MsgExecuteScript_pb.encode(this.toProto()).finish(),
+      typeUrl: '/initia.move.v1.MsgScript',
+      value: MsgScript_pb.encode(this.toProto()).finish(),
     });
   }
 
-  public static unpackAny(msgAny: Any): MsgExecuteScript {
-    return MsgExecuteScript.fromProto(MsgExecuteScript_pb.decode(msgAny.value));
+  public static unpackAny(msgAny: Any): MsgScript {
+    return MsgScript.fromProto(MsgScript_pb.decode(msgAny.value));
   }
 
-  public static fromData(data: MsgExecuteScript.Data): MsgExecuteScript {
+  public static fromData(data: MsgScript.Data): MsgScript {
     const { sender, code_bytes, type_args, args } = data;
-    return new MsgExecuteScript(sender, code_bytes, type_args, args);
+    return new MsgScript(sender, code_bytes, type_args, args);
   }
 
-  public toData(): MsgExecuteScript.Data {
+  public toData(): MsgScript.Data {
     const { sender, code_bytes, type_args, args } = this;
     return {
-      '@type': '/initia.move.v1.MsgExecuteScript',
+      '@type': '/initia.move.v1.MsgScript',
       sender,
       code_bytes,
       type_args,
@@ -98,14 +98,14 @@ export class MsgExecuteScript extends JSONSerializable<
   }
 
   /**
-   * Generate `MsgExecuteScript` from plain arguments(not bcs encoded)
+   * Generate `MsgScript` from plain arguments(not bcs encoded)
    *
    * @example
    * // In case of the types of arguments are ['u64', 'u64']
    * const abi = await lcd.move.scriptABI(script).then(res => res.abi)
    *
    * // msg that was generated with not encoded arguments
-   * consg msg1 = MsgExecuteScript.fromPlainArgs(
+   * consg msg1 = MsgScript.fromPlainArgs(
    *   'init1abc...', // sender
    *   script, // code bytes
    *   [],
@@ -114,7 +114,7 @@ export class MsgExecuteScript extends JSONSerializable<
    * );
    *
    * // msg that was generated with the constructor
-   * const msg2 = new MsgExecuteScript(
+   * const msg2 = new MsgScript(
    *   'init1abc...', // sender
    *   script, // code bytes
    *   [],
@@ -139,12 +139,12 @@ export class MsgExecuteScript extends JSONSerializable<
     type_args: string[],
     args: any[],
     abi: string
-  ): MsgExecuteScript {
+  ): MsgScript {
     const functionAbi: MoveFunctionABI = JSON.parse(
       Buffer.from(abi, 'base64').toString()
     );
 
-    return new MsgExecuteScript(
+    return new MsgScript(
       sender,
       code_bytes,
       type_args,
@@ -153,9 +153,9 @@ export class MsgExecuteScript extends JSONSerializable<
   }
 }
 
-export namespace MsgExecuteScript {
+export namespace MsgScript {
   export interface Amino {
-    type: 'move/MsgExecuteScript';
+    type: 'move/MsgScript';
     value: {
       sender: AccAddress;
       code_bytes: string;
@@ -165,12 +165,12 @@ export namespace MsgExecuteScript {
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgExecuteScript';
+    '@type': '/initia.move.v1.MsgScript';
     sender: AccAddress;
     code_bytes: string;
     type_args: string[];
     args: string[];
   }
 
-  export type Proto = MsgExecuteScript_pb;
+  export type Proto = MsgScript_pb;
 }

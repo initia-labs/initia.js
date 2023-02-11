@@ -10,8 +10,8 @@ import {
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
 import {
-  PublishStdModuleProposal,
-  ExecuteEntryFunctionProposal,
+  PublishProposal,
+  ExecuteProposal,
 } from '../move/proposals';
 import {
   Proposal as Proposal_pb,
@@ -236,8 +236,8 @@ export namespace Proposal {
     | SoftwareUpgradeProposal
     | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal
-    | PublishStdModuleProposal
-    | ExecuteEntryFunctionProposal;
+    | PublishProposal
+    | ExecuteProposal;
 
   export namespace Content {
     export type Amino =
@@ -247,8 +247,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Amino
       | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino
-      | PublishStdModuleProposal.Amino
-      | ExecuteEntryFunctionProposal.Amino;
+      | PublishProposal.Amino
+      | ExecuteProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -257,8 +257,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Data
       | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data
-      | PublishStdModuleProposal.Data
-      | ExecuteEntryFunctionProposal.Data;
+      | PublishProposal.Data
+      | ExecuteProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -267,8 +267,8 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Proto
       | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto
-      | PublishStdModuleProposal.Proto
-      | ExecuteEntryFunctionProposal.Proto;
+      | PublishProposal.Proto
+      | ExecuteProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -284,10 +284,10 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromAmino(amino);
         case 'ibc/ClientUpdateProposal':
           return ClientUpdateProposal.fromAmino(amino);
-        case 'move/PublishStdModuleProposal':
-          return PublishStdModuleProposal.fromAmino(amino);
-        case 'move/ExecuteEntryFunctionProposal':
-          return ExecuteEntryFunctionProposal.fromAmino(amino);
+        case 'move/PublishProposal':
+          return PublishProposal.fromAmino(amino);
+        case 'move/ExecuteProposal':
+          return ExecuteProposal.fromAmino(amino);
       }
     }
 
@@ -305,10 +305,10 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromData(data);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.fromData(data);
-        case '/initia.move.v1.PublishStdModuleProposal':
-          return PublishStdModuleProposal.fromData(data);
-        case '/initia.move.v1.ExecuteEntryFunctionProposal':
-          return ExecuteEntryFunctionProposal.fromData(data);
+        case '/initia.move.v1.PublishProposal':
+          return PublishProposal.fromData(data);
+        case '/initia.move.v1.ExecuteProposal':
+          return ExecuteProposal.fromData(data);
       }
     }
 
@@ -327,10 +327,10 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.unpackAny(anyProto);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.unpackAny(anyProto);
-        case '/initia.move.v1.PublishStdModuleProposal':
-          return PublishStdModuleProposal.unpackAny(anyProto);
-        case '/initia.move.v1.ExecuteEntryFunctionProposal':
-          return ExecuteEntryFunctionProposal.unpackAny(anyProto);
+        case '/initia.move.v1.PublishProposal':
+          return PublishProposal.unpackAny(anyProto);
+        case '/initia.move.v1.ExecuteProposal':
+          return ExecuteProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;

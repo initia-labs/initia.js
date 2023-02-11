@@ -1,2 +1,2 @@
-export * from './PublishStdModuleProposal';
-export * from './ExecuteEntryFunctionProposal';
+export * from './PublishProposal';
+export * from './ExecuteProposal';

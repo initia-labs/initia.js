@@ -1,27 +1,27 @@
-import { MsgPublishModuleBundle } from './MsgPublishModuleBundle';
-import { MsgExecuteEntryFunction } from './MsgExecuteEntryFunction';
-import { MsgExecuteScript } from './MsgExecuteScript';
+import { MsgPublish } from './MsgPublish';
+import { MsgExecute } from './MsgExecute';
+import { MsgScript } from './MsgScript';
 
-export * from './MsgPublishModuleBundle';
-export * from './MsgExecuteEntryFunction';
-export * from './MsgExecuteScript';
+export * from './MsgPublish';
+export * from './MsgExecute';
+export * from './MsgScript';
 
 export type MoveMsg =
-  | MsgPublishModuleBundle
-  | MsgExecuteEntryFunction
-  | MsgExecuteScript;
+  | MsgPublish
+  | MsgExecute
+  | MsgScript;
 
 export namespace MoveMsg {
   export type Amino =
-    | MsgPublishModuleBundle.Amino
-    | MsgExecuteEntryFunction.Amino
-    | MsgExecuteScript.Amino;
+    | MsgPublish.Amino
+    | MsgExecute.Amino
+    | MsgScript.Amino;
   export type Data =
-    | MsgPublishModuleBundle.Data
-    | MsgExecuteEntryFunction.Data
-    | MsgExecuteScript.Data;
+    | MsgPublish.Data
+    | MsgExecute.Data
+    | MsgScript.Data;
   export type Proto =
-    | MsgPublishModuleBundle.Proto
-    | MsgExecuteEntryFunction.Proto
-    | MsgExecuteScript.Proto;
+    | MsgPublish.Proto
+    | MsgExecute.Proto
+    | MsgScript.Proto;
 }
