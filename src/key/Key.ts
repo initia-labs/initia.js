@@ -26,7 +26,7 @@ export abstract class Key {
    *
    * @param payload the data to be signed
    */
-  public abstract sign(payload: Buffer): Buffer;
+  public abstract sign(payload: Buffer): Promise<Buffer>; // needs to be async for ledger key signing
 
   /**
    * Initia account address. `init-` prefixed.
@@ -67,7 +67,7 @@ export abstract class Key {
    *
    * @param tx sign-message of the transaction to sign
    */
-  public createSignatureAmino(tx: SignDoc): SignatureV2 {
+  public async createSignatureAmino(tx: SignDoc): Promise<SignatureV2> {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
@@ -79,7 +79,7 @@ export abstract class Key {
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
-          this.sign(Buffer.from(tx.toAminoJSON())).toString('base64')
+          (await this.sign(Buffer.from(tx.toAminoJSON()))).toString('base64')
         )
       ),
       tx.sequence
@@ -91,7 +91,7 @@ export abstract class Key {
    *
    * @param tx sign-message of the transaction to sign
    */
-  public createSignature(signDoc: SignDoc): SignatureV2 {
+  public async createSignature(signDoc: SignDoc): Promise<SignatureV2> {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
@@ -108,8 +108,7 @@ export abstract class Key {
       ),
     ];
 
-    const sigBytes = this
-      .sign(Buffer.from(signDoc.toBytes()))
+    const sigBytes = (await this.sign(Buffer.from(signDoc.toBytes())))
       .toString('base64');
 
     // restore signDoc to origin
@@ -128,7 +127,7 @@ export abstract class Key {
    * Signs a [[Tx]] and adds the signature to a generated StdTx that is ready to be broadcasted.
    * @param tx
    */
-  public signTx(tx: Tx, options: SignOptions): Tx {
+  public async signTx(tx: Tx, options: SignOptions): Promise<Tx> {
     const copyTx = new Tx(tx.body, new AuthInfo([], tx.auth_info.fee), []);
     const sign_doc = new SignDoc(
       options.chainId,
@@ -140,9 +139,9 @@ export abstract class Key {
 
     let signature: SignatureV2;
     if (options.signMode === SignMode.SIGN_MODE_LEGACY_AMINO_JSON) {
-      signature = this.createSignatureAmino(sign_doc);
+      signature = await this.createSignatureAmino(sign_doc);
     } else {
-      signature = this.createSignature(sign_doc);
+      signature = await this.createSignature(sign_doc);
     }
 
     const sigData = signature.data.single as SignatureV2.Descriptor.Single;

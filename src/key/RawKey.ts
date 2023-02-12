@@ -32,7 +32,7 @@ export class RawKey extends Key {
     );
   }
 
-  public sign(payload: Buffer): Buffer {
+  public async sign(payload: Buffer): Promise<Buffer> {
     const { signature } = this.ecdsaSign(payload);
     return Buffer.from(signature);
   }
