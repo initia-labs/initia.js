@@ -18,11 +18,7 @@ import { ParameterChangeProposal as ParameterChangeProposal_pb } from '@initia/i
  * } from "@initia/initia.js";
  *
  * const proposal = new ParameterChangeProposal("title", "description", {
- *    market: {
- *      minspread: new Dec(0.25),
- *      basepool: new Dec(10000000)
- *    },
- *    staking: {
+ *    mstaking: {
  *      UnbondingTime: 15000000
  *    }
  * });

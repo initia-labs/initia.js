@@ -31,8 +31,8 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-  StakingMsg,
-} from './staking/msgs';
+  MstakingMsg,
+} from './mstaking/msgs';
 import {
   MsgCreateVestingAccount,
   VestingMsg,
@@ -81,7 +81,7 @@ export type Msg =
   | GovMsg
   | MsgAuthMsg
   | SlashingMsg
-  | StakingMsg
+  | MstakingMsg
   | VestingMsg
   | MoveMsg
   | IbcTransferMsg
@@ -98,7 +98,7 @@ export namespace Msg {
     | GovMsg.Amino
     | MsgAuthMsg.Amino
     | SlashingMsg.Amino
-    | StakingMsg.Amino
+    | MstakingMsg.Amino
     | VestingMsg.Amino
     | MoveMsg.Amino
     | IbcTransferMsg.Amino
@@ -111,7 +111,7 @@ export namespace Msg {
     | GovMsg.Data
     | MsgAuthMsg.Data
     | SlashingMsg.Data
-    | StakingMsg.Data
+    | MstakingMsg.Data
     | VestingMsg.Data
     | MoveMsg.Data
     | IbcTransferMsg.Data
@@ -127,7 +127,7 @@ export namespace Msg {
     | GovMsg.Proto
     | MsgAuthMsg.Proto
     | SlashingMsg.Proto
-    | StakingMsg.Proto
+    | MstakingMsg.Proto
     | VestingMsg.Proto
     | MoveMsg.Proto
     | IbcTransferMsg.Proto
@@ -182,16 +182,16 @@ export namespace Msg {
       case 'cosmos-sdk/MsgUnjail':
         return MsgUnjail.fromAmino(data);
 
-      // staking
-      case 'cosmos-sdk/MsgDelegate':
+      // mstaking
+      case 'mstaking/MsgDelegate':
         return MsgDelegate.fromAmino(data);
-      case 'cosmos-sdk/MsgUndelegate':
+      case 'mstaking/MsgUndelegate':
         return MsgUndelegate.fromAmino(data);
-      case 'cosmos-sdk/MsgBeginRedelegate':
+      case 'mstaking/MsgBeginRedelegate':
         return MsgBeginRedelegate.fromAmino(data);
-      case 'cosmos-sdk/MsgCreateValidator':
+      case 'mstaking/MsgCreateValidator':
         return MsgCreateValidator.fromAmino(data);
-      case 'cosmos-sdk/MsgEditValidator':
+      case 'mstaking/MsgEditValidator':
         return MsgEditValidator.fromAmino(data);
 
       // vesting
@@ -262,7 +262,7 @@ export namespace Msg {
       case '/cosmos.slashing.v1beta1.MsgUnjail':
         return MsgUnjail.fromData(data);
 
-      // staking
+      // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
         return MsgDelegate.fromData(data);
       case '/initia.mstaking.v1.MsgUndelegate':
@@ -385,7 +385,7 @@ export namespace Msg {
       case '/cosmos.slashing.v1beta1.MsgUnjail':
         return MsgUnjail.unpackAny(proto);
 
-      // staking
+      // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
         return MsgDelegate.unpackAny(proto);
       case '/initia.mstaking.v1.MsgUndelegate':

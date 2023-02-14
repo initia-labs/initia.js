@@ -5,7 +5,7 @@ export * from './FeeGrantAPI';
 export * from './GovAPI';
 export * from './AuthzAPI';
 export * from './SlashingAPI';
-export * from './StakingAPI';
+export * from './MstakingAPI';
 export * from './TendermintAPI';
 export * from './TxAPI';
 export * from './MoveAPI';

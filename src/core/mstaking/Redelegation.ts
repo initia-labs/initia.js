@@ -10,13 +10,13 @@ import {
 import Long from 'long';
 
 /**
- * A redelegation is when a delegator decides to stop staking with one validator and
+ * A redelegation is when a delegator decides to stop mstaking with one validator and
  * transfer their delegation to another validator. Rather than unbonding (which takes
  * some time) and re-staking, the funds can be redelegated immediately if a
  * [[Redelegation.Entry]] can be created.
  *
  * A redelegation, like an unbonding delegation, is implemented through
- * [[Redelegation.Entry]] objects, limited by the `max_entry` parameter in the staking
+ * [[Redelegation.Entry]] objects, limited by the `max_entry` parameter in the mstaking
  * module params. For each pair of source and target validators, you cannot redelegate
  * more times than the amount of entries. Entries are cleared when the redelegation is
  * completed, the same amount of time as unbonding.

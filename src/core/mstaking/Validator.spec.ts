@@ -1,7 +1,6 @@
 import { Validator } from './Validator';
 import { ValConsPublicKey } from '../PublicKey';
 import { Coins } from '../Coins';
-import { Coin } from '../Coin';
 
 describe('Validator', () => {
   it('deserializes', () => {

@@ -58,7 +58,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
       amount,
     } = this;
     return {
-      type: 'cosmos-sdk/MsgBeginRedelegate',
+      type: 'mstaking/MsgBeginRedelegate',
       value: {
         delegator_address,
         validator_src_address,
@@ -139,7 +139,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
 
 export namespace MsgBeginRedelegate {
   export interface Amino {
-    type: 'cosmos-sdk/MsgBeginRedelegate';
+    type: 'mstaking/MsgBeginRedelegate';
     value: {
       delegator_address: AccAddress;
       validator_src_address: ValAddress;

@@ -53,7 +53,7 @@ export class MsgEditValidator extends JSONSerializable<
       commission_rate,
     } = this;
     return {
-      type: 'cosmos-sdk/MsgEditValidator',
+      type: 'mstaking/MsgEditValidator',
       value: {
         description,
         validator_address,
@@ -138,7 +138,7 @@ export namespace MsgEditValidator {
   };
 
   export interface Amino {
-    type: 'cosmos-sdk/MsgEditValidator';
+    type: 'mstaking/MsgEditValidator';
     value: {
       description: Validator.Description.Amino;
       validator_address: ValAddress;

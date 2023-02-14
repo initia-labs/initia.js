@@ -1,5 +1,5 @@
 import { LCDClient } from './LCDClient';
-import { Validator } from '../../core/staking/Validator';
+import { Validator } from '../../core/mstaking/Validator';
 
 interface ValidatorWithVotingPower {
   validatorInfo: Validator;
@@ -25,7 +25,7 @@ export class LCDUtils {
     const validators: Validator[] = [];
     let next_key: string | undefined;
     for (;;) {
-      const validatorsRes = await this.lcd.staking.validators({
+      const validatorsRes = await this.lcd.mstaking.validators({
         'pagination.key': next_key,
       });
 
