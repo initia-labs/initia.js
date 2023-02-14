@@ -1,8 +1,9 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Coins, Denom } from '../../../core';
+import { AccAddress, Denom } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from 'core/move/types';
+import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
 const convertIf = (address: string) => {
   return address.startsWith('0x') ? AccAddress.fromHex(address) : address;
@@ -25,6 +26,7 @@ export interface Module {
   module_name: string;
   abi: string;
   raw_bytes: string;
+  upgrade_policy: UpgradePolicy;
 }
 
 export interface Resource {
@@ -54,6 +56,7 @@ export class MoveAPI extends BaseAPI {
           module_name: mod.module_name,
           abi: mod.abi,
           raw_bytes: mod.raw_bytes,
+          upgrade_policy: mod.upgrade_policy,
         })),
         d.pagination,
       ]);
@@ -74,6 +77,7 @@ export class MoveAPI extends BaseAPI {
         module_name: d.module_name,
         abi: d.abi,
         raw_bytes: d.raw_bytes,
+        upgrade_policy: d.upgrade_policy,
       }));
   }
 

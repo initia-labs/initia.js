@@ -15,7 +15,7 @@ export class MsgExecute extends JSONSerializable<
   public args: string[];
 
   /**
-   * @param sender contract user
+   * @param sender the actor that signed the messages
    * @param module_address module deployer address
    * @param module_name name of module to execute
    * @param function_name name of function to execute
