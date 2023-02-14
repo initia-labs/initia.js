@@ -1,14 +1,14 @@
 import { APIRequester } from '../APIRequester';
-import { StakingAPI } from './StakingAPI';
+import { MstakingAPI } from './MstakingAPI';
 import { Coins } from '../../../core';
 import { ValConsPublicKey, Delegation } from '../../../core';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');
-const staking = new StakingAPI(c);
+const mstaking = new MstakingAPI(c);
 
-describe('StakingAPI', () => {
+describe('MstakingAPI', () => {
   it('parameters', async () => {
-    await expect(staking.parameters()).resolves.toMatchObject({
+    await expect(mstaking.parameters()).resolves.toMatchObject({
       unbonding_time: expect.any(Number),
       max_validators: expect.any(Number),
       max_entries: expect.any(Number),
@@ -19,15 +19,15 @@ describe('StakingAPI', () => {
   });
 
   it('delegations without parameter should throw an error', async () => {
-    await expect(staking.delegations()).rejects.toThrowError();
+    await expect(mstaking.delegations()).rejects.toThrowError();
   });
 
   it('unbondingDelegations without parameter should throw an error', async () => {
-    await expect(staking.unbondingDelegations()).rejects.toThrowError();
+    await expect(mstaking.unbondingDelegations()).rejects.toThrowError();
   });
 
   it('validators', async () => {
-    const validators = await staking.validators().then(v => v[0]);
+    const validators = await mstaking.validators().then(v => v[0]);
 
     expect(validators).toContainEqual({
       operator_address: expect.any(String),
@@ -59,7 +59,7 @@ describe('StakingAPI', () => {
   });
 
   it('pool', async () => {
-    await expect(staking.pool()).resolves.toMatchObject({
+    await expect(mstaking.pool()).resolves.toMatchObject({
       bonded_tokens: expect.any(Coins),
       not_bonded_tokens: expect.any(Coins),
     });

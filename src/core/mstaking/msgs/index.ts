@@ -10,14 +10,14 @@ export * from './MsgBeginRedelegate';
 export * from './MsgCreateValidator';
 export * from './MsgEditValidator';
 
-export type StakingMsg =
+export type MstakingMsg =
   | MsgDelegate
   | MsgUndelegate
   | MsgBeginRedelegate
   | MsgCreateValidator
   | MsgEditValidator;
 
-export namespace StakingMsg {
+export namespace MstakingMsg {
   export type Amino =
     | MsgDelegate.Amino
     | MsgUndelegate.Amino

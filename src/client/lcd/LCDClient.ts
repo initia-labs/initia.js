@@ -8,7 +8,7 @@ import {
   MintAPI,
   AuthzAPI,
   SlashingAPI,
-  StakingAPI,
+  MstakingAPI,
   TendermintAPI,
   TxAPI,
   UpgradeAPI,
@@ -77,7 +77,7 @@ export class LCDClient {
   public mint: MintAPI;
   public authz: AuthzAPI;
   public slashing: SlashingAPI;
-  public staking: StakingAPI;
+  public mstaking: MstakingAPI;
   public tendermint: TendermintAPI;
   public tx: TxAPI;
   public upgrade: UpgradeAPI;
@@ -111,7 +111,7 @@ export class LCDClient {
     this.mint = new MintAPI(this.apiRequester);
     this.authz = new AuthzAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
-    this.staking = new StakingAPI(this.apiRequester);
+    this.mstaking = new MstakingAPI(this.apiRequester);
     this.tendermint = new TendermintAPI(this.apiRequester);
     this.move = new MoveAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);

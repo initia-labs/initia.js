@@ -3,16 +3,16 @@ import {
   ValAddress,
   UnbondingDelegation,
   Coins,
+  Delegation,
+  Validator,
+  Redelegation,
 } from '../../../core';
 import { BaseAPI } from './BaseAPI';
-import { Delegation } from '../../../core/staking/Delegation';
-import { Validator } from '../../../core/staking/Validator';
-import { Redelegation } from '../../../core/staking/Redelegation';
 import { Denom } from '../../../core/Denom';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 
-export interface StakingParams {
-  /** Amount of time, in seconds, for bonded staking tokens to be unbonded. */
+export interface MstakingParams {
+  /** Amount of time, in seconds, for bonded mstaking tokens to be unbonded. */
   unbonding_time: number;
 
   /** Max number of validators for the validating set (delegates). */
@@ -23,13 +23,13 @@ export interface StakingParams {
 
   historical_entries: number;
 
-  /** The denomination used as the staking token. */
+  /** The denomination used as the mstaking token. */
   bond_denoms: Denom[];
 
   min_voting_power: number;
 }
 
-export namespace StakingParams {
+export namespace MstakingParams {
   export interface Data {
     unbonding_time: string;
     max_validators: number;
@@ -40,7 +40,7 @@ export namespace StakingParams {
   }
 }
 
-export interface StakingPool {
+export interface MstakingPool {
   /** amount of tokens are bonded, including those that are currently unbonding */
   bonded_tokens: Coins;
 
@@ -48,14 +48,14 @@ export interface StakingPool {
   not_bonded_tokens: Coins;
 }
 
-export namespace StakingPool {
+export namespace MstakingPool {
   export interface Data {
     bonded_tokens: Coins.Data;
     not_bonded_tokens: Coins.Data;
   }
 }
 
-export class StakingAPI extends BaseAPI {
+export class MstakingAPI extends BaseAPI {
   /**
    * Queries all delegations, filtering by delegator, validator, or both.
    *
@@ -267,11 +267,11 @@ export class StakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current staking pool.
+   * Gets the current mstaking pool.
    */
-  public async pool(params: APIParams = {}): Promise<StakingPool> {
+  public async pool(params: APIParams = {}): Promise<MstakingPool> {
     return this.c
-      .get<{ pool: StakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
+      .get<{ pool: MstakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
       .then(({ pool: d }) => ({
         bonded_tokens: Coins.fromData(d.bonded_tokens),
         not_bonded_tokens: Coins.fromData(d.not_bonded_tokens),
@@ -279,11 +279,11 @@ export class StakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current Staking module's parameters.
+   * Gets the current Mstaking module's parameters.
    */
-  public async parameters(params: APIParams = {}): Promise<StakingParams> {
+  public async parameters(params: APIParams = {}): Promise<MstakingParams> {
     return this.c
-      .get<{ params: StakingParams.Data }>(
+      .get<{ params: MstakingParams.Data }>(
         `/initia/mstaking/v1/params`,
         params
       )

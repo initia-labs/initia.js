@@ -61,12 +61,12 @@ export * from './params/ParamChange';
 // Slashing
 export * from './slashing/msgs';
 
-// Staking
-export * from './staking/msgs';
-export * from './staking/Delegation';
-export * from './staking/Redelegation';
-export * from './staking/UnbondingDelegation';
-export * from './staking/Validator';
+// mstaking
+export * from './mstaking/msgs';
+export * from './mstaking/Delegation';
+export * from './mstaking/Redelegation';
+export * from './mstaking/UnbondingDelegation';
+export * from './mstaking/Validator';
 
 // Upgrade
 export * from './upgrade';

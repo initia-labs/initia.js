@@ -44,7 +44,7 @@ export class MsgUndelegate extends JSONSerializable<
   public toAmino(): MsgUndelegate.Amino {
     const { delegator_address, validator_address, amount } = this;
     return {
-      type: 'cosmos-sdk/MsgUndelegate',
+      type: 'mstaking/MsgUndelegate',
       value: {
         delegator_address,
         validator_address,
@@ -103,7 +103,7 @@ export class MsgUndelegate extends JSONSerializable<
 
 export namespace MsgUndelegate {
   export interface Amino {
-    type: 'cosmos-sdk/MsgUndelegate';
+    type: 'mstaking/MsgUndelegate';
     value: {
       delegator_address: AccAddress;
       validator_address: ValAddress;

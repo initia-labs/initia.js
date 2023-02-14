@@ -8,12 +8,12 @@ import {
 import Long from 'long';
 
 /**
- * When a delegator decides to take out their funds from the staking pool, they must
+ * When a delegator decides to take out their funds from the mstaking pool, they must
  * unbond their tokens which takes an amount of time specified by `unbonding_time`
- * parameter in the staking module.
+ * parameter in the mstaking module.
  *
  * An unbonding delegation is implemented through creating [[UnbondingDelegation.Entry]]
- * objects, limited by the max_entry parameter in the staking module params. You cannot
+ * objects, limited by the max_entry parameter in the mstaking module params. You cannot
  * initiate unbonds more times than the amount of entries permitted. Entries are cleared
  * when their unbonding periods are completed and the funds are returned to the
  * delegator's account balance to be spent freely.

@@ -17,7 +17,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any';
  * Stores information fetched from the blockchain about the current status of a validator.
  * As an end user, you will not have to create an instance of this class, one will be
  * generated for you to store information about a validator polled from the API functions
- * in [[StakingAPI]].
+ * in [[MstakingAPI]].
  */
 export class Validator extends JSONSerializable<
   Validator.Amino,

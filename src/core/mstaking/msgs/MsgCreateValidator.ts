@@ -69,7 +69,7 @@ export class MsgCreateValidator extends JSONSerializable<
       amount,
     } = this;
     return {
-      type: 'cosmos-sdk/MsgCreateValidator',
+      type: 'mstaking/MsgCreateValidator',
       value: {
         description,
         commission: commission.toAmino(),
@@ -170,7 +170,7 @@ export class MsgCreateValidator extends JSONSerializable<
 
 export namespace MsgCreateValidator {
   export interface Amino {
-    type: 'cosmos-sdk/MsgCreateValidator';
+    type: 'mstaking/MsgCreateValidator';
     value: {
       description: Validator.Description;
       commission: Validator.CommissionRates.Amino;
