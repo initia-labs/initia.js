@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.0.30",
+  "version": "0.0.31",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -82,7 +82,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@initia/initia.proto": "^0.0.10-alpha1",
+    "@initia/initia.proto": "^0.0.11-alpha1",
     "@mysten/bcs": "^0.5.0",
     "axios": "^0.27.2",
     "bech32": "^2.0.0",

@@ -14,8 +14,8 @@ export class MsgScript extends JSONSerializable<
   public args: string[];
 
   /**
-   * @param sender contract user
-   * @param code_bytes base64-encoded bytecode contents
+   * @param sender the actor that signed the messages
+   * @param code_bytes the script bytes code to execute
    * @param type_args type arguments of function to execute
    * @param args arguments of function to execute
    */
