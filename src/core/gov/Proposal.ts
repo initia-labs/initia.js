@@ -9,10 +9,7 @@ import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
-import {
-  PublishProposal,
-  ExecuteProposal,
-} from '../move/proposals';
+import { OperationsProposal } from '../move/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -236,8 +233,7 @@ export namespace Proposal {
     | SoftwareUpgradeProposal
     | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal
-    | PublishProposal
-    | ExecuteProposal;
+    | OperationsProposal;
 
   export namespace Content {
     export type Amino =
@@ -247,8 +243,7 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Amino
       | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino
-      | PublishProposal.Amino
-      | ExecuteProposal.Amino;
+      | OperationsProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -257,8 +252,7 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Data
       | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data
-      | PublishProposal.Data
-      | ExecuteProposal.Data;
+      | OperationsProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -267,8 +261,7 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Proto
       | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto
-      | PublishProposal.Proto
-      | ExecuteProposal.Proto;
+      | OperationsProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -284,10 +277,8 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromAmino(amino);
         case 'ibc/ClientUpdateProposal':
           return ClientUpdateProposal.fromAmino(amino);
-        case 'move/PublishProposal':
-          return PublishProposal.fromAmino(amino);
-        case 'move/ExecuteProposal':
-          return ExecuteProposal.fromAmino(amino);
+        case 'move/OperationsProposal':
+          return OperationsProposal.fromAmino(amino);
       }
     }
 
@@ -305,10 +296,8 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromData(data);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.fromData(data);
-        case '/initia.move.v1.PublishProposal':
-          return PublishProposal.fromData(data);
-        case '/initia.move.v1.ExecuteProposal':
-          return ExecuteProposal.fromData(data);
+        case '/initia.move.v1.OperationsProposal':
+          return OperationsProposal.fromData(data);
       }
     }
 
@@ -327,10 +316,8 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.unpackAny(anyProto);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.unpackAny(anyProto);
-        case '/initia.move.v1.PublishProposal':
-          return PublishProposal.unpackAny(anyProto);
-        case '/initia.move.v1.ExecuteProposal':
-          return ExecuteProposal.unpackAny(anyProto);
+        case '/initia.move.v1.OperationsProposal':
+          return OperationsProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;
