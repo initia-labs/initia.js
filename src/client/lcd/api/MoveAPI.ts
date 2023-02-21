@@ -2,7 +2,7 @@ import { BaseAPI } from './BaseAPI';
 import { AccAddress, Denom } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
-import { ModuleABI } from 'core/move/types';
+import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
 const convertIf = (address: string) => {

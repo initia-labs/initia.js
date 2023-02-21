@@ -1,7 +1,7 @@
 import * as semver from 'semver';
 import Transport from '@ledgerhq/hw-transport';
 import InitiaApp from './app';
-import { AccAddress, SimplePublicKey, SignatureV2, SignDoc } from 'core';
+import { AccAddress, SimplePublicKey, SignatureV2, SignDoc } from '../..';
 import { Key } from '../Key';
 import { INIT_COIN_TYPE } from '../MnemonicKey';
 import { signatureImport } from 'secp256k1';

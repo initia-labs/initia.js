@@ -4,7 +4,7 @@ import {
   BcsReader,
   StructTypeDefinition,
 } from '@mysten/bcs';
-import { MoveFunctionABI } from 'core/move/types';
+import { MoveFunctionABI } from '../core/move/types';
 
 export class BCS {
   private static bcs: BCS;
