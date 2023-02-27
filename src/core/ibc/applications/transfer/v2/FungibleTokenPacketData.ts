@@ -16,12 +16,14 @@ export class FungibleTokenPacketData extends JSONSerializable<
    * @param amount the token amount to be transferred
    * @param sender the sender address
    * @param receiver the recipient address on the destination chain
+   * @param memo optional memo
    */
   constructor(
     public denom: string,
     public amount: string,
     public sender: string,
-    public receiver: string
+    public receiver: string,
+    public memo?: string
   ) {
     super();
   }
@@ -29,17 +31,18 @@ export class FungibleTokenPacketData extends JSONSerializable<
   public static fromAmino(
     data: FungibleTokenPacketData.Amino
   ): FungibleTokenPacketData {
-    const { denom, amount, sender, receiver } = data;
-    return new FungibleTokenPacketData(denom, amount, sender, receiver);
+    const { denom, amount, sender, receiver, memo } = data;
+    return new FungibleTokenPacketData(denom, amount, sender, receiver, memo);
   }
 
   public toAmino(): FungibleTokenPacketData.Amino {
-    const { denom, amount, sender, receiver } = this;
+    const { denom, amount, sender, receiver, memo } = this;
     const res: FungibleTokenPacketData.Amino = {
       denom,
       amount,
       sender,
       receiver,
+      memo,
     };
     return res;
   }
@@ -47,17 +50,18 @@ export class FungibleTokenPacketData extends JSONSerializable<
   public static fromData(
     data: FungibleTokenPacketData.Data
   ): FungibleTokenPacketData {
-    const { denom, amount, sender, receiver } = data;
-    return new FungibleTokenPacketData(denom, amount, sender, receiver);
+    const { denom, amount, sender, receiver, memo } = data;
+    return new FungibleTokenPacketData(denom, amount, sender, receiver, memo);
   }
 
   public toData(): FungibleTokenPacketData.Data {
-    const { denom, amount, sender, receiver } = this;
+    const { denom, amount, sender, receiver, memo } = this;
     const res: FungibleTokenPacketData.Data = {
       denom,
       amount,
       sender,
       receiver,
+      memo,
     };
     return res;
   }
@@ -69,17 +73,19 @@ export class FungibleTokenPacketData extends JSONSerializable<
       proto.denom,
       proto.amount,
       proto.sender,
-      proto.receiver
+      proto.receiver,
+      proto.memo
     );
   }
 
   public toProto(): FungibleTokenPacketData.Proto {
-    const { denom, amount, sender, receiver } = this;
+    const { denom, amount, sender, receiver, memo } = this;
     return FungibleTokenPacketData_pb.fromPartial({
       denom,
       amount,
       sender,
       receiver,
+      memo,
     });
   }
 }
@@ -90,6 +96,7 @@ export namespace FungibleTokenPacketData {
     amount: string;
     sender: string;
     receiver: string;
+    memo?: string;
   }
 
   export interface Data {
@@ -97,6 +104,7 @@ export namespace FungibleTokenPacketData {
     amount: string;
     sender: string;
     receiver: string;
+    memo?: string;
   }
 
   export type Proto = FungibleTokenPacketData_pb;

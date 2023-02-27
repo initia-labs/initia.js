@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -84,7 +84,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@initia/initia.proto": "^0.0.12-alpha1",
+    "@initia/initia.proto": "^0.0.15-alpha1",
     "@ledgerhq/hw-transport": "^6.20.0",
     "@ledgerhq/hw-transport-node-hid": "^6.20.0",
     "@ledgerhq/hw-transport-webhid": "^6.20.0",

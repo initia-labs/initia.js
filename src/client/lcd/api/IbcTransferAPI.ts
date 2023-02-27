@@ -15,7 +15,7 @@ export namespace IbcTransferParams {
 }
 
 export class IbcTransferAPI extends BaseAPI {
-  /** Gets a denomTrace for the hash */
+  /** Gets a denomTrace for the hash or denom */
   public async denomTrace(hash: string): Promise<DenomTrace> {
     return this.c
       .get<{ denom_trace: DenomTrace.Data }>(
@@ -60,5 +60,15 @@ export class IbcTransferAPI extends BaseAPI {
         send_enabled: d.send_enabled,
         receive_enabled: d.receive_enabled,
       }));
+  }
+
+  /** Gets the escrow address for a particular port and channel id */
+  public async escrowAddress(channel_id: string, port_id: string, params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{ escrow_address: string }>(
+        `/ibc/apps/transfer/v1/channels/${channel_id}/ports/${port_id}/escrow_address`,
+        params
+      )
+      .then(d => d.escrow_address);
   }
 }

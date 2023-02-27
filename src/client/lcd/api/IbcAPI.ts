@@ -208,4 +208,24 @@ export class IbcAPI extends BaseAPI {
       }>(`/ibc/core/client/v1/consensus_states/${client_id}`, params)
       .then();
   }
+
+  /**
+   * query the height of every consensus states associated with a given client
+   * @param client_id client identifier
+   * @returns
+   */
+  public async consensusStateHeights(
+    client_id: string,
+    params: Partial<PaginationOptions & APIParams> = {}
+  ): Promise<[Height[], Pagination]> {
+    return this.c
+      .get<{
+        consensus_state_heights: Height.Data[];
+        pagination: Pagination;
+      }>(`/ibc/core/client/v1/consensus_states/${client_id}/heights`, params)
+      .then(d => [
+        d.consensus_state_heights.map(Height.fromData),
+        d.pagination,
+      ]);
+  }
 }
