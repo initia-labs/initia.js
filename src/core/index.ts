@@ -26,7 +26,7 @@ export * from './authz/authorizations';
 export * from './bank/msgs';
 
 // Crisis
-export * from './crisis';
+export * from './crisis/msgs';
 
 // Distribution
 export * from './distribution/msgs';
@@ -73,3 +73,6 @@ export * from './upgrade';
 
 // Vesting
 export * from './vesting';
+
+// InterTx
+export * from './intertx/msgs';

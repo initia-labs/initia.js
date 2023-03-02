@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../util/json';
+import { JSONSerializable } from '../../../util/json';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgVerifyInvariant as MsgVerifyInvariant_pb } from '@initia/initia.proto/cosmos/crisis/v1beta1/tx';
-import { AccAddress } from '../bech32';
+import { AccAddress } from '../../bech32';
 
 /**
  * MsgVerifyInvariant represents a message to verify a particular invariance.
