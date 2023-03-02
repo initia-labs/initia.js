@@ -71,7 +71,8 @@ import {
   MsgTimeoutOnClose,
   IbcChannelMsg,
 } from './ibc/msgs/channel';
-import { MsgVerifyInvariant, CrisisMsg } from './crisis';
+import { MsgVerifyInvariant, CrisisMsg } from './crisis/msgs';
+import { MsgRegisterAccount, MsgSubmitTx, InterTxMsg } from './intertx/msgs';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
@@ -88,7 +89,8 @@ export type Msg =
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
-  | CrisisMsg;
+  | CrisisMsg
+  | InterTxMsg;
 
 export namespace Msg {
   export type Amino =
@@ -118,7 +120,8 @@ export namespace Msg {
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
-    | CrisisMsg.Data;
+    | CrisisMsg.Data
+    | InterTxMsg.Data;
 
   export type Proto =
     | BankMsg.Proto
@@ -134,7 +137,8 @@ export namespace Msg {
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
-    | CrisisMsg.Proto;
+    | CrisisMsg.Proto
+    | InterTxMsg.Proto;
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
@@ -336,6 +340,12 @@ export namespace Msg {
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
         return MsgVerifyInvariant.fromData(data);
 
+      // intertx
+      case '/intertx.MsgRegisterAccount':
+        return MsgRegisterAccount.fromData(data);
+      case '/intertx.MsgSubmitTx':
+        return MsgSubmitTx.fromData(data);
+
       default:
         throw Error(`not supported msg ${data['@type']}`);
     }
@@ -458,6 +468,12 @@ export namespace Msg {
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
         return MsgVerifyInvariant.unpackAny(proto);
+
+      // intertx
+      case '/intertx.MsgRegisterAccount':
+        return MsgRegisterAccount.unpackAny(proto);
+      case '/intertx.MsgSubmitTx':
+        return MsgSubmitTx.unpackAny(proto);
 
       default:
         throw Error(`not supported msg ${proto.typeUrl}`);
