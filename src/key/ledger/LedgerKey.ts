@@ -5,7 +5,13 @@ import { AccAddress, SimplePublicKey, SignatureV2, SignDoc } from '../..';
 import { Key } from '../Key';
 import { INIT_COIN_TYPE } from '../MnemonicKey';
 import { signatureImport } from 'secp256k1';
-import { AppInfoResponse, CommonResponse, DeviceInfoResponse, PublicKeyResponse, VersionResponse } from './types';
+import {
+  AppInfoResponse,
+  CommonResponse,
+  DeviceInfoResponse,
+  PublicKeyResponse,
+  VersionResponse,
+} from './types';
 
 const INTERACTION_TIMEOUT = 120;
 const REQUIRED_APP_VERSION = '1.0.0';
@@ -57,7 +63,10 @@ export class LedgerKey extends Key {
   /**
    * create and return initialized ledger key
    */
-  public static async create(transport?: Transport, index?: number): Promise<LedgerKey> {
+  public static async create(
+    transport?: Transport,
+    index?: number
+  ): Promise<LedgerKey> {
     if (!transport) {
       transport = await createTransport();
     }
@@ -93,7 +102,9 @@ export class LedgerKey extends Key {
     const { major, minor, patch } = this.app.getVersion();
     const version = `${major}.${minor}.${patch}`;
     if (appName === 'Initia' && semver.lt(version, REQUIRED_APP_VERSION)) {
-      throw new LedgerError('Outdated version: Update Ledger Initia App to the latest version');
+      throw new LedgerError(
+        'Outdated version: Update Ledger Initia App to the latest version'
+      );
     }
     checkLedgerErrors(res);
     await this.loadAccountDetails();
@@ -106,7 +117,9 @@ export class LedgerKey extends Key {
     const res = await this.app.getAddressAndPubKey(this.path, 'init');
     checkLedgerErrors(res);
 
-    this.publicKey = new SimplePublicKey(Buffer.from(res.compressed_pk.data).toString('base64'));
+    this.publicKey = new SimplePublicKey(
+      Buffer.from(res.compressed_pk.data).toString('base64')
+    );
     return this;
   }
 
@@ -134,7 +147,7 @@ export class LedgerKey extends Key {
   }
 
   public async getAppDeviceInfo(): Promise<DeviceInfoResponse> {
-    return this.app.getDeviceInfo()
+    return this.app.getDeviceInfo();
   }
 
   public async getAppPublicKey(): Promise<PublicKeyResponse> {
@@ -159,36 +172,46 @@ const handleConnectError = (err: Error) => {
   }
 
   if (err.name === 'TransportOpenUserCancelled') {
-    throw new LedgerError("Couldn't find the Ledger. Check the Ledger is plugged in and unlocked.");
+    throw new LedgerError(
+      "Couldn't find the Ledger. Check the Ledger is plugged in and unlocked."
+    );
   }
 
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('No WebUSB interface found for the Ledger device')) {
     throw new LedgerError(
-      `Couldn't connect to a Ledger device. Use Ledger Live to upgrade the Ledger firmware to version ${REQUIRED_APP_VERSION} or later.`,
+      `Couldn't connect to a Ledger device. Use Ledger Live to upgrade the Ledger firmware to version ${REQUIRED_APP_VERSION} or later.`
     );
   }
 
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('Unable to claim interface')) {
     // apparently can't use it in several tabs in parallel
-    throw new LedgerError("Couldn't access Ledger device. Is it being used in another tab?");
+    throw new LedgerError(
+      "Couldn't access Ledger device. Is it being used in another tab?"
+    );
   }
 
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('Transport not defined')) {
     // apparently can't use it in several tabs in parallel
-    throw new LedgerError("Couldn't access Ledger device. Is it being used in another tab?");
+    throw new LedgerError(
+      "Couldn't access Ledger device. Is it being used in another tab?"
+    );
   }
 
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('Not supported')) {
-    throw new LedgerError("This browser doesn't support WebUSB yet. Update it to the latest version.");
+    throw new LedgerError(
+      "This browser doesn't support WebUSB yet. Update it to the latest version."
+    );
   }
 
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('No device selected')) {
-    throw new LedgerError("Couldn't find the Ledger. Check the Ledger is plugged in and unlocked.");
+    throw new LedgerError(
+      "Couldn't find the Ledger. Check the Ledger is plugged in and unlocked."
+    );
   }
 
   // throw unknown error
@@ -214,7 +237,9 @@ const checkLedgerErrors = (response: CommonResponse | null) => {
 
   switch (error_message) {
     case 'U2F: Timeout':
-      throw new LedgerError("Couldn't find a connected and unlocked Ledger device");
+      throw new LedgerError(
+        "Couldn't find a connected and unlocked Ledger device"
+      );
 
     case 'App does not seem to be open':
       throw new LedgerError('Open the Initia app in the Ledger');
@@ -229,7 +254,9 @@ const checkLedgerErrors = (response: CommonResponse | null) => {
       throw new LedgerError("Ledger's screensaver mode is on");
 
     case 'Instruction not supported':
-      throw new LedgerError('Check the Ledger is running latest version of Initia');
+      throw new LedgerError(
+        'Check the Ledger is running latest version of Initia'
+      );
 
     case 'No errors':
       break;
@@ -261,16 +288,20 @@ async function createTransport(): Promise<Transport> {
     // For Windows
     if (!navigator.hid) {
       throw new LedgerError(
-        "This browser doesn't have HID enabled. Enable this feature by visiting: chrome://flags/#enable-experimental-web-platform-features",
+        "This browser doesn't have HID enabled. Enable this feature by visiting: chrome://flags/#enable-experimental-web-platform-features"
       );
     }
 
     const TransportWebHid = require('@ledgerhq/hw-transport-webhid').default;
-    transport = await TransportWebHid.create(INTERACTION_TIMEOUT * 1000).catch(handleConnectError);
+    transport = await TransportWebHid.create(INTERACTION_TIMEOUT * 1000).catch(
+      handleConnectError
+    );
   } else {
     // For other than Windows
     const TransportWebUsb = require('@ledgerhq/hw-transport-webusb').default;
-    transport = await TransportWebUsb.create(INTERACTION_TIMEOUT * 1000).catch(handleConnectError);
+    transport = await TransportWebUsb.create(INTERACTION_TIMEOUT * 1000).catch(
+      handleConnectError
+    );
   }
   return transport;
 }

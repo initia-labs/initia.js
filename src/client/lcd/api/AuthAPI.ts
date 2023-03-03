@@ -50,9 +50,14 @@ export class AuthAPI extends BaseAPI {
     return Account.fromData(account);
   }
 
-  public async moduleAccount(name: string, params: APIParams = {}): Promise<ModuleAccount> {
-    const { account } = await this.c
-      .get<{ account: ModuleAccount.Data }>(`/cosmos/auth/v1beta1/module_accounts/${name}`, params);
+  public async moduleAccount(
+    name: string,
+    params: APIParams = {}
+  ): Promise<ModuleAccount> {
+    const { account } = await this.c.get<{ account: ModuleAccount.Data }>(
+      `/cosmos/auth/v1beta1/module_accounts/${name}`,
+      params
+    );
     return ModuleAccount.fromData(account);
   }
 

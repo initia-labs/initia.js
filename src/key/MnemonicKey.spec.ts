@@ -66,7 +66,9 @@ describe('MnemonicKey', () => {
       new TxBody([msgSend])
     );
 
-    const { data: { single } } = await mk.createSignatureAmino(signDoc);
+    const {
+      data: { single },
+    } = await mk.createSignatureAmino(signDoc);
     expect((single as any).signature).toEqual(
       '1Ilhp30yhTh0ehXYA1cenO+Vmg5X+7/EPTs56jSTq71stuUS+UyqcCUV3Li6LLMMsWQz0of4UaggtNcB0ghsDg=='
     );

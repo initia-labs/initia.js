@@ -28,17 +28,9 @@ export class ExecuteOperation extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(
-    data: ExecuteOperation.Amino
-  ): ExecuteOperation {
+  public static fromAmino(data: ExecuteOperation.Amino): ExecuteOperation {
     const {
-      value: {
-        module_address,
-        module_name,
-        function_name,
-        type_args,
-        args,
-      },
+      value: { module_address, module_name, function_name, type_args, args },
     } = data;
     return new ExecuteOperation(
       module_address,
@@ -50,7 +42,8 @@ export class ExecuteOperation extends JSONSerializable<
   }
 
   public toAmino(): ExecuteOperation.Amino {
-    const { module_address, module_name, function_name, type_args, args } = this;
+    const { module_address, module_name, function_name, type_args, args } =
+      this;
     return {
       type: 'move/ExecuteOperation',
       value: {
@@ -63,9 +56,7 @@ export class ExecuteOperation extends JSONSerializable<
     };
   }
 
-  public static fromData(
-    data: ExecuteOperation.Data
-  ): ExecuteOperation {
+  public static fromData(data: ExecuteOperation.Data): ExecuteOperation {
     const { module_address, module_name, function_name, type_args, args } =
       data;
     return new ExecuteOperation(
@@ -78,7 +69,8 @@ export class ExecuteOperation extends JSONSerializable<
   }
 
   public toData(): ExecuteOperation.Data {
-    const { module_address, module_name, function_name, type_args, args } = this;
+    const { module_address, module_name, function_name, type_args, args } =
+      this;
     return {
       '@type': '/initia.move.v1.ExecuteOperation',
       module_address,
@@ -89,9 +81,7 @@ export class ExecuteOperation extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: ExecuteOperation.Proto
-  ): ExecuteOperation {
+  public static fromProto(proto: ExecuteOperation.Proto): ExecuteOperation {
     return new ExecuteOperation(
       proto.moduleAddress,
       proto.moduleName,
@@ -102,7 +92,8 @@ export class ExecuteOperation extends JSONSerializable<
   }
 
   public toProto(): ExecuteOperation.Proto {
-    const { module_address, module_name, function_name, type_args, args } = this;
+    const { module_address, module_name, function_name, type_args, args } =
+      this;
     return ExecuteOperation_pb.fromPartial({
       moduleAddress: module_address,
       moduleName: module_name,
@@ -120,9 +111,7 @@ export class ExecuteOperation extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): ExecuteOperation {
-    return ExecuteOperation.fromProto(
-      ExecuteOperation_pb.decode(msgAny.value)
-    );
+    return ExecuteOperation.fromProto(ExecuteOperation_pb.decode(msgAny.value));
   }
 }
 
