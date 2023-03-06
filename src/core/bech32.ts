@@ -35,7 +35,10 @@ export namespace AccAddress {
    * @param data string to check
    */
   export function validate(data: string): boolean {
-    return checkPrefixAndLength('init', data, 43);
+    return (
+      checkPrefixAndLength('init', data, 43) ||
+      checkPrefixAndLength('init', data, 63)
+    );
   }
 
   /**
