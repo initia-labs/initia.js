@@ -93,10 +93,7 @@ export class MstakingAPI extends BaseAPI {
         .get<{
           delegation_responses: Delegation.Data[];
           pagination: Pagination;
-        }>(
-          `/initia/mstaking/v1/validators/${validator}/delegations`,
-          params
-        )
+        }>(`/initia/mstaking/v1/validators/${validator}/delegations`, params)
         .then(data => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
@@ -210,10 +207,7 @@ export class MstakingAPI extends BaseAPI {
       .get<{
         redelegation_responses: Redelegation.Data[];
         pagination: Pagination;
-      }>(
-        `/initia/mstaking/v1/delegators/${delegator}/redelegations`,
-        params
-      )
+      }>(`/initia/mstaking/v1/delegators/${delegator}/redelegations`, params)
       .then(d => [
         d.redelegation_responses.map(Redelegation.fromData),
         d.pagination,

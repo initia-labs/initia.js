@@ -33,16 +33,8 @@ import {
   MsgUndelegate,
   MstakingMsg,
 } from './mstaking/msgs';
-import {
-  MsgCreateVestingAccount,
-  VestingMsg,
-} from './vesting/msgs';
-import {
-  MsgPublish,
-  MsgExecute,
-  MsgScript,
-  MoveMsg,
-} from './move/msgs';
+import { MsgCreateVestingAccount, VestingMsg } from './vesting/msgs';
+import { MsgPublish, MsgExecute, MsgScript, MoveMsg } from './move/msgs';
 import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
 import {
   MsgCreateClient,

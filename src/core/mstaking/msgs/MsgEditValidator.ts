@@ -33,11 +33,7 @@ export class MsgEditValidator extends JSONSerializable<
 
   public static fromAmino(data: MsgEditValidator.Amino): MsgEditValidator {
     const {
-      value: {
-        description,
-        validator_address,
-        commission_rate,
-      },
+      value: { description, validator_address, commission_rate },
     } = data;
     return new MsgEditValidator(
       Validator.Description.fromAmino(description),
@@ -47,11 +43,7 @@ export class MsgEditValidator extends JSONSerializable<
   }
 
   public toAmino(): MsgEditValidator.Amino {
-    const {
-      description,
-      validator_address,
-      commission_rate,
-    } = this;
+    const { description, validator_address, commission_rate } = this;
     return {
       type: 'mstaking/MsgEditValidator',
       value: {
@@ -70,16 +62,12 @@ export class MsgEditValidator extends JSONSerializable<
         data.description as Validator.Description.Proto
       ),
       data.validatorAddress,
-      data.commissionRate !== '' ? data.commissionRate : undefined,
+      data.commissionRate !== '' ? data.commissionRate : undefined
     );
   }
 
   public toProto(): MsgEditValidator.Proto {
-    const {
-      description,
-      validator_address,
-      commission_rate,
-    } = this;
+    const { description, validator_address, commission_rate } = this;
     return MsgEditValidator_pb.fromPartial({
       description: description.toProto(),
       commissionRate: commission_rate?.toString() || '',
@@ -99,24 +87,16 @@ export class MsgEditValidator extends JSONSerializable<
   }
 
   public static fromData(data: MsgEditValidator.Data): MsgEditValidator {
-    const {
-      description,
-      validator_address,
-      commission_rate,
-    } = data;
+    const { description, validator_address, commission_rate } = data;
     return new MsgEditValidator(
       Validator.Description.fromData(description),
       validator_address,
-      commission_rate,
+      commission_rate
     );
   }
 
   public toData(): MsgEditValidator.Data {
-    const {
-      description,
-      validator_address,
-      commission_rate,
-    } = this;
+    const { description, validator_address, commission_rate } = this;
     return {
       '@type': '/initia.mstaking.v1.MsgEditValidator',
       description,

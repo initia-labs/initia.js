@@ -75,7 +75,7 @@ export class MsgRegisterCounterpartyPayee extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       relayer,
-      counterpartyPayee: counterparty_payee,      
+      counterpartyPayee: counterparty_payee,
     });
   }
 

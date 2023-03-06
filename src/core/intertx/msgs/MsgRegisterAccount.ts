@@ -9,12 +9,12 @@ export class MsgRegisterAccount extends JSONSerializable<
   MsgRegisterAccount.Proto
 > {
   /**
-   * @param owner 
-   * @param connection_id 
-   * @param version 
+   * @param owner
+   * @param connection_id
+   * @param version
    */
   constructor(
-    public owner: AccAddress, 
+    public owner: AccAddress,
     public connection_id: string,
     public version: string
   ) {
@@ -29,9 +29,7 @@ export class MsgRegisterAccount extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(
-    data: MsgRegisterAccount.Data
-  ): MsgRegisterAccount {
+  public static fromData(data: MsgRegisterAccount.Data): MsgRegisterAccount {
     const { owner, connection_id, version } = data;
     return new MsgRegisterAccount(owner, connection_id, version);
   }
@@ -46,13 +44,11 @@ export class MsgRegisterAccount extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: MsgRegisterAccount.Proto
-  ): MsgRegisterAccount {
+  public static fromProto(proto: MsgRegisterAccount.Proto): MsgRegisterAccount {
     return new MsgRegisterAccount(
       proto.owner,
       proto.connectionId,
-      proto.version,
+      proto.version
     );
   }
 

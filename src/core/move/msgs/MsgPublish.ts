@@ -15,16 +15,14 @@ export class MsgPublish extends JSONSerializable<
    * @param upgrade_policy arbitrary `0`, compatible `1`, immutable `2`
    */
   constructor(
-    public sender: AccAddress, 
+    public sender: AccAddress,
     public code_bytes: string[],
     public upgrade_policy: UpgradePolicy
   ) {
     super();
   }
 
-  public static fromAmino(
-    data: MsgPublish.Amino
-  ): MsgPublish {
+  public static fromAmino(data: MsgPublish.Amino): MsgPublish {
     const {
       value: { sender, code_bytes, upgrade_policy },
     } = data;
@@ -43,13 +41,11 @@ export class MsgPublish extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: MsgPublish.Proto
-  ): MsgPublish {
+  public static fromProto(proto: MsgPublish.Proto): MsgPublish {
     return new MsgPublish(
       proto.sender,
       proto.codeBytes.map(code => Buffer.from(code).toString('base64')),
-      proto.upgradePolicy,
+      proto.upgradePolicy
     );
   }
 
@@ -70,14 +66,10 @@ export class MsgPublish extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgPublish {
-    return MsgPublish.fromProto(
-      MsgPublish_pb.decode(msgAny.value)
-    );
+    return MsgPublish.fromProto(MsgPublish_pb.decode(msgAny.value));
   }
 
-  public static fromData(
-    data: MsgPublish.Data
-  ): MsgPublish {
+  public static fromData(data: MsgPublish.Data): MsgPublish {
     const { sender, code_bytes, upgrade_policy } = data;
     return new MsgPublish(sender, code_bytes, upgrade_policy);
   }

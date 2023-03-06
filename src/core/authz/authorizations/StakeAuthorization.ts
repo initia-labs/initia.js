@@ -15,7 +15,7 @@ export class StakeAuthorization extends JSONSerializable<
   StakeAuthorization.Data,
   StakeAuthorization.Proto
 > {
-  public max_tokens: Coins
+  public max_tokens: Coins;
 
   constructor(
     public authorization_type: AuthorizationType,

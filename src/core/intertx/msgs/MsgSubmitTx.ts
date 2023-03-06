@@ -9,12 +9,12 @@ export class MsgSubmitTx extends JSONSerializable<
   MsgSubmitTx.Proto
 > {
   /**
-   * @param owner 
-   * @param connection_id 
-   * @param msg 
+   * @param owner
+   * @param connection_id
+   * @param msg
    */
   constructor(
-    public owner: AccAddress, 
+    public owner: AccAddress,
     public connection_id: string,
     public msg: any
   ) {
@@ -29,9 +29,7 @@ export class MsgSubmitTx extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(
-    data: MsgSubmitTx.Data
-  ): MsgSubmitTx {
+  public static fromData(data: MsgSubmitTx.Data): MsgSubmitTx {
     const { owner, connection_id, msg } = data;
     return new MsgSubmitTx(owner, connection_id, msg);
   }
@@ -46,14 +44,8 @@ export class MsgSubmitTx extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: MsgSubmitTx.Proto
-  ): MsgSubmitTx {
-    return new MsgSubmitTx(
-      proto.owner,
-      proto.connectionId,
-      proto.msg,
-    );
+  public static fromProto(proto: MsgSubmitTx.Proto): MsgSubmitTx {
+    return new MsgSubmitTx(proto.owner, proto.connectionId, proto.msg);
   }
 
   public toProto(): MsgSubmitTx.Proto {
@@ -73,9 +65,7 @@ export class MsgSubmitTx extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgSubmitTx {
-    return MsgSubmitTx.fromProto(
-      MsgSubmitTx_pb.decode(msgAny.value)
-    );
+    return MsgSubmitTx.fromProto(MsgSubmitTx_pb.decode(msgAny.value));
   }
 }
 

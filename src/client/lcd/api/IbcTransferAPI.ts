@@ -63,7 +63,11 @@ export class IbcTransferAPI extends BaseAPI {
   }
 
   /** Gets the escrow address for a particular port and channel id */
-  public async escrowAddress(channel_id: string, port_id: string, params: APIParams = {}): Promise<string> {
+  public async escrowAddress(
+    channel_id: string,
+    port_id: string,
+    params: APIParams = {}
+  ): Promise<string> {
     return this.c
       .get<{ escrow_address: string }>(
         `/ibc/apps/transfer/v1/channels/${channel_id}/ports/${port_id}/escrow_address`,

@@ -102,11 +102,11 @@ export default class InitiaApp {
    */
   async initialize(): Promise<CommonResponse | null> {
     return getAppInfo(this.transport)
-      .then((appInfo) => {
+      .then(appInfo => {
         this.info = appInfo;
         return getVersion(this.transport);
       })
-      .then((version) => {
+      .then(version => {
         this.version = version;
         return this.validateCompatibility();
       });
@@ -136,7 +136,10 @@ export default class InitiaApp {
     return getAddressAndPubKey(this.transport, data);
   }
 
-  showAddressAndPubKey(path: number[], hrp: string): Promise<PublicKeyResponse> {
+  showAddressAndPubKey(
+    path: number[],
+    hrp: string
+  ): Promise<PublicKeyResponse> {
     const result = serializePath(path);
     const data = Buffer.concat([InitiaApp.serializeHRP(hrp), result]);
     return showAddressAndPubKey(this.transport, data);
