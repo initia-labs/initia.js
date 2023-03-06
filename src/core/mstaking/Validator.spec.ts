@@ -13,11 +13,19 @@ describe('Validator', () => {
       jailed: false,
       status: 2,
       tokens: [
-        { denom: 'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615', amount: '5725331862' },
+        {
+          denom:
+            'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615',
+          amount: '5725331862',
+        },
         { denom: 'ustake', amount: '20000000' },
       ],
       delegator_shares: [
-        { denom: 'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615', amount: '5725331862.000000000000000000' },
+        {
+          denom:
+            'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615',
+          amount: '5725331862.000000000000000000',
+        },
         { denom: 'ustake', amount: '20000000.000000000000000000' },
       ],
       description: {
@@ -39,7 +47,11 @@ describe('Validator', () => {
         update_time: '2023-01-26T06:28:02.349271477Z',
       },
       voting_powers: [
-        { denom: 'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615', amount: '5725331862' },
+        {
+          denom:
+            'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615',
+          amount: '5725331862',
+        },
         { denom: 'ustake', amount: '20000000' },
       ],
       voting_power: '5745331862',
@@ -53,11 +65,13 @@ describe('Validator', () => {
       jailed: false,
       status: 2,
       tokens: new Coins({
-        'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615': '5725331862',
+        'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615':
+          '5725331862',
         ustake: '20000000',
       }),
       delegator_shares: new Coins({
-        'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615': '5725331862.000000000000000000',
+        'move/975343fbd246bd169757499d5220021114bb32acede722c65180e9f199d19615':
+          '5725331862.000000000000000000',
         ustake: '20000000.000000000000000000',
       }),
       description: {

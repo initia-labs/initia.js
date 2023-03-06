@@ -34,17 +34,10 @@ export class MsgRegisterPayee extends JSONSerializable<
     throw new Error('Amino not supported');
   }
 
-  public static fromData(
-    data: MsgRegisterPayee.Data
-  ): MsgRegisterPayee {
+  public static fromData(data: MsgRegisterPayee.Data): MsgRegisterPayee {
     const { port_id, channel_id, relayer, payee } = data;
 
-    return new MsgRegisterPayee(
-      port_id,
-      channel_id,
-      relayer,
-      payee
-    );
+    return new MsgRegisterPayee(port_id, channel_id, relayer, payee);
   }
 
   public toData(): MsgRegisterPayee.Data {
@@ -58,9 +51,7 @@ export class MsgRegisterPayee extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: MsgRegisterPayee.Proto
-  ): MsgRegisterPayee {
+  public static fromProto(proto: MsgRegisterPayee.Proto): MsgRegisterPayee {
     return new MsgRegisterPayee(
       proto.portId,
       proto.channelId,
@@ -75,7 +66,7 @@ export class MsgRegisterPayee extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       relayer,
-      payee,      
+      payee,
     });
   }
 
@@ -87,9 +78,7 @@ export class MsgRegisterPayee extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgRegisterPayee {
-    return MsgRegisterPayee.fromProto(
-      MsgRegisterPayee_pb.decode(msgAny.value)
-    );
+    return MsgRegisterPayee.fromProto(MsgRegisterPayee_pb.decode(msgAny.value));
   }
 }
 

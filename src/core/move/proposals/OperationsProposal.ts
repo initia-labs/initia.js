@@ -20,21 +20,19 @@ export class OperationsProposal extends JSONSerializable<
   constructor(
     public title: string,
     public description: string,
-    public operations: OperationsProposal.Operation[],
+    public operations: OperationsProposal.Operation[]
   ) {
     super();
   }
 
-  public static fromAmino(
-    data: OperationsProposal.Amino
-  ): OperationsProposal {
+  public static fromAmino(data: OperationsProposal.Amino): OperationsProposal {
     const {
       value: { title, description, operations },
     } = data;
     return new OperationsProposal(
-      title, 
-      description, 
-      operations.map((op) => OperationsProposal.Operation.fromAmino(op.operation))
+      title,
+      description,
+      operations.map(op => OperationsProposal.Operation.fromAmino(op.operation))
     );
   }
 
@@ -45,19 +43,17 @@ export class OperationsProposal extends JSONSerializable<
       value: {
         title,
         description,
-        operations: operations.map((op) => ({ operation: op.toAmino() })),
+        operations: operations.map(op => ({ operation: op.toAmino() })),
       },
     };
   }
 
-  public static fromData(
-    data: OperationsProposal.Data
-  ): OperationsProposal {
+  public static fromData(data: OperationsProposal.Data): OperationsProposal {
     const { title, description, operations } = data;
     return new OperationsProposal(
-      title, 
-      description, 
-      operations.map((op) => OperationsProposal.Operation.fromData(op.operation))
+      title,
+      description,
+      operations.map(op => OperationsProposal.Operation.fromData(op.operation))
     );
   }
 
@@ -67,17 +63,17 @@ export class OperationsProposal extends JSONSerializable<
       '@type': '/initia.move.v1.OperationsProposal',
       title,
       description,
-      operations: operations.map((op) => ({ operation: op.toData() })),
+      operations: operations.map(op => ({ operation: op.toData() })),
     };
   }
 
-  public static fromProto(
-    proto: OperationsProposal.Proto
-  ): OperationsProposal {
+  public static fromProto(proto: OperationsProposal.Proto): OperationsProposal {
     return new OperationsProposal(
       proto.title,
       proto.description,
-      proto.operations.map((op) => OperationsProposal.Operation.fromProto(op.operation as Any))
+      proto.operations.map(op =>
+        OperationsProposal.Operation.fromProto(op.operation as Any)
+      )
     );
   }
 
@@ -86,7 +82,7 @@ export class OperationsProposal extends JSONSerializable<
     return OperationsProposal_pb.fromPartial({
       title,
       description,
-      operations: operations.map((op) => ({ operation: op.packAny() })),
+      operations: operations.map(op => ({ operation: op.packAny() })),
     });
   }
 
@@ -105,24 +101,18 @@ export class OperationsProposal extends JSONSerializable<
 }
 
 export namespace OperationsProposal {
-  export type Operation = 
-    | ExecuteOperation
-    | PublishOperation;
-  
-  export namespace Operation {
-    export type Amino = 
-      | ExecuteOperation.Amino
-      | PublishOperation.Amino;
-    
-    export type Data = 
-      | ExecuteOperation.Data
-      | PublishOperation.Data;
-    
-    export type Proto =
-      | ExecuteOperation.Proto
-      | PublishOperation.Proto;
+  export type Operation = ExecuteOperation | PublishOperation;
 
-    export function fromAmino(amino: OperationsProposal.Operation.Amino): OperationsProposal.Operation {
+  export namespace Operation {
+    export type Amino = ExecuteOperation.Amino | PublishOperation.Amino;
+
+    export type Data = ExecuteOperation.Data | PublishOperation.Data;
+
+    export type Proto = ExecuteOperation.Proto | PublishOperation.Proto;
+
+    export function fromAmino(
+      amino: OperationsProposal.Operation.Amino
+    ): OperationsProposal.Operation {
       switch (amino.type) {
         case 'move/ExecuteOperation':
           return ExecuteOperation.fromAmino(amino);
@@ -131,7 +121,9 @@ export namespace OperationsProposal {
       }
     }
 
-    export function fromData(data: OperationsProposal.Operation.Data): OperationsProposal.Operation {
+    export function fromData(
+      data: OperationsProposal.Operation.Data
+    ): OperationsProposal.Operation {
       switch (data['@type']) {
         case '/initia.move.v1.ExecuteOperation':
           return ExecuteOperation.fromData(data);

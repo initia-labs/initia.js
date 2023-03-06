@@ -1,5 +1,13 @@
 import Transport from '@ledgerhq/hw-transport';
-import { CLA, ERROR_CODE, P1_VALUES, INS, PAYLOAD_TYPE, CHUNK_SIZE, ERROR_DESCRIPTION } from './constants';
+import {
+  CLA,
+  ERROR_CODE,
+  P1_VALUES,
+  INS,
+  PAYLOAD_TYPE,
+  CHUNK_SIZE,
+  ERROR_DESCRIPTION,
+} from './constants';
 import {
   AppInfoResponse,
   VersionResponse,
@@ -17,7 +25,12 @@ function errorCodeToString(statusCode: number): string {
 }
 
 function isDict(v: any): boolean {
-  return typeof v === 'object' && v !== null && !(v instanceof Array) && !(v instanceof Date);
+  return (
+    typeof v === 'object' &&
+    v !== null &&
+    !(v instanceof Array) &&
+    !(v instanceof Date)
+  );
 }
 
 function processErrorResponse(response: any) {
@@ -65,17 +78,23 @@ export function serializePath(path: number[]): Buffer {
   return buf;
 }
 
-export async function getVersion(transport: Transport): Promise<VersionResponse> {
+export async function getVersion(
+  transport: Transport
+): Promise<VersionResponse> {
   return transport
     .send(CLA, INS.GET_VERSION, 0, 0)
-    .then((response) => {
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const return_code = errorCodeData[0] * 256 + errorCodeData[1];
 
       let targetId = 0;
       if (response.length >= 9) {
         /* eslint-disable no-bitwise */
-        targetId = (response[5] << 24) + (response[6] << 16) + (response[7] << 8) + (response[8] << 0);
+        targetId =
+          (response[5] << 24) +
+          (response[6] << 16) +
+          (response[7] << 8) +
+          (response[8] << 0);
         /* eslint-enable no-bitwise */
       }
 
@@ -94,10 +113,12 @@ export async function getVersion(transport: Transport): Promise<VersionResponse>
     .catch(processErrorResponse);
 }
 
-export async function getAppInfo(transport: Transport): Promise<AppInfoResponse> {
+export async function getAppInfo(
+  transport: Transport
+): Promise<AppInfoResponse> {
   return transport
     .send(0xb0, 0x01, 0, 0)
-    .then((response) => {
+    .then(response => {
       const errorCodeData = response.slice(-2);
       let return_code: number = errorCodeData[0] * 256 + errorCodeData[1];
       let error_message: string;
@@ -118,7 +139,9 @@ export async function getAppInfo(transport: Transport): Promise<AppInfoResponse>
         let idx = 2 + appNameLen;
         const appVersionLen = response[idx];
         idx += 1;
-        app_version = response.slice(idx, idx + appVersionLen).toString('ascii');
+        app_version = response
+          .slice(idx, idx + appVersionLen)
+          .toString('ascii');
         idx += appVersionLen;
         const appFlagsLen = response[idx];
         idx += 1;
@@ -147,10 +170,12 @@ export async function getAppInfo(transport: Transport): Promise<AppInfoResponse>
     .catch(processErrorResponse);
 }
 
-export async function getDeviceInfo(transport: Transport): Promise<DeviceInfoResponse> {
+export async function getDeviceInfo(
+  transport: Transport
+): Promise<DeviceInfoResponse> {
   return transport
     .send(0xe0, 0x01, 0, 0, Buffer.from([]), [ERROR_CODE.NoError, 0x6e00])
-    .then((response) => {
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
@@ -166,7 +191,9 @@ export async function getDeviceInfo(transport: Transport): Promise<DeviceInfoRes
       let pos = 4;
       const secureElementVersionLen = response[pos];
       pos += 1;
-      const se_version = response.slice(pos, pos + secureElementVersionLen).toString();
+      const se_version = response
+        .slice(pos, pos + secureElementVersionLen)
+        .toString();
       pos += secureElementVersionLen;
 
       const flagsLen = response[pos];
@@ -196,10 +223,13 @@ export async function getDeviceInfo(transport: Transport): Promise<DeviceInfoRes
     .catch(processErrorResponse);
 }
 
-export async function publicKey(transport: Transport, data: Buffer): Promise<PublicKeyResponse> {
+export async function publicKey(
+  transport: Transport,
+  data: Buffer
+): Promise<PublicKeyResponse> {
   return transport
     .send(CLA, INS.GET_ADDR_SECP256K1, 0, 0, data, [ERROR_CODE.NoError])
-    .then((response) => {
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const returnCode: number = errorCodeData[0] * 256 + errorCodeData[1];
       const compressedPk = response ? Buffer.from(response.slice(0, 33)) : null;
@@ -214,10 +244,15 @@ export async function publicKey(transport: Transport, data: Buffer): Promise<Pub
     .catch(processErrorResponse);
 }
 
-export async function getAddressAndPubKey(transport: Transport, data: Buffer): Promise<PublicKeyResponse> {
+export async function getAddressAndPubKey(
+  transport: Transport,
+  data: Buffer
+): Promise<PublicKeyResponse> {
   return transport
-    .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.ONLY_RETRIEVE, 0, data, [ERROR_CODE.NoError])
-    .then((response) => {
+    .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.ONLY_RETRIEVE, 0, data, [
+      ERROR_CODE.NoError,
+    ])
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
@@ -234,10 +269,20 @@ export async function getAddressAndPubKey(transport: Transport, data: Buffer): P
     .catch(processErrorResponse);
 }
 
-export async function showAddressAndPubKey(transport: Transport, data: Buffer): Promise<PublicKeyResponse> {
+export async function showAddressAndPubKey(
+  transport: Transport,
+  data: Buffer
+): Promise<PublicKeyResponse> {
   return transport
-    .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.SHOW_ADDRESS_IN_DEVICE, 0, data, [ERROR_CODE.NoError])
-    .then((response) => {
+    .send(
+      CLA,
+      INS.GET_ADDR_SECP256K1,
+      P1_VALUES.SHOW_ADDRESS_IN_DEVICE,
+      0,
+      data,
+      [ERROR_CODE.NoError]
+    )
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
 
@@ -274,7 +319,12 @@ function signGetChunks(path: number[], message: Buffer): Buffer[] {
   return chunks;
 }
 
-async function signSendChunk(transport: Transport, chunkIdx: number, chunkNum: number, chunk: Buffer): Promise<SignResponse> {
+async function signSendChunk(
+  transport: Transport,
+  chunkIdx: number,
+  chunkNum: number,
+  chunk: Buffer
+): Promise<SignResponse> {
   let payloadType = PAYLOAD_TYPE.ADD;
 
   if (chunkIdx === 1) {
@@ -286,14 +336,20 @@ async function signSendChunk(transport: Transport, chunkIdx: number, chunkNum: n
   }
 
   return transport
-    .send(CLA, INS.SIGN_SECP256K1, payloadType, 0, chunk, [ERROR_CODE.NoError, 0x6984, 0x6a80])
-    .then((response) => {
+    .send(CLA, INS.SIGN_SECP256K1, payloadType, 0, chunk, [
+      ERROR_CODE.NoError,
+      0x6984,
+      0x6a80,
+    ])
+    .then(response => {
       const errorCodeData = response.slice(-2);
       const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
       let errorMessage = errorCodeToString(returnCode);
 
       if (returnCode === 0x6a80 || returnCode === 0x6984) {
-        errorMessage = `${errorMessage} : ${response.slice(0, response.length - 2).toString('ascii')}`;
+        errorMessage = `${errorMessage} : ${response
+          .slice(0, response.length - 2)
+          .toString('ascii')}`;
       }
 
       let signature: Buffer = Buffer.from([]);
@@ -311,11 +367,15 @@ async function signSendChunk(transport: Transport, chunkIdx: number, chunkNum: n
     .catch(processErrorResponse);
 }
 
-export async function sign(transport: Transport, path: number[], message: Buffer): Promise<SignResponse> {
+export async function sign(
+  transport: Transport,
+  path: number[],
+  message: Buffer
+): Promise<SignResponse> {
   const chunks = signGetChunks(path, message);
 
   return signSendChunk(transport, 1, chunks.length, chunks[0])
-    .then(async (response) => {
+    .then(async response => {
       let result: SignResponse = {
         return_code: response.return_code,
         error_message: response.error_message,
@@ -323,7 +383,12 @@ export async function sign(transport: Transport, path: number[], message: Buffer
       };
 
       for (let i = 1; i < chunks.length; i += 1) {
-        result = await signSendChunk(transport, 1 + i, chunks.length, chunks[i]);
+        result = await signSendChunk(
+          transport,
+          1 + i,
+          chunks.length,
+          chunks[i]
+        );
 
         if (result.return_code !== ERROR_CODE.NoError) {
           break;
