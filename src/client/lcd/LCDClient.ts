@@ -93,12 +93,16 @@ export class LCDClient {
    *
    * @param config LCD configuration
    */
-  constructor(URL: string, config?: LCDClientConfig, apiRequester?: APIRequester) {
+  constructor(
+    URL: string,
+    config?: LCDClientConfig,
+    apiRequester?: APIRequester
+  ) {
     this.URL = URL;
     this.config = {
       ...DEFAULT_LCD_OPTIONS,
-      gasPrices: 
-        (config?.chainId && DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainId]) ?? 
+      gasPrices:
+        (config?.chainId && DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainId]) ??
         DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
       ...config,
     };

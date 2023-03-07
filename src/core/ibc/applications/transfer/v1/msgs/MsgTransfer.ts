@@ -84,7 +84,7 @@ export class MsgTransfer extends JSONSerializable<
       receiver,
       timeout_height ? Height.fromAmino(timeout_height) : undefined,
       timeout_timestamp,
-      memo,
+      memo
     );
   }
 
@@ -138,7 +138,7 @@ export class MsgTransfer extends JSONSerializable<
       receiver,
       timeout_height ? Height.fromData(timeout_height) : undefined,
       timeout_timestamp === '0' ? undefined : timeout_timestamp,
-      memo,
+      memo
     );
   }
 
@@ -181,7 +181,7 @@ export class MsgTransfer extends JSONSerializable<
       proto.receiver,
       proto.timeoutHeight ? Height.fromProto(proto.timeoutHeight) : undefined,
       proto.timeoutTimestamp.toString(),
-      proto.memo,
+      proto.memo
     );
   }
 

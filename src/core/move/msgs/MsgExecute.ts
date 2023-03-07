@@ -39,9 +39,7 @@ export class MsgExecute extends JSONSerializable<
     this.args = args;
   }
 
-  public static fromAmino(
-    data: MsgExecute.Amino
-  ): MsgExecute {
+  public static fromAmino(data: MsgExecute.Amino): MsgExecute {
     const {
       value: {
         sender,
@@ -85,9 +83,7 @@ export class MsgExecute extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    data: MsgExecute.Proto
-  ): MsgExecute {
+  public static fromProto(data: MsgExecute.Proto): MsgExecute {
     return new MsgExecute(
       data.sender,
       data.moduleAddress,
@@ -125,14 +121,10 @@ export class MsgExecute extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): MsgExecute {
-    return MsgExecute.fromProto(
-      MsgExecute_pb.decode(msgAny.value)
-    );
+    return MsgExecute.fromProto(MsgExecute_pb.decode(msgAny.value));
   }
 
-  public static fromData(
-    data: MsgExecute.Data
-  ): MsgExecute {
+  public static fromData(data: MsgExecute.Data): MsgExecute {
     const {
       sender,
       module_address,

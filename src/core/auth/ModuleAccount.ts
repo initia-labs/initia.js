@@ -38,7 +38,7 @@ export class ModuleAccount extends JSONSerializable<
     return this.base_account.public_key;
   }
 
-  public static fromAmino(data: ModuleAccount.Amino): ModuleAccount {    
+  public static fromAmino(data: ModuleAccount.Amino): ModuleAccount {
     const {
       value: { base_account, name, permissions },
     } = data;
@@ -49,7 +49,7 @@ export class ModuleAccount extends JSONSerializable<
         value: base_account,
       }),
       name,
-      permissions,
+      permissions
     );
   }
 
@@ -74,7 +74,7 @@ export class ModuleAccount extends JSONSerializable<
         ...base_account,
       }),
       name,
-      permissions,
+      permissions
     );
   }
 
@@ -92,7 +92,7 @@ export class ModuleAccount extends JSONSerializable<
     return new ModuleAccount(
       BaseAccount.fromProto(proto.baseAccount as BaseAccount.Proto),
       proto.name,
-      proto.permissions,
+      proto.permissions
     );
   }
 

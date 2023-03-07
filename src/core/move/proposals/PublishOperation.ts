@@ -13,15 +13,11 @@ export class PublishOperation extends JSONSerializable<
   /**
    * @param code_bytes raw move module bytes code
    */
-  constructor(
-    public code_bytes: string
-  ) {
+  constructor(public code_bytes: string) {
     super();
   }
 
-  public static fromAmino(
-    data: PublishOperation.Amino
-  ): PublishOperation {
+  public static fromAmino(data: PublishOperation.Amino): PublishOperation {
     return new PublishOperation(data.value.code_bytes);
   }
 
@@ -33,9 +29,7 @@ export class PublishOperation extends JSONSerializable<
     };
   }
 
-  public static fromData(
-    data: PublishOperation.Data
-  ): PublishOperation {
+  public static fromData(data: PublishOperation.Data): PublishOperation {
     return new PublishOperation(data.code_bytes);
   }
 
@@ -47,9 +41,7 @@ export class PublishOperation extends JSONSerializable<
     };
   }
 
-  public static fromProto(
-    proto: PublishOperation.Proto
-  ): PublishOperation {
+  public static fromProto(proto: PublishOperation.Proto): PublishOperation {
     return new PublishOperation(
       Buffer.from(proto.codeBytes).toString('base64')
     );
@@ -70,9 +62,7 @@ export class PublishOperation extends JSONSerializable<
   }
 
   public static unpackAny(msgAny: Any): PublishOperation {
-    return PublishOperation.fromProto(
-      PublishOperation_pb.decode(msgAny.value)
-    );
+    return PublishOperation.fromProto(PublishOperation_pb.decode(msgAny.value));
   }
 }
 

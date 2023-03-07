@@ -2,6 +2,8 @@ import {
   BCS as mystenBcs,
   BcsWriter,
   BcsReader,
+  fromHEX,
+  toHEX,
   StructTypeDefinition,
 } from '@mysten/bcs';
 import { MoveFunctionABI } from '../core/move/types';
@@ -9,6 +11,7 @@ import { MoveFunctionABI } from '../core/move/types';
 export class BCS {
   private static bcs: BCS;
   private mystenBcs: mystenBcs;
+  private addressLength = 32;
 
   static readonly U8: string = 'u8';
   static readonly U16: string = 'u16';
@@ -26,9 +29,25 @@ export class BCS {
     this.mystenBcs = new mystenBcs({
       genericSeparators: ['<', '>'],
       vectorType: 'vector',
-      addressLength: 20,
+      addressLength: this.addressLength,
       addressEncoding: 'hex',
     });
+
+    // Overwrite address with padStart
+    this.mystenBcs.registerType(
+      BCS.ADDRESS,
+      (writer: BcsWriter, data: string) => {
+        const address = data
+          .replace('0x', '')
+          .padStart(this.addressLength * 2, '0');
+
+        return fromHEX(address).reduce(
+          (writer, el) => writer.write8(el),
+          writer
+        );
+      },
+      reader => toHEX(reader.readBytes(this.addressLength))
+    );
 
     this.registerOptionType(BCS.OPTION);
   }

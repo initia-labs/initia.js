@@ -26,7 +26,7 @@ export class Validator extends JSONSerializable<
 > {
   public tokens: Coins;
   public delegator_shares: Coins;
-  public voting_powers: Coins
+  public voting_powers: Coins;
 
   /**
    *
@@ -75,7 +75,7 @@ export class Validator extends JSONSerializable<
       unbonding_time: this.unbonding_time.toISOString(),
       commission: this.commission.toAmino(),
       voting_powers: this.voting_powers.toAmino(),
-      voting_power: this.voting_power
+      voting_power: this.voting_power,
     };
   }
 
@@ -92,7 +92,7 @@ export class Validator extends JSONSerializable<
       new Date(data.unbonding_time),
       Validator.Commission.fromAmino(data.commission),
       Coins.fromAmino(data.voting_powers),
-      data.voting_power,
+      data.voting_power
     );
   }
 
@@ -143,7 +143,7 @@ export class Validator extends JSONSerializable<
       unbonding_time,
       commission,
       voting_powers,
-      voting_power
+      voting_power,
     } = this;
     return Validator_pb.fromPartial({
       operatorAddress: operator_address,
@@ -178,7 +178,7 @@ export class Validator extends JSONSerializable<
         data.commission as Validator.Commission.Proto
       ),
       Coins.fromProto(data.votingPowers),
-      data.votingPower,
+      data.votingPower
     );
   }
 }

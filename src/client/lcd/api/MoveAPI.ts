@@ -98,7 +98,7 @@ export class MoveAPI extends BaseAPI {
           args,
         }
       )
-      .then((res) => JSON.parse(res.data) as T);
+      .then(res => JSON.parse(res.data) as T);
   }
 
   /**
@@ -150,7 +150,7 @@ export class MoveAPI extends BaseAPI {
         pagination: Pagination;
       }>(`/initia/move/v1/accounts/${convertIf(address)}/resources`, params)
       .then(d => [
-        d.resources.map((res) => JSON.parse(res.move_resource)),
+        d.resources.map(res => JSON.parse(res.move_resource)),
         d.pagination,
       ]);
   }
@@ -162,18 +162,23 @@ export class MoveAPI extends BaseAPI {
   ): Promise<{ type: string; data: T }> {
     return this.c
       .get<{ resource: Resource }>(
-        `/initia/move/v1/accounts/${convertIf(address)}/resources/by_struct_tag`,
+        `/initia/move/v1/accounts/${convertIf(
+          address
+        )}/resources/by_struct_tag`,
         { ...params, struct_tag: structTag }
       )
       .then(({ resource: d }) => JSON.parse(d.move_resource));
   }
 
-  public async denom(structTag: string, params: APIParams = {}): Promise<Denom> {
+  public async denom(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<Denom> {
     return this.c
-      .get<{ denom: Denom }>(
-        `/initia/move/v1/denoms/by_struct_tag`, 
-        { ...params, struct_tag: structTag }
-      )
+      .get<{ denom: Denom }>(`/initia/move/v1/denoms/by_struct_tag`, {
+        ...params,
+        struct_tag: structTag,
+      })
       .then(d => d.denom);
   }
 
@@ -197,10 +202,10 @@ export class MoveAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<string> {
     return this.c
-      .get<{ struct_tag: string }> (
-        `/initia/move/v1/struct_tags/by_denom`,
-        { ...params, denom }
-      )
+      .get<{ struct_tag: string }>(`/initia/move/v1/struct_tags/by_denom`, {
+        ...params,
+        denom,
+      })
       .then(d => d.struct_tag);
   }
 }
