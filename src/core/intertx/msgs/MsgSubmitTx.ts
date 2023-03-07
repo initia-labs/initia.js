@@ -2,6 +2,7 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/intertx/tx';
+import { Msg } from '../../Msg';
 
 export class MsgSubmitTx extends JSONSerializable<
   any,
@@ -16,7 +17,7 @@ export class MsgSubmitTx extends JSONSerializable<
   constructor(
     public owner: AccAddress,
     public connection_id: string,
-    public msg: any
+    public msg: Msg
   ) {
     super();
   }
@@ -31,7 +32,7 @@ export class MsgSubmitTx extends JSONSerializable<
 
   public static fromData(data: MsgSubmitTx.Data): MsgSubmitTx {
     const { owner, connection_id, msg } = data;
-    return new MsgSubmitTx(owner, connection_id, msg);
+    return new MsgSubmitTx(owner, connection_id, Msg.fromData(msg));
   }
 
   public toData(): MsgSubmitTx.Data {
@@ -40,12 +41,16 @@ export class MsgSubmitTx extends JSONSerializable<
       '@type': '/intertx.MsgSubmitTx',
       owner,
       connection_id,
-      msg,
+      msg: msg.toData(),
     };
   }
 
   public static fromProto(proto: MsgSubmitTx.Proto): MsgSubmitTx {
-    return new MsgSubmitTx(proto.owner, proto.connectionId, proto.msg);
+    return new MsgSubmitTx(
+      proto.owner,
+      proto.connectionId,
+      Msg.fromProto(proto.msg as any)
+    );
   }
 
   public toProto(): MsgSubmitTx.Proto {
@@ -53,7 +58,7 @@ export class MsgSubmitTx extends JSONSerializable<
     return MsgSubmitTx_pb.fromPartial({
       owner,
       connectionId: connection_id,
-      msg,
+      msg: msg.packAny(),
     });
   }
 
@@ -74,7 +79,7 @@ export namespace MsgSubmitTx {
     '@type': '/intertx.MsgSubmitTx';
     owner: AccAddress;
     connection_id: string;
-    msg: Any;
+    msg: Msg.Data;
   }
 
   export type Proto = MsgSubmitTx_pb;
