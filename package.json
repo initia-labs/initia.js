@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.0.36",
+  "version": "0.0.37",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -57,7 +57,6 @@
     "@types/bn.js": "^5.1.1",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.7.18",
-    "@types/readable-stream": "^2.3.14",
     "@types/ripemd160": "^2.0.0",
     "@types/secp256k1": "^4.0.3",
     "@types/tmp": "^0.2.3",
@@ -85,24 +84,20 @@
   },
   "dependencies": {
     "@initia/initia.proto": "^0.0.17-alpha1",
-    "@ledgerhq/hw-transport": "^6.20.0",
-    "@ledgerhq/hw-transport-node-hid": "^6.20.0",
-    "@ledgerhq/hw-transport-webhid": "^6.20.0",
-    "@ledgerhq/hw-transport-webusb": "^6.20.0",
+    "@ledgerhq/hw-transport": "^6.27.12",
+    "@ledgerhq/hw-transport-webhid": "^6.27.12",
+    "@ledgerhq/hw-transport-webusb": "^6.27.12",
     "@mysten/bcs": "^0.5.0",
     "axios": "^0.27.2",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.0",
     "bip32": "^2.0.6",
     "bip39": "^3.0.4",
-    "bufferutil": "^4.0.6",
     "jscrypto": "^1.0.3",
     "long": "^5.2.0",
-    "readable-stream": "^4.1.0",
     "ripemd160": "^2.0.2",
     "secp256k1": "^4.0.3",
     "tmp": "^0.2.1",
-    "utf-8-validate": "^5.0.9",
     "ws": "^7.5.9"
   }
 }
