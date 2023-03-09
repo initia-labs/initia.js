@@ -10,7 +10,6 @@ export class MsgExecute extends JSONSerializable<
   MsgExecute.Data,
   MsgExecute.Proto
 > {
-  public module_address: string;
   public type_args: string[];
   public args: string[];
 
@@ -24,17 +23,13 @@ export class MsgExecute extends JSONSerializable<
    */
   constructor(
     public sender: AccAddress,
-    module_address: AccAddress,
+    public module_address: AccAddress,
     public module_name: string,
     public function_name: string,
     type_args: string[] = [],
     args: string[] = []
   ) {
     super();
-    this.module_address = module_address.startsWith('0x')
-      ? AccAddress.fromHex(module_address)
-      : module_address;
-
     this.type_args = type_args;
     this.args = args;
   }

@@ -5,10 +5,6 @@ import { argsEncodeWithABI } from '../../../util';
 import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
-const convertIf = (address: string) => {
-  return address.startsWith('0x') ? AccAddress.fromHex(address) : address;
-};
-
 export interface MoveParams {
   base_denom: string;
   max_module_size: number;
@@ -49,7 +45,7 @@ export class MoveAPI extends BaseAPI {
       .get<{
         modules: Module[];
         pagination: Pagination;
-      }>(`/initia/move/v1/accounts/${convertIf(address)}/modules`, params)
+      }>(`/initia/move/v1/accounts/${address}/modules`, params)
       .then(d => [
         d.modules.map(mod => ({
           address: mod.address,
@@ -69,7 +65,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<Module> {
     return this.c
       .get<{ module: Module }>(
-        `/initia/move/v1/accounts/${convertIf(address)}/modules/${moduleName}`,
+        `/initia/move/v1/accounts/${address}/modules/${moduleName}`,
         params
       )
       .then(({ module: d }) => ({
@@ -90,9 +86,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<T> {
     return this.c
       .post<{ data: string }>(
-        `/initia/move/v1/accounts/${convertIf(
-          address
-        )}/modules/${moduleName}/entry_functions/${functionName}`,
+        `/initia/move/v1/accounts/${address}/modules/${moduleName}/entry_functions/${functionName}`,
         {
           type_args: typeArgs,
           args,
@@ -148,7 +142,7 @@ export class MoveAPI extends BaseAPI {
       .get<{
         resources: Resource[];
         pagination: Pagination;
-      }>(`/initia/move/v1/accounts/${convertIf(address)}/resources`, params)
+      }>(`/initia/move/v1/accounts/${address}/resources`, params)
       .then(d => [
         d.resources.map(res => JSON.parse(res.move_resource)),
         d.pagination,
@@ -162,9 +156,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<{ type: string; data: T }> {
     return this.c
       .get<{ resource: Resource }>(
-        `/initia/move/v1/accounts/${convertIf(
-          address
-        )}/resources/by_struct_tag`,
+        `/initia/move/v1/accounts/${address}/resources/by_struct_tag`,
         { ...params, struct_tag: structTag }
       )
       .then(({ resource: d }) => JSON.parse(d.move_resource));
