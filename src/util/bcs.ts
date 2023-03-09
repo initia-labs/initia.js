@@ -6,6 +6,7 @@ import {
   toHEX,
   StructTypeDefinition,
 } from '@mysten/bcs';
+import { AccAddress } from '../core';
 import { MoveFunctionABI } from '../core/move/types';
 
 export class BCS {
@@ -37,6 +38,7 @@ export class BCS {
     this.mystenBcs.registerType(
       BCS.ADDRESS,
       (writer: BcsWriter, data: string) => {
+        data = data.startsWith('init1') ? AccAddress.toHex(data) : data;
         const address = data
           .replace('0x', '')
           .padStart(this.addressLength * 2, '0');
