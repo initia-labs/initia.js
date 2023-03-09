@@ -73,8 +73,7 @@ export class DistributionAPI extends BaseAPI {
       .get<Rewards.Data>(
         `/cosmos/distribution/v1beta1/delegators/${delegator}/rewards`,
         params
-      )
-      .then(d => d);
+      );
 
     const rewards: Rewards['rewards'] = {};
     for (const reward of rewardsData.rewards) {
@@ -84,6 +83,24 @@ export class DistributionAPI extends BaseAPI {
       rewards,
       total: Coins.fromData(rewardsData.total),
     };
+  }
+
+  /**
+   * Gets a delegator's rewards by validator.
+   * @param delegator delegator's account address
+   * @param validator validator's account address
+   */
+  public async rewardsByValidator(
+    delegator: AccAddress,
+    validator: AccAddress,
+    params: APIParams = {}
+  ): Promise<Coins> {
+    return this.c
+      .get<{ rewards: Coins.Data }>(
+        `/cosmos/distribution/v1beta1/delegators/${delegator}/rewards/${validator}`,
+        params
+      )
+      .then(d => Coins.fromData(d.rewards));
   }
 
   /**
