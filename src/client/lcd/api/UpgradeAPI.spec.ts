@@ -22,7 +22,7 @@ describe('UpgradeAPI', () => {
 
   describe('node_versions', () => {
     it('module count', async () => {
-      expect(await upgrade.moduleVersions()).toHaveLength(20);
+      expect(await upgrade.moduleVersions()).toHaveLength(22);
     });
   });
 });
