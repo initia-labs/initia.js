@@ -126,8 +126,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets a delegator's rewards by validator.
-   * @param delegator delegator's account address
+   * Gets a validator's rewards.
    * @param validator validator's account address
    */
   public async validatorRewards(
@@ -150,7 +149,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets a validator's rewards.
+   * Gets a validator's commissions.
    * @param validator validator's operator address
    */
   public async validatorCommission(
