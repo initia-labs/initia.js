@@ -209,7 +209,7 @@ export class MsgExecute extends JSONSerializable<
     args: any[] = [],
     abi: string
   ): MsgExecute {
-    const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
+    const module: ModuleABI = JSON.parse(abi);
 
     const functionAbi = module.exposed_functions.find(
       exposedFunction => exposedFunction.name === function_name

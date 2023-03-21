@@ -140,9 +140,7 @@ export class MsgScript extends JSONSerializable<
     args: any[],
     abi: string
   ): MsgScript {
-    const functionAbi: MoveFunctionABI = JSON.parse(
-      Buffer.from(abi, 'base64').toString()
-    );
+    const functionAbi: MoveFunctionABI = JSON.parse(abi);
 
     return new MsgScript(
       sender,
