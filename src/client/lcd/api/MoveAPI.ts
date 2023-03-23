@@ -36,6 +36,12 @@ export interface ABI {
   abi: string;
 }
 
+export interface TableEntry {
+  address: AccAddress;
+  key: string;
+  value: string;
+}
+
 export class MoveAPI extends BaseAPI {
   public async modules(
     address: AccAddress,
@@ -86,7 +92,7 @@ export class MoveAPI extends BaseAPI {
   ): Promise<T> {
     return this.c
       .post<{ data: string }>(
-        `/initia/move/v1/accounts/${address}/modules/${moduleName}/entry_functions/${functionName}`,
+        `/initia/move/v1/accounts/${address}/modules/${moduleName}/view_functions/${functionName}`,
         {
           type_args: typeArgs,
           args,
@@ -199,5 +205,30 @@ export class MoveAPI extends BaseAPI {
         denom,
       })
       .then(d => d.struct_tag);
+  }
+
+  public async tableEntries(
+    address: AccAddress,
+    params: Partial<PaginationOptions & APIParams> = {}
+  ): Promise<[TableEntry[], Pagination]> {
+    return this.c
+      .get<{ table_entries: TableEntry[]; pagination: Pagination }>(
+        `/initia/move/v1/tables/${address}/entries`,
+        params
+      )
+      .then(d => [d.table_entries, d.pagination]);
+  }
+
+  public async tableEntry(
+    address: AccAddress,
+    keyBytes: string,
+    params: APIParams = {}
+  ): Promise<TableEntry> {
+    return this.c
+      .get<{ table_entry: TableEntry }>(
+        `/initia/move/v1/tables/${address}/entries/${keyBytes}`,
+        params
+      )
+      .then(d => d.table_entry);
   }
 }
