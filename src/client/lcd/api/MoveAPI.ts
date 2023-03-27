@@ -83,7 +83,7 @@ export class MoveAPI extends BaseAPI {
       }));
   }
 
-  public async executeEntryFunction<T>(
+  public async viewFunction<T>(
     address: AccAddress,
     moduleName: string,
     functionName: string,
@@ -102,7 +102,7 @@ export class MoveAPI extends BaseAPI {
   }
 
   /**
-   * Query entry function with not encoded arguments and abi.
+   * Query view function with not encoded arguments and abi.
    * Arguments will be bcs encoded with type informations from abi.
    *
    * @param address
@@ -113,7 +113,7 @@ export class MoveAPI extends BaseAPI {
    * @param abi // base64 encoded module abi
    * @returns
    */
-  public async executeEntryFunctionWithABI<T>(
+  public async viewFunctionWithABI<T>(
     abi: string,
     address: AccAddress,
     moduleName: string,
@@ -131,7 +131,7 @@ export class MoveAPI extends BaseAPI {
       throw Error('function not found');
     }
 
-    return this.executeEntryFunction<T>(
+    return this.viewFunction<T>(
       address,
       moduleName,
       functionName,
