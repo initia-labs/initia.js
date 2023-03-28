@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../../util/json';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { WhitelistProposal as WhitelistProposal_pb } from '@initia/initia.proto/initia/move//v1/proposal';
+import { WhitelistProposal as WhitelistProposal_pb } from '@initia/initia.proto/initia/move/v1/proposal';
 
 /**
  * WhitelistProposal proposal which supports whitelisting dex pairs
