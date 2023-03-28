@@ -6,14 +6,16 @@ import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
 export interface MoveParams {
-  base_denom: string;
+  base_denom: Denom;
   max_module_size: number;
+  base_min_gas_price: string;
 }
 
 export namespace MoveParams {
   export interface Data {
     base_denom: string;
     max_module_size: string;
+    base_min_gas_price: string;
   }
 }
 
@@ -186,6 +188,7 @@ export class MoveAPI extends BaseAPI {
       .then(({ params: d }) => ({
         base_denom: d.base_denom,
         max_module_size: Number.parseInt(d.max_module_size),
+        base_min_gas_price: d.base_min_gas_price,
       }));
   }
 

@@ -9,7 +9,7 @@ export * from './MstakingAPI';
 export * from './TendermintAPI';
 export * from './TxAPI';
 export * from './MoveAPI';
-export * from './MintAPI';
+export * from './RewardAPI';
 export * from './IbcAPI';
 export * from './IbcTransferAPI';
 export * from './UpgradeAPI';

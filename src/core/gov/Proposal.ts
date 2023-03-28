@@ -9,7 +9,11 @@ import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
-import { OperationsProposal, WhitelistProposal } from '../move/proposals';
+import {
+  OperationsProposal,
+  WhitelistProposal,
+  DelistProposal,
+} from '../move/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -234,7 +238,8 @@ export namespace Proposal {
     | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal
     | OperationsProposal
-    | WhitelistProposal;
+    | WhitelistProposal
+    | DelistProposal;
 
   export namespace Content {
     export type Amino =
@@ -245,7 +250,8 @@ export namespace Proposal {
       | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino
       | OperationsProposal.Amino
-      | WhitelistProposal.Amino;
+      | WhitelistProposal.Amino
+      | DelistProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -255,7 +261,8 @@ export namespace Proposal {
       | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data
       | OperationsProposal.Data
-      | WhitelistProposal.Data;
+      | WhitelistProposal.Data
+      | DelistProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -265,7 +272,8 @@ export namespace Proposal {
       | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto
       | OperationsProposal.Proto
-      | WhitelistProposal.Proto;
+      | WhitelistProposal.Proto
+      | DelistProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -285,6 +293,8 @@ export namespace Proposal {
           return OperationsProposal.fromAmino(amino);
         case 'move/WhitelistProposal':
           return WhitelistProposal.fromAmino(amino);
+        case 'move/DelistProposal':
+          return DelistProposal.fromAmino(amino);
       }
     }
 
@@ -306,6 +316,8 @@ export namespace Proposal {
           return OperationsProposal.fromData(data);
         case '/initia.move.v1.WhitelistProposal':
           return WhitelistProposal.fromData(data);
+        case '/initia.move.v1.DelistProposal':
+          return DelistProposal.fromData(data);
       }
     }
 
@@ -328,6 +340,8 @@ export namespace Proposal {
           return OperationsProposal.unpackAny(anyProto);
         case '/initia.move.v1.WhitelistProposal':
           return WhitelistProposal.unpackAny(anyProto);
+        case '/initia.move.v1.DelistProposal':
+          return DelistProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;

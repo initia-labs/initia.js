@@ -5,7 +5,7 @@ import {
   DistributionAPI,
   FeeGrantAPI,
   GovAPI,
-  MintAPI,
+  RewardAPI,
   AuthzAPI,
   SlashingAPI,
   MstakingAPI,
@@ -75,7 +75,7 @@ export class LCDClient {
   public distribution: DistributionAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
-  public mint: MintAPI;
+  public reward: RewardAPI;
   public authz: AuthzAPI;
   public slashing: SlashingAPI;
   public mstaking: MstakingAPI;
@@ -114,7 +114,7 @@ export class LCDClient {
     this.distribution = new DistributionAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
-    this.mint = new MintAPI(this.apiRequester);
+    this.reward = new RewardAPI(this.apiRequester);
     this.authz = new AuthzAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
     this.mstaking = new MstakingAPI(this.apiRequester);
