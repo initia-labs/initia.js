@@ -4,7 +4,9 @@ import {
   BcsReader,
   fromHEX,
   toHEX,
+  TypeName,
   StructTypeDefinition,
+  Encoding,
 } from '@mysten/bcs';
 import { AccAddress } from '../core';
 import { MoveFunctionABI } from '../core/move/types';
@@ -85,7 +87,7 @@ export class BCS {
    * @return Base64 encoded of serialized data
    */
   public serialize(type: string, data: any, size = 1024): string {
-    return this.mystenBcs.ser(type, data, size).toString('base64');
+    return this.mystenBcs.ser(type, data, { size }).toString('base64');
   }
 
   /**
@@ -106,7 +108,7 @@ export class BCS {
   public deserialize<T>(
     type: string,
     data: Uint8Array | string,
-    encoding = 'base64'
+    encoding = 'base64' as Encoding
   ): T {
     return this.mystenBcs.de(type, data, encoding) as T;
   }
@@ -152,7 +154,8 @@ export class BCS {
   }
 
   private registerOptionType(name: string, elementType?: string) {
-    const { typeName, typeParams } = this.mystenBcs.parseTypeName(name);
+    const { name: typeName, params: typeParams } =
+      this.mystenBcs.parseTypeName(name);
 
     if (typeParams.length > 1) {
       throw new Error('Option can have only one type parameter; got ' + name);
@@ -160,16 +163,16 @@ export class BCS {
 
     return this.mystenBcs.registerType(
       typeName,
-      (writer: BcsWriter, data: any, typeParams: string[]) =>
+      (writer: BcsWriter, data: any, typeParams: TypeName[]) =>
         writer.writeVec(data === null ? [] : [data], (writer, el) => {
           const vectorType = elementType || typeParams[0];
 
           if (vectorType) {
-            const { typeName, typeParams } =
+            const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
               .getTypeInterface(elementType || typeName)
-              ._encodeRaw(writer, el, typeParams);
+              ._encodeRaw(writer, el, typeParams, {});
           } else {
             throw new Error(
               `Incorrect number of type parameters passed to option '${typeName}'`
@@ -180,11 +183,11 @@ export class BCS {
         const vec = reader.readVec(reader => {
           const vectorType = elementType || typeParams[0];
           if (vectorType) {
-            const { typeName, typeParams } =
+            const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
               .getTypeInterface(elementType || typeName)
-              ._decodeRaw(reader, typeParams);
+              ._decodeRaw(reader, typeParams, {});
           } else {
             throw new Error(
               `Incorrect number of type parameters passed to option '${typeName}'`
