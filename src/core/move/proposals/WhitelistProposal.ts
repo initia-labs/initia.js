@@ -16,26 +16,35 @@ export class WhitelistProposal extends JSONSerializable<
    * @param coin_a coin A struct tag
    * @param coin_b coin B struct tag
    * @param coin_lp coin LP struct tag
+   * @param reward_weight reward weight
    */
   constructor(
     public title: string,
     public description: string,
     public coin_a: string,
     public coin_b: string,
-    public coin_lp: string
+    public coin_lp: string,
+    public reward_weight: string
   ) {
     super();
   }
 
   public static fromAmino(data: WhitelistProposal.Amino): WhitelistProposal {
     const {
-      value: { title, description, coin_a, coin_b, coin_lp },
+      value: { title, description, coin_a, coin_b, coin_lp, reward_weight },
     } = data;
-    return new WhitelistProposal(title, description, coin_a, coin_b, coin_lp);
+    return new WhitelistProposal(
+      title,
+      description,
+      coin_a,
+      coin_b,
+      coin_lp,
+      reward_weight
+    );
   }
 
   public toAmino(): WhitelistProposal.Amino {
-    const { title, description, coin_a, coin_b, coin_lp } = this;
+    const { title, description, coin_a, coin_b, coin_lp, reward_weight } = this;
     return {
       type: 'move/WhitelistProposal',
       value: {
@@ -44,17 +53,25 @@ export class WhitelistProposal extends JSONSerializable<
         coin_a,
         coin_b,
         coin_lp,
+        reward_weight,
       },
     };
   }
 
   public static fromData(data: WhitelistProposal.Data): WhitelistProposal {
-    const { title, description, coin_a, coin_b, coin_lp } = data;
-    return new WhitelistProposal(title, description, coin_a, coin_b, coin_lp);
+    const { title, description, coin_a, coin_b, coin_lp, reward_weight } = data;
+    return new WhitelistProposal(
+      title,
+      description,
+      coin_a,
+      coin_b,
+      coin_lp,
+      reward_weight
+    );
   }
 
   public toData(): WhitelistProposal.Data {
-    const { title, description, coin_a, coin_b, coin_lp } = this;
+    const { title, description, coin_a, coin_b, coin_lp, reward_weight } = this;
     return {
       '@type': '/initia.move.v1.WhitelistProposal',
       title,
@@ -62,6 +79,7 @@ export class WhitelistProposal extends JSONSerializable<
       coin_a,
       coin_b,
       coin_lp,
+      reward_weight,
     };
   }
 
@@ -71,18 +89,20 @@ export class WhitelistProposal extends JSONSerializable<
       proto.description,
       proto.coinA,
       proto.coinB,
-      proto.coinLp
+      proto.coinLp,
+      proto.rewardWeight
     );
   }
 
   public toProto(): WhitelistProposal.Proto {
-    const { title, description, coin_a, coin_b, coin_lp } = this;
+    const { title, description, coin_a, coin_b, coin_lp, reward_weight } = this;
     return WhitelistProposal_pb.fromPartial({
       title,
       description,
       coinA: coin_a,
       coinB: coin_b,
       coinLp: coin_lp,
+      rewardWeight: reward_weight,
     });
   }
 
@@ -109,6 +129,7 @@ export namespace WhitelistProposal {
       coin_a: string;
       coin_b: string;
       coin_lp: string;
+      reward_weight: string;
     };
   }
 
@@ -119,6 +140,7 @@ export namespace WhitelistProposal {
     coin_a: string;
     coin_b: string;
     coin_lp: string;
+    reward_weight: string;
   }
 
   export type Proto = WhitelistProposal_pb;

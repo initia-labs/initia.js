@@ -9,6 +9,7 @@ export interface MoveParams {
   base_denom: Denom;
   max_module_size: number;
   base_min_gas_price: string;
+  arbitrary_enabled: boolean;
 }
 
 export namespace MoveParams {
@@ -16,6 +17,7 @@ export namespace MoveParams {
     base_denom: string;
     max_module_size: string;
     base_min_gas_price: string;
+    arbitrary_enabled: boolean;
   }
 }
 
@@ -189,6 +191,7 @@ export class MoveAPI extends BaseAPI {
         base_denom: d.base_denom,
         max_module_size: Number.parseInt(d.max_module_size),
         base_min_gas_price: d.base_min_gas_price,
+        arbitrary_enabled: d.arbitrary_enabled,
       }));
   }
 
