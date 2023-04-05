@@ -108,3 +108,5 @@ export namespace MsgPublish {
 
   export type Proto = MsgPublish_pb;
 }
+
+export { UpgradePolicy };
