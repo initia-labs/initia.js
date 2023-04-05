@@ -37,6 +37,13 @@ import { MsgCreateVestingAccount, VestingMsg } from './vesting/msgs';
 import { MsgPublish, MsgExecute, MsgScript, MoveMsg } from './move/msgs';
 import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
 import {
+  MsgPayPacketFee,
+  MsgPayPacketFeeAsync,
+  MsgRegisterCounterpartyPayee,
+  MsgRegisterPayee,
+  IbcFeeMsg,
+} from './ibc/applications/fee/msgs';
+import {
   MsgCreateClient,
   MsgUpdateClient,
   MsgUpgradeClient,
@@ -77,6 +84,7 @@ export type Msg =
   | MstakingMsg
   | VestingMsg
   | MoveMsg
+  | IbcFeeMsg
   | IbcTransferMsg
   | IbcClientMsg
   | IbcConnectionMsg
@@ -108,6 +116,7 @@ export namespace Msg {
     | MstakingMsg.Data
     | VestingMsg.Data
     | MoveMsg.Data
+    | IbcFeeMsg.Data
     | IbcTransferMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
@@ -125,6 +134,7 @@ export namespace Msg {
     | MstakingMsg.Proto
     | VestingMsg.Proto
     | MoveMsg.Proto
+    | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
@@ -282,6 +292,16 @@ export namespace Msg {
       case '/initia.move.v1.MsgScript':
         return MsgScript.fromData(data);
 
+      // ibc-fee
+      case '/ibc.applications.fee.v1.MsgPayPacketFee':
+        return MsgPayPacketFee.fromData(data);
+      case '/ibc.applications.fee.v1.MsgPayPacketFeeAsync':
+        return MsgPayPacketFeeAsync.fromData(data);
+      case '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee':
+        return MsgRegisterCounterpartyPayee.fromData(data);
+      case '/ibc.applications.fee.v1.MsgRegisterPayee':
+        return MsgRegisterPayee.fromData(data);
+
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.fromData(data);
@@ -410,6 +430,16 @@ export namespace Msg {
         return MsgExecute.unpackAny(proto);
       case '/initia.move.v1.MsgScript':
         return MsgScript.unpackAny(proto);
+
+      // ibc-fee
+      case '/ibc.applications.fee.v1.MsgPayPacketFee':
+        return MsgPayPacketFee.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgPayPacketFeeAsync':
+        return MsgPayPacketFeeAsync.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee':
+        return MsgRegisterCounterpartyPayee.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgRegisterPayee':
+        return MsgRegisterPayee.unpackAny(proto);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
