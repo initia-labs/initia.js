@@ -12,5 +12,6 @@ export * from './MoveAPI';
 export * from './RewardAPI';
 export * from './IbcAPI';
 export * from './IbcTransferAPI';
+export * from './IbcNftTransferAPI';
 export * from './UpgradeAPI';
 export * from './InterTxAPI';

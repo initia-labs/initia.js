@@ -50,6 +50,9 @@ export * from './ibc/msgs/connection';
 // IBC-transfer
 export * from './ibc/applications/transfer';
 
+// IBC-nft-transfer
+export * from './ibc/applications/nft-transfer';
+
 // MOVE
 export * from './move/msgs';
 export * from './move/proposals';

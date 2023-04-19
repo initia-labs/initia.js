@@ -44,6 +44,10 @@ import {
   IbcFeeMsg,
 } from './ibc/applications/fee/msgs';
 import {
+  MsgNftTransfer,
+  IbcNftTransferMsg,
+} from './ibc/applications/nft-transfer';
+import {
   MsgCreateClient,
   MsgUpdateClient,
   MsgUpgradeClient,
@@ -86,6 +90,7 @@ export type Msg =
   | MoveMsg
   | IbcFeeMsg
   | IbcTransferMsg
+  | IbcNftTransferMsg
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
@@ -104,6 +109,7 @@ export namespace Msg {
     | VestingMsg.Amino
     | MoveMsg.Amino
     | IbcTransferMsg.Amino
+    | IbcNftTransferMsg.Amino
     | CrisisMsg.Amino;
 
   export type Data =
@@ -118,6 +124,7 @@ export namespace Msg {
     | MoveMsg.Data
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
+    | IbcNftTransferMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
@@ -136,6 +143,7 @@ export namespace Msg {
     | MoveMsg.Proto
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
+    | IbcNftTransferMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
@@ -215,6 +223,10 @@ export namespace Msg {
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
         return MsgTransfer.fromAmino(data);
+
+      // ibc-nft-transfer
+      case 'initia/MsgNftTransfer':
+        return MsgNftTransfer.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -305,6 +317,10 @@ export namespace Msg {
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.fromData(data);
+
+      // ibc-nft-transfer
+      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+        return MsgNftTransfer.fromData(data);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -444,6 +460,10 @@ export namespace Msg {
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.unpackAny(proto);
+
+      // ibc-nft-transfer
+      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+        return MsgNftTransfer.unpackAny(proto);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

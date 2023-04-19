@@ -37,14 +37,10 @@ export class IbcTransferAPI extends BaseAPI {
   }
 
   /** Gets a denomination hash information */
-  public async denomHash(
-    trace: string,
-    params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<string> {
-    return await this.c.get<string>(
-      `/ibc/apps/transfer/v1/denom_hashes/${trace}`,
-      params
-    );
+  public async denomHash(trace: string): Promise<string> {
+    return await this.c
+      .get<{ hash: string }>(`/ibc/apps/transfer/v1/denom_hashes/${trace}`)
+      .then(d => d.hash);
   }
 
   /**
