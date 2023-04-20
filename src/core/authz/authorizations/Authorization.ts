@@ -2,6 +2,8 @@ import { JSONSerializable } from '../../../util/json';
 import { GenericAuthorization } from './GenericAuthorization';
 import { SendAuthorization } from './SendAuthorization';
 import { StakeAuthorization } from './StakeAuthorization';
+import { PublishAuthorization } from './PublishAuthorization';
+import { ExecuteAuthorization } from './ExecuteAuthorization';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz';
 
@@ -79,14 +81,18 @@ export namespace AuthorizationGrant {
 export type Authorization =
   | SendAuthorization
   | GenericAuthorization
-  | StakeAuthorization;
+  | StakeAuthorization
+  | PublishAuthorization
+  | ExecuteAuthorization;
 
 export namespace Authorization {
   export type Amino = SendAuthorization.Amino | GenericAuthorization.Amino;
   export type Data =
     | SendAuthorization.Data
     | GenericAuthorization.Data
-    | StakeAuthorization.Data;
+    | StakeAuthorization.Data
+    | PublishAuthorization.Data
+    | ExecuteAuthorization.Data;
   export type Proto = Any;
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
@@ -105,6 +111,10 @@ export namespace Authorization {
         return SendAuthorization.fromData(data);
       case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.fromData(data);
+      case '/initia.move.v1.PublishAuthorization':
+        return PublishAuthorization.fromData(data);
+      case '/initia.move.v1.ExecuteAuthorization':
+        return ExecuteAuthorization.fromData(data);
     }
   }
 
@@ -117,6 +127,10 @@ export namespace Authorization {
         return SendAuthorization.unpackAny(proto);
       case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.unpackAny(proto);
+      case '/initia.move.v1.PublishAuthorization':
+        return PublishAuthorization.unpackAny(proto);
+      case '/initia.move.v1.ExecuteAuthorization':
+        return ExecuteAuthorization.unpackAny(proto);
     }
 
     throw new Error(`Authorization type ${typeUrl} not recognized`);
