@@ -43,10 +43,7 @@ import {
   MsgRegisterPayee,
   IbcFeeMsg,
 } from './ibc/applications/fee/msgs';
-import {
-  MsgNftTransfer,
-  IbcNftTransferMsg,
-} from './ibc/applications/nft-transfer';
+import { MsgNftTransfer, IbcNftMsg } from './ibc/applications/nft-transfer';
 import {
   MsgCreateClient,
   MsgUpdateClient,
@@ -90,7 +87,7 @@ export type Msg =
   | MoveMsg
   | IbcFeeMsg
   | IbcTransferMsg
-  | IbcNftTransferMsg
+  | IbcNftMsg
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
@@ -109,7 +106,7 @@ export namespace Msg {
     | VestingMsg.Amino
     | MoveMsg.Amino
     | IbcTransferMsg.Amino
-    | IbcNftTransferMsg.Amino
+    | IbcNftMsg.Amino
     | CrisisMsg.Amino;
 
   export type Data =
@@ -124,7 +121,7 @@ export namespace Msg {
     | MoveMsg.Data
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
-    | IbcNftTransferMsg.Data
+    | IbcNftMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
@@ -143,7 +140,7 @@ export namespace Msg {
     | MoveMsg.Proto
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
-    | IbcNftTransferMsg.Proto
+    | IbcNftMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto

@@ -2,19 +2,19 @@ import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { ClassTrace } from '../../../core/ibc/applications/nft-transfer';
 
-export interface IbcNftTransferParams {
+export interface IbcNftParams {
   send_enabled: boolean;
   receive_enabled: boolean;
 }
 
-export namespace IbcNftTransferParams {
+export namespace IbcNftParams {
   export interface Data {
     send_enabled: boolean;
     receive_enabled: boolean;
   }
 }
 
-export class IbcNftTransferAPI extends BaseAPI {
+export class IbcNftAPI extends BaseAPI {
   /** Gets a classTrace for the hash */
   public async classTrace(hash: string): Promise<ClassTrace> {
     return this.c
@@ -44,13 +44,11 @@ export class IbcNftTransferAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current transfer application parameters.
+   * Gets the current nft transfer application parameters.
    */
-  public async parameters(
-    params: APIParams = {}
-  ): Promise<IbcNftTransferParams> {
+  public async parameters(params: APIParams = {}): Promise<IbcNftParams> {
     return this.c
-      .get<{ params: IbcNftTransferParams.Data }>(
+      .get<{ params: IbcNftParams.Data }>(
         `/ibc/apps/nft_transfer/v1/params`,
         params
       )
