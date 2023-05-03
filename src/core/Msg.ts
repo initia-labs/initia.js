@@ -44,6 +44,7 @@ import {
   IbcFeeMsg,
 } from './ibc/applications/fee/msgs';
 import { MsgNftTransfer, IbcNftMsg } from './ibc/applications/nft-transfer';
+import { MsgSftTransfer, IbcSftMsg } from './ibc/applications/sft-transfer';
 import {
   MsgCreateClient,
   MsgUpdateClient,
@@ -88,6 +89,7 @@ export type Msg =
   | IbcFeeMsg
   | IbcTransferMsg
   | IbcNftMsg
+  | IbcSftMsg
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
@@ -107,6 +109,7 @@ export namespace Msg {
     | MoveMsg.Amino
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
+    | IbcSftMsg.Amino
     | CrisisMsg.Amino;
 
   export type Data =
@@ -122,6 +125,7 @@ export namespace Msg {
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
     | IbcNftMsg.Data
+    | IbcSftMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
@@ -141,6 +145,7 @@ export namespace Msg {
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
     | IbcNftMsg.Proto
+    | IbcSftMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
@@ -222,8 +227,12 @@ export namespace Msg {
         return MsgTransfer.fromAmino(data);
 
       // ibc-nft-transfer
-      case 'initia/MsgNftTransfer':
+      case 'ibc/MsgNftTransfer':
         return MsgNftTransfer.fromAmino(data);
+
+      // ibc-sft-transfer
+      case 'ibc/MsgSftTransfer':
+        return MsgSftTransfer.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -318,6 +327,10 @@ export namespace Msg {
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
         return MsgNftTransfer.fromData(data);
+
+      // ibc-sft-transfer
+      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
+        return MsgSftTransfer.fromData(data);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -461,6 +474,10 @@ export namespace Msg {
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
         return MsgNftTransfer.unpackAny(proto);
+
+      // ibc-sft-transfer
+      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
+        return MsgSftTransfer.unpackAny(proto);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

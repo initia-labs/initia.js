@@ -2,7 +2,7 @@ import { MsgNftTransfer } from './msgs/MsgNftTransfer';
 
 export * from './msgs/MsgNftTransfer';
 export * from './NonFungibleTokenPacketData';
-export * from './ClassTrace';
+export * from './NftClassTrace';
 
 export type IbcNftMsg = MsgNftTransfer;
 export namespace IbcNftMsg {

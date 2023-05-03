@@ -172,18 +172,6 @@ export class MoveAPI extends BaseAPI {
       .then(({ resource: d }) => JSON.parse(d.move_resource));
   }
 
-  public async denom(
-    structTag: string,
-    params: APIParams = {}
-  ): Promise<Denom> {
-    return this.c
-      .get<{ denom: Denom }>(`/initia/move/v1/denoms/by_struct_tag`, {
-        ...params,
-        struct_tag: structTag,
-      })
-      .then(d => d.denom);
-  }
-
   public async parameters(params: APIParams = {}): Promise<MoveParams> {
     return this.c
       .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
@@ -201,7 +189,19 @@ export class MoveAPI extends BaseAPI {
     });
   }
 
-  public async structTag(
+  public async denom(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<Denom> {
+    return this.c
+      .get<{ denom: Denom }>(`/initia/move/v1/denoms/by_struct_tag`, {
+        ...params,
+        struct_tag: structTag,
+      })
+      .then(d => d.denom);
+  }
+
+  public async structTagByDenom(
     denom: Denom,
     params: APIParams = {}
   ): Promise<string> {
@@ -210,6 +210,66 @@ export class MoveAPI extends BaseAPI {
         ...params,
         denom,
       })
+      .then(d => d.struct_tag);
+  }
+
+  public async nftClassId(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ class_id: string }>(
+        `/initia/move/v1/nft_class_ids/by_struct_tag`,
+        {
+          ...params,
+          struct_tag: structTag,
+        }
+      )
+      .then(d => d.class_id);
+  }
+
+  public async structTagByNftClassId(
+    classId: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ struct_tag: string }>(
+        `/initia/move/v1/struct_tags/by_nft_class_id`,
+        {
+          ...params,
+          class_id: classId,
+        }
+      )
+      .then(d => d.struct_tag);
+  }
+
+  public async sftClassId(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ class_id: string }>(
+        `/initia/move/v1/sft_class_ids/by_struct_tag`,
+        {
+          ...params,
+          struct_tag: structTag,
+        }
+      )
+      .then(d => d.class_id);
+  }
+
+  public async structTagBySftClassId(
+    classId: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ struct_tag: string }>(
+        `/initia/move/v1/struct_tags/by_sft_class_id`,
+        {
+          ...params,
+          class_id: classId,
+        }
+      )
       .then(d => d.struct_tag);
   }
 

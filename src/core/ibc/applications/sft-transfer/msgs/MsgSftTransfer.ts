@@ -2,21 +2,22 @@ import { JSONSerializable } from '../../../../../util/json';
 import { AccAddress } from '../../../../bech32';
 import Long from 'long';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgNftTransfer as MsgNftTransfer_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/tx';
+import { MsgSftTransfer as MsgSftTransfer_pb } from '@initia/initia.proto/ibc/applications/sft_transfer/v1/tx';
 import { Height } from '../../../core/client/Height';
 
 /**
- * A basic message for NFT transfer via IBC.
+ * A basic message for SFT transfer via IBC.
  */
-export class MsgNftTransfer extends JSONSerializable<
-  MsgNftTransfer.Amino,
-  MsgNftTransfer.Data,
-  MsgNftTransfer.Proto
+export class MsgSftTransfer extends JSONSerializable<
+  MsgSftTransfer.Amino,
+  MsgSftTransfer.Data,
+  MsgSftTransfer.Proto
 > {
   public source_port: string;
   public source_channel: string;
   public class_id: string;
   public token_ids: string[];
+  public token_amounts: string[];
   public sender: AccAddress;
   public receiver: string; // destination chain can be non-cosmos-based
   public timeout_height?: Height; // 0 to disable
@@ -26,7 +27,8 @@ export class MsgNftTransfer extends JSONSerializable<
    * @param source_port the port on which the packet will be sent
    * @param source_channel the channel by which the packet will be sent
    * @param class_id the struct tag of the extension
-   * @param token_ids the token ids of the NFT
+   * @param token_ids the token ids of the SFT
+   * @param token_amounts the token amounts of the SFT
    * @param sender the sender address
    * @param receiver the recipient address on the destination chain
    * @param timeout_height Timeout height relative to the current block height. (0 to disable)
@@ -38,6 +40,7 @@ export class MsgNftTransfer extends JSONSerializable<
     source_channel: string,
     class_id: string,
     token_ids: string[],
+    token_amounts: string[],
     sender: AccAddress,
     receiver: string,
     timeout_height: Height | undefined,
@@ -54,6 +57,7 @@ export class MsgNftTransfer extends JSONSerializable<
     this.source_channel = source_channel;
     this.class_id = class_id;
     this.token_ids = token_ids;
+    this.token_amounts = token_amounts;
     this.sender = sender;
     this.receiver = receiver;
     this.timeout_height = timeout_height;
@@ -61,13 +65,14 @@ export class MsgNftTransfer extends JSONSerializable<
     this.memo = memo;
   }
 
-  public static fromAmino(data: MsgNftTransfer.Amino): MsgNftTransfer {
+  public static fromAmino(data: MsgSftTransfer.Amino): MsgSftTransfer {
     const {
       value: {
         source_port,
         source_channel,
         class_id,
         token_ids,
+        token_amounts,
         sender,
         receiver,
         timeout_height,
@@ -80,11 +85,12 @@ export class MsgNftTransfer extends JSONSerializable<
       throw 'both of timeout_height and timeout_timestamp are undefined';
     }
 
-    return new MsgNftTransfer(
+    return new MsgSftTransfer(
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height ? Height.fromAmino(timeout_height) : undefined,
@@ -93,12 +99,13 @@ export class MsgNftTransfer extends JSONSerializable<
     );
   }
 
-  public toAmino(): MsgNftTransfer.Amino {
+  public toAmino(): MsgSftTransfer.Amino {
     const {
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height,
@@ -106,12 +113,13 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      type: 'ibc/MsgNftTransfer',
+      type: 'ibc/MsgSftTransfer',
       value: {
         source_port,
         source_channel,
         class_id,
         token_ids,
+        token_amounts,
         sender,
         receiver,
         timeout_height: timeout_height?.toAmino() || {},
@@ -121,12 +129,13 @@ export class MsgNftTransfer extends JSONSerializable<
     };
   }
 
-  public static fromData(data: MsgNftTransfer.Data): MsgNftTransfer {
+  public static fromData(data: MsgSftTransfer.Data): MsgSftTransfer {
     const {
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_timestamp,
@@ -138,11 +147,12 @@ export class MsgNftTransfer extends JSONSerializable<
       throw 'both of timeout_height and timeout_timestamp are undefined';
     }
 
-    return new MsgNftTransfer(
+    return new MsgSftTransfer(
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height ? Height.fromData(timeout_height) : undefined,
@@ -151,12 +161,13 @@ export class MsgNftTransfer extends JSONSerializable<
     );
   }
 
-  public toData(): MsgNftTransfer.Data {
+  public toData(): MsgSftTransfer.Data {
     const {
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height,
@@ -164,11 +175,12 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      '@type': '/ibc.applications.nft_transfer.v1.MsgNftTransfer',
+      '@type': '/ibc.applications.sft_transfer.v1.MsgSftTransfer',
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height: timeout_height
@@ -179,16 +191,17 @@ export class MsgNftTransfer extends JSONSerializable<
     };
   }
 
-  public static fromProto(proto: MsgNftTransfer.Proto): MsgNftTransfer {
+  public static fromProto(proto: MsgSftTransfer.Proto): MsgSftTransfer {
     if (!proto.timeoutHeight && proto.timeoutTimestamp.toNumber() == 0) {
       throw 'both of timeout_height and timeout_timestamp are empty';
     }
 
-    return new MsgNftTransfer(
+    return new MsgSftTransfer(
       proto.sourcePort,
       proto.sourceChannel,
       proto.classId,
       proto.tokenIds,
+      proto.tokenAmounts,
       proto.sender,
       proto.receiver,
       proto.timeoutHeight ? Height.fromProto(proto.timeoutHeight) : undefined,
@@ -197,23 +210,25 @@ export class MsgNftTransfer extends JSONSerializable<
     );
   }
 
-  public toProto(): MsgNftTransfer.Proto {
+  public toProto(): MsgSftTransfer.Proto {
     const {
       source_port,
       source_channel,
       class_id,
       token_ids,
+      token_amounts,
       sender,
       receiver,
       timeout_height,
       timeout_timestamp,
       memo,
     } = this;
-    return MsgNftTransfer_pb.fromPartial({
+    return MsgSftTransfer_pb.fromPartial({
       sourcePort: source_port,
       sourceChannel: source_channel,
       classId: class_id,
       tokenIds: token_ids,
+      tokenAmounts: token_amounts,
       sender,
       receiver,
       timeoutHeight: timeout_height ? timeout_height.toProto() : undefined,
@@ -224,24 +239,25 @@ export class MsgNftTransfer extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/ibc.applications.nft_transfer.v1.MsgNftTransfer',
-      value: MsgNftTransfer_pb.encode(this.toProto()).finish(),
+      typeUrl: '/ibc.applications.sft_transfer.v1.MsgSftTransfer',
+      value: MsgSftTransfer_pb.encode(this.toProto()).finish(),
     });
   }
 
-  public static unpackAny(msgAny: Any): MsgNftTransfer {
-    return MsgNftTransfer.fromProto(MsgNftTransfer_pb.decode(msgAny.value));
+  public static unpackAny(msgAny: Any): MsgSftTransfer {
+    return MsgSftTransfer.fromProto(MsgSftTransfer_pb.decode(msgAny.value));
   }
 }
 
-export namespace MsgNftTransfer {
+export namespace MsgSftTransfer {
   export interface Amino {
-    type: 'ibc/MsgNftTransfer';
+    type: 'ibc/MsgSftTransfer';
     value: {
       source_port: string;
       source_channel: string;
       class_id: string;
       token_ids: string[];
+      token_amounts: string[];
       sender: AccAddress;
       receiver: string;
       timeout_height: Height.Amino;
@@ -251,11 +267,12 @@ export namespace MsgNftTransfer {
   }
 
   export interface Data {
-    '@type': '/ibc.applications.nft_transfer.v1.MsgNftTransfer';
+    '@type': '/ibc.applications.sft_transfer.v1.MsgSftTransfer';
     source_port: string;
     source_channel: string;
     class_id: string;
     token_ids: string[];
+    token_amounts: string[];
     sender: AccAddress;
     receiver: string;
     timeout_height: Height.Data;
@@ -263,5 +280,5 @@ export namespace MsgNftTransfer {
     memo?: string;
   }
 
-  export type Proto = MsgNftTransfer_pb;
+  export type Proto = MsgSftTransfer_pb;
 }
