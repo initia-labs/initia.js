@@ -310,7 +310,7 @@ export class MoveAPI extends BaseAPI {
     codeBytes: string,
     moduleAddress: AccAddress,
     moduleName: string
-  ): Promise<String> {
+  ): Promise<string> {
     return this.c
       .post<{ code_bytes: string }>(
         `/initia/move/v1/api/convert_module_identifiers`,
