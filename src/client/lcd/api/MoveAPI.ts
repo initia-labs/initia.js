@@ -317,7 +317,7 @@ export class MoveAPI extends BaseAPI {
         {
           code_bytes: codeBytes,
           module_addr: moduleAddress,
-          moduleName: moduleName,
+          module_name: moduleName,
         }
       )
       .then(res => res.code_bytes);
