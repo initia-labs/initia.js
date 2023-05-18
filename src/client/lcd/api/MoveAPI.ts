@@ -297,4 +297,29 @@ export class MoveAPI extends BaseAPI {
       )
       .then(d => d.table_entry);
   }
+
+  /**
+   * convert module address and module name from code bytes
+   *
+   * @param codeBytes base64 encoded move module code bytes
+   * @param moduleAddress new module address
+   * @param moduleName new module name
+   * @returns
+   */
+  public async convertModuleIdentifiers(
+    codeBytes: string,
+    moduleAddress: AccAddress,
+    moduleName: string
+  ): Promise<string> {
+    return this.c
+      .post<{ code_bytes: string }>(
+        `/initia/move/v1/api/convert_module_identifiers`,
+        {
+          code_bytes: codeBytes,
+          module_addr: moduleAddress,
+          module_name: moduleName,
+        }
+      )
+      .then(res => res.code_bytes);
+  }
 }
