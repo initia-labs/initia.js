@@ -69,11 +69,10 @@ export class DistributionAPI extends BaseAPI {
     delegator: AccAddress,
     params: APIParams = {}
   ): Promise<Rewards> {
-    const rewardsData = await this.c
-      .get<Rewards.Data>(
-        `/cosmos/distribution/v1beta1/delegators/${delegator}/rewards`,
-        params
-      );
+    const rewardsData = await this.c.get<Rewards.Data>(
+      `/cosmos/distribution/v1beta1/delegators/${delegator}/rewards`,
+      params
+    );
 
     const rewards: Rewards['rewards'] = {};
     for (const reward of rewardsData.rewards) {
