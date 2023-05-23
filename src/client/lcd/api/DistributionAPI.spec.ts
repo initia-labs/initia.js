@@ -1,5 +1,5 @@
 import { APIRequester } from '../APIRequester';
-import { DistributionAPI, RewardWeight } from './DistributionAPI';
+import { DistributionAPI } from './DistributionAPI';
 import { Coins } from '../../../core';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');
