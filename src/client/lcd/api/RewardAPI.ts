@@ -36,7 +36,7 @@ export class RewardAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current minting annual provisions value
+   * Gets the current annual provisions value
    */
   public async annualProvisions(params: APIParams = {}): Promise<string> {
     return this.c
