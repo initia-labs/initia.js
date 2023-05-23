@@ -50,8 +50,8 @@ export class MsgExecute extends JSONSerializable<
       module_address,
       module_name,
       function_name,
-      type_args,
-      args
+      type_args ? type_args : [],
+      args ? args : []
     );
   }
 
@@ -72,8 +72,8 @@ export class MsgExecute extends JSONSerializable<
         module_address,
         module_name,
         function_name,
-        type_args,
-        args,
+        type_args: type_args.length === 0 ? undefined : type_args,
+        args: args.length === 0 ? undefined : args,
       },
     };
   }
@@ -209,7 +209,7 @@ export class MsgExecute extends JSONSerializable<
     args: any[] = [],
     abi: string
   ): MsgExecute {
-    const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
+    const module: ModuleABI = JSON.parse(abi);
 
     const functionAbi = module.exposed_functions.find(
       exposedFunction => exposedFunction.name === function_name
@@ -238,8 +238,8 @@ export namespace MsgExecute {
       module_address: AccAddress;
       module_name: string;
       function_name: string;
-      type_args: string[];
-      args: string[];
+      type_args?: string[];
+      args?: string[];
     };
   }
 

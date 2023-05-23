@@ -352,9 +352,9 @@ export namespace Validator {
     public toAmino(): Validator.CommissionRates.Amino {
       const { rate, max_rate, max_change_rate } = this;
       return {
-        rate: num(rate).toFixed(18),
-        max_rate: num(max_rate).toFixed(18),
-        max_change_rate: num(max_change_rate).toFixed(18),
+        rate,
+        max_rate,
+        max_change_rate,
       };
     }
 
@@ -366,9 +366,9 @@ export namespace Validator {
     public toData(): Validator.CommissionRates.Data {
       const { rate, max_rate, max_change_rate } = this;
       return {
-        rate: num(rate).toFixed(18),
-        max_rate: num(max_rate).toFixed(18),
-        max_change_rate: num(max_change_rate).toFixed(18),
+        rate,
+        max_rate,
+        max_change_rate,
       };
     }
 
@@ -383,9 +383,9 @@ export namespace Validator {
     public toProto(): Validator.CommissionRates.Proto {
       const { rate, max_rate, max_change_rate } = this;
       return CommissionRates_pb.fromPartial({
-        maxChangeRate: num(max_change_rate).toFixed(18),
-        maxRate: num(max_rate).toFixed(18),
-        rate: num(rate).toFixed(18),
+        maxChangeRate: max_change_rate,
+        maxRate: max_rate,
+        rate,
       });
     }
   }

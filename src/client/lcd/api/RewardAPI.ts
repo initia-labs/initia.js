@@ -41,7 +41,7 @@ export class RewardAPI extends BaseAPI {
   public async annualProvisions(params: APIParams = {}): Promise<string> {
     return this.c
       .get<{ annual_provisions: string }>(
-        `initia/reward/v1/annual_provisions`,
+        `/initia/reward/v1/annual_provisions`,
         params
       )
       .then(d => d.annual_provisions);

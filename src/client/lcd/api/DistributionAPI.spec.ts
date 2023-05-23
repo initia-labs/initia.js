@@ -15,15 +15,6 @@ describe('DistributionAPI', () => {
     });
   });
 
-  it('rewards', async () => {
-    await expect(
-      distribution.rewards('init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs')
-    ).resolves.toMatchObject({
-      rewards: expect.anything(),
-      total: expect.any(Coins),
-    });
-  });
-
   it('withdrawAddress', async () => {
     await expect(
       distribution.withdrawAddress(

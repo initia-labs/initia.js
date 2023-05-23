@@ -37,6 +37,15 @@ import { MsgCreateVestingAccount, VestingMsg } from './vesting/msgs';
 import { MsgPublish, MsgExecute, MsgScript, MoveMsg } from './move/msgs';
 import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
 import {
+  MsgPayPacketFee,
+  MsgPayPacketFeeAsync,
+  MsgRegisterCounterpartyPayee,
+  MsgRegisterPayee,
+  IbcFeeMsg,
+} from './ibc/applications/fee/msgs';
+import { MsgNftTransfer, IbcNftMsg } from './ibc/applications/nft-transfer';
+import { MsgSftTransfer, IbcSftMsg } from './ibc/applications/sft-transfer';
+import {
   MsgCreateClient,
   MsgUpdateClient,
   MsgUpgradeClient,
@@ -77,7 +86,10 @@ export type Msg =
   | MstakingMsg
   | VestingMsg
   | MoveMsg
+  | IbcFeeMsg
   | IbcTransferMsg
+  | IbcNftMsg
+  | IbcSftMsg
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
@@ -96,6 +108,8 @@ export namespace Msg {
     | VestingMsg.Amino
     | MoveMsg.Amino
     | IbcTransferMsg.Amino
+    | IbcNftMsg.Amino
+    | IbcSftMsg.Amino
     | CrisisMsg.Amino;
 
   export type Data =
@@ -108,7 +122,10 @@ export namespace Msg {
     | MstakingMsg.Data
     | VestingMsg.Data
     | MoveMsg.Data
+    | IbcFeeMsg.Data
     | IbcTransferMsg.Data
+    | IbcNftMsg.Data
+    | IbcSftMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
@@ -125,7 +142,10 @@ export namespace Msg {
     | MstakingMsg.Proto
     | VestingMsg.Proto
     | MoveMsg.Proto
+    | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
+    | IbcNftMsg.Proto
+    | IbcSftMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
@@ -206,6 +226,14 @@ export namespace Msg {
       case 'cosmos-sdk/MsgTransfer':
         return MsgTransfer.fromAmino(data);
 
+      // ibc-nft-transfer
+      case 'ibc/MsgNftTransfer':
+        return MsgNftTransfer.fromAmino(data);
+
+      // ibc-sft-transfer
+      case 'ibc/MsgSftTransfer':
+        return MsgSftTransfer.fromAmino(data);
+
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
         return MsgVerifyInvariant.fromAmino(data);
@@ -282,9 +310,27 @@ export namespace Msg {
       case '/initia.move.v1.MsgScript':
         return MsgScript.fromData(data);
 
+      // ibc-fee
+      case '/ibc.applications.fee.v1.MsgPayPacketFee':
+        return MsgPayPacketFee.fromData(data);
+      case '/ibc.applications.fee.v1.MsgPayPacketFeeAsync':
+        return MsgPayPacketFeeAsync.fromData(data);
+      case '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee':
+        return MsgRegisterCounterpartyPayee.fromData(data);
+      case '/ibc.applications.fee.v1.MsgRegisterPayee':
+        return MsgRegisterPayee.fromData(data);
+
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.fromData(data);
+
+      // ibc-nft-transfer
+      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+        return MsgNftTransfer.fromData(data);
+
+      // ibc-sft-transfer
+      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
+        return MsgSftTransfer.fromData(data);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -411,9 +457,27 @@ export namespace Msg {
       case '/initia.move.v1.MsgScript':
         return MsgScript.unpackAny(proto);
 
+      // ibc-fee
+      case '/ibc.applications.fee.v1.MsgPayPacketFee':
+        return MsgPayPacketFee.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgPayPacketFeeAsync':
+        return MsgPayPacketFeeAsync.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee':
+        return MsgRegisterCounterpartyPayee.unpackAny(proto);
+      case '/ibc.applications.fee.v1.MsgRegisterPayee':
+        return MsgRegisterPayee.unpackAny(proto);
+
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.unpackAny(proto);
+
+      // ibc-nft-transfer
+      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+        return MsgNftTransfer.unpackAny(proto);
+
+      // ibc-sft-transfer
+      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
+        return MsgSftTransfer.unpackAny(proto);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

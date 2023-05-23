@@ -125,7 +125,7 @@ export class WeightedVoteOption extends JSONSerializable<
     const { option, weight } = this;
     return {
       option,
-      weight: num(weight).toFixed(18),
+      weight,
     };
   }
 
@@ -138,7 +138,7 @@ export class WeightedVoteOption extends JSONSerializable<
     const { option, weight } = this;
     return {
       option,
-      weight: num(weight).toFixed(18),
+      weight,
     };
   }
 
@@ -150,7 +150,7 @@ export class WeightedVoteOption extends JSONSerializable<
     const { option, weight } = this;
     return WeightedVoteOption_pb.fromPartial({
       option,
-      weight: num(weight).toFixed(18),
+      weight,
     });
   }
 }

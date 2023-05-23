@@ -14,6 +14,8 @@ import {
   UpgradeAPI,
   MoveAPI,
   IbcTransferAPI,
+  IbcNftAPI,
+  IbcSftAPI,
   IbcAPI,
   InterTxAPI,
 } from './api';
@@ -85,6 +87,8 @@ export class LCDClient {
   public move: MoveAPI;
   public ibc: IbcAPI;
   public ibcTransfer: IbcTransferAPI;
+  public ibcNft: IbcNftAPI;
+  public ibcSft: IbcSftAPI;
   public interTx: InterTxAPI;
   public utils: LCDUtils;
 
@@ -122,6 +126,8 @@ export class LCDClient {
     this.move = new MoveAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
+    this.ibcNft = new IbcNftAPI(this.apiRequester);
+    this.ibcSft = new IbcSftAPI(this.apiRequester);
     this.tx = new TxAPI(this);
     this.upgrade = new UpgradeAPI(this.apiRequester);
     this.interTx = new InterTxAPI(this.apiRequester);

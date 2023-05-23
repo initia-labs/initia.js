@@ -26,7 +26,11 @@ export class MsgPublish extends JSONSerializable<
     const {
       value: { sender, code_bytes, upgrade_policy },
     } = data;
-    return new MsgPublish(sender, code_bytes, upgrade_policy);
+    return new MsgPublish(
+      sender,
+      code_bytes,
+      upgrade_policy ? upgrade_policy : 0
+    );
   }
 
   public toAmino(): MsgPublish.Amino {
@@ -36,7 +40,7 @@ export class MsgPublish extends JSONSerializable<
       value: {
         sender,
         code_bytes,
-        upgrade_policy,
+        upgrade_policy: upgrade_policy === 0 ? undefined : upgrade_policy,
       },
     };
   }
@@ -91,7 +95,7 @@ export namespace MsgPublish {
     value: {
       sender: AccAddress;
       code_bytes: string[];
-      upgrade_policy: UpgradePolicy;
+      upgrade_policy?: UpgradePolicy;
     };
   }
 
@@ -104,3 +108,5 @@ export namespace MsgPublish {
 
   export type Proto = MsgPublish_pb;
 }
+
+export { UpgradePolicy };

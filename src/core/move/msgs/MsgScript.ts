@@ -34,7 +34,12 @@ export class MsgScript extends JSONSerializable<
     const {
       value: { sender, code_bytes, type_args, args },
     } = data;
-    return new MsgScript(sender, code_bytes, type_args, args);
+    return new MsgScript(
+      sender,
+      code_bytes,
+      type_args ? type_args : [],
+      args ? args : []
+    );
   }
 
   public toAmino(): MsgScript.Amino {
@@ -45,8 +50,8 @@ export class MsgScript extends JSONSerializable<
       value: {
         sender,
         code_bytes,
-        type_args,
-        args,
+        type_args: type_args.length === 0 ? undefined : type_args,
+        args: args.length === 0 ? undefined : args,
       },
     };
   }
@@ -140,9 +145,7 @@ export class MsgScript extends JSONSerializable<
     args: any[],
     abi: string
   ): MsgScript {
-    const functionAbi: MoveFunctionABI = JSON.parse(
-      Buffer.from(abi, 'base64').toString()
-    );
+    const functionAbi: MoveFunctionABI = JSON.parse(abi);
 
     return new MsgScript(
       sender,
@@ -159,8 +162,8 @@ export namespace MsgScript {
     value: {
       sender: AccAddress;
       code_bytes: string;
-      type_args: string[];
-      args: string[];
+      type_args?: string[];
+      args?: string[];
     };
   }
 

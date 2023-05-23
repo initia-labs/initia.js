@@ -9,7 +9,11 @@ import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
 } from '../upgrade/proposals';
-import { OperationsProposal } from '../move/proposals';
+import {
+  OperationsProposal,
+  WhitelistProposal,
+  DelistProposal,
+} from '../move/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -233,7 +237,9 @@ export namespace Proposal {
     | SoftwareUpgradeProposal
     | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal
-    | OperationsProposal;
+    | OperationsProposal
+    | WhitelistProposal
+    | DelistProposal;
 
   export namespace Content {
     export type Amino =
@@ -243,7 +249,9 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Amino
       | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino
-      | OperationsProposal.Amino;
+      | OperationsProposal.Amino
+      | WhitelistProposal.Amino
+      | DelistProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -252,7 +260,9 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Data
       | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data
-      | OperationsProposal.Data;
+      | OperationsProposal.Data
+      | WhitelistProposal.Data
+      | DelistProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -261,7 +271,9 @@ export namespace Proposal {
       | SoftwareUpgradeProposal.Proto
       | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto
-      | OperationsProposal.Proto;
+      | OperationsProposal.Proto
+      | WhitelistProposal.Proto
+      | DelistProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -279,6 +291,10 @@ export namespace Proposal {
           return ClientUpdateProposal.fromAmino(amino);
         case 'move/OperationsProposal':
           return OperationsProposal.fromAmino(amino);
+        case 'move/WhitelistProposal':
+          return WhitelistProposal.fromAmino(amino);
+        case 'move/DelistProposal':
+          return DelistProposal.fromAmino(amino);
       }
     }
 
@@ -298,6 +314,10 @@ export namespace Proposal {
           return ClientUpdateProposal.fromData(data);
         case '/initia.move.v1.OperationsProposal':
           return OperationsProposal.fromData(data);
+        case '/initia.move.v1.WhitelistProposal':
+          return WhitelistProposal.fromData(data);
+        case '/initia.move.v1.DelistProposal':
+          return DelistProposal.fromData(data);
       }
     }
 
@@ -318,6 +338,10 @@ export namespace Proposal {
           return ClientUpdateProposal.unpackAny(anyProto);
         case '/initia.move.v1.OperationsProposal':
           return OperationsProposal.unpackAny(anyProto);
+        case '/initia.move.v1.WhitelistProposal':
+          return WhitelistProposal.unpackAny(anyProto);
+        case '/initia.move.v1.DelistProposal':
+          return DelistProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;
