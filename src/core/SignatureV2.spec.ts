@@ -3,7 +3,7 @@ import { SimplePublicKey } from './PublicKey';
 import { SignatureV2 } from './SignatureV2';
 
 describe('SignatureV2', () => {
-  it('conversion: sigle sign', () => {
+  it('conversion: single sign', () => {
     const sequence = 1234;
     //const data = new SignatureV2.Descriptor(
     const signMode = SignatureV2.SignMode.SIGN_MODE_DIRECT;

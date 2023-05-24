@@ -9,9 +9,13 @@ describe('DistributionAPI', () => {
   it('parameters', async () => {
     await expect(distribution.parameters()).resolves.toMatchObject({
       community_tax: expect.any(String),
-      base_proposer_reward: expect.any(String),
-      bonus_proposer_reward: expect.any(String),
       withdraw_addr_enabled: expect.any(Boolean),
+      reward_weights: expect.arrayContaining([
+        expect.objectContaining({
+          denom: expect.any(String),
+          weight: expect.any(String),
+        }),
+      ]),
     });
   });
 
