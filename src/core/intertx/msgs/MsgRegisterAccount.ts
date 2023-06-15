@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/intertx/tx';
+import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/initia/intertx/v1/tx';
 
 export class MsgRegisterAccount extends JSONSerializable<
   any,

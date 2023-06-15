@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/intertx/tx';
+import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/initia/intertx/v1/tx';
 import { Msg } from '../../Msg';
 
 export class MsgSubmitTx extends JSONSerializable<
