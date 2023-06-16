@@ -532,9 +532,9 @@ export class CommitSig extends JSONSerializable<
     const { blockIdFlag, validatorAddress, timestamp, signature } = this;
     const res: CommitSig.Data = {
       block_id_flag: blockIDFlagToJSON(blockIdFlag),
-      validator_address: validatorAddress || '',
+      validator_address: validatorAddress ?? '',
       timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
-      signature: signature || '',
+      signature: signature ?? '',
     };
     return res;
   }

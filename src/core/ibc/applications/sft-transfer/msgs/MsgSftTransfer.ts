@@ -122,7 +122,7 @@ export class MsgSftTransfer extends JSONSerializable<
         token_amounts,
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() || {},
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
         memo,
       },

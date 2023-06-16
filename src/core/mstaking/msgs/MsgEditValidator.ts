@@ -67,7 +67,7 @@ export class MsgEditValidator extends JSONSerializable<
     const { description, validator_address, commission_rate } = this;
     return MsgEditValidator_pb.fromPartial({
       description: description.toProto(),
-      commissionRate: commission_rate?.toString() || '',
+      commissionRate: commission_rate?.toString() ?? '',
       validatorAddress: validator_address,
     });
   }

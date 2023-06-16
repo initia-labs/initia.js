@@ -81,7 +81,7 @@ export class Wallet {
       accountNumber,
       sequence,
       chainId: this.lcd.config.chainId,
-      signMode: options.signMode || SignMode.SIGN_MODE_DIRECT,
+      signMode: options.signMode ?? SignMode.SIGN_MODE_DIRECT,
     });
   }
 }

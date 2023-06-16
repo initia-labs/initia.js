@@ -114,7 +114,7 @@ export class MsgNftTransfer extends JSONSerializable<
         token_ids,
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() || {},
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
         memo,
       },

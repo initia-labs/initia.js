@@ -35,8 +35,8 @@ export class CLIKey extends Key {
    */
   constructor(private params: CLIKeyParams) {
     super();
-    params.cliPath = params.cliPath || 'initiad';
-    params.home = params.home || resolve(homedir(), '.initiad', 'config');
+    params.cliPath = params.cliPath ?? 'initiad';
+    params.home = params.home ?? resolve(homedir(), '.initiad', 'config');
   }
 
   private generateCommand(args: string) {

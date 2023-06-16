@@ -253,10 +253,10 @@ export namespace Validator {
     public static fromAmino(data: Description.Amino): Description {
       return new Description(
         data.moniker,
-        data.identity || '',
-        data.website || '',
-        data.details || '',
-        data.security_contact || ''
+        data.identity ?? '',
+        data.website ?? '',
+        data.details ?? '',
+        data.security_contact ?? ''
       );
     }
 
@@ -273,10 +273,10 @@ export namespace Validator {
     public static fromData(data: Description.Data): Description {
       return new Description(
         data.moniker,
-        data.identity || '',
-        data.website || '',
-        data.details || '',
-        data.security_contact || ''
+        data.identity ?? '',
+        data.website ?? '',
+        data.details ?? '',
+        data.security_contact ?? ''
       );
     }
 

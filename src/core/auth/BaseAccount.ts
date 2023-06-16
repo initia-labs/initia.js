@@ -62,10 +62,10 @@ export class BaseAccount extends JSONSerializable<
     } = data;
 
     return new BaseAccount(
-      address || '',
+      address ?? '',
       public_key ? PublicKey.fromAmino(public_key) : undefined,
-      Number.parseInt(account_number) || 0,
-      Number.parseInt(sequence) || 0
+      Number.parseInt(account_number) ?? 0,
+      Number.parseInt(sequence) ?? 0
     );
   }
 
@@ -73,10 +73,10 @@ export class BaseAccount extends JSONSerializable<
     const { address, pub_key, account_number, sequence } = data;
 
     return new BaseAccount(
-      address || '',
+      address ?? '',
       pub_key ? PublicKey.fromData(pub_key) : undefined,
-      Number.parseInt(account_number) || 0,
-      Number.parseInt(sequence) || 0
+      Number.parseInt(account_number) ?? 0,
+      Number.parseInt(sequence) ?? 0
     );
   }
 

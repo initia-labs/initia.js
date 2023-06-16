@@ -42,7 +42,7 @@ export class Tx {
         Number.parseInt(data.value.timeout_height)
       ),
       new AuthInfo([], Fee.fromAmino(data.value.fee)),
-      signatures.map(s => s.data.single?.signature || '')
+      signatures.map(s => s.data.single?.signature ?? '')
     );
   }
 

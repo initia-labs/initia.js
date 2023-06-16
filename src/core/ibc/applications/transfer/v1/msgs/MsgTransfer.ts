@@ -107,7 +107,7 @@ export class MsgTransfer extends JSONSerializable<
         token: token?.toAmino(),
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() || {},
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
         memo,
       },

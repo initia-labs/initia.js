@@ -250,7 +250,7 @@ export class TxAPI extends BaseAPI {
     }
 
     return new Tx(
-      new TxBody(msgs, memo || '', timeoutHeight || 0),
+      new TxBody(msgs, memo ?? '', timeoutHeight ?? 0),
       new AuthInfo([], fee),
       []
     );
@@ -288,10 +288,10 @@ export class TxAPI extends BaseAPI {
     signers: SignerData[],
     options: CreateTxOptions
   ): Promise<Fee> {
-    const gasPrices = options.gasPrices || this.lcd.config.gasPrices;
+    const gasPrices = options.gasPrices ?? this.lcd.config.gasPrices;
     const gasAdjustment =
-      options.gasAdjustment || this.lcd.config.gasAdjustment;
-    const feeDenoms = options.feeDenoms || ['uinit'];
+      options.gasAdjustment ?? this.lcd.config.gasAdjustment;
+    const feeDenoms = options.feeDenoms ?? ['uinit'];
     let gas = options.gas;
     let gasPricesCoins: Coins | undefined;
 
@@ -309,7 +309,7 @@ export class TxAPI extends BaseAPI {
       }
     }
 
-    const txBody = new TxBody(options.msgs, options.memo || '');
+    const txBody = new TxBody(options.msgs, options.memo ?? '');
     const authInfo = new AuthInfo([], new Fee(0, new Coins()));
     const tx = new Tx(txBody, authInfo, []);
 
@@ -336,7 +336,7 @@ export class TxAPI extends BaseAPI {
     }
   ): Promise<string> {
     const gasAdjustment =
-      options?.gasAdjustment || this.lcd.config.gasAdjustment;
+      options?.gasAdjustment ?? this.lcd.config.gasAdjustment;
 
     // append empty signatures if there's no signatures in tx
     let simTx: Tx = tx;
@@ -454,7 +454,7 @@ export class TxAPI extends BaseAPI {
       gas_wanted: txInfo.gas_wanted,
       gas_used: txInfo.gas_used,
       height: +txInfo.height,
-      logs: (txInfo.logs || []).map(l => TxLog.fromData(l)),
+      logs: (txInfo.logs ?? []).map(l => TxLog.fromData(l)),
       code: txInfo.code,
       codespace: txInfo.codespace,
       timestamp: txInfo.timestamp,
