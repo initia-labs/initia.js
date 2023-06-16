@@ -6,39 +6,10 @@ import {
   Delegation,
   Validator,
   Redelegation,
+  MstakingParams,
 } from '../../../core';
 import { BaseAPI } from './BaseAPI';
-import { Denom } from '../../../core/Denom';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-
-export interface MstakingParams {
-  /** Amount of time, in seconds, for bonded mstaking tokens to be unbonded. */
-  unbonding_time: number;
-
-  /** Max number of validators for the validating set (delegates). */
-  max_validators: number;
-
-  /** Maximum entries for unbonding delegations and redelegations. */
-  max_entries: number;
-
-  historical_entries: number;
-
-  /** The denomination used as the mstaking token. */
-  bond_denoms: Denom[];
-
-  min_voting_power: number;
-}
-
-export namespace MstakingParams {
-  export interface Data {
-    unbonding_time: string;
-    max_validators: number;
-    max_entries: number;
-    historical_entries: number;
-    bond_denoms: Denom[];
-    min_voting_power: string;
-  }
-}
 
 export interface MstakingPool {
   /** amount of tokens are bonded, including those that are currently unbonding */
@@ -281,13 +252,6 @@ export class MstakingAPI extends BaseAPI {
         `/initia/mstaking/v1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        unbonding_time: Number.parseInt(d.unbonding_time),
-        max_validators: d.max_validators,
-        max_entries: d.max_entries,
-        historical_entries: d.historical_entries,
-        bond_denoms: d.bond_denoms,
-        min_voting_power: Number.parseInt(d.min_voting_power),
-      }));
+      .then(({ params: d }) => MstakingParams.fromData(d));
   }
 }

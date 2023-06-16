@@ -63,6 +63,7 @@ export * from './ibc/applications/sft-transfer';
 export * from './move/msgs';
 export * from './move/proposals';
 export * from './move/types';
+export * from './move/MoveParams';
 
 // Parameters
 export * from './params/proposals';
@@ -70,6 +71,7 @@ export * from './params/ParamChange';
 
 // Slashing
 export * from './slashing/msgs';
+export * from './slashing/SlashingParams';
 
 // mstaking
 export * from './mstaking/msgs';
@@ -77,6 +79,7 @@ export * from './mstaking/Delegation';
 export * from './mstaking/Redelegation';
 export * from './mstaking/UnbondingDelegation';
 export * from './mstaking/Validator';
+export * from './mstaking/MstakingParams';
 
 // Upgrade
 export * from './upgrade';

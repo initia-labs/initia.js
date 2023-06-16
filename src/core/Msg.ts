@@ -14,9 +14,9 @@ import {
   MsgUpdateDistrParams,
 } from './distribution/msgs';
 import {
+  FeeGrantMsg,
   MsgGrantAllowance,
   MsgRevokeAllowance,
-  FeeGrantMsg,
 } from './feegrant/msgs';
 import {
   GovMsg,
@@ -26,47 +26,59 @@ import {
   MsgVoteWeighted,
 } from './gov/msgs';
 import {
+  AuthzMsg,
   MsgGrantAuthorization,
   MsgRevokeAuthorization,
   MsgExecAuthorized,
-  MsgAuthMsg,
 } from './authz/msgs';
-import { MsgUnjail, SlashingMsg } from './slashing/msgs';
 import {
+  SlashingMsg,
+  MsgUnjail,
+  MsgUpdateSlashingParams,
+} from './slashing/msgs';
+import {
+  MstakingMsg,
   MsgBeginRedelegate,
   MsgCreateValidator,
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
-  MstakingMsg,
+  MsgUpdateMstakingParams,
 } from './mstaking/msgs';
-import { MsgCreateVestingAccount, VestingMsg } from './vesting/msgs';
-import { MsgPublish, MsgExecute, MsgScript, MoveMsg } from './move/msgs';
-import { MsgTransfer, IbcTransferMsg } from './ibc/applications/transfer';
+import { VestingMsg, MsgCreateVestingAccount } from './vesting/msgs';
 import {
+  MoveMsg,
+  MsgPublish,
+  MsgExecute,
+  MsgScript,
+  MsgUpdateMoveParams,
+} from './move/msgs';
+import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
+import {
+  IbcFeeMsg,
   MsgPayPacketFee,
   MsgPayPacketFeeAsync,
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
-  IbcFeeMsg,
 } from './ibc/applications/fee/msgs';
-import { MsgNftTransfer, IbcNftMsg } from './ibc/applications/nft-transfer';
-import { MsgSftTransfer, IbcSftMsg } from './ibc/applications/sft-transfer';
+import { IbcNftMsg, MsgNftTransfer } from './ibc/applications/nft-transfer';
+import { IbcSftMsg, MsgSftTransfer } from './ibc/applications/sft-transfer';
 import {
+  IbcClientMsg,
   MsgCreateClient,
   MsgUpdateClient,
   MsgUpgradeClient,
   MsgSubmitMisbehaviour,
-  IbcClientMsg,
 } from './ibc/msgs/client';
 import {
+  IbcConnectionMsg,
   MsgConnectionOpenInit,
   MsgConnectionOpenTry,
   MsgConnectionOpenConfirm,
   MsgConnectionOpenAck,
-  IbcConnectionMsg,
 } from './ibc/msgs/connection';
 import {
+  IbcChannelMsg,
   MsgChannelOpenInit,
   MsgChannelOpenTry,
   MsgChannelOpenConfirm,
@@ -77,14 +89,13 @@ import {
   MsgAcknowledgement,
   MsgTimeout,
   MsgTimeoutOnClose,
-  IbcChannelMsg,
 } from './ibc/msgs/channel';
 import {
+  CrisisMsg,
   MsgVerifyInvariant,
   MsgUpdateCrisisParams,
-  CrisisMsg,
 } from './crisis/msgs';
-import { MsgRegisterAccount, MsgSubmitTx, InterTxMsg } from './intertx/msgs';
+import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx/msgs';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
@@ -93,7 +104,7 @@ export type Msg =
   | DistributionMsg
   | FeeGrantMsg
   | GovMsg
-  | MsgAuthMsg
+  | AuthzMsg
   | SlashingMsg
   | MstakingMsg
   | VestingMsg
@@ -115,7 +126,7 @@ export namespace Msg {
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
     | GovMsg.Amino
-    | MsgAuthMsg.Amino
+    | AuthzMsg.Amino
     | SlashingMsg.Amino
     | MstakingMsg.Amino
     | VestingMsg.Amino
@@ -131,7 +142,7 @@ export namespace Msg {
     | DistributionMsg.Data
     | FeeGrantMsg.Data
     | GovMsg.Data
-    | MsgAuthMsg.Data
+    | AuthzMsg.Data
     | SlashingMsg.Data
     | MstakingMsg.Data
     | VestingMsg.Data
@@ -152,7 +163,7 @@ export namespace Msg {
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
     | GovMsg.Proto
-    | MsgAuthMsg.Proto
+    | AuthzMsg.Proto
     | SlashingMsg.Proto
     | MstakingMsg.Proto
     | VestingMsg.Proto
@@ -209,7 +220,7 @@ export namespace Msg {
       case 'cosmos-sdk/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
 
-      // msgauth
+      // authz
       case 'cosmos-sdk/MsgGrant':
         return MsgGrantAuthorization.fromAmino(data);
       case 'cosmos-sdk/MsgRevoke':
@@ -220,6 +231,8 @@ export namespace Msg {
       // slashing
       case 'cosmos-sdk/MsgUnjail':
         return MsgUnjail.fromAmino(data);
+      case 'cosmos-sdk/x/slashing/MsgUpdateParams':
+        return MsgUpdateSlashingParams.fromAmino(data);
 
       // mstaking
       case 'mstaking/MsgDelegate':
@@ -232,6 +245,8 @@ export namespace Msg {
         return MsgCreateValidator.fromAmino(data);
       case 'mstaking/MsgEditValidator':
         return MsgEditValidator.fromAmino(data);
+      case 'mstaking/MsgUpdateParams':
+        return MsgUpdateMstakingParams.fromAmino(data);
 
       // vesting
       case 'cosmos-sdk/MsgCreateVestingAccount':
@@ -244,6 +259,8 @@ export namespace Msg {
         return MsgExecute.fromAmino(data);
       case 'move/MsgScript':
         return MsgScript.fromAmino(data);
+      case 'move/MsgUpdateParams':
+        return MsgUpdateMoveParams.fromAmino(data);
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -318,6 +335,8 @@ export namespace Msg {
       // slashing
       case '/cosmos.slashing.v1beta1.MsgUnjail':
         return MsgUnjail.fromData(data);
+      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
+        return MsgUpdateSlashingParams.fromData(data);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
@@ -330,6 +349,8 @@ export namespace Msg {
         return MsgCreateValidator.fromData(data);
       case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.fromData(data);
+      case '/initia.mstaking.v1.MsgUpdateParams':
+        return MsgUpdateMstakingParams.fromData(data);
 
       // vesting
       case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
@@ -342,6 +363,8 @@ export namespace Msg {
         return MsgExecute.fromData(data);
       case '/initia.move.v1.MsgScript':
         return MsgScript.fromData(data);
+      case '/initia.move.v1.MsgUpdateParams':
+        return MsgUpdateMoveParams.fromData(data);
 
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':
@@ -475,6 +498,8 @@ export namespace Msg {
       // slashing
       case '/cosmos.slashing.v1beta1.MsgUnjail':
         return MsgUnjail.unpackAny(proto);
+      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
+        return MsgUpdateSlashingParams.unpackAny(proto);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
@@ -487,6 +512,8 @@ export namespace Msg {
         return MsgCreateValidator.unpackAny(proto);
       case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgUpdateParams':
+        return MsgUpdateMstakingParams.unpackAny(proto);
 
       // vesting
       case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
@@ -499,6 +526,8 @@ export namespace Msg {
         return MsgExecute.unpackAny(proto);
       case '/initia.move.v1.MsgScript':
         return MsgScript.unpackAny(proto);
+      case '/initia.move.v1.MsgUpdateParams':
+        return MsgUpdateMoveParams.unpackAny(proto);
 
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':

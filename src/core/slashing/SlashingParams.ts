@@ -8,16 +8,16 @@ export class SlashingParams extends JSONSerializable<
   SlashingParams.Proto
 > {
   /**
-   * @param signed_blocks_window
-   * @param min_signed_per_window
-   * @param downtime_jail_duration
-   * @param slash_fraction_double_sign
-   * @param slash_fraction_downtime
+   * @param signed_blocks_window Number of blocks over which missed blocks are tallied for downtime
+   * @param min_signed_per_window If a validator misses more than this number, they will be penalized and jailed for downtime
+   * @param downtime_jail_duration Amount of time in seconds after which a jailed validator can be unjailed
+   * @param slash_fraction_double_sign Ratio of funds slashed for a double-sign infraction
+   * @param slash_fraction_downtime Ratio of funds slashed for a downtime infraction
    */
   constructor(
     public signed_blocks_window: number,
     public min_signed_per_window: number,
-    public downtime_jail_duration?: number,
+    public downtime_jail_duration: number,
     public slash_fraction_double_sign: number,
     public slash_fraction_downtime: number
   ) {
@@ -106,9 +106,9 @@ export class SlashingParams extends JSONSerializable<
     return new SlashingParams(
       data.signedBlocksWindow.toNumber(),
       Number.parseFloat(data.minSignedPerWindow.toString()),
-      data.downtimeJailDuration?.seconds.toNumber(),
-      data.slashFractionDoubleSign.toNumber(),
-      data.slashFractionDowntime.toNumber()
+      data.downtimeJailDuration?.seconds.toNumber() ?? 0,
+      Number.parseFloat(data.slashFractionDoubleSign.toString()),
+      Number.parseFloat(data.slashFractionDowntime.toString())
     );
   }
 
@@ -122,11 +122,15 @@ export class SlashingParams extends JSONSerializable<
     } = this;
 
     return Params_pb.fromPartial({
-      maxMemoCharacters: Long.fromNumber(max_memo_characters),
-      txSigLimit: Long.fromNumber(tx_sig_limit),
-      txSizeCostPerByte: Long.fromNumber(tx_size_cost_per_byte),
-      sigVerifyCostEd25519: Long.fromNumber(sig_verify_cost_ed25519),
-      sigVerifyCostSecp256k1: Long.fromNumber(sig_verify_cost_secp256k1),
+      signedBlocksWindow: Long.fromNumber(signed_blocks_window),
+      minSignedPerWindow: Buffer.from(min_signed_per_window.toString()),
+      downtimeJailDuration: {
+        seconds: Long.fromNumber(downtime_jail_duration),
+      },
+      slashFractionDoubleSign: Buffer.from(
+        slash_fraction_double_sign.toString()
+      ),
+      slashFractionDowntime: Buffer.from(slash_fraction_downtime.toString()),
     });
   }
 }
