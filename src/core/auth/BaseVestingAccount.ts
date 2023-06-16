@@ -41,7 +41,7 @@ export class BaseVestingAccount extends JSONSerializable<
     return this.base_account.sequence;
   }
 
-  public getPublicKey(): PublicKey | null {
+  public getPublicKey(): PublicKey | undefined {
     return this.base_account.public_key;
   }
 

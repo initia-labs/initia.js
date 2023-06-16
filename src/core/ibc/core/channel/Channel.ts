@@ -56,7 +56,7 @@ export class Channel extends JSONSerializable<
     const res: Channel.Amino = {
       state,
       ordering,
-      counterparty: counterparty ? counterparty.toAmino() : undefined,
+      counterparty: counterparty?.toAmino(),
       connection_hops,
       version,
     };
@@ -79,7 +79,7 @@ export class Channel extends JSONSerializable<
     const res: Channel.Data = {
       state,
       ordering,
-      counterparty: counterparty ? counterparty.toData() : undefined,
+      counterparty: counterparty?.toData(),
       connection_hops,
       version,
     };
@@ -103,7 +103,7 @@ export class Channel extends JSONSerializable<
     return Channel_pb.fromPartial({
       state,
       ordering,
-      counterparty: counterparty ? counterparty.toProto() : undefined,
+      counterparty: counterparty?.toProto(),
       connectionHops: connection_hops,
       version,
     });

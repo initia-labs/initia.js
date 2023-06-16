@@ -72,10 +72,10 @@ export class MsgTimeoutOnClose extends JSONSerializable<
     } = this;
     return {
       '@type': '/ibc.core.channel.v1.MsgTimeoutOnClose',
-      packet: packet ? packet.toData() : undefined,
+      packet: packet?.toData(),
       proof_unreceived,
       proof_close,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       next_sequence_recv: next_sequence_recv.toFixed(),
       signer,
     };
@@ -102,10 +102,10 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       signer,
     } = this;
     return MsgTimeoutOnClose_pb.fromPartial({
-      packet: packet ? packet.toProto() : undefined,
+      packet: packet?.toProto(),
       proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
       proofClose: Buffer.from(proof_close, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       nextSequenceRecv: Long.fromNumber(next_sequence_recv),
       signer,
     });

@@ -36,7 +36,7 @@ export class ConsensusStateWithHeight extends JSONSerializable<
   public toAmino(): ConsensusStateWithHeight.Amino {
     const { height, consensus_state } = this;
     const res: ConsensusStateWithHeight.Amino = {
-      height: height ? height.toAmino() : undefined,
+      height: height?.toAmino(),
       consensus_state: consensus_state,
     };
     return res;
@@ -55,7 +55,7 @@ export class ConsensusStateWithHeight extends JSONSerializable<
   public toData(): ConsensusStateWithHeight.Data {
     const { height, consensus_state } = this;
     const res: ConsensusStateWithHeight.Data = {
-      height: height ? height.toData() : undefined,
+      height: height?.toData(),
       consensus_state,
     };
     return res;
@@ -73,7 +73,7 @@ export class ConsensusStateWithHeight extends JSONSerializable<
   public toProto(): ConsensusStateWithHeight.Proto {
     const { height, consensus_state } = this;
     return ConsensusStateWithHeight_pb.fromPartial({
-      height: height ? height.toProto() : undefined,
+      height: height?.toProto(),
       consensusState: consensus_state,
     });
   }

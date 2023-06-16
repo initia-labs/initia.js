@@ -96,15 +96,13 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck',
       connection_id,
       counterparty_connection_id,
-      version: version ? version.toData() : undefined,
+      version: version?.toData(),
       client_state,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       proof_try,
       proof_client,
       proof_consensus,
-      consensus_height: consensus_height
-        ? consensus_height.toData()
-        : undefined,
+      consensus_height: consensus_height?.toData(),
       signer,
     };
   }
@@ -144,15 +142,13 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     return MsgConnectionOpenAck_pb.fromPartial({
       connectionId: connection_id,
       counterpartyConnectionId: counterparty_connection_id,
-      version: version ? version.toProto() : undefined,
+      version: version?.toProto(),
       clientState: client_state,
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       proofTry: Buffer.from(proof_try, 'base64'),
       proofClient: Buffer.from(proof_client, 'base64'),
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
-      consensusHeight: consensus_height
-        ? consensus_height.toProto()
-        : undefined,
+      consensusHeight: consensus_height?.toProto(),
       signer,
     });
   }

@@ -46,7 +46,7 @@ export default class InitiaApp {
   private info!: AppInfoResponse;
   private version!: VersionResponse;
 
-  constructor(transport: Transport | null) {
+  constructor(transport?: Transport) {
     if (!transport) {
       throw new Error('Transport has not been defined');
     }
@@ -55,7 +55,7 @@ export default class InitiaApp {
   }
 
   static serializeHRP(hrp: string): Buffer {
-    if (hrp == null || hrp.length < 3 || hrp.length > 83) {
+    if (!hrp?.length || hrp.length < 3 || hrp.length > 83) {
       throw new Error('Invalid HRP');
     }
     const buf = Buffer.alloc(1 + hrp.length);
@@ -73,7 +73,7 @@ export default class InitiaApp {
     return bech32.encode(hrp, bech32.toWords(hashRip));
   }
 
-  private validateCompatibility(): CommonResponse | null {
+  private validateCompatibility(): CommonResponse | undefined {
     if (this.info && this.version) {
       if (this.info.return_code !== 0x9000) {
         return this.info;
@@ -87,7 +87,7 @@ export default class InitiaApp {
         (this.info.app_name === APP_NAME_INITIA && this.version.major === 1) ||
         (this.info.app_name === APP_NAME_COSMOS && this.version.major === 2)
       ) {
-        return null;
+        return;
       }
     }
 
@@ -98,9 +98,9 @@ export default class InitiaApp {
   }
 
   /**
-   * @returns CommonResponse | null returns CommonResponse if app is not compatible
+   * @returns CommonResponse returns CommonResponse if app is not compatible
    */
-  async initialize(): Promise<CommonResponse | null> {
+  async initialize(): Promise<CommonResponse | undefined> {
     return getAppInfo(this.transport)
       .then(appInfo => {
         this.info = appInfo;

@@ -50,8 +50,8 @@ export class MsgExecute extends JSONSerializable<
       module_address,
       module_name,
       function_name,
-      type_args ? type_args : [],
-      args ? args : []
+      type_args ?? [],
+      args ?? []
     );
   }
 

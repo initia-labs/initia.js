@@ -280,7 +280,7 @@ export class SignerInfo {
     const { public_key, sequence, mode_info } = this;
     return {
       mode_info: mode_info.toData(),
-      public_key: public_key?.toData() || null,
+      public_key: public_key?.toData(),
       sequence: sequence.toFixed(),
     };
   }
@@ -305,7 +305,7 @@ export class SignerInfo {
 
 export namespace SignerInfo {
   export interface Data {
-    public_key: PublicKey.Data | null;
+    public_key?: PublicKey.Data;
     mode_info: ModeInfo.Data;
     sequence: string;
   }

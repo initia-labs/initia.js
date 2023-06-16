@@ -43,9 +43,9 @@ export class MsgSftTransfer extends JSONSerializable<
     token_amounts: string[],
     sender: AccAddress,
     receiver: string,
-    timeout_height: Height | undefined,
-    timeout_timestamp: string | undefined,
-    memo: string | undefined
+    timeout_height?: Height,
+    timeout_timestamp?: string,
+    memo?: string
   ) {
     super();
 
@@ -231,7 +231,7 @@ export class MsgSftTransfer extends JSONSerializable<
       tokenAmounts: token_amounts,
       sender,
       receiver,
-      timeoutHeight: timeout_height ? timeout_height.toProto() : undefined,
+      timeoutHeight: timeout_height?.toProto(),
       timeoutTimestamp: Long.fromString(timeout_timestamp ?? '0'),
       memo,
     });

@@ -82,13 +82,13 @@ export class PacketFee extends JSONSerializable<
 
 export namespace PacketFee {
   export interface Amino {
-    fee: Fee.Amino | undefined;
+    fee?: Fee.Amino;
     refund_address: AccAddress;
     relayers: string[];
   }
 
   export interface Data {
-    fee: Fee.Data | undefined;
+    fee?: Fee.Data;
     refund_address: AccAddress;
     relayers: string[];
   }

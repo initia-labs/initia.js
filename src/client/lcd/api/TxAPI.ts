@@ -109,12 +109,12 @@ export namespace SyncTxBroadcastResult {
 export interface SignerOptions {
   address: string;
   sequenceNumber?: number;
-  publicKey?: PublicKey | null;
+  publicKey?: PublicKey;
 }
 
 export interface SignerData {
   sequenceNumber: number;
-  publicKey?: PublicKey | null;
+  publicKey?: PublicKey;
 }
 
 export interface CreateTxOptions {

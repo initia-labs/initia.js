@@ -41,7 +41,7 @@ export class PeriodicVestingAccount extends JSONSerializable<
     return this.base_vesting_account.getSequenceNumber();
   }
 
-  public getPublicKey(): PublicKey | null {
+  public getPublicKey(): PublicKey | undefined {
     return this.base_vesting_account.base_account.public_key;
   }
 

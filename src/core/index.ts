@@ -17,6 +17,7 @@ export * from './num';
 
 // Auth
 export * from './auth';
+export * from './auth/msgs';
 
 // Authz
 export * from './authz/msgs';
@@ -24,6 +25,7 @@ export * from './authz/authorizations';
 
 // Bank
 export * from './bank/msgs';
+export * from './bank/BankParams';
 
 // Crisis
 export * from './crisis/msgs';
@@ -31,6 +33,7 @@ export * from './crisis/msgs';
 // Distribution
 export * from './distribution/msgs';
 export * from './distribution/proposals';
+export * from './distribution/DistributionParams';
 
 // FeeGrant
 export * from './feegrant/msgs';

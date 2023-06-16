@@ -78,9 +78,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       client_state,
       counterparty ? Counterparty.fromData(counterparty) : undefined,
       Number.parseInt(delay_period),
-      counterparty_versions.length > 0
-        ? counterparty_versions.map(cv => Version.fromData(cv))
-        : [],
+      counterparty_versions.map(cv => Version.fromData(cv)),
       proof_height ? Height.fromData(proof_height) : undefined,
       Buffer.from(proof_init).toString('base64'),
       Buffer.from(proof_client).toString('base64'),
@@ -110,19 +108,14 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       client_id,
       previous_connection_id,
       client_state,
-      counterparty: counterparty ? counterparty.toData() : undefined,
+      counterparty: counterparty?.toData(),
       delay_period: delay_period.toFixed(),
-      counterparty_versions:
-        counterparty_versions.length > 0
-          ? counterparty_versions.map(cv => cv.toData())
-          : [],
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      counterparty_versions: counterparty_versions.map(cv => cv.toData()),
+      proof_height: proof_height?.toData(),
       proof_init,
       proof_client,
       proof_consensus,
-      consensus_height: consensus_height
-        ? consensus_height.toData()
-        : undefined,
+      consensus_height: consensus_height?.toData(),
       signer,
     };
   }
@@ -138,9 +131,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
         ? Counterparty.fromProto(proto.counterparty)
         : undefined,
       proto.delayPeriod.toNumber(),
-      proto.counterpartyVersions.length > 0
-        ? proto.counterpartyVersions.map(cv => Version.fromProto(cv))
-        : [],
+      proto.counterpartyVersions.map(cv => Version.fromProto(cv)),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       Buffer.from(proto.proofInit).toString('base64'),
       Buffer.from(proto.proofClient).toString('base64'),
@@ -171,19 +162,14 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       clientId: client_id,
       previousConnectionId: previous_connection_id,
       clientState: client_state.toProto(),
-      counterparty: counterparty ? counterparty.toProto() : undefined,
+      counterparty: counterparty?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
-      counterpartyVersions:
-        counterparty_versions.length > 0
-          ? counterparty_versions.map(cv => cv.toProto())
-          : [],
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      counterpartyVersions: counterparty_versions.map(cv => cv.toProto()),
+      proofHeight: proof_height?.toProto(),
       proofInit: Buffer.from(proof_init, 'base64'),
       proofClient: Buffer.from(proof_client, 'base64'),
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
-      consensusHeight: consensus_height
-        ? consensus_height.toProto()
-        : undefined,
+      consensusHeight: consensus_height?.toProto(),
       signer,
     });
   }

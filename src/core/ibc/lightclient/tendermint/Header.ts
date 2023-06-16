@@ -62,10 +62,10 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
       this;
     return {
-      signed_header: signedHeader?.toData() || undefined,
-      validator_set: validatorSet?.toData() || undefined,
-      trusted_height: trustedHeight?.toData() || undefined,
-      trusted_validators: trustedValidators?.toData() || undefined,
+      signed_header: signedHeader?.toData(),
+      validator_set: validatorSet?.toData(),
+      trusted_height: trustedHeight?.toData(),
+      trusted_validators: trustedValidators?.toData(),
     };
   }
 
@@ -84,10 +84,10 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
       this;
     return Header_pb.fromPartial({
-      signedHeader: signedHeader?.toProto() || undefined,
-      validatorSet: validatorSet?.toProto() || undefined,
-      trustedHeight: trustedHeight?.toProto() || undefined,
-      trustedValidators: trustedValidators?.toProto() || undefined,
+      signedHeader: signedHeader?.toProto(),
+      validatorSet: validatorSet?.toProto(),
+      trustedHeight: trustedHeight?.toProto(),
+      trustedValidators: trustedValidators?.toProto(),
     });
   }
 

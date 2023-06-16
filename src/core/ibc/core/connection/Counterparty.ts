@@ -54,7 +54,7 @@ export class Counterparty extends JSONSerializable<
     const res: Counterparty.Data = {
       client_id,
       connection_id,
-      prefix: prefix ? prefix.toData() : undefined,
+      prefix: prefix?.toData(),
     };
     return res;
   }
@@ -72,7 +72,7 @@ export class Counterparty extends JSONSerializable<
     return Counterparty_pb.fromPartial({
       clientId: client_id,
       connectionId: connection_id,
-      prefix: prefix ? prefix.toProto() : undefined,
+      prefix: prefix?.toProto(),
     });
   }
 }

@@ -24,7 +24,7 @@ export class BaseAccount extends JSONSerializable<
    */
   constructor(
     public address: AccAddress,
-    public public_key: PublicKey | null,
+    public public_key: PublicKey | undefined,
     public account_number: number,
     public sequence: number
   ) {
@@ -39,7 +39,7 @@ export class BaseAccount extends JSONSerializable<
     return this.sequence;
   }
 
-  public getPublicKey(): PublicKey | null {
+  public getPublicKey(): PublicKey | undefined {
     return this.public_key;
   }
 
@@ -49,7 +49,7 @@ export class BaseAccount extends JSONSerializable<
       type: 'cosmos-sdk/BaseAccount',
       value: {
         address,
-        public_key: public_key ? public_key.toAmino() : null,
+        public_key: public_key?.toAmino(),
         account_number: account_number.toFixed(),
         sequence: sequence.toFixed(),
       },
@@ -63,7 +63,7 @@ export class BaseAccount extends JSONSerializable<
 
     return new BaseAccount(
       address || '',
-      public_key ? PublicKey.fromAmino(public_key) : null,
+      public_key ? PublicKey.fromAmino(public_key) : undefined,
       Number.parseInt(account_number) || 0,
       Number.parseInt(sequence) || 0
     );
@@ -74,7 +74,7 @@ export class BaseAccount extends JSONSerializable<
 
     return new BaseAccount(
       address || '',
-      pub_key ? PublicKey.fromData(pub_key) : null,
+      pub_key ? PublicKey.fromData(pub_key) : undefined,
       Number.parseInt(account_number) || 0,
       Number.parseInt(sequence) || 0
     );
@@ -85,7 +85,7 @@ export class BaseAccount extends JSONSerializable<
     return {
       '@type': '/cosmos.auth.v1beta1.BaseAccount',
       address,
-      pub_key: public_key ? public_key.toData() : null,
+      pub_key: public_key?.toData(),
       account_number: account_number.toFixed(),
       sequence: sequence.toFixed(),
     };
@@ -105,7 +105,7 @@ export class BaseAccount extends JSONSerializable<
     const pubkey = baseAccountProto.pubKey;
     return new BaseAccount(
       baseAccountProto.address,
-      pubkey ? PublicKey.fromProto(pubkey) : null,
+      pubkey ? PublicKey.fromProto(pubkey) : undefined,
       baseAccountProto.accountNumber.toNumber(),
       baseAccountProto.sequence.toNumber()
     );
@@ -126,7 +126,7 @@ export class BaseAccount extends JSONSerializable<
 export namespace BaseAccount {
   export interface AminoValue {
     address: AccAddress;
-    public_key: PublicKey.Amino | null;
+    public_key?: PublicKey.Amino;
     account_number: string;
     sequence: string;
   }
@@ -138,7 +138,7 @@ export namespace BaseAccount {
 
   export interface DataValue {
     address: AccAddress;
-    pub_key: PublicKey.Data | null;
+    pub_key?: PublicKey.Data;
     account_number: string;
     sequence: string;
   }

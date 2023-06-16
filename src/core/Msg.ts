@@ -1,10 +1,17 @@
-import { BankMsg, MsgMultiSend, MsgSend } from './bank/msgs';
+import { AuthMsg, MsgUpdateAuthParams } from './auth/msgs';
+import {
+  BankMsg,
+  MsgMultiSend,
+  MsgSend,
+  MsgUpdateBankParams,
+} from './bank/msgs';
 import {
   DistributionMsg,
   MsgSetWithdrawAddress,
   MsgWithdrawDelegatorReward,
   MsgWithdrawValidatorCommission,
   MsgFundCommunityPool,
+  MsgUpdateDistrParams,
 } from './distribution/msgs';
 import {
   MsgGrantAllowance,
@@ -72,11 +79,16 @@ import {
   MsgTimeoutOnClose,
   IbcChannelMsg,
 } from './ibc/msgs/channel';
-import { MsgVerifyInvariant, CrisisMsg } from './crisis/msgs';
+import {
+  MsgVerifyInvariant,
+  MsgUpdateCrisisParams,
+  CrisisMsg,
+} from './crisis/msgs';
 import { MsgRegisterAccount, MsgSubmitTx, InterTxMsg } from './intertx/msgs';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
+  | AuthMsg
   | BankMsg
   | DistributionMsg
   | FeeGrantMsg
@@ -98,6 +110,7 @@ export type Msg =
 
 export namespace Msg {
   export type Amino =
+    | AuthMsg.Amino
     | BankMsg.Amino
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
@@ -113,6 +126,7 @@ export namespace Msg {
     | CrisisMsg.Amino;
 
   export type Data =
+    | AuthMsg.Data
     | BankMsg.Data
     | DistributionMsg.Data
     | FeeGrantMsg.Data
@@ -133,6 +147,7 @@ export namespace Msg {
     | InterTxMsg.Data;
 
   export type Proto =
+    | AuthMsg.Proto
     | BankMsg.Proto
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
@@ -154,11 +169,17 @@ export namespace Msg {
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
+      // auth
+      case 'cosmos-sdk/x/auth/MsgUpdateParams':
+        return MsgUpdateAuthParams.fromAmino(data);
+
       // bank
       case 'cosmos-sdk/MsgSend':
         return MsgSend.fromAmino(data);
       case 'cosmos-sdk/MsgMultiSend':
         return MsgMultiSend.fromAmino(data);
+      case 'cosmos-sdk/x/bank/MsgUpdateParams':
+        return MsgUpdateBankParams.fromAmino(data);
 
       // distribution
       case 'cosmos-sdk/MsgModifyWithdrawAddress':
@@ -169,6 +190,8 @@ export namespace Msg {
         return MsgWithdrawValidatorCommission.fromAmino(data);
       case 'cosmos-sdk/MsgFundCommunityPool':
         return MsgFundCommunityPool.fromAmino(data);
+      case 'distribution/MsgUpdateParams':
+        return MsgUpdateDistrParams.fromAmino(data);
 
       // feegrant
       case 'cosmos-sdk/MsgGrantAllowance':
@@ -237,16 +260,24 @@ export namespace Msg {
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
         return MsgVerifyInvariant.fromAmino(data);
+      case 'cosmos-sdk/x/crisis/MsgUpdateParams':
+        return MsgUpdateCrisisParams.fromAmino(data);
     }
   }
 
   export function fromData(data: Msg.Data): Msg {
     switch (data['@type']) {
+      //auth
+      case '/cosmos.auth.v1beta1.MsgUpdateParams':
+        return MsgUpdateAuthParams.fromData(data);
+
       // bank
       case '/cosmos.bank.v1beta1.MsgSend':
         return MsgSend.fromData(data);
       case '/cosmos.bank.v1beta1.MsgMultiSend':
         return MsgMultiSend.fromData(data);
+      case '/cosmos.bank.v1beta1.MsgUpdateParams':
+        return MsgUpdateBankParams.fromData(data);
 
       // distribution
       case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
@@ -257,6 +288,8 @@ export namespace Msg {
         return MsgWithdrawValidatorCommission.fromData(data);
       case '/cosmos.distribution.v1beta1.MsgFundCommunityPool':
         return MsgFundCommunityPool.fromData(data);
+      case '/initia.distribution.v1.MsgUpdateParams':
+        return MsgUpdateDistrParams.fromData(data);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -377,6 +410,8 @@ export namespace Msg {
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
         return MsgVerifyInvariant.fromData(data);
+      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
+        return MsgUpdateCrisisParams.fromData(data);
 
       // intertx
       case '/intertx.MsgRegisterAccount':
@@ -391,11 +426,17 @@ export namespace Msg {
 
   export function fromProto(proto: Any): Msg {
     switch (proto.typeUrl) {
+      // auth
+      case '/cosmos.auth.v1beta1.MsgUpdateParams':
+        return MsgUpdateAuthParams.unpackAny(proto);
+
       // bank
       case '/cosmos.bank.v1beta1.MsgSend':
         return MsgSend.unpackAny(proto);
       case '/cosmos.bank.v1beta1.MsgMultiSend':
         return MsgMultiSend.unpackAny(proto);
+      case '/cosmos.bank.v1beta1.MsgUpdateParams':
+        return MsgUpdateBankParams.unpackAny(proto);
 
       // distribution
       case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
@@ -406,6 +447,8 @@ export namespace Msg {
         return MsgWithdrawValidatorCommission.unpackAny(proto);
       case '/cosmos.distribution.v1beta1.MsgFundCommunityPool':
         return MsgFundCommunityPool.unpackAny(proto);
+      case '/initia.distribution.v1.MsgUpdateParams':
+        return MsgUpdateDistrParams.unpackAny(proto);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -524,6 +567,8 @@ export namespace Msg {
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
         return MsgVerifyInvariant.unpackAny(proto);
+      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
+        return MsgUpdateCrisisParams.unpackAny(proto);
 
       // intertx
       case '/intertx.MsgRegisterAccount':

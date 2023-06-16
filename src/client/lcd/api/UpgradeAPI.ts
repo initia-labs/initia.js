@@ -34,12 +34,10 @@ export class UpgradeAPI extends BaseAPI {
   /**
    * Look up the current plan
    */
-  public async currentPlan(params: APIParams = {}): Promise<Plan | null> {
+  public async currentPlan(params: APIParams = {}): Promise<Plan | undefined> {
     return this.c
-      .get<{
-        plan: Plan.Data | null;
-      }>(`/cosmos/upgrade/v1beta1/current_plan`, params)
-      .then(d => (d.plan ? Plan.fromData(d.plan) : null));
+      .get<{ plan?: Plan.Data }>(`/cosmos/upgrade/v1beta1/current_plan`, params)
+      .then(d => (d.plan ? Plan.fromData(d.plan) : undefined));
   }
 
   /**

@@ -45,7 +45,7 @@ export class SoftwareUpgradeProposal extends JSONSerializable<
       value: {
         title,
         description,
-        plan: plan ? plan.toAmino() : undefined,
+        plan: plan?.toAmino(),
       },
     };
   }
@@ -67,7 +67,7 @@ export class SoftwareUpgradeProposal extends JSONSerializable<
       '@type': '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal',
       title,
       description,
-      plan: plan ? plan.toData() : undefined,
+      plan: plan?.toData(),
     };
   }
 
@@ -86,7 +86,7 @@ export class SoftwareUpgradeProposal extends JSONSerializable<
     return SoftwareUpgradeProposal_pb.fromPartial({
       title,
       description,
-      plan: plan ? plan.toProto() : undefined,
+      plan: plan?.toProto(),
     });
   }
 

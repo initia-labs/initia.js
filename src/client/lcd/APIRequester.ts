@@ -4,7 +4,7 @@ import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/se
 export type APIParams = Record<string, string | number | null | undefined>;
 
 export interface Pagination {
-  next_key: string | null;
+  next_key?: string;
   total: number;
 }
 

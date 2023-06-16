@@ -47,7 +47,7 @@ export class MsgUpdateClient extends JSONSerializable<
     return {
       '@type': '/ibc.core.client.v1.MsgUpdateClient',
       client_id,
-      header: header?.toData() || undefined,
+      header: header?.toData(),
       signer,
     };
   }
@@ -64,7 +64,7 @@ export class MsgUpdateClient extends JSONSerializable<
     const { client_id, header, signer } = this;
     return MsgUpdateClient_pb.fromPartial({
       clientId: client_id,
-      header: header?.packAny() || undefined,
+      header: header?.packAny(),
       signer,
     });
   }

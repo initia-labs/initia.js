@@ -5,7 +5,7 @@ export interface BlockInfo {
 
 export interface Block {
   header: Header;
-  data: { txs: string[] | null };
+  data: { txs?: string[] };
   evidence: Evidence;
   last_commit: LastCommit;
 }

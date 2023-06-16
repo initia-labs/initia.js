@@ -70,8 +70,8 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       client_id,
       delay_period: delay_period.toFixed(),
       signer,
-      counterparty: counterparty ? counterparty.toData() : undefined,
-      version: version ? version.toData() : undefined,
+      counterparty: counterparty?.toData(),
+      version: version?.toData(),
     };
   }
 
@@ -95,8 +95,8 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       clientId: client_id,
       delayPeriod: Long.fromNumber(delay_period),
       signer,
-      counterparty: counterparty ? counterparty.toProto() : undefined,
-      version: version ? version.toProto() : undefined,
+      counterparty: counterparty?.toProto(),
+      version: version?.toProto(),
     });
   }
 

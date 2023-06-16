@@ -54,10 +54,10 @@ export class MsgAcknowledgement extends JSONSerializable<
     const { packet, acknowledgement, proof_acked, proof_height, signer } = this;
     return {
       '@type': '/ibc.core.channel.v1.MsgAcknowledgement',
-      packet: packet ? packet.toData() : undefined,
+      packet: packet?.toData(),
       acknowledgement,
       proof_acked,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -75,10 +75,10 @@ export class MsgAcknowledgement extends JSONSerializable<
   public toProto(): MsgAcknowledgement.Proto {
     const { packet, acknowledgement, proof_acked, proof_height, signer } = this;
     return MsgAcknowledgement_pb.fromPartial({
-      packet: packet ? packet.toProto() : undefined,
+      packet: packet?.toProto(),
       acknowledgement: Buffer.from(acknowledgement, 'base64'),
       proofAcked: Buffer.from(proof_acked, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }
