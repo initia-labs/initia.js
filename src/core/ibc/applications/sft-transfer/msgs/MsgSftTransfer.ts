@@ -113,7 +113,7 @@ export class MsgSftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      type: 'ibc/MsgSftTransfer',
+      type: 'sft-transfer/MsgSftTransfer',
       value: {
         source_port,
         source_channel,
@@ -251,7 +251,7 @@ export class MsgSftTransfer extends JSONSerializable<
 
 export namespace MsgSftTransfer {
   export interface Amino {
-    type: 'ibc/MsgSftTransfer';
+    type: 'sft-transfer/MsgSftTransfer';
     value: {
       source_port: string;
       source_channel: string;

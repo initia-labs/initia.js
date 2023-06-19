@@ -69,11 +69,15 @@ export * from './move/MoveParams';
 export * from './params/proposals';
 export * from './params/ParamChange';
 
+// Reward
+export * from './reward/msgs';
+export * from './reward/RewardParams';
+
 // Slashing
 export * from './slashing/msgs';
 export * from './slashing/SlashingParams';
 
-// mstaking
+// Mstaking
 export * from './mstaking/msgs';
 export * from './mstaking/Delegation';
 export * from './mstaking/Redelegation';

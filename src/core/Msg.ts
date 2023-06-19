@@ -53,6 +53,7 @@ import {
   MsgScript,
   MsgUpdateMoveParams,
 } from './move/msgs';
+import { RewardMsg, MsgUpdateRewardParams } from './reward/msgs';
 import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
 import {
   IbcFeeMsg,
@@ -61,8 +62,16 @@ import {
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
 } from './ibc/applications/fee/msgs';
-import { IbcNftMsg, MsgNftTransfer } from './ibc/applications/nft-transfer';
-import { IbcSftMsg, MsgSftTransfer } from './ibc/applications/sft-transfer';
+import {
+  IbcNftMsg,
+  MsgNftTransfer,
+  MsgUpdateIbcNftParams,
+} from './ibc/applications/nft-transfer';
+import {
+  IbcSftMsg,
+  MsgSftTransfer,
+  MsgUpdateIbcSftParams,
+} from './ibc/applications/sft-transfer';
 import {
   IbcClientMsg,
   MsgCreateClient,
@@ -109,6 +118,7 @@ export type Msg =
   | MstakingMsg
   | VestingMsg
   | MoveMsg
+  | RewardMsg
   | IbcFeeMsg
   | IbcTransferMsg
   | IbcNftMsg
@@ -131,6 +141,7 @@ export namespace Msg {
     | MstakingMsg.Amino
     | VestingMsg.Amino
     | MoveMsg.Amino
+    | RewardMsg.Amino
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
     | IbcSftMsg.Amino
@@ -147,6 +158,7 @@ export namespace Msg {
     | MstakingMsg.Data
     | VestingMsg.Data
     | MoveMsg.Data
+    | RewardMsg.Data
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
     | IbcNftMsg.Data
@@ -168,6 +180,7 @@ export namespace Msg {
     | MstakingMsg.Proto
     | VestingMsg.Proto
     | MoveMsg.Proto
+    | RewardMsg.Proto
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
     | IbcNftMsg.Proto
@@ -262,17 +275,25 @@ export namespace Msg {
       case 'move/MsgUpdateParams':
         return MsgUpdateMoveParams.fromAmino(data);
 
+      // reward
+      case 'reward/MsgUpdateParams':
+        return MsgUpdateRewardParams.fromAmino(data);
+
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
         return MsgTransfer.fromAmino(data);
 
       // ibc-nft-transfer
-      case 'ibc/MsgNftTransfer':
+      case 'nft-transfer/MsgNftTransfer':
         return MsgNftTransfer.fromAmino(data);
+      case 'nft-transfer/MsgUpdateParams':
+        return MsgUpdateIbcNftParams.fromAmino(data);
 
       // ibc-sft-transfer
-      case 'ibc/MsgSftTransfer':
+      case 'sft-transfer/MsgSftTransfer':
         return MsgSftTransfer.fromAmino(data);
+      case 'sft-transfer/MsgUpdateParams':
+        return MsgUpdateIbcSftParams.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -366,6 +387,10 @@ export namespace Msg {
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.fromData(data);
 
+      // reward
+      case '/initia.reward.v1.MsgUpdateParams':
+        return MsgUpdateRewardParams.fromData(data);
+
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':
         return MsgPayPacketFee.fromData(data);
@@ -383,10 +408,14 @@ export namespace Msg {
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
         return MsgNftTransfer.fromData(data);
+      case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcNftParams.fromData(data);
 
       // ibc-sft-transfer
       case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
         return MsgSftTransfer.fromData(data);
+      case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcSftParams.fromData(data);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -529,6 +558,10 @@ export namespace Msg {
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.unpackAny(proto);
 
+      // reward
+      case '/initia.reward.v1.MsgUpdateParams':
+        return MsgUpdateRewardParams.unpackAny(proto);
+
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':
         return MsgPayPacketFee.unpackAny(proto);
@@ -546,10 +579,14 @@ export namespace Msg {
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
         return MsgNftTransfer.unpackAny(proto);
+      case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcNftParams.unpackAny(proto);
 
       // ibc-sft-transfer
       case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
         return MsgSftTransfer.unpackAny(proto);
+      case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcSftParams.unpackAny(proto);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

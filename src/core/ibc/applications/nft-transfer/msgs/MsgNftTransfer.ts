@@ -106,7 +106,7 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      type: 'ibc/MsgNftTransfer',
+      type: 'nft-transfer/MsgNftTransfer',
       value: {
         source_port,
         source_channel,
@@ -236,7 +236,7 @@ export class MsgNftTransfer extends JSONSerializable<
 
 export namespace MsgNftTransfer {
   export interface Amino {
-    type: 'ibc/MsgNftTransfer';
+    type: 'nft-transfer/MsgNftTransfer';
     value: {
       source_port: string;
       source_channel: string;

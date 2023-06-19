@@ -1,18 +1,6 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { NftClassTrace } from '../../../core/ibc/applications/nft-transfer';
-
-export interface IbcNftParams {
-  send_enabled: boolean;
-  receive_enabled: boolean;
-}
-
-export namespace IbcNftParams {
-  export interface Data {
-    send_enabled: boolean;
-    receive_enabled: boolean;
-  }
-}
+import { NftClassTrace, IbcNftParams } from '../../../core';
 
 export class IbcNftAPI extends BaseAPI {
   /** Gets a classTrace for the hash */
@@ -52,10 +40,7 @@ export class IbcNftAPI extends BaseAPI {
         `/ibc/apps/nft_transfer/v1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        send_enabled: d.send_enabled,
-        receive_enabled: d.receive_enabled,
-      }));
+      .then(({ params: d }) => IbcNftParams.fromData(d));
   }
 
   /** Gets the escrow address for a particular port and channel id */

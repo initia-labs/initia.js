@@ -11,7 +11,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/move parameters to update
+   * @param params params defines the x/mstaking parameters to update
    */
   constructor(public authority: AccAddress, public params?: MstakingParams) {
     super();
