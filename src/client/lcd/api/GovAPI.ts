@@ -8,7 +8,6 @@ import {
   WeightedVoteOption,
   Tx,
 } from '../../../core';
-
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { TxSearchResult } from './TxAPI';
 import { ProposalStatus } from '@initia/initia.proto/cosmos/gov/v1beta1/gov';

@@ -1,19 +1,19 @@
-import { Coins } from '../Coins';
-import { num } from '../num';
-import { JSONSerializable } from '../../util/json';
-import { CommunityPoolSpendProposal } from '../distribution/proposals';
-import { ParameterChangeProposal } from '../params/proposals';
-import { ClientUpdateProposal } from '../ibc/proposals';
-import { TextProposal } from './proposals';
+import { Coins } from '../../Coins';
+import { num } from '../../num';
+import { JSONSerializable } from '../../../util/json';
+import { CommunityPoolSpendProposal } from '../../distribution/proposals';
+import { ParameterChangeProposal } from '../../params/proposals';
+import { ClientUpdateProposal } from '../../ibc/proposals';
+import { TextProposal } from './TextProposal';
 import {
   SoftwareUpgradeProposal,
   CancelSoftwareUpgradeProposal,
-} from '../upgrade/proposals';
+} from '../../upgrade/proposals';
 import {
   OperationsProposal,
   WhitelistProposal,
   DelistProposal,
-} from '../move/proposals';
+} from '../../move/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,

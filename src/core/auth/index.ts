@@ -1,3 +1,4 @@
+export * from './msgs';
 export * from './Account';
 export * from './BaseAccount';
 export * from './BaseVestingAccount';

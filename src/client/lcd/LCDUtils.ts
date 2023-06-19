@@ -1,5 +1,5 @@
 import { LCDClient } from './LCDClient';
-import { Validator } from '../../core/mstaking/Validator';
+import { Validator } from '../../core';
 
 interface ValidatorWithVotingPower {
   validatorInfo: Validator;

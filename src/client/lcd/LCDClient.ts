@@ -21,7 +21,7 @@ import {
 } from './api';
 import { LCDUtils } from './LCDUtils';
 import { Wallet } from './Wallet';
-import { Coins } from '../../core/Coins';
+import { Coins } from '../../core';
 import { Key } from '../../key';
 
 export interface LCDClientConfig {

@@ -1,6 +1,6 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { DenomTrace } from '../../../core/ibc/applications/transfer/v1/DenomTrace';
+import { DenomTrace } from '../../../core';
 
 export interface IbcTransferParams {
   send_enabled: boolean;

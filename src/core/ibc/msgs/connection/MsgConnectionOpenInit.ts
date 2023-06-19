@@ -1,8 +1,7 @@
 import { JSONSerializable } from '../../../../util/json';
 import { AccAddress } from '../../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { Counterparty } from '../../core/connection/Counterparty';
-import { Version } from '../../core/connection/Version';
+import { Counterparty, IbcVersion } from '../../core';
 import { MsgConnectionOpenInit as MsgConnectionOpenInit_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
 import Long from 'long';
 
@@ -16,7 +15,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
 > {
   public client_id: string;
   public counterparty?: Counterparty;
-  public version?: Version;
+  public version?: IbcVersion;
   public delay_period: number;
   public signer: AccAddress;
   /**
@@ -31,7 +30,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     delay_period: number,
     signer: AccAddress,
     counterparty?: Counterparty,
-    version?: Version
+    version?: IbcVersion
   ) {
     super();
     this.client_id = client_id;
@@ -59,7 +58,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       Number.parseInt(delay_period),
       signer,
       counterparty ? Counterparty.fromData(counterparty) : undefined,
-      version ? Version.fromData(version) : undefined
+      version ? IbcVersion.fromData(version) : undefined
     );
   }
 
@@ -85,7 +84,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       proto.counterparty
         ? Counterparty.fromProto(proto.counterparty)
         : undefined,
-      proto.version ? Version.fromProto(proto.version) : undefined
+      proto.version ? IbcVersion.fromProto(proto.version) : undefined
     );
   }
 
@@ -119,7 +118,7 @@ export namespace MsgConnectionOpenInit {
     '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit';
     client_id: string;
     counterparty?: Counterparty.Data;
-    version?: Version.Data;
+    version?: IbcVersion.Data;
     delay_period: string;
     signer: AccAddress;
   }

@@ -2,12 +2,12 @@ import { Version as Version_pb } from '@initia/initia.proto/ibc/core/connection/
 import { JSONSerializable } from '../../../../util/json';
 
 /*
- * Version defines the versioning scheme used to negotiate the IBC verison in the connection handshake.
+ * IbcVersion defines the versioning scheme used to negotiate the IBC verison in the connection handshake.
  */
-export class Version extends JSONSerializable<
-  Version.Amino,
-  Version.Data,
-  Version.Proto
+export class IbcVersion extends JSONSerializable<
+  IbcVersion.Amino,
+  IbcVersion.Data,
+  IbcVersion.Proto
 > {
   /**
    * @param identifier unique version identifier
@@ -17,45 +17,45 @@ export class Version extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: Version.Amino): Version {
+  public static fromAmino(data: IbcVersion.Amino): IbcVersion {
     const { identifier, features } = data;
-    return new Version(identifier, features);
+    return new IbcVersion(identifier, features);
   }
 
-  public toAmino(): Version.Amino {
+  public toAmino(): IbcVersion.Amino {
     const { identifier, features } = this;
-    const res: Version.Amino = {
+    const res: IbcVersion.Amino = {
       identifier,
       features,
     };
     return res;
   }
 
-  public static fromData(data: Version.Data): Version {
+  public static fromData(data: IbcVersion.Data): IbcVersion {
     const { identifier, features } = data;
-    return new Version(identifier, features);
+    return new IbcVersion(identifier, features);
   }
 
-  public toData(): Version.Data {
+  public toData(): IbcVersion.Data {
     const { identifier, features } = this;
-    const res: Version.Data = {
+    const res: IbcVersion.Data = {
       identifier,
       features,
     };
     return res;
   }
 
-  public static fromProto(proto: Version.Proto): Version {
-    return new Version(proto.identifier, proto.features);
+  public static fromProto(proto: IbcVersion.Proto): IbcVersion {
+    return new IbcVersion(proto.identifier, proto.features);
   }
 
-  public toProto(): Version.Proto {
+  public toProto(): IbcVersion.Proto {
     const { identifier, features } = this;
     return Version_pb.fromPartial({ identifier, features });
   }
 }
 
-export namespace Version {
+export namespace IbcVersion {
   export interface Amino {
     identifier: string;
     features: string[];

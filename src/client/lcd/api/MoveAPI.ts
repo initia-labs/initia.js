@@ -1,8 +1,7 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Denom, MoveParams } from '../../../core';
+import { AccAddress, Denom, MoveParams, ModuleABI } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
-import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
 export interface Module {

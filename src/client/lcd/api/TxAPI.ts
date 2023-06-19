@@ -9,10 +9,10 @@ import {
   Fee,
   PublicKey,
   num,
+  TxLog,
 } from '../../../core';
-import { hashToHex } from '../../../util/hash';
+import { hashToHex } from '../../../util';
 import { LCDClient } from '../LCDClient';
-import { TxLog } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
 

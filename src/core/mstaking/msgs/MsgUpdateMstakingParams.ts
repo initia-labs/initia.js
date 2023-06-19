@@ -72,7 +72,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params,
+      params: params?.toProto(),
     });
   }
 
