@@ -26,6 +26,22 @@ import {
   MsgVoteWeighted,
 } from './gov/msgs';
 import {
+  GroupMsg,
+  MsgCreateGroup,
+  MsgCreateGroupPolicy,
+  MsgCreateGroupWithPolicy,
+  MsgGroupExec,
+  MsgGroupVote,
+  MsgLeaveGroup,
+  MsgSubmitGroupProposal,
+  MsgUpdateGroupAdmin,
+  MsgUpdateGroupDecisionPolicy,
+  MsgUpdateGroupMembers,
+  MsgUpdateGroupMetadata,
+  MsgUpdateGroupPolicyAdmin,
+  MsgUpdateGroupPolicyMetadata,
+} from './group/msgs';
+import {
   AuthzMsg,
   MsgGrantAuthorization,
   MsgRevokeAuthorization,
@@ -113,6 +129,7 @@ export type Msg =
   | DistributionMsg
   | FeeGrantMsg
   | GovMsg
+  | GroupMsg
   | AuthzMsg
   | SlashingMsg
   | MstakingMsg
@@ -136,6 +153,7 @@ export namespace Msg {
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
     | GovMsg.Amino
+    | GroupMsg.Amino
     | AuthzMsg.Amino
     | SlashingMsg.Amino
     | MstakingMsg.Amino
@@ -153,6 +171,7 @@ export namespace Msg {
     | DistributionMsg.Data
     | FeeGrantMsg.Data
     | GovMsg.Data
+    | GroupMsg.Data
     | AuthzMsg.Data
     | SlashingMsg.Data
     | MstakingMsg.Data
@@ -175,6 +194,7 @@ export namespace Msg {
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
     | GovMsg.Proto
+    | GroupMsg.Proto
     | AuthzMsg.Proto
     | SlashingMsg.Proto
     | MstakingMsg.Proto
@@ -232,6 +252,34 @@ export namespace Msg {
         return MsgVote.fromAmino(data);
       case 'cosmos-sdk/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
+
+      // group
+      case 'cosmos-sdk/MsgCreateGroup':
+        return MsgCreateGroup.fromAmino(data);
+      case 'cosmos-sdk/MsgCreateGroupPolicy':
+        return MsgCreateGroupPolicy.fromAmino(data);
+      case 'cosmos-sdk/MsgCreateGroupWithPolicy':
+        return MsgCreateGroupWithPolicy.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupAdmin':
+        return MsgUpdateGroupAdmin.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupDecisionPolicy':
+        return MsgUpdateGroupDecisionPolicy.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupMembers':
+        return MsgUpdateGroupMembers.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupMetadata':
+        return MsgUpdateGroupMetadata.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupPolicyAdmin':
+        return MsgUpdateGroupPolicyAdmin.fromAmino(data);
+      case 'cosmos-sdk/MsgUpdateGroupPolicyMetadata':
+        return MsgUpdateGroupPolicyMetadata.fromAmino(data);
+      case 'cosmos-sdk/group/MsgExec':
+        return MsgGroupExec.fromAmino(data);
+      case 'cosmos-sdk/group/MsgLeaveGroup':
+        return MsgLeaveGroup.fromAmino(data);
+      case 'cosmos-sdk/group/MsgSubmitProposal':
+        return MsgSubmitGroupProposal.fromAmino(data);
+      case 'cosmos-sdk/group/MsgVote':
+        return MsgGroupVote.fromAmino(data);
 
       // authz
       case 'cosmos-sdk/MsgGrant':
@@ -344,6 +392,34 @@ export namespace Msg {
         return MsgVote.fromData(data);
       case '/cosmos.gov.v1beta1.MsgVoteWeighted':
         return MsgVoteWeighted.fromData(data);
+
+      // group
+      case '/cosmos.group.v1.MsgCreateGroup':
+        return MsgCreateGroup.fromData(data);
+      case '/cosmos.group.v1.MsgCreateGroupPolicy':
+        return MsgCreateGroupPolicy.fromData(data);
+      case '/cosmos.group.v1.MsgCreateGroupWithPolicy':
+        return MsgCreateGroupWithPolicy.fromData(data);
+      case '/cosmos.group.v1.MsgExec':
+        return MsgGroupExec.fromData(data);
+      case '/cosmos.group.v1.MsgLeaveGroup':
+        return MsgLeaveGroup.fromData(data);
+      case '/cosmos.group.v1.MsgSubmitProposal':
+        return MsgSubmitGroupProposal.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupAdmin':
+        return MsgUpdateGroupAdmin.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupMembers':
+        return MsgUpdateGroupMembers.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupMetadata':
+        return MsgUpdateGroupMetadata.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyAdmin':
+        return MsgUpdateGroupPolicyAdmin.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy':
+        return MsgUpdateGroupDecisionPolicy.fromData(data);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyMetadata':
+        return MsgUpdateGroupPolicyMetadata.fromData(data);
+      case '/cosmos.group.v1.MsgVote':
+        return MsgGroupVote.fromData(data);
 
       // authz
       case '/cosmos.authz.v1beta1.MsgGrant':
@@ -515,6 +591,34 @@ export namespace Msg {
         return MsgSubmitProposal.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgVote':
         return MsgVote.unpackAny(proto);
+
+      // group
+      case '/cosmos.group.v1.MsgCreateGroup':
+        return MsgCreateGroup.unpackAny(proto);
+      case '/cosmos.group.v1.MsgCreateGroupPolicy':
+        return MsgCreateGroupPolicy.unpackAny(proto);
+      case '/cosmos.group.v1.MsgCreateGroupWithPolicy':
+        return MsgCreateGroupWithPolicy.unpackAny(proto);
+      case '/cosmos.group.v1.MsgExec':
+        return MsgGroupExec.unpackAny(proto);
+      case '/cosmos.group.v1.MsgLeaveGroup':
+        return MsgLeaveGroup.unpackAny(proto);
+      case '/cosmos.group.v1.MsgSubmitProposal':
+        return MsgSubmitGroupProposal.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupAdmin':
+        return MsgUpdateGroupAdmin.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupMembers':
+        return MsgUpdateGroupMembers.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupMetadata':
+        return MsgUpdateGroupMetadata.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyAdmin':
+        return MsgUpdateGroupPolicyAdmin.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy':
+        return MsgUpdateGroupDecisionPolicy.unpackAny(proto);
+      case '/cosmos.group.v1.MsgUpdateGroupPolicyMetadata':
+        return MsgUpdateGroupPolicyMetadata.unpackAny(proto);
+      case '/cosmos.group.v1.MsgVote':
+        return MsgGroupVote.unpackAny(proto);
 
       // authz
       case '/cosmos.authz.v1beta1.MsgGrant':

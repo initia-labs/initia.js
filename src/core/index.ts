@@ -23,6 +23,7 @@ export * from './crisis';
 export * from './distribution';
 export * from './feegrant';
 export * from './gov';
+export * from './group';
 export * from './ibc';
 export * from './intertx';
 export * from './move';

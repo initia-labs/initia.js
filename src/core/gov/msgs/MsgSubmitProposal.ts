@@ -1,5 +1,5 @@
 import { Coins } from '../../Coins';
-import { Proposal } from '../Proposal';
+import { Proposal } from '../proposals';
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
