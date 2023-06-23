@@ -2,7 +2,6 @@ export * from './Block';
 export * from './Coin';
 export * from './Coins';
 export * from './Denom';
-export * from './Deposit';
 export * from './Fee';
 export * from './Msg';
 export * from './MultiSignature';

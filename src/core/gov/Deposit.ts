@@ -1,11 +1,11 @@
-import { Coins } from './Coins';
-import { JSONSerializable } from '../util/json';
-import { AccAddress } from './bech32';
-import { Deposit as Deposit_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/gov';
+import { Coins } from '../Coins';
+import { JSONSerializable } from '../../util/json';
+import { AccAddress } from '../bech32';
+import { Deposit as Deposit_pb } from '@initia/initia.proto/cosmos/gov/v1/gov';
 import Long from 'long';
 
 /**
- * Stores deposit information for a proposal
+ * Defines an amount deposited by an account address to an active proposal
  */
 export class Deposit extends JSONSerializable<
   Deposit.Amino,
@@ -14,9 +14,9 @@ export class Deposit extends JSONSerializable<
 > {
   public amount: Coins;
   /**
-   * @param proposal_id Id of porposal to deposit to
-   * @param depositor depositor's account address
-   * @param amount amount to deposit
+   * @param proposal_id the unique id of the proposal
+   * @param depositor the deposit addresses from the proposals
+   * @param amount amount to be deposited by depositor
    */
   constructor(
     public proposal_id: number,

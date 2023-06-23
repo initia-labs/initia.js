@@ -1,12 +1,12 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx';
-import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1beta1/gov';
+import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1/tx';
+import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1/gov';
 import Long from 'long';
 
 /**
- * Vote for a proposal
+ * Defines a message to cast a vote
  */
 export class MsgVote extends JSONSerializable<
   MsgVote.Amino,
@@ -14,68 +14,78 @@ export class MsgVote extends JSONSerializable<
   MsgVote.Proto
 > {
   /**
-   * @param proposal_id ID of proposal to vote on
-   * @param voter voter's account address
-   * @param option one of voting options
+   * @param proposal_id the unique id of the proposal
+   * @param voter the voter address for the proposal
+   * @param option the vote option
+   * @param metadata any arbitrary metadata attached to the Vote
    */
   constructor(
     public proposal_id: number,
     public voter: AccAddress,
-    public option: VoteOption
+    public option: VoteOption,
+    public metadata: string
   ) {
     super();
   }
 
   public static fromAmino(data: MsgVote.Amino): MsgVote {
     const {
-      value: { proposal_id, voter, option },
+      value: { proposal_id, voter, option, metadata },
     } = data;
-    return new MsgVote(Number.parseInt(proposal_id), voter, option);
+    return new MsgVote(Number.parseInt(proposal_id), voter, option, metadata);
   }
 
   public toAmino(): MsgVote.Amino {
-    const { proposal_id, voter, option } = this;
+    const { proposal_id, voter, option, metadata } = this;
     return {
-      type: 'cosmos-sdk/MsgVote',
+      type: 'cosmos-sdk/v1/MsgVote',
       value: {
-        proposal_id: proposal_id.toFixed(),
+        proposal_id: proposal_id.toString(),
         voter,
         option,
+        metadata,
       },
     };
   }
 
   public static fromData(data: MsgVote.Data): MsgVote {
-    const { proposal_id, voter, option } = data;
-    return new MsgVote(Number.parseInt(proposal_id), voter, option);
+    const { proposal_id, voter, option, metadata } = data;
+    return new MsgVote(Number.parseInt(proposal_id), voter, option, metadata);
   }
 
   public toData(): MsgVote.Data {
-    const { proposal_id, voter, option } = this;
+    const { proposal_id, voter, option, metadata } = this;
     return {
-      '@type': '/cosmos.gov.v1beta1.MsgVote',
-      proposal_id: proposal_id.toFixed(),
+      '@type': '/cosmos.gov.v1.MsgVote',
+      proposal_id: proposal_id.toString(),
       voter,
       option,
+      metadata,
     };
   }
 
-  public static fromProto(proto: MsgVote.Proto): MsgVote {
-    return new MsgVote(proto.proposalId.toNumber(), proto.voter, proto.option);
+  public static fromProto(data: MsgVote.Proto): MsgVote {
+    return new MsgVote(
+      data.proposalId.toNumber(),
+      data.voter,
+      data.option,
+      data.metadata
+    );
   }
 
   public toProto(): MsgVote.Proto {
-    const { proposal_id, voter, option } = this;
+    const { proposal_id, voter, option, metadata } = this;
     return MsgVote_pb.fromPartial({
-      option,
       proposalId: Long.fromNumber(proposal_id),
       voter,
+      option,
+      metadata,
     });
   }
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+      typeUrl: '/cosmos.gov.v1.MsgVote',
       value: MsgVote_pb.encode(this.toProto()).finish(),
     });
   }
@@ -90,19 +100,21 @@ export namespace MsgVote {
   export type Option = VoteOption;
 
   export interface Amino {
-    type: 'cosmos-sdk/MsgVote';
+    type: 'cosmos-sdk/v1/MsgVote';
     value: {
       proposal_id: string;
       voter: AccAddress;
       option: VoteOption;
+      metadata: string;
     };
   }
 
   export interface Data {
-    '@type': '/cosmos.gov.v1beta1.MsgVote';
+    '@type': '/cosmos.gov.v1.MsgVote';
     proposal_id: string;
     voter: AccAddress;
     option: Option;
+    metadata: string;
   }
 
   export type Proto = MsgVote_pb;

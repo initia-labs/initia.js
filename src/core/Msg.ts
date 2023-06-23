@@ -259,13 +259,13 @@ export namespace Msg {
         return MsgRevokeAllowance.fromAmino(data);
 
       // gov
-      case 'cosmos-sdk/MsgDeposit':
+      case 'cosmos-sdk/v1/MsgDeposit':
         return MsgDeposit.fromAmino(data);
       case 'cosmos-sdk/MsgSubmitProposal':
         return MsgSubmitProposal.fromAmino(data);
-      case 'cosmos-sdk/MsgVote':
+      case 'cosmos-sdk/v1/MsgVote':
         return MsgVote.fromAmino(data);
-      case 'cosmos-sdk/MsgVoteWeighted':
+      case 'cosmos-sdk/v1/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
       case 'cosmos-sdk/x/gov/v1/MsgUpdateParams':
         return MsgUpdateGovParams.fromAmino(data);
@@ -413,13 +413,13 @@ export namespace Msg {
         return MsgRevokeAllowance.fromData(data);
 
       // gov
-      case '/cosmos.gov.v1beta1.MsgDeposit':
+      case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.fromData(data);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
         return MsgSubmitProposal.fromData(data);
-      case '/cosmos.gov.v1beta1.MsgVote':
+      case '/cosmos.gov.v1.MsgVote':
         return MsgVote.fromData(data);
-      case '/cosmos.gov.v1beta1.MsgVoteWeighted':
+      case '/cosmos.gov.v1.MsgVoteWeighted':
         return MsgVoteWeighted.fromData(data);
       case '/cosmos.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.fromData(data);
@@ -628,12 +628,14 @@ export namespace Msg {
         return MsgRevokeAllowance.unpackAny(proto);
 
       // gov
-      case '/cosmos.gov.v1beta1.MsgDeposit':
+      case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
         return MsgSubmitProposal.unpackAny(proto);
-      case '/cosmos.gov.v1beta1.MsgVote':
+      case '/cosmos.gov.v1.MsgVote':
         return MsgVote.unpackAny(proto);
+      case '/cosmos.gov.v1.MsgVoteWeighted':
+        return MsgVoteWeighted.unpackAny(proto);
       case '/cosmos.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.unpackAny(proto);
 
