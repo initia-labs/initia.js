@@ -22,6 +22,7 @@ import {
 import {
   GovMsg,
   MsgDeposit,
+  MsgSubmitProposalLegacy,
   MsgSubmitProposal,
   MsgVote,
   MsgVoteWeighted,
@@ -262,6 +263,8 @@ export namespace Msg {
       case 'cosmos-sdk/v1/MsgDeposit':
         return MsgDeposit.fromAmino(data);
       case 'cosmos-sdk/MsgSubmitProposal':
+        return MsgSubmitProposalLegacy.fromAmino(data);
+      case 'cosmos-sdk/v1/MsgSubmitProposal':
         return MsgSubmitProposal.fromAmino(data);
       case 'cosmos-sdk/v1/MsgVote':
         return MsgVote.fromAmino(data);
@@ -416,6 +419,8 @@ export namespace Msg {
       case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.fromData(data);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
+        return MsgSubmitProposalLegacy.fromData(data);
+      case '/cosmos.gov.v1.MsgSubmitProposal':
         return MsgSubmitProposal.fromData(data);
       case '/cosmos.gov.v1.MsgVote':
         return MsgVote.fromData(data);
@@ -631,6 +636,8 @@ export namespace Msg {
       case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
+        return MsgSubmitProposalLegacy.unpackAny(proto);
+      case '/cosmos.gov.v1.MsgSubmitProposal':
         return MsgSubmitProposal.unpackAny(proto);
       case '/cosmos.gov.v1.MsgVote':
         return MsgVote.unpackAny(proto);
