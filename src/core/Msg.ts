@@ -12,6 +12,7 @@ import {
   MsgWithdrawValidatorCommission,
   MsgFundCommunityPool,
   MsgUpdateDistrParams,
+  MsgCommunityPoolSpend,
 } from './distribution/msgs';
 import {
   FeeGrantMsg,
@@ -24,6 +25,7 @@ import {
   MsgSubmitProposal,
   MsgVote,
   MsgVoteWeighted,
+  MsgUpdateGovParams,
 } from './gov/msgs';
 import {
   GroupMsg,
@@ -123,6 +125,11 @@ import {
   MsgUpdateCrisisParams,
 } from './crisis/msgs';
 import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx/msgs';
+import {
+  UpgradeMsg,
+  MsgSoftwareUpgrade,
+  MsgCancelUpgrade,
+} from './upgrade/msgs';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
@@ -146,7 +153,8 @@ export type Msg =
   | IbcConnectionMsg
   | IbcChannelMsg
   | CrisisMsg
-  | InterTxMsg;
+  | InterTxMsg
+  | UpgradeMsg;
 
 export namespace Msg {
   export type Amino =
@@ -165,7 +173,8 @@ export namespace Msg {
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
     | IbcSftMsg.Amino
-    | CrisisMsg.Amino;
+    | CrisisMsg.Amino
+    | UpgradeMsg.Amino;
 
   export type Data =
     | AuthMsg.Data
@@ -188,7 +197,8 @@ export namespace Msg {
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
     | CrisisMsg.Data
-    | InterTxMsg.Data;
+    | InterTxMsg.Data
+    | UpgradeMsg.Data;
 
   export type Proto =
     | AuthMsg.Proto
@@ -211,7 +221,8 @@ export namespace Msg {
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
     | CrisisMsg.Proto
-    | InterTxMsg.Proto;
+    | InterTxMsg.Proto
+    | UpgradeMsg.Proto;
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
@@ -238,6 +249,8 @@ export namespace Msg {
         return MsgFundCommunityPool.fromAmino(data);
       case 'distribution/MsgUpdateParams':
         return MsgUpdateDistrParams.fromAmino(data);
+      case 'cosmos-sdk/distr/MsgCommunityPoolSpend':
+        return MsgCommunityPoolSpend.fromAmino(data);
 
       // feegrant
       case 'cosmos-sdk/MsgGrantAllowance':
@@ -254,6 +267,8 @@ export namespace Msg {
         return MsgVote.fromAmino(data);
       case 'cosmos-sdk/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
+      case 'cosmos-sdk/x/gov/v1/MsgUpdateParams':
+        return MsgUpdateGovParams.fromAmino(data);
 
       // group
       case 'cosmos-sdk/MsgCreateGroup':
@@ -354,6 +369,12 @@ export namespace Msg {
         return MsgVerifyInvariant.fromAmino(data);
       case 'cosmos-sdk/x/crisis/MsgUpdateParams':
         return MsgUpdateCrisisParams.fromAmino(data);
+
+      // upgrade
+      case 'cosmos-sdk/MsgSoftwareUpgrade':
+        return MsgSoftwareUpgrade.fromAmino(data);
+      case 'cosmos-sdk/MsgCancelUpgrade':
+        return MsgCancelUpgrade.fromAmino(data);
     }
   }
 
@@ -382,6 +403,8 @@ export namespace Msg {
         return MsgFundCommunityPool.fromData(data);
       case '/initia.distribution.v1.MsgUpdateParams':
         return MsgUpdateDistrParams.fromData(data);
+      case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
+        return MsgCommunityPoolSpend.fromData(data);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -398,6 +421,8 @@ export namespace Msg {
         return MsgVote.fromData(data);
       case '/cosmos.gov.v1beta1.MsgVoteWeighted':
         return MsgVoteWeighted.fromData(data);
+      case '/cosmos.gov.v1.MsgUpdateParams':
+        return MsgUpdateGovParams.fromData(data);
 
       // group
       case '/cosmos.group.v1.MsgCreateGroup':
@@ -557,6 +582,12 @@ export namespace Msg {
       case '/intertx.MsgSubmitTx':
         return MsgSubmitTx.fromData(data);
 
+      // upgrade
+      case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
+        return MsgSoftwareUpgrade.fromData(data);
+      case '/cosmos.upgrade.v1beta1.MsgCancelUpgrade':
+        return MsgCancelUpgrade.fromData(data);
+
       default:
         throw Error(`not supported msg ${data['@type']}`);
     }
@@ -587,6 +618,8 @@ export namespace Msg {
         return MsgFundCommunityPool.unpackAny(proto);
       case '/initia.distribution.v1.MsgUpdateParams':
         return MsgUpdateDistrParams.unpackAny(proto);
+      case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
+        return MsgCommunityPoolSpend.unpackAny(proto);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -601,6 +634,8 @@ export namespace Msg {
         return MsgSubmitProposal.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgVote':
         return MsgVote.unpackAny(proto);
+      case '/cosmos.gov.v1.MsgUpdateParams':
+        return MsgUpdateGovParams.unpackAny(proto);
 
       // group
       case '/cosmos.group.v1.MsgCreateGroup':
@@ -759,6 +794,12 @@ export namespace Msg {
         return MsgRegisterAccount.unpackAny(proto);
       case '/intertx.MsgSubmitTx':
         return MsgSubmitTx.unpackAny(proto);
+
+      // upgrade
+      case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
+        return MsgSoftwareUpgrade.unpackAny(proto);
+      case '/cosmos.upgrade.v1beta1.MsgCancelUpgrade':
+        return MsgCancelUpgrade.unpackAny(proto);
 
       default:
         throw Error(`not supported msg ${proto.typeUrl}`);

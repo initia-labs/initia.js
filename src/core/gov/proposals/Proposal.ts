@@ -1,14 +1,9 @@
 import { Coins } from '../../Coins';
 import { num } from '../../num';
 import { JSONSerializable } from '../../../util/json';
-import { CommunityPoolSpendProposal } from '../../distribution/proposals';
 import { ParameterChangeProposal } from '../../params/proposals';
 import { ClientUpdateProposal } from '../../ibc/proposals';
 import { TextProposal } from './TextProposal';
-import {
-  SoftwareUpgradeProposal,
-  CancelSoftwareUpgradeProposal,
-} from '../../upgrade/proposals';
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -227,49 +222,31 @@ export namespace Proposal {
 
   export type Content =
     | TextProposal
-    | CommunityPoolSpendProposal
     | ParameterChangeProposal
-    | SoftwareUpgradeProposal
-    | CancelSoftwareUpgradeProposal
     | ClientUpdateProposal;
 
   export namespace Content {
     export type Amino =
       | TextProposal.Amino
-      | CommunityPoolSpendProposal.Amino
       | ParameterChangeProposal.Amino
-      | SoftwareUpgradeProposal.Amino
-      | CancelSoftwareUpgradeProposal.Amino
       | ClientUpdateProposal.Amino;
 
     export type Data =
       | TextProposal.Data
-      | CommunityPoolSpendProposal.Data
       | ParameterChangeProposal.Data
-      | SoftwareUpgradeProposal.Data
-      | CancelSoftwareUpgradeProposal.Data
       | ClientUpdateProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
-      | CommunityPoolSpendProposal.Proto
       | ParameterChangeProposal.Proto
-      | SoftwareUpgradeProposal.Proto
-      | CancelSoftwareUpgradeProposal.Proto
       | ClientUpdateProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
         case 'cosmos-sdk/TextProposal':
           return TextProposal.fromAmino(amino);
-        case 'cosmos-sdk/CommunityPoolSpendProposal':
-          return CommunityPoolSpendProposal.fromAmino(amino);
         case 'cosmos-sdk/ParameterChangeProposal':
           return ParameterChangeProposal.fromAmino(amino);
-        case 'cosmos-sdk/SoftwareUpgradeProposal':
-          return SoftwareUpgradeProposal.fromAmino(amino);
-        case 'cosmos-sdk/CancelSoftwareUpgradeProposal':
-          return CancelSoftwareUpgradeProposal.fromAmino(amino);
         case 'ibc/ClientUpdateProposal':
           return ClientUpdateProposal.fromAmino(amino);
       }
@@ -279,14 +256,8 @@ export namespace Proposal {
       switch (data['@type']) {
         case '/cosmos.gov.v1beta1.TextProposal':
           return TextProposal.fromData(data);
-        case '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal':
-          return CommunityPoolSpendProposal.fromData(data);
         case '/cosmos.params.v1beta1.ParameterChangeProposal':
           return ParameterChangeProposal.fromData(data);
-        case '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal':
-          return SoftwareUpgradeProposal.fromData(data);
-        case '/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal':
-          return CancelSoftwareUpgradeProposal.fromData(data);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.fromData(data);
       }
@@ -297,14 +268,8 @@ export namespace Proposal {
       switch (typeUrl) {
         case '/cosmos.gov.v1beta1.TextProposal':
           return TextProposal.unpackAny(anyProto);
-        case '/cosmos.distribution.v1beta1.CommunityPoolSpendProposal':
-          return CommunityPoolSpendProposal.unpackAny(anyProto);
         case '/cosmos.params.v1beta1.ParameterChangeProposal':
           return ParameterChangeProposal.unpackAny(anyProto);
-        case '/cosmos.upgrade.v1beta1.SoftwareUpgradeProposal':
-          return SoftwareUpgradeProposal.unpackAny(anyProto);
-        case '/cosmos.upgrade.v1beta1.CancelSoftwareUpgradeProposal':
-          return CancelSoftwareUpgradeProposal.unpackAny(anyProto);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.unpackAny(anyProto);
       }
