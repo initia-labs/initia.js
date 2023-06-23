@@ -1,25 +1,25 @@
 import { APIRequester } from './APIRequester';
 import {
   AuthAPI,
+  AuthzAPI,
   BankAPI,
   DistributionAPI,
   FeeGrantAPI,
   GovAPI,
-  RewardAPI,
-  AuthzAPI,
-  SlashingAPI,
+  GroupAPI,
+  IbcAPI,
+  IbcNftAPI,
+  IbcSftAPI,
+  IbcTransferAPI,
+  InterTxAPI,
+  MoveAPI,
   MstakingAPI,
+  RewardAPI,
+  SlashingAPI,
   TendermintAPI,
   TxAPI,
   UpgradeAPI,
-  MoveAPI,
-  IbcTransferAPI,
-  IbcNftAPI,
-  IbcSftAPI,
-  IbcAPI,
-  InterTxAPI,
 } from './api';
-import { LCDUtils } from './LCDUtils';
 import { Wallet } from './Wallet';
 import { Coins } from '../../core';
 import { Key } from '../../key';
@@ -73,24 +73,24 @@ export class LCDClient {
 
   // API access
   public auth: AuthAPI;
+  public authz: AuthzAPI;
   public bank: BankAPI;
   public distribution: DistributionAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
-  public reward: RewardAPI;
-  public authz: AuthzAPI;
-  public slashing: SlashingAPI;
+  public group: GroupAPI;
+  public ibc: IbcAPI;
+  public ibcNft: IbcNftAPI;
+  public ibcSft: IbcSftAPI;
+  public ibcTransfer: IbcTransferAPI;
+  public interTx: InterTxAPI;
+  public move: MoveAPI;
   public mstaking: MstakingAPI;
+  public reward: RewardAPI;
+  public slashing: SlashingAPI;
   public tendermint: TendermintAPI;
   public tx: TxAPI;
   public upgrade: UpgradeAPI;
-  public move: MoveAPI;
-  public ibc: IbcAPI;
-  public ibcTransfer: IbcTransferAPI;
-  public ibcNft: IbcNftAPI;
-  public ibcSft: IbcSftAPI;
-  public interTx: InterTxAPI;
-  public utils: LCDUtils;
 
   /**
    * Creates a new LCD client with the specified configuration.
@@ -114,24 +114,24 @@ export class LCDClient {
 
     // instantiate APIs
     this.auth = new AuthAPI(this.apiRequester);
+    this.authz = new AuthzAPI(this.apiRequester);
     this.bank = new BankAPI(this.apiRequester);
     this.distribution = new DistributionAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
-    this.reward = new RewardAPI(this.apiRequester);
-    this.authz = new AuthzAPI(this.apiRequester);
-    this.slashing = new SlashingAPI(this.apiRequester);
-    this.mstaking = new MstakingAPI(this.apiRequester);
-    this.tendermint = new TendermintAPI(this.apiRequester);
-    this.move = new MoveAPI(this.apiRequester);
+    this.group = new GroupAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);
-    this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
     this.ibcNft = new IbcNftAPI(this.apiRequester);
     this.ibcSft = new IbcSftAPI(this.apiRequester);
+    this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
+    this.interTx = new InterTxAPI(this.apiRequester);
+    this.move = new MoveAPI(this.apiRequester);
+    this.mstaking = new MstakingAPI(this.apiRequester);
+    this.reward = new RewardAPI(this.apiRequester);
+    this.slashing = new SlashingAPI(this.apiRequester);
+    this.tendermint = new TendermintAPI(this.apiRequester);
     this.tx = new TxAPI(this);
     this.upgrade = new UpgradeAPI(this.apiRequester);
-    this.interTx = new InterTxAPI(this.apiRequester);
-    this.utils = new LCDUtils(this);
   }
 
   /** Creates a new wallet with the Key. */
