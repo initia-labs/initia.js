@@ -10,11 +10,6 @@ import {
   CancelSoftwareUpgradeProposal,
 } from '../../upgrade/proposals';
 import {
-  OperationsProposal,
-  WhitelistProposal,
-  DelistProposal,
-} from '../../move/proposals';
-import {
   Proposal as Proposal_pb,
   ProposalStatus,
   TallyResult,
@@ -236,10 +231,7 @@ export namespace Proposal {
     | ParameterChangeProposal
     | SoftwareUpgradeProposal
     | CancelSoftwareUpgradeProposal
-    | ClientUpdateProposal
-    | OperationsProposal
-    | WhitelistProposal
-    | DelistProposal;
+    | ClientUpdateProposal;
 
   export namespace Content {
     export type Amino =
@@ -248,10 +240,7 @@ export namespace Proposal {
       | ParameterChangeProposal.Amino
       | SoftwareUpgradeProposal.Amino
       | CancelSoftwareUpgradeProposal.Amino
-      | ClientUpdateProposal.Amino
-      | OperationsProposal.Amino
-      | WhitelistProposal.Amino
-      | DelistProposal.Amino;
+      | ClientUpdateProposal.Amino;
 
     export type Data =
       | TextProposal.Data
@@ -259,10 +248,7 @@ export namespace Proposal {
       | ParameterChangeProposal.Data
       | SoftwareUpgradeProposal.Data
       | CancelSoftwareUpgradeProposal.Data
-      | ClientUpdateProposal.Data
-      | OperationsProposal.Data
-      | WhitelistProposal.Data
-      | DelistProposal.Data;
+      | ClientUpdateProposal.Data;
 
     export type Proto =
       | TextProposal.Proto
@@ -270,10 +256,7 @@ export namespace Proposal {
       | ParameterChangeProposal.Proto
       | SoftwareUpgradeProposal.Proto
       | CancelSoftwareUpgradeProposal.Proto
-      | ClientUpdateProposal.Proto
-      | OperationsProposal.Proto
-      | WhitelistProposal.Proto
-      | DelistProposal.Proto;
+      | ClientUpdateProposal.Proto;
 
     export function fromAmino(amino: Proposal.Content.Amino): Proposal.Content {
       switch (amino.type) {
@@ -289,12 +272,6 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromAmino(amino);
         case 'ibc/ClientUpdateProposal':
           return ClientUpdateProposal.fromAmino(amino);
-        case 'move/OperationsProposal':
-          return OperationsProposal.fromAmino(amino);
-        case 'move/WhitelistProposal':
-          return WhitelistProposal.fromAmino(amino);
-        case 'move/DelistProposal':
-          return DelistProposal.fromAmino(amino);
       }
     }
 
@@ -312,12 +289,6 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.fromData(data);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.fromData(data);
-        case '/initia.move.v1.OperationsProposal':
-          return OperationsProposal.fromData(data);
-        case '/initia.move.v1.WhitelistProposal':
-          return WhitelistProposal.fromData(data);
-        case '/initia.move.v1.DelistProposal':
-          return DelistProposal.fromData(data);
       }
     }
 
@@ -336,12 +307,6 @@ export namespace Proposal {
           return CancelSoftwareUpgradeProposal.unpackAny(anyProto);
         case '/ibc.core.client.v1.ClientUpdateProposal':
           return ClientUpdateProposal.unpackAny(anyProto);
-        case '/initia.move.v1.OperationsProposal':
-          return OperationsProposal.unpackAny(anyProto);
-        case '/initia.move.v1.WhitelistProposal':
-          return WhitelistProposal.unpackAny(anyProto);
-        case '/initia.move.v1.DelistProposal':
-          return DelistProposal.unpackAny(anyProto);
       }
 
       throw `Proposal content ${typeUrl} not recognized`;

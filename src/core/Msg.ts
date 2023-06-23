@@ -68,6 +68,8 @@ import {
   MsgExecute,
   MsgScript,
   MsgUpdateMoveParams,
+  MsgWhitelist,
+  MsgDelist,
 } from './move/msgs';
 import { RewardMsg, MsgUpdateRewardParams } from './reward/msgs';
 import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
@@ -322,6 +324,10 @@ export namespace Msg {
         return MsgScript.fromAmino(data);
       case 'move/MsgUpdateParams':
         return MsgUpdateMoveParams.fromAmino(data);
+      case 'move/MsgWhitelist':
+        return MsgWhitelist.fromAmino(data);
+      case 'move/MsgDelist':
+        return MsgDelist.fromAmino(data);
 
       // reward
       case 'reward/MsgUpdateParams':
@@ -462,6 +468,10 @@ export namespace Msg {
         return MsgScript.fromData(data);
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.fromData(data);
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.fromData(data);
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.fromData(data);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
@@ -661,6 +671,10 @@ export namespace Msg {
         return MsgScript.unpackAny(proto);
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.unpackAny(proto);
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.unpackAny(proto);
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.unpackAny(proto);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
