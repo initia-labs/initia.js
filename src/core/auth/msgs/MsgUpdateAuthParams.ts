@@ -13,7 +13,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/auth parameters to update
    */
-  constructor(public authority: AccAddress, public params?: AuthParams) {
+  constructor(public authority: AccAddress, public params: AuthParams) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateAuthParams(
-      authority,
-      params ? AuthParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateAuthParams(authority, AuthParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateAuthParams.Amino {
@@ -35,17 +32,14 @@ export class MsgUpdateAuthParams extends JSONSerializable<
       type: 'cosmos-sdk/x/auth/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
 
   public static fromData(data: MsgUpdateAuthParams.Data): MsgUpdateAuthParams {
     const { authority, params } = data;
-    return new MsgUpdateAuthParams(
-      authority,
-      params ? AuthParams.fromData(params) : undefined
-    );
+    return new MsgUpdateAuthParams(authority, AuthParams.fromData(params));
   }
 
   public toData(): MsgUpdateAuthParams.Data {
@@ -53,7 +47,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
     return {
       '@type': '/cosmos.auth.v1beta1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -62,7 +56,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
   ): MsgUpdateAuthParams {
     return new MsgUpdateAuthParams(
       data.authority,
-      data.params ? AuthParams.fromProto(data.params) : undefined
+      AuthParams.fromProto(data.params as AuthParams.Proto)
     );
   }
 
@@ -70,7 +64,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -93,14 +87,14 @@ export namespace MsgUpdateAuthParams {
     type: 'cosmos-sdk/x/auth/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: AuthParams.Amino;
+      params: AuthParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.auth.v1beta1.MsgUpdateParams';
     authority: AccAddress;
-    params?: AuthParams.Data;
+    params: AuthParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

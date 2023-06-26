@@ -13,7 +13,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the parameters to update
    */
-  constructor(public authority: AccAddress, public params?: IbcNftParams) {
+  constructor(public authority: AccAddress, public params: IbcNftParams) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateIbcNftParams(
-      authority,
-      params ? IbcNftParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateIbcNftParams(authority, IbcNftParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateIbcNftParams.Amino {
@@ -35,7 +32,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
       type: 'nft-transfer/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -44,10 +41,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
     data: MsgUpdateIbcNftParams.Data
   ): MsgUpdateIbcNftParams {
     const { authority, params } = data;
-    return new MsgUpdateIbcNftParams(
-      authority,
-      params ? IbcNftParams.fromData(params) : undefined
-    );
+    return new MsgUpdateIbcNftParams(authority, IbcNftParams.fromData(params));
   }
 
   public toData(): MsgUpdateIbcNftParams.Data {
@@ -55,7 +49,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
     return {
       '@type': '/ibc.applications.nft_transfer.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -64,7 +58,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
   ): MsgUpdateIbcNftParams {
     return new MsgUpdateIbcNftParams(
       data.authority,
-      data.params ? IbcNftParams.fromProto(data.params) : undefined
+      IbcNftParams.fromProto(data.params as IbcNftParams.Proto)
     );
   }
 
@@ -72,7 +66,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -95,14 +89,14 @@ export namespace MsgUpdateIbcNftParams {
     type: 'nft-transfer/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: IbcNftParams.Amino;
+      params: IbcNftParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/ibc.applications.nft_transfer.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: IbcNftParams.Data;
+    params: IbcNftParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

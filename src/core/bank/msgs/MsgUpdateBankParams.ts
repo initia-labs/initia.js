@@ -13,7 +13,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/bank parameters to update
    */
-  constructor(public authority: AccAddress, public params?: BankParams) {
+  constructor(public authority: AccAddress, public params: BankParams) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateBankParams(
-      authority,
-      params ? BankParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateBankParams(authority, BankParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateBankParams.Amino {
@@ -35,17 +32,14 @@ export class MsgUpdateBankParams extends JSONSerializable<
       type: 'cosmos-sdk/x/bank/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
 
   public static fromData(data: MsgUpdateBankParams.Data): MsgUpdateBankParams {
     const { authority, params } = data;
-    return new MsgUpdateBankParams(
-      authority,
-      params ? BankParams.fromData(params) : undefined
-    );
+    return new MsgUpdateBankParams(authority, BankParams.fromData(params));
   }
 
   public toData(): MsgUpdateBankParams.Data {
@@ -53,7 +47,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
     return {
       '@type': '/cosmos.bank.v1beta1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -62,7 +56,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
   ): MsgUpdateBankParams {
     return new MsgUpdateBankParams(
       data.authority,
-      data.params ? BankParams.fromProto(data.params) : undefined
+      BankParams.fromProto(data.params as BankParams.Proto)
     );
   }
 
@@ -70,7 +64,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -93,14 +87,14 @@ export namespace MsgUpdateBankParams {
     type: 'cosmos-sdk/x/bank/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: BankParams.Amino;
+      params: BankParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.bank.v1beta1.MsgUpdateParams';
     authority: AccAddress;
-    params?: BankParams.Data;
+    params: BankParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

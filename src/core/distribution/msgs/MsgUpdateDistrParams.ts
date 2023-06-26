@@ -13,10 +13,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/distribution parameters to update
    */
-  constructor(
-    public authority: AccAddress,
-    public params?: DistributionParams
-  ) {
+  constructor(public authority: AccAddress, public params: DistributionParams) {
     super();
   }
 
@@ -28,7 +25,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
     } = data;
     return new MsgUpdateDistrParams(
       authority,
-      params ? DistributionParams.fromAmino(params) : undefined
+      DistributionParams.fromAmino(params)
     );
   }
 
@@ -38,7 +35,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
       type: 'distribution/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -49,7 +46,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
     const { authority, params } = data;
     return new MsgUpdateDistrParams(
       authority,
-      params ? DistributionParams.fromData(params) : undefined
+      DistributionParams.fromData(params)
     );
   }
 
@@ -58,7 +55,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
     return {
       '@type': '/initia.distribution.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -67,7 +64,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
   ): MsgUpdateDistrParams {
     return new MsgUpdateDistrParams(
       data.authority,
-      data.params ? DistributionParams.fromProto(data.params) : undefined
+      DistributionParams.fromProto(data.params as DistributionParams.Proto)
     );
   }
 
@@ -75,7 +72,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -98,14 +95,14 @@ export namespace MsgUpdateDistrParams {
     type: 'distribution/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: DistributionParams.Amino;
+      params: DistributionParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/initia.distribution.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: DistributionParams.Data;
+    params: DistributionParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

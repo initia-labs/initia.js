@@ -13,7 +13,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/mstaking parameters to update
    */
-  constructor(public authority: AccAddress, public params?: MstakingParams) {
+  constructor(public authority: AccAddress, public params: MstakingParams) {
     super();
   }
 
@@ -25,7 +25,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
     } = data;
     return new MsgUpdateMstakingParams(
       authority,
-      params ? MstakingParams.fromAmino(params) : undefined
+      MstakingParams.fromAmino(params)
     );
   }
 
@@ -35,7 +35,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
       type: 'mstaking/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -46,7 +46,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
     const { authority, params } = data;
     return new MsgUpdateMstakingParams(
       authority,
-      params ? MstakingParams.fromData(params) : undefined
+      MstakingParams.fromData(params)
     );
   }
 
@@ -55,7 +55,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
     return {
       '@type': '/initia.mstaking.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -64,7 +64,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
   ): MsgUpdateMstakingParams {
     return new MsgUpdateMstakingParams(
       data.authority,
-      data.params ? MstakingParams.fromProto(data.params) : undefined
+      MstakingParams.fromProto(data.params as MstakingParams.Proto)
     );
   }
 
@@ -72,7 +72,7 @@ export class MsgUpdateMstakingParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -95,14 +95,14 @@ export namespace MsgUpdateMstakingParams {
     type: 'mstaking/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: MstakingParams.Amino;
+      params: MstakingParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/initia.mstaking.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: MstakingParams.Data;
+    params: MstakingParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

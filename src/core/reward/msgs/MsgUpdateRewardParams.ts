@@ -13,7 +13,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/reward parameters to update
    */
-  constructor(public authority: AccAddress, public params?: RewardParams) {
+  constructor(public authority: AccAddress, public params: RewardParams) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateRewardParams(
-      authority,
-      params ? RewardParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateRewardParams(authority, RewardParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateRewardParams.Amino {
@@ -35,7 +32,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
       type: 'reward/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -44,10 +41,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
     data: MsgUpdateRewardParams.Data
   ): MsgUpdateRewardParams {
     const { authority, params } = data;
-    return new MsgUpdateRewardParams(
-      authority,
-      params ? RewardParams.fromData(params) : undefined
-    );
+    return new MsgUpdateRewardParams(authority, RewardParams.fromData(params));
   }
 
   public toData(): MsgUpdateRewardParams.Data {
@@ -55,7 +49,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
     return {
       '@type': '/initia.reward.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -64,7 +58,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
   ): MsgUpdateRewardParams {
     return new MsgUpdateRewardParams(
       data.authority,
-      data.params ? RewardParams.fromProto(data.params) : undefined
+      RewardParams.fromProto(data.params as RewardParams.Proto)
     );
   }
 
@@ -72,7 +66,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -95,14 +89,14 @@ export namespace MsgUpdateRewardParams {
     type: 'reward/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: RewardParams.Amino;
+      params: RewardParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/initia.reward.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: RewardParams.Data;
+    params: RewardParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

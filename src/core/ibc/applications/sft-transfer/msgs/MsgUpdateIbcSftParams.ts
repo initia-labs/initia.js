@@ -13,7 +13,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the parameters to update
    */
-  constructor(public authority: AccAddress, public params?: IbcSftParams) {
+  constructor(public authority: AccAddress, public params: IbcSftParams) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateIbcSftParams(
-      authority,
-      params ? IbcSftParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateIbcSftParams(authority, IbcSftParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateIbcSftParams.Amino {
@@ -35,7 +32,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
       type: 'sft-transfer/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -44,10 +41,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
     data: MsgUpdateIbcSftParams.Data
   ): MsgUpdateIbcSftParams {
     const { authority, params } = data;
-    return new MsgUpdateIbcSftParams(
-      authority,
-      params ? IbcSftParams.fromData(params) : undefined
-    );
+    return new MsgUpdateIbcSftParams(authority, IbcSftParams.fromData(params));
   }
 
   public toData(): MsgUpdateIbcSftParams.Data {
@@ -55,7 +49,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
     return {
       '@type': '/ibc.applications.sft_transfer.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -64,7 +58,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
   ): MsgUpdateIbcSftParams {
     return new MsgUpdateIbcSftParams(
       data.authority,
-      data.params ? IbcSftParams.fromProto(data.params) : undefined
+      IbcSftParams.fromProto(data.params as IbcSftParams.Proto)
     );
   }
 
@@ -72,7 +66,7 @@ export class MsgUpdateIbcSftParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -95,14 +89,14 @@ export namespace MsgUpdateIbcSftParams {
     type: 'sft-transfer/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: IbcSftParams.Amino;
+      params: IbcSftParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/ibc.applications.sft_transfer.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: IbcSftParams.Data;
+    params: IbcSftParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

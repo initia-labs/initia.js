@@ -13,7 +13,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/auth parameters to update
    */
-  constructor(public authority: AccAddress, public params?: GovParams) {
+  constructor(public authority: AccAddress, public params: GovParams) {
     super();
   }
 
@@ -21,10 +21,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
     const {
       value: { authority, params },
     } = data;
-    return new MsgUpdateGovParams(
-      authority,
-      params ? GovParams.fromAmino(params) : undefined
-    );
+    return new MsgUpdateGovParams(authority, GovParams.fromAmino(params));
   }
 
   public toAmino(): MsgUpdateGovParams.Amino {
@@ -33,17 +30,14 @@ export class MsgUpdateGovParams extends JSONSerializable<
       type: 'cosmos-sdk/x/gov/v1/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
 
   public static fromData(data: MsgUpdateGovParams.Data): MsgUpdateGovParams {
     const { authority, params } = data;
-    return new MsgUpdateGovParams(
-      authority,
-      params ? GovParams.fromData(params) : undefined
-    );
+    return new MsgUpdateGovParams(authority, GovParams.fromData(params));
   }
 
   public toData(): MsgUpdateGovParams.Data {
@@ -51,14 +45,14 @@ export class MsgUpdateGovParams extends JSONSerializable<
     return {
       '@type': '/cosmos.gov.v1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
   public static fromProto(data: MsgUpdateGovParams.Proto): MsgUpdateGovParams {
     return new MsgUpdateGovParams(
       data.authority,
-      data.params ? GovParams.fromProto(data.params) : undefined
+      GovParams.fromProto(data.params as GovParams.Proto)
     );
   }
 
@@ -66,7 +60,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -89,14 +83,14 @@ export namespace MsgUpdateGovParams {
     type: 'cosmos-sdk/x/gov/v1/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: GovParams.Amino;
+      params: GovParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.gov.v1.MsgUpdateParams';
     authority: AccAddress;
-    params?: GovParams.Data;
+    params: GovParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

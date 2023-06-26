@@ -13,7 +13,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param params params defines the x/slashing parameters to update
    */
-  constructor(public authority: AccAddress, public params?: SlashingParams) {
+  constructor(public authority: AccAddress, public params: SlashingParams) {
     super();
   }
 
@@ -25,7 +25,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
     } = data;
     return new MsgUpdateSlashingParams(
       authority,
-      params ? SlashingParams.fromAmino(params) : undefined
+      SlashingParams.fromAmino(params)
     );
   }
 
@@ -35,7 +35,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
       type: 'cosmos-sdk/x/slashing/MsgUpdateParams',
       value: {
         authority,
-        params: params?.toAmino(),
+        params: params.toAmino(),
       },
     };
   }
@@ -46,7 +46,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
     const { authority, params } = data;
     return new MsgUpdateSlashingParams(
       authority,
-      params ? SlashingParams.fromData(params) : undefined
+      SlashingParams.fromData(params)
     );
   }
 
@@ -55,7 +55,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
     return {
       '@type': '/cosmos.slashing.v1beta1.MsgUpdateParams',
       authority,
-      params: params?.toData(),
+      params: params.toData(),
     };
   }
 
@@ -64,7 +64,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
   ): MsgUpdateSlashingParams {
     return new MsgUpdateSlashingParams(
       data.authority,
-      data.params ? SlashingParams.fromProto(data.params) : undefined
+      SlashingParams.fromProto(data.params as SlashingParams.Proto)
     );
   }
 
@@ -72,7 +72,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
     const { authority, params } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      params: params?.toProto(),
+      params: params.toProto(),
     });
   }
 
@@ -95,14 +95,14 @@ export namespace MsgUpdateSlashingParams {
     type: 'cosmos-sdk/x/slashing/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      params?: SlashingParams.Amino;
+      params: SlashingParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.slashing.v1beta1.MsgUpdateParams';
     authority: AccAddress;
-    params?: SlashingParams.Data;
+    params: SlashingParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;

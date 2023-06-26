@@ -13,7 +13,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param constant_fee constant_fee defines the x/crisis parameters to update
    */
-  constructor(public authority: AccAddress, public constant_fee?: Coin) {
+  constructor(public authority: AccAddress, public constant_fee: Coin) {
     super();
   }
 
@@ -23,10 +23,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
     const {
       value: { authority, constant_fee },
     } = data;
-    return new MsgUpdateCrisisParams(
-      authority,
-      constant_fee ? Coin.fromAmino(constant_fee) : undefined
-    );
+    return new MsgUpdateCrisisParams(authority, Coin.fromAmino(constant_fee));
   }
 
   public toAmino(): MsgUpdateCrisisParams.Amino {
@@ -35,7 +32,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
       type: 'cosmos-sdk/x/crisis/MsgUpdateParams',
       value: {
         authority,
-        constant_fee: constant_fee?.toAmino(),
+        constant_fee: constant_fee.toAmino(),
       },
     };
   }
@@ -44,10 +41,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
     data: MsgUpdateCrisisParams.Data
   ): MsgUpdateCrisisParams {
     const { authority, constant_fee } = data;
-    return new MsgUpdateCrisisParams(
-      authority,
-      constant_fee ? Coin.fromData(constant_fee) : undefined
-    );
+    return new MsgUpdateCrisisParams(authority, Coin.fromData(constant_fee));
   }
 
   public toData(): MsgUpdateCrisisParams.Data {
@@ -55,7 +49,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
     return {
       '@type': '/cosmos.crisis.v1beta1.MsgUpdateParams',
       authority,
-      constant_fee: constant_fee?.toData(),
+      constant_fee: constant_fee.toData(),
     };
   }
 
@@ -64,7 +58,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
   ): MsgUpdateCrisisParams {
     return new MsgUpdateCrisisParams(
       data.authority,
-      data.constantFee ? Coin.fromProto(data.constantFee) : undefined
+      Coin.fromProto(data.constantFee as Coin.Proto)
     );
   }
 
@@ -72,7 +66,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
     const { authority, constant_fee } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      constantFee: constant_fee?.toProto(),
+      constantFee: constant_fee.toProto(),
     });
   }
 
@@ -95,14 +89,14 @@ export namespace MsgUpdateCrisisParams {
     type: 'cosmos-sdk/x/crisis/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      constant_fee?: Coin.Amino;
+      constant_fee: Coin.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.crisis.v1beta1.MsgUpdateParams';
     authority: AccAddress;
-    constant_fee?: Coin.Data;
+    constant_fee: Coin.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;
