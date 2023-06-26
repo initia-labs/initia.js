@@ -2,9 +2,9 @@ import { JSONSerializable } from '../../../../util/json';
 import { AccAddress } from '../../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgUpdateClient as MsgUpdateClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx';
-import { Header } from '../../lightclient/tendermint/Header';
+
 /**
- * MsgUpdateClient defines an sdk.Msg to update a IBC client state using the given header
+ * MsgUpdateClient defines an sdk.Msg to update a IBC client state using the given client message
  */
 export class MsgUpdateClient extends JSONSerializable<
   any,
@@ -13,12 +13,12 @@ export class MsgUpdateClient extends JSONSerializable<
 > {
   /**
    * @param client_id client unique identifier
-   * @param header header to update the light client
+   * @param client_message client message to update the light client
    * @param signer signer address
    */
   constructor(
     public client_id: string,
-    public header: Header | undefined,
+    public client_message: any | undefined,
     public signer: string
   ) {
     super();
@@ -34,20 +34,16 @@ export class MsgUpdateClient extends JSONSerializable<
   }
 
   public static fromData(data: MsgUpdateClient.Data): MsgUpdateClient {
-    const { client_id, header, signer } = data;
-    return new MsgUpdateClient(
-      client_id,
-      header ? Header.fromData(header) : undefined,
-      signer
-    );
+    const { client_id, client_message, signer } = data;
+    return new MsgUpdateClient(client_id, client_message, signer);
   }
 
   public toData(): MsgUpdateClient.Data {
-    const { client_id, header, signer } = this;
+    const { client_id, client_message, signer } = this;
     return {
       '@type': '/ibc.core.client.v1.MsgUpdateClient',
       client_id,
-      header: header?.toData(),
+      client_message,
       signer,
     };
   }
@@ -55,16 +51,16 @@ export class MsgUpdateClient extends JSONSerializable<
   public static fromProto(proto: MsgUpdateClient.Proto): MsgUpdateClient {
     return new MsgUpdateClient(
       proto.clientId,
-      proto.header ? Header.unpackAny(proto.header) : undefined,
+      proto.clientMessage,
       proto.signer
     );
   }
 
   public toProto(): MsgUpdateClient.Proto {
-    const { client_id, header, signer } = this;
+    const { client_id, client_message, signer } = this;
     return MsgUpdateClient_pb.fromPartial({
       clientId: client_id,
-      header: header?.packAny(),
+      clientMessage: client_message,
       signer,
     });
   }
@@ -85,7 +81,7 @@ export namespace MsgUpdateClient {
   export interface Data {
     '@type': '/ibc.core.client.v1.MsgUpdateClient';
     client_id: string;
-    header?: Header.Data;
+    client_message?: any;
     signer: AccAddress;
   }
   export type Proto = MsgUpdateClient_pb;
