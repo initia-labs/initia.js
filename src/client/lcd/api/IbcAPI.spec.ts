@@ -1,5 +1,4 @@
 import { APIRequester } from '../APIRequester';
-import { Height } from '../../../core/ibc/core/client/Height';
 import { IbcAPI } from './IbcAPI';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');

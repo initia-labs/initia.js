@@ -2,18 +2,6 @@ import { BaseAPI } from './BaseAPI';
 import { Coins, AccAddress, BankParams } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 
-export interface SendEnabled {
-  denom: string;
-  enabled: boolean;
-}
-
-export namespace SendEnabled {
-  export interface Data {
-    denom: string;
-    enabled: boolean;
-  }
-}
-
 export class BankAPI extends BaseAPI {
   /**
    * Look up the balance of an account by its address.

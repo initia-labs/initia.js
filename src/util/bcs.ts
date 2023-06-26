@@ -8,8 +8,7 @@ import {
   StructTypeDefinition,
   Encoding,
 } from '@mysten/bcs';
-import { AccAddress } from '../core';
-import { MoveFunctionABI } from '../core/move/types';
+import { AccAddress, MoveFunctionABI } from '../core';
 
 export class BCS {
   private static bcs: BCS;

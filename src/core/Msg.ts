@@ -1,10 +1,22 @@
 import { AuthMsg, MsgUpdateAuthParams } from './auth/msgs';
 import {
+  AuthzMsg,
+  MsgGrantAuthorization,
+  MsgRevokeAuthorization,
+  MsgExecAuthorized,
+} from './authz/msgs';
+import {
   BankMsg,
   MsgMultiSend,
   MsgSend,
   MsgUpdateBankParams,
+  MsgSetSendEnabled,
 } from './bank/msgs';
+import {
+  CrisisMsg,
+  MsgVerifyInvariant,
+  MsgUpdateCrisisParams,
+} from './crisis/msgs';
 import {
   DistributionMsg,
   MsgSetWithdrawAddress,
@@ -44,36 +56,6 @@ import {
   MsgUpdateGroupPolicyAdmin,
   MsgUpdateGroupPolicyMetadata,
 } from './group/msgs';
-import {
-  AuthzMsg,
-  MsgGrantAuthorization,
-  MsgRevokeAuthorization,
-  MsgExecAuthorized,
-} from './authz/msgs';
-import {
-  SlashingMsg,
-  MsgUnjail,
-  MsgUpdateSlashingParams,
-} from './slashing/msgs';
-import {
-  MstakingMsg,
-  MsgBeginRedelegate,
-  MsgCreateValidator,
-  MsgDelegate,
-  MsgEditValidator,
-  MsgUndelegate,
-  MsgUpdateMstakingParams,
-} from './mstaking/msgs';
-import {
-  MoveMsg,
-  MsgPublish,
-  MsgExecute,
-  MsgScript,
-  MsgUpdateMoveParams,
-  MsgWhitelist,
-  MsgDelist,
-} from './move/msgs';
-import { RewardMsg, MsgUpdateRewardParams } from './reward/msgs';
 import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
 import {
   IbcFeeMsg,
@@ -119,12 +101,31 @@ import {
   MsgTimeout,
   MsgTimeoutOnClose,
 } from './ibc/msgs/channel';
-import {
-  CrisisMsg,
-  MsgVerifyInvariant,
-  MsgUpdateCrisisParams,
-} from './crisis/msgs';
 import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx/msgs';
+import {
+  MoveMsg,
+  MsgPublish,
+  MsgExecute,
+  MsgScript,
+  MsgUpdateMoveParams,
+  MsgWhitelist,
+  MsgDelist,
+} from './move/msgs';
+import {
+  MstakingMsg,
+  MsgBeginRedelegate,
+  MsgCreateValidator,
+  MsgDelegate,
+  MsgEditValidator,
+  MsgUndelegate,
+  MsgUpdateMstakingParams,
+} from './mstaking/msgs';
+import { RewardMsg, MsgUpdateRewardParams } from './reward/msgs';
+import {
+  SlashingMsg,
+  MsgUnjail,
+  MsgUpdateSlashingParams,
+} from './slashing/msgs';
 import {
   UpgradeMsg,
   MsgSoftwareUpgrade,
@@ -134,16 +135,13 @@ import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
   | AuthMsg
+  | AuthzMsg
   | BankMsg
+  | CrisisMsg
   | DistributionMsg
   | FeeGrantMsg
   | GovMsg
   | GroupMsg
-  | AuthzMsg
-  | SlashingMsg
-  | MstakingMsg
-  | MoveMsg
-  | RewardMsg
   | IbcFeeMsg
   | IbcTransferMsg
   | IbcNftMsg
@@ -151,41 +149,41 @@ export type Msg =
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
-  | CrisisMsg
   | InterTxMsg
+  | MoveMsg
+  | MstakingMsg
+  | RewardMsg
+  | SlashingMsg
   | UpgradeMsg;
 
 export namespace Msg {
   export type Amino =
     | AuthMsg.Amino
+    | AuthzMsg.Amino
     | BankMsg.Amino
+    | CrisisMsg.Amino
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
-    | AuthzMsg.Amino
-    | SlashingMsg.Amino
-    | MstakingMsg.Amino
-    | MoveMsg.Amino
-    | RewardMsg.Amino
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
     | IbcSftMsg.Amino
-    | CrisisMsg.Amino
+    | MoveMsg.Amino
+    | MstakingMsg.Amino
+    | RewardMsg.Amino
+    | SlashingMsg.Amino
     | UpgradeMsg.Amino;
 
   export type Data =
     | AuthMsg.Data
+    | AuthzMsg.Data
     | BankMsg.Data
+    | CrisisMsg.Data
     | DistributionMsg.Data
     | FeeGrantMsg.Data
     | GovMsg.Data
     | GroupMsg.Data
-    | AuthzMsg.Data
-    | SlashingMsg.Data
-    | MstakingMsg.Data
-    | MoveMsg.Data
-    | RewardMsg.Data
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
     | IbcNftMsg.Data
@@ -193,22 +191,22 @@ export namespace Msg {
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
-    | CrisisMsg.Data
     | InterTxMsg.Data
+    | MoveMsg.Data
+    | MstakingMsg.Data
+    | RewardMsg.Data
+    | SlashingMsg.Data
     | UpgradeMsg.Data;
 
   export type Proto =
     | AuthMsg.Proto
+    | AuthzMsg.Proto
     | BankMsg.Proto
+    | CrisisMsg.Proto
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
     | GovMsg.Proto
     | GroupMsg.Proto
-    | AuthzMsg.Proto
-    | SlashingMsg.Proto
-    | MstakingMsg.Proto
-    | MoveMsg.Proto
-    | RewardMsg.Proto
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
     | IbcNftMsg.Proto
@@ -216,8 +214,11 @@ export namespace Msg {
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
-    | CrisisMsg.Proto
     | InterTxMsg.Proto
+    | MoveMsg.Proto
+    | MstakingMsg.Proto
+    | RewardMsg.Proto
+    | SlashingMsg.Proto
     | UpgradeMsg.Proto;
 
   export function fromAmino(data: Msg.Amino): Msg {
@@ -226,6 +227,14 @@ export namespace Msg {
       case 'cosmos-sdk/x/auth/MsgUpdateParams':
         return MsgUpdateAuthParams.fromAmino(data);
 
+      // authz
+      case 'cosmos-sdk/MsgGrant':
+        return MsgGrantAuthorization.fromAmino(data);
+      case 'cosmos-sdk/MsgRevoke':
+        return MsgRevokeAuthorization.fromAmino(data);
+      case 'cosmos-sdk/MsgExec':
+        return MsgExecAuthorized.fromAmino(data);
+
       // bank
       case 'cosmos-sdk/MsgSend':
         return MsgSend.fromAmino(data);
@@ -233,6 +242,14 @@ export namespace Msg {
         return MsgMultiSend.fromAmino(data);
       case 'cosmos-sdk/x/bank/MsgUpdateParams':
         return MsgUpdateBankParams.fromAmino(data);
+      case 'cosmos-sdk/MsgSetSendEnabled':
+        return MsgSetSendEnabled.fromAmino(data);
+
+      // crisis
+      case 'cosmos-sdk/MsgVerifyInvariant':
+        return MsgVerifyInvariant.fromAmino(data);
+      case 'cosmos-sdk/x/crisis/MsgUpdateParams':
+        return MsgUpdateCrisisParams.fromAmino(data);
 
       // distribution
       case 'cosmos-sdk/MsgModifyWithdrawAddress':
@@ -296,52 +313,6 @@ export namespace Msg {
       case 'cosmos-sdk/group/MsgVote':
         return MsgGroupVote.fromAmino(data);
 
-      // authz
-      case 'cosmos-sdk/MsgGrant':
-        return MsgGrantAuthorization.fromAmino(data);
-      case 'cosmos-sdk/MsgRevoke':
-        return MsgRevokeAuthorization.fromAmino(data);
-      case 'cosmos-sdk/MsgExec':
-        return MsgExecAuthorized.fromAmino(data);
-
-      // slashing
-      case 'cosmos-sdk/MsgUnjail':
-        return MsgUnjail.fromAmino(data);
-      case 'cosmos-sdk/x/slashing/MsgUpdateParams':
-        return MsgUpdateSlashingParams.fromAmino(data);
-
-      // mstaking
-      case 'mstaking/MsgDelegate':
-        return MsgDelegate.fromAmino(data);
-      case 'mstaking/MsgUndelegate':
-        return MsgUndelegate.fromAmino(data);
-      case 'mstaking/MsgBeginRedelegate':
-        return MsgBeginRedelegate.fromAmino(data);
-      case 'mstaking/MsgCreateValidator':
-        return MsgCreateValidator.fromAmino(data);
-      case 'mstaking/MsgEditValidator':
-        return MsgEditValidator.fromAmino(data);
-      case 'mstaking/MsgUpdateParams':
-        return MsgUpdateMstakingParams.fromAmino(data);
-
-      // move
-      case 'move/MsgPublish':
-        return MsgPublish.fromAmino(data);
-      case 'move/MsgExecute':
-        return MsgExecute.fromAmino(data);
-      case 'move/MsgScript':
-        return MsgScript.fromAmino(data);
-      case 'move/MsgUpdateParams':
-        return MsgUpdateMoveParams.fromAmino(data);
-      case 'move/MsgWhitelist':
-        return MsgWhitelist.fromAmino(data);
-      case 'move/MsgDelist':
-        return MsgDelist.fromAmino(data);
-
-      // reward
-      case 'reward/MsgUpdateParams':
-        return MsgUpdateRewardParams.fromAmino(data);
-
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
         return MsgTransfer.fromAmino(data);
@@ -358,11 +329,43 @@ export namespace Msg {
       case 'sft-transfer/MsgUpdateParams':
         return MsgUpdateIbcSftParams.fromAmino(data);
 
-      // crisis
-      case 'cosmos-sdk/MsgVerifyInvariant':
-        return MsgVerifyInvariant.fromAmino(data);
-      case 'cosmos-sdk/x/crisis/MsgUpdateParams':
-        return MsgUpdateCrisisParams.fromAmino(data);
+      // move
+      case 'move/MsgPublish':
+        return MsgPublish.fromAmino(data);
+      case 'move/MsgExecute':
+        return MsgExecute.fromAmino(data);
+      case 'move/MsgScript':
+        return MsgScript.fromAmino(data);
+      case 'move/MsgUpdateParams':
+        return MsgUpdateMoveParams.fromAmino(data);
+      case 'move/MsgWhitelist':
+        return MsgWhitelist.fromAmino(data);
+      case 'move/MsgDelist':
+        return MsgDelist.fromAmino(data);
+
+      // mstaking
+      case 'mstaking/MsgDelegate':
+        return MsgDelegate.fromAmino(data);
+      case 'mstaking/MsgUndelegate':
+        return MsgUndelegate.fromAmino(data);
+      case 'mstaking/MsgBeginRedelegate':
+        return MsgBeginRedelegate.fromAmino(data);
+      case 'mstaking/MsgCreateValidator':
+        return MsgCreateValidator.fromAmino(data);
+      case 'mstaking/MsgEditValidator':
+        return MsgEditValidator.fromAmino(data);
+      case 'mstaking/MsgUpdateParams':
+        return MsgUpdateMstakingParams.fromAmino(data);
+
+      // reward
+      case 'reward/MsgUpdateParams':
+        return MsgUpdateRewardParams.fromAmino(data);
+
+      // slashing
+      case 'cosmos-sdk/MsgUnjail':
+        return MsgUnjail.fromAmino(data);
+      case 'cosmos-sdk/x/slashing/MsgUpdateParams':
+        return MsgUpdateSlashingParams.fromAmino(data);
 
       // upgrade
       case 'cosmos-sdk/MsgSoftwareUpgrade':
@@ -378,6 +381,14 @@ export namespace Msg {
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.fromData(data);
 
+      // authz
+      case '/cosmos.authz.v1beta1.MsgGrant':
+        return MsgGrantAuthorization.fromData(data);
+      case '/cosmos.authz.v1beta1.MsgRevoke':
+        return MsgRevokeAuthorization.fromData(data);
+      case '/cosmos.authz.v1beta1.MsgExec':
+        return MsgExecAuthorized.fromData(data);
+
       // bank
       case '/cosmos.bank.v1beta1.MsgSend':
         return MsgSend.fromData(data);
@@ -385,6 +396,14 @@ export namespace Msg {
         return MsgMultiSend.fromData(data);
       case '/cosmos.bank.v1beta1.MsgUpdateParams':
         return MsgUpdateBankParams.fromData(data);
+      case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
+        return MsgSetSendEnabled.fromData(data);
+
+      // crisis
+      case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
+        return MsgVerifyInvariant.fromData(data);
+      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
+        return MsgUpdateCrisisParams.fromData(data);
 
       // distribution
       case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
@@ -447,52 +466,6 @@ export namespace Msg {
         return MsgUpdateGroupPolicyMetadata.fromData(data);
       case '/cosmos.group.v1.MsgVote':
         return MsgGroupVote.fromData(data);
-
-      // authz
-      case '/cosmos.authz.v1beta1.MsgGrant':
-        return MsgGrantAuthorization.fromData(data);
-      case '/cosmos.authz.v1beta1.MsgRevoke':
-        return MsgRevokeAuthorization.fromData(data);
-      case '/cosmos.authz.v1beta1.MsgExec':
-        return MsgExecAuthorized.fromData(data);
-
-      // slashing
-      case '/cosmos.slashing.v1beta1.MsgUnjail':
-        return MsgUnjail.fromData(data);
-      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
-        return MsgUpdateSlashingParams.fromData(data);
-
-      // mstaking
-      case '/initia.mstaking.v1.MsgDelegate':
-        return MsgDelegate.fromData(data);
-      case '/initia.mstaking.v1.MsgUndelegate':
-        return MsgUndelegate.fromData(data);
-      case '/initia.mstaking.v1.MsgBeginRedelegate':
-        return MsgBeginRedelegate.fromData(data);
-      case '/initia.mstaking.v1.MsgCreateValidator':
-        return MsgCreateValidator.fromData(data);
-      case '/initia.mstaking.v1.MsgEditValidator':
-        return MsgEditValidator.fromData(data);
-      case '/initia.mstaking.v1.MsgUpdateParams':
-        return MsgUpdateMstakingParams.fromData(data);
-
-      // move
-      case '/initia.move.v1.MsgPublish':
-        return MsgPublish.fromData(data);
-      case '/initia.move.v1.MsgExecute':
-        return MsgExecute.fromData(data);
-      case '/initia.move.v1.MsgScript':
-        return MsgScript.fromData(data);
-      case '/initia.move.v1.MsgUpdateParams':
-        return MsgUpdateMoveParams.fromData(data);
-      case '/initia.move.v1.MsgWhitelist':
-        return MsgWhitelist.fromData(data);
-      case '/initia.move.v1.MsgDelist':
-        return MsgDelist.fromData(data);
-
-      // reward
-      case '/initia.reward.v1.MsgUpdateParams':
-        return MsgUpdateRewardParams.fromData(data);
 
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':
@@ -562,17 +535,49 @@ export namespace Msg {
       case '/ibc.core.channel.v1.MsgTimeoutOnClose':
         return MsgTimeoutOnClose.fromData(data);
 
-      // crisis
-      case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
-        return MsgVerifyInvariant.fromData(data);
-      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
-        return MsgUpdateCrisisParams.fromData(data);
-
       // intertx
       case '/intertx.MsgRegisterAccount':
         return MsgRegisterAccount.fromData(data);
       case '/intertx.MsgSubmitTx':
         return MsgSubmitTx.fromData(data);
+
+      // move
+      case '/initia.move.v1.MsgPublish':
+        return MsgPublish.fromData(data);
+      case '/initia.move.v1.MsgExecute':
+        return MsgExecute.fromData(data);
+      case '/initia.move.v1.MsgScript':
+        return MsgScript.fromData(data);
+      case '/initia.move.v1.MsgUpdateParams':
+        return MsgUpdateMoveParams.fromData(data);
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.fromData(data);
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.fromData(data);
+
+      // mstaking
+      case '/initia.mstaking.v1.MsgDelegate':
+        return MsgDelegate.fromData(data);
+      case '/initia.mstaking.v1.MsgUndelegate':
+        return MsgUndelegate.fromData(data);
+      case '/initia.mstaking.v1.MsgBeginRedelegate':
+        return MsgBeginRedelegate.fromData(data);
+      case '/initia.mstaking.v1.MsgCreateValidator':
+        return MsgCreateValidator.fromData(data);
+      case '/initia.mstaking.v1.MsgEditValidator':
+        return MsgEditValidator.fromData(data);
+      case '/initia.mstaking.v1.MsgUpdateParams':
+        return MsgUpdateMstakingParams.fromData(data);
+
+      // reward
+      case '/initia.reward.v1.MsgUpdateParams':
+        return MsgUpdateRewardParams.fromData(data);
+
+      // slashing
+      case '/cosmos.slashing.v1beta1.MsgUnjail':
+        return MsgUnjail.fromData(data);
+      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
+        return MsgUpdateSlashingParams.fromData(data);
 
       // upgrade
       case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
@@ -591,6 +596,14 @@ export namespace Msg {
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.unpackAny(proto);
 
+      // authz
+      case '/cosmos.authz.v1beta1.MsgGrant':
+        return MsgGrantAuthorization.unpackAny(proto);
+      case '/cosmos.authz.v1beta1.MsgRevoke':
+        return MsgRevokeAuthorization.unpackAny(proto);
+      case '/cosmos.authz.v1beta1.MsgExec':
+        return MsgExecAuthorized.unpackAny(proto);
+
       // bank
       case '/cosmos.bank.v1beta1.MsgSend':
         return MsgSend.unpackAny(proto);
@@ -598,6 +611,14 @@ export namespace Msg {
         return MsgMultiSend.unpackAny(proto);
       case '/cosmos.bank.v1beta1.MsgUpdateParams':
         return MsgUpdateBankParams.unpackAny(proto);
+      case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
+        return MsgSetSendEnabled.unpackAny(proto);
+
+      // crisis
+      case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
+        return MsgVerifyInvariant.unpackAny(proto);
+      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
+        return MsgUpdateCrisisParams.unpackAny(proto);
 
       // distribution
       case '/cosmos.distribution.v1beta1.MsgSetWithdrawAddress':
@@ -660,52 +681,6 @@ export namespace Msg {
         return MsgUpdateGroupPolicyMetadata.unpackAny(proto);
       case '/cosmos.group.v1.MsgVote':
         return MsgGroupVote.unpackAny(proto);
-
-      // authz
-      case '/cosmos.authz.v1beta1.MsgGrant':
-        return MsgGrantAuthorization.unpackAny(proto);
-      case '/cosmos.authz.v1beta1.MsgRevoke':
-        return MsgRevokeAuthorization.unpackAny(proto);
-      case '/cosmos.authz.v1beta1.MsgExec':
-        return MsgExecAuthorized.unpackAny(proto);
-
-      // slashing
-      case '/cosmos.slashing.v1beta1.MsgUnjail':
-        return MsgUnjail.unpackAny(proto);
-      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
-        return MsgUpdateSlashingParams.unpackAny(proto);
-
-      // mstaking
-      case '/initia.mstaking.v1.MsgDelegate':
-        return MsgDelegate.unpackAny(proto);
-      case '/initia.mstaking.v1.MsgUndelegate':
-        return MsgUndelegate.unpackAny(proto);
-      case '/initia.mstaking.v1.MsgBeginRedelegate':
-        return MsgBeginRedelegate.unpackAny(proto);
-      case '/initia.mstaking.v1.MsgCreateValidator':
-        return MsgCreateValidator.unpackAny(proto);
-      case '/initia.mstaking.v1.MsgEditValidator':
-        return MsgEditValidator.unpackAny(proto);
-      case '/initia.mstaking.v1.MsgUpdateParams':
-        return MsgUpdateMstakingParams.unpackAny(proto);
-
-      // move
-      case '/initia.move.v1.MsgPublish':
-        return MsgPublish.unpackAny(proto);
-      case '/initia.move.v1.MsgExecute':
-        return MsgExecute.unpackAny(proto);
-      case '/initia.move.v1.MsgScript':
-        return MsgScript.unpackAny(proto);
-      case '/initia.move.v1.MsgUpdateParams':
-        return MsgUpdateMoveParams.unpackAny(proto);
-      case '/initia.move.v1.MsgWhitelist':
-        return MsgWhitelist.unpackAny(proto);
-      case '/initia.move.v1.MsgDelist':
-        return MsgDelist.unpackAny(proto);
-
-      // reward
-      case '/initia.reward.v1.MsgUpdateParams':
-        return MsgUpdateRewardParams.unpackAny(proto);
 
       // ibc-fee
       case '/ibc.applications.fee.v1.MsgPayPacketFee':
@@ -775,17 +750,49 @@ export namespace Msg {
       case '/ibc.core.channel.v1.MsgTimeoutOnClose':
         return MsgTimeoutOnClose.unpackAny(proto);
 
-      // crisis
-      case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
-        return MsgVerifyInvariant.unpackAny(proto);
-      case '/cosmos.crisis.v1beta1.MsgUpdateParams':
-        return MsgUpdateCrisisParams.unpackAny(proto);
-
       // intertx
       case '/intertx.MsgRegisterAccount':
         return MsgRegisterAccount.unpackAny(proto);
       case '/intertx.MsgSubmitTx':
         return MsgSubmitTx.unpackAny(proto);
+
+      // move
+      case '/initia.move.v1.MsgPublish':
+        return MsgPublish.unpackAny(proto);
+      case '/initia.move.v1.MsgExecute':
+        return MsgExecute.unpackAny(proto);
+      case '/initia.move.v1.MsgScript':
+        return MsgScript.unpackAny(proto);
+      case '/initia.move.v1.MsgUpdateParams':
+        return MsgUpdateMoveParams.unpackAny(proto);
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.unpackAny(proto);
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.unpackAny(proto);
+
+      // mstaking
+      case '/initia.mstaking.v1.MsgDelegate':
+        return MsgDelegate.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgUndelegate':
+        return MsgUndelegate.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgBeginRedelegate':
+        return MsgBeginRedelegate.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgCreateValidator':
+        return MsgCreateValidator.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgEditValidator':
+        return MsgEditValidator.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgUpdateParams':
+        return MsgUpdateMstakingParams.unpackAny(proto);
+
+      // reward
+      case '/initia.reward.v1.MsgUpdateParams':
+        return MsgUpdateRewardParams.unpackAny(proto);
+
+      // slashing
+      case '/cosmos.slashing.v1beta1.MsgUnjail':
+        return MsgUnjail.unpackAny(proto);
+      case '/cosmos.slashing.v1beta1.MsgUpdateParams':
+        return MsgUpdateSlashingParams.unpackAny(proto);
 
       // upgrade
       case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
