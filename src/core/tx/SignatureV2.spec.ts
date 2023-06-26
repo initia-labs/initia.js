@@ -1,5 +1,5 @@
-import { CompactBitArray } from './CompactBitArray';
-import { SimplePublicKey } from './PublicKey';
+import { CompactBitArray } from '../CompactBitArray';
+import { SimplePublicKey } from '../PublicKey';
 import { SignatureV2 } from './SignatureV2';
 
 describe('SignatureV2', () => {

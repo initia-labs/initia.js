@@ -1,4 +1,4 @@
-import { LegacyAminoMultisigPublicKey, SimplePublicKey } from './PublicKey';
+import { LegacyAminoMultisigPublicKey, SimplePublicKey } from '../PublicKey';
 import { CompactBitArray } from './CompactBitArray';
 import { SignatureV2 } from './SignatureV2';
 

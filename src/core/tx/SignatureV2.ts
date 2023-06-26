@@ -1,4 +1,4 @@
-import { PublicKey } from './PublicKey';
+import { PublicKey } from '../PublicKey';
 import { ModeInfo } from './Tx';
 import { CompactBitArray } from './CompactBitArray';
 import {

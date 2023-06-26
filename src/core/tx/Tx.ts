@@ -2,7 +2,7 @@ import {
   PublicKey,
   SimplePublicKey,
   LegacyAminoMultisigPublicKey,
-} from './PublicKey';
+} from '../PublicKey';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import {
   SignMode as SignMode_pb,
@@ -19,11 +19,11 @@ import {
   ModeInfo_Multi as ModeInfoMulti_pb,
 } from '@initia/initia.proto/cosmos/tx/v1beta1/tx';
 import { CompactBitArray } from './CompactBitArray';
-import { Msg } from './Msg';
+import { Msg } from '../Msg';
 import { Fee } from './Fee';
 import Long from 'long';
 import { SignatureV2 } from './SignatureV2';
-import { SignerData } from '../client/lcd/api/TxAPI';
+import { SignerData } from '../../client/lcd/api/TxAPI';
 
 export class Tx {
   constructor(

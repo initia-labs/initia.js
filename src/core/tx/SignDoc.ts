@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../util/json';
+import { JSONSerializable } from '../../util/json';
 import { Fee } from './Fee';
-import { Msg } from './Msg';
+import { Msg } from '../Msg';
 import Long from 'long';
 import { SignDoc as SignDoc_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx';
 import { TxBody, AuthInfo, Tx } from './Tx';

@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../util/json';
-import { Coins } from './Coins';
-import { num } from './num';
-import { AccAddress } from './bech32';
+import { JSONSerializable } from '../../util/json';
+import { Coins } from '../Coins';
+import { num } from '../num';
+import { AccAddress } from '../bech32';
 import { Fee as Fee_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx';
 import Long from 'long';
 
