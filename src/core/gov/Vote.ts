@@ -11,8 +11,6 @@ import Long from 'long';
  * Defines a vote on a governance proposal
  */
 export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
-  public Option = VoteOption;
-
   /**
    * @param proposal_id the unique id of the proposal
    * @param voter the voter address of the proposal

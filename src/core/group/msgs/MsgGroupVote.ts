@@ -3,7 +3,7 @@ import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import {
   MsgVote as MsgVote_pb,
-  Exec,
+  Exec as Exec_pb,
   execFromJSON,
   execToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/tx';
@@ -29,9 +29,9 @@ export class MsgGroupVote extends JSONSerializable<
   constructor(
     public proposal_id: number,
     public voter: AccAddress,
-    public option: VoteOption,
+    public option: MsgGroupVote.Option,
     public metadata: string,
-    public exec: Exec
+    public exec: MsgGroupVote.Exec
   ) {
     super();
   }
@@ -125,6 +125,11 @@ export class MsgGroupVote extends JSONSerializable<
 }
 
 export namespace MsgGroupVote {
+  export type Option = VoteOption;
+  export const Option = VoteOption;
+  export type Exec = Exec_pb;
+  export const Exec = Exec_pb;
+
   export interface Amino {
     type: 'cosmos-sdk/group/MsgVote';
     value: {

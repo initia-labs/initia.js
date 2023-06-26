@@ -3,6 +3,7 @@ import { AccAddress } from '../bech32';
 import {
   GroupMember as GroupMember_pb,
   Member as Member_pb,
+  MemberRequest as MemberRequest_pb,
 } from '@initia/initia.proto/cosmos/group/v1/types';
 import Long from 'long';
 
@@ -161,4 +162,80 @@ export namespace Member {
   }
 
   export type Proto = Member_pb;
+}
+
+export class MemberRequest extends JSONSerializable<
+  MemberRequest.Amino,
+  MemberRequest.Data,
+  MemberRequest.Proto
+> {
+  /**
+   * @param address the member's account address
+   * @param weight the member's voting weight that should be greater than 0
+   * @param metadata any arbitrary metadata attached to the member
+   */
+  constructor(
+    public address: AccAddress,
+    public weight: string,
+    public metadata: string
+  ) {
+    super();
+  }
+
+  public static fromAmino(data: MemberRequest.Amino): MemberRequest {
+    const { address, weight, metadata } = data;
+    return new MemberRequest(address, weight, metadata);
+  }
+
+  public toAmino(): MemberRequest.Amino {
+    const { address, weight, metadata } = this;
+    return {
+      address,
+      weight,
+      metadata,
+    };
+  }
+
+  public static fromData(data: MemberRequest.Data): MemberRequest {
+    const { address, weight, metadata } = data;
+    return new MemberRequest(address, weight, metadata);
+  }
+
+  public toData(): MemberRequest.Data {
+    const { address, weight, metadata } = this;
+    return {
+      address,
+      weight,
+      metadata,
+    };
+  }
+
+  public static fromProto(data: MemberRequest.Proto): MemberRequest {
+    return new MemberRequest(data.address, data.weight, data.metadata);
+  }
+
+  public toProto(): MemberRequest.Proto {
+    const { address, weight, metadata } = this;
+    return MemberRequest_pb.fromPartial({
+      address,
+      weight,
+      metadata,
+    });
+  }
+}
+
+export namespace MemberRequest {
+  export interface Amino {
+    address: AccAddress;
+    weight: string;
+    metadata: string;
+  }
+
+  export interface Data {
+    address: AccAddress;
+    weight: string;
+    metadata: string;
+  }
+
+  export type Proto = MemberRequest_pb;
 }

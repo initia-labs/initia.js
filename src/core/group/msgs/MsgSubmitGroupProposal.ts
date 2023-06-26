@@ -4,7 +4,7 @@ import { Msg } from '../../Msg';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import {
   MsgSubmitProposal as MsgSubmitProposal_pb,
-  Exec,
+  Exec as Exec_pb,
   execFromJSON,
   execToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/tx';
@@ -28,7 +28,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
     public proposers: AccAddress[],
     public metadata: string,
     public messages: Msg[],
-    public exec: Exec,
+    public exec: MsgSubmitGroupProposal.Exec,
     public title: string,
     public summary: string
   ) {
@@ -184,6 +184,9 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
 }
 
 export namespace MsgSubmitGroupProposal {
+  export type Exec = Exec_pb;
+  export const Exec = Exec_pb;
+
   export interface Amino {
     type: 'cosmos-sdk/group/MsgSubmitProposal';
     value: {

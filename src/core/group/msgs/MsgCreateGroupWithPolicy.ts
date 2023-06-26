@@ -2,7 +2,7 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { DecisionPolicy } from '../policies';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MemberRequest } from '@initia/initia.proto/cosmos/group/v1/types';
+import { MemberRequest } from '../GroupMember';
 import { MsgCreateGroupWithPolicy as MsgCreateGroupWithPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
 
 export class MsgCreateGroupWithPolicy extends JSONSerializable<
@@ -45,7 +45,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
 
     return new MsgCreateGroupWithPolicy(
       admin,
-      members,
+      members.map(MemberRequest.fromAmino),
       group_metadata,
       group_policy_metadata,
       group_policy_as_admin,
@@ -67,7 +67,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       type: 'cosmos-sdk/MsgCreateGroupWithPolicy',
       value: {
         admin,
-        members,
+        members: members.map(d => d.toAmino()),
         group_metadata,
         group_policy_metadata,
         group_policy_as_admin,
@@ -90,7 +90,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
 
     return new MsgCreateGroupWithPolicy(
       admin,
-      members,
+      members.map(MemberRequest.fromData),
       group_metadata,
       group_policy_metadata,
       group_policy_as_admin,
@@ -111,7 +111,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgCreateGroupWithPolicy',
       admin,
-      members,
+      members: members.map(d => d.toData()),
       group_metadata,
       group_policy_metadata,
       group_policy_as_admin,
@@ -124,7 +124,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
   ): MsgCreateGroupWithPolicy {
     return new MsgCreateGroupWithPolicy(
       data.admin,
-      data.members,
+      data.members.map(MemberRequest.fromProto),
       data.groupMetadata,
       data.groupPolicyMetadata,
       data.groupPolicyAsAdmin,
@@ -144,7 +144,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
 
     return MsgCreateGroupWithPolicy_pb.fromPartial({
       admin,
-      members,
+      members: members.map(d => d.toProto()),
       groupMetadata: group_metadata,
       groupPolicyMetadata: group_policy_metadata,
       groupPolicyAsAdmin: group_policy_as_admin,
@@ -171,7 +171,7 @@ export namespace MsgCreateGroupWithPolicy {
     type: 'cosmos-sdk/MsgCreateGroupWithPolicy';
     value: {
       admin: AccAddress;
-      members: MemberRequest[];
+      members: MemberRequest.Amino[];
       group_metadata: string;
       group_policy_metadata: string;
       group_policy_as_admin: boolean;
@@ -182,7 +182,7 @@ export namespace MsgCreateGroupWithPolicy {
   export interface Data {
     '@type': '/cosmos.group.v1.MsgCreateGroupWithPolicy';
     admin: AccAddress;
-    members: MemberRequest[];
+    members: MemberRequest.Data[];
     group_metadata: string;
     group_policy_metadata: string;
     group_policy_as_admin: boolean;

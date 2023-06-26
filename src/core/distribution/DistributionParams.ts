@@ -1,8 +1,6 @@
 import { JSONSerializable } from '../../util/json';
-import {
-  Params as Params_pb,
-  RewardWeight,
-} from '@initia/initia.proto/initia/distribution/v1/distribution';
+import { RewardWeight } from './RewardWeight';
+import { Params as Params_pb } from '@initia/initia.proto/initia/distribution/v1/distribution';
 
 export class DistributionParams extends JSONSerializable<
   DistributionParams.Amino,
@@ -29,7 +27,7 @@ export class DistributionParams extends JSONSerializable<
     return new DistributionParams(
       community_tax,
       withdraw_addr_enabled,
-      reward_weights
+      reward_weights.map(RewardWeight.fromAmino)
     );
   }
 
@@ -40,7 +38,7 @@ export class DistributionParams extends JSONSerializable<
       value: {
         community_tax,
         withdraw_addr_enabled,
-        reward_weights,
+        reward_weights: reward_weights.map(d => d.toAmino()),
       },
     };
   }
@@ -50,7 +48,7 @@ export class DistributionParams extends JSONSerializable<
     return new DistributionParams(
       community_tax,
       withdraw_addr_enabled,
-      reward_weights
+      reward_weights.map(RewardWeight.fromData)
     );
   }
 
@@ -60,7 +58,7 @@ export class DistributionParams extends JSONSerializable<
       '@type': '/initia.distribution.v1.Params',
       community_tax,
       withdraw_addr_enabled,
-      reward_weights,
+      reward_weights: reward_weights.map(d => d.toData()),
     };
   }
 
@@ -68,7 +66,7 @@ export class DistributionParams extends JSONSerializable<
     return new DistributionParams(
       data.communityTax,
       data.withdrawAddrEnabled,
-      data.rewardWeights
+      data.rewardWeights.map(RewardWeight.fromProto)
     );
   }
 
@@ -77,7 +75,7 @@ export class DistributionParams extends JSONSerializable<
     return Params_pb.fromPartial({
       communityTax: community_tax,
       withdrawAddrEnabled: withdraw_addr_enabled,
-      rewardWeights: reward_weights,
+      rewardWeights: reward_weights.map(d => d.toProto()),
     });
   }
 }
@@ -88,7 +86,7 @@ export namespace DistributionParams {
     value: {
       community_tax: string;
       withdraw_addr_enabled: boolean;
-      reward_weights: RewardWeight[];
+      reward_weights: RewardWeight.Amino[];
     };
   }
 
@@ -96,7 +94,7 @@ export namespace DistributionParams {
     '@type': '/initia.distribution.v1.Params';
     community_tax: string;
     withdraw_addr_enabled: boolean;
-    reward_weights: RewardWeight[];
+    reward_weights: RewardWeight.Data[];
   }
 
   export type Proto = Params_pb;

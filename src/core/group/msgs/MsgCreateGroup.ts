@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MemberRequest } from '@initia/initia.proto/cosmos/group/v1/types';
+import { MemberRequest } from '../GroupMember';
 import { MsgCreateGroup as MsgCreateGroup_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
 
 export class MsgCreateGroup extends JSONSerializable<
@@ -26,7 +26,11 @@ export class MsgCreateGroup extends JSONSerializable<
     const {
       value: { admin, members, metadata },
     } = data;
-    return new MsgCreateGroup(admin, members, metadata);
+    return new MsgCreateGroup(
+      admin,
+      members.map(MemberRequest.fromAmino),
+      metadata
+    );
   }
 
   public toAmino(): MsgCreateGroup.Amino {
@@ -35,7 +39,7 @@ export class MsgCreateGroup extends JSONSerializable<
       type: 'cosmos-sdk/MsgCreateGroup',
       value: {
         admin,
-        members,
+        members: members.map(d => d.toAmino()),
         metadata,
       },
     };
@@ -43,7 +47,11 @@ export class MsgCreateGroup extends JSONSerializable<
 
   public static fromData(data: MsgCreateGroup.Data): MsgCreateGroup {
     const { admin, members, metadata } = data;
-    return new MsgCreateGroup(admin, members, metadata);
+    return new MsgCreateGroup(
+      admin,
+      members.map(MemberRequest.fromData),
+      metadata
+    );
   }
 
   public toData(): MsgCreateGroup.Data {
@@ -51,20 +59,24 @@ export class MsgCreateGroup extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgCreateGroup',
       admin,
-      members,
+      members: members.map(d => d.toData()),
       metadata,
     };
   }
 
   public static fromProto(data: MsgCreateGroup.Proto): MsgCreateGroup {
-    return new MsgCreateGroup(data.admin, data.members, data.metadata);
+    return new MsgCreateGroup(
+      data.admin,
+      data.members.map(MemberRequest.fromProto),
+      data.metadata
+    );
   }
 
   public toProto(): MsgCreateGroup.Proto {
     const { admin, members, metadata } = this;
     return MsgCreateGroup_pb.fromPartial({
       admin,
-      members,
+      members: members.map(d => d.toProto()),
       metadata,
     });
   }
@@ -86,7 +98,7 @@ export namespace MsgCreateGroup {
     type: 'cosmos-sdk/MsgCreateGroup';
     value: {
       admin: AccAddress;
-      members: MemberRequest[];
+      members: MemberRequest.Amino[];
       metadata: string;
     };
   }
@@ -94,7 +106,7 @@ export namespace MsgCreateGroup {
   export interface Data {
     '@type': '/cosmos.group.v1.MsgCreateGroup';
     admin: AccAddress;
-    members: MemberRequest[];
+    members: MemberRequest.Data[];
     metadata: string;
   }
 

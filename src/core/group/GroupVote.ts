@@ -97,6 +97,9 @@ export class GroupVote extends JSONSerializable<
 }
 
 export namespace GroupVote {
+  export type Option = VoteOption;
+  export const Option = VoteOption;
+
   export interface Amino {
     proposal_id: string;
     voter: AccAddress;

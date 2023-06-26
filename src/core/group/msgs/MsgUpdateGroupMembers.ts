@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MemberRequest } from '@initia/initia.proto/cosmos/group/v1/types';
+import { MemberRequest } from '../GroupMember';
 import { MsgUpdateGroupMembers as MsgUpdateGroupMembers_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
 import Long from 'long';
 
@@ -32,7 +32,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return new MsgUpdateGroupMembers(
       admin,
       Number.parseInt(group_id),
-      member_updates
+      member_updates.map(MemberRequest.fromAmino)
     );
   }
 
@@ -43,7 +43,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
       value: {
         admin,
         group_id: group_id.toString(),
-        member_updates,
+        member_updates: member_updates.map(d => d.toAmino()),
       },
     };
   }
@@ -55,7 +55,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return new MsgUpdateGroupMembers(
       admin,
       Number.parseInt(group_id),
-      member_updates
+      member_updates.map(MemberRequest.fromData)
     );
   }
 
@@ -65,7 +65,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
       '@type': '/cosmos.group.v1.MsgUpdateGroupMembers',
       admin,
       group_id: group_id.toString(),
-      member_updates,
+      member_updates: member_updates.map(d => d.toData()),
     };
   }
 
@@ -75,7 +75,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return new MsgUpdateGroupMembers(
       data.admin,
       data.groupId.toNumber(),
-      data.memberUpdates
+      data.memberUpdates.map(MemberRequest.fromProto)
     );
   }
 
@@ -84,7 +84,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return MsgUpdateGroupMembers_pb.fromPartial({
       admin,
       groupId: Long.fromNumber(group_id),
-      memberUpdates: member_updates,
+      memberUpdates: member_updates.map(d => d.toProto()),
     });
   }
 
@@ -108,7 +108,7 @@ export namespace MsgUpdateGroupMembers {
     value: {
       admin: AccAddress;
       group_id: string;
-      member_updates: MemberRequest[];
+      member_updates: MemberRequest.Amino[];
     };
   }
 
@@ -116,7 +116,7 @@ export namespace MsgUpdateGroupMembers {
     '@type': '/cosmos.group.v1.MsgUpdateGroupMembers';
     admin: AccAddress;
     group_id: string;
-    member_updates: MemberRequest[];
+    member_updates: MemberRequest.Data[];
   }
 
   export type Proto = MsgUpdateGroupMembers_pb;

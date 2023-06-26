@@ -17,7 +17,7 @@ export class MsgPublish extends JSONSerializable<
   constructor(
     public sender: AccAddress,
     public code_bytes: string[],
-    public upgrade_policy: UpgradePolicy
+    public upgrade_policy: MsgPublish.Policy
   ) {
     super();
   }
@@ -90,6 +90,9 @@ export class MsgPublish extends JSONSerializable<
 }
 
 export namespace MsgPublish {
+  export type Policy = UpgradePolicy;
+  export const Policy = UpgradePolicy;
+
   export interface Amino {
     type: 'move/MsgPublish';
     value: {
@@ -108,5 +111,3 @@ export namespace MsgPublish {
 
   export type Proto = MsgPublish_pb;
 }
-
-export { UpgradePolicy };
