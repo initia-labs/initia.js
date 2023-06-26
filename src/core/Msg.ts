@@ -64,7 +64,6 @@ import {
   MsgUndelegate,
   MsgUpdateMstakingParams,
 } from './mstaking/msgs';
-import { VestingMsg, MsgCreateVestingAccount } from './vesting/msgs';
 import {
   MoveMsg,
   MsgPublish,
@@ -143,7 +142,6 @@ export type Msg =
   | AuthzMsg
   | SlashingMsg
   | MstakingMsg
-  | VestingMsg
   | MoveMsg
   | RewardMsg
   | IbcFeeMsg
@@ -168,7 +166,6 @@ export namespace Msg {
     | AuthzMsg.Amino
     | SlashingMsg.Amino
     | MstakingMsg.Amino
-    | VestingMsg.Amino
     | MoveMsg.Amino
     | RewardMsg.Amino
     | IbcTransferMsg.Amino
@@ -187,7 +184,6 @@ export namespace Msg {
     | AuthzMsg.Data
     | SlashingMsg.Data
     | MstakingMsg.Data
-    | VestingMsg.Data
     | MoveMsg.Data
     | RewardMsg.Data
     | IbcFeeMsg.Data
@@ -211,7 +207,6 @@ export namespace Msg {
     | AuthzMsg.Proto
     | SlashingMsg.Proto
     | MstakingMsg.Proto
-    | VestingMsg.Proto
     | MoveMsg.Proto
     | RewardMsg.Proto
     | IbcFeeMsg.Proto
@@ -328,10 +323,6 @@ export namespace Msg {
         return MsgEditValidator.fromAmino(data);
       case 'mstaking/MsgUpdateParams':
         return MsgUpdateMstakingParams.fromAmino(data);
-
-      // vesting
-      case 'cosmos-sdk/MsgCreateVestingAccount':
-        return MsgCreateVestingAccount.fromAmino(data);
 
       // move
       case 'move/MsgPublish':
@@ -484,10 +475,6 @@ export namespace Msg {
         return MsgEditValidator.fromData(data);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.fromData(data);
-
-      // vesting
-      case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
-        return MsgCreateVestingAccount.fromData(data);
 
       // move
       case '/initia.move.v1.MsgPublish':
@@ -701,10 +688,6 @@ export namespace Msg {
         return MsgEditValidator.unpackAny(proto);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.unpackAny(proto);
-
-      // vesting
-      case '/cosmos.vesting.v1beta1.MsgCreateVestingAccount':
-        return MsgCreateVestingAccount.unpackAny(proto);
 
       // move
       case '/initia.move.v1.MsgPublish':

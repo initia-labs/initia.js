@@ -1,9 +1,6 @@
 import {
   AccAddress,
   Account,
-  DelayedVestingAccount,
-  PeriodicVestingAccount,
-  ContinuousVestingAccount,
   ModuleAccount,
   BaseAccount,
   AuthParams,
@@ -13,9 +10,6 @@ import { APIParams } from '../APIRequester';
 
 export class AuthAPI extends BaseAPI {
   /**
-   * Looks up the account information using its Initia account address. If the account has
-   * vesting, it will be a [[LazyGradedVestingAccount]].
-   *
    * @param address address of account to look up
    */
   public async accountInfo(
@@ -23,12 +17,7 @@ export class AuthAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<Account> {
     const { account } = await this.c.get<{
-      account:
-        | BaseAccount.Data
-        | DelayedVestingAccount.Data
-        | PeriodicVestingAccount.Data
-        | ContinuousVestingAccount.Data
-        | ModuleAccount.Data;
+      account: BaseAccount.Data | ModuleAccount.Data;
     }>(`/cosmos/auth/v1beta1/accounts/${address}`, params);
     return Account.fromData(account);
   }

@@ -1,51 +1,21 @@
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { BaseAccount } from './BaseAccount';
-import { BaseVestingAccount } from './BaseVestingAccount';
-import { ContinuousVestingAccount } from './ContinuousVestingAccount';
-import { DelayedVestingAccount } from './DelayedVestingAccount';
 import { ModuleAccount } from './ModuleAccount';
-import { PeriodicVestingAccount } from './PeriodicVestingAccount';
 
-export type Account =
-  | BaseAccount
-  | BaseVestingAccount
-  | ContinuousVestingAccount
-  | DelayedVestingAccount
-  | PeriodicVestingAccount
-  | ModuleAccount;
+export type Account = BaseAccount | ModuleAccount;
 
 /**
  * Stores information about an account fetched from the blockchain.
  */
 export namespace Account {
-  export type Amino =
-    | BaseAccount.Amino
-    | BaseVestingAccount.Amino
-    | ContinuousVestingAccount.Amino
-    | DelayedVestingAccount.Amino
-    | PeriodicVestingAccount.Amino
-    | ModuleAccount.Amino;
-  export type Data =
-    | BaseAccount.Data
-    | BaseVestingAccount.Data
-    | ContinuousVestingAccount.Data
-    | DelayedVestingAccount.Data
-    | PeriodicVestingAccount.Data
-    | ModuleAccount.Data;
+  export type Amino = BaseAccount.Amino | ModuleAccount.Amino;
+  export type Data = BaseAccount.Data | ModuleAccount.Data;
   export type Proto = Any;
 
   export function fromAmino(amino: Account.Amino): Account {
     switch (amino.type) {
       case 'cosmos-sdk/BaseAccount':
         return BaseAccount.fromAmino(amino);
-      case 'cosmos-sdk/BaseVestingAccount':
-        return BaseVestingAccount.fromAmino(amino);
-      case 'cosmos-sdk/ContinuousVestingAccount':
-        return ContinuousVestingAccount.fromAmino(amino);
-      case 'cosmos-sdk/DelayedVestingAccount':
-        return DelayedVestingAccount.fromAmino(amino);
-      case 'cosmos-sdk/PeriodicVestingAccount':
-        return PeriodicVestingAccount.fromAmino(amino);
       case 'cosmos-sdk/ModuleAccount':
         return ModuleAccount.fromAmino(amino);
     }
@@ -55,14 +25,6 @@ export namespace Account {
     switch (data['@type']) {
       case '/cosmos.auth.v1beta1.BaseAccount':
         return BaseAccount.fromData(data);
-      case '/cosmos.vesting.v1beta1.BaseVestingAccount':
-        return BaseVestingAccount.fromData(data);
-      case '/cosmos.vesting.v1beta1.ContinuousVestingAccount':
-        return ContinuousVestingAccount.fromData(data);
-      case '/cosmos.vesting.v1beta1.DelayedVestingAccount':
-        return DelayedVestingAccount.fromData(data);
-      case '/cosmos.vesting.v1beta1.PeriodicVestingAccount':
-        return PeriodicVestingAccount.fromData(data);
       case '/cosmos.auth.v1beta1.ModuleAccount':
         return ModuleAccount.fromData(data);
     }
@@ -72,12 +34,6 @@ export namespace Account {
     const typeUrl = accountAny.typeUrl;
     if (typeUrl === '/cosmos.auth.v1beta1.BaseAccount') {
       return BaseAccount.unpackAny(accountAny);
-    } else if (typeUrl === '/cosmos.vesting.v1beta1.ContinuousVestingAccount') {
-      return ContinuousVestingAccount.unpackAny(accountAny);
-    } else if (typeUrl === '/cosmos.vesting.v1beta1.DelayedVestingAccount') {
-      return DelayedVestingAccount.unpackAny(accountAny);
-    } else if (typeUrl === '/cosmos.vesting.v1beta1.PeriodicVestingAccount') {
-      return PeriodicVestingAccount.unpackAny(accountAny);
     } else if (typeUrl === '/cosmos.auth.v1beta1.ModuleAccount') {
       return ModuleAccount.unpackAny(accountAny);
     }

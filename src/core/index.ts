@@ -31,4 +31,3 @@ export * from './params';
 export * from './reward';
 export * from './slashing';
 export * from './upgrade';
-export * from './vesting';
