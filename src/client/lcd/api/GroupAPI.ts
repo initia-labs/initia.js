@@ -8,6 +8,7 @@ import {
   GroupVote,
 } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { TallyResult } from '@initia/initia.proto/cosmos/group/v1/types';
 
 export class GroupAPI extends BaseAPI {
   public async groupInfo(groupId: number): Promise<GroupInfo> {
@@ -143,6 +144,14 @@ export class GroupAPI extends BaseAPI {
         pagination: Pagination;
       }>(`/cosmos/group/v1/groups_by_member/${address}`, params)
       .then(d => [d.groups.map(GroupInfo.fromData), d.pagination]);
+  }
+
+  public async tally(proposalId: number): Promise<TallyResult> {
+    return this.c
+      .get<{ tally: TallyResult }>(
+        `/cosmos/group/v1/proposals/${proposalId}/tally`
+      )
+      .then(d => d.tally);
   }
 
   public async groups(

@@ -38,7 +38,7 @@ export class MsgSubmitTx extends JSONSerializable<
   public toData(): MsgSubmitTx.Data {
     const { owner, connection_id, msg } = this;
     return {
-      '@type': '/intertx.MsgSubmitTx',
+      '@type': '/initia.intertx.v1.MsgSubmitTx',
       owner,
       connection_id,
       msg: msg.toData(),
@@ -64,7 +64,7 @@ export class MsgSubmitTx extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/intertx.MsgSubmitTx',
+      typeUrl: '/initia.intertx.v1.MsgSubmitTx',
       value: MsgSubmitTx_pb.encode(this.toProto()).finish(),
     });
   }
@@ -76,7 +76,7 @@ export class MsgSubmitTx extends JSONSerializable<
 
 export namespace MsgSubmitTx {
   export interface Data {
-    '@type': '/intertx.MsgSubmitTx';
+    '@type': '/initia.intertx.v1.MsgSubmitTx';
     owner: AccAddress;
     connection_id: string;
     msg: Msg.Data;

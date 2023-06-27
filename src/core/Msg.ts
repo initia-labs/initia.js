@@ -33,10 +33,13 @@ import {
 } from './feegrant/msgs';
 import {
   GovMsg,
+  MsgDepositLegacy,
   MsgDeposit,
   MsgSubmitProposalLegacy,
   MsgSubmitProposal,
+  MsgVoteLegacy,
   MsgVote,
+  MsgVoteWeightedLegacy,
   MsgVoteWeighted,
   MsgUpdateGovParams,
 } from './gov/msgs';
@@ -272,14 +275,20 @@ export namespace Msg {
         return MsgRevokeAllowance.fromAmino(data);
 
       // gov
+      case 'cosmos-sdk/MsgDeposit':
+        return MsgDepositLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgDeposit':
         return MsgDeposit.fromAmino(data);
       case 'cosmos-sdk/MsgSubmitProposal':
         return MsgSubmitProposalLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgSubmitProposal':
         return MsgSubmitProposal.fromAmino(data);
+      case 'cosmos-sdk/MsgVote':
+        return MsgVoteLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgVote':
         return MsgVote.fromAmino(data);
+      case 'cosmos-sdk/MsgVoteWeighted':
+        return MsgVoteWeightedLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
       case 'cosmos-sdk/x/gov/v1/MsgUpdateParams':
@@ -426,14 +435,20 @@ export namespace Msg {
         return MsgRevokeAllowance.fromData(data);
 
       // gov
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return MsgDepositLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.fromData(data);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
         return MsgSubmitProposalLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgSubmitProposal':
         return MsgSubmitProposal.fromData(data);
+      case '/cosmos.gov.v1beta1.MsgVote':
+        return MsgVoteLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgVote':
         return MsgVote.fromData(data);
+      case '/cosmos.gov.v1beta1.MsgVoteWeighted':
+        return MsgVoteWeightedLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgVoteWeighted':
         return MsgVoteWeighted.fromData(data);
       case '/cosmos.gov.v1.MsgUpdateParams':
@@ -536,9 +551,9 @@ export namespace Msg {
         return MsgTimeoutOnClose.fromData(data);
 
       // intertx
-      case '/intertx.MsgRegisterAccount':
+      case '/initia.intertx.v1.MsgRegisterAccount':
         return MsgRegisterAccount.fromData(data);
-      case '/intertx.MsgSubmitTx':
+      case '/initia.intertx.v1.MsgSubmitTx':
         return MsgSubmitTx.fromData(data);
 
       // move
@@ -641,14 +656,20 @@ export namespace Msg {
         return MsgRevokeAllowance.unpackAny(proto);
 
       // gov
+      case '/cosmos.gov.v1beta1.MsgDeposit':
+        return MsgDepositLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgDeposit':
         return MsgDeposit.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgSubmitProposal':
         return MsgSubmitProposalLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgSubmitProposal':
         return MsgSubmitProposal.unpackAny(proto);
+      case '/cosmos.gov.v1beta1.MsgVote':
+        return MsgVoteLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgVote':
         return MsgVote.unpackAny(proto);
+      case '/cosmos.gov.v1beta1.MsgVoteWeighted':
+        return MsgVoteWeightedLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgVoteWeighted':
         return MsgVoteWeighted.unpackAny(proto);
       case '/cosmos.gov.v1.MsgUpdateParams':
@@ -751,9 +772,9 @@ export namespace Msg {
         return MsgTimeoutOnClose.unpackAny(proto);
 
       // intertx
-      case '/intertx.MsgRegisterAccount':
+      case '/initia.intertx.v1.MsgRegisterAccount':
         return MsgRegisterAccount.unpackAny(proto);
-      case '/intertx.MsgSubmitTx':
+      case '/initia.intertx.v1.MsgSubmitTx':
         return MsgSubmitTx.unpackAny(proto);
 
       // move

@@ -1,5 +1,5 @@
 import { Coins } from '../../Coins';
-import { ProposalLegacy } from '../proposals';
+import { Content } from '../proposals';
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
@@ -21,7 +21,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
    * @param proposer proposer's account address
    */
   constructor(
-    public content: ProposalLegacy.Content,
+    public content: Content,
     initial_deposit: Coins.Input,
     public proposer: AccAddress
   ) {
@@ -36,7 +36,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
       value: { content, initial_deposit, proposer },
     } = data;
     return new MsgSubmitProposalLegacy(
-      ProposalLegacy.Content.fromAmino(content),
+      Content.fromAmino(content),
       Coins.fromAmino(initial_deposit),
       proposer
     );
@@ -59,7 +59,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
   ): MsgSubmitProposalLegacy {
     const { content, initial_deposit, proposer } = data;
     return new MsgSubmitProposalLegacy(
-      ProposalLegacy.Content.fromData(content),
+      Content.fromData(content),
       Coins.fromData(initial_deposit),
       proposer
     );
@@ -79,7 +79,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
     proto: MsgSubmitProposalLegacy.Proto
   ): MsgSubmitProposalLegacy {
     return new MsgSubmitProposalLegacy(
-      ProposalLegacy.Content.fromProto(proto.content as any),
+      Content.fromProto(proto.content as any),
       Coins.fromProto(proto.initialDeposit),
       proto.proposer
     );
@@ -112,7 +112,7 @@ export namespace MsgSubmitProposalLegacy {
   export interface Amino {
     type: 'cosmos-sdk/MsgSubmitProposal';
     value: {
-      content: ProposalLegacy.Content.Amino;
+      content: Content.Amino;
       initial_deposit: Coins.Amino;
       proposer: AccAddress;
     };
@@ -120,7 +120,7 @@ export namespace MsgSubmitProposalLegacy {
 
   export interface Data {
     '@type': '/cosmos.gov.v1beta1.MsgSubmitProposal';
-    content: ProposalLegacy.Content.Data;
+    content: Content.Data;
     initial_deposit: Coins.Data;
     proposer: AccAddress;
   }

@@ -1,3 +1,3 @@
-export * from './TextProposal';
-export * from './ProposalLegacy';
+export * from './Content';
 export * from './Proposal';
+export * from './TextProposal';
