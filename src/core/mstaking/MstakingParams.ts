@@ -42,7 +42,7 @@ export class MstakingParams extends JSONSerializable<
       },
     } = data;
     return new MstakingParams(
-      Duration.fromString(unbonding_time),
+      Duration.fromAmino(unbonding_time),
       max_validators,
       max_entries,
       historical_entries,
@@ -65,7 +65,7 @@ export class MstakingParams extends JSONSerializable<
     return {
       type: 'mstaking/Params',
       value: {
-        unbonding_time: unbonding_time.toString(),
+        unbonding_time: unbonding_time.toAmino(),
         max_validators,
         max_entries,
         historical_entries,
@@ -87,7 +87,7 @@ export class MstakingParams extends JSONSerializable<
       min_commission_rate,
     } = data;
     return new MstakingParams(
-      Duration.fromString(unbonding_time),
+      Duration.fromData(unbonding_time),
       max_validators,
       max_entries,
       historical_entries,
@@ -109,7 +109,7 @@ export class MstakingParams extends JSONSerializable<
     } = this;
     return {
       '@type': '/initia.mstaking.v1.Params',
-      unbonding_time: unbonding_time.toString(),
+      unbonding_time: unbonding_time.toData(),
       max_validators,
       max_entries,
       historical_entries,
@@ -157,7 +157,7 @@ export namespace MstakingParams {
   export interface Amino {
     type: 'mstaking/Params';
     value: {
-      unbonding_time: string;
+      unbonding_time: Duration.Amino;
       max_validators: number;
       max_entries: number;
       historical_entries: number;
@@ -169,7 +169,7 @@ export namespace MstakingParams {
 
   export interface Data {
     '@type': '/initia.mstaking.v1.Params';
-    unbonding_time: string;
+    unbonding_time: Duration.Data;
     max_validators: number;
     max_entries: number;
     historical_entries: number;

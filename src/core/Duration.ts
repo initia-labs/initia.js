@@ -42,6 +42,22 @@ export class Duration {
     return `${this.nanos / Math.pow(10, 9) + this.seconds.toNumber()}s`;
   }
 
+  public static fromAmino(amino: Duration.Amino): Duration {
+    return Duration.fromString(amino);
+  }
+
+  public toAmino(): Duration.Amino {
+    return this.toString();
+  }
+
+  public static fromData(data: Duration.Data): Duration {
+    return Duration.fromString(data);
+  }
+
+  public toData(): Duration.Data {
+    return this.toString();
+  }
+
   public static fromProto(proto: Duration.Proto): Duration {
     return new Duration(proto.seconds.toNumber(), proto.nanos);
   }
@@ -52,5 +68,7 @@ export class Duration {
 }
 
 export namespace Duration {
+  export type Amino = string;
+  export type Data = string;
   export type Proto = Duration_pb;
 }

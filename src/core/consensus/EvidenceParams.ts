@@ -25,7 +25,7 @@ export class EvidenceParams extends JSONSerializable<
     const { max_age_num_blocks, max_age_duration, max_bytes } = data;
     return new EvidenceParams(
       Number.parseInt(max_age_num_blocks),
-      Duration.fromString(max_age_duration),
+      Duration.fromAmino(max_age_duration),
       Number.parseInt(max_bytes)
     );
   }
@@ -34,7 +34,7 @@ export class EvidenceParams extends JSONSerializable<
     const { max_age_num_blocks, max_age_duration, max_bytes } = this;
     return {
       max_age_num_blocks: max_age_num_blocks.toString(),
-      max_age_duration: max_age_duration.toString(),
+      max_age_duration: max_age_duration.toAmino(),
       max_bytes: max_bytes.toString(),
     };
   }
@@ -43,7 +43,7 @@ export class EvidenceParams extends JSONSerializable<
     const { max_age_num_blocks, max_age_duration, max_bytes } = data;
     return new EvidenceParams(
       Number.parseInt(max_age_num_blocks),
-      Duration.fromString(max_age_duration),
+      Duration.fromData(max_age_duration),
       Number.parseInt(max_bytes)
     );
   }
@@ -52,7 +52,7 @@ export class EvidenceParams extends JSONSerializable<
     const { max_age_num_blocks, max_age_duration, max_bytes } = this;
     return {
       max_age_num_blocks: max_age_num_blocks.toString(),
-      max_age_duration: max_age_duration.toString(),
+      max_age_duration: max_age_duration.toData(),
       max_bytes: max_bytes.toString(),
     };
   }
@@ -78,13 +78,13 @@ export class EvidenceParams extends JSONSerializable<
 export namespace EvidenceParams {
   export interface Amino {
     max_age_num_blocks: string;
-    max_age_duration: string;
+    max_age_duration: Duration.Amino;
     max_bytes: string;
   }
 
   export interface Data {
     max_age_num_blocks: string;
-    max_age_duration: string;
+    max_age_duration: Duration.Data;
     max_bytes: string;
   }
 

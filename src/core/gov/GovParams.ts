@@ -54,8 +54,8 @@ export class GovParams extends JSONSerializable<
 
     return new GovParams(
       Coins.fromAmino(min_deposit),
-      Duration.fromString(max_deposit_period),
-      Duration.fromString(voting_period),
+      Duration.fromAmino(max_deposit_period),
+      Duration.fromAmino(voting_period),
       quorum,
       threshold,
       veto_threshold,
@@ -82,8 +82,8 @@ export class GovParams extends JSONSerializable<
 
     return {
       min_deposit: min_deposit.toAmino(),
-      max_deposit_period: max_deposit_period.toString(),
-      voting_period: voting_period.toString(),
+      max_deposit_period: max_deposit_period.toAmino(),
+      voting_period: voting_period.toAmino(),
       quorum,
       threshold,
       veto_threshold,
@@ -110,8 +110,8 @@ export class GovParams extends JSONSerializable<
 
     return new GovParams(
       Coins.fromData(min_deposit),
-      Duration.fromString(max_deposit_period),
-      Duration.fromString(voting_period),
+      Duration.fromData(max_deposit_period),
+      Duration.fromData(voting_period),
       quorum,
       threshold,
       veto_threshold,
@@ -138,8 +138,8 @@ export class GovParams extends JSONSerializable<
 
     return {
       min_deposit: min_deposit.toData(),
-      max_deposit_period: max_deposit_period.toString(),
-      voting_period: voting_period.toString(),
+      max_deposit_period: max_deposit_period.toData(),
+      voting_period: voting_period.toData(),
       quorum,
       threshold,
       veto_threshold,
@@ -197,8 +197,8 @@ export class GovParams extends JSONSerializable<
 export namespace GovParams {
   export interface Amino {
     min_deposit: Coins.Amino;
-    max_deposit_period: string;
-    voting_period: string;
+    max_deposit_period: Duration.Amino;
+    voting_period: Duration.Amino;
     quorum: string;
     threshold: string;
     veto_threshold: string;
@@ -210,8 +210,8 @@ export namespace GovParams {
 
   export interface Data {
     min_deposit: Coins.Data;
-    max_deposit_period: string;
-    voting_period: string;
+    max_deposit_period: Duration.Data;
+    voting_period: Duration.Data;
     quorum: string;
     threshold: string;
     veto_threshold: string;

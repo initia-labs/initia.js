@@ -50,7 +50,7 @@ export class PeriodicAllowance extends JSONSerializable<
 
     return new PeriodicAllowance(
       BasicAllowance.fromAmino(basic),
-      Duration.fromString(period),
+      Duration.fromAmino(period),
       Coins.fromAmino(period_spend_limit),
       Coins.fromAmino(period_can_spend),
       new Date(period_reset)
@@ -69,7 +69,7 @@ export class PeriodicAllowance extends JSONSerializable<
       type: 'cosmos-sdk/PeriodicAllowance',
       value: {
         basic: basic.toAmino(),
-        period: period.toString(),
+        period: period.toAmino(),
         period_spend_limit: period_spend_limit.toAmino(),
         period_can_spend: period_can_spend.toAmino(),
         period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
@@ -87,7 +87,7 @@ export class PeriodicAllowance extends JSONSerializable<
     } = proto;
     return new PeriodicAllowance(
       BasicAllowance.fromData(basic),
-      Duration.fromString(period),
+      Duration.fromData(period),
       Coins.fromData(period_spend_limit),
       Coins.fromData(period_can_spend),
       new Date(period_reset)
@@ -105,7 +105,7 @@ export class PeriodicAllowance extends JSONSerializable<
     return {
       '@type': '/cosmos.feegrant.v1beta1.PeriodicAllowance',
       basic: basic.toData(),
-      period: period.toString(),
+      period: period.toData(),
       period_spend_limit: period_spend_limit.toData(),
       period_can_spend: period_can_spend.toData(),
       period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
@@ -159,7 +159,7 @@ export namespace PeriodicAllowance {
     type: 'cosmos-sdk/PeriodicAllowance';
     value: {
       basic: BasicAllowance.Amino;
-      period: string;
+      period: Duration.Amino;
       period_spend_limit: Coins.Amino;
       period_can_spend: Coins.Amino;
       period_reset: string;
@@ -169,7 +169,7 @@ export namespace PeriodicAllowance {
   export interface Data {
     '@type': '/cosmos.feegrant.v1beta1.PeriodicAllowance';
     basic: BasicAllowance.Data;
-    period: string;
+    period: Duration.Data;
     period_spend_limit: Coins.Data;
     period_can_spend: Coins.Data;
     period_reset: string;

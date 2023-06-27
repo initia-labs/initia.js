@@ -23,16 +23,16 @@ export class DecisionPolicyWindows extends JSONSerializable<
   ): DecisionPolicyWindows {
     const { voting_period, min_execution_period } = data;
     return new DecisionPolicyWindows(
-      Duration.fromString(voting_period),
-      Duration.fromString(min_execution_period)
+      Duration.fromAmino(voting_period),
+      Duration.fromAmino(min_execution_period)
     );
   }
 
   public toAmino(): DecisionPolicyWindows.Amino {
     const { voting_period, min_execution_period } = this;
     return {
-      voting_period: voting_period.toString(),
-      min_execution_period: min_execution_period.toString(),
+      voting_period: voting_period.toAmino(),
+      min_execution_period: min_execution_period.toAmino(),
     };
   }
 
@@ -41,16 +41,16 @@ export class DecisionPolicyWindows extends JSONSerializable<
   ): DecisionPolicyWindows {
     const { voting_period, min_execution_period } = data;
     return new DecisionPolicyWindows(
-      Duration.fromString(voting_period),
-      Duration.fromString(min_execution_period)
+      Duration.fromData(voting_period),
+      Duration.fromData(min_execution_period)
     );
   }
 
   public toData(): DecisionPolicyWindows.Data {
     const { voting_period, min_execution_period } = this;
     return {
-      voting_period: voting_period.toString(),
-      min_execution_period: min_execution_period.toString(),
+      voting_period: voting_period.toData(),
+      min_execution_period: min_execution_period.toData(),
     };
   }
 
@@ -74,13 +74,13 @@ export class DecisionPolicyWindows extends JSONSerializable<
 
 export namespace DecisionPolicyWindows {
   export interface Amino {
-    voting_period: string;
-    min_execution_period: string;
+    voting_period: Duration.Amino;
+    min_execution_period: Duration.Amino;
   }
 
   export interface Data {
-    voting_period: string;
-    min_execution_period: string;
+    voting_period: Duration.Data;
+    min_execution_period: Duration.Data;
   }
 
   export type Proto = DecisionPolicyWindows_pb;

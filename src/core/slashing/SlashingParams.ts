@@ -39,7 +39,7 @@ export class SlashingParams extends JSONSerializable<
     return new SlashingParams(
       Number.parseInt(signed_blocks_window),
       Number.parseInt(min_signed_per_window),
-      Duration.fromString(downtime_jail_duration),
+      Duration.fromAmino(downtime_jail_duration),
       Number.parseInt(slash_fraction_double_sign),
       Number.parseInt(slash_fraction_downtime)
     );
@@ -59,7 +59,7 @@ export class SlashingParams extends JSONSerializable<
       value: {
         signed_blocks_window: signed_blocks_window.toString(),
         min_signed_per_window: min_signed_per_window.toString(),
-        downtime_jail_duration: downtime_jail_duration.toString(),
+        downtime_jail_duration: downtime_jail_duration.toAmino(),
         slash_fraction_double_sign: slash_fraction_double_sign.toString(),
         slash_fraction_downtime: slash_fraction_downtime.toString(),
       },
@@ -78,7 +78,7 @@ export class SlashingParams extends JSONSerializable<
     return new SlashingParams(
       Number.parseInt(signed_blocks_window),
       Number.parseInt(min_signed_per_window),
-      Duration.fromString(downtime_jail_duration),
+      Duration.fromData(downtime_jail_duration),
       Number.parseInt(slash_fraction_double_sign),
       Number.parseInt(slash_fraction_downtime)
     );
@@ -97,7 +97,7 @@ export class SlashingParams extends JSONSerializable<
       '@type': '/cosmos.slashing.v1beta1.Params',
       signed_blocks_window: signed_blocks_window.toString(),
       min_signed_per_window: min_signed_per_window.toString(),
-      downtime_jail_duration: downtime_jail_duration.toString(),
+      downtime_jail_duration: downtime_jail_duration.toData(),
       slash_fraction_double_sign: slash_fraction_double_sign.toString(),
       slash_fraction_downtime: slash_fraction_downtime.toString(),
     };
@@ -140,7 +140,7 @@ export namespace SlashingParams {
     value: {
       signed_blocks_window: string;
       min_signed_per_window: string;
-      downtime_jail_duration: string;
+      downtime_jail_duration: Duration.Amino;
       slash_fraction_double_sign: string;
       slash_fraction_downtime: string;
     };
@@ -150,7 +150,7 @@ export namespace SlashingParams {
     '@type': '/cosmos.slashing.v1beta1.Params';
     signed_blocks_window: string;
     min_signed_per_window: string;
-    downtime_jail_duration: string;
+    downtime_jail_duration: Duration.Data;
     slash_fraction_double_sign: string;
     slash_fraction_downtime: string;
   }
