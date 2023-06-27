@@ -2,6 +2,7 @@ export * from './Block';
 export * from './Coin';
 export * from './Coins';
 export * from './Denom';
+export * from './Duration';
 export * from './Msg';
 export * from './PublicKey';
 export * from './bech32';

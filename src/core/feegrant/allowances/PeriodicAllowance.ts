@@ -1,9 +1,10 @@
 import { JSONSerializable } from '../../../util/json';
 import { Coins } from '../../Coins';
+import { Duration } from '../../Duration';
 import { BasicAllowance } from './BasicAllowance';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { PeriodicAllowance as PeriodicAllowance_pb } from '@initia/initia.proto/cosmos/feegrant/v1beta1/feegrant';
-import Long from 'long';
+
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
  * as well as a limit per time period.
@@ -25,7 +26,7 @@ export class PeriodicAllowance extends JSONSerializable<
    */
   constructor(
     public basic: BasicAllowance,
-    public period: number,
+    public period: Duration,
     period_spend_limit: Coins.Input,
     period_can_spend: Coins.Input,
     public period_reset: Date
@@ -49,7 +50,7 @@ export class PeriodicAllowance extends JSONSerializable<
 
     return new PeriodicAllowance(
       BasicAllowance.fromAmino(basic),
-      Number.parseInt(period),
+      Duration.fromString(period),
       Coins.fromAmino(period_spend_limit),
       Coins.fromAmino(period_can_spend),
       new Date(period_reset)
@@ -86,7 +87,7 @@ export class PeriodicAllowance extends JSONSerializable<
     } = proto;
     return new PeriodicAllowance(
       BasicAllowance.fromData(basic),
-      Number.parseInt(period),
+      Duration.fromString(period),
       Coins.fromData(period_spend_limit),
       Coins.fromData(period_can_spend),
       new Date(period_reset)
@@ -114,7 +115,7 @@ export class PeriodicAllowance extends JSONSerializable<
   public static fromProto(proto: PeriodicAllowance.Proto): PeriodicAllowance {
     return new PeriodicAllowance(
       BasicAllowance.fromProto(proto.basic as BasicAllowance.Proto),
-      proto.period?.seconds.toNumber() as number,
+      Duration.fromProto(proto.period as Duration.Proto),
       Coins.fromProto(proto.periodSpendLimit),
       Coins.fromProto(proto.periodCanSpend),
       proto.periodReset as Date
@@ -132,7 +133,7 @@ export class PeriodicAllowance extends JSONSerializable<
 
     return PeriodicAllowance_pb.fromPartial({
       basic: basic.toProto(),
-      period: { seconds: Long.fromNumber(period) },
+      period: period.toProto(),
       periodCanSpend: period_can_spend.toProto(),
       periodReset: period_reset,
       periodSpendLimit: period_spend_limit.toProto(),

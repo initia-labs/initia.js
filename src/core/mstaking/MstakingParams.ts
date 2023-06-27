@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json';
+import { Duration } from '../Duration';
 import { Params as Params_pb } from '@initia/initia.proto/initia/mstaking/v1/staking';
 import Long from 'long';
 
@@ -17,7 +18,7 @@ export class MstakingParams extends JSONSerializable<
    * @param min_commission_rate the chain-wide minimum commission rate that a validator can charge their delegators
    */
   constructor(
-    public unbonding_time: number,
+    public unbonding_time: Duration,
     public max_validators: number,
     public max_entries: number,
     public historical_entries: number,
@@ -41,7 +42,7 @@ export class MstakingParams extends JSONSerializable<
       },
     } = data;
     return new MstakingParams(
-      Number.parseInt(unbonding_time),
+      Duration.fromString(unbonding_time),
       max_validators,
       max_entries,
       historical_entries,
@@ -86,7 +87,7 @@ export class MstakingParams extends JSONSerializable<
       min_commission_rate,
     } = data;
     return new MstakingParams(
-      Number.parseInt(unbonding_time.replace('s', '')),
+      Duration.fromString(unbonding_time),
       max_validators,
       max_entries,
       historical_entries,
@@ -108,7 +109,7 @@ export class MstakingParams extends JSONSerializable<
     } = this;
     return {
       '@type': '/initia.mstaking.v1.Params',
-      unbonding_time: unbonding_time.toString() + 's',
+      unbonding_time: unbonding_time.toString(),
       max_validators,
       max_entries,
       historical_entries,
@@ -120,7 +121,7 @@ export class MstakingParams extends JSONSerializable<
 
   public static fromProto(data: MstakingParams.Proto): MstakingParams {
     return new MstakingParams(
-      data.unbondingTime?.seconds.toNumber() ?? 0,
+      Duration.fromProto(data.unbondingTime as Duration.Proto),
       data.maxValidators,
       data.maxEntries,
       data.historicalEntries,
@@ -141,7 +142,7 @@ export class MstakingParams extends JSONSerializable<
       min_commission_rate,
     } = this;
     return Params_pb.fromPartial({
-      unbondingTime: { seconds: Long.fromNumber(unbonding_time) },
+      unbondingTime: unbonding_time.toProto(),
       maxValidators: max_validators,
       maxEntries: max_entries,
       historicalEntries: historical_entries,

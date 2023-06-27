@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../util/json';
 import { Coins } from '../Coins';
+import { Duration } from '../Duration';
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/gov/v1/gov';
-import Long from 'long';
 
 export class GovParams extends JSONSerializable<
   GovParams.Amino,
@@ -24,8 +24,8 @@ export class GovParams extends JSONSerializable<
    */
   constructor(
     min_deposit: Coins.Input,
-    public max_deposit_period: number,
-    public voting_period: number,
+    public max_deposit_period: Duration,
+    public voting_period: Duration,
     public quorum: string,
     public threshold: string,
     public veto_threshold: string,
@@ -54,8 +54,8 @@ export class GovParams extends JSONSerializable<
 
     return new GovParams(
       Coins.fromAmino(min_deposit),
-      Number.parseInt(max_deposit_period),
-      Number.parseInt(voting_period),
+      Duration.fromString(max_deposit_period),
+      Duration.fromString(voting_period),
       quorum,
       threshold,
       veto_threshold,
@@ -110,8 +110,8 @@ export class GovParams extends JSONSerializable<
 
     return new GovParams(
       Coins.fromData(min_deposit),
-      Number.parseInt(max_deposit_period.replace('s', '')),
-      Number.parseInt(voting_period.replace('s', '')),
+      Duration.fromString(max_deposit_period),
+      Duration.fromString(voting_period),
       quorum,
       threshold,
       veto_threshold,
@@ -138,8 +138,8 @@ export class GovParams extends JSONSerializable<
 
     return {
       min_deposit: min_deposit.toData(),
-      max_deposit_period: max_deposit_period.toString() + 's',
-      voting_period: voting_period.toString() + 's',
+      max_deposit_period: max_deposit_period.toString(),
+      voting_period: voting_period.toString(),
       quorum,
       threshold,
       veto_threshold,
@@ -153,8 +153,8 @@ export class GovParams extends JSONSerializable<
   public static fromProto(data: GovParams.Proto): GovParams {
     return new GovParams(
       Coins.fromProto(data.minDeposit),
-      data.maxDepositPeriod?.seconds.toNumber() ?? 0,
-      data.votingPeriod?.seconds.toNumber() ?? 0,
+      Duration.fromProto(data.maxDepositPeriod as Duration.Proto),
+      Duration.fromProto(data.votingPeriod as Duration.Proto),
       data.quorum,
       data.threshold,
       data.vetoThreshold,
@@ -181,8 +181,8 @@ export class GovParams extends JSONSerializable<
 
     return Params_pb.fromPartial({
       minDeposit: min_deposit.toProto(),
-      maxDepositPeriod: { seconds: Long.fromNumber(max_deposit_period) },
-      votingPeriod: { seconds: Long.fromNumber(voting_period) },
+      maxDepositPeriod: max_deposit_period.toProto(),
+      votingPeriod: voting_period.toProto(),
       quorum,
       threshold,
       vetoThreshold: veto_threshold,

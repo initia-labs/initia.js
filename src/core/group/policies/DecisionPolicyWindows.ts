@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../../util/json';
+import { Duration } from '../../Duration';
 import { DecisionPolicyWindows as DecisionPolicyWindows_pb } from '@initia/initia.proto/cosmos/group/v1/types';
-import Long from 'long';
 
 export class DecisionPolicyWindows extends JSONSerializable<
   DecisionPolicyWindows.Amino,
@@ -12,8 +12,8 @@ export class DecisionPolicyWindows extends JSONSerializable<
    * @param min_execution_period the minimum duration after the proposal submission where members can start sending MsgExec
    */
   constructor(
-    public voting_period: number,
-    public min_execution_period: number
+    public voting_period: Duration,
+    public min_execution_period: Duration
   ) {
     super();
   }
@@ -23,8 +23,8 @@ export class DecisionPolicyWindows extends JSONSerializable<
   ): DecisionPolicyWindows {
     const { voting_period, min_execution_period } = data;
     return new DecisionPolicyWindows(
-      Number.parseInt(voting_period),
-      Number.parseInt(min_execution_period)
+      Duration.fromString(voting_period),
+      Duration.fromString(min_execution_period)
     );
   }
 
@@ -41,16 +41,16 @@ export class DecisionPolicyWindows extends JSONSerializable<
   ): DecisionPolicyWindows {
     const { voting_period, min_execution_period } = data;
     return new DecisionPolicyWindows(
-      Number.parseInt(voting_period.replace('s', '')),
-      Number.parseInt(min_execution_period.replace('s', ''))
+      Duration.fromString(voting_period),
+      Duration.fromString(min_execution_period)
     );
   }
 
   public toData(): DecisionPolicyWindows.Data {
     const { voting_period, min_execution_period } = this;
     return {
-      voting_period: voting_period.toString() + 's',
-      min_execution_period: min_execution_period.toString() + 's',
+      voting_period: voting_period.toString(),
+      min_execution_period: min_execution_period.toString(),
     };
   }
 
@@ -58,16 +58,16 @@ export class DecisionPolicyWindows extends JSONSerializable<
     data: DecisionPolicyWindows.Proto
   ): DecisionPolicyWindows {
     return new DecisionPolicyWindows(
-      data.votingPeriod?.seconds.toNumber() ?? 0,
-      data.minExecutionPeriod?.seconds.toNumber() ?? 0
+      Duration.fromProto(data.votingPeriod as Duration.Proto),
+      Duration.fromProto(data.minExecutionPeriod as Duration.Proto)
     );
   }
 
   public toProto(): DecisionPolicyWindows.Proto {
     const { voting_period, min_execution_period } = this;
     return DecisionPolicyWindows_pb.fromPartial({
-      votingPeriod: { seconds: Long.fromNumber(voting_period) },
-      minExecutionPeriod: { seconds: Long.fromNumber(min_execution_period) },
+      votingPeriod: voting_period.toProto(),
+      minExecutionPeriod: min_execution_period.toProto(),
     });
   }
 }
