@@ -12,7 +12,7 @@ export class AuthorizationGrant extends JSONSerializable<
   AuthorizationGrant.Data,
   AuthorizationGrant.Proto
 > {
-  constructor(public authorization: Authorization, public expiration: Date) {
+  constructor(public authorization: Authorization, public expiration?: Date) {
     super();
   }
 
@@ -20,7 +20,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = amino;
     return new AuthorizationGrant(
       Authorization.fromAmino(authorization),
-      new Date(expiration)
+      expiration ? new Date(expiration) : undefined
     );
   }
 
@@ -28,7 +28,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this;
     return {
       authorization: authorization.toAmino(),
-      expiration: expiration.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
 
@@ -36,7 +36,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = data;
     return new AuthorizationGrant(
       Authorization.fromData(authorization),
-      new Date(expiration)
+      expiration ? new Date(expiration) : undefined
     );
   }
 
@@ -44,14 +44,14 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this;
     return {
       authorization: authorization.toData(),
-      expiration: expiration.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
 
   public static fromProto(proto: AuthorizationGrant.Proto): AuthorizationGrant {
     return new AuthorizationGrant(
       Authorization.fromProto(proto.authorization as Any),
-      proto.expiration as Date
+      proto.expiration
     );
   }
 
@@ -67,12 +67,12 @@ export class AuthorizationGrant extends JSONSerializable<
 export namespace AuthorizationGrant {
   export interface Amino {
     authorization: Authorization.Amino;
-    expiration: string;
+    expiration?: string;
   }
 
   export interface Data {
     authorization: Authorization.Data;
-    expiration: string;
+    expiration?: string;
   }
 
   export type Proto = Grant_pb;

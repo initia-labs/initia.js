@@ -1,9 +1,8 @@
 import { JSONSerializable } from '../../../../util/json';
 import { AccAddress } from '../../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { Version } from '../../core/connection/Version';
+import { IbcVersion, Height } from '../../core';
 import { MsgConnectionOpenAck as MsgConnectionOpenAck_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
-import { Height } from '../../core/client/Height';
 
 /**
  * MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
@@ -29,7 +28,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
   constructor(
     public connection_id: string,
     public counterparty_connection_id: string,
-    public version: Version | undefined,
+    public version: IbcVersion | undefined,
     public client_state: any,
     public proof_height: Height | undefined,
     public proof_try: string,
@@ -68,7 +67,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     return new MsgConnectionOpenAck(
       connection_id,
       counterparty_connection_id,
-      version ? Version.fromData(version) : undefined,
+      version ? IbcVersion.fromData(version) : undefined,
       client_state,
       proof_height ? Height.fromData(proof_height) : undefined,
       proof_try,
@@ -96,15 +95,13 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck',
       connection_id,
       counterparty_connection_id,
-      version: version ? version.toData() : undefined,
+      version: version?.toData(),
       client_state,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       proof_try,
       proof_client,
       proof_consensus,
-      consensus_height: consensus_height
-        ? consensus_height.toData()
-        : undefined,
+      consensus_height: consensus_height?.toData(),
       signer,
     };
   }
@@ -115,7 +112,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     return new MsgConnectionOpenAck(
       proto.connectionId,
       proto.counterpartyConnectionId,
-      proto.version ? Version.fromProto(proto.version) : undefined,
+      proto.version ? IbcVersion.fromProto(proto.version) : undefined,
       proto.clientState,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       Buffer.from(proto.proofTry).toString('base64'),
@@ -144,15 +141,13 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     return MsgConnectionOpenAck_pb.fromPartial({
       connectionId: connection_id,
       counterpartyConnectionId: counterparty_connection_id,
-      version: version ? version.toProto() : undefined,
+      version: version?.toProto(),
       clientState: client_state,
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       proofTry: Buffer.from(proof_try, 'base64'),
       proofClient: Buffer.from(proof_client, 'base64'),
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
-      consensusHeight: consensus_height
-        ? consensus_height.toProto()
-        : undefined,
+      consensusHeight: consensus_height?.toProto(),
       signer,
     });
   }
@@ -176,7 +171,7 @@ export namespace MsgConnectionOpenAck {
     '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck';
     connection_id: string;
     counterparty_connection_id: string;
-    version?: Version.Data;
+    version?: IbcVersion.Data;
     client_state: Any;
     proof_height?: Height.Data;
     proof_try: string;

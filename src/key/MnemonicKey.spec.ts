@@ -1,10 +1,14 @@
 import { MnemonicKey } from './MnemonicKey';
-import { MsgSend, MsgMultiSend } from '../core/bank/msgs';
-import { Coins } from '../core/Coins';
-import { Fee } from '../core/Fee';
-import { AuthInfo, TxBody } from '../core/Tx';
-import { SignDoc } from '../core/SignDoc';
-import { SimplePublicKey } from '../core';
+import {
+  MsgSend,
+  MsgMultiSend,
+  Coins,
+  Fee,
+  AuthInfo,
+  TxBody,
+  SignDoc,
+  SimplePublicKey,
+} from '../core';
 
 describe('MnemonicKey', () => {
   it('derives correct Key information', () => {

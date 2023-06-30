@@ -4,84 +4,84 @@ import {
   Vote as Vote_pb,
   VoteOption,
   WeightedVoteOption as WeightedVoteOption_pb,
-} from '@initia/initia.proto/cosmos/gov/v1beta1/gov';
+} from '@initia/initia.proto/cosmos/gov/v1/gov';
 import { num } from '../num';
 import Long from 'long';
 /**
- * Stores vote information for a proposal
+ * Defines a vote on a governance proposal
  */
 export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
-  public Option = VoteOption;
-
   /**
-   * @param proposal_id ID of proposal to vote on
-   * @param voter voter's account address
-   * @param option one of voting options
+   * @param proposal_id the unique id of the proposal
+   * @param voter the voter address of the proposal
+   * @param options the weighted vote options
+   * @param metadata any arbitrary metadata to attached to the vote
    */
   constructor(
     public proposal_id: number,
     public voter: AccAddress,
-    public options: WeightedVoteOption[]
+    public options: WeightedVoteOption[],
+    public metadata: string
   ) {
     super();
   }
 
   public static fromAmino(data: Vote.Amino): Vote {
-    const { proposal_id, voter, options } = data;
+    const { proposal_id, voter, options, metadata } = data;
     return new Vote(
       Number.parseInt(proposal_id),
       voter,
-      options.map(v => WeightedVoteOption.fromAmino(v))
+      options.map(v => WeightedVoteOption.fromAmino(v)),
+      metadata
     );
   }
 
   public toAmino(): Vote.Amino {
-    const { proposal_id, voter, options } = this;
-
-    const res: Vote.Amino = {
-      proposal_id: proposal_id.toFixed(),
+    const { proposal_id, voter, options, metadata } = this;
+    return {
+      proposal_id: proposal_id.toString(),
       voter,
       options: options.map(v => v.toAmino()),
+      metadata,
     };
-
-    return res;
   }
 
   public static fromData(data: Vote.Data): Vote {
-    const { proposal_id, voter, options } = data;
+    const { proposal_id, voter, options, metadata } = data;
     return new Vote(
       Number.parseInt(proposal_id),
       voter,
-      options.map(v => WeightedVoteOption.fromData(v))
+      options.map(v => WeightedVoteOption.fromData(v)),
+      metadata
     );
   }
 
   public toData(): Vote.Data {
-    const { proposal_id, voter, options } = this;
-
-    const res: Vote.Data = {
-      proposal_id: proposal_id.toFixed(),
+    const { proposal_id, voter, options, metadata } = this;
+    return {
+      proposal_id: proposal_id.toString(),
       voter,
       options: options.map(v => v.toData()),
+      metadata,
     };
-
-    return res;
   }
 
   public static fromProto(proto: Vote.Proto): Vote {
     return new Vote(
       proto.proposalId.toNumber(),
       proto.voter,
-      proto.options.map(o => WeightedVoteOption.fromProto(o))
+      proto.options.map(o => WeightedVoteOption.fromProto(o)),
+      proto.metadata
     );
   }
 
   public toProto(): Vote.Proto {
-    const { proposal_id, voter, options } = this;
+    const { proposal_id, voter, options, metadata } = this;
     return Vote_pb.fromPartial({
       options: options.map(o => o.toProto()),
       proposalId: Long.fromNumber(proposal_id),
       voter,
+      metadata,
     });
   }
 }
@@ -94,12 +94,14 @@ export namespace Vote {
     proposal_id: string;
     voter: AccAddress;
     options: WeightedVoteOption.Amino[];
+    metadata: string;
   }
 
   export interface Data {
     proposal_id: string;
     voter: AccAddress;
     options: WeightedVoteOption.Data[];
+    metadata: string;
   }
 
   export type Proto = Vote_pb;

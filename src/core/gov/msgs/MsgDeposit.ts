@@ -2,11 +2,11 @@ import { Coins } from '../../Coins';
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgDeposit as MsgDeposit_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx';
+import { MsgDeposit as MsgDeposit_pb } from '@initia/initia.proto/cosmos/gov/v1/tx';
 import Long from 'long';
 
 /**
- * Add a deposit for a proposal
+ * Defines a message to submit a deposit to an existing proposal
  */
 export class MsgDeposit extends JSONSerializable<
   MsgDeposit.Amino,
@@ -15,9 +15,9 @@ export class MsgDeposit extends JSONSerializable<
 > {
   public amount: Coins;
   /**
-   * @param proposal_id Id of porposal to deposit to
-   * @param depositor depositor's account address
-   * @param amount amount to deposit
+   * @param proposal_id the unique id of the proposal
+   * @param depositor the deposit addresses from the proposals
+   * @param amount amount to be deposited by depositor
    */
   constructor(
     public proposal_id: number,
@@ -42,7 +42,7 @@ export class MsgDeposit extends JSONSerializable<
   public toAmino(): MsgDeposit.Amino {
     const { proposal_id, depositor, amount } = this;
     return {
-      type: 'cosmos-sdk/MsgDeposit',
+      type: 'cosmos-sdk/v1/MsgDeposit',
       value: {
         proposal_id: proposal_id.toString(),
         depositor,
@@ -63,7 +63,7 @@ export class MsgDeposit extends JSONSerializable<
   public toData(): MsgDeposit.Data {
     const { proposal_id, depositor, amount } = this;
     return {
-      '@type': '/cosmos.gov.v1beta1.MsgDeposit',
+      '@type': '/cosmos.gov.v1.MsgDeposit',
       proposal_id: proposal_id.toString(),
       depositor,
       amount: amount.toData(),
@@ -89,7 +89,7 @@ export class MsgDeposit extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.gov.v1beta1.MsgDeposit',
+      typeUrl: '/cosmos.gov.v1.MsgDeposit',
       value: MsgDeposit_pb.encode(this.toProto()).finish(),
     });
   }
@@ -101,7 +101,7 @@ export class MsgDeposit extends JSONSerializable<
 
 export namespace MsgDeposit {
   export interface Amino {
-    type: 'cosmos-sdk/MsgDeposit';
+    type: 'cosmos-sdk/v1/MsgDeposit';
     value: {
       proposal_id: string;
       depositor: AccAddress;
@@ -110,7 +110,7 @@ export namespace MsgDeposit {
   }
 
   export interface Data {
-    '@type': '/cosmos.gov.v1beta1.MsgDeposit';
+    '@type': '/cosmos.gov.v1.MsgDeposit';
     proposal_id: string;
     depositor: AccAddress;
     amount: Coins.Data;

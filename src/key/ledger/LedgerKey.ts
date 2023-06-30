@@ -44,7 +44,7 @@ export class LedgerKey extends Key {
    *
    * @param transport transporter for LedgerKey
    */
-  constructor(private transport: Transport | null) {
+  constructor(private transport?: Transport) {
     super();
     this.app = new InitiaApp(this.transport);
   }
@@ -79,7 +79,7 @@ export class LedgerKey extends Key {
 
     if (transport && typeof transport.on === 'function') {
       transport.on('disconnect', () => {
-        key.transport = null;
+        key.transport = undefined;
       });
     }
 
@@ -218,7 +218,7 @@ const handleConnectError = (err: Error) => {
   throw err;
 };
 
-const checkLedgerErrors = (response: CommonResponse | null) => {
+const checkLedgerErrors = (response?: CommonResponse) => {
   if (!response) {
     return;
   }

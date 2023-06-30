@@ -38,9 +38,9 @@ export class MsgTransfer extends JSONSerializable<
     token: Coin | undefined,
     sender: AccAddress,
     receiver: string,
-    timeout_height: Height | undefined,
-    timeout_timestamp: string | undefined,
-    memo: string | undefined
+    timeout_height?: Height,
+    timeout_timestamp?: string,
+    memo?: string
   ) {
     super();
 
@@ -104,10 +104,10 @@ export class MsgTransfer extends JSONSerializable<
       value: {
         source_port,
         source_channel,
-        token: token ? token.toAmino() : undefined,
+        token: token?.toAmino(),
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() || {},
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
         memo,
       },
@@ -157,7 +157,7 @@ export class MsgTransfer extends JSONSerializable<
       '@type': '/ibc.applications.transfer.v1.MsgTransfer',
       source_port,
       source_channel,
-      token: token ? token.toData() : undefined,
+      token: token?.toData(),
       sender,
       receiver,
       timeout_height: timeout_height
@@ -199,10 +199,10 @@ export class MsgTransfer extends JSONSerializable<
     return MsgTransfer_pb.fromPartial({
       sourcePort: source_port,
       sourceChannel: source_channel,
-      token: token ? token.toProto() : undefined,
+      token: token?.toProto(),
       sender,
       receiver,
-      timeoutHeight: timeout_height ? timeout_height.toProto() : undefined,
+      timeoutHeight: timeout_height?.toProto(),
       timeoutTimestamp: Long.fromString(timeout_timestamp ?? '0'),
       memo,
     });

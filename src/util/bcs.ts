@@ -8,8 +8,7 @@ import {
   StructTypeDefinition,
   Encoding,
 } from '@mysten/bcs';
-import { AccAddress } from '../core';
-import { MoveFunctionABI } from '../core/move/types';
+import { AccAddress, MoveFunctionABI } from '../core';
 
 export class BCS {
   private static bcs: BCS;
@@ -165,13 +164,13 @@ export class BCS {
       typeName,
       (writer: BcsWriter, data: any, typeParams: TypeName[]) =>
         writer.writeVec(data === null ? [] : [data], (writer, el) => {
-          const vectorType = elementType || typeParams[0];
+          const vectorType = elementType ?? typeParams[0];
 
           if (vectorType) {
             const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
-              .getTypeInterface(elementType || typeName)
+              .getTypeInterface(elementType ?? typeName)
               ._encodeRaw(writer, el, typeParams, {});
           } else {
             throw new Error(
@@ -181,12 +180,12 @@ export class BCS {
         }),
       (reader: BcsReader, typeParams) => {
         const vec = reader.readVec(reader => {
-          const vectorType = elementType || typeParams[0];
+          const vectorType = elementType ?? typeParams[0];
           if (vectorType) {
             const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
-              .getTypeInterface(elementType || typeName)
+              .getTypeInterface(elementType ?? typeName)
               ._decodeRaw(reader, typeParams, {});
           } else {
             throw new Error(

@@ -1,7 +1,7 @@
 import { SHA256, Word32Array } from 'jscrypto';
 import * as secp256k1 from 'secp256k1';
 import { Key } from './Key';
-import { SimplePublicKey } from '../core/PublicKey';
+import { SimplePublicKey } from '../core';
 
 /**
  * An implementation of the Key interfaces that uses a raw private key.

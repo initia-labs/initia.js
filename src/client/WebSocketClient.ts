@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import WebSocket from 'ws';
-import { hashToHex } from '../util/hash';
+import { hashToHex } from '../util';
 
 type Callback = (data: TendermintSubscriptionResponse) => void;
 

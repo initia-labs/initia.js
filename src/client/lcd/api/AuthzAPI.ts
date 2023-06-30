@@ -1,6 +1,5 @@
-import { AccAddress } from '../../../core';
+import { AccAddress, AuthorizationGrant } from '../../../core';
 import { BaseAPI } from './BaseAPI';
-import { AuthorizationGrant } from '../../../core/authz/authorizations';
 import { APIParams, Pagination } from '../APIRequester';
 
 export class AuthzAPI extends BaseAPI {

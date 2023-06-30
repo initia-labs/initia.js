@@ -6,12 +6,12 @@ export * from './MsgGrantAuthorization';
 export * from './MsgRevokeAuthorization';
 export * from './MsgExecAuthorized';
 
-export type MsgAuthMsg =
+export type AuthzMsg =
   | MsgGrantAuthorization
   | MsgRevokeAuthorization
   | MsgExecAuthorized;
 
-export namespace MsgAuthMsg {
+export namespace AuthzMsg {
   export type Amino =
     | MsgGrantAuthorization.Amino
     | MsgRevokeAuthorization.Amino

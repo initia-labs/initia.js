@@ -8,8 +8,8 @@ import {
   ModeInfo,
   AuthInfo,
   PublicKey,
+  SignatureV2,
 } from '../core';
-import { SignatureV2 } from '../core/SignatureV2';
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing';
 
 /**

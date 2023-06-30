@@ -1,25 +1,8 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Denom } from '../../../core';
+import { AccAddress, Denom, MoveParams, ModuleABI } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
-import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
-
-export interface MoveParams {
-  base_denom: Denom;
-  max_module_size: number;
-  base_min_gas_price: string;
-  arbitrary_enabled: boolean;
-}
-
-export namespace MoveParams {
-  export interface Data {
-    base_denom: string;
-    max_module_size: string;
-    base_min_gas_price: string;
-    arbitrary_enabled: boolean;
-  }
-}
 
 export interface Module {
   address: AccAddress;
@@ -175,12 +158,7 @@ export class MoveAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<MoveParams> {
     return this.c
       .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
-      .then(({ params: d }) => ({
-        base_denom: d.base_denom,
-        max_module_size: Number.parseInt(d.max_module_size),
-        base_min_gas_price: d.base_min_gas_price,
-        arbitrary_enabled: d.arbitrary_enabled,
-      }));
+      .then(({ params: d }) => MoveParams.fromData(d));
   }
 
   public async scriptABI(codeBytes: string): Promise<ABI> {

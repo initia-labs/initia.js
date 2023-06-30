@@ -40,9 +40,9 @@ export class MsgNftTransfer extends JSONSerializable<
     token_ids: string[],
     sender: AccAddress,
     receiver: string,
-    timeout_height: Height | undefined,
-    timeout_timestamp: string | undefined,
-    memo: string | undefined
+    timeout_height?: Height,
+    timeout_timestamp?: string,
+    memo?: string
   ) {
     super();
 
@@ -106,7 +106,7 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      type: 'ibc/MsgNftTransfer',
+      type: 'nft-transfer/MsgNftTransfer',
       value: {
         source_port,
         source_channel,
@@ -114,7 +114,7 @@ export class MsgNftTransfer extends JSONSerializable<
         token_ids,
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() || {},
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
         memo,
       },
@@ -216,7 +216,7 @@ export class MsgNftTransfer extends JSONSerializable<
       tokenIds: token_ids,
       sender,
       receiver,
-      timeoutHeight: timeout_height ? timeout_height.toProto() : undefined,
+      timeoutHeight: timeout_height?.toProto(),
       timeoutTimestamp: Long.fromString(timeout_timestamp ?? '0'),
       memo,
     });
@@ -236,7 +236,7 @@ export class MsgNftTransfer extends JSONSerializable<
 
 export namespace MsgNftTransfer {
   export interface Amino {
-    type: 'ibc/MsgNftTransfer';
+    type: 'nft-transfer/MsgNftTransfer';
     value: {
       source_port: string;
       source_channel: string;

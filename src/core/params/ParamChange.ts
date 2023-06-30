@@ -10,7 +10,7 @@ export class ParamChanges extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(proto: ParamChanges.Amino | null): ParamChanges {
+  public static fromAmino(proto?: ParamChanges.Amino): ParamChanges {
     return new ParamChanges((proto ?? []).map(ParamChange.fromAmino));
   }
 
@@ -18,7 +18,7 @@ export class ParamChanges extends JSONSerializable<
     return this.paramChanges.map(c => c.toAmino());
   }
 
-  public static fromData(proto: ParamChanges.Data | null): ParamChanges {
+  public static fromData(proto?: ParamChanges.Data): ParamChanges {
     return new ParamChanges((proto ?? []).map(ParamChange.fromData));
   }
 
@@ -26,7 +26,7 @@ export class ParamChanges extends JSONSerializable<
     return this.paramChanges.map(c => c.toData());
   }
 
-  public static fromProto(proto: ParamChanges.Proto | null): ParamChanges {
+  public static fromProto(proto?: ParamChanges.Proto): ParamChanges {
     return new ParamChanges((proto ?? []).map(ParamChange.fromProto));
   }
 

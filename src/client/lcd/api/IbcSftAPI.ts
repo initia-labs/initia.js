@@ -1,18 +1,6 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { SftClassTrace } from '../../../core/ibc/applications/sft-transfer';
-
-export interface IbcSftParams {
-  send_enabled: boolean;
-  receive_enabled: boolean;
-}
-
-export namespace IbcSftParams {
-  export interface Data {
-    send_enabled: boolean;
-    receive_enabled: boolean;
-  }
-}
+import { SftClassTrace, IbcSftParams } from '../../../core';
 
 export class IbcSftAPI extends BaseAPI {
   /** Gets a classTrace for the hash */
@@ -52,10 +40,7 @@ export class IbcSftAPI extends BaseAPI {
         `/ibc/apps/sft_transfer/v1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        send_enabled: d.send_enabled,
-        receive_enabled: d.receive_enabled,
-      }));
+      .then(({ params: d }) => IbcSftParams.fromData(d));
   }
 
   /** Gets the escrow address for a particular port and channel id */

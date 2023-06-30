@@ -1,40 +1,11 @@
 import { BaseAPI } from './BaseAPI';
-import { Coins, AccAddress, ValAddress } from '../../../core';
+import {
+  Coins,
+  AccAddress,
+  ValAddress,
+  DistributionParams,
+} from '../../../core';
 import { APIParams } from '../APIRequester';
-
-export interface RewardWeight {
-  denom: string;
-  weight: string;
-}
-
-export namespace RewardWeight {
-  export interface Data {
-    denom: string;
-    weight: string;
-  }
-}
-
-export interface DistributionParams {
-  /**
-   * Community tax rate.
-   */
-  community_tax: string;
-
-  /**
-   * Whether withdrawals are currently enabled.
-   */
-  withdraw_addr_enabled: boolean;
-
-  reward_weights: RewardWeight[];
-}
-
-export namespace DistributionParams {
-  export interface Data {
-    community_tax: string;
-    withdraw_addr_enabled: boolean;
-    reward_weights: RewardWeight.Data[];
-  }
-}
 
 export interface Pool {
   denom: string;
@@ -210,10 +181,6 @@ export class DistributionAPI extends BaseAPI {
         `/initia/distribution/v1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        community_tax: d.community_tax,
-        withdraw_addr_enabled: d.withdraw_addr_enabled,
-        reward_weights: d.reward_weights,
-      }));
+      .then(({ params: d }) => DistributionParams.fromData(d));
   }
 }

@@ -78,10 +78,10 @@ export class MsgChannelOpenTry extends JSONSerializable<
       '@type': '/ibc.core.channel.v1.MsgChannelOpenTry',
       port_id,
       previous_channel_id,
-      channel: channel ? channel.toData() : undefined,
+      channel: channel?.toData(),
       counterparty_version,
       proof_init,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -111,10 +111,10 @@ export class MsgChannelOpenTry extends JSONSerializable<
     return MsgChannelOpenTry_pb.fromPartial({
       portId: port_id,
       previousChannelId: previous_channel_id,
-      channel: channel ? channel.toProto() : undefined,
+      channel: channel?.toProto(),
       counterpartyVersion: counterparty_version,
       proofInit: Buffer.from(proof_init, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }

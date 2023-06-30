@@ -48,7 +48,7 @@ export class MsgChannelOpenInit extends JSONSerializable<
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelOpenInit',
       port_id,
-      channel: channel ? channel.toData() : undefined,
+      channel: channel?.toData(),
       signer,
     };
   }
@@ -65,7 +65,7 @@ export class MsgChannelOpenInit extends JSONSerializable<
     const { port_id, channel, signer } = this;
     return MsgChannelOpenInit_pb.fromPartial({
       portId: port_id,
-      channel: channel ? channel.toProto() : undefined,
+      channel: channel?.toProto(),
       signer,
     });
   }

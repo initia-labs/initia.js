@@ -23,7 +23,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     time: Date | undefined,
     height: string,
     info: string,
-    upgraded_client_state: any | undefined
+    upgraded_client_state?: any
   ) {
     super();
     this.name = name;
@@ -48,7 +48,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     const { name, time, height, info, upgraded_client_state } = this;
     const res: Plan.Amino = {
       name,
-      time: time ? time.toISOString().replace(/\.000Z$/, 'Z') : undefined,
+      time: time?.toISOString().replace(/\.000Z$/, 'Z'),
       height,
       info,
       upgraded_client_state,
@@ -71,7 +71,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     const { name, time, height, info, upgraded_client_state } = this;
     const res: Plan.Data = {
       name,
-      time: time ? time.toISOString().replace(/\.000Z$/, 'Z') : undefined,
+      time: time?.toISOString().replace(/\.000Z$/, 'Z'),
       height,
       info,
       upgraded_client_state,

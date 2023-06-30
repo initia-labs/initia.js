@@ -55,7 +55,7 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenConfirm',
       connection_id,
       proof_ack,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -76,7 +76,7 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
     return MsgConnectionOpenConfirm_pb.fromPartial({
       connectionId: connection_id,
       proofAck: Buffer.from(proof_ack, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }

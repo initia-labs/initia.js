@@ -1,7 +1,7 @@
 import { LCDClient } from './LCDClient';
 import { Key } from '../../key';
 import { CreateTxOptions } from '../lcd/api/TxAPI';
-import { Tx } from '../../core/Tx';
+import { Tx } from '../../core';
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing';
 
 export class Wallet {
@@ -81,7 +81,7 @@ export class Wallet {
       accountNumber,
       sequence,
       chainId: this.lcd.config.chainId,
-      signMode: options.signMode || SignMode.SIGN_MODE_DIRECT,
+      signMode: options.signMode ?? SignMode.SIGN_MODE_DIRECT,
     });
   }
 }

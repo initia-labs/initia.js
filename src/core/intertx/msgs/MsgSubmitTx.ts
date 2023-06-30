@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/intertx/tx';
+import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/initia/intertx/v1/tx';
 import { Msg } from '../../Msg';
 
 export class MsgSubmitTx extends JSONSerializable<
@@ -38,7 +38,7 @@ export class MsgSubmitTx extends JSONSerializable<
   public toData(): MsgSubmitTx.Data {
     const { owner, connection_id, msg } = this;
     return {
-      '@type': '/intertx.MsgSubmitTx',
+      '@type': '/initia.intertx.v1.MsgSubmitTx',
       owner,
       connection_id,
       msg: msg.toData(),
@@ -64,7 +64,7 @@ export class MsgSubmitTx extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/intertx.MsgSubmitTx',
+      typeUrl: '/initia.intertx.v1.MsgSubmitTx',
       value: MsgSubmitTx_pb.encode(this.toProto()).finish(),
     });
   }
@@ -76,7 +76,7 @@ export class MsgSubmitTx extends JSONSerializable<
 
 export namespace MsgSubmitTx {
   export interface Data {
-    '@type': '/intertx.MsgSubmitTx';
+    '@type': '/initia.intertx.v1.MsgSubmitTx';
     owner: AccAddress;
     connection_id: string;
     msg: Msg.Data;
