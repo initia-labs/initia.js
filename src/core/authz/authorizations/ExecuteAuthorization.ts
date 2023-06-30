@@ -4,7 +4,7 @@ import { ExecuteAuthorizationItem as ExecuteAuthorizationItem_pb } from '@initia
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export class ExecuteAuthorization extends JSONSerializable<
-  any,
+  ExecuteAuthorization.Amino,
   ExecuteAuthorization.Data,
   ExecuteAuthorization.Proto
 > {
@@ -12,13 +12,21 @@ export class ExecuteAuthorization extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): ExecuteAuthorization {
-    _;
-    throw new Error('Amino not supported');
+  public static fromAmino(
+    data: ExecuteAuthorization.Amino
+  ): ExecuteAuthorization {
+    return new ExecuteAuthorization(
+      data.value.items.map(ExecuteAuthorizationItem.fromAmino)
+    );
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): ExecuteAuthorization.Amino {
+    return {
+      type: 'move/ExecuteAuthorization',
+      value: {
+        items: this.items.map(d => d.toAmino()),
+      },
+    };
   }
 
   public static fromData(
@@ -77,13 +85,24 @@ export class ExecuteAuthorizationItem extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): ExecuteAuthorizationItem {
-    _;
-    throw new Error('Amino not supported');
+  public static fromAmino(
+    data: ExecuteAuthorizationItem.Amino
+  ): ExecuteAuthorizationItem {
+    const { module_address, module_name, function_names } = data;
+    return new ExecuteAuthorizationItem(
+      module_address,
+      module_name,
+      function_names
+    );
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): ExecuteAuthorizationItem.Amino {
+    const { module_address, module_name, function_names } = this;
+    return {
+      module_address,
+      module_name,
+      function_names,
+    };
   }
 
   public static fromData(
@@ -126,6 +145,12 @@ export class ExecuteAuthorizationItem extends JSONSerializable<
 }
 
 export namespace ExecuteAuthorizationItem {
+  export interface Amino {
+    module_address: string;
+    module_name: string;
+    function_names: string[];
+  }
+
   export interface Data {
     module_address: string;
     module_name: string;
@@ -136,6 +161,13 @@ export namespace ExecuteAuthorizationItem {
 }
 
 export namespace ExecuteAuthorization {
+  export interface Amino {
+    type: 'move/ExecuteAuthorization';
+    value: {
+      items: ExecuteAuthorizationItem.Amino[];
+    };
+  }
+
   export interface Data {
     '@type': '/initia.move.v1.ExecuteAuthorization';
     items: ExecuteAuthorizationItem.Data[];

@@ -3,7 +3,7 @@ import { PublishAuthorization as PublishAuthorization_pb } from '@initia/initia.
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export class PublishAuthorization extends JSONSerializable<
-  any,
+  PublishAuthorization.Amino,
   PublishAuthorization.Data,
   PublishAuthorization.Proto
 > {
@@ -11,13 +11,17 @@ export class PublishAuthorization extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): PublishAuthorization {
-    _;
-    throw new Error('Amino not supported');
+  public static fromAmino(
+    data: PublishAuthorization.Amino
+  ): PublishAuthorization {
+    return new PublishAuthorization(data.value.module_names);
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): PublishAuthorization.Amino {
+    return {
+      type: 'move/PublishAuthorization',
+      value: { module_names: this.module_names },
+    };
   }
 
   public static fromData(
@@ -60,6 +64,13 @@ export class PublishAuthorization extends JSONSerializable<
 }
 
 export namespace PublishAuthorization {
+  export interface Amino {
+    type: 'move/PublishAuthorization';
+    value: {
+      module_names: string[];
+    };
+  }
+
   export interface Data {
     '@type': '/initia.move.v1.PublishAuthorization';
     module_names: string[];

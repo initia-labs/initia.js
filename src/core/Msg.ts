@@ -172,6 +172,7 @@ export namespace Msg {
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
     | IbcSftMsg.Amino
+    | InterTxMsg.Amino
     | MoveMsg.Amino
     | MstakingMsg.Amino
     | RewardMsg.Amino
@@ -337,6 +338,12 @@ export namespace Msg {
         return MsgSftTransfer.fromAmino(data);
       case 'sft-transfer/MsgUpdateParams':
         return MsgUpdateIbcSftParams.fromAmino(data);
+
+      // intertx
+      case 'intertx/MsgRegisterAccount':
+        return MsgRegisterAccount.fromAmino(data);
+      case 'intertx/MsgSubmitTx':
+        return MsgSubmitTx.fromAmino(data);
 
       // move
       case 'move/MsgPublish':

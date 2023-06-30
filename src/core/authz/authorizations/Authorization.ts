@@ -86,7 +86,12 @@ export type Authorization =
   | ExecuteAuthorization;
 
 export namespace Authorization {
-  export type Amino = SendAuthorization.Amino | GenericAuthorization.Amino;
+  export type Amino =
+    | SendAuthorization.Amino
+    | GenericAuthorization.Amino
+    | StakeAuthorization.Amino
+    | PublishAuthorization.Amino
+    | ExecuteAuthorization.Amino;
   export type Data =
     | SendAuthorization.Data
     | GenericAuthorization.Data
@@ -94,12 +99,19 @@ export namespace Authorization {
     | PublishAuthorization.Data
     | ExecuteAuthorization.Data;
   export type Proto = Any;
+
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
       case 'cosmos-sdk/SendAuthorization':
         return SendAuthorization.fromAmino(data);
       case 'cosmos-sdk/GenericAuthorization':
         return GenericAuthorization.fromAmino(data);
+      case 'mstake/StakeAuthorization':
+        return StakeAuthorization.fromAmino(data);
+      case 'move/ExecuteAuthorization':
+        return ExecuteAuthorization.fromAmino(data);
+      case 'move/PublishAuthorization':
+        return PublishAuthorization.fromAmino(data);
     }
   }
 

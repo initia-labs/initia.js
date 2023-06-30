@@ -5,7 +5,7 @@ import { MsgSubmitTx as MsgSubmitTx_pb } from '@initia/initia.proto/initia/inter
 import { Msg } from '../../Msg';
 
 export class MsgSubmitTx extends JSONSerializable<
-  any,
+  MsgSubmitTx.Amino,
   MsgSubmitTx.Data,
   MsgSubmitTx.Proto
 > {
@@ -22,12 +22,24 @@ export class MsgSubmitTx extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): any {
-    throw new Error('Amino not supported');
+  public static fromAmino(data: MsgSubmitTx.Amino): MsgSubmitTx {
+    const {
+      value: { owner, connection_id, msg },
+    } = data;
+
+    return new MsgSubmitTx(owner, connection_id, Msg.fromAmino(msg));
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): MsgSubmitTx.Amino {
+    const { owner, connection_id, msg } = this;
+    return {
+      type: 'intertx/MsgSubmitTx',
+      value: {
+        owner,
+        connection_id,
+        msg: msg.toAmino(),
+      },
+    };
   }
 
   public static fromData(data: MsgSubmitTx.Data): MsgSubmitTx {
@@ -75,6 +87,15 @@ export class MsgSubmitTx extends JSONSerializable<
 }
 
 export namespace MsgSubmitTx {
+  export interface Amino {
+    type: 'intertx/MsgSubmitTx';
+    value: {
+      owner: AccAddress;
+      connection_id: string;
+      msg: Msg.Amino;
+    };
+  }
+
   export interface Data {
     '@type': '/initia.intertx.v1.MsgSubmitTx';
     owner: AccAddress;
