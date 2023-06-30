@@ -146,9 +146,11 @@ export class GroupAPI extends BaseAPI {
       .then(d => [d.groups.map(GroupInfo.fromData), d.pagination]);
   }
 
-  public async tally(proposalId: number): Promise<TallyResult> {
+  public async tally(
+    proposalId: number
+  ): Promise<GroupProposal.FinalTallyResult> {
     return this.c
-      .get<{ tally: TallyResult }>(
+      .get<{ tally: GroupProposal.FinalTallyResult }>(
         `/cosmos/group/v1/proposals/${proposalId}/tally`
       )
       .then(d => d.tally);

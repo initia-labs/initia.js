@@ -113,6 +113,9 @@ import {
   MsgUpdateMoveParams,
   MsgWhitelist,
   MsgDelist,
+  MsgGovExecute,
+  MsgGovPublish,
+  MsgGovScript,
 } from './move/msgs';
 import {
   MstakingMsg,
@@ -358,6 +361,12 @@ export namespace Msg {
         return MsgWhitelist.fromAmino(data);
       case 'move/MsgDelist':
         return MsgDelist.fromAmino(data);
+      case 'move/MsgGovExecute':
+        return MsgGovExecute.fromAmino(data);
+      case 'move/MsgGovPublish':
+        return MsgGovPublish.fromAmino(data);
+      case 'move/MsgGovScript':
+        return MsgGovScript.fromAmino(data);
 
       // mstaking
       case 'mstaking/MsgDelegate':
@@ -576,6 +585,12 @@ export namespace Msg {
         return MsgWhitelist.fromData(data);
       case '/initia.move.v1.MsgDelist':
         return MsgDelist.fromData(data);
+      case '/initia.move.v1.MsgGovExecute':
+        return MsgGovExecute.fromData(data);
+      case '/initia.move.v1.MsgGovPublish':
+        return MsgGovPublish.fromData(data);
+      case '/initia.move.v1.MsgGovScript':
+        return MsgGovScript.fromData(data);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
@@ -797,6 +812,12 @@ export namespace Msg {
         return MsgWhitelist.unpackAny(proto);
       case '/initia.move.v1.MsgDelist':
         return MsgDelist.unpackAny(proto);
+      case '/initia.move.v1.MsgGovExecute':
+        return MsgGovExecute.unpackAny(proto);
+      case '/initia.move.v1.MsgGovPublish':
+        return MsgGovPublish.unpackAny(proto);
+      case '/initia.move.v1.MsgGovScript':
+        return MsgGovScript.unpackAny(proto);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':

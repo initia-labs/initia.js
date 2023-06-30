@@ -1,7 +1,6 @@
 import { BaseAPI } from './BaseAPI';
 import { Proposal, Deposit, Vote, GovParams } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { TallyResult } from '@initia/initia.proto/cosmos/gov/v1/gov';
 
 export class GovAPI extends BaseAPI {
   /**
@@ -76,9 +75,9 @@ export class GovAPI extends BaseAPI {
   public async tally(
     proposalId: number,
     params: APIParams = {}
-  ): Promise<TallyResult> {
+  ): Promise<Proposal.FinalTallyResult> {
     return this.c
-      .get<{ tally: TallyResult }>(
+      .get<{ tally: Proposal.FinalTallyResult }>(
         `/cosmos/gov/v1/proposals/${proposalId}/tally`,
         params
       )
