@@ -11,6 +11,7 @@ export * from './num';
 export * from './auth';
 export * from './authz';
 export * from './bank';
+export * from './builder';
 export * from './consensus';
 export * from './crisis';
 export * from './distribution';

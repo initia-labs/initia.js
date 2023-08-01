@@ -13,6 +13,11 @@ import {
   MsgSetSendEnabled,
 } from './bank/msgs';
 import {
+  BuilderMsg,
+  MsgAuctionBid,
+  MsgUpdateBuilderParams,
+} from './builder/msgs';
+import {
   CrisisMsg,
   MsgVerifyInvariant,
   MsgUpdateCrisisParams,
@@ -143,6 +148,7 @@ export type Msg =
   | AuthMsg
   | AuthzMsg
   | BankMsg
+  | BuilderMsg
   | CrisisMsg
   | DistributionMsg
   | FeeGrantMsg
@@ -167,6 +173,7 @@ export namespace Msg {
     | AuthMsg.Amino
     | AuthzMsg.Amino
     | BankMsg.Amino
+    | BuilderMsg.Amino
     | CrisisMsg.Amino
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
@@ -186,6 +193,7 @@ export namespace Msg {
     | AuthMsg.Data
     | AuthzMsg.Data
     | BankMsg.Data
+    | BuilderMsg.Data
     | CrisisMsg.Data
     | DistributionMsg.Data
     | FeeGrantMsg.Data
@@ -209,6 +217,7 @@ export namespace Msg {
     | AuthMsg.Proto
     | AuthzMsg.Proto
     | BankMsg.Proto
+    | BuilderMsg.Proto
     | CrisisMsg.Proto
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
@@ -251,6 +260,12 @@ export namespace Msg {
         return MsgUpdateBankParams.fromAmino(data);
       case 'cosmos-sdk/MsgSetSendEnabled':
         return MsgSetSendEnabled.fromAmino(data);
+
+      // builder
+      case 'pob/x/builder/MsgAuctionBid':
+        return MsgAuctionBid.fromAmino(data);
+      case 'pob/x/builder/MsgUpdateParams':
+        return MsgUpdateBuilderParams.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -423,6 +438,12 @@ export namespace Msg {
         return MsgUpdateBankParams.fromData(data);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.fromData(data);
+
+      // builder
+      case '/pob.builder.v1.MsgAuctionBid':
+        return MsgAuctionBid.fromData(data);
+      case '/pob.builder.v1.MsgUpdateParams':
+        return MsgUpdateBuilderParams.fromData(data);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
@@ -650,6 +671,12 @@ export namespace Msg {
         return MsgUpdateBankParams.unpackAny(proto);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.unpackAny(proto);
+
+      // builder
+      case '/pob.builder.v1.MsgAuctionBid':
+        return MsgAuctionBid.unpackAny(proto);
+      case '/pob.builder.v1.MsgUpdateParams':
+        return MsgUpdateBuilderParams.unpackAny(proto);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
