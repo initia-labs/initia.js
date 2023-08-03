@@ -1,6 +1,6 @@
 import { MsgTransfer } from './MsgTransfer';
-import { Coin } from '../../../../../Coin';
-import { Height } from '../../../../core/client/Height';
+import { Coin } from '../../../../Coin';
+import { Height } from '../../../core/client/Height';
 
 describe('MsgTransfer', () => {
   it('deserializes correctly', () => {

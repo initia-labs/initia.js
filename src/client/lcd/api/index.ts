@@ -10,6 +10,7 @@ export * from './IbcAPI';
 export * from './IbcNftAPI';
 export * from './IbcSftAPI';
 export * from './IbcTransferAPI';
+export * from './IbcPermAPI';
 export * from './InterTxAPI';
 export * from './MoveAPI';
 export * from './MstakingAPI';

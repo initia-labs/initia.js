@@ -1,27 +1,19 @@
-import { AuthMsg, MsgUpdateAuthParams } from './auth/msgs';
+import { AuthMsg, MsgUpdateAuthParams } from './auth';
 import {
   AuthzMsg,
   MsgGrantAuthorization,
   MsgRevokeAuthorization,
   MsgExecAuthorized,
-} from './authz/msgs';
+} from './authz';
 import {
   BankMsg,
   MsgMultiSend,
   MsgSend,
   MsgUpdateBankParams,
   MsgSetSendEnabled,
-} from './bank/msgs';
-import {
-  BuilderMsg,
-  MsgAuctionBid,
-  MsgUpdateBuilderParams,
-} from './builder/msgs';
-import {
-  CrisisMsg,
-  MsgVerifyInvariant,
-  MsgUpdateCrisisParams,
-} from './crisis/msgs';
+} from './bank';
+import { BuilderMsg, MsgAuctionBid, MsgUpdateBuilderParams } from './builder';
+import { CrisisMsg, MsgVerifyInvariant, MsgUpdateCrisisParams } from './crisis';
 import {
   DistributionMsg,
   MsgSetWithdrawAddress,
@@ -30,12 +22,8 @@ import {
   MsgFundCommunityPool,
   MsgUpdateDistrParams,
   MsgCommunityPoolSpend,
-} from './distribution/msgs';
-import {
-  FeeGrantMsg,
-  MsgGrantAllowance,
-  MsgRevokeAllowance,
-} from './feegrant/msgs';
+} from './distribution';
+import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant';
 import {
   GovMsg,
   MsgDepositLegacy,
@@ -47,7 +35,7 @@ import {
   MsgVoteWeightedLegacy,
   MsgVoteWeighted,
   MsgUpdateGovParams,
-} from './gov/msgs';
+} from './gov';
 import {
   GroupMsg,
   MsgCreateGroup,
@@ -63,7 +51,7 @@ import {
   MsgUpdateGroupMetadata,
   MsgUpdateGroupPolicyAdmin,
   MsgUpdateGroupPolicyMetadata,
-} from './group/msgs';
+} from './group';
 import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
 import {
   IbcFeeMsg,
@@ -71,7 +59,7 @@ import {
   MsgPayPacketFeeAsync,
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
-} from './ibc/applications/fee/msgs';
+} from './ibc/applications/fee';
 import {
   IbcNftMsg,
   MsgNftTransfer,
@@ -82,6 +70,7 @@ import {
   MsgSftTransfer,
   MsgUpdateIbcSftParams,
 } from './ibc/applications/sft-transfer';
+import { IbcPermMsg, MsgUpdateChannelRelayer } from './ibc/applications/perm';
 import {
   IbcClientMsg,
   MsgCreateClient,
@@ -109,7 +98,7 @@ import {
   MsgTimeout,
   MsgTimeoutOnClose,
 } from './ibc/msgs/channel';
-import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx/msgs';
+import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx';
 import {
   MoveMsg,
   MsgPublish,
@@ -121,7 +110,7 @@ import {
   MsgGovExecute,
   MsgGovPublish,
   MsgGovScript,
-} from './move/msgs';
+} from './move';
 import {
   MstakingMsg,
   MsgBeginRedelegate,
@@ -130,18 +119,10 @@ import {
   MsgEditValidator,
   MsgUndelegate,
   MsgUpdateMstakingParams,
-} from './mstaking/msgs';
-import { RewardMsg, MsgUpdateRewardParams } from './reward/msgs';
-import {
-  SlashingMsg,
-  MsgUnjail,
-  MsgUpdateSlashingParams,
-} from './slashing/msgs';
-import {
-  UpgradeMsg,
-  MsgSoftwareUpgrade,
-  MsgCancelUpgrade,
-} from './upgrade/msgs';
+} from './mstaking';
+import { RewardMsg, MsgUpdateRewardParams } from './reward';
+import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing';
+import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
@@ -158,6 +139,7 @@ export type Msg =
   | IbcTransferMsg
   | IbcNftMsg
   | IbcSftMsg
+  | IbcPermMsg
   | IbcClientMsg
   | IbcConnectionMsg
   | IbcChannelMsg
@@ -182,6 +164,7 @@ export namespace Msg {
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
     | IbcSftMsg.Amino
+    | IbcPermMsg.Amino
     | InterTxMsg.Amino
     | MoveMsg.Amino
     | MstakingMsg.Amino
@@ -203,6 +186,7 @@ export namespace Msg {
     | IbcTransferMsg.Data
     | IbcNftMsg.Data
     | IbcSftMsg.Data
+    | IbcPermMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | IbcChannelMsg.Data
@@ -227,6 +211,7 @@ export namespace Msg {
     | IbcTransferMsg.Proto
     | IbcNftMsg.Proto
     | IbcSftMsg.Proto
+    | IbcPermMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | IbcChannelMsg.Proto
@@ -356,6 +341,10 @@ export namespace Msg {
         return MsgSftTransfer.fromAmino(data);
       case 'sft-transfer/MsgUpdateParams':
         return MsgUpdateIbcSftParams.fromAmino(data);
+
+      // ibc-perm
+      case 'perm/MsgUpdateChannelRelayer':
+        return MsgUpdateChannelRelayer.fromAmino(data);
 
       // intertx
       case 'intertx/MsgRegisterAccount':
@@ -544,6 +533,10 @@ export namespace Msg {
         return MsgSftTransfer.fromData(data);
       case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcSftParams.fromData(data);
+
+      // ibc-perm
+      case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
+        return MsgUpdateChannelRelayer.fromData(data);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -777,6 +770,10 @@ export namespace Msg {
         return MsgSftTransfer.unpackAny(proto);
       case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcSftParams.unpackAny(proto);
+
+      // ibc-perm
+      case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
+        return MsgUpdateChannelRelayer.unpackAny(proto);
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

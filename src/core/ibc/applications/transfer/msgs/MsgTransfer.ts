@@ -1,10 +1,10 @@
-import { JSONSerializable } from '../../../../../../util/json';
-import { AccAddress } from '../../../../../bech32';
-import { Coin } from '../../../../../Coin';
+import { JSONSerializable } from '../../../../../util/json';
+import { AccAddress } from '../../../../bech32';
+import { Coin } from '../../../../Coin';
 import Long from 'long';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgTransfer as MsgTransfer_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/tx';
-import { Height } from '../../../../core/client/Height';
+import { Height } from '../../../core/client/Height';
 
 /**
  * A basic message for transfer [[Coin]] via IBC.

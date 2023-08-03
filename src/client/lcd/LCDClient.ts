@@ -12,6 +12,7 @@ import {
   IbcNftAPI,
   IbcSftAPI,
   IbcTransferAPI,
+  IbcPermAPI,
   InterTxAPI,
   MoveAPI,
   MstakingAPI,
@@ -85,6 +86,7 @@ export class LCDClient {
   public ibcNft: IbcNftAPI;
   public ibcSft: IbcSftAPI;
   public ibcTransfer: IbcTransferAPI;
+  public ibcPerm: IbcPermAPI;
   public interTx: InterTxAPI;
   public move: MoveAPI;
   public mstaking: MstakingAPI;
@@ -127,6 +129,7 @@ export class LCDClient {
     this.ibcNft = new IbcNftAPI(this.apiRequester);
     this.ibcSft = new IbcSftAPI(this.apiRequester);
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
+    this.ibcPerm = new IbcPermAPI(this.apiRequester);
     this.interTx = new InterTxAPI(this.apiRequester);
     this.move = new MoveAPI(this.apiRequester);
     this.mstaking = new MstakingAPI(this.apiRequester);

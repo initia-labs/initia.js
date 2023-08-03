@@ -5,7 +5,11 @@ import { JSONSerializable } from '../../../../util/json';
 /**
  *  Fee defines the ICS29 receive, acknowledgement and timeout fees
  */
-export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
+export class IbcFee extends JSONSerializable<
+  IbcFee.Amino,
+  IbcFee.Data,
+  IbcFee.Proto
+> {
   /** the packet receive fee */
   public recv_fee: Coins;
   /** the packet acknowledgement fee */
@@ -28,18 +32,18 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
     this.timeout_fee = new Coins(timeout_fee);
   }
 
-  public static fromAmino(data: Fee.Amino): Fee {
+  public static fromAmino(data: IbcFee.Amino): IbcFee {
     const { recv_fee, ack_fee, timeout_fee } = data;
-    return new Fee(
+    return new IbcFee(
       Coins.fromAmino(recv_fee),
       Coins.fromAmino(ack_fee),
       Coins.fromAmino(timeout_fee)
     );
   }
 
-  public toAmino(): Fee.Amino {
+  public toAmino(): IbcFee.Amino {
     const { recv_fee, ack_fee, timeout_fee } = this;
-    const res: Fee.Amino = {
+    const res: IbcFee.Amino = {
       recv_fee: recv_fee.toAmino(),
       ack_fee: ack_fee.toAmino(),
       timeout_fee: timeout_fee.toAmino(),
@@ -47,18 +51,18 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
     return res;
   }
 
-  public static fromData(data: Fee.Data): Fee {
+  public static fromData(data: IbcFee.Data): IbcFee {
     const { recv_fee, ack_fee, timeout_fee } = data;
-    return new Fee(
+    return new IbcFee(
       Coins.fromData(recv_fee),
       Coins.fromData(ack_fee),
       Coins.fromData(timeout_fee)
     );
   }
 
-  public toData(): Fee.Data {
+  public toData(): IbcFee.Data {
     const { recv_fee, ack_fee, timeout_fee } = this;
-    const res: Fee.Data = {
+    const res: IbcFee.Data = {
       recv_fee: recv_fee.toData(),
       ack_fee: ack_fee.toData(),
       timeout_fee: timeout_fee.toData(),
@@ -66,15 +70,15 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
     return res;
   }
 
-  public static fromProto(proto: Fee.Proto): Fee {
-    return new Fee(
+  public static fromProto(proto: IbcFee.Proto): IbcFee {
+    return new IbcFee(
       Coins.fromProto(proto.recvFee),
       Coins.fromProto(proto.ackFee),
       Coins.fromProto(proto.timeoutFee)
     );
   }
 
-  public toProto(): Fee.Proto {
+  public toProto(): IbcFee.Proto {
     const { recv_fee, ack_fee, timeout_fee } = this;
     return Fee_pb.fromPartial({
       recvFee: recv_fee.toProto(),
@@ -84,7 +88,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
   }
 }
 
-export namespace Fee {
+export namespace IbcFee {
   export interface Amino {
     recv_fee: Coins.Amino;
     ack_fee: Coins.Amino;

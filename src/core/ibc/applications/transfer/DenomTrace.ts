@@ -1,5 +1,5 @@
 import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/transfer';
-import { JSONSerializable } from '../../../../../util/json';
+import { JSONSerializable } from '../../../../util/json';
 
 /**
  * DenomTrace is a monotonically increasing data type
