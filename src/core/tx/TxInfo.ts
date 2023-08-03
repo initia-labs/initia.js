@@ -132,11 +132,12 @@ export class TxLog {
   }
 
   public toData(): TxLog.Data {
-    const { msg_index, log, events } = this;
+    const { msg_index, log, events, eventsByType } = this;
     return {
       msg_index,
       log,
       events,
+      eventsByType,
     };
   }
 
@@ -173,6 +174,7 @@ export namespace TxLog {
     msg_index: number;
     log: string;
     events: { type: string; attributes: { key: string; value: string }[] }[];
+    eventsByType: EventsByType;
   }
   export type Proto = ABCIMessageLog_pb;
 }

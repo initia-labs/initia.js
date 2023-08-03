@@ -22,7 +22,7 @@ interface Wait {
   raw_log: string;
   gas_wanted: number;
   gas_used: number;
-  logs: TxLog.Data[];
+  logs: TxLog[];
   timestamp: string;
 }
 
