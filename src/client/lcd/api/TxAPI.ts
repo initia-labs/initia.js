@@ -351,7 +351,7 @@ export class TxAPI extends BaseAPI {
 
     const simulateRes = await this.c
       .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
-        tx_bytes: this.encode(simTx),
+        tx_bytes: TxAPI.encode(simTx),
       })
       .then(d => SimulateResponse.fromData(d));
 
@@ -364,7 +364,7 @@ export class TxAPI extends BaseAPI {
    * Encode a transaction to base64-encoded protobuf
    * @param tx transaction to encode
    */
-  public encode(tx: Tx): string {
+  public static encode(tx: Tx): string {
     return Buffer.from(tx.toBytes()).toString('base64');
   }
 
@@ -372,7 +372,7 @@ export class TxAPI extends BaseAPI {
    * Decode a transaction from base64-encoded protobuf
    * @param tx transaction string to decode
    */
-  public decode(encodedTx: string): Tx {
+  public static decode(encodedTx: string): Tx {
     return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'));
   }
 
@@ -380,8 +380,8 @@ export class TxAPI extends BaseAPI {
    * Get the transaction's hash
    * @param tx transaction to hash
    */
-  public async hash(tx: Tx): Promise<string> {
-    const txBytes = await this.encode(tx);
+  public static hash(tx: Tx): string {
+    const txBytes = TxAPI.encode(tx);
     return hashToHex(txBytes);
   }
 
@@ -390,7 +390,7 @@ export class TxAPI extends BaseAPI {
     mode: keyof typeof BroadcastMode
   ): Promise<T> {
     return await this.c.post<any>(`/cosmos/tx/v1beta1/txs`, {
-      tx_bytes: this.encode(tx),
+      tx_bytes: TxAPI.encode(tx),
       mode,
     });
   }

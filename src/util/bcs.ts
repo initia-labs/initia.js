@@ -49,7 +49,16 @@ export class BCS {
           writer
         );
       },
-      reader => toHEX(reader.readBytes(this.addressLength))
+      reader => {
+        let rawString = toHEX(reader.readBytes(this.addressLength));
+        for (let i = 0; i < rawString.length; i++) {
+          if (rawString[i] !== '0') {
+            rawString = rawString.substring(i);
+            break;
+          }
+        }
+        return `0x${rawString}`;
+      }
     );
 
     this.registerOptionType(BCS.OPTION);

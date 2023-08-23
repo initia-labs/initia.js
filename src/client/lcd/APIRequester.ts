@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance } from 'axios';
+import Axios, { AxiosInstance, AxiosRequestHeaders } from 'axios';
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
 
 export type APIParams = Record<string, string | number | null | undefined>;
@@ -55,10 +55,11 @@ export class APIRequester {
 
   public async get<T>(
     endpoint: string,
-    params: URLSearchParams | APIParams = {}
+    params: URLSearchParams | APIParams = {},
+    headers: AxiosRequestHeaders = {}
   ): Promise<T> {
     const url = this.computeEndpoint(endpoint);
-    return this.axios.get(url, { params }).then(d => d.data);
+    return this.axios.get(url, { params, headers }).then(d => d.data);
   }
 
   public async post<T>(endpoint: string, data?: any): Promise<T> {
