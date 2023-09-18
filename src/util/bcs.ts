@@ -8,7 +8,8 @@ import {
   StructTypeDefinition,
   Encoding,
 } from '@mysten/bcs';
-import { AccAddress, MoveFunctionABI } from '../core';
+import { AccAddress, BigNumber, num } from '../core';
+import { MoveFunctionABI } from '../core/move/types';
 
 export class BCS {
   private static bcs: BCS;
@@ -26,6 +27,11 @@ export class BCS {
   static readonly ADDRESS: string = 'address';
   static readonly STRING: string = 'string';
   static readonly OPTION: string = 'option';
+  static readonly OBJECT: string = 'object';
+  static readonly FIXED_POINT32: string = 'fixed_point32';
+  static readonly FIXED_POINT64: string = 'fixed_point64';
+  static readonly DECIMAL128: string = 'decimal128';
+  static readonly DECIMAL256: string = 'decimal256';
 
   private constructor() {
     this.mystenBcs = new mystenBcs({
@@ -58,6 +64,79 @@ export class BCS {
           }
         }
         return `0x${rawString}`;
+      }
+    );
+
+    // register Object { inner: address }
+    this.mystenBcs.registerType(
+      BCS.OBJECT,
+      (writer: BcsWriter, data: string) => {
+        data = data.startsWith('init1') ? AccAddress.toHex(data) : data;
+        const address = data
+          .replace('0x', '')
+          .padStart(this.addressLength * 2, '0');
+
+        return fromHEX(address).reduce(
+          (writer, el) => writer.write8(el),
+          writer
+        );
+      },
+      reader => toHEX(reader.readBytes(this.addressLength))
+    );
+
+    // register FixedPoint32 { value: u64 }
+    this.mystenBcs.registerType(
+      BCS.FIXED_POINT32,
+      (writer: BcsWriter, data: number | string) => {
+        const n = num(data);
+        const val = n.times(new BigNumber('4294967296'));
+        return writer.write64(BigInt(val.integerValue().toString()));
+      },
+      reader => {
+        const val = num(reader.read64());
+        return val.div(new BigNumber('4294967296')).toNumber();
+      }
+    );
+
+    // register FixedPoint64 { value: u128 }
+    this.mystenBcs.registerType(
+      BCS.FIXED_POINT64,
+      (writer: BcsWriter, data: number | string) => {
+        const n = num(data);
+        const val = n.times(new BigNumber('18446744073709551616'));
+        return writer.write64(BigInt(val.integerValue().toString()));
+      },
+      reader => {
+        const val = num(reader.read64());
+        return val.div(new BigNumber('18446744073709551616')).toNumber();
+      }
+    );
+
+    // register Decimal128 { value: u128 }
+    this.mystenBcs.registerType(
+      BCS.DECIMAL128,
+      (writer: BcsWriter, data: number | string) => {
+        const n = num(data);
+        const val = n.times(new BigNumber('1000000000000000000'));
+        return writer.write128(BigInt(val.integerValue().toString()));
+      },
+      reader => {
+        const val = num(reader.read128());
+        return val.div(new BigNumber('1000000000000000000')).toNumber();
+      }
+    );
+
+    // register Decimal256 { value: u256 }
+    this.mystenBcs.registerType(
+      BCS.DECIMAL256,
+      (writer: BcsWriter, data: number | string) => {
+        const n = num(data);
+        const val = n.times(new BigNumber('1000000000000000000'));
+        return writer.write256(BigInt(val.integerValue().toString()));
+      },
+      reader => {
+        const val = num(reader.read256());
+        return val.div(new BigNumber('1000000000000000000')).toNumber();
       }
     );
 
