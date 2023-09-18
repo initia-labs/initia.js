@@ -34,12 +34,7 @@ export class MsgScript extends JSONSerializable<
     const {
       value: { sender, code_bytes, type_args, args },
     } = data;
-    return new MsgScript(
-      sender,
-      code_bytes,
-      type_args ? type_args : [],
-      args ? args : []
-    );
+    return new MsgScript(sender, code_bytes, type_args ?? [], args ?? []);
   }
 
   public toAmino(): MsgScript.Amino {

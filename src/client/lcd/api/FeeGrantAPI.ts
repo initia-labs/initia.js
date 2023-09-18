@@ -1,6 +1,5 @@
-import { AccAddress } from '../../../core';
+import { AccAddress, Allowance } from '../../../core';
 import { BaseAPI } from './BaseAPI';
-import { Allowance } from '../../../core/feegrant/allowances';
 import { Pagination, PaginationOptions } from '../APIRequester';
 
 export class FeeGrantAPI extends BaseAPI {

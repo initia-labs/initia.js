@@ -9,10 +9,10 @@ import {
   Fee,
   PublicKey,
   num,
+  TxLog,
 } from '../../../core';
-import { hashToHex } from '../../../util/hash';
+import { hashToHex } from '../../../util';
 import { LCDClient } from '../LCDClient';
-import { TxLog } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
 
@@ -22,7 +22,7 @@ interface Wait {
   raw_log: string;
   gas_wanted: number;
   gas_used: number;
-  logs: TxLog.Data[];
+  logs: TxLog[];
   timestamp: string;
 }
 
@@ -109,12 +109,12 @@ export namespace SyncTxBroadcastResult {
 export interface SignerOptions {
   address: string;
   sequenceNumber?: number;
-  publicKey?: PublicKey | null;
+  publicKey?: PublicKey;
 }
 
 export interface SignerData {
   sequenceNumber: number;
-  publicKey?: PublicKey | null;
+  publicKey?: PublicKey;
 }
 
 export interface CreateTxOptions {
@@ -250,7 +250,7 @@ export class TxAPI extends BaseAPI {
     }
 
     return new Tx(
-      new TxBody(msgs, memo || '', timeoutHeight || 0),
+      new TxBody(msgs, memo ?? '', timeoutHeight ?? 0),
       new AuthInfo([], fee),
       []
     );
@@ -288,10 +288,10 @@ export class TxAPI extends BaseAPI {
     signers: SignerData[],
     options: CreateTxOptions
   ): Promise<Fee> {
-    const gasPrices = options.gasPrices || this.lcd.config.gasPrices;
+    const gasPrices = options.gasPrices ?? this.lcd.config.gasPrices;
     const gasAdjustment =
-      options.gasAdjustment || this.lcd.config.gasAdjustment;
-    const feeDenoms = options.feeDenoms || ['uinit'];
+      options.gasAdjustment ?? this.lcd.config.gasAdjustment;
+    const feeDenoms = options.feeDenoms ?? ['uinit'];
     let gas = options.gas;
     let gasPricesCoins: Coins | undefined;
 
@@ -309,7 +309,7 @@ export class TxAPI extends BaseAPI {
       }
     }
 
-    const txBody = new TxBody(options.msgs, options.memo || '');
+    const txBody = new TxBody(options.msgs, options.memo ?? '');
     const authInfo = new AuthInfo([], new Fee(0, new Coins()));
     const tx = new Tx(txBody, authInfo, []);
 
@@ -336,7 +336,7 @@ export class TxAPI extends BaseAPI {
     }
   ): Promise<string> {
     const gasAdjustment =
-      options?.gasAdjustment || this.lcd.config.gasAdjustment;
+      options?.gasAdjustment ?? this.lcd.config.gasAdjustment;
 
     // append empty signatures if there's no signatures in tx
     let simTx: Tx = tx;
@@ -351,7 +351,7 @@ export class TxAPI extends BaseAPI {
 
     const simulateRes = await this.c
       .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
-        tx_bytes: this.encode(simTx),
+        tx_bytes: TxAPI.encode(simTx),
       })
       .then(d => SimulateResponse.fromData(d));
 
@@ -364,7 +364,7 @@ export class TxAPI extends BaseAPI {
    * Encode a transaction to base64-encoded protobuf
    * @param tx transaction to encode
    */
-  public encode(tx: Tx): string {
+  public static encode(tx: Tx): string {
     return Buffer.from(tx.toBytes()).toString('base64');
   }
 
@@ -372,7 +372,7 @@ export class TxAPI extends BaseAPI {
    * Decode a transaction from base64-encoded protobuf
    * @param tx transaction string to decode
    */
-  public decode(encodedTx: string): Tx {
+  public static decode(encodedTx: string): Tx {
     return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'));
   }
 
@@ -380,8 +380,8 @@ export class TxAPI extends BaseAPI {
    * Get the transaction's hash
    * @param tx transaction to hash
    */
-  public async hash(tx: Tx): Promise<string> {
-    const txBytes = await this.encode(tx);
+  public static hash(tx: Tx): string {
+    const txBytes = TxAPI.encode(tx);
     return hashToHex(txBytes);
   }
 
@@ -390,7 +390,7 @@ export class TxAPI extends BaseAPI {
     mode: keyof typeof BroadcastMode
   ): Promise<T> {
     return await this.c.post<any>(`/cosmos/tx/v1beta1/txs`, {
-      tx_bytes: this.encode(tx),
+      tx_bytes: TxAPI.encode(tx),
       mode,
     });
   }
@@ -454,7 +454,7 @@ export class TxAPI extends BaseAPI {
       gas_wanted: txInfo.gas_wanted,
       gas_used: txInfo.gas_used,
       height: +txInfo.height,
-      logs: (txInfo.logs || []).map(l => TxLog.fromData(l)),
+      logs: (txInfo.logs ?? []).map(l => TxLog.fromData(l)),
       code: txInfo.code,
       codespace: txInfo.codespace,
       timestamp: txInfo.timestamp,

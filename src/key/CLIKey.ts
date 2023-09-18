@@ -1,11 +1,14 @@
 import { Key } from './Key';
-import { AccAddress, ValAddress } from '../core/bech32';
+import {
+  AccAddress,
+  ValAddress,
+  SignDoc,
+  SignatureV2,
+  PublicKey,
+} from '../core';
 import { execSync } from 'child_process';
 import { fileSync } from 'tmp';
 import { writeFileSync } from 'fs';
-import { SignDoc } from '../core/SignDoc';
-import { SignatureV2 } from '../core/SignatureV2';
-import { PublicKey } from '../core/PublicKey';
 import { resolve } from 'path';
 import { homedir } from 'os';
 
@@ -35,8 +38,8 @@ export class CLIKey extends Key {
    */
   constructor(private params: CLIKeyParams) {
     super();
-    params.cliPath = params.cliPath || 'initiad';
-    params.home = params.home || resolve(homedir(), '.initiad', 'config');
+    params.cliPath = params.cliPath ?? 'initiad';
+    params.home = params.home ?? resolve(homedir(), '.initiad', 'config');
   }
 
   private generateCommand(args: string) {

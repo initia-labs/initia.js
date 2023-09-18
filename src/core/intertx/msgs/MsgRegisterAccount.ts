@@ -1,10 +1,10 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/intertx/tx';
+import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/initia/intertx/v1/tx';
 
 export class MsgRegisterAccount extends JSONSerializable<
-  any,
+  MsgRegisterAccount.Amino,
   MsgRegisterAccount.Data,
   MsgRegisterAccount.Proto
 > {
@@ -21,12 +21,20 @@ export class MsgRegisterAccount extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): any {
-    throw new Error('Amino not supported');
+  public static fromAmino(data: MsgRegisterAccount.Amino): MsgRegisterAccount {
+    const {
+      value: { owner, connection_id, version },
+    } = data;
+
+    return new MsgRegisterAccount(owner, connection_id, version);
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): MsgRegisterAccount.Amino {
+    const { owner, connection_id, version } = this;
+    return {
+      type: 'intertx/MsgRegisterAccount',
+      value: { owner, connection_id, version },
+    };
   }
 
   public static fromData(data: MsgRegisterAccount.Data): MsgRegisterAccount {
@@ -37,7 +45,7 @@ export class MsgRegisterAccount extends JSONSerializable<
   public toData(): MsgRegisterAccount.Data {
     const { owner, connection_id, version } = this;
     return {
-      '@type': '/intertx.MsgRegisterAccount',
+      '@type': '/initia.intertx.v1.MsgRegisterAccount',
       owner,
       connection_id,
       version,
@@ -63,7 +71,7 @@ export class MsgRegisterAccount extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/intertx.MsgRegisterAccount',
+      typeUrl: '/initia.intertx.v1.MsgRegisterAccount',
       value: MsgRegisterAccount_pb.encode(this.toProto()).finish(),
     });
   }
@@ -76,8 +84,17 @@ export class MsgRegisterAccount extends JSONSerializable<
 }
 
 export namespace MsgRegisterAccount {
+  export interface Amino {
+    type: 'intertx/MsgRegisterAccount';
+    value: {
+      owner: AccAddress;
+      connection_id: string;
+      version: string;
+    };
+  }
+
   export interface Data {
-    '@type': '/intertx.MsgRegisterAccount';
+    '@type': '/initia.intertx.v1.MsgRegisterAccount';
     owner: AccAddress;
     connection_id: string;
     version: string;

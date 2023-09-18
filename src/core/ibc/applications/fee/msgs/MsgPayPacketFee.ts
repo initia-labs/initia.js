@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../../../util/json';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgPayPacketFee as MsgPayPacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx';
-import { Fee } from '../Fee';
+import { IbcFee } from '../IbcFee';
 
 /**
  * MsgPayPacketFee defines the request type for the PayPacketFee rpc
@@ -20,7 +20,7 @@ export class MsgPayPacketFee extends JSONSerializable<
    * @param relayers optional list of relayers permitted to the receive packet fees
    */
   constructor(
-    public fee: Fee | undefined,
+    public fee: IbcFee | undefined,
     public source_port_id: string,
     public source_channel_id: string,
     public signer: string,
@@ -42,7 +42,7 @@ export class MsgPayPacketFee extends JSONSerializable<
     const { fee, source_port_id, source_channel_id, signer, relayers } = data;
 
     return new MsgPayPacketFee(
-      fee ? Fee.fromData(fee) : undefined,
+      fee ? IbcFee.fromData(fee) : undefined,
       source_port_id,
       source_channel_id,
       signer,
@@ -64,7 +64,7 @@ export class MsgPayPacketFee extends JSONSerializable<
 
   public static fromProto(proto: MsgPayPacketFee.Proto): MsgPayPacketFee {
     return new MsgPayPacketFee(
-      proto.fee ? Fee.fromProto(proto.fee) : undefined,
+      proto.fee ? IbcFee.fromProto(proto.fee) : undefined,
       proto.sourcePortId,
       proto.sourceChannelId,
       proto.signer,
@@ -98,7 +98,7 @@ export class MsgPayPacketFee extends JSONSerializable<
 export namespace MsgPayPacketFee {
   export interface Data {
     '@type': '/ibc.applications.fee.v1.MsgPayPacketFee';
-    fee?: Fee.Data;
+    fee?: IbcFee.Data;
     source_port_id: string;
     source_channel_id: string;
     signer: string;

@@ -1,29 +1,6 @@
 import { BaseAPI } from './BaseAPI';
-import { Coins, AccAddress } from '../../../core';
+import { Coins, AccAddress, BankParams } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-
-export interface SendEnabled {
-  denom: string;
-  enabled: boolean;
-}
-
-export namespace SendEnabled {
-  export interface Data {
-    denom: string;
-    enabled: boolean;
-  }
-}
-export interface BankParams {
-  send_enabled: SendEnabled[];
-  default_send_enabled: boolean;
-}
-
-export namespace BankParams {
-  export interface Data {
-    send_enabled: SendEnabled.Data[];
-    default_send_enabled: boolean;
-  }
-}
 
 export class BankAPI extends BaseAPI {
   /**
@@ -75,9 +52,6 @@ export class BankAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<BankParams> {
     return this.c
       .get<{ params: BankParams.Data }>(`/cosmos/bank/v1beta1/params`, params)
-      .then(({ params: d }) => ({
-        send_enabled: d.send_enabled,
-        default_send_enabled: d.default_send_enabled,
-      }));
+      .then(({ params: d }) => BankParams.fromData(d));
   }
 }

@@ -1,6 +1,6 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { DenomTrace } from '../../../core/ibc/applications/transfer/v1/DenomTrace';
+import { DenomTrace } from '../../../core';
 
 export interface IbcTransferParams {
   send_enabled: boolean;
@@ -37,14 +37,10 @@ export class IbcTransferAPI extends BaseAPI {
   }
 
   /** Gets a denomination hash information */
-  public async denomHash(
-    trace: string,
-    params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<string> {
-    return await this.c.get<string>(
-      `/ibc/apps/transfer/v1/denom_hashes/${trace}`,
-      params
-    );
+  public async denomHash(trace: string): Promise<string> {
+    return await this.c
+      .get<{ hash: string }>(`/ibc/apps/transfer/v1/denom_hashes/${trace}`)
+      .then(d => d.hash);
   }
 
   /**

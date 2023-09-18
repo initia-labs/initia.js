@@ -1,37 +1,11 @@
 import { BaseAPI } from './BaseAPI';
-import { Coins, AccAddress, ValAddress } from '../../../core';
+import {
+  Coins,
+  AccAddress,
+  ValAddress,
+  DistributionParams,
+} from '../../../core';
 import { APIParams } from '../APIRequester';
-
-export interface DistributionParams {
-  /**
-   * Community tax rate.
-   */
-  community_tax: string;
-
-  /**
-   * Base reward for proposer of block.
-   */
-  base_proposer_reward: string;
-
-  /**
-   * Bonus reward for proposer of block.
-   */
-  bonus_proposer_reward: string;
-
-  /**
-   * Whether withdrawals are currently enabled.
-   */
-  withdraw_addr_enabled: boolean;
-}
-
-export namespace DistributionParams {
-  export interface Data {
-    community_tax: string;
-    base_proposer_reward: string;
-    bonus_proposer_reward: string;
-    withdraw_addr_enabled: boolean;
-  }
-}
 
 export interface Pool {
   denom: string;
@@ -204,14 +178,9 @@ export class DistributionAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<DistributionParams> {
     return this.c
       .get<{ params: DistributionParams.Data }>(
-        `/cosmos/distribution/v1beta1/params`,
+        `/initia/distribution/v1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        base_proposer_reward: d.base_proposer_reward,
-        community_tax: d.community_tax,
-        bonus_proposer_reward: d.bonus_proposer_reward,
-        withdraw_addr_enabled: d.withdraw_addr_enabled,
-      }));
+      .then(({ params: d }) => DistributionParams.fromData(d));
   }
 }

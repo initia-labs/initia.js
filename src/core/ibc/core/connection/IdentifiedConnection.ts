@@ -1,6 +1,6 @@
 import { IdentifiedConnection as IdentifiedConnection_pb } from '@initia/initia.proto/ibc/core/connection/v1/connection';
 import { JSONSerializable } from '../../../../util/json';
-import { Version } from './Version';
+import { IbcVersion } from './IbcVersion';
 import {
   State,
   stateFromJSON,
@@ -30,7 +30,7 @@ export class IdentifiedConnection extends JSONSerializable<
   constructor(
     public id: string,
     public client_id: string,
-    public versions: Version[],
+    public versions: IbcVersion[],
     public state: State,
     public counterparty: Counterparty | undefined,
     public delay_period: number
@@ -45,7 +45,7 @@ export class IdentifiedConnection extends JSONSerializable<
     return new IdentifiedConnection(
       id,
       client_id,
-      versions.map(Version.fromAmino),
+      versions.map(IbcVersion.fromAmino),
       stateFromJSON(state),
       counterparty ? Counterparty.fromAmino(counterparty) : undefined,
       Number.parseInt(delay_period)
@@ -72,7 +72,7 @@ export class IdentifiedConnection extends JSONSerializable<
     return new IdentifiedConnection(
       id,
       client_id,
-      versions.map(Version.fromData),
+      versions.map(IbcVersion.fromData),
       stateFromJSON(state),
       counterparty ? Counterparty.fromData(counterparty) : undefined,
       Number.parseInt(delay_period)
@@ -98,7 +98,7 @@ export class IdentifiedConnection extends JSONSerializable<
     return new IdentifiedConnection(
       proto.id,
       proto.clientId,
-      proto.versions.map(Version.fromProto),
+      proto.versions.map(IbcVersion.fromProto),
       proto.state,
       proto.counterparty
         ? Counterparty.fromProto(proto.counterparty)
@@ -124,7 +124,7 @@ export namespace IdentifiedConnection {
   export interface Amino {
     id: string;
     client_id: string;
-    versions: Version.Amino[];
+    versions: IbcVersion.Amino[];
     state: string;
     counterparty?: Counterparty.Amino;
     delay_period: string;
@@ -133,7 +133,7 @@ export namespace IdentifiedConnection {
   export interface Data {
     id: string;
     client_id: string;
-    versions: Version.Data[];
+    versions: IbcVersion.Data[];
     state: string;
     counterparty?: Counterparty.Data;
     delay_period: string;

@@ -2,6 +2,8 @@ import { JSONSerializable } from '../../../util/json';
 import { GenericAuthorization } from './GenericAuthorization';
 import { SendAuthorization } from './SendAuthorization';
 import { StakeAuthorization } from './StakeAuthorization';
+import { PublishAuthorization } from './PublishAuthorization';
+import { ExecuteAuthorization } from './ExecuteAuthorization';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz';
 
@@ -10,7 +12,7 @@ export class AuthorizationGrant extends JSONSerializable<
   AuthorizationGrant.Data,
   AuthorizationGrant.Proto
 > {
-  constructor(public authorization: Authorization, public expiration: Date) {
+  constructor(public authorization: Authorization, public expiration?: Date) {
     super();
   }
 
@@ -18,7 +20,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = amino;
     return new AuthorizationGrant(
       Authorization.fromAmino(authorization),
-      new Date(expiration)
+      expiration ? new Date(expiration) : undefined
     );
   }
 
@@ -26,7 +28,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this;
     return {
       authorization: authorization.toAmino(),
-      expiration: expiration.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
 
@@ -34,7 +36,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = data;
     return new AuthorizationGrant(
       Authorization.fromData(authorization),
-      new Date(expiration)
+      expiration ? new Date(expiration) : undefined
     );
   }
 
@@ -42,14 +44,14 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this;
     return {
       authorization: authorization.toData(),
-      expiration: expiration.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
 
   public static fromProto(proto: AuthorizationGrant.Proto): AuthorizationGrant {
     return new AuthorizationGrant(
       Authorization.fromProto(proto.authorization as Any),
-      proto.expiration as Date
+      proto.expiration
     );
   }
 
@@ -65,12 +67,12 @@ export class AuthorizationGrant extends JSONSerializable<
 export namespace AuthorizationGrant {
   export interface Amino {
     authorization: Authorization.Amino;
-    expiration: string;
+    expiration?: string;
   }
 
   export interface Data {
     authorization: Authorization.Data;
-    expiration: string;
+    expiration?: string;
   }
 
   export type Proto = Grant_pb;
@@ -79,21 +81,37 @@ export namespace AuthorizationGrant {
 export type Authorization =
   | SendAuthorization
   | GenericAuthorization
-  | StakeAuthorization;
+  | StakeAuthorization
+  | PublishAuthorization
+  | ExecuteAuthorization;
 
 export namespace Authorization {
-  export type Amino = SendAuthorization.Amino | GenericAuthorization.Amino;
+  export type Amino =
+    | SendAuthorization.Amino
+    | GenericAuthorization.Amino
+    | StakeAuthorization.Amino
+    | PublishAuthorization.Amino
+    | ExecuteAuthorization.Amino;
   export type Data =
     | SendAuthorization.Data
     | GenericAuthorization.Data
-    | StakeAuthorization.Data;
+    | StakeAuthorization.Data
+    | PublishAuthorization.Data
+    | ExecuteAuthorization.Data;
   export type Proto = Any;
+
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
       case 'cosmos-sdk/SendAuthorization':
         return SendAuthorization.fromAmino(data);
       case 'cosmos-sdk/GenericAuthorization':
         return GenericAuthorization.fromAmino(data);
+      case 'mstake/StakeAuthorization':
+        return StakeAuthorization.fromAmino(data);
+      case 'move/ExecuteAuthorization':
+        return ExecuteAuthorization.fromAmino(data);
+      case 'move/PublishAuthorization':
+        return PublishAuthorization.fromAmino(data);
     }
   }
 
@@ -105,6 +123,10 @@ export namespace Authorization {
         return SendAuthorization.fromData(data);
       case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.fromData(data);
+      case '/initia.move.v1.PublishAuthorization':
+        return PublishAuthorization.fromData(data);
+      case '/initia.move.v1.ExecuteAuthorization':
+        return ExecuteAuthorization.fromData(data);
     }
   }
 
@@ -117,6 +139,10 @@ export namespace Authorization {
         return SendAuthorization.unpackAny(proto);
       case '/initia.mstaking.v1.StakeAuthorization':
         return StakeAuthorization.unpackAny(proto);
+      case '/initia.move.v1.PublishAuthorization':
+        return PublishAuthorization.unpackAny(proto);
+      case '/initia.move.v1.ExecuteAuthorization':
+        return ExecuteAuthorization.unpackAny(proto);
     }
 
     throw new Error(`Authorization type ${typeUrl} not recognized`);

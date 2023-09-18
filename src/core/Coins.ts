@@ -219,7 +219,7 @@ export class Coins
     return new Coins(this.toArray().filter(fn));
   }
 
-  public static fromAmino(data: Coins.Amino | null): Coins {
+  public static fromAmino(data?: Coins.Amino): Coins {
     return new Coins((data ?? []).map(Coin.fromAmino));
   }
 
@@ -227,7 +227,7 @@ export class Coins
     return this.toArray().map(c => c.toAmino());
   }
 
-  public static fromData(data: Coins.Data | null): Coins {
+  public static fromData(data?: Coins.Data): Coins {
     return new Coins((data ?? []).map(Coin.fromData));
   }
 
@@ -235,7 +235,7 @@ export class Coins
     return this.toArray().map(c => c.toData());
   }
 
-  public static fromProto(data: Coins.Proto | null): Coins {
+  public static fromProto(data?: Coins.Proto): Coins {
     return new Coins((data ?? []).map(Coin.fromProto));
   }
 

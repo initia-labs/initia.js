@@ -16,7 +16,7 @@ export class IdentifiedPacketFees extends JSONSerializable<
    * @param packet_fees list of packet fees
    */
   constructor(
-    public packet_id: PacketId | undefined,
+    public packet_id?: PacketId,
     public packet_fees: PacketFee[] = []
   ) {
     super();
@@ -81,12 +81,12 @@ export class IdentifiedPacketFees extends JSONSerializable<
 
 export namespace IdentifiedPacketFees {
   export interface Amino {
-    packet_id: PacketId.Amino | undefined;
+    packet_id?: PacketId.Amino;
     packet_fees: PacketFee.Amino[];
   }
 
   export interface Data {
-    packet_id: PacketId.Data | undefined;
+    packet_id?: PacketId.Data;
     packet_fees: PacketFee.Data[];
   }
 

@@ -51,9 +51,9 @@ export class MsgRecvPacket extends JSONSerializable<
     const { packet, proof_commitment, proof_height, signer } = this;
     return {
       '@type': '/ibc.core.channel.v1.MsgRecvPacket',
-      packet: packet ? packet.toData() : undefined,
+      packet: packet?.toData(),
       proof_commitment,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -70,9 +70,9 @@ export class MsgRecvPacket extends JSONSerializable<
   public toProto(): MsgRecvPacket.Proto {
     const { packet, proof_commitment, proof_height, signer } = this;
     return MsgRecvPacket_pb.fromPartial({
-      packet: packet ? packet.toProto() : undefined,
+      packet: packet?.toProto(),
       proofCommitment: Buffer.from(proof_commitment, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }

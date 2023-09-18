@@ -1,6 +1,6 @@
 import { PacketFee as PacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/fee';
 import { JSONSerializable } from '../../../../util/json';
-import { Fee } from './Fee';
+import { IbcFee } from './IbcFee';
 import { AccAddress } from '../../../..';
 
 /**
@@ -17,7 +17,7 @@ export class PacketFee extends JSONSerializable<
    * @param relayers  optional list of relayers permitted to receive fees
    */
   constructor(
-    public fee: Fee | undefined,
+    public fee: IbcFee | undefined,
     public refund_address: AccAddress,
     public relayers: string[] = []
   ) {
@@ -27,7 +27,7 @@ export class PacketFee extends JSONSerializable<
   public static fromAmino(data: PacketFee.Amino): PacketFee {
     const { fee, refund_address, relayers } = data;
     return new PacketFee(
-      fee ? Fee.fromAmino(fee) : undefined,
+      fee ? IbcFee.fromAmino(fee) : undefined,
       refund_address,
       relayers
     );
@@ -46,7 +46,7 @@ export class PacketFee extends JSONSerializable<
   public static fromData(data: PacketFee.Data): PacketFee {
     const { fee, refund_address, relayers } = data;
     return new PacketFee(
-      fee ? Fee.fromData(fee) : undefined,
+      fee ? IbcFee.fromData(fee) : undefined,
       refund_address,
       relayers
     );
@@ -64,7 +64,7 @@ export class PacketFee extends JSONSerializable<
 
   public static fromProto(proto: PacketFee.Proto): PacketFee {
     return new PacketFee(
-      proto.fee ? Fee.fromProto(proto.fee) : undefined,
+      proto.fee ? IbcFee.fromProto(proto.fee) : undefined,
       proto.refundAddress,
       proto.relayers
     );
@@ -82,13 +82,13 @@ export class PacketFee extends JSONSerializable<
 
 export namespace PacketFee {
   export interface Amino {
-    fee: Fee.Amino | undefined;
+    fee?: IbcFee.Amino;
     refund_address: AccAddress;
     relayers: string[];
   }
 
   export interface Data {
-    fee: Fee.Data | undefined;
+    fee?: IbcFee.Data;
     refund_address: AccAddress;
     relayers: string[];
   }

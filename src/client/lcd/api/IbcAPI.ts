@@ -1,10 +1,13 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { IdentifiedClientState } from '../../../core/ibc/core/client/IdentifiedClient';
-import { ClientConsensusStates } from '../../../core/ibc/core/client/ClientConsensusStates';
-import { Channel } from '../../../core/ibc/core/channel';
-import { IdentifiedConnection } from '../../../core/ibc/core/connection';
-import { Height } from '../../../core/ibc/core/client/Height';
+import {
+  IdentifiedClientState,
+  ClientConsensusStates,
+  Channel,
+  IdentifiedConnection,
+  Height,
+} from '../../../core';
+
 export interface IbcClientParams {
   allowed_clients: string[];
 }

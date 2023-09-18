@@ -109,8 +109,8 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       version: version?.toData(),
       chain_id: chainId,
       height,
-      time: time ? time.toISOString().replace(/\.000Z$/, 'Z') : undefined,
-      last_block_id: lastBlockId ? lastBlockId.toData() : undefined,
+      time: time?.toISOString().replace(/\.000Z$/, 'Z'),
+      last_block_id: lastBlockId?.toData(),
       last_commit_hash: lastCommitHash,
       data_hash: dataHash,
       validators_hash: validatorsHash,
@@ -333,7 +333,7 @@ export class BlockID extends JSONSerializable<
     const { hash, partSetHeader } = this;
     return BlockID_pb.fromPartial({
       hash: Buffer.from(hash, 'base64'),
-      partSetHeader: partSetHeader ? partSetHeader.toProto() : undefined,
+      partSetHeader: partSetHeader?.toProto(),
     });
   }
 }
@@ -502,9 +502,9 @@ export class CommitSig extends JSONSerializable<
    */
   constructor(
     public blockIdFlag: BlockIDFlag,
-    public validatorAddress: string | undefined,
-    public timestamp: Date | undefined,
-    public signature: string | undefined
+    public validatorAddress?: string,
+    public timestamp?: Date,
+    public signature?: string
   ) {
     super();
   }
@@ -532,11 +532,9 @@ export class CommitSig extends JSONSerializable<
     const { blockIdFlag, validatorAddress, timestamp, signature } = this;
     const res: CommitSig.Data = {
       block_id_flag: blockIDFlagToJSON(blockIdFlag),
-      validator_address: validatorAddress || '',
-      timestamp: timestamp
-        ? timestamp.toISOString().replace(/\.000Z$/, 'Z')
-        : undefined,
-      signature: signature || '',
+      validator_address: validatorAddress ?? '',
+      timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
+      signature: signature ?? '',
     };
     return res;
   }
@@ -634,7 +632,7 @@ export class ValidatorSet extends JSONSerializable<
     const { validators, proposer, totalVotingPower } = this;
     return ValidatorSet_pb.fromPartial({
       validators: validators.map(val => val.toProto()),
-      proposer: proposer?.toProto() || undefined,
+      proposer: proposer?.toProto(),
       totalVotingPower,
     });
   }
@@ -719,7 +717,7 @@ export class Validator extends JSONSerializable<
     const { address, pubKey, votingPower, proposerPriority } = this;
     return Validator_pb.fromPartial({
       address: Buffer.from(address, 'base64'),
-      pubKey: pubKey?.toProto() || undefined,
+      pubKey: pubKey?.toProto(),
       votingPower,
       proposerPriority,
     });

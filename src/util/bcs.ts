@@ -55,7 +55,16 @@ export class BCS {
           writer
         );
       },
-      reader => toHEX(reader.readBytes(this.addressLength))
+      reader => {
+        let rawString = toHEX(reader.readBytes(this.addressLength));
+        for (let i = 0; i < rawString.length; i++) {
+          if (rawString[i] !== '0') {
+            rawString = rawString.substring(i);
+            break;
+          }
+        }
+        return `0x${rawString}`;
+      }
     );
 
     // register Object { inner: address }
@@ -243,13 +252,13 @@ export class BCS {
       typeName,
       (writer: BcsWriter, data: any, typeParams: TypeName[]) =>
         writer.writeVec(data === null ? [] : [data], (writer, el) => {
-          const vectorType = elementType || typeParams[0];
+          const vectorType = elementType ?? typeParams[0];
 
           if (vectorType) {
             const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
-              .getTypeInterface(elementType || typeName)
+              .getTypeInterface(elementType ?? typeName)
               ._encodeRaw(writer, el, typeParams, {});
           } else {
             throw new Error(
@@ -259,12 +268,12 @@ export class BCS {
         }),
       (reader: BcsReader, typeParams) => {
         const vec = reader.readVec(reader => {
-          const vectorType = elementType || typeParams[0];
+          const vectorType = elementType ?? typeParams[0];
           if (vectorType) {
             const { name: typeName, params: typeParams } =
               this.mystenBcs.parseTypeName(vectorType);
             return this.mystenBcs
-              .getTypeInterface(elementType || typeName)
+              .getTypeInterface(elementType ?? typeName)
               ._decodeRaw(reader, typeParams, {});
           } else {
             throw new Error(

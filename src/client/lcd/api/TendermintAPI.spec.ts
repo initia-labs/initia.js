@@ -1,6 +1,6 @@
 import { APIRequester } from '../APIRequester';
 import { TendermintAPI } from './TendermintAPI';
-import { Tx } from '../../../core/Tx';
+import { Tx } from '../../../core';
 import { Tx as Tx_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');

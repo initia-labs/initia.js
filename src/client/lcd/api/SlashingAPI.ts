@@ -1,33 +1,6 @@
 import { BaseAPI } from './BaseAPI';
-import { ValConsAddress } from '../../../core';
+import { ValConsAddress, SlashingParams } from '../../../core';
 import { APIParams, Pagination } from '../APIRequester';
-
-export interface SlashingParams {
-  /** Number of blocks over which missed blocks are tallied for downtime. */
-  signed_blocks_window: number;
-
-  /** If a validator misses more than this number, they will be penalized and jailed for downtime. */
-  min_signed_per_window: string;
-
-  /** Amount of time in seconds after which a jailed validator can be unjailed. */
-  downtime_jail_duration: number;
-
-  /** Ratio of funds slashed for a double-sign infraction. */
-  slash_fraction_double_sign: string;
-
-  /** Ratio of funds slashed for a downtime infraction. */
-  slash_fraction_downtime: string;
-}
-
-export namespace SlashingParams {
-  export interface Data {
-    signed_blocks_window: string;
-    min_signed_per_window: string;
-    downtime_jail_duration: string;
-    slash_fraction_double_sign: string;
-    slash_fraction_downtime: string;
-  }
-}
 
 export interface SigningInfo {
   /** Validator's consensus address. */
@@ -107,12 +80,6 @@ export class SlashingAPI extends BaseAPI {
         `/cosmos/slashing/v1beta1/params`,
         params
       )
-      .then(({ params: d }) => ({
-        signed_blocks_window: Number.parseInt(d.signed_blocks_window),
-        min_signed_per_window: d.min_signed_per_window,
-        downtime_jail_duration: Number.parseInt(d.downtime_jail_duration),
-        slash_fraction_double_sign: d.slash_fraction_double_sign,
-        slash_fraction_downtime: d.slash_fraction_downtime,
-      }));
+      .then(({ params: d }) => SlashingParams.fromData(d));
   }
 }

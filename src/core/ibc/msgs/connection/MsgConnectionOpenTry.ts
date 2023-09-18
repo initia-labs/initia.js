@@ -1,11 +1,9 @@
 import { JSONSerializable } from '../../../../util/json';
 import { AccAddress } from '../../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { Counterparty } from '../../core/connection/Counterparty';
-import { Version } from '../../core/connection/Version';
+import { Counterparty, IbcVersion, Height } from '../../core';
 import { MsgConnectionOpenTry as MsgConnectionOpenTry_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
 import Long from 'long';
-import { Height } from '../../core/client/Height';
 
 /**
  *  MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a connection on Chain B.
@@ -35,7 +33,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
     public client_state: any,
     public counterparty: Counterparty | undefined,
     public delay_period: number,
-    public counterparty_versions: Version[],
+    public counterparty_versions: IbcVersion[],
     public proof_height: Height | undefined,
     public proof_init: string,
     public proof_client: string,
@@ -78,9 +76,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       client_state,
       counterparty ? Counterparty.fromData(counterparty) : undefined,
       Number.parseInt(delay_period),
-      counterparty_versions.length > 0
-        ? counterparty_versions.map(cv => Version.fromData(cv))
-        : [],
+      counterparty_versions.map(cv => IbcVersion.fromData(cv)),
       proof_height ? Height.fromData(proof_height) : undefined,
       Buffer.from(proof_init).toString('base64'),
       Buffer.from(proof_client).toString('base64'),
@@ -110,19 +106,14 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       client_id,
       previous_connection_id,
       client_state,
-      counterparty: counterparty ? counterparty.toData() : undefined,
+      counterparty: counterparty?.toData(),
       delay_period: delay_period.toFixed(),
-      counterparty_versions:
-        counterparty_versions.length > 0
-          ? counterparty_versions.map(cv => cv.toData())
-          : [],
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      counterparty_versions: counterparty_versions.map(cv => cv.toData()),
+      proof_height: proof_height?.toData(),
       proof_init,
       proof_client,
       proof_consensus,
-      consensus_height: consensus_height
-        ? consensus_height.toData()
-        : undefined,
+      consensus_height: consensus_height?.toData(),
       signer,
     };
   }
@@ -138,9 +129,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
         ? Counterparty.fromProto(proto.counterparty)
         : undefined,
       proto.delayPeriod.toNumber(),
-      proto.counterpartyVersions.length > 0
-        ? proto.counterpartyVersions.map(cv => Version.fromProto(cv))
-        : [],
+      proto.counterpartyVersions.map(cv => IbcVersion.fromProto(cv)),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       Buffer.from(proto.proofInit).toString('base64'),
       Buffer.from(proto.proofClient).toString('base64'),
@@ -171,19 +160,14 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       clientId: client_id,
       previousConnectionId: previous_connection_id,
       clientState: client_state.toProto(),
-      counterparty: counterparty ? counterparty.toProto() : undefined,
+      counterparty: counterparty?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
-      counterpartyVersions:
-        counterparty_versions.length > 0
-          ? counterparty_versions.map(cv => cv.toProto())
-          : [],
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      counterpartyVersions: counterparty_versions.map(cv => cv.toProto()),
+      proofHeight: proof_height?.toProto(),
       proofInit: Buffer.from(proof_init, 'base64'),
       proofClient: Buffer.from(proof_client, 'base64'),
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
-      consensusHeight: consensus_height
-        ? consensus_height.toProto()
-        : undefined,
+      consensusHeight: consensus_height?.toProto(),
       signer,
     });
   }
@@ -210,7 +194,7 @@ export namespace MsgConnectionOpenTry {
     client_state: Any;
     counterparty?: Counterparty.Data;
     delay_period: string;
-    counterparty_versions: Version.Data[];
+    counterparty_versions: IbcVersion.Data[];
     proof_height?: Height.Data;
     proof_init: string;
     proof_client: string;

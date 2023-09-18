@@ -11,41 +11,56 @@ import {
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export class StakeAuthorization extends JSONSerializable<
-  any,
+  StakeAuthorization.Amino,
   StakeAuthorization.Data,
   StakeAuthorization.Proto
 > {
   public max_tokens: Coins;
 
   constructor(
-    public authorization_type: AuthorizationType,
     max_tokens: Coins.Input,
-    public allow_list?: StakeAuthorizationValidators,
-    public deny_list?: StakeAuthorizationValidators
+    public allow_list: StakeAuthorizationValidators,
+    public deny_list: StakeAuthorizationValidators,
+    public authorization_type: AuthorizationType
   ) {
     super();
     this.max_tokens = new Coins(max_tokens);
   }
 
-  public static fromAmino(_: any): StakeAuthorizationValidators {
-    _;
-    throw new Error('Amino not supported');
+  public static fromAmino(data: StakeAuthorization.Amino): StakeAuthorization {
+    const {
+      value: { max_tokens, allow_list, deny_list, authorization_type },
+    } = data;
+
+    return new StakeAuthorization(
+      Coins.fromAmino(max_tokens),
+      StakeAuthorizationValidators.fromAmino(allow_list),
+      StakeAuthorizationValidators.fromAmino(deny_list),
+      authorizationTypeFromJSON(authorization_type)
+    );
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): StakeAuthorization.Amino {
+    const { max_tokens, allow_list, deny_list, authorization_type } = this;
+    return {
+      type: 'mstake/StakeAuthorization',
+      value: {
+        max_tokens: max_tokens.toAmino(),
+        allow_list: allow_list.toAmino(),
+        deny_list: deny_list.toAmino(),
+        authorization_type: authorizationTypeToJSON(authorization_type),
+      },
+    };
   }
 
   public static fromData(data: StakeAuthorization.Data): StakeAuthorization {
+    const { max_tokens, allow_list, deny_list, authorization_type } = data;
+
     return new StakeAuthorization(
-      authorizationTypeFromJSON(data.authorization_type),
-      Coins.fromData(data.max_tokens),
-      data.allow_list
-        ? StakeAuthorizationValidators.fromData(data.allow_list)
-        : undefined,
-      data.deny_list
-        ? StakeAuthorizationValidators.fromData(data.deny_list)
-        : undefined
+      Coins.fromData(max_tokens),
+      StakeAuthorizationValidators.fromData(allow_list),
+      StakeAuthorizationValidators.fromData(deny_list),
+      authorizationTypeFromJSON(authorization_type)
     );
   }
 
@@ -53,33 +68,33 @@ export class StakeAuthorization extends JSONSerializable<
     const { max_tokens, allow_list, deny_list, authorization_type } = this;
     return {
       '@type': '/initia.mstaking.v1.StakeAuthorization',
+      max_tokens: max_tokens.toData(),
+      allow_list: allow_list.toData(),
+      deny_list: deny_list.toData(),
       authorization_type: authorizationTypeToJSON(authorization_type),
-      max_tokens: max_tokens?.toData(),
-      allow_list: allow_list?.toData(),
-      deny_list: deny_list?.toData(),
     };
   }
 
   public static fromProto(proto: StakeAuthorization.Proto): StakeAuthorization {
     return new StakeAuthorization(
-      proto.authorizationType,
       Coins.fromProto(proto.maxTokens),
-      proto.allowList
-        ? StakeAuthorizationValidators.fromProto(proto.allowList)
-        : undefined,
-      proto.denyList
-        ? StakeAuthorizationValidators.fromProto(proto.denyList)
-        : undefined
+      StakeAuthorizationValidators.fromProto(
+        proto.allowList as StakeAuthorizationValidators
+      ),
+      StakeAuthorizationValidators.fromProto(
+        proto.denyList as StakeAuthorizationValidators
+      ),
+      proto.authorizationType
     );
   }
 
   public toProto(): StakeAuthorization.Proto {
     const { max_tokens, allow_list, deny_list, authorization_type } = this;
     return StakeAuthorization_pb.fromPartial({
-      allowList: allow_list?.toProto(),
+      maxTokens: max_tokens.toProto(),
+      allowList: allow_list.toProto(),
+      denyList: deny_list.toProto(),
       authorizationType: authorization_type,
-      denyList: deny_list?.toProto(),
-      maxTokens: max_tokens?.toProto(),
     });
   }
 
@@ -98,7 +113,7 @@ export class StakeAuthorization extends JSONSerializable<
 }
 
 export class StakeAuthorizationValidators extends JSONSerializable<
-  any,
+  StakeAuthorizationValidators.Amino,
   StakeAuthorizationValidators.Data,
   StakeAuthorizationValidators.Proto
 > {
@@ -106,13 +121,14 @@ export class StakeAuthorizationValidators extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(_: any): StakeAuthorizationValidators {
-    _;
-    throw new Error('Amino not supported');
+  public static fromAmino(
+    data: StakeAuthorizationValidators.Amino
+  ): StakeAuthorizationValidators {
+    return new StakeAuthorizationValidators(data.address);
   }
 
-  public toAmino(): any {
-    throw new Error('Amino not supported');
+  public toAmino(): StakeAuthorizationValidators.Amino {
+    return { address: this.address };
   }
 
   public static fromData(
@@ -141,6 +157,10 @@ export class StakeAuthorizationValidators extends JSONSerializable<
 }
 
 export namespace StakeAuthorizationValidators {
+  export interface Amino {
+    address: AccAddress[];
+  }
+
   export interface Data {
     address: AccAddress[];
   }
@@ -152,11 +172,21 @@ export namespace StakeAuthorization {
   export type Type = AuthorizationType;
   export const Type = AuthorizationType;
 
+  export interface Amino {
+    type: 'mstake/StakeAuthorization';
+    value: {
+      max_tokens: Coins.Amino;
+      allow_list: StakeAuthorizationValidators.Amino;
+      deny_list: StakeAuthorizationValidators.Amino;
+      authorization_type: string;
+    };
+  }
+
   export interface Data {
     '@type': '/initia.mstaking.v1.StakeAuthorization';
     max_tokens: Coins.Data;
-    allow_list?: StakeAuthorizationValidators.Data;
-    deny_list?: StakeAuthorizationValidators.Data;
+    allow_list: StakeAuthorizationValidators.Data;
+    deny_list: StakeAuthorizationValidators.Data;
     authorization_type: string;
   }
 

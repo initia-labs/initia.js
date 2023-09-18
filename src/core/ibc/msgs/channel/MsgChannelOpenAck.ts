@@ -80,7 +80,7 @@ export class MsgChannelOpenAck extends JSONSerializable<
       counterparty_channel_id,
       counterparty_version,
       proof_try,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -113,7 +113,7 @@ export class MsgChannelOpenAck extends JSONSerializable<
       counterpartyChannelId: counterparty_channel_id,
       counterpartyVersion: counterparty_version,
       proofTry: Buffer.from(proof_try, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }

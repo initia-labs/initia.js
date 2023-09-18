@@ -1,6 +1,13 @@
 import { BaseAPI } from './BaseAPI';
-import { BlockInfo, DelegateValidator } from '../../../core';
+import { BlockInfo, ValConsAddress, ValConsPublicKey } from '../../../core';
 import { APIParams, Pagination } from '../APIRequester';
+
+export interface DelegateValidator {
+  address: ValConsAddress;
+  pub_key: ValConsPublicKey.Data;
+  proposer_priority: string;
+  voting_power: string;
+}
 
 export class TendermintAPI extends BaseAPI {
   /**

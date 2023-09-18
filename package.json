@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.0.43",
+  "version": "0.1.8",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -35,7 +35,7 @@
     "lint:fix": "eslint src --ext .js,.ts --fix",
     "doc": "typedoc",
     "prepare": "husky install",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "rm -rf ./dist && npm run build"
   },
   "lint-staged": {
     "./src/**/*.ts": [
@@ -85,7 +85,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@initia/initia.proto": "^0.0.20-alpha1",
+    "@initia/initia.proto": "^0.1.11",
     "@ledgerhq/hw-transport": "^6.27.12",
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
     "@ledgerhq/hw-transport-webusb": "^6.27.12",

@@ -56,9 +56,8 @@ export class BasicAllowance extends JSONSerializable<
     return {
       type: 'cosmos-sdk/BasicAllowance',
       value: {
-        spend_limit: spend_limit?.toAmino() || undefined,
-        expiration:
-          expiration?.toISOString().replace(/\.000Z$/, 'Z') || undefined,
+        spend_limit: spend_limit?.toAmino(),
+        expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
       },
     };
   }
@@ -75,16 +74,15 @@ export class BasicAllowance extends JSONSerializable<
     const { spend_limit, expiration } = this;
     return {
       '@type': '/cosmos.feegrant.v1beta1.BasicAllowance',
-      spend_limit: spend_limit?.toData() || undefined,
-      expiration:
-        expiration?.toISOString().replace(/\.000Z$/, 'Z') || undefined,
+      spend_limit: spend_limit?.toData(),
+      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
 
   public static fromProto(proto: BasicAllowance.Proto): BasicAllowance {
     return new BasicAllowance(
       Coins.fromProto(proto.spendLimit),
-      proto.expiration ? (proto.expiration as Date) : undefined
+      proto.expiration
     );
   }
 
@@ -92,7 +90,7 @@ export class BasicAllowance extends JSONSerializable<
     const { spend_limit, expiration } = this;
     return BasicAllowance_pb.fromPartial({
       expiration,
-      spendLimit: spend_limit?.toProto() || undefined,
+      spendLimit: spend_limit?.toProto(),
     });
   }
 

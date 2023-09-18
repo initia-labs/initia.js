@@ -58,7 +58,7 @@ export class MsgChannelOpenConfirm extends JSONSerializable<
       port_id,
       channel_id,
       proof_ack,
-      proof_height: proof_height ? proof_height.toData() : undefined,
+      proof_height: proof_height?.toData(),
       signer,
     };
   }
@@ -81,7 +81,7 @@ export class MsgChannelOpenConfirm extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       proofAck: Buffer.from(proof_ack, 'base64'),
-      proofHeight: proof_height ? proof_height.toProto() : undefined,
+      proofHeight: proof_height?.toProto(),
       signer,
     });
   }

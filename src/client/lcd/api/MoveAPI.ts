@@ -1,23 +1,8 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Denom } from '../../../core';
+import { AccAddress, Denom, MoveParams, ModuleABI } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
-import { ModuleABI } from '../../../core/move/types';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
-
-export interface MoveParams {
-  base_denom: Denom;
-  max_module_size: number;
-  base_min_gas_price: string;
-}
-
-export namespace MoveParams {
-  export interface Data {
-    base_denom: string;
-    max_module_size: string;
-    base_min_gas_price: string;
-  }
-}
 
 export interface Module {
   address: AccAddress;
@@ -170,6 +155,18 @@ export class MoveAPI extends BaseAPI {
       .then(({ resource: d }) => JSON.parse(d.move_resource));
   }
 
+  public async parameters(params: APIParams = {}): Promise<MoveParams> {
+    return this.c
+      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
+      .then(({ params: d }) => MoveParams.fromData(d));
+  }
+
+  public async scriptABI(codeBytes: string): Promise<ABI> {
+    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
+      code_bytes: codeBytes,
+    });
+  }
+
   public async denom(
     structTag: string,
     params: APIParams = {}
@@ -182,23 +179,7 @@ export class MoveAPI extends BaseAPI {
       .then(d => d.denom);
   }
 
-  public async parameters(params: APIParams = {}): Promise<MoveParams> {
-    return this.c
-      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
-      .then(({ params: d }) => ({
-        base_denom: d.base_denom,
-        max_module_size: Number.parseInt(d.max_module_size),
-        base_min_gas_price: d.base_min_gas_price,
-      }));
-  }
-
-  public async scriptABI(codeBytes: string): Promise<ABI> {
-    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
-      code_bytes: codeBytes,
-    });
-  }
-
-  public async structTag(
+  public async structTagByDenom(
     denom: Denom,
     params: APIParams = {}
   ): Promise<string> {
@@ -207,6 +188,66 @@ export class MoveAPI extends BaseAPI {
         ...params,
         denom,
       })
+      .then(d => d.struct_tag);
+  }
+
+  public async nftClassId(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ class_id: string }>(
+        `/initia/move/v1/nft_class_ids/by_struct_tag`,
+        {
+          ...params,
+          struct_tag: structTag,
+        }
+      )
+      .then(d => d.class_id);
+  }
+
+  public async structTagByNftClassId(
+    classId: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ struct_tag: string }>(
+        `/initia/move/v1/struct_tags/by_nft_class_id`,
+        {
+          ...params,
+          class_id: classId,
+        }
+      )
+      .then(d => d.struct_tag);
+  }
+
+  public async sftClassId(
+    structTag: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ class_id: string }>(
+        `/initia/move/v1/sft_class_ids/by_struct_tag`,
+        {
+          ...params,
+          struct_tag: structTag,
+        }
+      )
+      .then(d => d.class_id);
+  }
+
+  public async structTagBySftClassId(
+    classId: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{ struct_tag: string }>(
+        `/initia/move/v1/struct_tags/by_sft_class_id`,
+        {
+          ...params,
+          class_id: classId,
+        }
+      )
       .then(d => d.struct_tag);
   }
 
@@ -233,5 +274,30 @@ export class MoveAPI extends BaseAPI {
         params
       )
       .then(d => d.table_entry);
+  }
+
+  /**
+   * convert module address and module name from code bytes
+   *
+   * @param codeBytes base64 encoded move module code bytes
+   * @param moduleAddress new module address
+   * @param moduleName new module name
+   * @returns
+   */
+  public async convertModuleIdentifiers(
+    codeBytes: string,
+    moduleAddress: AccAddress,
+    moduleName: string
+  ): Promise<string> {
+    return this.c
+      .post<{ code_bytes: string }>(
+        `/initia/move/v1/api/convert_module_identifiers`,
+        {
+          code_bytes: codeBytes,
+          module_addr: moduleAddress,
+          module_name: moduleName,
+        }
+      )
+      .then(res => res.code_bytes);
   }
 }

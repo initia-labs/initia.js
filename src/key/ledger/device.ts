@@ -64,7 +64,7 @@ function processErrorResponse(response: any) {
 }
 
 export function serializePath(path: number[]): Buffer {
-  if (!path || path.length !== 5) {
+  if (path?.length !== 5) {
     throw new TypeError('Invalid path.');
   }
 
