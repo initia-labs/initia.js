@@ -10,16 +10,12 @@ export class MsgWhitelist extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param coin_a Dex coin A struct_tag
-   * @param coin_b Dex coin B struct_tag
-   * @param coin_lp Dex coin LP struct_tag
+   * @param metadata_lp Dex coin LP metadata address
    * @param reward_weight registered to distribution's Params
    */
   constructor(
     public authority: AccAddress,
-    public coin_a: string,
-    public coin_b: string,
-    public coin_lp: string,
+    public metadata_lp: string,
     public reward_weight: string
   ) {
     super();
@@ -27,64 +23,52 @@ export class MsgWhitelist extends JSONSerializable<
 
   public static fromAmino(data: MsgWhitelist.Amino): MsgWhitelist {
     const {
-      value: { authority, coin_a, coin_b, coin_lp, reward_weight },
+      value: { authority, metadata_lp, reward_weight },
     } = data;
 
-    return new MsgWhitelist(authority, coin_a, coin_b, coin_lp, reward_weight);
+    return new MsgWhitelist(authority, metadata_lp, reward_weight);
   }
 
   public toAmino(): MsgWhitelist.Amino {
-    const { authority, coin_a, coin_b, coin_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this;
 
     return {
       type: 'move/MsgWhitelist',
       value: {
         authority,
-        coin_a,
-        coin_b,
-        coin_lp,
+        metadata_lp,
         reward_weight,
       },
     };
   }
 
   public static fromData(data: MsgWhitelist.Data): MsgWhitelist {
-    const { authority, coin_a, coin_b, coin_lp, reward_weight } = data;
+    const { authority, metadata_lp, reward_weight } = data;
 
-    return new MsgWhitelist(authority, coin_a, coin_b, coin_lp, reward_weight);
+    return new MsgWhitelist(authority, metadata_lp, reward_weight);
   }
 
   public toData(): MsgWhitelist.Data {
-    const { authority, coin_a, coin_b, coin_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this;
 
     return {
       '@type': '/initia.move.v1.MsgWhitelist',
       authority,
-      coin_a,
-      coin_b,
-      coin_lp,
+      metadata_lp,
       reward_weight,
     };
   }
 
   public static fromProto(data: MsgWhitelist.Proto): MsgWhitelist {
-    return new MsgWhitelist(
-      data.authority,
-      data.coinA,
-      data.coinB,
-      data.coinLp,
-      data.rewardWeight
-    );
+    return new MsgWhitelist(data.authority, data.metadataLp, data.rewardWeight);
   }
 
   public toProto(): MsgWhitelist.Proto {
-    const { authority, coin_a, coin_b, coin_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this;
 
     return MsgWhitelist_pb.fromPartial({
       authority,
-      coinA: coin_a,
-      coinB: coin_b,
-      coinLp: coin_lp,
+      metadataLp: metadata_lp,
       rewardWeight: reward_weight,
     });
   }
@@ -106,9 +90,7 @@ export namespace MsgWhitelist {
     type: 'move/MsgWhitelist';
     value: {
       authority: AccAddress;
-      coin_a: string;
-      coin_b: string;
-      coin_lp: string;
+      metadata_lp: string;
       reward_weight: string;
     };
   }
@@ -116,9 +98,7 @@ export namespace MsgWhitelist {
   export interface Data {
     '@type': '/initia.move.v1.MsgWhitelist';
     authority: AccAddress;
-    coin_a: string;
-    coin_b: string;
-    coin_lp: string;
+    metadata_lp: string;
     reward_weight: string;
   }
 

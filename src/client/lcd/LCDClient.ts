@@ -10,7 +10,6 @@ import {
   GroupAPI,
   IbcAPI,
   IbcNftAPI,
-  IbcSftAPI,
   IbcTransferAPI,
   IbcPermAPI,
   InterTxAPI,
@@ -84,7 +83,6 @@ export class LCDClient {
   public group: GroupAPI;
   public ibc: IbcAPI;
   public ibcNft: IbcNftAPI;
-  public ibcSft: IbcSftAPI;
   public ibcTransfer: IbcTransferAPI;
   public ibcPerm: IbcPermAPI;
   public interTx: InterTxAPI;
@@ -127,7 +125,6 @@ export class LCDClient {
     this.group = new GroupAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);
     this.ibcNft = new IbcNftAPI(this.apiRequester);
-    this.ibcSft = new IbcSftAPI(this.apiRequester);
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
     this.ibcPerm = new IbcPermAPI(this.apiRequester);
     this.interTx = new InterTxAPI(this.apiRequester);

@@ -8,7 +8,6 @@ export * from './GovAPI';
 export * from './GroupAPI';
 export * from './IbcAPI';
 export * from './IbcNftAPI';
-export * from './IbcSftAPI';
 export * from './IbcTransferAPI';
 export * from './IbcPermAPI';
 export * from './InterTxAPI';

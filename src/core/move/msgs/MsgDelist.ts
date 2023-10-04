@@ -10,71 +10,58 @@ export class MsgDelist extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param coin_a Dex coin A struct_tag
-   * @param coin_b Dex coin B struct_tag
-   * @param coin_lp Dex coin LP struct_tag
+   * @param metadata_lp Dex coin LP metadata address
    */
-  constructor(
-    public authority: AccAddress,
-    public coin_a: string,
-    public coin_b: string,
-    public coin_lp: string
-  ) {
+  constructor(public authority: AccAddress, public metadata_lp: string) {
     super();
   }
 
   public static fromAmino(data: MsgDelist.Amino): MsgDelist {
     const {
-      value: { authority, coin_a, coin_b, coin_lp },
+      value: { authority, metadata_lp },
     } = data;
 
-    return new MsgDelist(authority, coin_a, coin_b, coin_lp);
+    return new MsgDelist(authority, metadata_lp);
   }
 
   public toAmino(): MsgDelist.Amino {
-    const { authority, coin_a, coin_b, coin_lp } = this;
+    const { authority, metadata_lp } = this;
 
     return {
       type: 'move/MsgDelist',
       value: {
         authority,
-        coin_a,
-        coin_b,
-        coin_lp,
+        metadata_lp,
       },
     };
   }
 
   public static fromData(data: MsgDelist.Data): MsgDelist {
-    const { authority, coin_a, coin_b, coin_lp } = data;
+    const { authority, metadata_lp } = data;
 
-    return new MsgDelist(authority, coin_a, coin_b, coin_lp);
+    return new MsgDelist(authority, metadata_lp);
   }
 
   public toData(): MsgDelist.Data {
-    const { authority, coin_a, coin_b, coin_lp } = this;
+    const { authority, metadata_lp } = this;
 
     return {
       '@type': '/initia.move.v1.MsgDelist',
       authority,
-      coin_a,
-      coin_b,
-      coin_lp,
+      metadata_lp,
     };
   }
 
   public static fromProto(data: MsgDelist.Proto): MsgDelist {
-    return new MsgDelist(data.authority, data.coinA, data.coinB, data.coinLp);
+    return new MsgDelist(data.authority, data.metadataLp);
   }
 
   public toProto(): MsgDelist.Proto {
-    const { authority, coin_a, coin_b, coin_lp } = this;
+    const { authority, metadata_lp } = this;
 
     return MsgDelist_pb.fromPartial({
       authority,
-      coinA: coin_a,
-      coinB: coin_b,
-      coinLp: coin_lp,
+      metadataLp: metadata_lp,
     });
   }
 
@@ -95,18 +82,14 @@ export namespace MsgDelist {
     type: 'move/MsgDelist';
     value: {
       authority: AccAddress;
-      coin_a: string;
-      coin_b: string;
-      coin_lp: string;
+      metadata_lp: string;
     };
   }
 
   export interface Data {
     '@type': '/initia.move.v1.MsgDelist';
     authority: AccAddress;
-    coin_a: string;
-    coin_b: string;
-    coin_lp: string;
+    metadata_lp: string;
   }
 
   export type Proto = MsgDelist_pb;

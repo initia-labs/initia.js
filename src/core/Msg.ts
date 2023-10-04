@@ -65,11 +65,6 @@ import {
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer';
-import {
-  IbcSftMsg,
-  MsgSftTransfer,
-  MsgUpdateIbcSftParams,
-} from './ibc/applications/sft-transfer';
 import { IbcPermMsg, MsgUpdateChannelRelayer } from './ibc/applications/perm';
 import {
   IbcClientMsg,
@@ -138,7 +133,6 @@ export type Msg =
   | IbcFeeMsg
   | IbcTransferMsg
   | IbcNftMsg
-  | IbcSftMsg
   | IbcPermMsg
   | IbcClientMsg
   | IbcConnectionMsg
@@ -163,7 +157,6 @@ export namespace Msg {
     | GroupMsg.Amino
     | IbcTransferMsg.Amino
     | IbcNftMsg.Amino
-    | IbcSftMsg.Amino
     | IbcPermMsg.Amino
     | InterTxMsg.Amino
     | MoveMsg.Amino
@@ -185,7 +178,6 @@ export namespace Msg {
     | IbcFeeMsg.Data
     | IbcTransferMsg.Data
     | IbcNftMsg.Data
-    | IbcSftMsg.Data
     | IbcPermMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
@@ -210,7 +202,6 @@ export namespace Msg {
     | IbcFeeMsg.Proto
     | IbcTransferMsg.Proto
     | IbcNftMsg.Proto
-    | IbcSftMsg.Proto
     | IbcPermMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
@@ -335,12 +326,6 @@ export namespace Msg {
         return MsgNftTransfer.fromAmino(data);
       case 'nft-transfer/MsgUpdateParams':
         return MsgUpdateIbcNftParams.fromAmino(data);
-
-      // ibc-sft-transfer
-      case 'sft-transfer/MsgSftTransfer':
-        return MsgSftTransfer.fromAmino(data);
-      case 'sft-transfer/MsgUpdateParams':
-        return MsgUpdateIbcSftParams.fromAmino(data);
 
       // ibc-perm
       case 'perm/MsgUpdateChannelRelayer':
@@ -527,12 +512,6 @@ export namespace Msg {
         return MsgNftTransfer.fromData(data);
       case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcNftParams.fromData(data);
-
-      // ibc-sft-transfer
-      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
-        return MsgSftTransfer.fromData(data);
-      case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
-        return MsgUpdateIbcSftParams.fromData(data);
 
       // ibc-perm
       case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
@@ -764,12 +743,6 @@ export namespace Msg {
         return MsgNftTransfer.unpackAny(proto);
       case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcNftParams.unpackAny(proto);
-
-      // ibc-sft-transfer
-      case '/ibc.applications.sft_transfer.v1.MsgSftTransfer':
-        return MsgSftTransfer.unpackAny(proto);
-      case '/ibc.applications.sft_transfer.v1.MsgUpdateParams':
-        return MsgUpdateIbcSftParams.unpackAny(proto);
 
       // ibc-perm
       case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
