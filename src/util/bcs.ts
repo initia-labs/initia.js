@@ -6,10 +6,10 @@ import {
   toHEX,
   TypeName,
   StructTypeDefinition,
-  Encoding,
 } from '@mysten/bcs';
 import { AccAddress, BigNumber, num } from '../core';
 import { MoveFunctionABI } from '../core/move/types';
+import { Encoding } from '@mysten/bcs/dist/types';
 
 export class BCS {
   private static bcs: BCS;
@@ -90,7 +90,7 @@ export class BCS {
       (writer: BcsWriter, data: number | string) => {
         const n = num(data);
         const val = n.times(new BigNumber('4294967296'));
-        return writer.write64(BigInt(val.integerValue().toString()));
+        return writer.write64(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
       },
       reader => {
         const val = num(reader.read64());
@@ -104,7 +104,7 @@ export class BCS {
       (writer: BcsWriter, data: number | string) => {
         const n = num(data);
         const val = n.times(new BigNumber('18446744073709551616'));
-        return writer.write64(BigInt(val.integerValue().toString()));
+        return writer.write64(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
       },
       reader => {
         const val = num(reader.read64());
@@ -118,7 +118,7 @@ export class BCS {
       (writer: BcsWriter, data: number | string) => {
         const n = num(data);
         const val = n.times(new BigNumber('1000000000000000000'));
-        return writer.write128(BigInt(val.integerValue().toString()));
+        return writer.write128(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
       },
       reader => {
         const val = num(reader.read128());
@@ -132,7 +132,7 @@ export class BCS {
       (writer: BcsWriter, data: number | string) => {
         const n = num(data);
         const val = n.times(new BigNumber('1000000000000000000'));
-        return writer.write256(BigInt(val.integerValue().toString()));
+        return writer.write256(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
       },
       reader => {
         const val = num(reader.read256());
