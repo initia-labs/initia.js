@@ -23,7 +23,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "target": "es5",
+    "target": "es2015",
     "paths": {
       "*": ["src/*"]
     }
