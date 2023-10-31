@@ -38,7 +38,6 @@ describe('Coin', () => {
     const zero = new Coin('uinit', 0);
     const coin = new Coin('uinit', 1000);
     const coin2 = new Coin('uinit', 2000);
-    const coin3 = new Coin('uinit', 2000);
 
     // addition
     const sum = coin.add(coin2);

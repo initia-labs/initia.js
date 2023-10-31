@@ -1,7 +1,7 @@
 import { APIRequester } from '../APIRequester';
 import { MstakingAPI } from './MstakingAPI';
 import { Coins } from '../../../core';
-import { ValConsPublicKey, Delegation } from '../../../core';
+import { ValConsPublicKey } from '../../../core';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');
 const mstaking = new MstakingAPI(c);

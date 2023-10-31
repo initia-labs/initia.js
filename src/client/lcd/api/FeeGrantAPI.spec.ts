@@ -1,8 +1,8 @@
-import { APIRequester } from '../APIRequester';
-import { FeeGrantAPI } from './FeeGrantAPI';
+// import { APIRequester } from '../APIRequester';
+// import { FeeGrantAPI } from './FeeGrantAPI';
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const feeGrant = new FeeGrantAPI(c);
+// const c = new APIRequester('https://stone-rest.initia.tech/');
+// const feeGrant = new FeeGrantAPI(c);
 
 describe('FeeGrantAPI', () => {
   it('allowances', async () => {

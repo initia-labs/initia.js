@@ -1,7 +1,6 @@
 import { APIRequester } from '../APIRequester';
 import { GovAPI } from './GovAPI';
-import { Coins, Proposal } from '../../../core';
-import { Deposit } from '@initia/initia.proto/cosmos/gov/v1beta1/gov';
+import { Coins } from '../../../core';
 
 const c = new APIRequester('https://stone-rest.initia.tech/');
 const gov = new GovAPI(c);
