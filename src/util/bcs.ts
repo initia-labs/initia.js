@@ -104,10 +104,10 @@ export class BCS {
       (writer: BcsWriter, data: number | string) => {
         const n = num(data);
         const val = n.times(new BigNumber('18446744073709551616'));
-        return writer.write64(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
+        return writer.write128(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
       },
       reader => {
-        const val = num(reader.read64());
+        const val = num(reader.read128());
         return val.div(new BigNumber('18446744073709551616')).toNumber();
       }
     );

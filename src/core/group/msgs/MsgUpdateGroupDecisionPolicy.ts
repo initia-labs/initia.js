@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32';
 import { DecisionPolicy } from '../policies';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgUpdateGroupPolicyDecisionPolicy as MsgUpdateGroupPolicyDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
-import Long from 'long';
 
 export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
   MsgUpdateGroupDecisionPolicy.Amino,

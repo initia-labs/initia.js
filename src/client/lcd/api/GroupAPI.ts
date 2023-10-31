@@ -8,7 +8,6 @@ import {
   GroupVote,
 } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { TallyResult } from '@initia/initia.proto/cosmos/group/v1/types';
 
 export class GroupAPI extends BaseAPI {
   public async groupInfo(groupId: number): Promise<GroupInfo> {
