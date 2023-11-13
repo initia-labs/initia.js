@@ -13,6 +13,8 @@ export * from './IbcPermAPI';
 export * from './InterTxAPI';
 export * from './MoveAPI';
 export * from './MstakingAPI';
+export * from './OpchildAPI';
+export * from './OphostAPI';
 export * from './RewardAPI';
 export * from './SlashingAPI';
 export * from './TendermintAPI';

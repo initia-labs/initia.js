@@ -115,6 +115,29 @@ import {
   MsgUndelegate,
   MsgUpdateMstakingParams,
 } from './mstaking';
+import {
+  OpchildMsg,
+  MsgAddValidator,
+  MsgRemoveValidator,
+  MsgFinalizeTokenDeposit,
+  MsgInitiateTokenWithdrawal,
+  MsgExecuteLegacyContents,
+  MsgExecuteMessages,
+  MsgSpendFeePool,
+  MsgUpdateOpchildParams,
+} from './opchild';
+import {
+  OphostMsg,
+  MsgRecordBatch,
+  MsgCreateBridge,
+  MsgProposeOutput,
+  MsgDeleteOutput,
+  MsgInitiateTokenDeposit,
+  MsgFinalizeTokenWithdrawal,
+  MsgUpdateProposer,
+  MsgUpdateChallenger,
+  MsgUpdateOphostParams,
+} from './ophost';
 import { RewardMsg, MsgUpdateRewardParams } from './reward';
 import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing';
 import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade';
@@ -140,6 +163,8 @@ export type Msg =
   | InterTxMsg
   | MoveMsg
   | MstakingMsg
+  | OpchildMsg
+  | OphostMsg
   | RewardMsg
   | SlashingMsg
   | UpgradeMsg;
@@ -161,6 +186,8 @@ export namespace Msg {
     | InterTxMsg.Amino
     | MoveMsg.Amino
     | MstakingMsg.Amino
+    | OpchildMsg.Amino
+    | OphostMsg.Amino
     | RewardMsg.Amino
     | SlashingMsg.Amino
     | UpgradeMsg.Amino;
@@ -185,6 +212,8 @@ export namespace Msg {
     | InterTxMsg.Data
     | MoveMsg.Data
     | MstakingMsg.Data
+    | OpchildMsg.Data
+    | OphostMsg.Data
     | RewardMsg.Data
     | SlashingMsg.Data
     | UpgradeMsg.Data;
@@ -209,6 +238,8 @@ export namespace Msg {
     | InterTxMsg.Proto
     | MoveMsg.Proto
     | MstakingMsg.Proto
+    | OpchildMsg.Proto
+    | OphostMsg.Proto
     | RewardMsg.Proto
     | SlashingMsg.Proto
     | UpgradeMsg.Proto;
@@ -370,6 +401,44 @@ export namespace Msg {
         return MsgEditValidator.fromAmino(data);
       case 'mstaking/MsgUpdateParams':
         return MsgUpdateMstakingParams.fromAmino(data);
+
+      // opchild
+      case 'opchild/MsgAddValidator':
+        return MsgAddValidator.fromAmino(data);
+      case 'opchild/MsgRemoveValidator':
+        return MsgRemoveValidator.fromAmino(data);
+      case 'opchild/MsgFinalizeTokenDeposit':
+        return MsgFinalizeTokenDeposit.fromAmino(data);
+      case 'opchild/MsgInitiateTokenWithdrawal':
+        return MsgInitiateTokenWithdrawal.fromAmino(data);
+      case 'opchild/MsgExecuteLegacyContents':
+        return MsgExecuteLegacyContents.fromAmino(data);
+      case 'opchild/MsgExecuteMessages':
+        return MsgExecuteMessages.fromAmino(data);
+      case 'opchild/MsgSpendFeePool':
+        return MsgSpendFeePool.fromAmino(data);
+      case 'opchild/MsgUpdateParams':
+        return MsgUpdateOpchildParams.fromAmino(data);
+
+      // ophost
+      case 'ophost/MsgRecordBatch':
+        return MsgRecordBatch.fromAmino(data);
+      case 'ophost/MsgCreateBridge':
+        return MsgCreateBridge.fromAmino(data);
+      case 'ophost/MsgProposeOutput':
+        return MsgProposeOutput.fromAmino(data);
+      case 'ophost/MsgDeleteOutput':
+        return MsgDeleteOutput.fromAmino(data);
+      case 'ophost/MsgInitiateTokenDeposit':
+        return MsgInitiateTokenDeposit.fromAmino(data);
+      case 'ophost/MsgFinalizeTokenWithdrawal':
+        return MsgFinalizeTokenWithdrawal.fromAmino(data);
+      case 'ophost/MsgUpdateProposer':
+        return MsgUpdateProposer.fromAmino(data);
+      case 'ophost/MsgUpdateChallenger':
+        return MsgUpdateChallenger.fromAmino(data);
+      case 'ophost/MsgUpdateParams':
+        return MsgUpdateOphostParams.fromAmino(data);
 
       // reward
       case 'reward/MsgUpdateParams':
@@ -598,6 +667,44 @@ export namespace Msg {
         return MsgEditValidator.fromData(data);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.fromData(data);
+
+      // opchild
+      case '/opinit.opchild.v1.MsgAddValidator':
+        return MsgAddValidator.fromData(data);
+      case '/opinit.opchild.v1.MsgRemoveValidator':
+        return MsgRemoveValidator.fromData(data);
+      case '/opinit.opchild.v1.MsgFinalizeTokenDeposit':
+        return MsgFinalizeTokenDeposit.fromData(data);
+      case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
+        return MsgInitiateTokenWithdrawal.fromData(data);
+      case '/opinit.opchild.v1.MsgExecuteLegacyContents':
+        return MsgExecuteLegacyContents.fromData(data);
+      case '/opinit.opchild.v1.MsgExecuteMessages':
+        return MsgExecuteMessages.fromData(data);
+      case '/opinit.opchild.v1.MsgSpendFeePool':
+        return MsgSpendFeePool.fromData(data);
+      case '/opinit.opchild.v1.MsgUpdateParams':
+        return MsgUpdateOpchildParams.fromData(data);
+
+      // ophost
+      case '/opinit.ophost.v1.MsgRecordBatch':
+        return MsgRecordBatch.fromData(data);
+      case '/opinit.ophost.v1.MsgCreateBridge':
+        return MsgCreateBridge.fromData(data);
+      case '/opinit.ophost.v1.MsgProposeOutput':
+        return MsgProposeOutput.fromData(data);
+      case '/opinit.ophost.v1.MsgDeleteOutput':
+        return MsgDeleteOutput.fromData(data);
+      case '/opinit.ophost.v1.MsgInitiateTokenDeposit':
+        return MsgInitiateTokenDeposit.fromData(data);
+      case '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal':
+        return MsgFinalizeTokenWithdrawal.fromData(data);
+      case '/opinit.ophost.v1.MsgUpdateProposer':
+        return MsgUpdateProposer.fromData(data);
+      case '/opinit.ophost.v1.MsgUpdateChallenger':
+        return MsgUpdateChallenger.fromData(data);
+      case '/opinit.ophost.v1.MsgUpdateParams':
+        return MsgUpdateOphostParams.fromData(data);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
@@ -829,6 +936,44 @@ export namespace Msg {
         return MsgEditValidator.unpackAny(proto);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.unpackAny(proto);
+
+      // opchild
+      case '/opinit.opchild.v1.MsgAddValidator':
+        return MsgAddValidator.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgRemoveValidator':
+        return MsgRemoveValidator.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgFinalizeTokenDeposit':
+        return MsgFinalizeTokenDeposit.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
+        return MsgInitiateTokenWithdrawal.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgExecuteLegacyContents':
+        return MsgExecuteLegacyContents.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgExecuteMessages':
+        return MsgExecuteMessages.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgSpendFeePool':
+        return MsgSpendFeePool.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgUpdateParams':
+        return MsgUpdateOpchildParams.unpackAny(proto);
+
+      // ophost
+      case '/opinit.ophost.v1.MsgRecordBatch':
+        return MsgRecordBatch.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgCreateBridge':
+        return MsgCreateBridge.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgProposeOutput':
+        return MsgProposeOutput.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgDeleteOutput':
+        return MsgDeleteOutput.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgInitiateTokenDeposit':
+        return MsgInitiateTokenDeposit.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal':
+        return MsgFinalizeTokenWithdrawal.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgUpdateProposer':
+        return MsgUpdateProposer.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgUpdateChallenger':
+        return MsgUpdateChallenger.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgUpdateParams':
+        return MsgUpdateOphostParams.unpackAny(proto);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':

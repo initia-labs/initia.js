@@ -15,6 +15,8 @@ import {
   InterTxAPI,
   MoveAPI,
   MstakingAPI,
+  OpchildAPI,
+  OphostAPI,
   RewardAPI,
   SlashingAPI,
   TendermintAPI,
@@ -88,6 +90,8 @@ export class LCDClient {
   public interTx: InterTxAPI;
   public move: MoveAPI;
   public mstaking: MstakingAPI;
+  public opchild: OpchildAPI;
+  public ophost: OphostAPI;
   public reward: RewardAPI;
   public slashing: SlashingAPI;
   public tendermint: TendermintAPI;
@@ -130,6 +134,8 @@ export class LCDClient {
     this.interTx = new InterTxAPI(this.apiRequester);
     this.move = new MoveAPI(this.apiRequester);
     this.mstaking = new MstakingAPI(this.apiRequester);
+    this.opchild = new OpchildAPI(this.apiRequester);
+    this.ophost = new OphostAPI(this.apiRequester);
     this.reward = new RewardAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
     this.tendermint = new TendermintAPI(this.apiRequester);
