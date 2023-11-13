@@ -68,10 +68,18 @@ export namespace AccAddress {
    */
   export function fromHex(hexAddress: string): AccAddress {
     const hex = hexAddress.startsWith('0x') ? hexAddress.slice(2) : hexAddress;
-    return bech32.encode(
-      'init',
-      bech32.toWords(Buffer.from(hex.padStart(40, '0'), 'hex'))
-    );
+    // That moudule address reach here is nearly impossible
+    if (hex.length <= 40) {
+      return bech32.encode(
+        'init',
+        bech32.toWords(Buffer.from(hex.padStart(40, '0'), 'hex'))
+      );
+    } else {
+      return bech32.encode(
+        'init',
+        bech32.toWords(Buffer.from(hex.padStart(64, '0'), 'hex'))
+      );
+    }
   }
 }
 
