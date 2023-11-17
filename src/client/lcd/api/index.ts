@@ -20,3 +20,4 @@ export * from './SlashingAPI';
 export * from './TendermintAPI';
 export * from './TxAPI';
 export * from './UpgradeAPI';
+export * from './WasmAPI';

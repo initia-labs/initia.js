@@ -4,6 +4,11 @@ import { SendAuthorization } from './SendAuthorization';
 import { StakeAuthorization } from './StakeAuthorization';
 import { PublishAuthorization } from './PublishAuthorization';
 import { ExecuteAuthorization } from './ExecuteAuthorization';
+import {
+  StoreCodeAuthorization,
+  ContractExecutionAuthorization,
+  ContractMigrationAuthorization,
+} from '../../wasm';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz';
 
@@ -83,7 +88,10 @@ export type Authorization =
   | GenericAuthorization
   | StakeAuthorization
   | PublishAuthorization
-  | ExecuteAuthorization;
+  | ExecuteAuthorization
+  | StoreCodeAuthorization
+  | ContractExecutionAuthorization
+  | ContractMigrationAuthorization;
 
 export namespace Authorization {
   export type Amino =
@@ -91,14 +99,28 @@ export namespace Authorization {
     | GenericAuthorization.Amino
     | StakeAuthorization.Amino
     | PublishAuthorization.Amino
-    | ExecuteAuthorization.Amino;
+    | ExecuteAuthorization.Amino
+    | StoreCodeAuthorization.Amino
+    | ContractExecutionAuthorization.Amino
+    | ContractMigrationAuthorization.Amino;
   export type Data =
     | SendAuthorization.Data
     | GenericAuthorization.Data
     | StakeAuthorization.Data
     | PublishAuthorization.Data
-    | ExecuteAuthorization.Data;
-  export type Proto = Any;
+    | ExecuteAuthorization.Data
+    | StoreCodeAuthorization.Data
+    | ContractExecutionAuthorization.Data
+    | ContractMigrationAuthorization.Data;
+  export type Proto =
+    | SendAuthorization.Proto
+    | GenericAuthorization.Proto
+    | StakeAuthorization.Proto
+    | PublishAuthorization.Proto
+    | ExecuteAuthorization.Proto
+    | StoreCodeAuthorization.Proto
+    | ContractExecutionAuthorization.Proto
+    | ContractMigrationAuthorization.Proto;
 
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
@@ -112,6 +134,12 @@ export namespace Authorization {
         return ExecuteAuthorization.fromAmino(data);
       case 'move/PublishAuthorization':
         return PublishAuthorization.fromAmino(data);
+      case 'wasm/StoreCodeAuthorization':
+        return StoreCodeAuthorization.fromAmino(data);
+      case 'wasm/ContractExecutionAuthorization':
+        return ContractExecutionAuthorization.fromAmino(data);
+      case 'wasm/ContractMigrationAuthorization':
+        return ContractMigrationAuthorization.fromAmino(data);
     }
   }
 
@@ -127,10 +155,16 @@ export namespace Authorization {
         return PublishAuthorization.fromData(data);
       case '/initia.move.v1.ExecuteAuthorization':
         return ExecuteAuthorization.fromData(data);
+      case '/cosmwasm.wasm.v1.StoreCodeAuthorization':
+        return StoreCodeAuthorization.fromData(data);
+      case '/cosmwasm.wasm.v1.ContractExecutionAuthorization':
+        return ContractExecutionAuthorization.fromData(data);
+      case '/cosmwasm.wasm.v1.ContractMigrationAuthorization':
+        return ContractMigrationAuthorization.fromData(data);
     }
   }
 
-  export function fromProto(proto: Authorization.Proto): Authorization {
+  export function fromProto(proto: Any): Authorization {
     const typeUrl = proto.typeUrl;
     switch (typeUrl) {
       case '/cosmos.authz.v1beta1.GenericAuthorization':
@@ -143,6 +177,12 @@ export namespace Authorization {
         return PublishAuthorization.unpackAny(proto);
       case '/initia.move.v1.ExecuteAuthorization':
         return ExecuteAuthorization.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.StoreCodeAuthorization':
+        return StoreCodeAuthorization.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.ContractExecutionAuthorization':
+        return ContractExecutionAuthorization.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.ContractMigrationAuthorization':
+        return ContractMigrationAuthorization.unpackAny(proto);
     }
 
     throw new Error(`Authorization type ${typeUrl} not recognized`);

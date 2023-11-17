@@ -29,3 +29,4 @@ export * from './reward';
 export * from './slashing';
 export * from './tx';
 export * from './upgrade';
+export * from './wasm';

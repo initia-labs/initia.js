@@ -141,6 +141,26 @@ import {
 import { RewardMsg, MsgUpdateRewardParams } from './reward';
 import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing';
 import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade';
+import {
+  WasmMsg,
+  MsgStoreCode,
+  MsgInstantiateContract,
+  MsgInstantiateContractV2,
+  MsgExecuteContract,
+  MsgMigrateContract,
+  MsgUpdateAdmin,
+  MsgClearAdmin,
+  MsgUpdateInstantiateConfig,
+  MsgUpdateWasmParams,
+  MsgSudoContract,
+  MsgPinCodes,
+  MsgUnpinCodes,
+  MsgStoreAndInstantiateContract,
+  MsgStoreAndMigrateContract,
+  MsgAddCodeUploadParamsAddresses,
+  MsgRemoveCodeUploadParamsAddresses,
+  MsgUpdateContractLabel,
+} from './wasm';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
@@ -167,7 +187,8 @@ export type Msg =
   | OphostMsg
   | RewardMsg
   | SlashingMsg
-  | UpgradeMsg;
+  | UpgradeMsg
+  | WasmMsg;
 
 export namespace Msg {
   export type Amino =
@@ -190,7 +211,8 @@ export namespace Msg {
     | OphostMsg.Amino
     | RewardMsg.Amino
     | SlashingMsg.Amino
-    | UpgradeMsg.Amino;
+    | UpgradeMsg.Amino
+    | WasmMsg.Amino;
 
   export type Data =
     | AuthMsg.Data
@@ -216,7 +238,8 @@ export namespace Msg {
     | OphostMsg.Data
     | RewardMsg.Data
     | SlashingMsg.Data
-    | UpgradeMsg.Data;
+    | UpgradeMsg.Data
+    | WasmMsg.Data;
 
   export type Proto =
     | AuthMsg.Proto
@@ -242,7 +265,8 @@ export namespace Msg {
     | OphostMsg.Proto
     | RewardMsg.Proto
     | SlashingMsg.Proto
-    | UpgradeMsg.Proto;
+    | UpgradeMsg.Proto
+    | WasmMsg.Proto;
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
@@ -455,6 +479,42 @@ export namespace Msg {
         return MsgSoftwareUpgrade.fromAmino(data);
       case 'cosmos-sdk/MsgCancelUpgrade':
         return MsgCancelUpgrade.fromAmino(data);
+
+      // wasm
+      case 'wasm/MsgStoreCode':
+        return MsgStoreCode.fromAmino(data);
+      case 'wasm/MsgInstantiateContract':
+        return MsgInstantiateContract.fromAmino(data);
+      case 'wasm/MsgInstantiateContract2':
+        return MsgInstantiateContractV2.fromAmino(data);
+      case 'wasm/MsgExecuteContract':
+        return MsgExecuteContract.fromAmino(data);
+      case 'wasm/MsgMigrateContract':
+        return MsgMigrateContract.fromAmino(data);
+      case 'wasm/MsgUpdateAdmin':
+        return MsgUpdateAdmin.fromAmino(data);
+      case 'wasm/MsgClearAdmin':
+        return MsgClearAdmin.fromAmino(data);
+      case 'wasm/MsgUpdateInstantiateConfig':
+        return MsgUpdateInstantiateConfig.fromAmino(data);
+      case 'wasm/MsgUpdateParams':
+        return MsgUpdateWasmParams.fromAmino(data);
+      case 'wasm/MsgSudoContract':
+        return MsgSudoContract.fromAmino(data);
+      case 'wasm/MsgPinCodes':
+        return MsgPinCodes.fromAmino(data);
+      case 'wasm/MsgUnpinCodes':
+        return MsgUnpinCodes.fromAmino(data);
+      case 'wasm/MsgStoreAndInstantiateContract':
+        return MsgStoreAndInstantiateContract.fromAmino(data);
+      case 'wasm/MsgStoreAndMigrateContract':
+        return MsgStoreAndMigrateContract.fromAmino(data);
+      case 'wasm/MsgAddCodeUploadParamsAddresses':
+        return MsgAddCodeUploadParamsAddresses.fromAmino(data);
+      case 'wasm/MsgRemoveCodeUploadParamsAddresses':
+        return MsgRemoveCodeUploadParamsAddresses.fromAmino(data);
+      case 'wasm/MsgUpdateContractLabel':
+        return MsgUpdateContractLabel.fromAmino(data);
     }
   }
 
@@ -721,6 +781,42 @@ export namespace Msg {
         return MsgSoftwareUpgrade.fromData(data);
       case '/cosmos.upgrade.v1beta1.MsgCancelUpgrade':
         return MsgCancelUpgrade.fromData(data);
+
+      // wasm
+      case '/cosmwasm.wasm.v1.MsgStoreCode':
+        return MsgStoreCode.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgInstantiateContract':
+        return MsgInstantiateContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgInstantiateContract2':
+        return MsgInstantiateContractV2.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgExecuteContract':
+        return MsgExecuteContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgMigrateContract':
+        return MsgMigrateContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgUpdateAdmin':
+        return MsgUpdateAdmin.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgClearAdmin':
+        return MsgClearAdmin.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgUpdateInstantiateConfig':
+        return MsgUpdateInstantiateConfig.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgUpdateParams':
+        return MsgUpdateWasmParams.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgSudoContract':
+        return MsgSudoContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgPinCodes':
+        return MsgPinCodes.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgUnpinCodes':
+        return MsgUnpinCodes.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract':
+        return MsgStoreAndInstantiateContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract':
+        return MsgStoreAndMigrateContract.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses':
+        return MsgAddCodeUploadParamsAddresses.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses':
+        return MsgRemoveCodeUploadParamsAddresses.fromData(data);
+      case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
+        return MsgUpdateContractLabel.fromData(data);
 
       default:
         throw Error(`not supported msg ${data['@type']}`);
@@ -990,6 +1086,42 @@ export namespace Msg {
         return MsgSoftwareUpgrade.unpackAny(proto);
       case '/cosmos.upgrade.v1beta1.MsgCancelUpgrade':
         return MsgCancelUpgrade.unpackAny(proto);
+
+      // wasm
+      case '/cosmwasm.wasm.v1.MsgStoreCode':
+        return MsgStoreCode.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgInstantiateContract':
+        return MsgInstantiateContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgInstantiateContract2':
+        return MsgInstantiateContractV2.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgExecuteContract':
+        return MsgExecuteContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgMigrateContract':
+        return MsgMigrateContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgUpdateAdmin':
+        return MsgUpdateAdmin.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgClearAdmin':
+        return MsgClearAdmin.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgUpdateInstantiateConfig':
+        return MsgUpdateInstantiateConfig.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgUpdateParams':
+        return MsgUpdateWasmParams.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgSudoContract':
+        return MsgSudoContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgPinCodes':
+        return MsgPinCodes.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgUnpinCodes':
+        return MsgUnpinCodes.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract':
+        return MsgStoreAndInstantiateContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract':
+        return MsgStoreAndMigrateContract.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses':
+        return MsgAddCodeUploadParamsAddresses.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgRemoveCodeUploadParamsAddresses':
+        return MsgRemoveCodeUploadParamsAddresses.unpackAny(proto);
+      case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
+        return MsgUpdateContractLabel.unpackAny(proto);
 
       default:
         throw Error(`not supported msg ${proto.typeUrl}`);
