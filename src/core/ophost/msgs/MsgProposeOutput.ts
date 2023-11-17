@@ -19,7 +19,7 @@ export class MsgProposeOutput extends JSONSerializable<
     public proposer: AccAddress,
     public bridge_id: number,
     public l2_block_number: number,
-    public output_root: Buffer
+    public output_root: string
   ) {
     super();
   }
@@ -32,7 +32,7 @@ export class MsgProposeOutput extends JSONSerializable<
       proposer,
       Number.parseInt(bridge_id),
       Number.parseInt(l2_block_number),
-      Buffer.from(output_root)
+      output_root
     );
   }
 
@@ -44,7 +44,7 @@ export class MsgProposeOutput extends JSONSerializable<
         proposer,
         bridge_id: bridge_id.toString(),
         l2_block_number: l2_block_number.toString(),
-        output_root: output_root.toJSON().data,
+        output_root,
       },
     };
   }
@@ -55,7 +55,7 @@ export class MsgProposeOutput extends JSONSerializable<
       proposer,
       Number.parseInt(bridge_id),
       Number.parseInt(l2_block_number),
-      Buffer.from(output_root)
+      output_root
     );
   }
 
@@ -66,7 +66,7 @@ export class MsgProposeOutput extends JSONSerializable<
       proposer,
       bridge_id: bridge_id.toString(),
       l2_block_number: l2_block_number.toString(),
-      output_root: output_root.toJSON().data,
+      output_root,
     };
   }
 
@@ -75,7 +75,7 @@ export class MsgProposeOutput extends JSONSerializable<
       data.proposer,
       data.bridgeId.toNumber(),
       data.l2BlockNumber.toNumber(),
-      Buffer.from(data.outputRoot)
+      Buffer.from(data.outputRoot).toString('base64')
     );
   }
 
@@ -85,7 +85,7 @@ export class MsgProposeOutput extends JSONSerializable<
       proposer,
       bridgeId: Long.fromNumber(bridge_id),
       l2BlockNumber: Long.fromNumber(l2_block_number),
-      outputRoot: output_root,
+      outputRoot: output_root ? Buffer.from(output_root, 'base64') : undefined,
     });
   }
 
@@ -108,7 +108,7 @@ export namespace MsgProposeOutput {
       proposer: AccAddress;
       bridge_id: string;
       l2_block_number: string;
-      output_root: number[];
+      output_root: string;
     };
   }
 
@@ -117,7 +117,7 @@ export namespace MsgProposeOutput {
     proposer: AccAddress;
     bridge_id: string;
     l2_block_number: string;
-    output_root: number[];
+    output_root: string;
   }
 
   export type Proto = MsgProposeOutput_pb;

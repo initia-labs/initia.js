@@ -26,15 +26,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
   constructor(
     public bridge_id: number,
     public output_index: number,
-    public withdrawal_proofs: Buffer[],
+    public withdrawal_proofs: string[],
     public sender: AccAddress,
     public receiver: AccAddress,
     public sequence: number,
     public amount: Coin,
-    public version: Buffer,
-    public state_root: Buffer,
-    public storage_root: Buffer,
-    public latest_block_hash: Buffer
+    public version: string,
+    public state_root: string,
+    public storage_root: string,
+    public latest_block_hash: string
   ) {
     super();
   }
@@ -61,15 +61,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return new MsgFinalizeTokenWithdrawal(
       Number.parseInt(bridge_id),
       Number.parseInt(output_index),
-      withdrawal_proofs.map(Buffer.from),
+      withdrawal_proofs,
       sender,
       receiver,
       Number.parseInt(sequence),
       Coin.fromAmino(amount),
-      Buffer.from(version),
-      Buffer.from(state_root),
-      Buffer.from(storage_root),
-      Buffer.from(latest_block_hash)
+      version,
+      state_root,
+      storage_root,
+      latest_block_hash
     );
   }
 
@@ -93,15 +93,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       value: {
         bridge_id: bridge_id.toString(),
         output_index: output_index.toString(),
-        withdrawal_proofs: withdrawal_proofs.map(proof => proof.toJSON().data),
+        withdrawal_proofs,
         sender,
         receiver,
         sequence: sequence.toString(),
         amount: amount.toAmino(),
-        version: version.toJSON().data,
-        state_root: state_root.toJSON().data,
-        storage_root: storage_root.toJSON().data,
-        latest_block_hash: latest_block_hash.toJSON().data,
+        version,
+        state_root,
+        storage_root,
+        latest_block_hash,
       },
     };
   }
@@ -126,15 +126,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return new MsgFinalizeTokenWithdrawal(
       Number.parseInt(bridge_id),
       Number.parseInt(output_index),
-      withdrawal_proofs.map(Buffer.from),
+      withdrawal_proofs,
       sender,
       receiver,
       Number.parseInt(sequence),
       Coin.fromData(amount),
-      Buffer.from(version),
-      Buffer.from(state_root),
-      Buffer.from(storage_root),
-      Buffer.from(latest_block_hash)
+      version,
+      state_root,
+      storage_root,
+      latest_block_hash
     );
   }
 
@@ -157,15 +157,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal',
       bridge_id: bridge_id.toString(),
       output_index: output_index.toString(),
-      withdrawal_proofs: withdrawal_proofs.map(proof => proof.toJSON().data),
+      withdrawal_proofs,
       sender,
       receiver,
       sequence: sequence.toString(),
       amount: amount.toData(),
-      version: version.toJSON().data,
-      state_root: state_root.toJSON().data,
-      storage_root: storage_root.toJSON().data,
-      latest_block_hash: latest_block_hash.toJSON().data,
+      version,
+      state_root,
+      storage_root,
+      latest_block_hash,
     };
   }
 
@@ -175,15 +175,15 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return new MsgFinalizeTokenWithdrawal(
       data.bridgeId.toNumber(),
       data.outputIndex.toNumber(),
-      data.withdrawalProofs.map(Buffer.from),
+      data.withdrawalProofs.map(proof => Buffer.from(proof).toString('base64')),
       data.sender,
       data.receiver,
       data.sequence.toNumber(),
       Coin.fromProto(data.amount as Coin),
-      Buffer.from(data.version),
-      Buffer.from(data.stateRoot),
-      Buffer.from(data.storageRoot),
-      Buffer.from(data.latestBlockHash)
+      Buffer.from(data.version).toString('base64'),
+      Buffer.from(data.stateRoot).toString('base64'),
+      Buffer.from(data.storageRoot).toString('base64'),
+      Buffer.from(data.latestBlockHash).toString('base64')
     );
   }
 
@@ -205,15 +205,17 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return MsgFinalizeTokenWithdrawal_pb.fromPartial({
       bridgeId: Long.fromNumber(bridge_id),
       outputIndex: Long.fromNumber(output_index),
-      withdrawalProofs: withdrawal_proofs,
+      withdrawalProofs: withdrawal_proofs.map(proof =>
+        Buffer.from(proof, 'base64')
+      ),
       sender,
       receiver,
       sequence: Long.fromNumber(sequence),
       amount: amount.toProto(),
-      version,
-      stateRoot: state_root,
-      storageRoot: storage_root,
-      latestBlockHash: latest_block_hash,
+      version: Buffer.from(version, 'base64'),
+      stateRoot: Buffer.from(state_root, 'base64'),
+      storageRoot: Buffer.from(storage_root, 'base64'),
+      latestBlockHash: Buffer.from(latest_block_hash, 'base64'),
     });
   }
 
@@ -237,15 +239,15 @@ export namespace MsgFinalizeTokenWithdrawal {
     value: {
       bridge_id: string;
       output_index: string;
-      withdrawal_proofs: number[][];
+      withdrawal_proofs: string[];
       sender: AccAddress;
       receiver: AccAddress;
       sequence: string;
       amount: Coin.Amino;
-      version: number[];
-      state_root: number[];
-      storage_root: number[];
-      latest_block_hash: number[];
+      version: string;
+      state_root: string;
+      storage_root: string;
+      latest_block_hash: string;
     };
   }
 
@@ -253,15 +255,15 @@ export namespace MsgFinalizeTokenWithdrawal {
     '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal';
     bridge_id: string;
     output_index: string;
-    withdrawal_proofs: number[][];
+    withdrawal_proofs: string[];
     sender: AccAddress;
     receiver: AccAddress;
     sequence: string;
     amount: Coin.Data;
-    version: number[];
-    state_root: number[];
-    storage_root: number[];
-    latest_block_hash: number[];
+    version: string;
+    state_root: string;
+    storage_root: string;
+    latest_block_hash: string;
   }
 
   export type Proto = MsgFinalizeTokenWithdrawal_pb;

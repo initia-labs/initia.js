@@ -17,7 +17,7 @@ export class MsgRecordBatch extends JSONSerializable<
   constructor(
     public submitter: AccAddress,
     public bridge_id: number,
-    public batch_bytes: Buffer
+    public batch_bytes: string
   ) {
     super();
   }
@@ -29,7 +29,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return new MsgRecordBatch(
       submitter,
       Number.parseInt(bridge_id),
-      Buffer.from(batch_bytes)
+      batch_bytes
     );
   }
 
@@ -40,7 +40,7 @@ export class MsgRecordBatch extends JSONSerializable<
       value: {
         submitter,
         bridge_id: bridge_id.toString(),
-        batch_bytes: batch_bytes.toJSON().data,
+        batch_bytes,
       },
     };
   }
@@ -50,7 +50,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return new MsgRecordBatch(
       submitter,
       Number.parseInt(bridge_id),
-      Buffer.from(batch_bytes)
+      batch_bytes
     );
   }
 
@@ -60,7 +60,7 @@ export class MsgRecordBatch extends JSONSerializable<
       '@type': '/opinit.ophost.v1.MsgRecordBatch',
       submitter,
       bridge_id: bridge_id.toString(),
-      batch_bytes: batch_bytes.toJSON().data,
+      batch_bytes,
     };
   }
 
@@ -68,7 +68,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return new MsgRecordBatch(
       data.submitter,
       data.bridgeId.toNumber(),
-      Buffer.from(data.batchBytes)
+      Buffer.from(data.batchBytes).toString('base64')
     );
   }
 
@@ -77,7 +77,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return MsgRecordBatch_pb.fromPartial({
       submitter,
       bridgeId: Long.fromNumber(bridge_id),
-      batchBytes: batch_bytes,
+      batchBytes: batch_bytes ? Buffer.from(batch_bytes, 'base64') : undefined,
     });
   }
 
@@ -99,7 +99,7 @@ export namespace MsgRecordBatch {
     value: {
       submitter: AccAddress;
       bridge_id: string;
-      batch_bytes: number[];
+      batch_bytes: string;
     };
   }
 
@@ -107,7 +107,7 @@ export namespace MsgRecordBatch {
     '@type': '/opinit.ophost.v1.MsgRecordBatch';
     submitter: AccAddress;
     bridge_id: string;
-    batch_bytes: number[];
+    batch_bytes: string;
   }
 
   export type Proto = MsgRecordBatch_pb;

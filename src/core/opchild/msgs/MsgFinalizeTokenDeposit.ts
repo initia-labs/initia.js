@@ -26,7 +26,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
     public amount: Coin,
     public sequence: number,
     public height: number,
-    public data?: Buffer
+    public data?: string
   ) {
     super();
   }
@@ -44,7 +44,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromAmino(amount),
       Number.parseInt(sequence),
       Number.parseInt(height),
-      data ? Buffer.from(data) : undefined
+      data
     );
   }
 
@@ -59,7 +59,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
         amount: amount.toAmino(),
         sequence: sequence.toString(),
         height: height.toString(),
-        data: data?.toJSON().data,
+        data,
       },
     };
   }
@@ -75,7 +75,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromData(amount),
       Number.parseInt(sequence),
       Number.parseInt(height),
-      data ? Buffer.from(data) : undefined
+      data
     );
   }
 
@@ -89,7 +89,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       amount: amount.toData(),
       sequence: sequence.toString(),
       height: height.toString(),
-      data: data?.toJSON().data,
+      data,
     };
   }
 
@@ -103,7 +103,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromProto(msgProto.amount as Coin),
       msgProto.sequence.toNumber(),
       msgProto.height.toNumber(),
-      Buffer.from(msgProto.data)
+      Buffer.from(msgProto.data).toString('base64')
     );
   }
 
@@ -116,7 +116,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       amount: amount.toProto(),
       sequence: Long.fromNumber(sequence),
       height: Long.fromNumber(height),
-      data,
+      data: data ? Buffer.from(data, 'base64') : undefined,
     });
   }
 
@@ -144,7 +144,7 @@ export namespace MsgFinalizeTokenDeposit {
       amount: Coin.Amino;
       sequence: string;
       height: string;
-      data?: number[];
+      data?: string;
     };
   }
 
@@ -156,7 +156,7 @@ export namespace MsgFinalizeTokenDeposit {
     amount: Coin.Data;
     sequence: string;
     height: string;
-    data?: number[];
+    data?: string;
   }
 
   export type Proto = MsgFinalizeTokenDeposit_pb;

@@ -28,7 +28,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
     public label: string | undefined,
     public msg: string,
     funds: Coins.Input,
-    public salt: Buffer,
+    public salt: string,
     public fix_msg: boolean
   ) {
     super();
@@ -49,7 +49,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       label,
       msg,
       Coins.fromAmino(funds),
-      Buffer.from(salt),
+      salt,
       fix_msg
     );
   }
@@ -65,7 +65,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
         label,
         msg,
         funds: funds.toAmino(),
-        salt: salt.toJSON().data,
+        salt,
         fix_msg,
       },
     };
@@ -82,7 +82,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       label,
       msg,
       Coins.fromData(funds),
-      Buffer.from(salt),
+      salt,
       fix_msg
     );
   }
@@ -97,7 +97,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       label,
       msg,
       funds: funds.toData(),
-      salt: salt.toJSON().data,
+      salt,
       fix_msg,
     };
   }
@@ -112,7 +112,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       data.label,
       Buffer.from(data.msg).toString('base64'),
       Coins.fromProto(data.funds),
-      Buffer.from(data.salt),
+      Buffer.from(data.salt).toString('base64'),
       data.fixMsg
     );
   }
@@ -126,7 +126,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       label,
       msg: Buffer.from(msg, 'base64'),
       funds: funds.toProto(),
-      salt,
+      salt: Buffer.from(salt, 'base64'),
       fixMsg: fix_msg,
     });
   }
@@ -155,7 +155,7 @@ export namespace MsgInstantiateContractV2 {
       label?: string;
       msg: string;
       funds: Coins.Amino;
-      salt: number[];
+      salt: string;
       fix_msg: boolean;
     };
   }
@@ -168,7 +168,7 @@ export namespace MsgInstantiateContractV2 {
     label?: string;
     msg: string;
     funds: Coins.Data;
-    salt: number[];
+    salt: string;
     fix_msg: boolean;
   }
 

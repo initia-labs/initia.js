@@ -13,7 +13,7 @@ export class Output extends JSONSerializable<
    * @param l2_block_number the l2 block number that the output root was submitted in
    */
   constructor(
-    public output_root: Buffer,
+    public output_root: string,
     public l1_block_time: Date,
     public l2_block_number: number
   ) {
@@ -23,7 +23,7 @@ export class Output extends JSONSerializable<
   public static fromAmino(data: Output.Amino): Output {
     const { output_root, l1_block_time, l2_block_number } = data;
     return new Output(
-      Buffer.from(output_root),
+      output_root,
       new Date(l1_block_time),
       Number.parseInt(l2_block_number)
     );
@@ -32,7 +32,7 @@ export class Output extends JSONSerializable<
   public toAmino(): Output.Amino {
     const { output_root, l1_block_time, l2_block_number } = this;
     return {
-      output_root: output_root.toJSON().data,
+      output_root,
       l1_block_time: l1_block_time.toISOString(),
       l2_block_number: l2_block_number.toString(),
     };
@@ -41,7 +41,7 @@ export class Output extends JSONSerializable<
   public static fromData(data: Output.Data): Output {
     const { output_root, l1_block_time, l2_block_number } = data;
     return new Output(
-      Buffer.from(output_root),
+      output_root,
       new Date(l1_block_time),
       Number.parseInt(l2_block_number)
     );
@@ -50,7 +50,7 @@ export class Output extends JSONSerializable<
   public toData(): Output.Data {
     const { output_root, l1_block_time, l2_block_number } = this;
     return {
-      output_root: output_root.toJSON().data,
+      output_root,
       l1_block_time: l1_block_time.toISOString(),
       l2_block_number: l2_block_number.toString(),
     };
@@ -58,7 +58,7 @@ export class Output extends JSONSerializable<
 
   public static fromProto(data: Output.Proto): Output {
     return new Output(
-      Buffer.from(data.outputRoot),
+      Buffer.from(data.outputRoot).toString('base64'),
       data.l1BlockTime as Date,
       data.l2BlockNumber.toNumber()
     );
@@ -67,7 +67,7 @@ export class Output extends JSONSerializable<
   public toProto(): Output.Proto {
     const { output_root, l1_block_time, l2_block_number } = this;
     return Output_pb.fromPartial({
-      outputRoot: output_root,
+      outputRoot: Buffer.from(output_root, 'base64'),
       l1BlockTime: l1_block_time,
       l2BlockNumber: Long.fromNumber(l2_block_number),
     });
@@ -76,13 +76,13 @@ export class Output extends JSONSerializable<
 
 export namespace Output {
   export interface Amino {
-    output_root: number[];
+    output_root: string;
     l1_block_time: string;
     l2_block_number: string;
   }
 
   export interface Data {
-    output_root: number[];
+    output_root: string;
     l1_block_time: string;
     l2_block_number: string;
   }

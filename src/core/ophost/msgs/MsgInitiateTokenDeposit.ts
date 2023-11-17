@@ -22,7 +22,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     public bridge_id: number,
     public to: AccAddress,
     public amount: Coin,
-    public data?: Buffer
+    public data?: string
   ) {
     super();
   }
@@ -38,7 +38,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       Number.parseInt(bridge_id),
       to,
       Coin.fromAmino(amount),
-      data ? Buffer.from(data) : undefined
+      data
     );
   }
 
@@ -51,7 +51,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
         bridge_id: bridge_id.toString(),
         to,
         amount: amount.toAmino(),
-        data: data?.toJSON().data,
+        data,
       },
     };
   }
@@ -65,7 +65,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       Number.parseInt(bridge_id),
       to,
       Coin.fromData(amount),
-      data ? Buffer.from(data) : undefined
+      data
     );
   }
 
@@ -77,7 +77,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       bridge_id: bridge_id.toString(),
       to,
       amount: amount.toData(),
-      data: data?.toJSON().data,
+      data,
     };
   }
 
@@ -89,7 +89,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       msgProto.bridgeId.toNumber(),
       msgProto.to,
       Coin.fromProto(msgProto.amount as Coin),
-      Buffer.from(msgProto.data)
+      Buffer.from(msgProto.data).toString('base64')
     );
   }
 
@@ -100,7 +100,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       bridgeId: Long.fromNumber(bridge_id),
       to,
       amount: amount.toProto(),
-      data,
+      data: data ? Buffer.from(data, 'base64') : undefined,
     });
   }
 
@@ -126,7 +126,7 @@ export namespace MsgInitiateTokenDeposit {
       bridge_id: string;
       to: AccAddress;
       amount: Coin.Amino;
-      data?: number[];
+      data?: string;
     };
   }
 
@@ -136,7 +136,7 @@ export namespace MsgInitiateTokenDeposit {
     bridge_id: string;
     to: AccAddress;
     amount: Coin.Data;
-    data?: number[];
+    data?: string;
   }
 
   export type Proto = MsgInitiateTokenDeposit_pb;

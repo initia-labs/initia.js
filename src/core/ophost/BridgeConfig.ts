@@ -22,7 +22,7 @@ export class BridgeConfig extends JSONSerializable<
     public submission_interval: Duration,
     public finalization_period: Duration,
     public submission_start_time: Date,
-    public metadata: Buffer
+    public metadata?: string
   ) {
     super();
   }
@@ -43,7 +43,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromAmino(submission_interval),
       Duration.fromAmino(finalization_period),
       new Date(submission_start_time),
-      Buffer.from(metadata)
+      metadata
     );
   }
 
@@ -63,7 +63,7 @@ export class BridgeConfig extends JSONSerializable<
       submission_interval: submission_interval.toAmino(),
       finalization_period: finalization_period.toAmino(),
       submission_start_time: submission_start_time.toISOString(),
-      metadata: metadata.toJSON().data,
+      metadata,
     };
   }
 
@@ -83,7 +83,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromData(submission_interval),
       Duration.fromData(finalization_period),
       new Date(submission_start_time),
-      Buffer.from(metadata)
+      metadata
     );
   }
 
@@ -103,7 +103,7 @@ export class BridgeConfig extends JSONSerializable<
       submission_interval: submission_interval.toData(),
       finalization_period: finalization_period.toData(),
       submission_start_time: submission_start_time.toISOString(),
-      metadata: metadata.toJSON().data,
+      metadata,
     };
   }
 
@@ -114,7 +114,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromProto(data.submissionInterval as Duration.Proto),
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
       data.submissionStartTime as Date,
-      Buffer.from(data.metadata)
+      Buffer.from(data.metadata).toString('base64')
     );
   }
 
@@ -134,7 +134,7 @@ export class BridgeConfig extends JSONSerializable<
       submissionInterval: submission_interval.toProto(),
       finalizationPeriod: finalization_period.toProto(),
       submissionStartTime: submission_start_time,
-      metadata,
+      metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
     });
   }
 }
@@ -146,7 +146,7 @@ export namespace BridgeConfig {
     submission_interval: Duration.Amino;
     finalization_period: Duration.Amino;
     submission_start_time: string;
-    metadata: number[];
+    metadata?: string;
   }
 
   export interface Data {
@@ -155,7 +155,7 @@ export namespace BridgeConfig {
     submission_interval: Duration.Data;
     finalization_period: Duration.Data;
     submission_start_time: string;
-    metadata: number[];
+    metadata?: string;
   }
 
   export type Proto = BridgeConfig_pb;
