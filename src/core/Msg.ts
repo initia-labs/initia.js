@@ -341,7 +341,7 @@ export namespace Msg {
         return MsgVoteWeightedLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgVoteWeighted':
         return MsgVoteWeighted.fromAmino(data);
-      case 'cosmos-sdk/x/gov/v1/MsgUpdateParams':
+      case 'gov/MsgUpdateParams':
         return MsgUpdateGovParams.fromAmino(data);
 
       // group
@@ -591,7 +591,7 @@ export namespace Msg {
         return MsgVoteWeightedLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgVoteWeighted':
         return MsgVoteWeighted.fromData(data);
-      case '/cosmos.gov.v1.MsgUpdateParams':
+      case '/initia.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.fromData(data);
 
       // group
@@ -896,7 +896,7 @@ export namespace Msg {
         return MsgVoteWeightedLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgVoteWeighted':
         return MsgVoteWeighted.unpackAny(proto);
-      case '/cosmos.gov.v1.MsgUpdateParams':
+      case '/initia.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.unpackAny(proto);
 
       // group

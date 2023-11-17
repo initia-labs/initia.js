@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../util/json';
+import { Duration } from '../Duration';
 import { Params as Params_pb } from '@initia/initia.proto/initia/reward/v1/types';
-import Long from 'long';
 
 export class RewardParams extends JSONSerializable<
   RewardParams.Amino,
@@ -16,7 +16,7 @@ export class RewardParams extends JSONSerializable<
    */
   constructor(
     public reward_denom: string,
-    public dilution_period: number,
+    public dilution_period: Duration,
     public release_rate: string,
     public dilution_rate: string,
     public release_enabled: boolean
@@ -37,7 +37,7 @@ export class RewardParams extends JSONSerializable<
 
     return new RewardParams(
       reward_denom,
-      Number.parseInt(dilution_period),
+      Duration.fromAmino(dilution_period),
       release_rate,
       dilution_rate,
       release_enabled
@@ -57,7 +57,7 @@ export class RewardParams extends JSONSerializable<
       type: 'reward/Params',
       value: {
         reward_denom,
-        dilution_period: dilution_period.toString(),
+        dilution_period: dilution_period.toAmino(),
         release_rate,
         dilution_rate,
         release_enabled,
@@ -76,7 +76,7 @@ export class RewardParams extends JSONSerializable<
 
     return new RewardParams(
       reward_denom,
-      Number.parseInt(dilution_period),
+      Duration.fromData(dilution_period),
       release_rate,
       dilution_rate,
       release_enabled
@@ -95,7 +95,7 @@ export class RewardParams extends JSONSerializable<
     return {
       '@type': '/initia.reward.v1.Params',
       reward_denom,
-      dilution_period: dilution_period.toString(),
+      dilution_period: dilution_period.toData(),
       release_rate,
       dilution_rate,
       release_enabled,
@@ -105,7 +105,7 @@ export class RewardParams extends JSONSerializable<
   public static fromProto(data: RewardParams.Proto): RewardParams {
     return new RewardParams(
       data.rewardDenom,
-      data.dilutionPeriod.toNumber(),
+      Duration.fromProto(data.dilutionPeriod as Duration.Proto),
       data.releaseRate,
       data.dilutionRate,
       data.releaseEnabled
@@ -123,7 +123,7 @@ export class RewardParams extends JSONSerializable<
 
     return Params_pb.fromPartial({
       rewardDenom: reward_denom,
-      dilutionPeriod: Long.fromNumber(dilution_period),
+      dilutionPeriod: dilution_period.toProto(),
       releaseRate: release_rate,
       dilutionRate: dilution_rate,
       releaseEnabled: release_enabled,
@@ -136,7 +136,7 @@ export namespace RewardParams {
     type: 'reward/Params';
     value: {
       reward_denom: string;
-      dilution_period: string;
+      dilution_period: Duration.Amino;
       release_rate: string;
       dilution_rate: string;
       release_enabled: boolean;
@@ -146,7 +146,7 @@ export namespace RewardParams {
   export interface Data {
     '@type': '/initia.reward.v1.Params';
     reward_denom: string;
-    dilution_period: string;
+    dilution_period: Duration.Data;
     release_rate: string;
     dilution_rate: string;
     release_enabled: boolean;

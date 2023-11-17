@@ -87,7 +87,32 @@ export class GovAPI extends BaseAPI {
   /** Gets the Gov module's current parameters  */
   public async parameters(params: APIParams = {}): Promise<GovParams> {
     return this.c
-      .get<{ params: GovParams.Data }>(`/cosmos/gov/v1/params/voting`, params)
+      .get<{ params: GovParams.Data }>(`/initia/gov/v1/params`, params)
       .then(d => GovParams.fromData(d.params));
+  }
+
+  public async emergencyProposals(
+    params: Partial<PaginationOptions & APIParams> = {}
+  ): Promise<[Proposal[], Pagination]> {
+    return this.c
+      .get<{
+        proposals: Proposal.Data[];
+        pagination: Pagination;
+      }>(`/initia/gov/v1/emergency_proposals`, params)
+      .then(d => [
+        d.proposals.map(prop => Proposal.fromData(prop)),
+        d.pagination,
+      ]);
+  }
+
+  public async lastEmergencyProposalTallyTimestamp(
+    params: APIParams = {}
+  ): Promise<Date> {
+    return this.c
+      .get<{ tally_timestamp: string }>(
+        `/initia/gov/v1/last_emergency_proposal_tally_timestamp`,
+        params
+      )
+      .then(d => new Date(d.tally_timestamp));
   }
 }

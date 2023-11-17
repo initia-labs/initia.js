@@ -2,7 +2,7 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { GovParams } from '../GovParams';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/gov/v1/tx';
+import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/gov/v1/tx';
 
 export class MsgUpdateGovParams extends JSONSerializable<
   MsgUpdateGovParams.Amino,
@@ -27,7 +27,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
   public toAmino(): MsgUpdateGovParams.Amino {
     const { authority, params } = this;
     return {
-      type: 'cosmos-sdk/x/gov/v1/MsgUpdateParams',
+      type: 'gov/MsgUpdateParams',
       value: {
         authority,
         params: params.toAmino(),
@@ -43,7 +43,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
   public toData(): MsgUpdateGovParams.Data {
     const { authority, params } = this;
     return {
-      '@type': '/cosmos.gov.v1.MsgUpdateParams',
+      '@type': '/initia.gov.v1.MsgUpdateParams',
       authority,
       params: params.toData(),
     };
@@ -66,7 +66,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/cosmos.gov.v1.MsgUpdateParams',
+      typeUrl: '/initia.gov.v1.MsgUpdateParams',
       value: MsgUpdateParams_pb.encode(this.toProto()).finish(),
     });
   }
@@ -80,7 +80,7 @@ export class MsgUpdateGovParams extends JSONSerializable<
 
 export namespace MsgUpdateGovParams {
   export interface Amino {
-    type: 'cosmos-sdk/x/gov/v1/MsgUpdateParams';
+    type: 'gov/MsgUpdateParams';
     value: {
       authority: AccAddress;
       params: GovParams.Amino;
@@ -88,7 +88,7 @@ export namespace MsgUpdateGovParams {
   }
 
   export interface Data {
-    '@type': '/cosmos.gov.v1.MsgUpdateParams';
+    '@type': '/initia.gov.v1.MsgUpdateParams';
     authority: AccAddress;
     params: GovParams.Data;
   }
