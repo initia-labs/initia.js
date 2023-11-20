@@ -81,6 +81,11 @@ export namespace AccAddress {
       );
     }
   }
+
+  export function toBuffer(address: AccAddress): Buffer {
+    const vals = bech32.decode(address);
+    return Buffer.from(bech32.fromWords(vals.words));
+  }
 }
 
 export namespace AccPubKey {
