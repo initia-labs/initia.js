@@ -377,7 +377,7 @@ export namespace Msg {
         return MsgTransfer.fromAmino(data);
 
       // ibc-nft-transfer
-      case 'nft-transfer/MsgNftTransfer':
+      case 'nft-transfer/MsgTransfer':
         return MsgNftTransfer.fromAmino(data);
       case 'nft-transfer/MsgUpdateParams':
         return MsgUpdateIbcNftParams.fromAmino(data);
@@ -637,7 +637,7 @@ export namespace Msg {
         return MsgTransfer.fromData(data);
 
       // ibc-nft-transfer
-      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+      case '/ibc.applications.nft_transfer.v1.MsgTransfer':
         return MsgNftTransfer.fromData(data);
       case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcNftParams.fromData(data);
@@ -942,7 +942,7 @@ export namespace Msg {
         return MsgTransfer.unpackAny(proto);
 
       // ibc-nft-transfer
-      case '/ibc.applications.nft_transfer.v1.MsgNftTransfer':
+      case '/ibc.applications.nft_transfer.v1.MsgTransfer':
         return MsgNftTransfer.unpackAny(proto);
       case '/ibc.applications.nft_transfer.v1.MsgUpdateParams':
         return MsgUpdateIbcNftParams.unpackAny(proto);
