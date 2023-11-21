@@ -1,11 +1,11 @@
 import { JSONSerializable } from '../../util/json';
 import { Coin } from '../Coin';
-import { Params as Params_pb } from '@initia/initia.proto/pob/builder/v1/genesis';
+import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis';
 
-export class BuilderParams extends JSONSerializable<
-  BuilderParams.Amino,
-  BuilderParams.Data,
-  BuilderParams.Proto
+export class AuctionParams extends JSONSerializable<
+  AuctionParams.Amino,
+  AuctionParams.Data,
+  AuctionParams.Proto
 > {
   /**
    * @param max_bundle_size the maximum number of transactions that can be bundled in a single bundle
@@ -26,7 +26,7 @@ export class BuilderParams extends JSONSerializable<
     super();
   }
 
-  public static fromAmino(data: BuilderParams.Amino): BuilderParams {
+  public static fromAmino(data: AuctionParams.Amino): AuctionParams {
     const {
       value: {
         max_bundle_size,
@@ -38,7 +38,7 @@ export class BuilderParams extends JSONSerializable<
       },
     } = data;
 
-    return new BuilderParams(
+    return new AuctionParams(
       Number.parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromAmino(reserve_fee),
@@ -48,7 +48,7 @@ export class BuilderParams extends JSONSerializable<
     );
   }
 
-  public toAmino(): BuilderParams.Amino {
+  public toAmino(): AuctionParams.Amino {
     const {
       max_bundle_size,
       escrow_account_address,
@@ -59,7 +59,7 @@ export class BuilderParams extends JSONSerializable<
     } = this;
 
     return {
-      type: 'cosmos-sdk/x/builder/Params',
+      type: 'block-sdk/x/auction/Params',
       value: {
         max_bundle_size: max_bundle_size.toString(),
         escrow_account_address,
@@ -71,7 +71,7 @@ export class BuilderParams extends JSONSerializable<
     };
   }
 
-  public static fromData(data: BuilderParams.Data): BuilderParams {
+  public static fromData(data: AuctionParams.Data): AuctionParams {
     const {
       max_bundle_size,
       escrow_account_address,
@@ -81,7 +81,7 @@ export class BuilderParams extends JSONSerializable<
       proposer_fee,
     } = data;
 
-    return new BuilderParams(
+    return new AuctionParams(
       Number.parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromData(reserve_fee),
@@ -91,7 +91,7 @@ export class BuilderParams extends JSONSerializable<
     );
   }
 
-  public toData(): BuilderParams.Data {
+  public toData(): AuctionParams.Data {
     const {
       max_bundle_size,
       escrow_account_address,
@@ -102,7 +102,7 @@ export class BuilderParams extends JSONSerializable<
     } = this;
 
     return {
-      '@type': '/pob.builder.v1.Params',
+      '@type': '/sdk.auction.v1.Params',
       max_bundle_size: max_bundle_size.toString(),
       escrow_account_address,
       reserve_fee: reserve_fee.toData(),
@@ -112,8 +112,8 @@ export class BuilderParams extends JSONSerializable<
     };
   }
 
-  public static fromProto(data: BuilderParams.Proto): BuilderParams {
-    return new BuilderParams(
+  public static fromProto(data: AuctionParams.Proto): AuctionParams {
+    return new AuctionParams(
       data.maxBundleSize,
       Buffer.from(data.escrowAccountAddress).toString('base64'),
       Coin.fromProto(data.reserveFee as Coin),
@@ -123,7 +123,7 @@ export class BuilderParams extends JSONSerializable<
     );
   }
 
-  public toProto(): BuilderParams.Proto {
+  public toProto(): AuctionParams.Proto {
     const {
       max_bundle_size,
       escrow_account_address,
@@ -144,9 +144,9 @@ export class BuilderParams extends JSONSerializable<
   }
 }
 
-export namespace BuilderParams {
+export namespace AuctionParams {
   export interface Amino {
-    type: 'cosmos-sdk/x/builder/Params';
+    type: 'block-sdk/x/auction/Params';
     value: {
       max_bundle_size: string;
       escrow_account_address: string;
@@ -158,7 +158,7 @@ export namespace BuilderParams {
   }
 
   export interface Data {
-    '@type': '/pob.builder.v1.Params';
+    '@type': '/sdk.auction.v1.Params';
     max_bundle_size: string;
     escrow_account_address: string;
     reserve_fee: Coin.Data;

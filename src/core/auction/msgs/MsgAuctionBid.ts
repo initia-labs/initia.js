@@ -2,7 +2,7 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Coin } from '../../Coin';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgAuctionBid as MsgAuctionBid_pb } from '@initia/initia.proto/pob/builder/v1/tx';
+import { MsgAuctionBid as MsgAuctionBid_pb } from '@initia/initia.proto/sdk/auction/v1/tx';
 
 export class MsgAuctionBid extends JSONSerializable<
   MsgAuctionBid.Amino,
@@ -32,7 +32,7 @@ export class MsgAuctionBid extends JSONSerializable<
   public toAmino(): MsgAuctionBid.Amino {
     const { bidder, bid, transactions } = this;
     return {
-      type: 'pob/x/builder/MsgAuctionBid',
+      type: 'block-sdk/x/auction/MsgAuctionBid',
       value: {
         bidder,
         bid: bid.toAmino(),
@@ -49,7 +49,7 @@ export class MsgAuctionBid extends JSONSerializable<
   public toData(): MsgAuctionBid.Data {
     const { bidder, bid, transactions } = this;
     return {
-      '@type': '/pob.builder.v1.MsgAuctionBid',
+      '@type': '/sdk.auction.v1.MsgAuctionBid',
       bidder,
       bid: bid.toData(),
       transactions,
@@ -75,7 +75,7 @@ export class MsgAuctionBid extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/pob.builder.v1.MsgAuctionBid',
+      typeUrl: '/sdk.auction.v1.MsgAuctionBid',
       value: MsgAuctionBid_pb.encode(this.toProto()).finish(),
     });
   }
@@ -87,7 +87,7 @@ export class MsgAuctionBid extends JSONSerializable<
 
 export namespace MsgAuctionBid {
   export interface Amino {
-    type: 'pob/x/builder/MsgAuctionBid';
+    type: 'block-sdk/x/auction/MsgAuctionBid';
     value: {
       bidder: AccAddress;
       bid: Coin.Amino;
@@ -96,7 +96,7 @@ export namespace MsgAuctionBid {
   }
 
   export interface Data {
-    '@type': '/pob.builder.v1.MsgAuctionBid';
+    '@type': '/sdk.auction.v1.MsgAuctionBid';
     bidder: AccAddress;
     bid: Coin.Data;
     transactions: string[];
