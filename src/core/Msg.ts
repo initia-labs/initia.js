@@ -1,3 +1,4 @@
+import { AuctionMsg, MsgAuctionBid, MsgUpdateAuctionParams } from './auction';
 import { AuthMsg, MsgUpdateAuthParams } from './auth';
 import {
   AuthzMsg,
@@ -12,7 +13,6 @@ import {
   MsgUpdateBankParams,
   MsgSetSendEnabled,
 } from './bank';
-import { BuilderMsg, MsgAuctionBid, MsgUpdateBuilderParams } from './builder';
 import { CrisisMsg, MsgVerifyInvariant, MsgUpdateCrisisParams } from './crisis';
 import {
   DistributionMsg,
@@ -164,10 +164,10 @@ import {
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 export type Msg =
+  | AuctionMsg
   | AuthMsg
   | AuthzMsg
   | BankMsg
-  | BuilderMsg
   | CrisisMsg
   | DistributionMsg
   | FeeGrantMsg
@@ -192,10 +192,10 @@ export type Msg =
 
 export namespace Msg {
   export type Amino =
+    | AuctionMsg.Amino
     | AuthMsg.Amino
     | AuthzMsg.Amino
     | BankMsg.Amino
-    | BuilderMsg.Amino
     | CrisisMsg.Amino
     | DistributionMsg.Amino
     | FeeGrantMsg.Amino
@@ -215,10 +215,10 @@ export namespace Msg {
     | WasmMsg.Amino;
 
   export type Data =
+    | AuctionMsg.Data
     | AuthMsg.Data
     | AuthzMsg.Data
     | BankMsg.Data
-    | BuilderMsg.Data
     | CrisisMsg.Data
     | DistributionMsg.Data
     | FeeGrantMsg.Data
@@ -242,10 +242,10 @@ export namespace Msg {
     | WasmMsg.Data;
 
   export type Proto =
+    | AuctionMsg.Proto
     | AuthMsg.Proto
     | AuthzMsg.Proto
     | BankMsg.Proto
-    | BuilderMsg.Proto
     | CrisisMsg.Proto
     | DistributionMsg.Proto
     | FeeGrantMsg.Proto
@@ -270,6 +270,12 @@ export namespace Msg {
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
+      // auction
+      case 'block-sdk/x/auction/MsgAuctionBid':
+        return MsgAuctionBid.fromAmino(data);
+      case 'block-sdk/x/auction/MsgUpdateParams':
+        return MsgUpdateAuctionParams.fromAmino(data);
+
       // auth
       case 'cosmos-sdk/x/auth/MsgUpdateParams':
         return MsgUpdateAuthParams.fromAmino(data);
@@ -291,12 +297,6 @@ export namespace Msg {
         return MsgUpdateBankParams.fromAmino(data);
       case 'cosmos-sdk/MsgSetSendEnabled':
         return MsgSetSendEnabled.fromAmino(data);
-
-      // builder
-      case 'pob/x/builder/MsgAuctionBid':
-        return MsgAuctionBid.fromAmino(data);
-      case 'pob/x/builder/MsgUpdateParams':
-        return MsgUpdateBuilderParams.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -520,6 +520,12 @@ export namespace Msg {
 
   export function fromData(data: Msg.Data): Msg {
     switch (data['@type']) {
+      // auction
+      case '/sdk.auction.v1.MsgAuctionBid':
+        return MsgAuctionBid.fromData(data);
+      case '/sdk.auction.v1.MsgUpdateParams':
+        return MsgUpdateAuctionParams.fromData(data);
+
       //auth
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.fromData(data);
@@ -541,12 +547,6 @@ export namespace Msg {
         return MsgUpdateBankParams.fromData(data);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.fromData(data);
-
-      // builder
-      case '/pob.builder.v1.MsgAuctionBid':
-        return MsgAuctionBid.fromData(data);
-      case '/pob.builder.v1.MsgUpdateParams':
-        return MsgUpdateBuilderParams.fromData(data);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
@@ -825,6 +825,12 @@ export namespace Msg {
 
   export function fromProto(proto: Any): Msg {
     switch (proto.typeUrl) {
+      // auction
+      case '/sdk.auction.v1.MsgAuctionBid':
+        return MsgAuctionBid.unpackAny(proto);
+      case '/sdk.auction.v1.MsgUpdateParams':
+        return MsgUpdateAuctionParams.unpackAny(proto);
+
       // auth
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.unpackAny(proto);
@@ -846,12 +852,6 @@ export namespace Msg {
         return MsgUpdateBankParams.unpackAny(proto);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.unpackAny(proto);
-
-      // builder
-      case '/pob.builder.v1.MsgAuctionBid':
-        return MsgAuctionBid.unpackAny(proto);
-      case '/pob.builder.v1.MsgUpdateParams':
-        return MsgUpdateBuilderParams.unpackAny(proto);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':

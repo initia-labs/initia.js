@@ -1,9 +1,9 @@
 import { APIRequester } from './APIRequester';
 import {
+  AuctionAPI,
   AuthAPI,
   AuthzAPI,
   BankAPI,
-  BuilderAPI,
   DistributionAPI,
   FeeGrantAPI,
   GovAPI,
@@ -76,10 +76,10 @@ export class LCDClient {
   public apiRequester: APIRequester;
 
   // API access
+  public auction: AuctionAPI;
   public auth: AuthAPI;
   public authz: AuthzAPI;
   public bank: BankAPI;
-  public builder: BuilderAPI;
   public distribution: DistributionAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
@@ -121,10 +121,10 @@ export class LCDClient {
     this.apiRequester = apiRequester ?? new APIRequester(this.URL);
 
     // instantiate APIs
+    this.auction = new AuctionAPI(this.apiRequester);
     this.auth = new AuthAPI(this.apiRequester);
     this.authz = new AuthzAPI(this.apiRequester);
     this.bank = new BankAPI(this.apiRequester);
-    this.builder = new BuilderAPI(this.apiRequester);
     this.distribution = new DistributionAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
