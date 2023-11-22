@@ -2,7 +2,7 @@ import { JSONSerializable } from '../../../../../util/json';
 import { AccAddress } from '../../../../bech32';
 import Long from 'long';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgNftTransfer as MsgNftTransfer_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/tx';
+import { MsgTransfer as MsgTransfer_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/tx';
 import { Height } from '../../../core/client/Height';
 
 /**
@@ -106,7 +106,7 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      type: 'nft-transfer/MsgNftTransfer',
+      type: 'nft-transfer/MsgTransfer',
       value: {
         source_port,
         source_channel,
@@ -164,7 +164,7 @@ export class MsgNftTransfer extends JSONSerializable<
       memo,
     } = this;
     return {
-      '@type': '/ibc.applications.nft_transfer.v1.MsgNftTransfer',
+      '@type': '/ibc.applications.nft_transfer.v1.MsgTransfer',
       source_port,
       source_channel,
       class_id,
@@ -209,7 +209,7 @@ export class MsgNftTransfer extends JSONSerializable<
       timeout_timestamp,
       memo,
     } = this;
-    return MsgNftTransfer_pb.fromPartial({
+    return MsgTransfer_pb.fromPartial({
       sourcePort: source_port,
       sourceChannel: source_channel,
       classId: class_id,
@@ -224,19 +224,19 @@ export class MsgNftTransfer extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/ibc.applications.nft_transfer.v1.MsgNftTransfer',
-      value: MsgNftTransfer_pb.encode(this.toProto()).finish(),
+      typeUrl: '/ibc.applications.nft_transfer.v1.MsgTransfer',
+      value: MsgTransfer_pb.encode(this.toProto()).finish(),
     });
   }
 
   public static unpackAny(msgAny: Any): MsgNftTransfer {
-    return MsgNftTransfer.fromProto(MsgNftTransfer_pb.decode(msgAny.value));
+    return MsgNftTransfer.fromProto(MsgTransfer_pb.decode(msgAny.value));
   }
 }
 
 export namespace MsgNftTransfer {
   export interface Amino {
-    type: 'nft-transfer/MsgNftTransfer';
+    type: 'nft-transfer/MsgTransfer';
     value: {
       source_port: string;
       source_channel: string;
@@ -251,7 +251,7 @@ export namespace MsgNftTransfer {
   }
 
   export interface Data {
-    '@type': '/ibc.applications.nft_transfer.v1.MsgNftTransfer';
+    '@type': '/ibc.applications.nft_transfer.v1.MsgTransfer';
     source_port: string;
     source_channel: string;
     class_id: string;
@@ -263,5 +263,5 @@ export namespace MsgNftTransfer {
     memo?: string;
   }
 
-  export type Proto = MsgNftTransfer_pb;
+  export type Proto = MsgTransfer_pb;
 }
