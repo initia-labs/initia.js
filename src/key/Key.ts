@@ -125,6 +125,39 @@ export abstract class Key {
   }
 
   /**
+   * Signs a [[StdSignMsg]] with the method supplied by the child class.
+   * only used EIP191 sign
+   *
+   * @param tx sign-message of the transaction to sign
+   */
+  public async createSignatureEIP191(tx: SignDoc): Promise<SignatureV2> {
+    if (!this.publicKey) {
+      throw new Error(
+        'Signature could not be created: Key instance missing publicKey'
+      );
+    }
+
+    const message = Buffer.from(tx.toAminoJSON());
+    const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n';
+    const signBytes = Buffer.concat([
+      Buffer.from(EIP191MessagePrefix),
+      Buffer.from(message.length.toString()),
+      message,
+    ]);
+
+    return new SignatureV2(
+      this.publicKey,
+      new SignatureV2.Descriptor(
+        new SignatureV2.Descriptor.Single(
+          SignMode.SIGN_MODE_EIP_191,
+          (await this.sign(signBytes)).toString('base64')
+        )
+      ),
+      tx.sequence
+    );
+  }
+
+  /**
    * Signs a [[Tx]] and adds the signature to a generated StdTx that is ready to be broadcasted.
    * @param tx
    */
@@ -141,8 +174,12 @@ export abstract class Key {
     let signature: SignatureV2;
     if (options.signMode === SignMode.SIGN_MODE_LEGACY_AMINO_JSON) {
       signature = await this.createSignatureAmino(sign_doc);
-    } else {
+    } else if (options.signMode == SignMode.SIGN_MODE_DIRECT) {
       signature = await this.createSignature(sign_doc);
+    } else if (options.signMode == SignMode.SIGN_MODE_EIP_191) {
+      signature = await this.createSignatureEIP191(sign_doc);
+    } else {
+      throw new Error('not supported sign mode');
     }
 
     const sigData = signature.data.single as SignatureV2.Descriptor.Single;
