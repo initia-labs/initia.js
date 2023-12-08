@@ -4,6 +4,7 @@ import { LegacyAminoPubKey as LegacyAminoPubKey_pb } from '@initia/initia.proto/
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { PubKey as PubKey_pb } from '@initia/initia.proto/cosmos/crypto/secp256k1/keys';
 import { PubKey as ValConsPubKey_pb } from '@initia/initia.proto/cosmos/crypto/ed25519/keys';
+import { PubKey as EthPubKey_pb } from '@initia/initia.proto/initia/crypto/eth/secp256k1/keys';
 import { bech32 } from 'bech32';
 import * as secp256k1 from 'secp256k1';
 
@@ -218,7 +219,7 @@ export class EthPublicKey extends JSONSerializable<
   }
 
   public toProto(): EthPublicKey.Proto {
-    return PubKey_pb.fromPartial({
+    return EthPubKey_pb.fromPartial({
       key: Buffer.from(this.key, 'base64'),
     });
   }
@@ -226,12 +227,12 @@ export class EthPublicKey extends JSONSerializable<
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.crypto.eth.secp256k1.PubKey',
-      value: PubKey_pb.encode(this.toProto()).finish(),
+      value: EthPubKey_pb.encode(this.toProto()).finish(),
     });
   }
 
   public static unpackAny(pubkeyAny: Any): EthPublicKey {
-    return EthPublicKey.fromProto(PubKey_pb.decode(pubkeyAny.value));
+    return EthPublicKey.fromProto(EthPubKey_pb.decode(pubkeyAny.value));
   }
 
   public rawAddress(): Uint8Array {
@@ -257,7 +258,7 @@ export namespace EthPublicKey {
     key: string;
   }
 
-  export type Proto = PubKey_pb;
+  export type Proto = EthPubKey_pb;
 }
 
 export class LegacyAminoMultisigPublicKey extends JSONSerializable<
@@ -419,7 +420,7 @@ export class ValConsPublicKey extends JSONSerializable<
   }
 
   public toProto(): ValConsPublicKey.Proto {
-    return PubKey_pb.fromPartial({
+    return ValConsPubKey_pb.fromPartial({
       key: Buffer.from(this.key, 'base64'),
     });
   }
@@ -470,5 +471,5 @@ export namespace ValConsPublicKey {
     key: string;
   }
 
-  export type Proto = PubKey_pb;
+  export type Proto = ValConsPubKey_pb;
 }
