@@ -29,6 +29,14 @@ export abstract class Key {
   public abstract sign(payload: Buffer): Promise<Buffer>; // needs to be async for ledger key signing
 
   /**
+   * You will need to supply `signWithKeccak256`, which produces a signature for an arbitrary bytes payload
+   * with the ECDSA curve secp256pk1 after keccak256.
+   *
+   * @param payload the data to be signed
+   */
+  public abstract signWithKeccak256(payload: Buffer): Promise<Buffer>; // needs to be async for ledger key signing
+
+  /**
    * Initia account address. `init-` prefixed.
    */
   public get accAddress(): AccAddress {
@@ -150,7 +158,7 @@ export abstract class Key {
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_EIP_191,
-          (await this.sign(signBytes)).toString('base64')
+          (await this.signWithKeccak256(signBytes)).toString('base64')
         )
       ),
       tx.sequence

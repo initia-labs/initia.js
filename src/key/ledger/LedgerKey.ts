@@ -133,6 +133,10 @@ export class LedgerKey extends Key {
     return Buffer.from(signatureImport(Buffer.from(res.signature as any)));
   }
 
+  public async signWithKeccak256(): Promise<Buffer> {
+    throw new Error('LedgerKey does not support signWithKeccak256()');
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async createSignature(_tx: SignDoc): Promise<SignatureV2> {
     throw new Error('direct sign mode is not supported');
