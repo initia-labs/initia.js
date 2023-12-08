@@ -186,8 +186,8 @@ export class MoveAPI extends BaseAPI {
   ): Promise<TableEntry> {
     return this.c
       .get<{ table_entry: TableEntry }>(
-        `/initia/move/v1/tables/${address}/entries/${keyBytes}`,
-        params
+        `/initia/move/v1/tables/${address}/entries/by_key_bytes`,
+        { ...params, key_bytes: keyBytes }
       )
       .then(d => d.table_entry);
   }
