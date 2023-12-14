@@ -331,7 +331,7 @@ export class ValConsPublicKey extends JSONSerializable<
   }
 
   public toProto(): ValConsPublicKey.Proto {
-    return PubKey_pb.fromPartial({
+    return ValConsPubKey_pb.fromPartial({
       key: Buffer.from(this.key, 'base64'),
     });
   }
@@ -382,5 +382,5 @@ export namespace ValConsPublicKey {
     key: string;
   }
 
-  export type Proto = PubKey_pb;
+  export type Proto = ValConsPubKey_pb;
 }

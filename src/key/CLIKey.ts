@@ -87,6 +87,10 @@ export class CLIKey extends Key {
     );
   }
 
+  public async signWithKeccak256(): Promise<Buffer> {
+    throw new Error('cli does not support eip191 signing');
+  }
+
   public async createSignature(tx: SignDoc): Promise<SignatureV2> {
     if (this.params.multisig) {
       throw new Error('multisig is not supported in direct sign mode');

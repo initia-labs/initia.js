@@ -2,6 +2,7 @@ import { SHA256, Word32Array } from 'jscrypto';
 import * as secp256k1 from 'secp256k1';
 import { Key } from './Key';
 import { SimplePublicKey } from '../core';
+import keccak256 from 'keccak256';
 
 /**
  * An implementation of the Key interfaces that uses a raw private key.
@@ -21,19 +22,28 @@ export class RawKey extends Key {
     this.privateKey = privateKey;
   }
 
-  public ecdsaSign(payload: Buffer): { signature: Uint8Array; recid: number } {
+  public async sign(payload: Buffer): Promise<Buffer> {
     const hash = Buffer.from(
       SHA256.hash(new Word32Array(payload)).toString(),
       'hex'
     );
-    return secp256k1.ecdsaSign(
+
+    const { signature } = secp256k1.ecdsaSign(
       Uint8Array.from(hash),
       Uint8Array.from(this.privateKey)
     );
+
+    return Buffer.from(signature);
   }
 
-  public async sign(payload: Buffer): Promise<Buffer> {
-    const { signature } = this.ecdsaSign(payload);
+  public async signWithKeccak256(payload: Buffer): Promise<Buffer> {
+    const hash = keccak256(payload);
+
+    const { signature } = secp256k1.ecdsaSign(
+      Uint8Array.from(hash),
+      Uint8Array.from(this.privateKey)
+    );
+
     return Buffer.from(signature);
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.1.20",
+  "version": "0.1.21",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -85,7 +85,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@initia/initia.proto": "^0.1.18",
+    "@initia/initia.proto": "^0.1.20",
     "@initia/opinit.proto": "^0.0.1",
     "@ledgerhq/hw-transport": "^6.27.12",
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
@@ -97,6 +97,7 @@
     "bip32": "^2.0.6",
     "bip39": "^3.0.4",
     "jscrypto": "^1.0.3",
+    "keccak256": "^1.0.6",
     "long": "^5.2.0",
     "ripemd160": "^2.0.2",
     "secp256k1": "^4.0.3",
