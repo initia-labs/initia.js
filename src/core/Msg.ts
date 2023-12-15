@@ -23,6 +23,7 @@ import {
   MsgUpdateDistrParams,
   MsgCommunityPoolSpend,
 } from './distribution';
+import { EvidenceMsg, MsgSubmitEvidence } from './evidence';
 import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant';
 import {
   GovMsg,
@@ -170,6 +171,7 @@ export type Msg =
   | BankMsg
   | CrisisMsg
   | DistributionMsg
+  | EvidenceMsg
   | FeeGrantMsg
   | GovMsg
   | GroupMsg
@@ -198,6 +200,7 @@ export namespace Msg {
     | BankMsg.Amino
     | CrisisMsg.Amino
     | DistributionMsg.Amino
+    | EvidenceMsg.Amino
     | FeeGrantMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
@@ -221,6 +224,7 @@ export namespace Msg {
     | BankMsg.Data
     | CrisisMsg.Data
     | DistributionMsg.Data
+    | EvidenceMsg.Data
     | FeeGrantMsg.Data
     | GovMsg.Data
     | GroupMsg.Data
@@ -248,6 +252,7 @@ export namespace Msg {
     | BankMsg.Proto
     | CrisisMsg.Proto
     | DistributionMsg.Proto
+    | EvidenceMsg.Proto
     | FeeGrantMsg.Proto
     | GovMsg.Proto
     | GroupMsg.Proto
@@ -317,6 +322,10 @@ export namespace Msg {
         return MsgUpdateDistrParams.fromAmino(data);
       case 'cosmos-sdk/distr/MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.fromAmino(data);
+
+      // evidence
+      case 'cosmos-sdk/MsgSubmitEvidence':
+        return MsgSubmitEvidence.fromAmino(data);
 
       // feegrant
       case 'cosmos-sdk/MsgGrantAllowance':
@@ -567,6 +576,10 @@ export namespace Msg {
         return MsgUpdateDistrParams.fromData(data);
       case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.fromData(data);
+
+      // evidence
+      case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
+        return MsgSubmitEvidence.fromData(data);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -872,6 +885,10 @@ export namespace Msg {
         return MsgUpdateDistrParams.unpackAny(proto);
       case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.unpackAny(proto);
+
+      // evidence
+      case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
+        return MsgSubmitEvidence.unpackAny(proto);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':

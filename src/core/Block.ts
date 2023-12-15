@@ -6,11 +6,11 @@ export interface BlockInfo {
 export interface Block {
   header: Header;
   data: { txs?: string[] };
-  evidence: Evidence;
+  evidence: EvidenceList;
   last_commit: LastCommit;
 }
 
-export interface Evidence {
+export interface EvidenceList {
   evidence: string[];
 }
 

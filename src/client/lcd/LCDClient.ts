@@ -5,6 +5,7 @@ import {
   AuthzAPI,
   BankAPI,
   DistributionAPI,
+  EvidenceAPI,
   FeeGrantAPI,
   GovAPI,
   GroupAPI,
@@ -81,6 +82,7 @@ export class LCDClient {
   public authz: AuthzAPI;
   public bank: BankAPI;
   public distribution: DistributionAPI;
+  public evidence: EvidenceAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
   public group: GroupAPI;
@@ -126,6 +128,7 @@ export class LCDClient {
     this.authz = new AuthzAPI(this.apiRequester);
     this.bank = new BankAPI(this.apiRequester);
     this.distribution = new DistributionAPI(this.apiRequester);
+    this.evidence = new EvidenceAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);

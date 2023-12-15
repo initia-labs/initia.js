@@ -1,5 +1,5 @@
 import { BaseAPI } from './BaseAPI';
-import { Coins, AccAddress, BankParams } from '../../../core';
+import { Coins, Coin, AccAddress, BankParams, Denom } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 
 export class BankAPI extends BaseAPI {
@@ -17,6 +17,24 @@ export class BankAPI extends BaseAPI {
         pagination: Pagination;
       }>(`/cosmos/bank/v1beta1/balances/${address}`, params)
       .then(d => [Coins.fromData(d.balances), d.pagination]);
+  }
+
+  /**
+   * Look up the balance of an account by its address and denom.
+   * @param address address of account to look up.
+   * @param denom coin denom to look up
+   */
+  public async balanceByDenom(
+    address: AccAddress,
+    denom: Denom,
+    params: APIParams = {}
+  ): Promise<Coin> {
+    return this.c
+      .get<{ balance: Coin.Data }>(
+        `/cosmos/bank/v1beta1/balances/${address}/by_denom`,
+        { ...params, denom }
+      )
+      .then(d => Coin.fromData(d.balance));
   }
 
   /**

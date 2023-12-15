@@ -3,6 +3,7 @@ export * from './AuthAPI';
 export * from './AuthzAPI';
 export * from './BankAPI';
 export * from './DistributionAPI';
+export * from './EvidenceAPI';
 export * from './FeeGrantAPI';
 export * from './GovAPI';
 export * from './GroupAPI';
