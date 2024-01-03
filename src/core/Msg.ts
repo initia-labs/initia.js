@@ -22,11 +22,13 @@ import {
   MsgFundCommunityPool,
   MsgUpdateDistrParams,
   MsgCommunityPoolSpend,
+  MsgDepositValidatorRewardsPool,
 } from './distribution';
 import { EvidenceMsg, MsgSubmitEvidence } from './evidence';
 import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant';
 import {
   GovMsg,
+  MsgCancelProposal,
   MsgDepositLegacy,
   MsgDeposit,
   MsgSubmitProposalLegacy,
@@ -122,7 +124,6 @@ import {
   MsgRemoveValidator,
   MsgFinalizeTokenDeposit,
   MsgInitiateTokenWithdrawal,
-  MsgExecuteLegacyContents,
   MsgExecuteMessages,
   MsgSpendFeePool,
   MsgUpdateOpchildParams,
@@ -322,6 +323,8 @@ export namespace Msg {
         return MsgUpdateDistrParams.fromAmino(data);
       case 'cosmos-sdk/distr/MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.fromAmino(data);
+      case 'cosmos-sdk/distr/MsgDepositValRewards':
+        return MsgDepositValidatorRewardsPool.fromAmino(data);
 
       // evidence
       case 'cosmos-sdk/MsgSubmitEvidence':
@@ -334,6 +337,8 @@ export namespace Msg {
         return MsgRevokeAllowance.fromAmino(data);
 
       // gov
+      case 'cosmos-sdk/v1/MsgCancelProposal':
+        return MsgCancelProposal.fromAmino(data);
       case 'cosmos-sdk/MsgDeposit':
         return MsgDepositLegacy.fromAmino(data);
       case 'cosmos-sdk/v1/MsgDeposit':
@@ -444,8 +449,6 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromAmino(data);
       case 'opchild/MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromAmino(data);
-      case 'opchild/MsgExecuteLegacyContents':
-        return MsgExecuteLegacyContents.fromAmino(data);
       case 'opchild/MsgExecuteMessages':
         return MsgExecuteMessages.fromAmino(data);
       case 'opchild/MsgSpendFeePool':
@@ -576,6 +579,8 @@ export namespace Msg {
         return MsgUpdateDistrParams.fromData(data);
       case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.fromData(data);
+      case '/initia.distribution.v1.MsgDepositValidatorRewardsPool':
+        return MsgDepositValidatorRewardsPool.fromData(data);
 
       // evidence
       case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
@@ -588,6 +593,8 @@ export namespace Msg {
         return MsgRevokeAllowance.fromData(data);
 
       // gov
+      case '/cosmos.gov.v1.MsgCancelProposal':
+        return MsgCancelProposal.fromData(data);
       case '/cosmos.gov.v1beta1.MsgDeposit':
         return MsgDepositLegacy.fromData(data);
       case '/cosmos.gov.v1.MsgDeposit':
@@ -750,8 +757,6 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromData(data);
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromData(data);
-      case '/opinit.opchild.v1.MsgExecuteLegacyContents':
-        return MsgExecuteLegacyContents.fromData(data);
       case '/opinit.opchild.v1.MsgExecuteMessages':
         return MsgExecuteMessages.fromData(data);
       case '/opinit.opchild.v1.MsgSpendFeePool':
@@ -885,6 +890,8 @@ export namespace Msg {
         return MsgUpdateDistrParams.unpackAny(proto);
       case '/cosmos.distribution.v1beta1.MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.unpackAny(proto);
+      case '/initia.distribution.v1.MsgDepositValidatorRewardsPool':
+        return MsgDepositValidatorRewardsPool.unpackAny(proto);
 
       // evidence
       case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
@@ -897,6 +904,8 @@ export namespace Msg {
         return MsgRevokeAllowance.unpackAny(proto);
 
       // gov
+      case '/cosmos.gov.v1.MsgCancelProposal':
+        return MsgCancelProposal.unpackAny(proto);
       case '/cosmos.gov.v1beta1.MsgDeposit':
         return MsgDepositLegacy.unpackAny(proto);
       case '/cosmos.gov.v1.MsgDeposit':
@@ -1059,8 +1068,6 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.unpackAny(proto);
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.unpackAny(proto);
-      case '/opinit.opchild.v1.MsgExecuteLegacyContents':
-        return MsgExecuteLegacyContents.unpackAny(proto);
       case '/opinit.opchild.v1.MsgExecuteMessages':
         return MsgExecuteMessages.unpackAny(proto);
       case '/opinit.opchild.v1.MsgSpendFeePool':

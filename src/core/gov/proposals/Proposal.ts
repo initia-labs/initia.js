@@ -37,6 +37,8 @@ export class Proposal extends JSONSerializable<
    * @param title title of the proposal
    * @param summary short summary of the proposal
    * @param proposer the address of the proposal sumbitter
+   * @param expedited if the proposal is expedited
+   * @param failed_reason the reason why the proposal failed
    */
   constructor(
     public id: number,
@@ -51,7 +53,9 @@ export class Proposal extends JSONSerializable<
     public metadata: string,
     public title: string,
     public summary: string,
-    public proposer: AccAddress
+    public proposer: AccAddress,
+    public expedited: boolean,
+    public failed_reason: string
   ) {
     super();
     this.total_deposit = new Coins(total_deposit);
@@ -72,6 +76,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     } = data;
 
     return new Proposal(
@@ -94,7 +100,9 @@ export class Proposal extends JSONSerializable<
       metadata,
       title,
       summary,
-      proposer
+      proposer,
+      expedited,
+      failed_reason
     );
   }
 
@@ -113,6 +121,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     } = this;
 
     return {
@@ -136,6 +146,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     };
   }
 
@@ -154,6 +166,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     } = data;
 
     return new Proposal(
@@ -176,7 +190,9 @@ export class Proposal extends JSONSerializable<
       metadata,
       title,
       summary,
-      proposer
+      proposer,
+      expedited,
+      failed_reason
     );
   }
 
@@ -195,6 +211,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     } = this;
 
     return {
@@ -218,6 +236,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     };
   }
 
@@ -242,7 +262,9 @@ export class Proposal extends JSONSerializable<
       data.metadata,
       data.title,
       data.summary,
-      data.proposer
+      data.proposer,
+      data.expedited,
+      data.failedReason
     );
   }
 
@@ -261,6 +283,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failed_reason,
     } = this;
 
     let ftr: TallyResult | undefined;
@@ -287,6 +311,8 @@ export class Proposal extends JSONSerializable<
       title,
       summary,
       proposer,
+      expedited,
+      failedReason: failed_reason,
     });
   }
 }
@@ -321,6 +347,8 @@ export namespace Proposal {
     title: string;
     summary: string;
     proposer: AccAddress;
+    expedited: boolean;
+    failed_reason: string;
   }
 
   export interface Data {
@@ -342,6 +370,8 @@ export namespace Proposal {
     title: string;
     summary: string;
     proposer: AccAddress;
+    expedited: boolean;
+    failed_reason: string;
   }
 
   export type Proto = Proposal_pb;

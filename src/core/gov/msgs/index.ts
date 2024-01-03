@@ -1,3 +1,4 @@
+import { MsgCancelProposal } from './MsgCancelProposal';
 import { MsgSubmitProposalLegacy } from './MsgSubmitProposalLegacy';
 import { MsgSubmitProposal } from './MsgSubmitProposal';
 import { MsgVoteLegacy } from './MsgVoteLegacy';
@@ -8,6 +9,7 @@ import { MsgVoteWeightedLegacy } from './MsgVoteWeightedLegacy';
 import { MsgVoteWeighted } from './MsgVoteWeighted';
 import { MsgUpdateGovParams } from './MsgUpdateGovParams';
 
+export * from './MsgCancelProposal';
 export * from './MsgDepositLegacy';
 export * from './MsgDeposit';
 export * from './MsgSubmitProposalLegacy';
@@ -19,6 +21,7 @@ export * from './MsgVoteWeighted';
 export * from './MsgUpdateGovParams';
 
 export type GovMsg =
+  | MsgCancelProposal
   | MsgDepositLegacy
   | MsgDeposit
   | MsgSubmitProposalLegacy
@@ -31,6 +34,7 @@ export type GovMsg =
 
 export namespace GovMsg {
   export type Amino =
+    | MsgCancelProposal.Amino
     | MsgDepositLegacy.Amino
     | MsgDeposit.Amino
     | MsgSubmitProposalLegacy.Amino
@@ -41,6 +45,7 @@ export namespace GovMsg {
     | MsgVoteWeighted.Amino
     | MsgUpdateGovParams.Amino;
   export type Data =
+    | MsgCancelProposal.Data
     | MsgDepositLegacy.Data
     | MsgDeposit.Data
     | MsgSubmitProposalLegacy.Data
@@ -51,6 +56,7 @@ export namespace GovMsg {
     | MsgVoteWeighted.Data
     | MsgUpdateGovParams.Data;
   export type Proto =
+    | MsgCancelProposal.Proto
     | MsgDepositLegacy.Proto
     | MsgDeposit.Proto
     | MsgSubmitProposalLegacy.Proto

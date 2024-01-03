@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../../util/json';
 import { Coins } from '../../Coins';
-import { AccAddress, ValAddress } from '../../bech32';
+import { ValAddress } from '../../bech32';
 import { Validator } from '../Validator';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgCreateValidator as MsgCreateValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
@@ -21,7 +21,6 @@ export class MsgCreateValidator extends JSONSerializable<
    *
    * @param description validator's delegate information
    * @param commission validator's commission policy
-   * @param delegator_address validator's account address
    * @param validator_address validator's operator address
    * @param pubkey validator's consensus public key
    * @param amount amount to use for self-delegation
@@ -29,7 +28,6 @@ export class MsgCreateValidator extends JSONSerializable<
   constructor(
     public description: Validator.Description,
     public commission: Validator.CommissionRates,
-    public delegator_address: AccAddress,
     public validator_address: ValAddress,
     public pubkey: ValConsPublicKey,
     amount: Coins.Input
@@ -40,19 +38,11 @@ export class MsgCreateValidator extends JSONSerializable<
 
   public static fromAmino(data: MsgCreateValidator.Amino): MsgCreateValidator {
     const {
-      value: {
-        description,
-        commission,
-        delegator_address,
-        validator_address,
-        pubkey,
-        amount,
-      },
+      value: { description, commission, validator_address, pubkey, amount },
     } = data;
     return new MsgCreateValidator(
       description,
       Validator.CommissionRates.fromAmino(commission),
-      delegator_address,
       validator_address,
       ValConsPublicKey.fromAmino(pubkey),
       Coins.fromAmino(amount)
@@ -60,20 +50,12 @@ export class MsgCreateValidator extends JSONSerializable<
   }
 
   public toAmino(): MsgCreateValidator.Amino {
-    const {
-      description,
-      commission,
-      delegator_address,
-      validator_address,
-      pubkey,
-      amount,
-    } = this;
+    const { description, commission, validator_address, pubkey, amount } = this;
     return {
       type: 'mstaking/MsgCreateValidator',
       value: {
         description,
         commission: commission.toAmino(),
-        delegator_address,
         validator_address,
         pubkey: pubkey.toAmino(),
         amount: amount.toAmino(),
@@ -82,18 +64,10 @@ export class MsgCreateValidator extends JSONSerializable<
   }
 
   public static fromData(data: MsgCreateValidator.Data): MsgCreateValidator {
-    const {
-      description,
-      commission,
-      delegator_address,
-      validator_address,
-      pubkey,
-      amount,
-    } = data;
+    const { description, commission, validator_address, pubkey, amount } = data;
     return new MsgCreateValidator(
       description,
       Validator.CommissionRates.fromData(commission),
-      delegator_address,
       validator_address,
       ValConsPublicKey.fromData(pubkey),
       Coins.fromData(amount)
@@ -101,19 +75,11 @@ export class MsgCreateValidator extends JSONSerializable<
   }
 
   public toData(): MsgCreateValidator.Data {
-    const {
-      description,
-      commission,
-      delegator_address,
-      validator_address,
-      pubkey,
-      amount,
-    } = this;
+    const { description, commission, validator_address, pubkey, amount } = this;
     return {
       '@type': '/initia.mstaking.v1.MsgCreateValidator',
       description,
       commission: commission.toData(),
-      delegator_address,
       validator_address,
       pubkey: pubkey.toData(),
       amount: amount.toData(),
@@ -128,7 +94,6 @@ export class MsgCreateValidator extends JSONSerializable<
       Validator.CommissionRates.fromProto(
         proto.commission as Validator.CommissionRates.Proto
       ),
-      proto.delegatorAddress,
       proto.validatorAddress,
       PublicKey.fromProto(proto.pubkey as Any) as ValConsPublicKey,
       Coins.fromProto(proto.amount as Coins.Proto)
@@ -136,17 +101,9 @@ export class MsgCreateValidator extends JSONSerializable<
   }
 
   public toProto(): MsgCreateValidator.Proto {
-    const {
-      description,
-      commission,
-      delegator_address,
-      validator_address,
-      pubkey,
-      amount,
-    } = this;
+    const { description, commission, validator_address, pubkey, amount } = this;
     return MsgCreateValidator_pb.fromPartial({
       commission: commission.toProto(),
-      delegatorAddress: delegator_address,
       description: description.toProto(),
       pubkey: pubkey.packAny(),
       validatorAddress: validator_address,
@@ -174,7 +131,6 @@ export namespace MsgCreateValidator {
     value: {
       description: Validator.Description;
       commission: Validator.CommissionRates.Amino;
-      delegator_address: AccAddress;
       validator_address: ValAddress;
       pubkey: ValConsPublicKey.Amino;
       amount: Coins.Amino;
@@ -185,7 +141,6 @@ export namespace MsgCreateValidator {
     '@type': '/initia.mstaking.v1.MsgCreateValidator';
     description: Validator.Description;
     commission: Validator.CommissionRates.Data;
-    delegator_address: AccAddress;
     validator_address: ValAddress;
     pubkey: ValConsPublicKey.Data;
     amount: Coins.Data;
