@@ -188,7 +188,7 @@ export namespace SimulateResponse {
 }
 
 export interface TxSearchOptions extends PaginationOptions {
-  events: { key: string; value: string }[];
+  query: { key: string; value: string }[];
 }
 
 export class TxAPI extends BaseAPI {
@@ -542,14 +542,14 @@ export class TxAPI extends BaseAPI {
     const params = new URLSearchParams();
 
     // build search params
-    options.events?.forEach(v =>
+    options.query?.forEach(v =>
       params.append(
-        'events',
+        'query',
         v.key === 'tx.height' ? `${v.key}=${v.value}` : `${v.key}='${v.value}'`
       )
     );
 
-    delete options['events'];
+    delete options['query'];
 
     Object.entries(options).forEach(v => {
       params.append(v[0], v[1] as string);
