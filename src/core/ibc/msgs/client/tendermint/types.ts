@@ -5,13 +5,13 @@ import {
   PartSetHeader as PartSetHeader_pb,
   Commit as Commit_pb,
   CommitSig as CommitSig_pb,
-  BlockIDFlag,
-  blockIDFlagFromJSON,
-  blockIDFlagToJSON,
 } from '@initia/initia.proto/tendermint/types/types';
 import {
   Validator as Validator_pb,
   ValidatorSet as ValidatorSet_pb,
+  BlockIDFlag,
+  blockIDFlagFromJSON,
+  blockIDFlagToJSON,
 } from '@initia/initia.proto/tendermint/types/validator';
 
 import Long from 'long';
