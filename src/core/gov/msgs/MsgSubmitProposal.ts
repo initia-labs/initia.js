@@ -19,6 +19,7 @@ export class MsgSubmitProposal extends JSONSerializable<
    * @param metadata any arbitrary metadata attached to the proposal
    * @param title the title of the proposal
    * @param summary the summary of the proposal
+   * @param expedited if the proposal is expedited or not
    */
   constructor(
     public messages: Msg[],
@@ -26,7 +27,8 @@ export class MsgSubmitProposal extends JSONSerializable<
     public proposer: AccAddress,
     public metadata: string,
     public title: string,
-    public summary: string
+    public summary: string,
+    public expedited: boolean
   ) {
     super();
     this.initial_deposit = new Coins(initial_deposit);
@@ -34,7 +36,15 @@ export class MsgSubmitProposal extends JSONSerializable<
 
   public static fromAmino(data: MsgSubmitProposal.Amino): MsgSubmitProposal {
     const {
-      value: { messages, initial_deposit, proposer, metadata, title, summary },
+      value: {
+        messages,
+        initial_deposit,
+        proposer,
+        metadata,
+        title,
+        summary,
+        expedited,
+      },
     } = data;
 
     return new MsgSubmitProposal(
@@ -43,13 +53,21 @@ export class MsgSubmitProposal extends JSONSerializable<
       proposer,
       metadata,
       title,
-      summary
+      summary,
+      expedited
     );
   }
 
   public toAmino(): MsgSubmitProposal.Amino {
-    const { messages, initial_deposit, proposer, metadata, title, summary } =
-      this;
+    const {
+      messages,
+      initial_deposit,
+      proposer,
+      metadata,
+      title,
+      summary,
+      expedited,
+    } = this;
 
     return {
       type: 'cosmos-sdk/v1/MsgSubmitProposal',
@@ -60,13 +78,21 @@ export class MsgSubmitProposal extends JSONSerializable<
         metadata,
         title,
         summary,
+        expedited,
       },
     };
   }
 
   public static fromData(data: MsgSubmitProposal.Data): MsgSubmitProposal {
-    const { messages, initial_deposit, proposer, metadata, title, summary } =
-      data;
+    const {
+      messages,
+      initial_deposit,
+      proposer,
+      metadata,
+      title,
+      summary,
+      expedited,
+    } = data;
 
     return new MsgSubmitProposal(
       messages.map(Msg.fromData),
@@ -74,13 +100,21 @@ export class MsgSubmitProposal extends JSONSerializable<
       proposer,
       metadata,
       title,
-      summary
+      summary,
+      expedited
     );
   }
 
   public toData(): MsgSubmitProposal.Data {
-    const { messages, initial_deposit, proposer, metadata, title, summary } =
-      this;
+    const {
+      messages,
+      initial_deposit,
+      proposer,
+      metadata,
+      title,
+      summary,
+      expedited,
+    } = this;
 
     return {
       '@type': '/cosmos.gov.v1.MsgSubmitProposal',
@@ -90,6 +124,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       metadata,
       title,
       summary,
+      expedited,
     };
   }
 
@@ -100,13 +135,21 @@ export class MsgSubmitProposal extends JSONSerializable<
       data.proposer,
       data.metadata,
       data.title,
-      data.summary
+      data.summary,
+      data.expedited
     );
   }
 
   public toProto(): MsgSubmitProposal.Proto {
-    const { messages, initial_deposit, proposer, metadata, title, summary } =
-      this;
+    const {
+      messages,
+      initial_deposit,
+      proposer,
+      metadata,
+      title,
+      summary,
+      expedited,
+    } = this;
 
     return MsgSubmitProposal_pb.fromPartial({
       messages: messages.map(msg => msg.packAny()),
@@ -115,6 +158,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       metadata,
       title,
       summary,
+      expedited,
     });
   }
 
@@ -142,6 +186,7 @@ export namespace MsgSubmitProposal {
       metadata: string;
       title: string;
       summary: string;
+      expedited: boolean;
     };
   }
 
@@ -153,6 +198,7 @@ export namespace MsgSubmitProposal {
     metadata: string;
     title: string;
     summary: string;
+    expedited: boolean;
   }
 
   export type Proto = MsgSubmitProposal_pb;

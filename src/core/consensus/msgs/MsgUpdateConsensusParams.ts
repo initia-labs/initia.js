@@ -3,6 +3,7 @@ import { AccAddress } from '../../bech32';
 import { BlockParams } from '../BlockParams';
 import { EvidenceParams } from '../EvidenceParams';
 import { ValidatorParams } from '../ValidatorParams';
+import { ABCIParams } from '../ABCIParams';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/consensus/v1/tx';
 
@@ -16,12 +17,14 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
    * @param block block params
    * @param evidence evidence params
    * @param validator validator params
+   * @param abci ABCI params
    */
   constructor(
     public authority: AccAddress,
     public block: BlockParams,
     public evidence: EvidenceParams,
-    public validator: ValidatorParams
+    public validator: ValidatorParams,
+    public abci: ABCIParams
   ) {
     super();
   }
@@ -30,18 +33,19 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
     data: MsgUpdateConsensusParams.Amino
   ): MsgUpdateConsensusParams {
     const {
-      value: { authority, block, evidence, validator },
+      value: { authority, block, evidence, validator, abci },
     } = data;
     return new MsgUpdateConsensusParams(
       authority,
       BlockParams.fromAmino(block),
       EvidenceParams.fromAmino(evidence),
-      ValidatorParams.fromAmino(validator)
+      ValidatorParams.fromAmino(validator),
+      ABCIParams.fromAmino(abci)
     );
   }
 
   public toAmino(): MsgUpdateConsensusParams.Amino {
-    const { authority, block, evidence, validator } = this;
+    const { authority, block, evidence, validator, abci } = this;
     return {
       type: 'cosmos-sdk/x/consensus/MsgUpdateParams',
       value: {
@@ -49,6 +53,7 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
         block: block.toAmino(),
         evidence: evidence.toAmino(),
         validator: validator.toAmino(),
+        abci: abci.toAmino(),
       },
     };
   }
@@ -56,23 +61,25 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
   public static fromData(
     data: MsgUpdateConsensusParams.Data
   ): MsgUpdateConsensusParams {
-    const { authority, block, evidence, validator } = data;
+    const { authority, block, evidence, validator, abci } = data;
     return new MsgUpdateConsensusParams(
       authority,
       BlockParams.fromData(block),
       EvidenceParams.fromData(evidence),
-      ValidatorParams.fromData(validator)
+      ValidatorParams.fromData(validator),
+      ABCIParams.fromData(abci)
     );
   }
 
   public toData(): MsgUpdateConsensusParams.Data {
-    const { authority, block, evidence, validator } = this;
+    const { authority, block, evidence, validator, abci } = this;
     return {
       '@type': '/cosmos.consensus.v1.MsgUpdateParams',
       authority,
       block: block.toData(),
       evidence: evidence.toData(),
       validator: validator.toData(),
+      abci: abci.toData(),
     };
   }
 
@@ -83,17 +90,19 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
       data.authority,
       BlockParams.fromProto(data.block as BlockParams.Proto),
       EvidenceParams.fromProto(data.evidence as EvidenceParams.Proto),
-      ValidatorParams.fromProto(data.validator as ValidatorParams.Proto)
+      ValidatorParams.fromProto(data.validator as ValidatorParams.Proto),
+      ABCIParams.fromProto(data.abci as ABCIParams.Proto)
     );
   }
 
   public toProto(): MsgUpdateConsensusParams.Proto {
-    const { authority, block, evidence, validator } = this;
+    const { authority, block, evidence, validator, abci } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
       block: block.toProto(),
       evidence: evidence.toProto(),
       validator: validator.toProto(),
+      abci: abci.toProto(),
     });
   }
 
@@ -119,6 +128,7 @@ export namespace MsgUpdateConsensusParams {
       block: BlockParams.Amino;
       evidence: EvidenceParams.Amino;
       validator: ValidatorParams.Amino;
+      abci: ABCIParams.Amino;
     };
   }
 
@@ -128,6 +138,7 @@ export namespace MsgUpdateConsensusParams {
     block: BlockParams.Data;
     evidence: EvidenceParams.Data;
     validator: ValidatorParams.Data;
+    abci: ABCIParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;
