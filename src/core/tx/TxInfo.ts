@@ -20,7 +20,9 @@ export class TxInfo {
    * @param gas_used actual gas consumption
    * @param tx transaction content
    * @param timestamp time of inclusion
+   * @param events events
    * @param code error code
+   * @param codespace error codespace
    */
   constructor(
     public height: number,
@@ -31,6 +33,7 @@ export class TxInfo {
     public gas_used: number,
     public tx: Tx,
     public timestamp: string,
+    public events: Event[],
     public code?: number,
     public codespace?: string
   ) {}
@@ -45,6 +48,7 @@ export class TxInfo {
       proto.gasUsed.toNumber(),
       Tx.unpackAny(proto.tx as Any),
       proto.timestamp,
+      proto.events,
       proto.code,
       proto.codespace
     );
@@ -60,6 +64,7 @@ export class TxInfo {
       Number.parseInt(data.gas_used),
       Tx.fromData(data.tx),
       data.timestamp,
+      data.events,
       data.code,
       data.codespace
     );
@@ -193,6 +198,7 @@ export namespace TxInfo {
     gas_used: string;
     tx: Tx.Data;
     timestamp: string;
+    events: Event[];
   }
   export type Proto = TxResponse_pb;
 }
