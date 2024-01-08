@@ -10,6 +10,7 @@ import {
   PublicKey,
   num,
   TxLog,
+  Event,
 } from '../../../core';
 import { hashToHex } from '../../../util';
 import { LCDClient } from '../LCDClient';
@@ -92,6 +93,7 @@ export namespace BlockTxBroadcastResult {
     info: string;
     data: string;
     timestamp: string;
+    events: Event[];
   }
 }
 
