@@ -13,7 +13,7 @@ export class GovAPI extends BaseAPI {
       .get<{
         proposals: Proposal.Data[];
         pagination: Pagination;
-      }>(`/cosmos/gov/v1/proposals`, params)
+      }>(`/initia/gov/v1/proposals`, params)
       .then(d => [d.proposals.map(Proposal.fromData), d.pagination]);
   }
 
@@ -27,7 +27,7 @@ export class GovAPI extends BaseAPI {
   ): Promise<Proposal> {
     return this.c
       .get<{ proposal: Proposal.Data }>(
-        `/cosmos/gov/v1/proposals/${proposalId}`,
+        `/initia/gov/v1/proposals/${proposalId}`,
         params
       )
       .then(d => Proposal.fromData(d.proposal));
@@ -103,16 +103,5 @@ export class GovAPI extends BaseAPI {
         d.proposals.map(prop => Proposal.fromData(prop)),
         d.pagination,
       ]);
-  }
-
-  public async lastEmergencyProposalTallyTimestamp(
-    params: APIParams = {}
-  ): Promise<Date> {
-    return this.c
-      .get<{ tally_timestamp: string }>(
-        `/initia/gov/v1/last_emergency_proposal_tally_timestamp`,
-        params
-      )
-      .then(d => new Date(d.tally_timestamp));
   }
 }
