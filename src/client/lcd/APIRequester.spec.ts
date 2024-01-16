@@ -19,6 +19,7 @@ describe('APIRequester', () => {
     expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://stone-rest.initia.tech/foo',
       {
+        headers: new axios.AxiosHeaders(),
         params: {},
       }
     );
@@ -32,7 +33,10 @@ describe('APIRequester', () => {
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://stone-rest.initia.tech/bar/foo',
-      { params: {} }
+      {
+        headers: new axios.AxiosHeaders(),
+        params: {},
+      }
     );
   });
 
@@ -44,19 +48,25 @@ describe('APIRequester', () => {
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://stone-rest.initia.tech/foo?key=123',
-      { params: {} }
+      {
+        headers: new axios.AxiosHeaders(),
+        params: {},
+      }
     );
   });
 
   it('accept an URL with credentials', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null });
 
-    const request = new APIRequester('https://:123@stone-rest.initia.tech/');
+    const request = new APIRequester('https://abc:123@stone-rest.initia.tech/');
     await request.get('/foo');
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
       'https://:123@stone-rest.initia.tech/foo',
-      { params: {} }
+      {
+        headers: new axios.AxiosHeaders(),
+        params: {},
+      }
     );
   });
 });
