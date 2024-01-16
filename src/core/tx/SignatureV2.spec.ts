@@ -1,4 +1,4 @@
-import { CompactBitArray } from '../CompactBitArray';
+import { CompactBitArray } from './CompactBitArray';
 import { SimplePublicKey } from '../PublicKey';
 import { SignatureV2 } from './SignatureV2';
 
