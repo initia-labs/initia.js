@@ -1,7 +1,10 @@
 import { JSONSerializable } from '../../../../util/json';
 import { Header as Header_pb } from '@initia/initia.proto/ibc/lightclients/tendermint/v1/tendermint';
 import { Height } from '../../core/client/Height';
-import { SignedHeader, ValidatorSet } from '../../msgs/client/tendermint/types';
+import {
+  SignedHeader,
+  ValidatorSet,
+} from '../../core/client/msgs/tendermint/types';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
 /**

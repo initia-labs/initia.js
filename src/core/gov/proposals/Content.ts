@@ -1,28 +1,15 @@
 import { ParameterChangeProposal } from '../../params/proposals';
-import { ClientUpdateProposal } from '../../ibc/proposals';
 import { TextProposal } from './TextProposal';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 
-export type Content =
-  | TextProposal
-  | ParameterChangeProposal
-  | ClientUpdateProposal;
+export type Content = TextProposal | ParameterChangeProposal;
 
 export namespace Content {
-  export type Amino =
-    | TextProposal.Amino
-    | ParameterChangeProposal.Amino
-    | ClientUpdateProposal.Amino;
+  export type Amino = TextProposal.Amino | ParameterChangeProposal.Amino;
 
-  export type Data =
-    | TextProposal.Data
-    | ParameterChangeProposal.Data
-    | ClientUpdateProposal.Data;
+  export type Data = TextProposal.Data | ParameterChangeProposal.Data;
 
-  export type Proto =
-    | TextProposal.Proto
-    | ParameterChangeProposal.Proto
-    | ClientUpdateProposal.Proto;
+  export type Proto = TextProposal.Proto | ParameterChangeProposal.Proto;
 
   export function fromAmino(data: Content.Amino): Content {
     switch (data.type) {
@@ -30,8 +17,6 @@ export namespace Content {
         return TextProposal.fromAmino(data);
       case 'cosmos-sdk/ParameterChangeProposal':
         return ParameterChangeProposal.fromAmino(data);
-      case 'ibc/ClientUpdateProposal':
-        return ClientUpdateProposal.fromAmino(data);
     }
   }
 
@@ -41,8 +26,6 @@ export namespace Content {
         return TextProposal.fromData(data);
       case '/cosmos.params.v1beta1.ParameterChangeProposal':
         return ParameterChangeProposal.fromData(data);
-      case '/ibc.core.client.v1.ClientUpdateProposal':
-        return ClientUpdateProposal.fromData(data);
     }
   }
 
@@ -53,8 +36,6 @@ export namespace Content {
         return TextProposal.unpackAny(anyProto);
       case '/cosmos.params.v1beta1.ParameterChangeProposal':
         return ParameterChangeProposal.unpackAny(anyProto);
-      case '/ibc.core.client.v1.ClientUpdateProposal':
-        return ClientUpdateProposal.unpackAny(anyProto);
     }
 
     throw `Proposal content ${typeUrl} not recognized`;

@@ -55,7 +55,6 @@ import {
   MsgUpdateGroupPolicyAdmin,
   MsgUpdateGroupPolicyMetadata,
 } from './group';
-import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
 import {
   IbcFeeMsg,
   MsgPayPacketFee,
@@ -63,26 +62,14 @@ import {
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
 } from './ibc/applications/fee';
+import { IbcFetchpriceMsg, MsgFetchPrice } from './ibc/applications/fetchprice';
 import {
   IbcNftMsg,
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer';
 import { IbcPermMsg, MsgUpdateChannelRelayer } from './ibc/applications/perm';
-import {
-  IbcClientMsg,
-  MsgCreateClient,
-  MsgUpdateClient,
-  MsgUpgradeClient,
-  MsgSubmitMisbehaviour,
-} from './ibc/msgs/client';
-import {
-  IbcConnectionMsg,
-  MsgConnectionOpenInit,
-  MsgConnectionOpenTry,
-  MsgConnectionOpenConfirm,
-  MsgConnectionOpenAck,
-} from './ibc/msgs/connection';
+import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
 import {
   IbcChannelMsg,
   MsgChannelOpenInit,
@@ -95,7 +82,26 @@ import {
   MsgAcknowledgement,
   MsgTimeout,
   MsgTimeoutOnClose,
-} from './ibc/msgs/channel';
+  MsgUpdateIbcChannelParams,
+} from './ibc/core/channel/msgs';
+import {
+  IbcClientMsg,
+  MsgCreateClient,
+  MsgUpdateClient,
+  MsgUpgradeClient,
+  MsgSubmitMisbehaviour,
+  MsgRecoverClient,
+  MsgIBCSoftwareUpgrade,
+  MsgUpdateIbcClientParams,
+} from './ibc/core/client/msgs';
+import {
+  IbcConnectionMsg,
+  MsgConnectionOpenInit,
+  MsgConnectionOpenTry,
+  MsgConnectionOpenConfirm,
+  MsgConnectionOpenAck,
+  MsgUpdateIbcConnectionParams,
+} from './ibc/core/connection/msgs';
 import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx';
 import {
   MoveMsg,
@@ -140,6 +146,11 @@ import {
   MsgUpdateChallenger,
   MsgUpdateOphostParams,
 } from './ophost';
+import {
+  OracleMsg,
+  MsgAddCurrencyPairs,
+  MsgRemoveCurrencyPairs,
+} from './oracle';
 import { RewardMsg, MsgUpdateRewardParams } from './reward';
 import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing';
 import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade';
@@ -177,17 +188,19 @@ export type Msg =
   | GovMsg
   | GroupMsg
   | IbcFeeMsg
-  | IbcTransferMsg
+  | IbcFetchpriceMsg
   | IbcNftMsg
   | IbcPermMsg
+  | IbcTransferMsg
+  | IbcChannelMsg
   | IbcClientMsg
   | IbcConnectionMsg
-  | IbcChannelMsg
   | InterTxMsg
   | MoveMsg
   | MstakingMsg
   | OpchildMsg
   | OphostMsg
+  | OracleMsg
   | RewardMsg
   | SlashingMsg
   | UpgradeMsg
@@ -205,14 +218,16 @@ export namespace Msg {
     | FeeGrantMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
-    | IbcTransferMsg.Amino
+    | IbcFetchpriceMsg.Amino
     | IbcNftMsg.Amino
     | IbcPermMsg.Amino
+    | IbcTransferMsg.Amino
     | InterTxMsg.Amino
     | MoveMsg.Amino
     | MstakingMsg.Amino
     | OpchildMsg.Amino
     | OphostMsg.Amino
+    | OracleMsg.Amino
     | RewardMsg.Amino
     | SlashingMsg.Amino
     | UpgradeMsg.Amino
@@ -230,17 +245,19 @@ export namespace Msg {
     | GovMsg.Data
     | GroupMsg.Data
     | IbcFeeMsg.Data
-    | IbcTransferMsg.Data
+    | IbcFetchpriceMsg.Data
     | IbcNftMsg.Data
     | IbcPermMsg.Data
+    | IbcTransferMsg.Data
+    | IbcChannelMsg.Data
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
-    | IbcChannelMsg.Data
     | InterTxMsg.Data
     | MoveMsg.Data
     | MstakingMsg.Data
     | OpchildMsg.Data
     | OphostMsg.Data
+    | OracleMsg.Data
     | RewardMsg.Data
     | SlashingMsg.Data
     | UpgradeMsg.Data
@@ -258,17 +275,19 @@ export namespace Msg {
     | GovMsg.Proto
     | GroupMsg.Proto
     | IbcFeeMsg.Proto
-    | IbcTransferMsg.Proto
+    | IbcFetchpriceMsg.Proto
     | IbcNftMsg.Proto
     | IbcPermMsg.Proto
+    | IbcTransferMsg.Proto
+    | IbcChannelMsg.Proto
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
-    | IbcChannelMsg.Proto
     | InterTxMsg.Proto
     | MoveMsg.Proto
     | MstakingMsg.Proto
     | OpchildMsg.Proto
     | OphostMsg.Proto
+    | OracleMsg.Proto
     | RewardMsg.Proto
     | SlashingMsg.Proto
     | UpgradeMsg.Proto
@@ -386,9 +405,9 @@ export namespace Msg {
       case 'cosmos-sdk/group/MsgVote':
         return MsgGroupVote.fromAmino(data);
 
-      // ibc-transfer
-      case 'cosmos-sdk/MsgTransfer':
-        return MsgTransfer.fromAmino(data);
+      // ibc-fetchprice
+      case 'fetchprice/MsgFetchPrice':
+        return MsgFetchPrice.fromAmino(data);
 
       // ibc-nft-transfer
       case 'nft-transfer/MsgTransfer':
@@ -399,6 +418,10 @@ export namespace Msg {
       // ibc-perm
       case 'perm/MsgUpdateChannelRelayer':
         return MsgUpdateChannelRelayer.fromAmino(data);
+
+      // ibc-transfer
+      case 'cosmos-sdk/MsgTransfer':
+        return MsgTransfer.fromAmino(data);
 
       // intertx
       case 'intertx/MsgRegisterAccount':
@@ -475,6 +498,12 @@ export namespace Msg {
         return MsgUpdateChallenger.fromAmino(data);
       case 'ophost/MsgUpdateParams':
         return MsgUpdateOphostParams.fromAmino(data);
+
+      // oracle
+      case 'slinky/x/oracle/MsgAddCurrencyPairs':
+        return MsgAddCurrencyPairs.fromAmino(data);
+      case 'slinky/x/oracle/MsgSetCurrencyPairs':
+        return MsgRemoveCurrencyPairs.fromAmino(data);
 
       // reward
       case 'reward/MsgUpdateParams':
@@ -652,9 +681,9 @@ export namespace Msg {
       case '/ibc.applications.fee.v1.MsgRegisterPayee':
         return MsgRegisterPayee.fromData(data);
 
-      // ibc-transfer
-      case '/ibc.applications.transfer.v1.MsgTransfer':
-        return MsgTransfer.fromData(data);
+      // ibc-fetchprice
+      case '/ibc.applications.fetchprice.consumer.v1.MsgFetchPrice':
+        return MsgFetchPrice.fromData(data);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':
@@ -666,25 +695,9 @@ export namespace Msg {
       case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
         return MsgUpdateChannelRelayer.fromData(data);
 
-      // ibc-client
-      case '/ibc.core.client.v1.MsgCreateClient':
-        return MsgCreateClient.fromData(data);
-      case '/ibc.core.client.v1.MsgUpdateClient':
-        return MsgUpdateClient.fromData(data);
-      case '/ibc.core.client.v1.MsgUpgradeClient':
-        return MsgUpgradeClient.fromData(data);
-      case '/ibc.core.client.v1.MsgSubmitMisbehaviour':
-        return MsgSubmitMisbehaviour.fromData(data);
-
-      // ibc-connection
-      case '/ibc.core.connection.v1.MsgConnectionOpenInit':
-        return MsgConnectionOpenInit.fromData(data);
-      case '/ibc.core.connection.v1.MsgConnectionOpenTry':
-        return MsgConnectionOpenTry.fromData(data);
-      case '/ibc.core.connection.v1.MsgConnectionOpenConfirm':
-        return MsgConnectionOpenConfirm.fromData(data);
-      case '/ibc.core.connection.v1.MsgConnectionOpenAck':
-        return MsgConnectionOpenAck.fromData(data);
+      // ibc-transfer
+      case '/ibc.applications.transfer.v1.MsgTransfer':
+        return MsgTransfer.fromData(data);
 
       // ibc-channel
       case '/ibc.core.channel.v1.MsgChannelOpenInit':
@@ -707,6 +720,36 @@ export namespace Msg {
         return MsgTimeout.fromData(data);
       case '/ibc.core.channel.v1.MsgTimeoutOnClose':
         return MsgTimeoutOnClose.fromData(data);
+      case '/ibc.core.channel.v1.MsgUpdateParams':
+        return MsgUpdateIbcChannelParams.fromData(data);
+
+      // ibc-client
+      case '/ibc.core.client.v1.MsgCreateClient':
+        return MsgCreateClient.fromData(data);
+      case '/ibc.core.client.v1.MsgUpdateClient':
+        return MsgUpdateClient.fromData(data);
+      case '/ibc.core.client.v1.MsgUpgradeClient':
+        return MsgUpgradeClient.fromData(data);
+      case '/ibc.core.client.v1.MsgSubmitMisbehaviour':
+        return MsgSubmitMisbehaviour.fromData(data);
+      case '/ibc.core.client.v1.MsgRecoverClient':
+        return MsgRecoverClient.fromData(data);
+      case '/ibc.core.client.v1.MsgIBCSoftwareUpgrade':
+        return MsgIBCSoftwareUpgrade.fromData(data);
+      case '/ibc.core.client.v1.MsgUpdateParams':
+        return MsgUpdateIbcClientParams.fromData(data);
+
+      // ibc-connection
+      case '/ibc.core.connection.v1.MsgConnectionOpenInit':
+        return MsgConnectionOpenInit.fromData(data);
+      case '/ibc.core.connection.v1.MsgConnectionOpenTry':
+        return MsgConnectionOpenTry.fromData(data);
+      case '/ibc.core.connection.v1.MsgConnectionOpenConfirm':
+        return MsgConnectionOpenConfirm.fromData(data);
+      case '/ibc.core.connection.v1.MsgConnectionOpenAck':
+        return MsgConnectionOpenAck.fromData(data);
+      case '/ibc.core.connection.v1.MsgUpdateParams':
+        return MsgUpdateIbcConnectionParams.fromData(data);
 
       // intertx
       case '/initia.intertx.v1.MsgRegisterAccount':
@@ -783,6 +826,12 @@ export namespace Msg {
         return MsgUpdateChallenger.fromData(data);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.fromData(data);
+
+      // oracle
+      case '/slinky.oracle.v1.MsgAddCurrencyPairs':
+        return MsgAddCurrencyPairs.fromData(data);
+      case '/slinky.oracle.v1.MsgRemoveCurrencyPairs':
+        return MsgRemoveCurrencyPairs.fromData(data);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
@@ -963,9 +1012,9 @@ export namespace Msg {
       case '/ibc.applications.fee.v1.MsgRegisterPayee':
         return MsgRegisterPayee.unpackAny(proto);
 
-      // ibc-transfer
-      case '/ibc.applications.transfer.v1.MsgTransfer':
-        return MsgTransfer.unpackAny(proto);
+      // ibc-fetchprice
+      case '/ibc.applications.fetchprice.consumer.v1.MsgFetchPrice':
+        return MsgFetchPrice.unpackAny(proto);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':
@@ -977,25 +1026,9 @@ export namespace Msg {
       case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
         return MsgUpdateChannelRelayer.unpackAny(proto);
 
-      // ibc-client
-      case '/ibc.core.client.v1.MsgCreateClient':
-        return MsgCreateClient.unpackAny(proto);
-      case '/ibc.core.client.v1.MsgUpdateClient':
-        return MsgUpdateClient.unpackAny(proto);
-      case '/ibc.core.client.v1.MsgUpgradeClient':
-        return MsgUpgradeClient.unpackAny(proto);
-      case '/ibc.core.client.v1.MsgSubmitMisbehaviour':
-        return MsgSubmitMisbehaviour.unpackAny(proto);
-
-      // ibc-connection
-      case '/ibc.core.connection.v1.MsgConnectionOpenInit':
-        return MsgConnectionOpenInit.unpackAny(proto);
-      case '/ibc.core.connection.v1.MsgConnectionOpenTry':
-        return MsgConnectionOpenTry.unpackAny(proto);
-      case '/ibc.core.connection.v1.MsgConnectionOpenConfirm':
-        return MsgConnectionOpenConfirm.unpackAny(proto);
-      case '/ibc.core.connection.v1.MsgConnectionOpenAck':
-        return MsgConnectionOpenAck.unpackAny(proto);
+      // ibc-transfer
+      case '/ibc.applications.transfer.v1.MsgTransfer':
+        return MsgTransfer.unpackAny(proto);
 
       // ibc-channel
       case '/ibc.core.channel.v1.MsgChannelOpenInit':
@@ -1018,6 +1051,36 @@ export namespace Msg {
         return MsgTimeout.unpackAny(proto);
       case '/ibc.core.channel.v1.MsgTimeoutOnClose':
         return MsgTimeoutOnClose.unpackAny(proto);
+      case '/ibc.core.channel.v1.MsgUpdateParams':
+        return MsgUpdateIbcChannelParams.unpackAny(proto);
+
+      // ibc-client
+      case '/ibc.core.client.v1.MsgCreateClient':
+        return MsgCreateClient.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgUpdateClient':
+        return MsgUpdateClient.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgUpgradeClient':
+        return MsgUpgradeClient.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgSubmitMisbehaviour':
+        return MsgSubmitMisbehaviour.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgRecoverClient':
+        return MsgRecoverClient.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgIBCSoftwareUpgrade':
+        return MsgIBCSoftwareUpgrade.unpackAny(proto);
+      case '/ibc.core.client.v1.MsgUpdateParams':
+        return MsgUpdateIbcClientParams.unpackAny(proto);
+
+      // ibc-connection
+      case '/ibc.core.connection.v1.MsgConnectionOpenInit':
+        return MsgConnectionOpenInit.unpackAny(proto);
+      case '/ibc.core.connection.v1.MsgConnectionOpenTry':
+        return MsgConnectionOpenTry.unpackAny(proto);
+      case '/ibc.core.connection.v1.MsgConnectionOpenConfirm':
+        return MsgConnectionOpenConfirm.unpackAny(proto);
+      case '/ibc.core.connection.v1.MsgConnectionOpenAck':
+        return MsgConnectionOpenAck.unpackAny(proto);
+      case '/ibc.core.connection.v1.MsgUpdateParams':
+        return MsgUpdateIbcConnectionParams.unpackAny(proto);
 
       // intertx
       case '/initia.intertx.v1.MsgRegisterAccount':
@@ -1094,6 +1157,12 @@ export namespace Msg {
         return MsgUpdateChallenger.unpackAny(proto);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.unpackAny(proto);
+
+      // oracle
+      case '/slinky.oracle.v1.MsgAddCurrencyPairs':
+        return MsgAddCurrencyPairs.unpackAny(proto);
+      case '/slinky.oracle.v1.MsgRemoveCurrencyPairs':
+        return MsgRemoveCurrencyPairs.unpackAny(proto);
 
       // reward
       case '/initia.reward.v1.MsgUpdateParams':

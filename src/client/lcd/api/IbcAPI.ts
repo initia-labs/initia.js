@@ -6,17 +6,8 @@ import {
   Channel,
   IdentifiedConnection,
   Height,
+  IbcClientParams,
 } from '../../../core';
-
-export interface IbcClientParams {
-  allowed_clients: string[];
-}
-
-export namespace IbcClientParams {
-  export interface Data {
-    allowed_clients: string[];
-  }
-}
 
 export interface Status {
   status: string;
@@ -141,9 +132,7 @@ export class IbcAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<IbcClientParams> {
     return this.c
       .get<{ params: IbcClientParams.Data }>(`/ibc/client/v1/params`, params)
-      .then(({ params: d }) => ({
-        allowed_clients: d.allowed_clients,
-      }));
+      .then(d => IbcClientParams.fromData(d.params));
   }
 
   /**

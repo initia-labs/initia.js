@@ -4,7 +4,7 @@ import {
   Channel as Channel_pb,
 } from '@initia/initia.proto/ibc/core/channel/v1/channel';
 import { JSONSerializable } from '../../../../util/json';
-import { Counterparty } from './Counterparty';
+import { ChannelCounterparty } from './ChannelCounterparty';
 
 /**
  * Channel is a monotonically increasing data type
@@ -33,7 +33,7 @@ export class Channel extends JSONSerializable<
   constructor(
     public state: State,
     public ordering: Order,
-    public counterparty: Counterparty | undefined,
+    public counterparty: ChannelCounterparty | undefined,
     public connection_hops: string[],
     public version: string
   ) {
@@ -45,7 +45,7 @@ export class Channel extends JSONSerializable<
     return new Channel(
       state,
       ordering,
-      counterparty ? Counterparty.fromAmino(counterparty) : undefined,
+      counterparty ? ChannelCounterparty.fromAmino(counterparty) : undefined,
       connection_hops,
       version
     );
@@ -68,7 +68,7 @@ export class Channel extends JSONSerializable<
     return new Channel(
       state,
       ordering,
-      counterparty ? Counterparty.fromData(counterparty) : undefined,
+      counterparty ? ChannelCounterparty.fromData(counterparty) : undefined,
       connection_hops,
       version
     );
@@ -91,7 +91,7 @@ export class Channel extends JSONSerializable<
       proto.state,
       proto.ordering,
       proto.counterparty
-        ? Counterparty.fromProto(proto.counterparty)
+        ? ChannelCounterparty.fromProto(proto.counterparty)
         : undefined,
       proto.connectionHops,
       proto.version
@@ -114,7 +114,7 @@ export namespace Channel {
   export interface Amino {
     state: State;
     ordering: Order;
-    counterparty?: Counterparty.Amino;
+    counterparty?: ChannelCounterparty.Amino;
     connection_hops: string[];
     version: string;
   }
@@ -122,7 +122,7 @@ export namespace Channel {
   export interface Data {
     state: State;
     ordering: Order;
-    counterparty?: Counterparty.Data;
+    counterparty?: ChannelCounterparty.Data;
     connection_hops: string[];
     version: string;
   }

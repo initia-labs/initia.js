@@ -10,6 +10,7 @@ import {
   GovAPI,
   GroupAPI,
   IbcAPI,
+  IbcFetchpriceAPI,
   IbcNftAPI,
   IbcTransferAPI,
   IbcPermAPI,
@@ -18,6 +19,7 @@ import {
   MstakingAPI,
   OpchildAPI,
   OphostAPI,
+  OracleAPI,
   RewardAPI,
   SlashingAPI,
   TendermintAPI,
@@ -87,6 +89,7 @@ export class LCDClient {
   public gov: GovAPI;
   public group: GroupAPI;
   public ibc: IbcAPI;
+  public ibcFetchprice: IbcFetchpriceAPI;
   public ibcNft: IbcNftAPI;
   public ibcTransfer: IbcTransferAPI;
   public ibcPerm: IbcPermAPI;
@@ -95,6 +98,7 @@ export class LCDClient {
   public mstaking: MstakingAPI;
   public opchild: OpchildAPI;
   public ophost: OphostAPI;
+  public oracle: OracleAPI;
   public reward: RewardAPI;
   public slashing: SlashingAPI;
   public tendermint: TendermintAPI;
@@ -133,6 +137,7 @@ export class LCDClient {
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);
+    this.ibcFetchprice = new IbcFetchpriceAPI(this.apiRequester);
     this.ibcNft = new IbcNftAPI(this.apiRequester);
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
     this.ibcPerm = new IbcPermAPI(this.apiRequester);
@@ -141,6 +146,7 @@ export class LCDClient {
     this.mstaking = new MstakingAPI(this.apiRequester);
     this.opchild = new OpchildAPI(this.apiRequester);
     this.ophost = new OphostAPI(this.apiRequester);
+    this.oracle = new OracleAPI(this.apiRequester);
     this.reward = new RewardAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
     this.tendermint = new TendermintAPI(this.apiRequester);

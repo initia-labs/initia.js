@@ -6,7 +6,7 @@ import {
   stateFromJSON,
   stateToJSON,
 } from '@initia/initia.proto/ibc/core/connection/v1/connection';
-import { Counterparty } from './Counterparty';
+import { ConnectionCounterparty } from './ConnectionCounterparty';
 import Long from 'long';
 
 export { State, stateFromJSON, stateToJSON };
@@ -32,7 +32,7 @@ export class IdentifiedConnection extends JSONSerializable<
     public client_id: string,
     public versions: IbcVersion[],
     public state: State,
-    public counterparty: Counterparty | undefined,
+    public counterparty: ConnectionCounterparty | undefined,
     public delay_period: number
   ) {
     super();
@@ -47,7 +47,7 @@ export class IdentifiedConnection extends JSONSerializable<
       client_id,
       versions.map(IbcVersion.fromAmino),
       stateFromJSON(state),
-      counterparty ? Counterparty.fromAmino(counterparty) : undefined,
+      counterparty ? ConnectionCounterparty.fromAmino(counterparty) : undefined,
       Number.parseInt(delay_period)
     );
   }
@@ -74,7 +74,7 @@ export class IdentifiedConnection extends JSONSerializable<
       client_id,
       versions.map(IbcVersion.fromData),
       stateFromJSON(state),
-      counterparty ? Counterparty.fromData(counterparty) : undefined,
+      counterparty ? ConnectionCounterparty.fromData(counterparty) : undefined,
       Number.parseInt(delay_period)
     );
   }
@@ -101,7 +101,7 @@ export class IdentifiedConnection extends JSONSerializable<
       proto.versions.map(IbcVersion.fromProto),
       proto.state,
       proto.counterparty
-        ? Counterparty.fromProto(proto.counterparty)
+        ? ConnectionCounterparty.fromProto(proto.counterparty)
         : undefined,
       proto.delayPeriod.toNumber()
     );
@@ -126,7 +126,7 @@ export namespace IdentifiedConnection {
     client_id: string;
     versions: IbcVersion.Amino[];
     state: string;
-    counterparty?: Counterparty.Amino;
+    counterparty?: ConnectionCounterparty.Amino;
     delay_period: string;
   }
 
@@ -135,7 +135,7 @@ export namespace IdentifiedConnection {
     client_id: string;
     versions: IbcVersion.Data[];
     state: string;
-    counterparty?: Counterparty.Data;
+    counterparty?: ConnectionCounterparty.Data;
     delay_period: string;
   }
 

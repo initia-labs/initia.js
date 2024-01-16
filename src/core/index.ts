@@ -25,6 +25,7 @@ export * from './move';
 export * from './mstaking';
 export * from './opchild';
 export * from './ophost';
+export * from './oracle';
 export * from './params';
 export * from './reward';
 export * from './slashing';
