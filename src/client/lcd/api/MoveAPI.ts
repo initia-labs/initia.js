@@ -146,12 +146,14 @@ export class MoveAPI extends BaseAPI {
   public async resource<T>(
     address: AccAddress,
     structTag: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: any = {}
   ): Promise<{ type: string; data: T }> {
     return this.c
       .get<{ resource: Resource }>(
         `/initia/move/v1/accounts/${address}/resources/by_struct_tag`,
-        { ...params, struct_tag: structTag }
+        { ...params, struct_tag: structTag },
+        headers
       )
       .then(({ resource: d }) => JSON.parse(d.move_resource));
   }

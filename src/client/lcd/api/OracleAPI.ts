@@ -19,14 +19,17 @@ export class OracleAPI extends BaseAPI {
   public async price(
     pair: CurrencyPair,
     params: APIParams = {},
-    header: any = {}
+    headers: any = {}
   ): Promise<QuotePrice> {
     return this.c
-      .get<{ price: QuotePrice.Data }>(`/slinky/oracle/v1/get_price`, {
-        ...params,
-        currency_pair_id: pair.toString(),
-        header,
-      })
+      .get<{ price: QuotePrice.Data }>(
+        `/slinky/oracle/v1/get_price`,
+        {
+          ...params,
+          currency_pair_id: pair.toString(),
+        },
+        headers
+      )
       .then(d => QuotePrice.fromData(d.price));
   }
 }
