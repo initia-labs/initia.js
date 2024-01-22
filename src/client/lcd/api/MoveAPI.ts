@@ -129,13 +129,14 @@ export class MoveAPI extends BaseAPI {
 
   public async resources(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: any = {}
   ): Promise<[{ type: string; data: any }[], Pagination]> {
     return this.c
       .get<{
         resources: Resource[];
         pagination: Pagination;
-      }>(`/initia/move/v1/accounts/${address}/resources`, params)
+      }>(`/initia/move/v1/accounts/${address}/resources`, params, headers)
       .then(d => [
         d.resources.map(res => JSON.parse(res.move_resource)),
         d.pagination,
@@ -169,12 +170,14 @@ export class MoveAPI extends BaseAPI {
 
   public async tableEntries(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: any = {}
   ): Promise<[TableEntry[], Pagination]> {
     return this.c
       .get<{ table_entries: TableEntry[]; pagination: Pagination }>(
         `/initia/move/v1/tables/${address}/entries`,
-        params
+        params,
+        headers
       )
       .then(d => [d.table_entries, d.pagination]);
   }
@@ -182,12 +185,14 @@ export class MoveAPI extends BaseAPI {
   public async tableEntry(
     address: AccAddress,
     keyBytes: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: any = {}
   ): Promise<TableEntry> {
     return this.c
       .get<{ table_entry: TableEntry }>(
         `/initia/move/v1/tables/${address}/entries/by_key_bytes`,
-        { ...params, key_bytes: keyBytes }
+        { ...params, key_bytes: keyBytes },
+        headers
       )
       .then(d => d.table_entry);
   }
