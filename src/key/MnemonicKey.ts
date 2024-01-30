@@ -21,7 +21,7 @@ interface MnemonicKeyOptions {
   index?: number;
 
   /**
-   * Coin type. Default is INI, 118.
+   * Coin type. Default is INIT, 118.
    */
   coinType?: number;
 }

@@ -33,10 +33,10 @@ The usage section of this document provides detailed explanations and code examp
 ```typescript
 import { LCDClient } from '@initia/initia.js'
 
-const lcd = new LCDClient('https://stone-rest.initia.tech/', {
-    chainId: "stone-7",
-    gasPrices: "0.005uinit", // default gas prices
-    gasAdjustment: "2.0",  // default gas adjustment for fee estimation
+const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
+    chainId: 'mahalo-1',
+    gasPrices: '0.15uinit', // default gas prices
+    gasAdjustment: '1.75',  // default gas adjustment for fee estimation
 });
 ```
 
@@ -49,10 +49,10 @@ const lcd = new LCDClient('https://stone-rest.initia.tech/', {
 An abstract key interface that enables transaction signing and provides Bech32 address and public key derivation from a public key.&#x20;
 
 ```typescript
-import { MnemonicKey } from "@initia/initia.js";
+import { MnemonicKey } from '@initia/initia.js';
 
 const key = new MnemonicKey({
-    mnemonic: "bird upset ...  evil cigar", // (optional) if null, generate a new Mnemonic key
+    mnemonic: 'bird upset ...  evil cigar', // (optional) if null, generate a new Mnemonic key
     account: 0, // (optional) BIP44 account number. default = 0
     index: 0, // (optional) BIP44 index number. defualt = 0
     coinType: 118, // (optional) BIP44 coinType. default = 118
@@ -64,29 +64,34 @@ const key = new MnemonicKey({
 **BCS**(Binary Canonical Serialization) is the binary encoding for Move resources and other non-module values published on-chain. &#x20;
 
 ```typescript
-import { BCS } from "@initia/initia.js";
-
-const bcs = BCS.getInstance();
+import { bcs } from '@initia/initia.js';
 
 // serialize, serialize value to BCS and encode it to base64
-const serializedU64 = bcs.serialize("u64" /*type*/, 1234 /*value*/);
+const serializedU64 = bcs
+    .u64() // type
+    .serialize(1234); // value 
+    .toBase64()
 
 // deserialize
-const deserializedU64 = bcs.deserialize(
-  "u64", //type
-  serializedU64 // base64 encoded and BCS serialize value
-);
+const deserializedU64 = bcs
+    .u64() // type
+    .parse(
+        Uint8Array.from(Buffer.from(serializedU64, 'base64'))
+    );
 
 // vector
-const serializedVector = bcs.serialize("vector<u64>", [123, 456, 678]);
+const serializedVector = bcs
+    .vector(bcs.u64())
+    .serialize([123, 456, 789])
+    .toBase64();
 
 // option
-const serializedSome = bcs.serialize("option<u64>", 123); // some
-const serializedNone = bcs.serialize("option<u64>", null); // none
+const serializedSome = bcs.option(bcs.u64()).serialize(123);
+const serializedNone = bcs.option(bcs.u64()).serialize(null);
 ```
 
 **Support types for BCS**
-> \`u8\`, \`u16\`, \`u32\`, \`u64\`, \`u128\`, \`u256\`, \`bool\`, \`vector\`, \`address\`, \`string\`, \`option\`
+> \`u8\`, \`u16\`, \`u32\`, \`u64\`, \`u128\`, \`u256\`, \`bool\`, \`vector\`, \`address\`, \`string\`, \`option\`, \`fixed_point32\`, \`fixed_point64\`, \`decimal128\`, \`decimal256\`
 
 
 ### Msg&#x20;
@@ -98,12 +103,12 @@ Msgs are object whose end-goal is to trigger state-transitions. They are wrapped
 Send coins to others.
 
 ```typescript
-import { MsgSend } from "@initia/initia.js";
+import { MsgSend } from '@initia/initia.js';
 
 const msg = new MsgSend(
-    "init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu",   // sender address
-    "init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np",   // recipient address
-    "1000uinit",                                     // send amount
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu',   // sender address
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np',   // recipient address
+    '1000uinit',                                     // send amount
 );
 ```
 
@@ -112,12 +117,12 @@ const msg = new MsgSend(
 Delegate governance coin to validators (staking).
 
 ```typescript
-import { MsgDelegate } from "@initia/initia.js";
+import { MsgDelegate } from '@initia/initia.js';
 
 const msg = new MsgDelegate(
-    "init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu", // delegator address
-    "init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np", // validator's operator addres
-    "100000uinit",                                 // delegate amount
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
+    '100000uinit',                                 // delegate amount
 )
 ```
 
@@ -126,12 +131,12 @@ const msg = new MsgDelegate(
 Undelegate governance coin from validators (unstaking).
 
 ```typescript
-import { MsgUndelegate } from "@initia/initia.js";
+import { MsgUndelegate } from '@initia/initia.js';
 
 const msg = new MsgUndelegate(
-    "init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu", // delegator address
-    "init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np", // validator's operator addres
-    "100000uinit",                                 // undelegate amount
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
+    '100000uinit',                                 // undelegate amount
 )
 ```
 
@@ -140,15 +145,19 @@ const msg = new MsgUndelegate(
 Execute move contract function.
 
 ```typescript
-import { MsgExecute } from "@initia/initia.js";
+import { MsgExecute } from '@initia/initia.js';
 
 const msg = new MsgExecute(
-    "init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu",                     // sender address
-    "init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np",                     // owner of the module
-    "dex",                                                             // name of the module
-    "swap_script",                                                     // function name
-    ["0x1::native_uinit::Coin", "0x2::module_name::AnotherCoin"],      // type arguments
-    [bcs.serialize("u64", 10000), bcs.serialize("optoin<u64>", null)], // arguments
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // sender address
+    '0x1',                                         // owner of the module
+    'dex',                                         // name of the module
+    'swap_script',                                 // function name
+    [],                                            // type arguments
+    [                                              
+        bcs.address().serialize('0x2').toBase64(), // arguments, BCS-encoded
+        bcs.address().serialize('0x3').toBase64(), // arguments, BCS-encoded
+        bcs.u64().serialize(10000).toBase64()      // arguments, BCS-encoded
+    ]
 );
 ```
 
@@ -159,30 +168,30 @@ const msg = new MsgExecute(
 Create a wallet and sign transaction. &#x20;
 
 ```typescript
-import { Wallet, LCDClient, MnemonicKey } from "@initia/initia.js";
+import { Wallet, LCDClient, MnemonicKey } from '@initia/initia.js';
 
 const key = new MnemonicKey({
     mnemonic: 
         'moral wise tape glance grit gentle movie doll omit you pet soon enter year funny gauge digital supply cereal city ring egg repair coyote',
 });
 
-const lcd = new LCDClient('https://stone-rest.initia.tech/', {
-  chainId: 'stone-7',
-  gasPrices: '0.15uinit',
-  gasAdjustment: '2.0',
+const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
+    chainId: 'mahalo-1',
+    gasPrices: '0.15uinit', // default gas prices
+    gasAdjustment: '1.75',  // default gas adjustment for fee estimation
 });
 
 const wallet = new Wallet(lcd, key);
 
 const sendMsg = new MsgSend(
-    "init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu",   // sender address
-    "init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np",   // recipient address
-    "1000uinit",                                     // send amount
+    'init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu',   // sender address
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np',   // recipient address
+    '1000uinit',                                     // send amount
 );
 
 const signedTx = await wallet.createAndSignTx({
     msgs: [sendMsg],
-    memo: "sample memo",
+    memo: 'sample memo',
 });
 ```
 
@@ -203,20 +212,24 @@ const broadcastResult = await lcd.tx.broadcast(signedTx);
 Query the balance of the account.
 
 ```typescript
-const balances = await lcd.bank.balance("init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu");
+const balances = await lcd.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu');
 ```
 
 * `viewfunction()`
 
-Obtain the return values of a Move function that has a `public entry`.
+Obtain the return values of a Move view function.
 
 ```typescript
 const res = await lcd.move
   .viewFunction(
-    '0x1',                                                  // owner of the module
-    'dex',                                                  // name of the module
-    'get_swap_simulation',                                  // function name
-    ['0x1::native_uinit::Coin', '0x1::native_uusdc::Coin'], // type arguments
-    [bcs.serialize('u64', 10000)]                           // arguments
+    '0x1',                                         // owner of the module
+    'dex',                                         // name of the module
+    'get_swap_simulation',                         // function name
+    [],                                            // type arguments
+    [       
+        bcs.address().serialize('0x2').toBase64(), // arguments, BCS-encoded
+        bcs.address().serialize('0x3').toBase64(), // arguments, BCS-encoded
+        bcs.u64().serialize(10000).toBase64()      // arguments, BCS-encoded
+    ]                           
 )
 ```
