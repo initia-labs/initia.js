@@ -58,7 +58,7 @@ export class ContractExecutionAuthorization extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.ContractExecutionAuthorization',
+      typeUrl: '/cosmwasm.wasm.v1.ContractExecutionAuthorization',
       value: ContractExecutionAuthorization_pb.encode(this.toProto()).finish(),
     });
   }

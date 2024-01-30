@@ -1,44 +1,16 @@
 import { BaseAPI } from './BaseAPI';
-import { CurrencyPrice, IbcQuotePrice } from '../../../core';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { IbcFetchpriceParams } from '../../../core';
+import { APIParams } from '../APIRequester';
 
 export class IbcFetchpriceAPI extends BaseAPI {
-  public async prices(
-    currencyIds: string[],
+  public async parameters(
     params: APIParams = {}
-  ): Promise<CurrencyPrice[]> {
+  ): Promise<IbcFetchpriceParams> {
     return this.c
-      .get<{
-        prices: CurrencyPrice.Data[];
-      }>(
-        `/ibc/apps/fetchprice/consumer/v1/prices?currency_ids=${currencyIds}`,
+      .get<{ params: IbcFetchpriceParams.Data }>(
+        `/ibc/apps/fetchprice/v1/params`,
         params
       )
-      .then(d => d.prices.map(CurrencyPrice.fromData));
-  }
-
-  public async price(
-    currencyId: string,
-    params: APIParams = {}
-  ): Promise<IbcQuotePrice> {
-    return this.c
-      .get<{
-        price: IbcQuotePrice.Data;
-      }>(
-        `/ibc/apps/fetchprice/consumer/v1/prices?currency_id=${currencyId}`,
-        params
-      )
-      .then(d => IbcQuotePrice.fromData(d.price));
-  }
-
-  public async allPrices(
-    params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<[CurrencyPrice[], Pagination]> {
-    return this.c
-      .get<{
-        prices: CurrencyPrice.Data[];
-        pagination: Pagination;
-      }>(`/ibc/apps/fetchprice/consumer/v1/prices/all`, params)
-      .then(d => [d.prices.map(CurrencyPrice.fromData), d.pagination]);
+      .then(d => IbcFetchpriceParams.fromData(d.params));
   }
 }
