@@ -1,301 +1,111 @@
-import {
-  BCS as mystenBcs,
-  BcsWriter,
-  BcsReader,
-  fromHEX,
-  toHEX,
-  TypeName,
-  StructTypeDefinition,
-} from '@mysten/bcs';
+import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs';
 import { AccAddress, BigNumber, num } from '../core';
-import { MoveFunctionABI } from '../core/move/types';
-import { Encoding } from '@mysten/bcs/dist/types';
 
-export class BCS {
-  private static bcs: BCS;
-  private mystenBcs: mystenBcs;
-  private addressLength = 32;
-
-  static readonly U8: string = 'u8';
-  static readonly U16: string = 'u16';
-  static readonly U32: string = 'u32';
-  static readonly U64: string = 'u64';
-  static readonly U128: string = 'u128';
-  static readonly U256: string = 'u256';
-  static readonly BOOL: string = 'bool';
-  static readonly VECTOR: string = 'vector';
-  static readonly ADDRESS: string = 'address';
-  static readonly STRING: string = 'string';
-  static readonly OPTION: string = 'option';
-  static readonly OBJECT: string = 'object';
-  static readonly FIXED_POINT32: string = 'fixed_point32';
-  static readonly FIXED_POINT64: string = 'fixed_point64';
-  static readonly DECIMAL128: string = 'decimal128';
-  static readonly DECIMAL256: string = 'decimal256';
-
-  private constructor() {
-    this.mystenBcs = new mystenBcs({
-      genericSeparators: ['<', '>'],
-      vectorType: 'vector',
-      addressLength: this.addressLength,
-      addressEncoding: 'hex',
-    });
-
-    // Overwrite address with padStart
-    this.mystenBcs.registerType(
-      BCS.ADDRESS,
-      (writer: BcsWriter, data: string) => {
-        data = data.startsWith('init1') ? AccAddress.toHex(data) : data;
-        const address = data
-          .replace('0x', '')
-          .padStart(this.addressLength * 2, '0');
-
-        return fromHEX(address).reduce(
-          (writer, el) => writer.write8(el),
-          writer
-        );
-      },
-      reader => {
-        let rawString = toHEX(reader.readBytes(this.addressLength));
-        for (let i = 0; i < rawString.length; i++) {
-          if (rawString[i] !== '0') {
-            rawString = rawString.substring(i);
-            break;
-          }
-        }
-        return `0x${rawString}`;
+const initiaAddress = (
+  options?: BcsTypeOptions<Uint8Array, Iterable<number>>
+) =>
+  mystenBcs.bytes(32, options).transform({
+    input: (val: string) => {
+      if (val.startsWith('init1')) {
+        val = AccAddress.toHex(val);
       }
-    );
 
-    // register Object { inner: address }
-    this.mystenBcs.registerType(
-      BCS.OBJECT,
-      (writer: BcsWriter, data: string) => {
-        data = data.startsWith('init1') ? AccAddress.toHex(data) : data;
-        const address = data
-          .replace('0x', '')
-          .padStart(this.addressLength * 2, '0');
-
-        return fromHEX(address).reduce(
-          (writer, el) => writer.write8(el),
-          writer
-        );
-      },
-      reader => toHEX(reader.readBytes(this.addressLength))
-    );
-
-    // register FixedPoint32 { value: u64 }
-    this.mystenBcs.registerType(
-      BCS.FIXED_POINT32,
-      (writer: BcsWriter, data: number | string) => {
-        const n = num(data);
-        const val = n.times(new BigNumber('4294967296'));
-        return writer.write64(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
-      },
-      reader => {
-        const val = num(reader.read64());
-        return val.div(new BigNumber('4294967296')).toNumber();
+      if (val.startsWith('0x')) {
+        val = val.slice(2).padStart(64, '0');
       }
-    );
 
-    // register FixedPoint64 { value: u128 }
-    this.mystenBcs.registerType(
-      BCS.FIXED_POINT64,
-      (writer: BcsWriter, data: number | string) => {
-        const n = num(data);
-        const val = n.times(new BigNumber('18446744073709551616'));
-        return writer.write128(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
-      },
-      reader => {
-        const val = num(reader.read128());
-        return val.div(new BigNumber('18446744073709551616')).toNumber();
+      if (!val.match(/[0-9a-f]+$/i)) {
+        throw Error('invalid address');
       }
-    );
 
-    // register Decimal128 { value: u128 }
-    this.mystenBcs.registerType(
-      BCS.DECIMAL128,
-      (writer: BcsWriter, data: number | string) => {
-        const n = num(data);
-        const val = n.times(new BigNumber('1000000000000000000'));
-        return writer.write128(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
-      },
-      reader => {
-        const val = num(reader.read128());
-        return val.div(new BigNumber('1000000000000000000')).toNumber();
-      }
-    );
+      return Buffer.from(val, 'hex');
+    },
+    output: val => `0x${Buffer.from(val).toString('hex')}`,
+  });
 
-    // register Decimal256 { value: u256 }
-    this.mystenBcs.registerType(
-      BCS.DECIMAL256,
-      (writer: BcsWriter, data: number | string) => {
-        const n = num(data);
-        const val = n.times(new BigNumber('1000000000000000000'));
-        return writer.write256(BigInt(val.toFixed(0, BigNumber.ROUND_DOWN)));
-      },
-      reader => {
-        const val = num(reader.read256());
-        return val.div(new BigNumber('1000000000000000000')).toNumber();
-      }
-    );
-
-    this.registerOptionType(BCS.OPTION);
-  }
-
-  public static getInstance() {
-    if (!BCS.bcs) {
-      BCS.bcs = new BCS();
-    }
-
-    return BCS.bcs;
-  }
+// initia specific types
+const initiaBcs = {
+  /**
+   * Creates a BcsType that can be used to read and write an address.
+   * @example
+   * bcs.address().serialize('0x1') // in hex
+   * bcs.address().serialize('init1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqr5e3d') // in bech32
+   */
+  address: initiaAddress,
 
   /**
-   * Serialize data to bcs.
-   * Return base64 encoded string
-   *
-   * Preregistered types : `u8`, `u16`, `u32`, `u64`, `u128`, `u256`,
-   *   `bool`, `vector`, `address`, `string`, `option`
-   *
+   * Creates a BcsType that can be used to read and write an object.
    * @example
-   * const bcs = BCS.getInstance();
-   *
-   * const num = bcs.serialize(BCS.U64, 2187462); // numeric
-   * const bool = bcs.serialize(BCS.BOOL, true); // bool
-   * const vector = bcs.serialize('vector<u64>', [1, 2, 3, 4]); // vector
-   * const string = bcs.serialize(BCS.STRING, 'initia'); // string
-   * const optionSome = bcs.serialize('option<u64>', 18237); // option some
-   * const optionNone = bcs.serialize('option<u64>', null); // option none
-   *
-   * @param type Name of the type of serialize
-   * @param data Data to serialize
-   * @param size Serialization buffer size. Default 1024 bytes
-   * @return Base64 encoded of serialized data
+   * bcs.object().serialize('0x1') // in hex
+   * bcs.object().serialize('init1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpqr5e3d') // in bech32
    */
-  public serialize(type: string, data: any, size = 1024): string {
-    return this.mystenBcs.ser(type, data, { size }).toString('base64');
-  }
+  object: initiaAddress,
 
   /**
-   * Deserialize bcs.
-   *
+   * Creates a BcsType that can be used to read and write a fixed_point32.
    * @example
-   *
-   * const bcs = BCS.getInstance();
-   *
-   * const num = bcs.serialize(BCS.U64, 2187462);
-   * const deNum = bcs.deserialize(BCS.U64, 2187462);
-   *
-   * @param type Name of the type of deserialize
-   * @param data  Data to deserialize
-   * @param encoding Encoding to use if data is of type String. Default 'base64'
-   * @returns
+   * bcs.fixed_point32().serialize('1.23')
    */
-  public deserialize<T>(
-    type: string,
-    data: Uint8Array | string,
-    encoding = 'base64' as Encoding
-  ): T {
-    return this.mystenBcs.de(type, data, encoding) as T;
-  }
+  fixed_point32: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+    mystenBcs.u64(options).transform({
+      input: (val: number | string) => {
+        const n = num(val).times(new BigNumber('4294967296'));
+
+        return n.toFixed(0, BigNumber.ROUND_DOWN);
+      },
+      output: val => num(val).div(new BigNumber('4294967296')).toNumber(),
+    }),
 
   /**
-   * Safe method to register a custom Move struct. The first argument is a name of the
-   * struct which is only used on the FrontEnd and has no affect on serialization results,
-   * and the second is a struct description passed as an Object.
-   *
-   * The description object MUST have the same order on all of the platforms (ie in Move
-   * or in Rust).
-   *
+   * Creates a BcsType that can be used to read and write a fixed_point64.
    * @example
-   * // Move struct
-   * // struct Data {
-   * //   num: u64,
-   * //   str: std::string::String,
-   * //   vec: vector<bool>,
-   * // }
-   *
-   * const bcs = BCS.getInstance();
-   *
-   * bcs.registerStruct('data', {
-   *   num: BCS.U64,
-   *   str: BCS.STRING,
-   *   vec: 'vector<bool>'
-   * });
-   *
-   * const data = {
-   *   num: 1234,
-   *   str: '1234',
-   *   vec: [true, false, true],
-   * };
-   *
-   * const ser = bcs.serialize('data', data);
-   * const de = bcs.deserialize('data', ser);
-   *
-   * @param name Name of the type to register.
-   * @param fields Fields of the struct. Must be in the correct order.
+   * bcs.fixed_point64().serialize('1.23')
    */
-  public registerStruct(name: string, fields: StructTypeDefinition) {
-    this.mystenBcs.registerStructType(name, fields);
-  }
+  fixed_point64: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+    mystenBcs.u128(options).transform({
+      input: (val: number | string) => {
+        const n = num(val).times(new BigNumber('18446744073709551616'));
 
-  private registerOptionType(name: string, elementType?: string) {
-    const { name: typeName, params: typeParams } =
-      this.mystenBcs.parseTypeName(name);
+        return n.toFixed(0, BigNumber.ROUND_DOWN);
+      },
+      output: val =>
+        num(val).div(new BigNumber('18446744073709551616')).toNumber(),
+    }),
 
-    if (typeParams.length > 1) {
-      throw new Error('Option can have only one type parameter; got ' + name);
-    }
+  /**
+   * Creates a BcsType that can be used to read and write a decimal128.
+   * @example
+   * bcs.decimal128().serialize('1.23')
+   */
+  decimal128: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+    mystenBcs.u128(options).transform({
+      input: (val: number | string) => {
+        const n = num(val).times(new BigNumber('1000000000000000000'));
 
-    return this.mystenBcs.registerType(
-      typeName,
-      (writer: BcsWriter, data: any, typeParams: TypeName[]) =>
-        writer.writeVec(data === null ? [] : [data], (writer, el) => {
-          const vectorType = elementType ?? typeParams[0];
+        return n.toFixed(0, BigNumber.ROUND_DOWN);
+      },
+      output: val =>
+        num(val).div(new BigNumber('1000000000000000000')).toNumber(),
+    }),
 
-          if (vectorType) {
-            const { name: typeName, params: typeParams } =
-              this.mystenBcs.parseTypeName(vectorType);
-            return this.mystenBcs
-              .getTypeInterface(elementType ?? typeName)
-              ._encodeRaw(writer, el, typeParams, {});
-          } else {
-            throw new Error(
-              `Incorrect number of type parameters passed to option '${typeName}'`
-            );
-          }
-        }),
-      (reader: BcsReader, typeParams) => {
-        const vec = reader.readVec(reader => {
-          const vectorType = elementType ?? typeParams[0];
-          if (vectorType) {
-            const { name: typeName, params: typeParams } =
-              this.mystenBcs.parseTypeName(vectorType);
-            return this.mystenBcs
-              .getTypeInterface(elementType ?? typeName)
-              ._decodeRaw(reader, typeParams, {});
-          } else {
-            throw new Error(
-              `Incorrect number of type parameters passed to option '${typeName}'`
-            );
-          }
-        });
-        return vec[0] ? vec[0] : null;
-      }
-    );
-  }
-}
+  /**
+   * Creates a BcsType that can be used to read and write a decimal256.
+   * @example
+   * bcs.decimal256().serialize('1.23')
+   */
+  decimal256: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+    mystenBcs.u256(options).transform({
+      input: (val: number | string) => {
+        const n = num(val).times(new BigNumber('1000000000000000000'));
 
-export function argsEncodeWithABI(args: any[], abi: MoveFunctionABI) {
-  const bcs = BCS.getInstance();
-  const paramTypes = abi.params
-    .map(param => {
-      param = param.replace('0x1::string::String', 'string');
-      param = param.replace('0x1::option::Option', 'option');
-      return param;
-    })
-    .filter(param => !/signer/.test(param));
+        return n.toFixed(0, BigNumber.ROUND_DOWN);
+      },
+      output: val =>
+        num(val).div(new BigNumber('1000000000000000000')).toNumber(),
+    }),
+};
 
-  return args.map((value, index) => bcs.serialize(paramTypes[index], value));
-}
+export const bcs = {
+  ...mystenBcs,
+  ...initiaBcs,
+};

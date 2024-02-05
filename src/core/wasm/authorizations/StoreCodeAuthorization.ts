@@ -54,7 +54,7 @@ export class StoreCodeAuthorization extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.StoreCodeAuthorization',
+      typeUrl: '/cosmwasm.wasm.v1.StoreCodeAuthorization',
       value: StoreCodeAuthorization_pb.encode(this.toProto()).finish(),
     });
   }

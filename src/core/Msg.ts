@@ -62,14 +62,23 @@ import {
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
 } from './ibc/applications/fee';
-import { IbcFetchpriceMsg, MsgFetchPrice } from './ibc/applications/fetchprice';
+import {
+  IbcFetchpriceMsg,
+  MsgActivate,
+  MsgDeactivate,
+  MsgUpdateIbcFetchpriceParams,
+} from './ibc/applications/fetchprice';
 import {
   IbcNftMsg,
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer';
 import { IbcPermMsg, MsgUpdateChannelRelayer } from './ibc/applications/perm';
-import { IbcTransferMsg, MsgTransfer } from './ibc/applications/transfer';
+import {
+  IbcTransferMsg,
+  MsgTransfer,
+  MsgUpdateIbcTransferParams,
+} from './ibc/applications/transfer';
 import {
   IbcChannelMsg,
   MsgChannelOpenInit,
@@ -406,8 +415,12 @@ export namespace Msg {
         return MsgGroupVote.fromAmino(data);
 
       // ibc-fetchprice
-      case 'fetchprice/MsgFetchPrice':
-        return MsgFetchPrice.fromAmino(data);
+      case 'fetchprice/MsgActivate':
+        return MsgActivate.fromAmino(data);
+      case 'fetchprice/MsgDeactivate':
+        return MsgDeactivate.fromAmino(data);
+      case 'fetchprice/MsgUpdateParams':
+        return MsgUpdateIbcFetchpriceParams.fromAmino(data);
 
       // ibc-nft-transfer
       case 'nft-transfer/MsgTransfer':
@@ -682,8 +695,12 @@ export namespace Msg {
         return MsgRegisterPayee.fromData(data);
 
       // ibc-fetchprice
-      case '/ibc.applications.fetchprice.consumer.v1.MsgFetchPrice':
-        return MsgFetchPrice.fromData(data);
+      case '/ibc.applications.fetchprice.v1.MsgActivate':
+        return MsgActivate.fromData(data);
+      case '/ibc.applications.fetchprice.v1.MsgDeactivate':
+        return MsgDeactivate.fromData(data);
+      case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
+        return MsgUpdateIbcFetchpriceParams.fromData(data);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':
@@ -698,6 +715,8 @@ export namespace Msg {
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.fromData(data);
+      case '/ibc.applications.transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcTransferParams.fromData(data);
 
       // ibc-channel
       case '/ibc.core.channel.v1.MsgChannelOpenInit':
@@ -1013,8 +1032,12 @@ export namespace Msg {
         return MsgRegisterPayee.unpackAny(proto);
 
       // ibc-fetchprice
-      case '/ibc.applications.fetchprice.consumer.v1.MsgFetchPrice':
-        return MsgFetchPrice.unpackAny(proto);
+      case '/ibc.applications.fetchprice.v1.MsgActivate':
+        return MsgActivate.unpackAny(proto);
+      case '/ibc.applications.fetchprice.v1.MsgDeactivate':
+        return MsgDeactivate.unpackAny(proto);
+      case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
+        return MsgUpdateIbcFetchpriceParams.unpackAny(proto);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':
@@ -1029,6 +1052,8 @@ export namespace Msg {
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
         return MsgTransfer.unpackAny(proto);
+      case '/ibc.applications.transfer.v1.MsgUpdateParams':
+        return MsgUpdateIbcTransferParams.unpackAny(proto);
 
       // ibc-channel
       case '/ibc.core.channel.v1.MsgChannelOpenInit':

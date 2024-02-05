@@ -9,6 +9,7 @@ import {
   ContractExecutionAuthorization,
   ContractMigrationAuthorization,
 } from '../../wasm';
+import { TransferAuthorization } from '../../ibc/applications/transfer';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz';
 
@@ -91,7 +92,8 @@ export type Authorization =
   | ExecuteAuthorization
   | StoreCodeAuthorization
   | ContractExecutionAuthorization
-  | ContractMigrationAuthorization;
+  | ContractMigrationAuthorization
+  | TransferAuthorization;
 
 export namespace Authorization {
   export type Amino =
@@ -111,7 +113,8 @@ export namespace Authorization {
     | ExecuteAuthorization.Data
     | StoreCodeAuthorization.Data
     | ContractExecutionAuthorization.Data
-    | ContractMigrationAuthorization.Data;
+    | ContractMigrationAuthorization.Data
+    | TransferAuthorization.Data;
   export type Proto =
     | SendAuthorization.Proto
     | GenericAuthorization.Proto
@@ -120,7 +123,8 @@ export namespace Authorization {
     | ExecuteAuthorization.Proto
     | StoreCodeAuthorization.Proto
     | ContractExecutionAuthorization.Proto
-    | ContractMigrationAuthorization.Proto;
+    | ContractMigrationAuthorization.Proto
+    | TransferAuthorization.Proto;
 
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
@@ -161,6 +165,8 @@ export namespace Authorization {
         return ContractExecutionAuthorization.fromData(data);
       case '/cosmwasm.wasm.v1.ContractMigrationAuthorization':
         return ContractMigrationAuthorization.fromData(data);
+      case '/ibc.applications.transfer.v1.TransferAuthorization':
+        return TransferAuthorization.fromData(data);
     }
   }
 
@@ -183,6 +189,8 @@ export namespace Authorization {
         return ContractExecutionAuthorization.unpackAny(proto);
       case '/cosmwasm.wasm.v1.ContractMigrationAuthorization':
         return ContractMigrationAuthorization.unpackAny(proto);
+      case '/ibc.applications.transfer.v1.TransferAuthorization':
+        return TransferAuthorization.unpackAny(proto);
     }
 
     throw new Error(`Authorization type ${typeUrl} not recognized`);
