@@ -12,6 +12,7 @@ import {
   MsgSend,
   MsgUpdateBankParams,
   MsgSetSendEnabled,
+  MsgSetDenomMetadata,
 } from './bank';
 import { CrisisMsg, MsgVerifyInvariant, MsgUpdateCrisisParams } from './crisis';
 import {
@@ -331,6 +332,8 @@ export namespace Msg {
         return MsgUpdateBankParams.fromAmino(data);
       case 'cosmos-sdk/MsgSetSendEnabled':
         return MsgSetSendEnabled.fromAmino(data);
+      case 'bank/MsgSetDenomMetadata':
+        return MsgSetDenomMetadata.fromAmino(data);
 
       // crisis
       case 'cosmos-sdk/MsgVerifyInvariant':
@@ -601,6 +604,8 @@ export namespace Msg {
         return MsgUpdateBankParams.fromData(data);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.fromData(data);
+      case '/initia.bank.v1.MsgSetDenomMetadata':
+        return MsgSetDenomMetadata.fromData(data);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
@@ -938,6 +943,8 @@ export namespace Msg {
         return MsgUpdateBankParams.unpackAny(proto);
       case '/cosmos.bank.v1beta1.MsgSetSendEnabled':
         return MsgSetSendEnabled.unpackAny(proto);
+      case '/initia.bank.v1.MsgSetDenomMetadata':
+        return MsgSetDenomMetadata.unpackAny(proto);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
