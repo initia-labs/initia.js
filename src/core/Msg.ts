@@ -69,6 +69,7 @@ import {
   MsgDeactivate,
   MsgUpdateIbcFetchpriceParams,
 } from './ibc/applications/fetchprice';
+import { IbcHooksMsg, MsgUpdateACL, MsgUpdateIbcHooksParams } from './ibchooks';
 import {
   IbcNftMsg,
   MsgNftTransfer,
@@ -199,6 +200,7 @@ export type Msg =
   | GroupMsg
   | IbcFeeMsg
   | IbcFetchpriceMsg
+  | IbcHooksMsg
   | IbcNftMsg
   | IbcPermMsg
   | IbcTransferMsg
@@ -229,6 +231,7 @@ export namespace Msg {
     | GovMsg.Amino
     | GroupMsg.Amino
     | IbcFetchpriceMsg.Amino
+    | IbcHooksMsg.Amino
     | IbcNftMsg.Amino
     | IbcPermMsg.Amino
     | IbcTransferMsg.Amino
@@ -256,6 +259,7 @@ export namespace Msg {
     | GroupMsg.Data
     | IbcFeeMsg.Data
     | IbcFetchpriceMsg.Data
+    | IbcHooksMsg.Data
     | IbcNftMsg.Data
     | IbcPermMsg.Data
     | IbcTransferMsg.Data
@@ -286,6 +290,7 @@ export namespace Msg {
     | GroupMsg.Proto
     | IbcFeeMsg.Proto
     | IbcFetchpriceMsg.Proto
+    | IbcHooksMsg.Proto
     | IbcNftMsg.Proto
     | IbcPermMsg.Proto
     | IbcTransferMsg.Proto
@@ -424,6 +429,12 @@ export namespace Msg {
         return MsgDeactivate.fromAmino(data);
       case 'fetchprice/MsgUpdateParams':
         return MsgUpdateIbcFetchpriceParams.fromAmino(data);
+
+      // ibc-hooks
+      case 'ibchooks/MsgUpdateACL':
+        return MsgUpdateACL.fromAmino(data);
+      case 'ibchooks/MsgUpdateParams':
+        return MsgUpdateIbcHooksParams.fromAmino(data);
 
       // ibc-nft-transfer
       case 'nft-transfer/MsgTransfer':
@@ -706,6 +717,12 @@ export namespace Msg {
         return MsgDeactivate.fromData(data);
       case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
         return MsgUpdateIbcFetchpriceParams.fromData(data);
+
+      // ibc-hooks
+      case '/initia.ibchooks.v1.MsgUpdateACL':
+        return MsgUpdateACL.fromData(data);
+      case '/initia.ibchooks.v1.MsgUpdateParams':
+        return MsgUpdateIbcHooksParams.fromData(data);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':
@@ -1045,6 +1062,12 @@ export namespace Msg {
         return MsgDeactivate.unpackAny(proto);
       case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
         return MsgUpdateIbcFetchpriceParams.unpackAny(proto);
+
+      // ibc-hooks
+      case '/initia.ibchooks.v1.MsgUpdateACL':
+        return MsgUpdateACL.unpackAny(proto);
+      case '/initia.ibchooks.v1.MsgUpdateParams':
+        return MsgUpdateIbcHooksParams.unpackAny(proto);
 
       // ibc-nft-transfer
       case '/ibc.applications.nft_transfer.v1.MsgTransfer':

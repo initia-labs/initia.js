@@ -20,6 +20,7 @@ export * from './feegrant';
 export * from './gov';
 export * from './group';
 export * from './ibc';
+export * from './ibchooks';
 export * from './intertx';
 export * from './move';
 export * from './mstaking';
