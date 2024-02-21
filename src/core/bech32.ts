@@ -67,7 +67,7 @@ export namespace AccAddress {
    * @param hexAddress hex address
    */
   export function fromHex(hexAddress: string): AccAddress {
-    const hex = hexAddress.replace(/^0x0+|^0+(?!x)/, '0x');
+    const hex = hexAddress.replace(/^0x0+|^0+(?!x)/, '');
     // That moudule address reach here is nearly impossible
     if (hex.length <= 40) {
       return bech32.encode(
