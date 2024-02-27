@@ -1,6 +1,7 @@
 import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Coin } from '../../Coin';
+import { Denom } from '../../Denom';
 import { MsgFinalizeTokenDeposit as MsgFinalizeTokenDeposit_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import Long from 'long';
@@ -26,6 +27,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
     public amount: Coin,
     public sequence: number,
     public height: number,
+    public base_denom: Denom,
     public data?: string
   ) {
     super();
@@ -35,7 +37,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
     msgAmino: MsgFinalizeTokenDeposit.Amino
   ): MsgFinalizeTokenDeposit {
     const {
-      value: { sender, from, to, amount, sequence, height, data },
+      value: { sender, from, to, amount, sequence, height, base_denom, data },
     } = msgAmino;
     return new MsgFinalizeTokenDeposit(
       sender,
@@ -44,12 +46,14 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromAmino(amount),
       Number.parseInt(sequence),
       Number.parseInt(height),
+      base_denom,
       data
     );
   }
 
   public toAmino(): MsgFinalizeTokenDeposit.Amino {
-    const { sender, from, to, amount, sequence, height, data } = this;
+    const { sender, from, to, amount, sequence, height, base_denom, data } =
+      this;
     return {
       type: 'opchild/MsgFinalizeTokenDeposit',
       value: {
@@ -59,6 +63,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
         amount: amount.toAmino(),
         sequence: sequence.toString(),
         height: height.toString(),
+        base_denom,
         data,
       },
     };
@@ -67,7 +72,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
   public static fromData(
     msgData: MsgFinalizeTokenDeposit.Data
   ): MsgFinalizeTokenDeposit {
-    const { sender, from, to, amount, sequence, height, data } = msgData;
+    const { sender, from, to, amount, sequence, height, base_denom, data } =
+      msgData;
     return new MsgFinalizeTokenDeposit(
       sender,
       from,
@@ -75,12 +81,14 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromData(amount),
       Number.parseInt(sequence),
       Number.parseInt(height),
+      base_denom,
       data
     );
   }
 
   public toData(): MsgFinalizeTokenDeposit.Data {
-    const { sender, from, to, amount, sequence, height, data } = this;
+    const { sender, from, to, amount, sequence, height, base_denom, data } =
+      this;
     return {
       '@type': '/opinit.opchild.v1.MsgFinalizeTokenDeposit',
       sender,
@@ -89,6 +97,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       amount: amount.toData(),
       sequence: sequence.toString(),
       height: height.toString(),
+      base_denom,
       data,
     };
   }
@@ -103,12 +112,14 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Coin.fromProto(msgProto.amount as Coin),
       msgProto.sequence.toNumber(),
       msgProto.height.toNumber(),
+      msgProto.baseDenom,
       Buffer.from(msgProto.data).toString('base64')
     );
   }
 
   public toProto(): MsgFinalizeTokenDeposit.Proto {
-    const { sender, from, to, amount, sequence, height, data } = this;
+    const { sender, from, to, amount, sequence, height, base_denom, data } =
+      this;
     return MsgFinalizeTokenDeposit_pb.fromPartial({
       sender,
       from,
@@ -116,6 +127,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       amount: amount.toProto(),
       sequence: Long.fromNumber(sequence),
       height: Long.fromNumber(height),
+      baseDenom: base_denom,
       data: data ? Buffer.from(data, 'base64') : undefined,
     });
   }
@@ -144,6 +156,7 @@ export namespace MsgFinalizeTokenDeposit {
       amount: Coin.Amino;
       sequence: string;
       height: string;
+      base_denom: Denom;
       data?: string;
     };
   }
@@ -156,6 +169,7 @@ export namespace MsgFinalizeTokenDeposit {
     amount: Coin.Data;
     sequence: string;
     height: string;
+    base_denom: Denom;
     data?: string;
   }
 
