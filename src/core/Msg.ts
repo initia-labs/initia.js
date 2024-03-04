@@ -75,7 +75,7 @@ import {
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer';
-import { IbcPermMsg, MsgUpdateChannelRelayer } from './ibc/applications/perm';
+import { IbcPermMsg, MsgSetPermissionedRelayer } from './ibc/applications/perm';
 import {
   IbcTransferMsg,
   MsgTransfer,
@@ -443,8 +443,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromAmino(data);
 
       // ibc-perm
-      case 'perm/MsgUpdateChannelRelayer':
-        return MsgUpdateChannelRelayer.fromAmino(data);
+      case 'perm/MsgSetPermissionedRelayer':
+        return MsgSetPermissionedRelayer.fromAmino(data);
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -731,8 +731,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromData(data);
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
-        return MsgUpdateChannelRelayer.fromData(data);
+      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayer':
+        return MsgSetPermissionedRelayer.fromData(data);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -1076,8 +1076,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.unpackAny(proto);
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgUpdateChannelRelayer':
-        return MsgUpdateChannelRelayer.unpackAny(proto);
+      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayer':
+        return MsgSetPermissionedRelayer.unpackAny(proto);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
