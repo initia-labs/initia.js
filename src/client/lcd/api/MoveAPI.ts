@@ -1,5 +1,5 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, MoveParams, ModuleABI } from '../../../core';
+import { AccAddress, Denom, MoveParams, ModuleABI } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
 import { argsEncodeWithABI } from '../../../util';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
@@ -27,6 +27,12 @@ export interface TableEntry {
   address: AccAddress;
   key: string;
   value: string;
+}
+
+export interface TableInfo {
+  address: AccAddress;
+  key_type: string;
+  value_type: string;
 }
 
 export class MoveAPI extends BaseAPI {
@@ -155,6 +161,21 @@ export class MoveAPI extends BaseAPI {
       .then(({ resource: d }) => JSON.parse(d.move_resource));
   }
 
+  public async denom(metadata: string, params: APIParams = {}): Promise<Denom> {
+    return this.c
+      .get<{ denom: Denom }>(`/initia/move/v1/denom`, { ...params, metadata })
+      .then(d => d.denom);
+  }
+
+  public async metadata(denom: Denom, params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{ metadata: string }>(`/initia/move/v1/metadata`, {
+        ...params,
+        denom,
+      })
+      .then(d => d.metadata);
+  }
+
   public async parameters(params: APIParams = {}): Promise<MoveParams> {
     return this.c
       .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
@@ -165,6 +186,18 @@ export class MoveAPI extends BaseAPI {
     return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
       code_bytes: codeBytes,
     });
+  }
+
+  public async tableInfo(
+    address: AccAddress,
+    params: APIParams = {}
+  ): Promise<TableInfo> {
+    return this.c
+      .get<{ table_info: TableInfo }>(
+        `/initia/move/v1/tables/${address}`,
+        params
+      )
+      .then(d => d.table_info);
   }
 
   public async tableEntries(
@@ -190,30 +223,5 @@ export class MoveAPI extends BaseAPI {
         { ...params, key_bytes: keyBytes }
       )
       .then(d => d.table_entry);
-  }
-
-  /**
-   * convert module address and module name from code bytes
-   *
-   * @param codeBytes base64 encoded move module code bytes
-   * @param moduleAddress new module address
-   * @param moduleName new module name
-   * @returns
-   */
-  public async convertModuleIdentifiers(
-    codeBytes: string,
-    moduleAddress: AccAddress,
-    moduleName: string
-  ): Promise<string> {
-    return this.c
-      .post<{ code_bytes: string }>(
-        `/initia/move/v1/api/convert_module_identifiers`,
-        {
-          code_bytes: codeBytes,
-          module_addr: moduleAddress,
-          module_name: moduleName,
-        }
-      )
-      .then(res => res.code_bytes);
   }
 }
