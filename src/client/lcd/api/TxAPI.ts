@@ -464,33 +464,6 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Broadcast the transaction using the "block" mode, waiting for its inclusion in the blockchain.
-   * @param tx transaction to broadcast
-   */
-  public async broadcastBlock(tx: Tx): Promise<BlockTxBroadcastResult> {
-    return this._broadcast<{ tx_response: BlockTxBroadcastResult.Data }>(
-      tx,
-      'BROADCAST_MODE_BLOCK'
-    ).then(({ tx_response: d }) => {
-      const blockResult: BlockTxBroadcastResult = {
-        txhash: d.txhash,
-        raw_log: d.raw_log,
-        gas_wanted: Number.parseInt(d.gas_wanted),
-        gas_used: Number.parseInt(d.gas_used),
-        height: +d.height,
-        logs: d.logs.map(l => TxLog.fromData(l)),
-        code: d.code,
-        codespace: d.codespace,
-        data: d.data,
-        info: d.info,
-        timestamp: d.timestamp,
-      };
-
-      return blockResult;
-    });
-  }
-
-  /**
    * NOTE: This is not a synchronous function and is unconventionally named. This function
    * can be await as it returns a `Promise`.
    *
