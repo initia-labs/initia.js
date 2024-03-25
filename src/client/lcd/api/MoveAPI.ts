@@ -35,6 +35,25 @@ export interface TableInfo {
   value_type: string;
 }
 
+export interface ViewRequest {
+  address: AccAddress;
+  module_name: string;
+  function_name: string;
+  type_args: string[];
+  args: string[];
+}
+
+export interface ViewResponse {
+  data: string;
+  events: VMEvent[];
+  gas_used: string;
+}
+
+export interface VMEvent {
+  type_tag: string;
+  data: string;
+}
+
 export class MoveAPI extends BaseAPI {
   public async modules(
     address: AccAddress,
@@ -131,6 +150,30 @@ export class MoveAPI extends BaseAPI {
       typeArgs,
       argsEncodeWithABI(args, functionAbi)
     );
+  }
+
+  public async view(
+    address: AccAddress,
+    moduleName: string,
+    functionName: string,
+    typeArgs: string[] = [],
+    args: string[] = []
+  ): Promise<ViewResponse> {
+    return this.c.post<ViewResponse>(`/initia/move/v1/view`, {
+      address,
+      module_name: moduleName,
+      function_name: functionName,
+      type_args: typeArgs,
+      args,
+    });
+  }
+
+  public async viewBatch(requests: ViewRequest[]): Promise<ViewResponse[]> {
+    return this.c
+      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/batch`, {
+        requests,
+      })
+      .then(d => d.responses);
   }
 
   public async resources(
