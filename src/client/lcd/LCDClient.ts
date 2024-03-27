@@ -6,6 +6,7 @@ import {
   BankAPI,
   DistributionAPI,
   EvidenceAPI,
+  EvmAPI,
   FeeGrantAPI,
   GovAPI,
   GroupAPI,
@@ -24,6 +25,7 @@ import {
   RewardAPI,
   SlashingAPI,
   TendermintAPI,
+  TokenfactoryAPI,
   TxAPI,
   UpgradeAPI,
   WasmAPI,
@@ -86,6 +88,7 @@ export class LCDClient {
   public bank: BankAPI;
   public distribution: DistributionAPI;
   public evidence: EvidenceAPI;
+  public evm: EvmAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
   public group: GroupAPI;
@@ -104,6 +107,7 @@ export class LCDClient {
   public reward: RewardAPI;
   public slashing: SlashingAPI;
   public tendermint: TendermintAPI;
+  public tokenfactory: TokenfactoryAPI;
   public tx: TxAPI;
   public upgrade: UpgradeAPI;
   public wasm: WasmAPI;
@@ -135,6 +139,7 @@ export class LCDClient {
     this.bank = new BankAPI(this.apiRequester);
     this.distribution = new DistributionAPI(this.apiRequester);
     this.evidence = new EvidenceAPI(this.apiRequester);
+    this.evm = new EvmAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);
@@ -153,6 +158,7 @@ export class LCDClient {
     this.reward = new RewardAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
     this.tendermint = new TendermintAPI(this.apiRequester);
+    this.tokenfactory = new TokenfactoryAPI(this.apiRequester);
     this.tx = new TxAPI(this);
     this.upgrade = new UpgradeAPI(this.apiRequester);
     this.wasm = new WasmAPI(this.apiRequester);
