@@ -24,6 +24,7 @@ import {
   RewardAPI,
   SlashingAPI,
   TendermintAPI,
+  TokenfactoryAPI,
   TxAPI,
   UpgradeAPI,
   WasmAPI,
@@ -104,6 +105,7 @@ export class LCDClient {
   public reward: RewardAPI;
   public slashing: SlashingAPI;
   public tendermint: TendermintAPI;
+  public tokenfactory: TokenfactoryAPI;
   public tx: TxAPI;
   public upgrade: UpgradeAPI;
   public wasm: WasmAPI;
@@ -153,6 +155,7 @@ export class LCDClient {
     this.reward = new RewardAPI(this.apiRequester);
     this.slashing = new SlashingAPI(this.apiRequester);
     this.tendermint = new TendermintAPI(this.apiRequester);
+    this.tokenfactory = new TokenfactoryAPI(this.apiRequester);
     this.tx = new TxAPI(this);
     this.upgrade = new UpgradeAPI(this.apiRequester);
     this.wasm = new WasmAPI(this.apiRequester);

@@ -22,6 +22,7 @@ export * from './OracleAPI';
 export * from './RewardAPI';
 export * from './SlashingAPI';
 export * from './TendermintAPI';
+export * from './TokenfactoryAPI';
 export * from './TxAPI';
 export * from './UpgradeAPI';
 export * from './WasmAPI';

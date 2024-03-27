@@ -30,6 +30,7 @@ export * from './oracle';
 export * from './params';
 export * from './reward';
 export * from './slashing';
+export * from './tokenfactory';
 export * from './tx';
 export * from './upgrade';
 export * from './wasm';

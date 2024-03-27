@@ -164,6 +164,17 @@ import {
 } from './oracle';
 import { RewardMsg, MsgUpdateRewardParams } from './reward';
 import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing';
+import {
+  TokenfactoryMsg,
+  MsgCreateDenom,
+  MsgMint,
+  MsgBurn,
+  MsgChangeAdmin,
+  MsgSetDenomMetadataWasm,
+  MsgSetBeforeSendHook,
+  MsgForceTransfer,
+  MsgUpdateTokenfactoryParams,
+} from './tokenfactory';
 import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade';
 import {
   WasmMsg,
@@ -215,6 +226,7 @@ export type Msg =
   | OracleMsg
   | RewardMsg
   | SlashingMsg
+  | TokenfactoryMsg
   | UpgradeMsg
   | WasmMsg;
 
@@ -243,6 +255,7 @@ export namespace Msg {
     | OracleMsg.Amino
     | RewardMsg.Amino
     | SlashingMsg.Amino
+    | TokenfactoryMsg.Amino
     | UpgradeMsg.Amino
     | WasmMsg.Amino;
 
@@ -274,6 +287,7 @@ export namespace Msg {
     | OracleMsg.Data
     | RewardMsg.Data
     | SlashingMsg.Data
+    | TokenfactoryMsg.Data
     | UpgradeMsg.Data
     | WasmMsg.Data;
 
@@ -305,6 +319,7 @@ export namespace Msg {
     | OracleMsg.Proto
     | RewardMsg.Proto
     | SlashingMsg.Proto
+    | TokenfactoryMsg.Proto
     | UpgradeMsg.Proto
     | WasmMsg.Proto;
 
@@ -541,6 +556,24 @@ export namespace Msg {
         return MsgUnjail.fromAmino(data);
       case 'cosmos-sdk/x/slashing/MsgUpdateParams':
         return MsgUpdateSlashingParams.fromAmino(data);
+
+      // tokenfactory
+      case 'tokenfactory/MsgCreateDenom':
+        return MsgCreateDenom.fromAmino(data);
+      case 'tokenfactory/MsgMint':
+        return MsgMint.fromAmino(data);
+      case 'tokenfactory/MsgBurn':
+        return MsgBurn.fromAmino(data);
+      case 'tokenfactory/MsgChangeAdmin':
+        return MsgChangeAdmin.fromAmino(data);
+      case 'tokenfactory/MsgSetDenomMetadata':
+        return MsgSetDenomMetadataWasm.fromAmino(data);
+      case 'tokenfactory/MsgSetBeforeSendHook':
+        return MsgSetBeforeSendHook.fromAmino(data);
+      case 'tokenfactory/MsgForceTransfer':
+        return MsgForceTransfer.fromAmino(data);
+      case 'tokenfactory/MsgUpdateParams':
+        return MsgUpdateTokenfactoryParams.fromAmino(data);
 
       // upgrade
       case 'cosmos-sdk/MsgSoftwareUpgrade':
@@ -883,6 +916,24 @@ export namespace Msg {
         return MsgUnjail.fromData(data);
       case '/cosmos.slashing.v1beta1.MsgUpdateParams':
         return MsgUpdateSlashingParams.fromData(data);
+
+      // tokenfactory
+      case '/miniwasm.tokenfactory.v1.MsgCreateDenom':
+        return MsgCreateDenom.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgMint':
+        return MsgMint.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgBurn':
+        return MsgBurn.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgChangeAdmin':
+        return MsgChangeAdmin.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgSetDenomMetadata':
+        return MsgSetDenomMetadataWasm.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgSetBeforeSendHook':
+        return MsgSetBeforeSendHook.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgForceTransfer':
+        return MsgForceTransfer.fromData(data);
+      case '/miniwasm.tokenfactory.v1.MsgUpdateParams':
+        return MsgUpdateTokenfactoryParams.fromData(data);
 
       // upgrade
       case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
@@ -1228,6 +1279,24 @@ export namespace Msg {
         return MsgUnjail.unpackAny(proto);
       case '/cosmos.slashing.v1beta1.MsgUpdateParams':
         return MsgUpdateSlashingParams.unpackAny(proto);
+
+      // tokenfactory
+      case '/miniwasm.tokenfactory.v1.MsgCreateDenom':
+        return MsgCreateDenom.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgMint':
+        return MsgMint.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgBurn':
+        return MsgBurn.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgChangeAdmin':
+        return MsgChangeAdmin.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgSetDenomMetadata':
+        return MsgSetDenomMetadataWasm.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgSetBeforeSendHook':
+        return MsgSetBeforeSendHook.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgForceTransfer':
+        return MsgForceTransfer.unpackAny(proto);
+      case '/miniwasm.tokenfactory.v1.MsgUpdateParams':
+        return MsgUpdateTokenfactoryParams.unpackAny(proto);
 
       // upgrade
       case '/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade':
