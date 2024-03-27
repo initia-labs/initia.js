@@ -16,6 +16,7 @@ export * from './consensus';
 export * from './crisis';
 export * from './distribution';
 export * from './evidence';
+export * from './evm';
 export * from './feegrant';
 export * from './gov';
 export * from './group';

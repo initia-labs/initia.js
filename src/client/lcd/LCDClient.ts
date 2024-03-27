@@ -6,6 +6,7 @@ import {
   BankAPI,
   DistributionAPI,
   EvidenceAPI,
+  EvmAPI,
   FeeGrantAPI,
   GovAPI,
   GroupAPI,
@@ -87,6 +88,7 @@ export class LCDClient {
   public bank: BankAPI;
   public distribution: DistributionAPI;
   public evidence: EvidenceAPI;
+  public evm: EvmAPI;
   public feeGrant: FeeGrantAPI;
   public gov: GovAPI;
   public group: GroupAPI;
@@ -137,6 +139,7 @@ export class LCDClient {
     this.bank = new BankAPI(this.apiRequester);
     this.distribution = new DistributionAPI(this.apiRequester);
     this.evidence = new EvidenceAPI(this.apiRequester);
+    this.evm = new EvmAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);

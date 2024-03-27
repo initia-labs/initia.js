@@ -26,6 +26,7 @@ import {
   MsgDepositValidatorRewardsPool,
 } from './distribution';
 import { EvidenceMsg, MsgSubmitEvidence } from './evidence';
+import { EvmMsg, MsgCreate, MsgCall, MsgUpdateEvmParams } from './evm';
 import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant';
 import {
   GovMsg,
@@ -206,6 +207,7 @@ export type Msg =
   | CrisisMsg
   | DistributionMsg
   | EvidenceMsg
+  | EvmMsg
   | FeeGrantMsg
   | GovMsg
   | GroupMsg
@@ -239,6 +241,7 @@ export namespace Msg {
     | CrisisMsg.Amino
     | DistributionMsg.Amino
     | EvidenceMsg.Amino
+    | EvmMsg.Amino
     | FeeGrantMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
@@ -267,6 +270,7 @@ export namespace Msg {
     | CrisisMsg.Data
     | DistributionMsg.Data
     | EvidenceMsg.Data
+    | EvmMsg.Data
     | FeeGrantMsg.Data
     | GovMsg.Data
     | GroupMsg.Data
@@ -299,6 +303,7 @@ export namespace Msg {
     | CrisisMsg.Proto
     | DistributionMsg.Proto
     | EvidenceMsg.Proto
+    | EvmMsg.Proto
     | FeeGrantMsg.Proto
     | GovMsg.Proto
     | GroupMsg.Proto
@@ -380,6 +385,14 @@ export namespace Msg {
       // evidence
       case 'cosmos-sdk/MsgSubmitEvidence':
         return MsgSubmitEvidence.fromAmino(data);
+
+      // evm
+      case 'evm/MsgCreate':
+        return MsgCreate.fromAmino(data);
+      case 'evm/MsgCall':
+        return MsgCall.fromAmino(data);
+      case 'evm/MsgUpdateParams':
+        return MsgUpdateEvmParams.fromAmino(data);
 
       // feegrant
       case 'cosmos-sdk/MsgGrantAllowance':
@@ -676,6 +689,14 @@ export namespace Msg {
       // evidence
       case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
         return MsgSubmitEvidence.fromData(data);
+
+      // evm
+      case '/minievm.evm.v1.MsgCreate':
+        return MsgCreate.fromData(data);
+      case '/minievm.evm.v1.MsgCall':
+        return MsgCall.fromData(data);
+      case '/minievm.evm.v1.MsgUpdateParams':
+        return MsgUpdateEvmParams.fromData(data);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
@@ -1039,6 +1060,14 @@ export namespace Msg {
       // evidence
       case '/cosmos.evidence.v1beta1.MsgSubmitEvidence':
         return MsgSubmitEvidence.unpackAny(proto);
+
+      // evm
+      case '/minievm.evm.v1.MsgCreate':
+        return MsgCreate.unpackAny(proto);
+      case '/minievm.evm.v1.MsgCall':
+        return MsgCall.unpackAny(proto);
+      case '/minievm.evm.v1.MsgUpdateParams':
+        return MsgUpdateEvmParams.unpackAny(proto);
 
       // feegrant
       case '/cosmos.feegrant.v1beta1.MsgGrantAllowance':
