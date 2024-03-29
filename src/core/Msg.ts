@@ -14,6 +14,7 @@ import {
   MsgSetSendEnabled,
   MsgSetDenomMetadata,
 } from './bank';
+import { CelestiaMsg, MsgPayForBlobs } from './celestia';
 import { CrisisMsg, MsgVerifyInvariant, MsgUpdateCrisisParams } from './crisis';
 import {
   DistributionMsg,
@@ -204,6 +205,7 @@ export type Msg =
   | AuthMsg
   | AuthzMsg
   | BankMsg
+  | CelestiaMsg
   | CrisisMsg
   | DistributionMsg
   | EvidenceMsg
@@ -267,6 +269,7 @@ export namespace Msg {
     | AuthMsg.Data
     | AuthzMsg.Data
     | BankMsg.Data
+    | CelestiaMsg.Data
     | CrisisMsg.Data
     | DistributionMsg.Data
     | EvidenceMsg.Data
@@ -300,6 +303,7 @@ export namespace Msg {
     | AuthMsg.Proto
     | AuthzMsg.Proto
     | BankMsg.Proto
+    | CelestiaMsg.Proto
     | CrisisMsg.Proto
     | DistributionMsg.Proto
     | EvidenceMsg.Proto
@@ -663,6 +667,10 @@ export namespace Msg {
         return MsgSetSendEnabled.fromData(data);
       case '/initia.bank.v1.MsgSetDenomMetadata':
         return MsgSetDenomMetadata.fromData(data);
+
+      // celestia
+      case '/celestia.blob.v1.MsgPayForBlobs':
+        return MsgPayForBlobs.fromData(data);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
@@ -1034,6 +1042,10 @@ export namespace Msg {
         return MsgSetSendEnabled.unpackAny(proto);
       case '/initia.bank.v1.MsgSetDenomMetadata':
         return MsgSetDenomMetadata.unpackAny(proto);
+
+      // celestia
+      case '/celestia.blob.v1.MsgPayForBlobs':
+        return MsgPayForBlobs.unpackAny(proto);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':

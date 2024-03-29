@@ -12,6 +12,7 @@ export * from './auction';
 export * from './auth';
 export * from './authz';
 export * from './bank';
+export * from './celestia';
 export * from './consensus';
 export * from './crisis';
 export * from './distribution';
