@@ -5,13 +5,20 @@ import { Tx } from '../../core';
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing';
 
 export class Wallet {
-  constructor(public lcd: LCDClient, public key: Key) {}
+  private accAddress: string;
+  constructor(public lcd: LCDClient, public key: Key) {
+    this.accAddress = key.accAddress;
+  }
+
+  public setAccountAddress(accAddress: string) {
+    this.accAddress = accAddress;
+  }
 
   public async accountNumberAndSequence(): Promise<{
     account_number: number;
     sequence: number;
   }> {
-    return this.lcd.auth.accountInfo(this.key.accAddress).then(d => {
+    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
       return {
         account_number: d.getAccountNumber(),
         sequence: d.getSequenceNumber(),
@@ -20,13 +27,13 @@ export class Wallet {
   }
 
   public async accountNumber(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.key.accAddress).then(d => {
+    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
       return d.getAccountNumber();
     });
   }
 
   public async sequence(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.key.accAddress).then(d => {
+    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
       return d.getSequenceNumber();
     });
   }
@@ -39,7 +46,7 @@ export class Wallet {
     return this.lcd.tx.create(
       [
         {
-          address: this.key.accAddress,
+          address: this.accAddress,
           sequenceNumber: options.sequence,
           publicKey: this.key.publicKey,
         },
