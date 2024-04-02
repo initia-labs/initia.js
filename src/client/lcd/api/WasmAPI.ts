@@ -154,17 +154,17 @@ export class WasmAPI extends BaseAPI {
       .then(d => d.data);
   }
 
-  public async smartContractState(
+  public async smartContractState<T>(
     address: AccAddress,
     queryData: string,
     params: APIParams = {}
-  ): Promise<string> {
+  ): Promise<T> {
     return this.c
-      .get<{ data: string }>(
+      .get<{ data: T }>(
         `/cosmwasm/wasm/v1/contract/${address}/smart/${queryData}`,
         params
       )
-      .then(d => d.data);
+      .then(res => res.data as T);
   }
 
   public async codeInfos(
