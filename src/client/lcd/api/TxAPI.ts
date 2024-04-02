@@ -388,11 +388,12 @@ export class TxAPI extends BaseAPI {
   }
 
   private async _broadcast<T>(
-    tx: Tx,
+    tx: Tx | string,
     mode: keyof typeof BroadcastMode
   ): Promise<T> {
+    const txBytes = tx instanceof Tx ? TxAPI.encode(tx) : tx;
     return await this.c.post<any>(`/cosmos/tx/v1beta1/txs`, {
-      tx_bytes: TxAPI.encode(tx),
+      tx_bytes: txBytes,
       mode,
     });
   }
@@ -406,7 +407,7 @@ export class TxAPI extends BaseAPI {
    * @param timeout time in milliseconds to wait for transaction to be included in a block. defaults to 30000
    */
   public async broadcast(
-    tx: Tx,
+    tx: Tx | string,
     timeout = 30000
   ): Promise<WaitTxBroadcastResult> {
     const POLL_INTERVAL = 500;
@@ -470,7 +471,7 @@ export class TxAPI extends BaseAPI {
    * Broadcast the transaction using the "sync" mode, returning after CheckTx() is performed.
    * @param tx transaction to broadcast
    */
-  public async broadcastSync(tx: Tx): Promise<SyncTxBroadcastResult> {
+  public async broadcastSync(tx: Tx | string): Promise<SyncTxBroadcastResult> {
     return this._broadcast<{ tx_response: SyncTxBroadcastResult.Data }>(
       tx,
       'BROADCAST_MODE_SYNC'
@@ -497,7 +498,9 @@ export class TxAPI extends BaseAPI {
    * Broadcast the transaction using the "async" mode, returns immediately (transaction might fail).
    * @param tx transaction to broadcast
    */
-  public async broadcastAsync(tx: Tx): Promise<AsyncTxBroadcastResult> {
+  public async broadcastAsync(
+    tx: Tx | string
+  ): Promise<AsyncTxBroadcastResult> {
     return this._broadcast<{ tx_response: AsyncTxBroadcastResult.Data }>(
       tx,
       'BROADCAST_MODE_ASYNC'

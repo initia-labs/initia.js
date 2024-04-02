@@ -52,6 +52,10 @@ export class BlobTx extends JSONSerializable<any, BlobTx.Data, BlobTx.Proto> {
       typeId: type_id,
     });
   }
+
+  public toBytes(): Uint8Array {
+    return BlobTx_pb.encode(this.toProto()).finish();
+  }
 }
 
 export namespace BlobTx {
