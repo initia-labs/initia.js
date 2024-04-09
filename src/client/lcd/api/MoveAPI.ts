@@ -176,6 +176,30 @@ export class MoveAPI extends BaseAPI {
       .then(d => d.responses);
   }
 
+  public async viewJSON(
+    address: AccAddress,
+    moduleName: string,
+    functionName: string,
+    typeArgs: string[] = [],
+    args: string[] = []
+  ): Promise<ViewResponse> {
+    return this.c.post<ViewResponse>(`/initia/move/v1/view/json`, {
+      address,
+      module_name: moduleName,
+      function_name: functionName,
+      type_args: typeArgs,
+      args,
+    });
+  }
+
+  public async viewBatchJSON(requests: ViewRequest[]): Promise<ViewResponse[]> {
+    return this.c
+      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/json/batch`, {
+        requests,
+      })
+      .then(d => d.responses);
+  }
+
   public async resources(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}

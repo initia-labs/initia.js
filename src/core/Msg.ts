@@ -120,13 +120,17 @@ import {
   MoveMsg,
   MsgPublish,
   MsgExecute,
+  MsgExecuteJSON,
   MsgScript,
+  MsgScriptJSON,
   MsgUpdateMoveParams,
   MsgWhitelist,
   MsgDelist,
   MsgGovExecute,
+  MsgGovExecuteJSON,
   MsgGovPublish,
   MsgGovScript,
+  MsgGovScriptJSON,
 } from './move';
 import {
   MstakingMsg,
@@ -157,6 +161,7 @@ import {
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
   MsgUpdateChallenger,
+  MsgUpdateBatchInfo,
   MsgUpdateOphostParams,
 } from './ophost';
 import {
@@ -493,8 +498,12 @@ export namespace Msg {
         return MsgPublish.fromAmino(data);
       case 'move/MsgExecute':
         return MsgExecute.fromAmino(data);
+      case 'move/MsgExecuteJSON':
+        return MsgExecuteJSON.fromAmino(data);
       case 'move/MsgScript':
         return MsgScript.fromAmino(data);
+      case 'move/MsgScriptJSON':
+        return MsgScriptJSON.fromAmino(data);
       case 'move/MsgUpdateParams':
         return MsgUpdateMoveParams.fromAmino(data);
       case 'move/MsgWhitelist':
@@ -503,10 +512,14 @@ export namespace Msg {
         return MsgDelist.fromAmino(data);
       case 'move/MsgGovExecute':
         return MsgGovExecute.fromAmino(data);
+      case 'move/MsgGovExecuteJSON':
+        return MsgGovExecuteJSON.fromAmino(data);
       case 'move/MsgGovPublish':
         return MsgGovPublish.fromAmino(data);
       case 'move/MsgGovScript':
         return MsgGovScript.fromAmino(data);
+      case 'move/MsgGovScriptJSON':
+        return MsgGovScriptJSON.fromAmino(data);
 
       // mstaking
       case 'mstaking/MsgDelegate':
@@ -555,6 +568,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromAmino(data);
       case 'ophost/MsgUpdateChallenger':
         return MsgUpdateChallenger.fromAmino(data);
+      case 'ophost/MsgUpdateBatchInfo':
+        return MsgUpdateBatchInfo.fromAmino(data);
       case 'ophost/MsgUpdateParams':
         return MsgUpdateOphostParams.fromAmino(data);
 
@@ -865,8 +880,12 @@ export namespace Msg {
         return MsgPublish.fromData(data);
       case '/initia.move.v1.MsgExecute':
         return MsgExecute.fromData(data);
+      case '/initia.move.v1.MsgExecuteJSON':
+        return MsgExecuteJSON.fromData(data);
       case '/initia.move.v1.MsgScript':
         return MsgScript.fromData(data);
+      case '/initia.move.v1.MsgScriptJSON':
+        return MsgScriptJSON.fromData(data);
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.fromData(data);
       case '/initia.move.v1.MsgWhitelist':
@@ -875,10 +894,14 @@ export namespace Msg {
         return MsgDelist.fromData(data);
       case '/initia.move.v1.MsgGovExecute':
         return MsgGovExecute.fromData(data);
+      case '/initia.move.v1.MsgGovExecuteJSON':
+        return MsgGovExecuteJSON.fromData(data);
       case '/initia.move.v1.MsgGovPublish':
         return MsgGovPublish.fromData(data);
       case '/initia.move.v1.MsgGovScript':
         return MsgGovScript.fromData(data);
+      case '/initia.move.v1.MsgGovScriptJSON':
+        return MsgGovScriptJSON.fromData(data);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
@@ -927,6 +950,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromData(data);
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.fromData(data);
+      case '/opinit.ophost.v1.MsgUpdateBatchInfo':
+        return MsgUpdateBatchInfo.fromData(data);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.fromData(data);
 
@@ -1240,8 +1265,12 @@ export namespace Msg {
         return MsgPublish.unpackAny(proto);
       case '/initia.move.v1.MsgExecute':
         return MsgExecute.unpackAny(proto);
+      case '/initia.move.v1.MsgExecuteJSON':
+        return MsgExecuteJSON.unpackAny(proto);
       case '/initia.move.v1.MsgScript':
         return MsgScript.unpackAny(proto);
+      case '/initia.move.v1.MsgScriptJSON':
+        return MsgScriptJSON.unpackAny(proto);
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.unpackAny(proto);
       case '/initia.move.v1.MsgWhitelist':
@@ -1250,10 +1279,14 @@ export namespace Msg {
         return MsgDelist.unpackAny(proto);
       case '/initia.move.v1.MsgGovExecute':
         return MsgGovExecute.unpackAny(proto);
+      case '/initia.move.v1.MsgGovExecuteJSON':
+        return MsgGovExecuteJSON.unpackAny(proto);
       case '/initia.move.v1.MsgGovPublish':
         return MsgGovPublish.unpackAny(proto);
       case '/initia.move.v1.MsgGovScript':
         return MsgGovScript.unpackAny(proto);
+      case '/initia.move.v1.MsgGovScriptJSON':
+        return MsgGovScriptJSON.unpackAny(proto);
 
       // mstaking
       case '/initia.mstaking.v1.MsgDelegate':
@@ -1302,6 +1335,8 @@ export namespace Msg {
         return MsgUpdateProposer.unpackAny(proto);
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgUpdateBatchInfo':
+        return MsgUpdateBatchInfo.unpackAny(proto);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.unpackAny(proto);
 

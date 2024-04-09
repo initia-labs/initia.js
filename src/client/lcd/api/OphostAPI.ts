@@ -22,14 +22,14 @@ export namespace BridgeInfo {
 }
 
 export interface OutputInfo {
-  bridge_id: number;
+  bridge_id?: number;
   output_index: number;
   output_proposal: Output;
 }
 
 export namespace OutputInfo {
   export interface Data {
-    bridge_id: string;
+    bridge_id?: string;
     output_index: string;
     output_proposal: Output.Data;
   }
@@ -105,6 +105,21 @@ export class OphostAPI extends BaseAPI {
       .then(d => d.token_pair);
   }
 
+  public async lastFinalizedOutput(
+    bridgeId: number,
+    params: Partial<PaginationOptions & APIParams> = {}
+  ): Promise<OutputInfo> {
+    return this.c
+      .get<OutputInfo.Data>(
+        `/opinit/ophost/v1/bridges/${bridgeId}/last_finalized_output`,
+        params
+      )
+      .then(d => ({
+        output_index: Number.parseInt(d.output_index),
+        output_proposal: Output.fromData(d.output_proposal),
+      }));
+  }
+
   public async outputInfos(
     bridgeId: number,
     params: Partial<PaginationOptions & APIParams> = {}
@@ -116,7 +131,7 @@ export class OphostAPI extends BaseAPI {
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/outputs`, params)
       .then(d => [
         d.output_proposals.map(info => ({
-          bridge_id: Number.parseInt(info.bridge_id),
+          bridge_id: Number.parseInt(info.bridge_id ?? `${bridgeId}`),
           output_index: Number.parseInt(info.output_index),
           output_proposal: Output.fromData(info.output_proposal),
         })),
@@ -135,7 +150,7 @@ export class OphostAPI extends BaseAPI {
         params
       )
       .then(d => ({
-        bridge_id: Number.parseInt(d.bridge_id),
+        bridge_id: Number.parseInt(d.bridge_id ?? `${bridgeId}`),
         output_index: Number.parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
       }));

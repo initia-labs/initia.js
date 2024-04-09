@@ -15,12 +15,14 @@ export class OpchildParams extends JSONSerializable<
    * @param historical_entries the number of historical entries to persist
    * @param min_gas_prices
    * @param bridge_executor the account address of bridge executor who can execute permissioned bridge messages
+   * @param admin
    */
   constructor(
     public max_validators: number,
     public historical_entries: number,
     min_gas_prices: Coins.Input,
-    public bridge_executor: AccAddress
+    public bridge_executor: AccAddress,
+    public admin: AccAddress
   ) {
     super();
     this.min_gas_prices = new Coins(min_gas_prices);
@@ -33,6 +35,7 @@ export class OpchildParams extends JSONSerializable<
         historical_entries,
         min_gas_prices,
         bridge_executor,
+        admin,
       },
     } = data;
 
@@ -40,7 +43,8 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       Coins.fromAmino(min_gas_prices),
-      bridge_executor
+      bridge_executor,
+      admin
     );
   }
 
@@ -50,6 +54,7 @@ export class OpchildParams extends JSONSerializable<
       historical_entries,
       min_gas_prices,
       bridge_executor,
+      admin,
     } = this;
 
     return {
@@ -59,6 +64,7 @@ export class OpchildParams extends JSONSerializable<
         historical_entries,
         min_gas_prices: min_gas_prices.toAmino(),
         bridge_executor,
+        admin,
       },
     };
   }
@@ -69,13 +75,15 @@ export class OpchildParams extends JSONSerializable<
       historical_entries,
       min_gas_prices,
       bridge_executor,
+      admin,
     } = data;
 
     return new OpchildParams(
       max_validators,
       historical_entries,
       Coins.fromData(min_gas_prices),
-      bridge_executor
+      bridge_executor,
+      admin
     );
   }
 
@@ -85,6 +93,7 @@ export class OpchildParams extends JSONSerializable<
       historical_entries,
       min_gas_prices,
       bridge_executor,
+      admin,
     } = this;
 
     return {
@@ -93,6 +102,7 @@ export class OpchildParams extends JSONSerializable<
       historical_entries,
       min_gas_prices: min_gas_prices.toData(),
       bridge_executor,
+      admin,
     };
   }
 
@@ -101,7 +111,8 @@ export class OpchildParams extends JSONSerializable<
       data.maxValidators,
       data.historicalEntries,
       Coins.fromProto(data.minGasPrices),
-      data.bridgeExecutor
+      data.bridgeExecutor,
+      data.admin
     );
   }
 
@@ -111,6 +122,7 @@ export class OpchildParams extends JSONSerializable<
       historical_entries,
       min_gas_prices,
       bridge_executor,
+      admin,
     } = this;
 
     return Params_pb.fromPartial({
@@ -118,6 +130,7 @@ export class OpchildParams extends JSONSerializable<
       historicalEntries: historical_entries,
       minGasPrices: min_gas_prices.toProto(),
       bridgeExecutor: bridge_executor,
+      admin,
     });
   }
 }
@@ -130,6 +143,7 @@ export namespace OpchildParams {
       historical_entries: number;
       min_gas_prices: Coins.Amino;
       bridge_executor: AccAddress;
+      admin: AccAddress;
     };
   }
 
@@ -139,6 +153,7 @@ export namespace OpchildParams {
     historical_entries: number;
     min_gas_prices: Coins.Data;
     bridge_executor: AccAddress;
+    admin: AccAddress;
   }
 
   export type Proto = Params_pb;

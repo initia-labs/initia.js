@@ -2,6 +2,7 @@ import { JSONSerializable } from '../../util/json';
 import { AccAddress } from '../bech32';
 import { Duration } from '../Duration';
 import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types';
+import { BatchInfo } from './BatchInfo';
 
 export class BridgeConfig extends JSONSerializable<
   BridgeConfig.Amino,
@@ -11,6 +12,7 @@ export class BridgeConfig extends JSONSerializable<
   /**
    * @param challenger the address of the challenger
    * @param proposer the address of the proposer
+   * @param batch_info the information about batch submission
    * @param submission_interval the time interval at which checkpoints must be submitted
    * @param finalization_period the minium time duration that must elapse before a withdrawal can be finalized
    * @param submission_start_time the time of the first l2 block recorded
@@ -19,6 +21,7 @@ export class BridgeConfig extends JSONSerializable<
   constructor(
     public challenger: AccAddress,
     public proposer: AccAddress,
+    public batch_info: BatchInfo,
     public submission_interval: Duration,
     public finalization_period: Duration,
     public submission_start_time: Date,
@@ -31,6 +34,7 @@ export class BridgeConfig extends JSONSerializable<
     const {
       challenger,
       proposer,
+      batch_info,
       submission_interval,
       finalization_period,
       submission_start_time,
@@ -40,6 +44,7 @@ export class BridgeConfig extends JSONSerializable<
     return new BridgeConfig(
       challenger,
       proposer,
+      BatchInfo.fromAmino(batch_info),
       Duration.fromAmino(submission_interval),
       Duration.fromAmino(finalization_period),
       new Date(submission_start_time),
@@ -51,6 +56,7 @@ export class BridgeConfig extends JSONSerializable<
     const {
       challenger,
       proposer,
+      batch_info,
       submission_interval,
       finalization_period,
       submission_start_time,
@@ -60,6 +66,7 @@ export class BridgeConfig extends JSONSerializable<
     return {
       challenger,
       proposer,
+      batch_info: batch_info.toAmino(),
       submission_interval: submission_interval.toAmino(),
       finalization_period: finalization_period.toAmino(),
       submission_start_time: submission_start_time.toISOString(),
@@ -71,6 +78,7 @@ export class BridgeConfig extends JSONSerializable<
     const {
       challenger,
       proposer,
+      batch_info,
       submission_interval,
       finalization_period,
       submission_start_time,
@@ -80,6 +88,7 @@ export class BridgeConfig extends JSONSerializable<
     return new BridgeConfig(
       challenger,
       proposer,
+      BatchInfo.fromData(batch_info),
       Duration.fromData(submission_interval),
       Duration.fromData(finalization_period),
       new Date(submission_start_time),
@@ -91,6 +100,7 @@ export class BridgeConfig extends JSONSerializable<
     const {
       challenger,
       proposer,
+      batch_info,
       submission_interval,
       finalization_period,
       submission_start_time,
@@ -100,6 +110,7 @@ export class BridgeConfig extends JSONSerializable<
     return {
       challenger,
       proposer,
+      batch_info: batch_info.toData(),
       submission_interval: submission_interval.toData(),
       finalization_period: finalization_period.toData(),
       submission_start_time: submission_start_time.toISOString(),
@@ -111,6 +122,7 @@ export class BridgeConfig extends JSONSerializable<
     return new BridgeConfig(
       data.challenger,
       data.proposer,
+      BatchInfo.fromProto(data.batchInfo as BatchInfo.Proto),
       Duration.fromProto(data.submissionInterval as Duration.Proto),
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
       data.submissionStartTime as Date,
@@ -122,6 +134,7 @@ export class BridgeConfig extends JSONSerializable<
     const {
       challenger,
       proposer,
+      batch_info,
       submission_interval,
       finalization_period,
       submission_start_time,
@@ -131,6 +144,7 @@ export class BridgeConfig extends JSONSerializable<
     return BridgeConfig_pb.fromPartial({
       challenger,
       proposer,
+      batchInfo: batch_info.toProto(),
       submissionInterval: submission_interval.toProto(),
       finalizationPeriod: finalization_period.toProto(),
       submissionStartTime: submission_start_time,
@@ -143,6 +157,7 @@ export namespace BridgeConfig {
   export interface Amino {
     challenger: AccAddress;
     proposer: AccAddress;
+    batch_info: BatchInfo.Amino;
     submission_interval: Duration.Amino;
     finalization_period: Duration.Amino;
     submission_start_time: string;
@@ -152,6 +167,7 @@ export namespace BridgeConfig {
   export interface Data {
     challenger: AccAddress;
     proposer: AccAddress;
+    batch_info: BatchInfo.Data;
     submission_interval: Duration.Data;
     finalization_period: Duration.Data;
     submission_start_time: string;

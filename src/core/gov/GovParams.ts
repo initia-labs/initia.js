@@ -32,6 +32,7 @@ export class GovParams extends JSONSerializable<
    * @param min_deposit_ratio the proportion of the deposit value minimum that must be met when making a deposit. Default value: 0.01
    * @param emergency_min_deposit minimum deposit for a emergency proposal to enter voting period
    * @param emergency_tally_interval tally interval for emergency proposal
+   * @param low_threshold_functions low threshold functions for emergency and expedited proposal
    */
   constructor(
     min_deposit: Coins.Input,
@@ -51,7 +52,8 @@ export class GovParams extends JSONSerializable<
     public burn_vote_veto: boolean,
     public min_deposit_ratio: string,
     emergency_min_deposit: Coins.Input,
-    public emergency_tally_interval: Duration
+    public emergency_tally_interval: Duration,
+    public low_threshold_functions: string[]
   ) {
     super();
     this.min_deposit = new Coins(min_deposit);
@@ -79,6 +81,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit,
       emergency_tally_interval,
+      low_threshold_functions,
     } = data;
 
     return new GovParams(
@@ -99,7 +102,8 @@ export class GovParams extends JSONSerializable<
       burn_vote_veto,
       min_deposit_ratio,
       Coins.fromAmino(emergency_min_deposit),
-      Duration.fromAmino(emergency_tally_interval)
+      Duration.fromAmino(emergency_tally_interval),
+      low_threshold_functions
     );
   }
 
@@ -123,6 +127,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit,
       emergency_tally_interval,
+      low_threshold_functions,
     } = this;
 
     return {
@@ -144,6 +149,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit: emergency_min_deposit.toAmino(),
       emergency_tally_interval: emergency_tally_interval.toAmino(),
+      low_threshold_functions,
     };
   }
 
@@ -167,6 +173,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit,
       emergency_tally_interval,
+      low_threshold_functions,
     } = data;
 
     return new GovParams(
@@ -187,7 +194,8 @@ export class GovParams extends JSONSerializable<
       burn_vote_veto,
       min_deposit_ratio,
       Coins.fromData(emergency_min_deposit),
-      Duration.fromData(emergency_tally_interval)
+      Duration.fromData(emergency_tally_interval),
+      low_threshold_functions
     );
   }
 
@@ -211,6 +219,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit,
       emergency_tally_interval,
+      low_threshold_functions,
     } = this;
 
     return {
@@ -232,6 +241,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit: emergency_min_deposit.toData(),
       emergency_tally_interval: emergency_tally_interval.toData(),
+      low_threshold_functions,
     };
   }
 
@@ -254,7 +264,8 @@ export class GovParams extends JSONSerializable<
       data.burnVoteVeto,
       data.minDepositRatio,
       Coins.fromProto(data.emergencyMinDeposit),
-      Duration.fromProto(data.emergencyTallyInterval as Duration.Proto)
+      Duration.fromProto(data.emergencyTallyInterval as Duration.Proto),
+      data.lowThresholdFunctions
     );
   }
 
@@ -278,6 +289,7 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       emergency_min_deposit,
       emergency_tally_interval,
+      low_threshold_functions,
     } = this;
 
     return Params_pb.fromPartial({
@@ -299,6 +311,7 @@ export class GovParams extends JSONSerializable<
       minDepositRatio: min_deposit_ratio,
       emergencyMinDeposit: emergency_min_deposit.toProto(),
       emergencyTallyInterval: emergency_tally_interval.toProto(),
+      lowThresholdFunctions: low_threshold_functions,
     });
   }
 }
@@ -323,6 +336,7 @@ export namespace GovParams {
     min_deposit_ratio: string;
     emergency_min_deposit: Coins.Amino;
     emergency_tally_interval: Duration.Amino;
+    low_threshold_functions: string[];
   }
 
   export interface Data {
@@ -344,6 +358,7 @@ export namespace GovParams {
     min_deposit_ratio: string;
     emergency_min_deposit: Coins.Data;
     emergency_tally_interval: Duration.Data;
+    low_threshold_functions: string[];
   }
 
   export type Proto = Params_pb;
