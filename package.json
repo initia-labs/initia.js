@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.1.42",
+  "version": "0.1.43",
   "description": "The JavaScript SDK for Initia",
   "license": "MIT",
   "author": "InitiaLabs",
@@ -87,7 +87,7 @@
   },
   "dependencies": {
     "@initia/initia.proto": "^0.1.32",
-    "@initia/opinit.proto": "^0.0.5",
+    "@initia/opinit.proto": "^0.0.6",
     "@ledgerhq/hw-transport": "^6.27.12",
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
     "@ledgerhq/hw-transport-webusb": "^6.27.12",

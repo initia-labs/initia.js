@@ -1,6 +1,11 @@
 import { BaseAPI } from './BaseAPI';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { OpValidator, ValAddress, OpchildParams } from '../../../core';
+import {
+  OpValidator,
+  ValAddress,
+  OpchildParams,
+  BridgeInfo,
+} from '../../../core';
 
 export class OpchildAPI extends BaseAPI {
   public async validators(
@@ -24,6 +29,15 @@ export class OpchildAPI extends BaseAPI {
         params
       )
       .then(d => OpValidator.fromData(d.validator));
+  }
+
+  public async bridgeInfo(params: APIParams = {}): Promise<BridgeInfo> {
+    return this.c
+      .get<{ bridge_info: BridgeInfo.Data }>(
+        `/opinit/opchild/v1/bridge_info`,
+        params
+      )
+      .then(d => BridgeInfo.fromData(d.bridge_info));
   }
 
   public async parameters(params: APIParams = {}): Promise<OpchildParams> {

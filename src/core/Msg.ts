@@ -149,6 +149,7 @@ import {
   MsgInitiateTokenWithdrawal,
   MsgExecuteMessages,
   MsgSpendFeePool,
+  MsgSetBridgeInfo,
   MsgUpdateOpchildParams,
 } from './opchild';
 import {
@@ -548,6 +549,8 @@ export namespace Msg {
         return MsgExecuteMessages.fromAmino(data);
       case 'opchild/MsgSpendFeePool':
         return MsgSpendFeePool.fromAmino(data);
+      case 'opchild/MsgSetBridgeInfo':
+        return MsgSetBridgeInfo.fromAmino(data);
       case 'opchild/MsgUpdateParams':
         return MsgUpdateOpchildParams.fromAmino(data);
 
@@ -930,6 +933,8 @@ export namespace Msg {
         return MsgExecuteMessages.fromData(data);
       case '/opinit.opchild.v1.MsgSpendFeePool':
         return MsgSpendFeePool.fromData(data);
+      case '/opinit.opchild.v1.MsgSetBridgeInfo':
+        return MsgSetBridgeInfo.fromData(data);
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.fromData(data);
 
@@ -1315,6 +1320,8 @@ export namespace Msg {
         return MsgExecuteMessages.unpackAny(proto);
       case '/opinit.opchild.v1.MsgSpendFeePool':
         return MsgSpendFeePool.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgSetBridgeInfo':
+        return MsgSetBridgeInfo.unpackAny(proto);
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.unpackAny(proto);
 

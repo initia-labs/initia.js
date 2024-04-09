@@ -4,6 +4,7 @@ import { MsgFinalizeTokenDeposit } from './MsgFinalizeTokenDeposit';
 import { MsgInitiateTokenWithdrawal } from './MsgInitiateTokenWithdrawal';
 import { MsgExecuteMessages } from './MsgExecuteMessages';
 import { MsgSpendFeePool } from './MsgSpendFeePool';
+import { MsgSetBridgeInfo } from './MsgSetBridgeInfo';
 import { MsgUpdateOpchildParams } from './MsgUpdateOpchildParams';
 
 export * from './MsgAddValidator';
@@ -12,6 +13,7 @@ export * from './MsgFinalizeTokenDeposit';
 export * from './MsgInitiateTokenWithdrawal';
 export * from './MsgExecuteMessages';
 export * from './MsgSpendFeePool';
+export * from './MsgSetBridgeInfo';
 export * from './MsgUpdateOpchildParams';
 
 export type OpchildMsg =
@@ -21,6 +23,7 @@ export type OpchildMsg =
   | MsgInitiateTokenWithdrawal
   | MsgExecuteMessages
   | MsgSpendFeePool
+  | MsgSetBridgeInfo
   | MsgUpdateOpchildParams;
 
 export namespace OpchildMsg {
@@ -31,6 +34,7 @@ export namespace OpchildMsg {
     | MsgInitiateTokenWithdrawal.Amino
     | MsgExecuteMessages.Amino
     | MsgSpendFeePool.Amino
+    | MsgSetBridgeInfo.Amino
     | MsgUpdateOpchildParams.Amino;
 
   export type Data =
@@ -40,6 +44,7 @@ export namespace OpchildMsg {
     | MsgInitiateTokenWithdrawal.Data
     | MsgExecuteMessages.Data
     | MsgSpendFeePool.Data
+    | MsgSetBridgeInfo.Data
     | MsgUpdateOpchildParams.Data;
 
   export type Proto =
@@ -49,5 +54,6 @@ export namespace OpchildMsg {
     | MsgInitiateTokenWithdrawal.Proto
     | MsgExecuteMessages.Proto
     | MsgSpendFeePool.Proto
+    | MsgSetBridgeInfo.Proto
     | MsgUpdateOpchildParams.Proto;
 }
