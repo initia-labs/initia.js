@@ -19,6 +19,7 @@ export * from './distribution';
 export * from './evidence';
 export * from './evm';
 export * from './feegrant';
+export * from './forwarding';
 export * from './gov';
 export * from './group';
 export * from './ibc';

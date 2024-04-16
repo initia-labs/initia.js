@@ -8,6 +8,7 @@ import {
   EvidenceAPI,
   EvmAPI,
   FeeGrantAPI,
+  ForwardingAPI,
   GovAPI,
   GroupAPI,
   IbcAPI,
@@ -90,6 +91,7 @@ export class LCDClient {
   public evidence: EvidenceAPI;
   public evm: EvmAPI;
   public feeGrant: FeeGrantAPI;
+  public forwarding: ForwardingAPI;
   public gov: GovAPI;
   public group: GroupAPI;
   public ibc: IbcAPI;
@@ -141,6 +143,7 @@ export class LCDClient {
     this.evidence = new EvidenceAPI(this.apiRequester);
     this.evm = new EvmAPI(this.apiRequester);
     this.feeGrant = new FeeGrantAPI(this.apiRequester);
+    this.forwarding = new ForwardingAPI(this.apiRequester);
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);

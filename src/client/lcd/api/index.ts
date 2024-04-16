@@ -6,6 +6,7 @@ export * from './DistributionAPI';
 export * from './EvidenceAPI';
 export * from './EvmAPI';
 export * from './FeeGrantAPI';
+export * from './ForwardingAPI';
 export * from './GovAPI';
 export * from './GroupAPI';
 export * from './IbcAPI';

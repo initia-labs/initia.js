@@ -30,6 +30,11 @@ import { EvidenceMsg, MsgSubmitEvidence } from './evidence';
 import { EvmMsg, MsgCreate, MsgCall, MsgUpdateEvmParams } from './evm';
 import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant';
 import {
+  ForwardingMsg,
+  MsgRegisterForwardingAccount,
+  MsgClearForwardingAccount,
+} from './forwarding';
+import {
   GovMsg,
   MsgCancelProposal,
   MsgDepositLegacy,
@@ -217,6 +222,7 @@ export type Msg =
   | EvidenceMsg
   | EvmMsg
   | FeeGrantMsg
+  | ForwardingMsg
   | GovMsg
   | GroupMsg
   | IbcFeeMsg
@@ -251,6 +257,7 @@ export namespace Msg {
     | EvidenceMsg.Amino
     | EvmMsg.Amino
     | FeeGrantMsg.Amino
+    | ForwardingMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
     | IbcFetchpriceMsg.Amino
@@ -281,6 +288,7 @@ export namespace Msg {
     | EvidenceMsg.Data
     | EvmMsg.Data
     | FeeGrantMsg.Data
+    | ForwardingMsg.Data
     | GovMsg.Data
     | GroupMsg.Data
     | IbcFeeMsg.Data
@@ -315,6 +323,7 @@ export namespace Msg {
     | EvidenceMsg.Proto
     | EvmMsg.Proto
     | FeeGrantMsg.Proto
+    | ForwardingMsg.Proto
     | GovMsg.Proto
     | GroupMsg.Proto
     | IbcFeeMsg.Proto
@@ -409,6 +418,12 @@ export namespace Msg {
         return MsgGrantAllowance.fromAmino(data);
       case 'cosmos-sdk/MsgRevokeAllowance':
         return MsgRevokeAllowance.fromAmino(data);
+
+      // forwarding
+      case 'noble/forwarding/RegisterAccount':
+        return MsgRegisterForwardingAccount.fromAmino(data);
+      case 'noble/forwarding/ClearAccount':
+        return MsgClearForwardingAccount.fromAmino(data);
 
       // gov
       case 'cosmos-sdk/v1/MsgCancelProposal':
@@ -729,6 +744,12 @@ export namespace Msg {
         return MsgGrantAllowance.fromData(data);
       case '/cosmos.feegrant.v1beta1.MsgRevokeAllowance':
         return MsgRevokeAllowance.fromData(data);
+
+      // forwarding
+      case '/noble.forwarding.v1.MsgRegisterAccount':
+        return MsgRegisterForwardingAccount.fromData(data);
+      case '/noble.forwarding.v1.MsgClearAccount':
+        return MsgClearForwardingAccount.fromData(data);
 
       // gov
       case '/cosmos.gov.v1.MsgCancelProposal':
@@ -1116,6 +1137,12 @@ export namespace Msg {
         return MsgGrantAllowance.unpackAny(proto);
       case '/cosmos.feegrant.v1beta1.MsgRevokeAllowance':
         return MsgRevokeAllowance.unpackAny(proto);
+
+      // forwarding
+      case '/noble.forwarding.v1.MsgRegisterAccount':
+        return MsgRegisterForwardingAccount.unpackAny(proto);
+      case '/noble.forwarding.v1.MsgClearAccount':
+        return MsgClearForwardingAccount.unpackAny(proto);
 
       // gov
       case '/cosmos.gov.v1.MsgCancelProposal':
