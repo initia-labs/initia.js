@@ -155,6 +155,7 @@ import {
   MsgExecuteMessages,
   MsgSpendFeePool,
   MsgSetBridgeInfo,
+  MsgUpdateOracle,
   MsgUpdateOpchildParams,
 } from './opchild';
 import {
@@ -566,6 +567,8 @@ export namespace Msg {
         return MsgSpendFeePool.fromAmino(data);
       case 'opchild/MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromAmino(data);
+      case 'opchild/MsgUpdateOracle':
+        return MsgUpdateOracle.fromAmino(data);
       case 'opchild/MsgUpdateParams':
         return MsgUpdateOpchildParams.fromAmino(data);
 
@@ -956,6 +959,8 @@ export namespace Msg {
         return MsgSpendFeePool.fromData(data);
       case '/opinit.opchild.v1.MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromData(data);
+      case '/opinit.opchild.v1.MsgUpdateOracle':
+        return MsgUpdateOracle.fromData(data);
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.fromData(data);
 
@@ -1349,6 +1354,8 @@ export namespace Msg {
         return MsgSpendFeePool.unpackAny(proto);
       case '/opinit.opchild.v1.MsgSetBridgeInfo':
         return MsgSetBridgeInfo.unpackAny(proto);
+      case '/opinit.opchild.v1.MsgUpdateOracle':
+        return MsgUpdateOracle.unpackAny(proto);
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.unpackAny(proto);
 
