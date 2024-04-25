@@ -6,8 +6,9 @@ import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit';
 import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal';
 import { MsgUpdateProposer } from './MsgUpdateProposer';
 import { MsgUpdateChallenger } from './MsgUpdateChallenger';
-import { MsgUpdateOphostParams } from './MsgUpdateOphostParams';
 import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo';
+import { MsgUpdateMetadata } from './MsgUpdateMetadata';
+import { MsgUpdateOphostParams } from './MsgUpdateOphostParams';
 
 export * from './MsgRecordBatch';
 export * from './MsgCreateBridge';
@@ -17,8 +18,9 @@ export * from './MsgInitiateTokenDeposit';
 export * from './MsgFinalizeTokenWithdrawal';
 export * from './MsgUpdateProposer';
 export * from './MsgUpdateChallenger';
-export * from './MsgUpdateOphostParams';
 export * from './MsgUpdateBatchInfo';
+export * from './MsgUpdateMetadata';
+export * from './MsgUpdateOphostParams';
 
 export type OphostMsg =
   | MsgRecordBatch
@@ -30,6 +32,7 @@ export type OphostMsg =
   | MsgUpdateProposer
   | MsgUpdateChallenger
   | MsgUpdateBatchInfo
+  | MsgUpdateMetadata
   | MsgUpdateOphostParams;
 
 export namespace OphostMsg {
@@ -43,6 +46,7 @@ export namespace OphostMsg {
     | MsgUpdateProposer.Amino
     | MsgUpdateChallenger.Amino
     | MsgUpdateBatchInfo.Amino
+    | MsgUpdateMetadata.Amino
     | MsgUpdateOphostParams.Amino;
 
   export type Data =
@@ -55,6 +59,7 @@ export namespace OphostMsg {
     | MsgUpdateProposer.Data
     | MsgUpdateChallenger.Data
     | MsgUpdateBatchInfo.Data
+    | MsgUpdateMetadata.Data
     | MsgUpdateOphostParams.Data;
 
   export type Proto =
@@ -67,5 +72,6 @@ export namespace OphostMsg {
     | MsgUpdateProposer.Proto
     | MsgUpdateChallenger.Proto
     | MsgUpdateBatchInfo.Proto
+    | MsgUpdateMetadata.Proto
     | MsgUpdateOphostParams.Proto;
 }

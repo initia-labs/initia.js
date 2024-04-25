@@ -169,6 +169,7 @@ import {
   MsgUpdateProposer,
   MsgUpdateChallenger,
   MsgUpdateBatchInfo,
+  MsgUpdateMetadata,
   MsgUpdateOphostParams,
 } from './ophost';
 import {
@@ -591,6 +592,8 @@ export namespace Msg {
         return MsgUpdateChallenger.fromAmino(data);
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data);
+      case 'ophost/MsgUpdateMetadata':
+        return MsgUpdateMetadata.fromAmino(data);
       case 'ophost/MsgUpdateParams':
         return MsgUpdateOphostParams.fromAmino(data);
 
@@ -983,6 +986,8 @@ export namespace Msg {
         return MsgUpdateChallenger.fromData(data);
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data);
+      case '/opinit.ophost.v1.MsgUpdateMetadata':
+        return MsgUpdateMetadata.fromData(data);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.fromData(data);
 
@@ -1378,6 +1383,8 @@ export namespace Msg {
         return MsgUpdateChallenger.unpackAny(proto);
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto);
+      case '/opinit.ophost.v1.MsgUpdateMetadata':
+        return MsgUpdateMetadata.unpackAny(proto);
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.unpackAny(proto);
 
