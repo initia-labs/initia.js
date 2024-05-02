@@ -1,18 +1,11 @@
 # initia.js
-JavaScript SDK for Initia, written in TypeScript
+Initia.js is a TypeScript-written JavaScript SDK tailored for the Initia blockchain, enhancing the development experience with user-friendly TypeScript definitions and integration with Initia's core data structures.
 
 ## Main Features
+- **Improved TypeScript Definitions**: Offers comprehensive integration with Initia core data structures for an enhanced developer experience.
+- **Core Layer**: Includes key management, BCS serialization, and support for initia.proto.
+- **Client Layer**: Facilitates API request generation and LCD provider interaction.
 
-* Improve user-friendly Typescript definitions with Initia core data structures integration
-* Core Layer: Key management, BCS serialization, Support Initia.proto etc
-* Client Layer: API request generation, LCD provider etc
-
-## Prerequisites
-
-Initia.js library requires the installation of the following packages in order to function properly.
-
-* node.js v14+
-* npm
 
 ## Installation
 
