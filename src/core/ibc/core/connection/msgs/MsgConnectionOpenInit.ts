@@ -24,7 +24,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
   constructor(
     public client_id: string,
     public counterparty: ConnectionCounterparty,
-    public version: IbcVersion,
+    public version: IbcVersion | undefined,
     public delay_period: number,
     public signer: AccAddress
   ) {
@@ -47,7 +47,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     return new MsgConnectionOpenInit(
       client_id,
       ConnectionCounterparty.fromData(counterparty),
-      IbcVersion.fromData(version),
+      version ? IbcVersion.fromData(version) : undefined,
       Number.parseInt(delay_period),
       signer
     );
@@ -59,7 +59,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit',
       client_id,
       counterparty: counterparty.toData(),
-      version: version.toData(),
+      version: version?.toData(),
       delay_period: delay_period.toFixed(),
       signer,
     };
@@ -73,7 +73,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       ConnectionCounterparty.fromProto(
         proto.counterparty as ConnectionCounterparty.Proto
       ),
-      IbcVersion.fromProto(proto.version as IbcVersion.Proto),
+      proto.version ? IbcVersion.fromProto(proto.version) : undefined,
       proto.delayPeriod.toNumber(),
       proto.signer
     );
@@ -84,7 +84,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     return MsgConnectionOpenInit_pb.fromPartial({
       clientId: client_id,
       counterparty: counterparty.toProto(),
-      version: version.toProto(),
+      version: version?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
       signer,
     });
@@ -109,7 +109,7 @@ export namespace MsgConnectionOpenInit {
     '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit';
     client_id: string;
     counterparty: ConnectionCounterparty.Data;
-    version: IbcVersion.Data;
+    version?: IbcVersion.Data;
     delay_period: string;
     signer: AccAddress;
   }
