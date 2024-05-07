@@ -15,7 +15,7 @@ Before installation, check the latest version of [npm](https://www.npmjs.com/pac
 npm install @initia/initia.js
 ```
 
-## Usage;
+## Usage
 
 The usage section of this document provides detailed explanations and code examples of the most commonly used classes of the Initia.js library, which can be utilized both in a Node.js environment and within a browser.
 
@@ -24,7 +24,7 @@ The usage section of this document provides detailed explanations and code examp
 **LCD**(Light Client Daemon) class facilitates interaction with the Initia blockchain.
 
 ```typescript
-import { LCDClient } from '@initia/initia.js'
+import { LCDClient } from '@initia/initia.js';
 
 const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
     chainId: 'mahalo-1',
@@ -62,15 +62,13 @@ import { bcs } from '@initia/initia.js';
 // serialize, serialize value to BCS and encode it to base64
 const serializedU64 = bcs
     .u64() // type
-    .serialize(1234); // value 
-    .toBase64()
+    .serialize(1234) // value 
+    .toBase64();
 
 // deserialize
 const deserializedU64 = bcs
     .u64() // type
-    .parse(
-        Uint8Array.from(Buffer.from(serializedU64, 'base64'))
-    );
+    .parse(Uint8Array.from(Buffer.from(serializedU64, 'base64')));
 
 // vector
 const serializedVector = bcs
@@ -116,7 +114,7 @@ const msg = new MsgDelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
     '100000uinit',                                 // delegate amount
-)
+);
 ```
 
 * `MsgUndelegate()`
@@ -130,7 +128,7 @@ const msg = new MsgUndelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
     '100000uinit',                                 // undelegate amount
-)
+);
 ```
 
 * `MsgExecute()`
@@ -213,8 +211,7 @@ const balances = await lcd.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt9
 Obtain the return values of a Move view function.
 
 ```typescript
-const res = await lcd.move
-  .viewFunction(
+const res = await lcd.move.viewFunction(
     '0x1',                                         // owner of the module
     'dex',                                         // name of the module
     'get_swap_simulation',                         // function name
@@ -224,5 +221,5 @@ const res = await lcd.move
         bcs.address().serialize('0x3').toBase64(), // arguments, BCS-encoded
         bcs.u64().serialize(10000).toBase64()      // arguments, BCS-encoded
     ]                           
-)
+);
 ```
