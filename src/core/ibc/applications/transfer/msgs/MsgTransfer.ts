@@ -45,7 +45,9 @@ export class MsgTransfer extends JSONSerializable<
     super();
 
     if (!timeout_height && !timeout_timestamp) {
-      throw 'both of timeout_height and timeout_timestamp are undefined';
+      throw new Error(
+        'both of timeout_height and timeout_timestamp are undefined'
+      );
     }
 
     this.source_port = source_port;
@@ -73,7 +75,9 @@ export class MsgTransfer extends JSONSerializable<
     } = data;
 
     if (!timeout_height && !timeout_timestamp) {
-      throw 'both of timeout_height and timeout_timestamp are undefined';
+      throw new Error(
+        'both of timeout_height and timeout_timestamp are undefined'
+      );
     }
 
     return new MsgTransfer(
@@ -127,7 +131,9 @@ export class MsgTransfer extends JSONSerializable<
     } = data;
 
     if (!timeout_height && !timeout_timestamp) {
-      throw 'both of timeout_height and timeout_timestamp are undefined';
+      throw new Error(
+        'both of timeout_height and timeout_timestamp are undefined'
+      );
     }
 
     return new MsgTransfer(
@@ -170,7 +176,7 @@ export class MsgTransfer extends JSONSerializable<
 
   public static fromProto(proto: MsgTransfer.Proto): MsgTransfer {
     if (!proto.timeoutHeight && proto.timeoutTimestamp.toNumber() == 0) {
-      throw 'both of timeout_height and timeout_timestamp are empty';
+      throw new Error('both of timeout_height and timeout_timestamp are empty');
     }
 
     return new MsgTransfer(

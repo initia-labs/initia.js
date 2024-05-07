@@ -140,7 +140,7 @@ export class MoveAPI extends BaseAPI {
     );
 
     if (!functionAbi) {
-      throw Error('function not found');
+      throw new Error('function not found');
     }
 
     return this.viewFunction<T>(

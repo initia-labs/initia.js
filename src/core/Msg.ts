@@ -1068,7 +1068,7 @@ export namespace Msg {
         return MsgUpdateContractLabel.fromData(data);
 
       default:
-        throw Error(`not supported msg ${data['@type']}`);
+        throw new Error(`not supported msg ${data['@type']}`);
     }
   }
 
@@ -1465,7 +1465,7 @@ export namespace Msg {
         return MsgUpdateContractLabel.unpackAny(proto);
 
       default:
-        throw Error(`not supported msg ${proto.typeUrl}`);
+        throw new Error(`not supported msg ${proto.typeUrl}`);
     }
   }
 }

@@ -15,7 +15,7 @@ const initiaAddress = (
       }
 
       if (!val.match(/[0-9a-f]+$/i)) {
-        throw Error('invalid address');
+        throw new Error('invalid address');
       }
 
       return Buffer.from(val, 'hex');

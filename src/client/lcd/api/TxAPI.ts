@@ -344,7 +344,7 @@ export class TxAPI extends BaseAPI {
     let simTx: Tx = tx;
     if (tx.signatures.length <= 0) {
       if (!(options && options.signers && options.signers.length > 0)) {
-        throw Error('cannot append signature');
+        throw new Error('cannot append signature');
       }
       const authInfo = new AuthInfo([], new Fee(0, new Coins()));
       simTx = new Tx(tx.body, authInfo, []);

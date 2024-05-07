@@ -34,7 +34,7 @@ export class BasicAllowance extends JSONSerializable<
       });
     }
     if (spend_limit && hasNotPositive) {
-      throw Error('spend_limit must be positive');
+      throw new Error('spend_limit must be positive');
     }
   }
 

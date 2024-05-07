@@ -38,6 +38,6 @@ export namespace Content {
         return ParameterChangeProposal.unpackAny(anyProto);
     }
 
-    throw `Proposal content ${typeUrl} not recognized`;
+    throw new Error(`Proposal content ${typeUrl} not recognized`);
   }
 }

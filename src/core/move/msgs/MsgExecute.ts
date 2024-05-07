@@ -216,7 +216,7 @@ export class MsgExecute extends JSONSerializable<
     );
 
     if (!functionAbi) {
-      throw Error('function not found');
+      throw new Error('function not found');
     }
 
     return new MsgExecute(
