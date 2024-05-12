@@ -13,27 +13,25 @@ export class BasicAllowance extends JSONSerializable<
   BasicAllowance.Data,
   BasicAllowance.Proto
 > {
-  public spend_limit?: Coins;
+  public spend_limit: Coins;
 
   /**
    * @param spend_limit spend_limit allowed to be spent as fee
    * @param expiration allowance's expiration
    */
-  constructor(spend_limit?: Coins.Input, public expiration?: Date) {
+  constructor(spend_limit: Coins.Input, public expiration?: Date) {
     super();
     let hasNotPositive = false;
-    if (spend_limit) {
-      this.spend_limit = new Coins(spend_limit);
-      this.spend_limit.map(c => {
-        // isPositive() from decimal.js returns true when the amount is 0.
-        // but Coins.IsAllPositive() from cosmos-sdk will return false in same case.
-        // so we use lessThanorEquenTo(0) instead of isPositive() == false
-        if (num(c.amount).isLessThanOrEqualTo(0)) {
-          hasNotPositive = true;
-        }
-      });
-    }
-    if (spend_limit && hasNotPositive) {
+    this.spend_limit = new Coins(spend_limit);
+    this.spend_limit.map(c => {
+      // isPositive() from decimal.js returns true when the amount is 0.
+      // but Coins.IsAllPositive() from cosmos-sdk will return false in same case.
+      // so we use lessThanorEquenTo(0) instead of isPositive() == false
+      if (num(c.amount).isLessThanOrEqualTo(0)) {
+        hasNotPositive = true;
+      }
+    });
+    if (hasNotPositive) {
       throw new Error('spend_limit must be positive');
     }
   }
@@ -44,11 +42,9 @@ export class BasicAllowance extends JSONSerializable<
     } = data;
 
     return new BasicAllowance(
-      spend_limit ? Coins.fromAmino(spend_limit) : undefined,
+      Coins.fromAmino(spend_limit),
       expiration ? new Date(expiration) : undefined
     );
-
-    new BasicAllowance('');
   }
 
   public toAmino(): BasicAllowance.Amino {
@@ -56,7 +52,7 @@ export class BasicAllowance extends JSONSerializable<
     return {
       type: 'cosmos-sdk/BasicAllowance',
       value: {
-        spend_limit: spend_limit?.toAmino(),
+        spend_limit: spend_limit.toAmino(),
         expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
       },
     };
@@ -65,7 +61,7 @@ export class BasicAllowance extends JSONSerializable<
   public static fromData(proto: BasicAllowance.Data): BasicAllowance {
     const { spend_limit, expiration } = proto;
     return new BasicAllowance(
-      spend_limit ? Coins.fromData(spend_limit) : undefined,
+      Coins.fromData(spend_limit),
       expiration ? new Date(expiration) : undefined
     );
   }
@@ -74,7 +70,7 @@ export class BasicAllowance extends JSONSerializable<
     const { spend_limit, expiration } = this;
     return {
       '@type': '/cosmos.feegrant.v1beta1.BasicAllowance',
-      spend_limit: spend_limit?.toData(),
+      spend_limit: spend_limit.toData(),
       expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
     };
   }
@@ -90,7 +86,7 @@ export class BasicAllowance extends JSONSerializable<
     const { spend_limit, expiration } = this;
     return BasicAllowance_pb.fromPartial({
       expiration,
-      spendLimit: spend_limit?.toProto(),
+      spendLimit: spend_limit.toProto(),
     });
   }
 
@@ -110,14 +106,14 @@ export namespace BasicAllowance {
   export interface Amino {
     type: 'cosmos-sdk/BasicAllowance';
     value: {
-      spend_limit?: Coins.Amino;
+      spend_limit: Coins.Amino;
       expiration?: string;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.feegrant.v1beta1.BasicAllowance';
-    spend_limit?: Coins.Data;
+    spend_limit: Coins.Data;
     expiration?: string;
   }
 

@@ -89,7 +89,9 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       msgProto.bridgeId.toNumber(),
       msgProto.to,
       Coin.fromProto(msgProto.amount as Coin),
-      Buffer.from(msgProto.data).toString('base64')
+      msgProto.data.length
+        ? Buffer.from(msgProto.data).toString('base64')
+        : undefined
     );
   }
 

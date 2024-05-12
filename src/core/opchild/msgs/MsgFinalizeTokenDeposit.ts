@@ -113,7 +113,9 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       msgProto.sequence.toNumber(),
       msgProto.height.toNumber(),
       msgProto.baseDenom,
-      Buffer.from(msgProto.data).toString('base64')
+      msgProto.data.length
+        ? Buffer.from(msgProto.data).toString('base64')
+        : undefined
     );
   }
 
