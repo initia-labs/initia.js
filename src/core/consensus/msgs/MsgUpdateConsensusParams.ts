@@ -21,10 +21,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
    */
   constructor(
     public authority: AccAddress,
-    public block: BlockParams,
-    public evidence: EvidenceParams,
-    public validator: ValidatorParams,
-    public abci: ABCIParams
+    public block?: BlockParams,
+    public evidence?: EvidenceParams,
+    public validator?: ValidatorParams,
+    public abci?: ABCIParams
   ) {
     super();
   }
@@ -37,10 +37,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
     } = data;
     return new MsgUpdateConsensusParams(
       authority,
-      BlockParams.fromAmino(block),
-      EvidenceParams.fromAmino(evidence),
-      ValidatorParams.fromAmino(validator),
-      ABCIParams.fromAmino(abci)
+      block ? BlockParams.fromAmino(block) : undefined,
+      evidence ? EvidenceParams.fromAmino(evidence) : undefined,
+      validator ? ValidatorParams.fromAmino(validator) : undefined,
+      abci ? ABCIParams.fromAmino(abci) : undefined
     );
   }
 
@@ -50,10 +50,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
       type: 'cosmos-sdk/x/consensus/MsgUpdateParams',
       value: {
         authority,
-        block: block.toAmino(),
-        evidence: evidence.toAmino(),
-        validator: validator.toAmino(),
-        abci: abci.toAmino(),
+        block: block?.toAmino(),
+        evidence: evidence?.toAmino(),
+        validator: validator?.toAmino(),
+        abci: abci?.toAmino(),
       },
     };
   }
@@ -64,10 +64,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
     const { authority, block, evidence, validator, abci } = data;
     return new MsgUpdateConsensusParams(
       authority,
-      BlockParams.fromData(block),
-      EvidenceParams.fromData(evidence),
-      ValidatorParams.fromData(validator),
-      ABCIParams.fromData(abci)
+      block ? BlockParams.fromData(block) : undefined,
+      evidence ? EvidenceParams.fromData(evidence) : undefined,
+      validator ? ValidatorParams.fromData(validator) : undefined,
+      abci ? ABCIParams.fromData(abci) : undefined
     );
   }
 
@@ -76,10 +76,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
     return {
       '@type': '/cosmos.consensus.v1.MsgUpdateParams',
       authority,
-      block: block.toData(),
-      evidence: evidence.toData(),
-      validator: validator.toData(),
-      abci: abci.toData(),
+      block: block?.toData(),
+      evidence: evidence?.toData(),
+      validator: validator?.toData(),
+      abci: abci?.toData(),
     };
   }
 
@@ -99,10 +99,10 @@ export class MsgUpdateConsensusParams extends JSONSerializable<
     const { authority, block, evidence, validator, abci } = this;
     return MsgUpdateParams_pb.fromPartial({
       authority,
-      block: block.toProto(),
-      evidence: evidence.toProto(),
-      validator: validator.toProto(),
-      abci: abci.toProto(),
+      block: block?.toProto(),
+      evidence: evidence?.toProto(),
+      validator: validator?.toProto(),
+      abci: abci?.toProto(),
     });
   }
 
@@ -125,20 +125,20 @@ export namespace MsgUpdateConsensusParams {
     type: 'cosmos-sdk/x/consensus/MsgUpdateParams';
     value: {
       authority: AccAddress;
-      block: BlockParams.Amino;
-      evidence: EvidenceParams.Amino;
-      validator: ValidatorParams.Amino;
-      abci: ABCIParams.Amino;
+      block?: BlockParams.Amino;
+      evidence?: EvidenceParams.Amino;
+      validator?: ValidatorParams.Amino;
+      abci?: ABCIParams.Amino;
     };
   }
 
   export interface Data {
     '@type': '/cosmos.consensus.v1.MsgUpdateParams';
     authority: AccAddress;
-    block: BlockParams.Data;
-    evidence: EvidenceParams.Data;
-    validator: ValidatorParams.Data;
-    abci: ABCIParams.Data;
+    block?: BlockParams.Data;
+    evidence?: EvidenceParams.Data;
+    validator?: ValidatorParams.Data;
+    abci?: ABCIParams.Data;
   }
 
   export type Proto = MsgUpdateParams_pb;
