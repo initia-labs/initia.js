@@ -15,6 +15,7 @@ import {
   MsgSetDenomMetadata,
 } from './bank';
 import { CelestiaMsg, MsgPayForBlobs } from './celestia';
+import { ConsensusMsg, MsgUpdateConsensusParams } from './consensus';
 import { CrisisMsg, MsgVerifyInvariant, MsgUpdateCrisisParams } from './crisis';
 import {
   DistributionMsg,
@@ -219,6 +220,7 @@ export type Msg =
   | AuthzMsg
   | BankMsg
   | CelestiaMsg
+  | ConsensusMsg
   | CrisisMsg
   | DistributionMsg
   | EvidenceMsg
@@ -254,6 +256,7 @@ export namespace Msg {
     | AuthMsg.Amino
     | AuthzMsg.Amino
     | BankMsg.Amino
+    | ConsensusMsg.Amino
     | CrisisMsg.Amino
     | DistributionMsg.Amino
     | EvidenceMsg.Amino
@@ -285,6 +288,7 @@ export namespace Msg {
     | AuthzMsg.Data
     | BankMsg.Data
     | CelestiaMsg.Data
+    | ConsensusMsg.Data
     | CrisisMsg.Data
     | DistributionMsg.Data
     | EvidenceMsg.Data
@@ -320,6 +324,7 @@ export namespace Msg {
     | AuthzMsg.Proto
     | BankMsg.Proto
     | CelestiaMsg.Proto
+    | ConsensusMsg.Proto
     | CrisisMsg.Proto
     | DistributionMsg.Proto
     | EvidenceMsg.Proto
@@ -386,6 +391,10 @@ export namespace Msg {
         return MsgVerifyInvariant.fromAmino(data);
       case 'cosmos-sdk/x/crisis/MsgUpdateParams':
         return MsgUpdateCrisisParams.fromAmino(data);
+
+      // consensus
+      case 'cosmos-sdk/x/consensus/MsgUpdateParams':
+        return MsgUpdateConsensusParams.fromAmino(data);
 
       // distribution
       case 'cosmos-sdk/MsgModifyWithdrawAddress':
@@ -710,6 +719,10 @@ export namespace Msg {
       // celestia
       case '/celestia.blob.v1.MsgPayForBlobs':
         return MsgPayForBlobs.fromData(data);
+
+      // consensus
+      case '/cosmos.consensus.v1.MsgUpdateParams':
+        return MsgUpdateConsensusParams.fromData(data);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
@@ -1107,6 +1120,10 @@ export namespace Msg {
       // celestia
       case '/celestia.blob.v1.MsgPayForBlobs':
         return MsgPayForBlobs.unpackAny(proto);
+
+      // consensus
+      case '/cosmos.consensus.v1.MsgUpdateParams':
+        return MsgUpdateConsensusParams.unpackAny(proto);
 
       // crisis
       case '/cosmos.crisis.v1beta1.MsgVerifyInvariant':
