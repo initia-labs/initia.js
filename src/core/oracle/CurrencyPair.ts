@@ -1,5 +1,5 @@
 import { JSONSerializable } from '../../util/json';
-import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/slinky/oracle/v1/genesis';
+import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/slinky/types/v1/currency_pair';
 
 export class CurrencyPair extends JSONSerializable<
   CurrencyPair.Amino,
