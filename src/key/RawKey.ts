@@ -22,6 +22,12 @@ export class RawKey extends Key {
     this.privateKey = privateKey;
   }
 
+  public static fromHex(key: string): RawKey {
+    const hex = key.startsWith('0x') ? key.slice(2) : key;
+    if (hex.length !== 64) throw new Error('Invalid private key length');
+    return new RawKey(Buffer.from(hex, 'hex'));
+  }
+
   public async sign(payload: Buffer): Promise<Buffer> {
     const hash = Buffer.from(
       SHA256.hash(new Word32Array(payload)).toString(),
