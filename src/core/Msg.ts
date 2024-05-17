@@ -145,6 +145,7 @@ import {
   MsgDelegate,
   MsgEditValidator,
   MsgUndelegate,
+  MsgCancelUnbondingDelegation,
   MsgUpdateMstakingParams,
 } from './mstaking';
 import {
@@ -559,6 +560,8 @@ export namespace Msg {
         return MsgCreateValidator.fromAmino(data);
       case 'mstaking/MsgEditValidator':
         return MsgEditValidator.fromAmino(data);
+      case 'mstaking/MsgCancelUnbondingDelegation':
+        return MsgCancelUnbondingDelegation.fromAmino(data);
       case 'mstaking/MsgUpdateParams':
         return MsgUpdateMstakingParams.fromAmino(data);
 
@@ -957,6 +960,8 @@ export namespace Msg {
         return MsgCreateValidator.fromData(data);
       case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.fromData(data);
+      case '/initia.mstaking.v1.MsgCancelUnbondingDelegation':
+        return MsgCancelUnbondingDelegation.fromData(data);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.fromData(data);
 
@@ -1358,6 +1363,8 @@ export namespace Msg {
         return MsgCreateValidator.unpackAny(proto);
       case '/initia.mstaking.v1.MsgEditValidator':
         return MsgEditValidator.unpackAny(proto);
+      case '/initia.mstaking.v1.MsgCancelUnbondingDelegation':
+        return MsgCancelUnbondingDelegation.unpackAny(proto);
       case '/initia.mstaking.v1.MsgUpdateParams':
         return MsgUpdateMstakingParams.unpackAny(proto);
 
