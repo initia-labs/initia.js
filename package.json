@@ -29,16 +29,16 @@
     "build": "tsc --module commonjs && webpack --mode production",
     "create-hook": "husky add .husky/pre-commit",
     "test": "jest",
-    "format": "prettier --check \"./src/**/*.ts\"",
-    "format:fix": "prettier --write \"./src/**/*.ts\"",
+    "format": "prettier --check 'src/**/*.ts'",
+    "format:fix": "prettier --write 'src/**/*.ts'",
     "lint": "eslint src --ext .js,.ts",
     "lint:fix": "eslint src --ext .js,.ts --fix",
     "doc": "typedoc",
     "prepare": "husky install",
-    "prepublishOnly": "rm -rf ./dist && npm run build"
+    "prepublishOnly": "rm -rf dist && npm run build"
   },
   "lint-staged": {
-    "./src/**/*.ts": [
+    "src/**/*.ts": [
       "npm run lint:fix",
       "npm run format:fix"
     ]
@@ -46,7 +46,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "post-checkout": "npm i"
+      "post-checkout": "npm install"
     }
   },
   "prettier": {
