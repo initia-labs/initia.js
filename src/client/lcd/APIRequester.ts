@@ -28,10 +28,10 @@ export class APIRequester {
     this.baseURL = baseURL;
 
     this.axios = Axios.create({
-      // headers: {
-      //   Accept: 'application/json',
-      // },
-      // timeout: 30000,
+      headers: {
+        Accept: 'application/json',
+      },
+      timeout: 30000,
       ...axiosConfig,
     });
   }
