@@ -34,6 +34,7 @@ import {
 import { Wallet } from './Wallet';
 import { Coins } from '../../core';
 import { Key } from '../../key';
+import { AxiosRequestConfig } from 'axios';
 
 export interface LCDClientConfig {
   /**
@@ -122,7 +123,7 @@ export class LCDClient {
   constructor(
     URL: string,
     config?: LCDClientConfig,
-    apiRequester?: APIRequester
+    axiosConfig?: AxiosRequestConfig
   ) {
     this.URL = URL;
     this.config = {
@@ -132,7 +133,7 @@ export class LCDClient {
         DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
       ...config,
     };
-    this.apiRequester = apiRequester ?? new APIRequester(this.URL);
+    this.apiRequester = new APIRequester(this.URL, axiosConfig);
 
     // instantiate APIs
     this.auction = new AuctionAPI(this.apiRequester);

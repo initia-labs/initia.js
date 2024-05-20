@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosHeaders } from 'axios';
+import Axios, { AxiosInstance, AxiosHeaders, AxiosRequestConfig } from 'axios';
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
 
 export type APIParams = Record<string, string | number | null | undefined>;
@@ -24,14 +24,15 @@ export class APIRequester {
   private axios: AxiosInstance;
   private readonly baseURL: string;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, axiosConfig?: AxiosRequestConfig) {
     this.baseURL = baseURL;
 
     this.axios = Axios.create({
-      headers: {
-        Accept: 'application/json',
-      },
-      timeout: 30000,
+      // headers: {
+      //   Accept: 'application/json',
+      // },
+      // timeout: 30000,
+      ...axiosConfig,
     });
   }
 
@@ -43,6 +44,10 @@ export class APIRequester {
       : (url.pathname += endpoint);
 
     return url.toString();
+  }
+
+  public getAxios(): AxiosInstance {
+    return this.axios;
   }
 
   public async getRaw<T>(
