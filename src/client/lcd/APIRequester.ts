@@ -29,7 +29,6 @@ export class APIRequester {
     const defaultConfig: CreateAxiosDefaults<any> = {
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json',
       },
       timeout: 30000,
     };
