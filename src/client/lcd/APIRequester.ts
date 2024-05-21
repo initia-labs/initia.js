@@ -26,14 +26,19 @@ export class APIRequester {
 
   constructor(baseURL: string, config?: CreateAxiosDefaults<any> | undefined) {
     this.baseURL = baseURL;
-    const defaultConfig = {
+    const defaultConfig: CreateAxiosDefaults<any> = {
       headers: {
         Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       timeout: 30000,
     };
 
-    this.axios = Axios.create({ ...defaultConfig, ...config });
+    this.axios = Axios.create({
+      ...defaultConfig,
+      ...config,
+      headers: { ...defaultConfig.headers, ...config?.headers },
+    });
   }
 
   private computeEndpoint(endpoint: string) {
