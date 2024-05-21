@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosHeaders } from 'axios';
+import Axios, { AxiosInstance, AxiosHeaders, CreateAxiosDefaults } from 'axios';
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
 
 export type APIParams = Record<string, string | number | null | undefined>;
@@ -24,14 +24,19 @@ export class APIRequester {
   private axios: AxiosInstance;
   private readonly baseURL: string;
 
-  constructor(baseURL: string) {
+  constructor(baseURL: string, config?: CreateAxiosDefaults<any> | undefined) {
     this.baseURL = baseURL;
-
-    this.axios = Axios.create({
+    const defaultConfig: CreateAxiosDefaults<any> = {
       headers: {
         Accept: 'application/json',
       },
       timeout: 30000,
+    };
+
+    this.axios = Axios.create({
+      ...defaultConfig,
+      ...config,
+      headers: { ...defaultConfig.headers, ...config?.headers },
     });
   }
 
