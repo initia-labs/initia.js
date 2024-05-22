@@ -9,13 +9,17 @@ import {
   IbcClientParams,
 } from '../../../core';
 
-export interface Status {
-  status: string;
+export interface ClientState {
+  client_state: any;
+  proof: string | null;
+  proof_height: Height;
 }
 
-export namespace Status {
+export namespace ClientState {
   export interface Data {
-    status: string;
+    client_state: any;
+    proof: string | null;
+    proof_height: Height.Data;
   }
 }
 
@@ -160,12 +164,17 @@ export class IbcAPI extends BaseAPI {
   public async clientState(
     client_id: string,
     params: APIParams = {}
-  ): Promise<IdentifiedClientState> {
+  ): Promise<ClientState> {
     return this.c
-      .get<{
-        client_state: IdentifiedClientState.Data;
-      }>(`/ibc/core/client/v1/client_states/${client_id}`, params)
-      .then(d => IdentifiedClientState.fromData(d.client_state));
+      .get<ClientState.Data>(
+        `/ibc/core/client/v1/client_states/${client_id}`,
+        params
+      )
+      .then(d => ({
+        client_state: d.client_state,
+        proof: d.proof,
+        proof_height: Height.fromData(d.proof_height),
+      }));
   }
 
   /**
@@ -176,12 +185,12 @@ export class IbcAPI extends BaseAPI {
   public async clientStatus(
     client_id: string,
     params: APIParams = {}
-  ): Promise<Status> {
+  ): Promise<string> {
     return this.c
       .get<{
-        status: Status.Data;
+        status: string;
       }>(`/ibc/core/client/v1/client_status/${client_id}`, params)
-      .then();
+      .then(d => d.status);
   }
 
   /**
