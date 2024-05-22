@@ -51,7 +51,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       messages.map(Msg.fromAmino),
       Coins.fromAmino(initial_deposit),
       proposer,
-      metadata,
+      metadata ?? '',
       title,
       summary,
       expedited
@@ -75,7 +75,7 @@ export class MsgSubmitProposal extends JSONSerializable<
         messages: messages.map(msg => msg.toAmino()),
         initial_deposit: initial_deposit.toAmino(),
         proposer,
-        metadata,
+        metadata: metadata && metadata !== '' ? metadata : undefined,
         title,
         summary,
         expedited,
@@ -183,7 +183,7 @@ export namespace MsgSubmitProposal {
       messages: Msg.Amino[];
       initial_deposit: Coins.Amino;
       proposer: AccAddress;
-      metadata: string;
+      metadata?: string;
       title: string;
       summary: string;
       expedited: boolean;

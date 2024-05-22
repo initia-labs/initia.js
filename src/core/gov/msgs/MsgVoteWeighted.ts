@@ -36,7 +36,7 @@ export class MsgVoteWeighted extends JSONSerializable<
       Number.parseInt(proposal_id),
       voter,
       options.map(o => WeightedVoteOption.fromAmino(o)),
-      metadata
+      metadata ?? ''
     );
   }
 
@@ -48,7 +48,7 @@ export class MsgVoteWeighted extends JSONSerializable<
         proposal_id: proposal_id.toFixed(),
         voter,
         options: options.map(o => o.toAmino()),
-        metadata,
+        metadata: metadata && metadata !== '' ? metadata : undefined,
       },
     };
   }
@@ -112,7 +112,7 @@ export namespace MsgVoteWeighted {
       proposal_id: string;
       voter: AccAddress;
       options: WeightedVoteOption.Amino[];
-      metadata: string;
+      metadata?: string;
     };
   }
 

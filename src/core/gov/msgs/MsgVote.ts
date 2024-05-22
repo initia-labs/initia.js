@@ -32,7 +32,12 @@ export class MsgVote extends JSONSerializable<
     const {
       value: { proposal_id, voter, option, metadata },
     } = data;
-    return new MsgVote(Number.parseInt(proposal_id), voter, option, metadata);
+    return new MsgVote(
+      Number.parseInt(proposal_id),
+      voter,
+      option,
+      metadata ?? ''
+    );
   }
 
   public toAmino(): MsgVote.Amino {
@@ -43,7 +48,7 @@ export class MsgVote extends JSONSerializable<
         proposal_id: proposal_id.toString(),
         voter,
         option,
-        metadata,
+        metadata: metadata && metadata !== '' ? metadata : undefined,
       },
     };
   }
@@ -105,7 +110,7 @@ export namespace MsgVote {
       proposal_id: string;
       voter: AccAddress;
       option: VoteOption;
-      metadata: string;
+      metadata?: string;
     };
   }
 
