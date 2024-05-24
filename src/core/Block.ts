@@ -60,7 +60,7 @@ export interface LastCommit {
 }
 
 export interface Signature {
-  block_id_flag: number;
+  block_id_flag: string;
   validator_address: string;
   timestamp: string;
   signature: string;
