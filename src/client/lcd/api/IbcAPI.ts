@@ -229,4 +229,32 @@ export class IbcAPI extends BaseAPI {
         d.pagination,
       ]);
   }
+
+  public async unreceivedPackets(
+    portId: string,
+    channelId: string,
+    sequences: number[],
+    params: APIParams = {}
+  ): Promise<{ sequences: string[]; height: Height }> {
+    return this.c.get<{ sequences: string[]; height: Height }>(
+      `/ibc/core/channel/v1/channels/${channelId}/ports/${portId}/packet_commitments/${sequences.join(
+        ','
+      )}/unreceived_packets`,
+      params
+    );
+  }
+
+  public async unreceivedAcks(
+    portId: string,
+    channelId: string,
+    sequences: number[],
+    params: APIParams = {}
+  ): Promise<{ sequences: string[]; height: Height }> {
+    return this.c.get<{ sequences: string[]; height: Height }>(
+      `/ibc/core/channel/v1/channels/${channelId}/ports/${portId}/packet_commitments/${sequences.join(
+        ','
+      )}/unreceived_acks`,
+      params
+    );
+  }
 }

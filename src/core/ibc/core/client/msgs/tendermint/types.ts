@@ -154,7 +154,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       Buffer.from(appHash).toString('base64'),
       Buffer.from(lastResultsHash).toString('base64'),
       Buffer.from(evidenceHash).toString('base64'),
-      proposerAddress.toString()
+      Buffer.from(proposerAddress).toString('base64')
     );
   }
 
@@ -189,7 +189,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       appHash: Buffer.from(appHash, 'base64'),
       lastResultsHash: Buffer.from(lastResultsHash, 'base64'),
       evidenceHash: Buffer.from(evidenceHash, 'base64'),
-      proposerAddress: Buffer.from(proposerAddress),
+      proposerAddress: Buffer.from(proposerAddress, 'base64'),
     });
   }
 }
