@@ -14,7 +14,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
   /**
    * @param sender the sender address
    * @param from l1 sender address
-   * @param to l2 recepient address
+   * @param to l2 recipient address
    * @param amount the coin amount to deposit
    * @param sequence the sequence number of l1 bridge
    * @param height the height of l1 which is including the deposit message

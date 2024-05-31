@@ -3,7 +3,7 @@ import { JSONSerializable } from '../util/json';
 import { Denom } from './Denom';
 
 /**
- * Analagous to `sdk.Coins` and `sdk.DecCoins` from Cosmos-SDK, and represents a collection
+ * Analogous to `sdk.Coins` and `sdk.DecCoins` from Cosmos-SDK, and represents a collection
  * of [[Coin]] objects.
  *
  */
