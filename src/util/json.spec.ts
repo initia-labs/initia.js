@@ -40,7 +40,7 @@ describe('removeNull', () => {
     expect(object).toEqual(object);
   });
 
-  it('returns object or primative if not Object', () => {
+  it('returns object or primitive if not Object', () => {
     const string = 'string';
     const number = 1;
     const boolean = false;
