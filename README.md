@@ -27,9 +27,9 @@ The usage section of this document provides detailed explanations and code examp
 import { LCDClient } from '@initia/initia.js';
 
 const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
-    chainId: 'mahalo-1',
-    gasPrices: '0.15uinit', // default gas prices
-    gasAdjustment: '1.75',  // default gas adjustment for fee estimation
+    chainId: 'initiation-1',
+    gasPrices: `0.15uinit`, // default gas prices using INIT change to GAS denom if fee using GAS
+    gasAdjustment: '2.0',  // default gas adjustment for fee estimation
 });
 ```
 
@@ -50,6 +50,15 @@ const key = new MnemonicKey({
     index: 0, // (optional) BIP44 index number. defualt = 0
     coinType: 118, // (optional) BIP44 coinType. default = 118
 });
+```
+
+Or you can use RawKey that using wallet private key. &#x20;
+
+```typescript
+import { RawKey } from '@initia/initia.js';
+
+const privateKeyBytes = Buffer.from("your_private_key", "hex");
+const key = new RawKey(Uint8Array.from(privateKeyBytes));
 ```
 
 ### BCS
@@ -166,7 +175,7 @@ const key = new MnemonicKey({
         'moral wise tape glance grit gentle movie doll omit you pet soon enter year funny gauge digital supply cereal city ring egg repair coyote',
 });
 
-const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
+const lcd = new LCDClient('https://lcd.initiation-1.initia.xyz', {
     chainId: 'mahalo-1',
     gasPrices: '0.15uinit', // default gas prices
     gasAdjustment: '1.75',  // default gas adjustment for fee estimation
