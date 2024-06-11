@@ -123,6 +123,13 @@ import {
 } from './ibc/core/connection/msgs';
 import { InterTxMsg, MsgRegisterAccount, MsgSubmitTx } from './intertx';
 import {
+  MarketmapMsg,
+  MsgCreateMarkets,
+  MsgUpdateMarkets,
+  MsgRemoveMarketAuthorities,
+  MsgUpdateMarketmapParams,
+} from './marketmap/msgs';
+import {
   MoveMsg,
   MsgPublish,
   MsgExecute,
@@ -240,6 +247,7 @@ export type Msg =
   | IbcClientMsg
   | IbcConnectionMsg
   | InterTxMsg
+  | MarketmapMsg
   | MoveMsg
   | MstakingMsg
   | OpchildMsg
@@ -272,6 +280,7 @@ export namespace Msg {
     | IbcPermMsg.Amino
     | IbcTransferMsg.Amino
     | InterTxMsg.Amino
+    | MarketmapMsg.Amino
     | MoveMsg.Amino
     | MstakingMsg.Amino
     | OpchildMsg.Amino
@@ -308,6 +317,7 @@ export namespace Msg {
     | IbcClientMsg.Data
     | IbcConnectionMsg.Data
     | InterTxMsg.Data
+    | MarketmapMsg.Data
     | MoveMsg.Data
     | MstakingMsg.Data
     | OpchildMsg.Data
@@ -344,6 +354,7 @@ export namespace Msg {
     | IbcClientMsg.Proto
     | IbcConnectionMsg.Proto
     | InterTxMsg.Proto
+    | MarketmapMsg.Proto
     | MoveMsg.Proto
     | MstakingMsg.Proto
     | OpchildMsg.Proto
@@ -520,6 +531,16 @@ export namespace Msg {
         return MsgRegisterAccount.fromAmino(data);
       case 'intertx/MsgSubmitTx':
         return MsgSubmitTx.fromAmino(data);
+
+      // marketmap
+      case 'slinky/x/marketmap/MsgCreateMarkets':
+        return MsgCreateMarkets.fromAmino(data);
+      case 'slinky/x/marketmap/MsgUpdateMarkets':
+        return MsgUpdateMarkets.fromAmino(data);
+      case 'slinky/x/marketmap/MsgRemoveMarketAuthorities':
+        return MsgRemoveMarketAuthorities.fromAmino(data);
+      case 'slinky/x/marketmap/MsgParams':
+        return MsgUpdateMarketmapParams.fromAmino(data);
 
       // move
       case 'move/MsgPublish':
@@ -920,6 +941,16 @@ export namespace Msg {
         return MsgRegisterAccount.fromData(data);
       case '/initia.intertx.v1.MsgSubmitTx':
         return MsgSubmitTx.fromData(data);
+
+      // marketmap
+      case '/slinky.marketmap.v1.MsgCreateMarkets':
+        return MsgCreateMarkets.fromData(data);
+      case '/slinky.marketmap.v1.MsgUpdateMarkets':
+        return MsgUpdateMarkets.fromData(data);
+      case '/slinky.marketmap.v1.MsgRemoveMarketAuthorities':
+        return MsgRemoveMarketAuthorities.fromData(data);
+      case '/slinky.marketmap.v1.MsgParams':
+        return MsgUpdateMarketmapParams.fromData(data);
 
       // move
       case '/initia.move.v1.MsgPublish':
@@ -1323,6 +1354,16 @@ export namespace Msg {
         return MsgRegisterAccount.unpackAny(proto);
       case '/initia.intertx.v1.MsgSubmitTx':
         return MsgSubmitTx.unpackAny(proto);
+
+      // marketmap
+      case '/slinky.marketmap.v1.MsgCreateMarkets':
+        return MsgCreateMarkets.unpackAny(proto);
+      case '/slinky.marketmap.v1.MsgUpdateMarkets':
+        return MsgUpdateMarkets.unpackAny(proto);
+      case '/slinky.marketmap.v1.MsgRemoveMarketAuthorities':
+        return MsgRemoveMarketAuthorities.unpackAny(proto);
+      case '/slinky.marketmap.v1.MsgParams':
+        return MsgUpdateMarketmapParams.unpackAny(proto);
 
       // move
       case '/initia.move.v1.MsgPublish':

@@ -16,6 +16,7 @@ export * from './IbcNftAPI';
 export * from './IbcTransferAPI';
 export * from './IbcPermAPI';
 export * from './InterTxAPI';
+export * from './MarketmapAPI';
 export * from './MoveAPI';
 export * from './MstakingAPI';
 export * from './OpchildAPI';

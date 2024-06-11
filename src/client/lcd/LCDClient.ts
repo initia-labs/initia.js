@@ -18,6 +18,7 @@ import {
   IbcTransferAPI,
   IbcPermAPI,
   InterTxAPI,
+  MarketmapAPI,
   MoveAPI,
   MstakingAPI,
   OpchildAPI,
@@ -101,6 +102,7 @@ export class LCDClient {
   public ibcTransfer: IbcTransferAPI;
   public ibcPerm: IbcPermAPI;
   public interTx: InterTxAPI;
+  public marketmap: MarketmapAPI;
   public move: MoveAPI;
   public mstaking: MstakingAPI;
   public opchild: OpchildAPI;
@@ -153,6 +155,7 @@ export class LCDClient {
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);
     this.ibcPerm = new IbcPermAPI(this.apiRequester);
     this.interTx = new InterTxAPI(this.apiRequester);
+    this.marketmap = new MarketmapAPI(this.apiRequester);
     this.move = new MoveAPI(this.apiRequester);
     this.mstaking = new MstakingAPI(this.apiRequester);
     this.opchild = new OpchildAPI(this.apiRequester);
