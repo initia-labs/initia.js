@@ -1,4 +1,4 @@
-import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/transfer';
+import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/denomtrace';
 import { JSONSerializable } from '../../../../util/json';
 
 /**

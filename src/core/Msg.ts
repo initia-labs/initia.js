@@ -71,19 +71,16 @@ import {
   MsgRegisterCounterpartyPayee,
   MsgRegisterPayee,
 } from './ibc/applications/fee';
-import {
-  IbcFetchpriceMsg,
-  MsgActivate,
-  MsgDeactivate,
-  MsgUpdateIbcFetchpriceParams,
-} from './ibc/applications/fetchprice';
 import { IbcHooksMsg, MsgUpdateACL, MsgUpdateIbcHooksParams } from './ibchooks';
 import {
   IbcNftMsg,
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer';
-import { IbcPermMsg, MsgSetPermissionedRelayer } from './ibc/applications/perm';
+import {
+  IbcPermMsg,
+  MsgSetPermissionedRelayers,
+} from './ibc/applications/perm';
 import {
   IbcTransferMsg,
   MsgTransfer,
@@ -238,7 +235,6 @@ export type Msg =
   | GovMsg
   | GroupMsg
   | IbcFeeMsg
-  | IbcFetchpriceMsg
   | IbcHooksMsg
   | IbcNftMsg
   | IbcPermMsg
@@ -274,7 +270,6 @@ export namespace Msg {
     | ForwardingMsg.Amino
     | GovMsg.Amino
     | GroupMsg.Amino
-    | IbcFetchpriceMsg.Amino
     | IbcHooksMsg.Amino
     | IbcNftMsg.Amino
     | IbcPermMsg.Amino
@@ -308,7 +303,6 @@ export namespace Msg {
     | GovMsg.Data
     | GroupMsg.Data
     | IbcFeeMsg.Data
-    | IbcFetchpriceMsg.Data
     | IbcHooksMsg.Data
     | IbcNftMsg.Data
     | IbcPermMsg.Data
@@ -345,7 +339,6 @@ export namespace Msg {
     | GovMsg.Proto
     | GroupMsg.Proto
     | IbcFeeMsg.Proto
-    | IbcFetchpriceMsg.Proto
     | IbcHooksMsg.Proto
     | IbcNftMsg.Proto
     | IbcPermMsg.Proto
@@ -498,14 +491,6 @@ export namespace Msg {
       case 'cosmos-sdk/group/MsgVote':
         return MsgGroupVote.fromAmino(data);
 
-      // ibc-fetchprice
-      case 'fetchprice/MsgActivate':
-        return MsgActivate.fromAmino(data);
-      case 'fetchprice/MsgDeactivate':
-        return MsgDeactivate.fromAmino(data);
-      case 'fetchprice/MsgUpdateParams':
-        return MsgUpdateIbcFetchpriceParams.fromAmino(data);
-
       // ibc-hooks
       case 'ibchooks/MsgUpdateACL':
         return MsgUpdateACL.fromAmino(data);
@@ -519,8 +504,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromAmino(data);
 
       // ibc-perm
-      case 'perm/MsgSetPermissionedRelayer':
-        return MsgSetPermissionedRelayer.fromAmino(data);
+      case 'perm/MsgSetPermissionedRelayers':
+        return MsgSetPermissionedRelayers.fromAmino(data);
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -854,14 +839,6 @@ export namespace Msg {
       case '/ibc.applications.fee.v1.MsgRegisterPayee':
         return MsgRegisterPayee.fromData(data);
 
-      // ibc-fetchprice
-      case '/ibc.applications.fetchprice.v1.MsgActivate':
-        return MsgActivate.fromData(data);
-      case '/ibc.applications.fetchprice.v1.MsgDeactivate':
-        return MsgDeactivate.fromData(data);
-      case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
-        return MsgUpdateIbcFetchpriceParams.fromData(data);
-
       // ibc-hooks
       case '/initia.ibchooks.v1.MsgUpdateACL':
         return MsgUpdateACL.fromData(data);
@@ -875,8 +852,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromData(data);
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayer':
-        return MsgSetPermissionedRelayer.fromData(data);
+      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
+        return MsgSetPermissionedRelayers.fromData(data);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -1267,14 +1244,6 @@ export namespace Msg {
       case '/ibc.applications.fee.v1.MsgRegisterPayee':
         return MsgRegisterPayee.unpackAny(proto);
 
-      // ibc-fetchprice
-      case '/ibc.applications.fetchprice.v1.MsgActivate':
-        return MsgActivate.unpackAny(proto);
-      case '/ibc.applications.fetchprice.v1.MsgDeactivate':
-        return MsgDeactivate.unpackAny(proto);
-      case '/ibc.applications.fetchprice.v1.MsgUpdateParams':
-        return MsgUpdateIbcFetchpriceParams.unpackAny(proto);
-
       // ibc-hooks
       case '/initia.ibchooks.v1.MsgUpdateACL':
         return MsgUpdateACL.unpackAny(proto);
@@ -1288,8 +1257,8 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.unpackAny(proto);
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayer':
-        return MsgSetPermissionedRelayer.unpackAny(proto);
+      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
+        return MsgSetPermissionedRelayers.unpackAny(proto);
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':

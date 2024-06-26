@@ -12,7 +12,6 @@ import {
   GovAPI,
   GroupAPI,
   IbcAPI,
-  IbcFetchpriceAPI,
   IbcHooksAPI,
   IbcNftAPI,
   IbcTransferAPI,
@@ -96,7 +95,6 @@ export class LCDClient {
   public gov: GovAPI;
   public group: GroupAPI;
   public ibc: IbcAPI;
-  public ibcFetchprice: IbcFetchpriceAPI;
   public ibcHooks: IbcHooksAPI;
   public ibcNft: IbcNftAPI;
   public ibcTransfer: IbcTransferAPI;
@@ -149,7 +147,6 @@ export class LCDClient {
     this.gov = new GovAPI(this.apiRequester);
     this.group = new GroupAPI(this.apiRequester);
     this.ibc = new IbcAPI(this.apiRequester);
-    this.ibcFetchprice = new IbcFetchpriceAPI(this.apiRequester);
     this.ibcHooks = new IbcHooksAPI(this.apiRequester);
     this.ibcNft = new IbcNftAPI(this.apiRequester);
     this.ibcTransfer = new IbcTransferAPI(this.apiRequester);

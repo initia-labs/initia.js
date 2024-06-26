@@ -10,7 +10,6 @@ export * from './ForwardingAPI';
 export * from './GovAPI';
 export * from './GroupAPI';
 export * from './IbcAPI';
-export * from './IbcFetchpriceAPI';
 export * from './IbcHooksAPI';
 export * from './IbcNftAPI';
 export * from './IbcTransferAPI';

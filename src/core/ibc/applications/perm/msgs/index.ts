@@ -1,10 +1,10 @@
-import { MsgSetPermissionedRelayer } from './MsgSetPermissionedRelayer';
+import { MsgSetPermissionedRelayers } from './MsgSetPermissionedRelayers';
 
-export * from './MsgSetPermissionedRelayer';
+export * from './MsgSetPermissionedRelayers';
 
-export type IbcPermMsg = MsgSetPermissionedRelayer;
+export type IbcPermMsg = MsgSetPermissionedRelayers;
 export namespace IbcPermMsg {
-  export type Amino = MsgSetPermissionedRelayer.Amino;
-  export type Data = MsgSetPermissionedRelayer.Data;
-  export type Proto = MsgSetPermissionedRelayer.Proto;
+  export type Amino = MsgSetPermissionedRelayers.Amino;
+  export type Data = MsgSetPermissionedRelayers.Data;
+  export type Proto = MsgSetPermissionedRelayers.Proto;
 }
