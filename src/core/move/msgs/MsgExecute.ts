@@ -2,8 +2,6 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgExecute as MsgExecute_pb } from '@initia/initia.proto/initia/move/v1/tx';
-import { argsEncodeWithABI } from '../../../util';
-import { ModuleABI } from '../types';
 
 export class MsgExecute extends JSONSerializable<
   MsgExecute.Amino,
@@ -156,77 +154,6 @@ export class MsgExecute extends JSONSerializable<
       type_args,
       args,
     };
-  }
-
-  /**
-   * Generate `MsgExecute` from plain arguments(not bcs encoded).
-   *
-   * @example
-   * // In case of the types of arguments are ['u64', 'u64']
-   * const abi = await lcd.move.module('init1def...', 'pair').then(res => res.abi)
-   *
-   * // msg that was generated with not encoded arguments
-   * consg msg1 = MsgExectueEntryFunction.fromPlainArgs(
-   *   'init1abc...', // sender
-   *   'init1def...', // module owner
-   *   'pair', // moudle name
-   *   'provide_liquidity', // function name
-   *   [],
-   *   [1000000000000, 2000000000000],
-   *   abi
-   * );
-   *
-   * // msg that was generated with the constructor
-   * const msg2 = new MsgExecute(
-   *   'init1abc...', // sender
-   *   'init1def...', // module owner
-   *   'pair', // moudle name
-   *   'provide_liquidity', // function name
-   *   [],
-   *   [
-   *     bcs.serialize('u64', 1000000000000),
-   *     bcs.serialize('u64', 2000000000000),
-   *   ]
-   * );
-   *
-   * console.assert(msg1.toJSON(), msg2.toJSON()
-   *
-   * @param sender
-   * @param module_address
-   * @param module_name
-   * @param function_name
-   * @param type_args
-   * @param args
-   * @param abi // base64 encoded module abi
-   * @returns
-   */
-  public static fromPlainArgs(
-    sender: AccAddress,
-    module_address: AccAddress,
-    module_name: string,
-    function_name: string,
-    type_args: string[] = [],
-    args: any[] = [],
-    abi: string
-  ): MsgExecute {
-    const module: ModuleABI = JSON.parse(abi);
-
-    const functionAbi = module.exposed_functions.find(
-      exposedFunction => exposedFunction.name === function_name
-    );
-
-    if (!functionAbi) {
-      throw new Error('function not found');
-    }
-
-    return new MsgExecute(
-      sender,
-      module_address,
-      module_name,
-      function_name,
-      type_args,
-      argsEncodeWithABI(args, functionAbi)
-    );
   }
 }
 

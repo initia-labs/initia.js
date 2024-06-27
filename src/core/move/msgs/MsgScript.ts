@@ -2,8 +2,6 @@ import { JSONSerializable } from '../../../util/json';
 import { AccAddress } from '../../bech32';
 import { Any } from '@initia/initia.proto/google/protobuf/any';
 import { MsgScript as MsgScript_pb } from '@initia/initia.proto/initia/move/v1/tx';
-import { MoveFunctionABI } from '../types';
-import { argsEncodeWithABI } from '../../../util';
 
 export class MsgScript extends JSONSerializable<
   MsgScript.Amino,
@@ -95,59 +93,6 @@ export class MsgScript extends JSONSerializable<
       type_args,
       args,
     };
-  }
-
-  /**
-   * Generate `MsgScript` from plain arguments(not bcs encoded)
-   *
-   * @example
-   * // In case of the types of arguments are ['u64', 'u64']
-   * const abi = await lcd.move.scriptABI(script).then(res => res.abi)
-   *
-   * // msg that was generated with not encoded arguments
-   * consg msg1 = MsgScript.fromPlainArgs(
-   *   'init1abc...', // sender
-   *   script, // code bytes
-   *   [],
-   *   [1000000000000, 2000000000000],
-   *   abi
-   * );
-   *
-   * // msg that was generated with the constructor
-   * const msg2 = new MsgScript(
-   *   'init1abc...', // sender
-   *   script, // code bytes
-   *   [],
-   *   [
-   *     bcs.serialize('u64', 1000000000000),
-   *     bcs.serialize('u64', 2000000000000),
-   *   ]
-   * );
-   *
-   * console.assert(msg1.toJSON(), msg2.toJSON()
-   *
-   * @param sender
-   * @param code_bytes
-   * @param type_args
-   * @param args
-   * @param abi // base64 encoded script abi
-   * @returns
-   */
-  public static fromPlainArgs(
-    sender: AccAddress,
-    code_bytes: string,
-    type_args: string[],
-    args: any[],
-    abi: string
-  ): MsgScript {
-    const functionAbi: MoveFunctionABI = JSON.parse(abi);
-
-    return new MsgScript(
-      sender,
-      code_bytes,
-      type_args,
-      argsEncodeWithABI(args, functionAbi)
-    );
   }
 }
 

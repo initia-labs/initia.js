@@ -1,7 +1,6 @@
 import { BaseAPI } from './BaseAPI';
-import { AccAddress, Denom, MoveParams, ModuleABI } from '../../../core';
+import { AccAddress, Denom, MoveParams } from '../../../core';
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { argsEncodeWithABI } from '../../../util';
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types';
 
 export interface Module {
@@ -111,45 +110,6 @@ export class MoveAPI extends BaseAPI {
         }
       )
       .then(res => JSON.parse(res.data) as T);
-  }
-
-  /**
-   * Query view function with not encoded arguments and abi.
-   * Arguments will be bcs encoded with type informations from abi.
-   *
-   * @param address
-   * @param moduleName
-   * @param functionName
-   * @param typeArgs
-   * @param args // not encoded arguments
-   * @param abi // base64 encoded module abi
-   * @returns
-   */
-  public async viewFunctionWithABI<T>(
-    abi: string,
-    address: AccAddress,
-    moduleName: string,
-    functionName: string,
-    typeArgs: string[] = [],
-    args: any[] = []
-  ): Promise<T> {
-    const module: ModuleABI = JSON.parse(Buffer.from(abi, 'base64').toString());
-
-    const functionAbi = module.exposed_functions.find(
-      exposedFunction => exposedFunction.name === functionName
-    );
-
-    if (!functionAbi) {
-      throw new Error('function not found');
-    }
-
-    return this.viewFunction<T>(
-      address,
-      moduleName,
-      functionName,
-      typeArgs,
-      argsEncodeWithABI(args, functionAbi)
-    );
   }
 
   public async view(
