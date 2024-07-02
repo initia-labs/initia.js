@@ -26,10 +26,10 @@ The usage section of this document provides detailed explanations and code examp
 ```typescript
 import { LCDClient } from '@initia/initia.js';
 
-const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
-    chainId: 'mahalo-1',
-    gasPrices: '0.15uinit', // default gas prices
-    gasAdjustment: '1.75',  // default gas adjustment for fee estimation
+const lcd = new LCDClient('https://lcd.initiation-1.initia.xyz', {
+    chainId: 'initiation-1',
+    gasPrices: '0.15move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff', // default gas prices
+    gasAdjustment: '1.5',  // default gas adjustment for fee estimation
 });
 ```
 
@@ -51,6 +51,15 @@ const key = new MnemonicKey({
     coinType: 118, // (optional) BIP44 coinType. default = 118
 });
 ```
+
+use `RawKey` to create a key from a private key.
+
+```typescript
+import { RawKey } from '@initia/initia.js';
+
+const key = new RawKey(Buffer.from(privateKey, "hex"));
+```
+
 
 ### BCS
 
@@ -166,10 +175,10 @@ const key = new MnemonicKey({
         'moral wise tape glance grit gentle movie doll omit you pet soon enter year funny gauge digital supply cereal city ring egg repair coyote',
 });
 
-const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
-    chainId: 'mahalo-1',
-    gasPrices: '0.15uinit', // default gas prices
-    gasAdjustment: '1.75',  // default gas adjustment for fee estimation
+const lcd = new LCDClient('https://lcd.initiation-1.initia.xyz', {
+    chainId: 'initiation-1',
+    gasPrices: '0.15move/944f8dd8dc49f96c25fea9849f16436dcfa6d564eec802f3ef7f8b3ea85368ff', // default gas prices
+    gasAdjustment: '1.5',  // default gas adjustment for fee estimation
 });
 
 const wallet = new Wallet(lcd, key);
