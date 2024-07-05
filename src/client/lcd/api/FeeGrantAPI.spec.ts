@@ -16,7 +16,7 @@ describe('FeeGrantAPI', () => {
     //   const allowanceData = res.allowances[0].allowance.toData();
     //   expect(allowanceData['@type']).toMatch(/cosmos.feegrant.v1beta1/g);
     //   expect(res.pagination).not.toBeUndefined();
-  });
+  })
 
   // describe('allowance', () => {
   //   it('allowance exist', async () => {
@@ -51,4 +51,4 @@ describe('FeeGrantAPI', () => {
   //   expect(allowanceData['@type']).toMatch(/cosmos.feegrant.v1beta1/g);
   //   expect(res.pagination).not.toBeUndefined();
   // });
-});
+})

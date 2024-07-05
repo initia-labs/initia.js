@@ -1,3 +1,3 @@
-export * from './Content';
-export * from './Proposal';
-export * from './TextProposal';
+export * from './Content'
+export * from './Proposal'
+export * from './TextProposal'

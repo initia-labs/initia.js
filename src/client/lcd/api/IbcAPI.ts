@@ -1,5 +1,5 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import {
   IdentifiedClientState,
   ClientConsensusStates,
@@ -7,33 +7,33 @@ import {
   IdentifiedConnection,
   Height,
   IbcClientParams,
-} from '../../../core';
+} from '../../../core'
 
 export interface ClientState {
-  client_state: any;
-  proof: string | null;
-  proof_height: Height;
+  client_state: any
+  proof: string | null
+  proof_height: Height
 }
 
 export namespace ClientState {
   export interface Data {
-    client_state: any;
-    proof: string | null;
-    proof_height: Height.Data;
+    client_state: any
+    proof: string | null
+    proof_height: Height.Data
   }
 }
 
 export interface Port {
-  channel: Channel;
-  proof: string;
-  proof_height: Height;
+  channel: Channel
+  proof: string
+  proof_height: Height
 }
 
 export namespace Port {
   export interface Data {
-    channel: Channel.Data;
-    proof: string;
-    proof_height: Height.Data;
+    channel: Channel.Data
+    proof: string
+    proof_height: Height.Data
   }
 }
 
@@ -46,10 +46,10 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[Channel[], Pagination]> {
     return this.c
       .get<{
-        channels: Channel.Data[];
-        pagination: Pagination;
+        channels: Channel.Data[]
+        pagination: Pagination
       }>(`/ibc/core/channel/v1/channels`, params)
-      .then(d => [d.channels.map(Channel.fromData), d.pagination]);
+      .then((d) => [d.channels.map(Channel.fromData), d.pagination])
   }
 
   /**
@@ -64,17 +64,17 @@ export class IbcAPI extends BaseAPI {
   ): Promise<Port> {
     return this.c
       .get<{
-        channel: Channel.Data;
-        proof: string;
-        proof_height: Height.Data;
+        channel: Channel.Data
+        proof: string
+        proof_height: Height.Data
       }>(`/ibc/core/channel/v1/channels/${channel_id}/ports/${port_id}`, params)
-      .then(d => {
+      .then((d) => {
         return {
           channel: Channel.fromData(d.channel),
           proof: d.proof,
           proof_height: Height.fromData(d.proof_height),
-        };
-      });
+        }
+      })
   }
 
   /**
@@ -85,13 +85,13 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[IdentifiedConnection[], Pagination]> {
     return this.c
       .get<{
-        connections: IdentifiedConnection.Data[];
-        pagination: Pagination;
+        connections: IdentifiedConnection.Data[]
+        pagination: Pagination
       }>(`/ibc/core/connection/v1/connections`, params)
-      .then(d => [
+      .then((d) => [
         d.connections.map(IdentifiedConnection.fromData),
         d.pagination,
-      ]);
+      ])
   }
 
   /**
@@ -104,9 +104,9 @@ export class IbcAPI extends BaseAPI {
   ): Promise<IdentifiedConnection> {
     return this.c
       .get<{
-        connection: IdentifiedConnection.Data;
+        connection: IdentifiedConnection.Data
       }>(`/ibc/core/connection/v1/connections/${connection_id}`, params)
-      .then(d => IdentifiedConnection.fromData(d.connection));
+      .then((d) => IdentifiedConnection.fromData(d.connection))
   }
 
   /**
@@ -119,15 +119,15 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[Channel[], Height, Pagination]> {
     return this.c
       .get<{
-        channels: Channel.Data[];
-        pagination: Pagination;
-        height: Height.Data;
+        channels: Channel.Data[]
+        pagination: Pagination
+        height: Height.Data
       }>(`/ibc/core/channel/v1/connections/${connection_id}/channels`, params)
-      .then(d => [
+      .then((d) => [
         d.channels.map(Channel.fromData),
         Height.fromData(d.height),
         d.pagination,
-      ]);
+      ])
   }
 
   /**
@@ -136,7 +136,7 @@ export class IbcAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<IbcClientParams> {
     return this.c
       .get<{ params: IbcClientParams.Data }>(`/ibc/client/v1/params`, params)
-      .then(d => IbcClientParams.fromData(d.params));
+      .then((d) => IbcClientParams.fromData(d.params))
   }
 
   /**
@@ -147,13 +147,13 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[IdentifiedClientState[], Pagination]> {
     return this.c
       .get<{
-        client_states: IdentifiedClientState.Data[];
-        pagination: Pagination;
+        client_states: IdentifiedClientState.Data[]
+        pagination: Pagination
       }>(`/ibc/core/client/v1/client_states`, params)
-      .then(d => [
+      .then((d) => [
         d.client_states.map(IdentifiedClientState.fromData),
         d.pagination,
-      ]);
+      ])
   }
 
   /**
@@ -170,11 +170,11 @@ export class IbcAPI extends BaseAPI {
         `/ibc/core/client/v1/client_states/${client_id}`,
         params
       )
-      .then(d => ({
+      .then((d) => ({
         client_state: d.client_state,
         proof: d.proof,
         proof_height: Height.fromData(d.proof_height),
-      }));
+      }))
   }
 
   /**
@@ -188,9 +188,9 @@ export class IbcAPI extends BaseAPI {
   ): Promise<string> {
     return this.c
       .get<{
-        status: string;
+        status: string
       }>(`/ibc/core/client/v1/client_status/${client_id}`, params)
-      .then(d => d.status);
+      .then((d) => d.status)
   }
 
   /**
@@ -204,10 +204,10 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[ClientConsensusStates, Pagination]> {
     return this.c
       .get<{
-        consensus_states: ClientConsensusStates.Data;
-        pagination: Pagination;
+        consensus_states: ClientConsensusStates.Data
+        pagination: Pagination
       }>(`/ibc/core/client/v1/consensus_states/${client_id}`, params)
-      .then();
+      .then()
   }
 
   /**
@@ -221,13 +221,13 @@ export class IbcAPI extends BaseAPI {
   ): Promise<[Height[], Pagination]> {
     return this.c
       .get<{
-        consensus_state_heights: Height.Data[];
-        pagination: Pagination;
+        consensus_state_heights: Height.Data[]
+        pagination: Pagination
       }>(`/ibc/core/client/v1/consensus_states/${client_id}/heights`, params)
-      .then(d => [
+      .then((d) => [
         d.consensus_state_heights.map(Height.fromData),
         d.pagination,
-      ]);
+      ])
   }
 
   public async unreceivedPackets(
@@ -241,7 +241,7 @@ export class IbcAPI extends BaseAPI {
         ','
       )}/unreceived_packets`,
       params
-    );
+    )
   }
 
   public async unreceivedAcks(
@@ -255,6 +255,6 @@ export class IbcAPI extends BaseAPI {
         ','
       )}/unreceived_acks`,
       params
-    );
+    )
   }
 }

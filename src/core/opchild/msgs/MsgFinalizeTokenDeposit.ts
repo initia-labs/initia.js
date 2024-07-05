@@ -1,10 +1,10 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Coin } from '../../Coin';
-import { Denom } from '../../Denom';
-import { MsgFinalizeTokenDeposit as MsgFinalizeTokenDeposit_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Coin } from '../../Coin'
+import { Denom } from '../../Denom'
+import { MsgFinalizeTokenDeposit as MsgFinalizeTokenDeposit_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import Long from 'long'
 
 export class MsgFinalizeTokenDeposit extends JSONSerializable<
   MsgFinalizeTokenDeposit.Amino,
@@ -30,7 +30,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
     public base_denom: Denom,
     public data?: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -38,7 +38,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
   ): MsgFinalizeTokenDeposit {
     const {
       value: { sender, from, to, amount, sequence, height, base_denom, data },
-    } = msgAmino;
+    } = msgAmino
     return new MsgFinalizeTokenDeposit(
       sender,
       from,
@@ -48,12 +48,12 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Number.parseInt(height),
       base_denom,
       data
-    );
+    )
   }
 
   public toAmino(): MsgFinalizeTokenDeposit.Amino {
     const { sender, from, to, amount, sequence, height, base_denom, data } =
-      this;
+      this
     return {
       type: 'opchild/MsgFinalizeTokenDeposit',
       value: {
@@ -66,14 +66,14 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
         base_denom,
         data,
       },
-    };
+    }
   }
 
   public static fromData(
     msgData: MsgFinalizeTokenDeposit.Data
   ): MsgFinalizeTokenDeposit {
     const { sender, from, to, amount, sequence, height, base_denom, data } =
-      msgData;
+      msgData
     return new MsgFinalizeTokenDeposit(
       sender,
       from,
@@ -83,12 +83,12 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       Number.parseInt(height),
       base_denom,
       data
-    );
+    )
   }
 
   public toData(): MsgFinalizeTokenDeposit.Data {
     const { sender, from, to, amount, sequence, height, base_denom, data } =
-      this;
+      this
     return {
       '@type': '/opinit.opchild.v1.MsgFinalizeTokenDeposit',
       sender,
@@ -99,7 +99,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       height: height.toString(),
       base_denom,
       data,
-    };
+    }
   }
 
   public static fromProto(
@@ -116,12 +116,12 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       msgProto.data.length
         ? Buffer.from(msgProto.data).toString('base64')
         : undefined
-    );
+    )
   }
 
   public toProto(): MsgFinalizeTokenDeposit.Proto {
     const { sender, from, to, amount, sequence, height, base_denom, data } =
-      this;
+      this
     return MsgFinalizeTokenDeposit_pb.fromPartial({
       sender,
       from,
@@ -131,49 +131,49 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       height: Long.fromNumber(height),
       baseDenom: base_denom,
       data: data ? Buffer.from(data, 'base64') : undefined,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/opinit.opchild.v1.MsgFinalizeTokenDeposit',
       value: MsgFinalizeTokenDeposit_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgFinalizeTokenDeposit {
     return MsgFinalizeTokenDeposit.fromProto(
       MsgFinalizeTokenDeposit_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgFinalizeTokenDeposit {
   export interface Amino {
-    type: 'opchild/MsgFinalizeTokenDeposit';
+    type: 'opchild/MsgFinalizeTokenDeposit'
     value: {
-      sender: AccAddress;
-      from: AccAddress;
-      to: AccAddress;
-      amount: Coin.Amino;
-      sequence: string;
-      height: string;
-      base_denom: Denom;
-      data?: string;
-    };
+      sender: AccAddress
+      from: AccAddress
+      to: AccAddress
+      amount: Coin.Amino
+      sequence: string
+      height: string
+      base_denom: Denom
+      data?: string
+    }
   }
 
   export interface Data {
-    '@type': '/opinit.opchild.v1.MsgFinalizeTokenDeposit';
-    sender: AccAddress;
-    from: AccAddress;
-    to: AccAddress;
-    amount: Coin.Data;
-    sequence: string;
-    height: string;
-    base_denom: Denom;
-    data?: string;
+    '@type': '/opinit.opchild.v1.MsgFinalizeTokenDeposit'
+    sender: AccAddress
+    from: AccAddress
+    to: AccAddress
+    amount: Coin.Data
+    sequence: string
+    height: string
+    base_denom: Denom
+    data?: string
   }
 
-  export type Proto = MsgFinalizeTokenDeposit_pb;
+  export type Proto = MsgFinalizeTokenDeposit_pb
 }

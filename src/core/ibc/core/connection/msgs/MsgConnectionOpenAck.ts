@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgConnectionOpenAck as MsgConnectionOpenAck_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
-import { IbcVersion, Height } from '../../../core';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgConnectionOpenAck as MsgConnectionOpenAck_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
+import { IbcVersion, Height } from '../../../core'
 
 /**
  * MsgConnectionOpenAck defines a msg sent by a Relayer to Chain A to
@@ -37,16 +37,16 @@ export class MsgConnectionOpenAck extends JSONSerializable<
     public consensus_height: Height | undefined,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgConnectionOpenAck {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
@@ -63,7 +63,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = data;
+    } = data
     return new MsgConnectionOpenAck(
       connection_id,
       counterparty_connection_id,
@@ -75,7 +75,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proof_consensus,
       consensus_height ? Height.fromData(consensus_height) : undefined,
       signer
-    );
+    )
   }
 
   public toData(): MsgConnectionOpenAck.Data {
@@ -90,7 +90,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = this;
+    } = this
     return {
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck',
       connection_id,
@@ -103,7 +103,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proof_consensus,
       consensus_height: consensus_height?.toData(),
       signer,
-    };
+    }
   }
 
   public static fromProto(
@@ -122,7 +122,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
         ? Height.fromProto(proto.consensusHeight)
         : undefined,
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgConnectionOpenAck.Proto {
@@ -137,7 +137,7 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = this;
+    } = this
     return MsgConnectionOpenAck_pb.fromPartial({
       connectionId: connection_id,
       counterpartyConnectionId: counterparty_connection_id,
@@ -149,36 +149,36 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
       consensusHeight: consensus_height?.toProto(),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.connection.v1.MsgConnectionOpenAck',
       value: MsgConnectionOpenAck_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgConnectionOpenAck {
     return MsgConnectionOpenAck.fromProto(
       MsgConnectionOpenAck_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgConnectionOpenAck {
   export interface Data {
-    '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck';
-    connection_id: string;
-    counterparty_connection_id: string;
-    version?: IbcVersion.Data;
-    client_state: Any;
-    proof_height?: Height.Data;
-    proof_try: string;
-    proof_client: string;
-    proof_consensus: string;
-    consensus_height?: Height.Data;
-    signer: AccAddress;
+    '@type': '/ibc.core.connection.v1.MsgConnectionOpenAck'
+    connection_id: string
+    counterparty_connection_id: string
+    version?: IbcVersion.Data
+    client_state: Any
+    proof_height?: Height.Data
+    proof_try: string
+    proof_client: string
+    proof_consensus: string
+    consensus_height?: Height.Data
+    signer: AccAddress
   }
-  export type Proto = MsgConnectionOpenAck_pb;
+  export type Proto = MsgConnectionOpenAck_pb
 }

@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { ParamChange, ParamChanges } from '../ParamChange';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { ParameterChangeProposal as ParameterChangeProposal_pb } from '@initia/initia.proto/cosmos/params/v1beta1/params';
+import { JSONSerializable } from '../../../util/json'
+import { ParamChange, ParamChanges } from '../ParamChange'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { ParameterChangeProposal as ParameterChangeProposal_pb } from '@initia/initia.proto/cosmos/params/v1beta1/params'
 
 /**
  * Describes a proposal for directly altering the value of the module parameters.
@@ -31,7 +31,7 @@ export class ParameterChangeProposal extends JSONSerializable<
   ParameterChangeProposal.Data,
   ParameterChangeProposal.Proto
 > {
-  public changes: ParamChanges;
+  public changes: ParamChanges
 
   /**
    * @param title proposal's title
@@ -44,11 +44,11 @@ export class ParameterChangeProposal extends JSONSerializable<
     public description: string,
     changes: ParamChange.Data[] | ParamChanges
   ) {
-    super();
+    super()
     if (Array.isArray(changes)) {
-      this.changes = ParamChanges.fromData(changes);
+      this.changes = ParamChanges.fromData(changes)
     } else {
-      this.changes = changes;
+      this.changes = changes
     }
   }
 
@@ -57,16 +57,16 @@ export class ParameterChangeProposal extends JSONSerializable<
   ): ParameterChangeProposal {
     const {
       value: { title, description, changes },
-    } = data;
+    } = data
     return new ParameterChangeProposal(
       title,
       description,
       ParamChanges.fromAmino(changes)
-    );
+    )
   }
 
   public toAmino(): ParameterChangeProposal.Amino {
-    const { title, description, changes } = this;
+    const { title, description, changes } = this
     return {
       type: 'cosmos-sdk/ParameterChangeProposal',
       value: {
@@ -74,28 +74,28 @@ export class ParameterChangeProposal extends JSONSerializable<
         description,
         changes: changes.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
     proto: ParameterChangeProposal.Data
   ): ParameterChangeProposal {
-    const { title, description, changes } = proto;
+    const { title, description, changes } = proto
     return new ParameterChangeProposal(
       title,
       description,
       ParamChanges.fromData(changes)
-    );
+    )
   }
 
   public toData(): ParameterChangeProposal.Data {
-    const { title, description, changes } = this;
+    const { title, description, changes } = this
     return {
       '@type': '/cosmos.params.v1beta1.ParameterChangeProposal',
       title,
       description,
       changes: changes.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -105,48 +105,48 @@ export class ParameterChangeProposal extends JSONSerializable<
       proto.title,
       proto.description,
       ParamChanges.fromProto(proto.changes)
-    );
+    )
   }
 
   public toProto(): ParameterChangeProposal.Proto {
-    const { title, description, changes } = this;
+    const { title, description, changes } = this
     return ParameterChangeProposal_pb.fromPartial({
       changes: changes.toProto(),
       description,
       title,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.params.v1beta1.ParameterChangeProposal',
       value: ParameterChangeProposal_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): ParameterChangeProposal {
     return ParameterChangeProposal.fromProto(
       ParameterChangeProposal_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace ParameterChangeProposal {
   export interface Amino {
-    type: 'cosmos-sdk/ParameterChangeProposal';
+    type: 'cosmos-sdk/ParameterChangeProposal'
     value: {
-      title: string;
-      description: string;
-      changes: ParamChange.Amino[];
-    };
+      title: string
+      description: string
+      changes: ParamChange.Amino[]
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.params.v1beta1.ParameterChangeProposal';
-    title: string;
-    description: string;
-    changes: ParamChange.Data[];
+    '@type': '/cosmos.params.v1beta1.ParameterChangeProposal'
+    title: string
+    description: string
+    changes: ParamChange.Data[]
   }
 
-  export type Proto = ParameterChangeProposal_pb;
+  export type Proto = ParameterChangeProposal_pb
 }

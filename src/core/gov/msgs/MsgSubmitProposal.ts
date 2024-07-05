@@ -1,16 +1,16 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Msg } from '../../Msg';
-import { Coins } from '../../Coins';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgSubmitProposal as MsgSubmitProposal_pb } from '@initia/initia.proto/cosmos/gov/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Msg } from '../../Msg'
+import { Coins } from '../../Coins'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgSubmitProposal as MsgSubmitProposal_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 
 export class MsgSubmitProposal extends JSONSerializable<
   MsgSubmitProposal.Amino,
   MsgSubmitProposal.Data,
   MsgSubmitProposal.Proto
 > {
-  public initial_deposit: Coins;
+  public initial_deposit: Coins
 
   /**
    * @param messages the arbitrary messages to be executed if proposal passes
@@ -30,8 +30,8 @@ export class MsgSubmitProposal extends JSONSerializable<
     public summary: string,
     public expedited: boolean
   ) {
-    super();
-    this.initial_deposit = new Coins(initial_deposit);
+    super()
+    this.initial_deposit = new Coins(initial_deposit)
   }
 
   public static fromAmino(data: MsgSubmitProposal.Amino): MsgSubmitProposal {
@@ -45,7 +45,7 @@ export class MsgSubmitProposal extends JSONSerializable<
         summary,
         expedited,
       },
-    } = data;
+    } = data
 
     return new MsgSubmitProposal(
       messages.map(Msg.fromAmino),
@@ -55,7 +55,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited
-    );
+    )
   }
 
   public toAmino(): MsgSubmitProposal.Amino {
@@ -67,12 +67,12 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited,
-    } = this;
+    } = this
 
     return {
       type: 'cosmos-sdk/v1/MsgSubmitProposal',
       value: {
-        messages: messages.map(msg => msg.toAmino()),
+        messages: messages.map((msg) => msg.toAmino()),
         initial_deposit: initial_deposit.toAmino(),
         proposer,
         metadata: metadata && metadata !== '' ? metadata : undefined,
@@ -80,7 +80,7 @@ export class MsgSubmitProposal extends JSONSerializable<
         summary,
         expedited,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgSubmitProposal.Data): MsgSubmitProposal {
@@ -92,7 +92,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited,
-    } = data;
+    } = data
 
     return new MsgSubmitProposal(
       messages.map(Msg.fromData),
@@ -102,7 +102,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited
-    );
+    )
   }
 
   public toData(): MsgSubmitProposal.Data {
@@ -114,18 +114,18 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited,
-    } = this;
+    } = this
 
     return {
       '@type': '/cosmos.gov.v1.MsgSubmitProposal',
-      messages: messages.map(msg => msg.toData()),
+      messages: messages.map((msg) => msg.toData()),
       initial_deposit: initial_deposit.toData(),
       proposer,
       metadata,
       title,
       summary,
       expedited,
-    };
+    }
   }
 
   public static fromProto(data: MsgSubmitProposal.Proto): MsgSubmitProposal {
@@ -137,7 +137,7 @@ export class MsgSubmitProposal extends JSONSerializable<
       data.title,
       data.summary,
       data.expedited
-    );
+    )
   }
 
   public toProto(): MsgSubmitProposal.Proto {
@@ -149,57 +149,57 @@ export class MsgSubmitProposal extends JSONSerializable<
       title,
       summary,
       expedited,
-    } = this;
+    } = this
 
     return MsgSubmitProposal_pb.fromPartial({
-      messages: messages.map(msg => msg.packAny()),
+      messages: messages.map((msg) => msg.packAny()),
       initialDeposit: initial_deposit.toProto(),
       proposer,
       metadata,
       title,
       summary,
       expedited,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.gov.v1.MsgSubmitProposal',
       value: MsgSubmitProposal_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgSubmitProposal {
     return MsgSubmitProposal.fromProto(
       MsgSubmitProposal_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgSubmitProposal {
   export interface Amino {
-    type: 'cosmos-sdk/v1/MsgSubmitProposal';
+    type: 'cosmos-sdk/v1/MsgSubmitProposal'
     value: {
-      messages: Msg.Amino[];
-      initial_deposit: Coins.Amino;
-      proposer: AccAddress;
-      metadata?: string;
-      title: string;
-      summary: string;
-      expedited: boolean;
-    };
+      messages: Msg.Amino[]
+      initial_deposit: Coins.Amino
+      proposer: AccAddress
+      metadata?: string
+      title: string
+      summary: string
+      expedited: boolean
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.gov.v1.MsgSubmitProposal';
-    messages: Msg.Data[];
-    initial_deposit: Coins.Data;
-    proposer: AccAddress;
-    metadata: string;
-    title: string;
-    summary: string;
-    expedited: boolean;
+    '@type': '/cosmos.gov.v1.MsgSubmitProposal'
+    messages: Msg.Data[]
+    initial_deposit: Coins.Data
+    proposer: AccAddress
+    metadata: string
+    title: string
+    summary: string
+    expedited: boolean
   }
 
-  export type Proto = MsgSubmitProposal_pb;
+  export type Proto = MsgSubmitProposal_pb
 }

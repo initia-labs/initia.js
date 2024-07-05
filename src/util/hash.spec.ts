@@ -1,4 +1,4 @@
-import { hashToHex } from './hash';
+import { hashToHex } from './hash'
 
 describe('hashToHex', () => {
   it('hashes correctly', () => {
@@ -8,6 +8,6 @@ describe('hashToHex', () => {
       )
     ).toEqual(
       'E2969CFC525D852234EAF30F7F2A71ACC1A89261543E0343220FD4030F58A140'
-    );
-  });
-});
+    )
+  })
+})

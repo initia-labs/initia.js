@@ -1,26 +1,26 @@
-import { MsgRecordBatch } from './MsgRecordBatch';
-import { MsgCreateBridge } from './MsgCreateBridge';
-import { MsgProposeOutput } from './MsgProposeOutput';
-import { MsgDeleteOutput } from './MsgDeleteOutput';
-import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit';
-import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal';
-import { MsgUpdateProposer } from './MsgUpdateProposer';
-import { MsgUpdateChallenger } from './MsgUpdateChallenger';
-import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo';
-import { MsgUpdateMetadata } from './MsgUpdateMetadata';
-import { MsgUpdateOphostParams } from './MsgUpdateOphostParams';
+import { MsgRecordBatch } from './MsgRecordBatch'
+import { MsgCreateBridge } from './MsgCreateBridge'
+import { MsgProposeOutput } from './MsgProposeOutput'
+import { MsgDeleteOutput } from './MsgDeleteOutput'
+import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit'
+import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal'
+import { MsgUpdateProposer } from './MsgUpdateProposer'
+import { MsgUpdateChallenger } from './MsgUpdateChallenger'
+import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo'
+import { MsgUpdateMetadata } from './MsgUpdateMetadata'
+import { MsgUpdateOphostParams } from './MsgUpdateOphostParams'
 
-export * from './MsgRecordBatch';
-export * from './MsgCreateBridge';
-export * from './MsgProposeOutput';
-export * from './MsgDeleteOutput';
-export * from './MsgInitiateTokenDeposit';
-export * from './MsgFinalizeTokenWithdrawal';
-export * from './MsgUpdateProposer';
-export * from './MsgUpdateChallenger';
-export * from './MsgUpdateBatchInfo';
-export * from './MsgUpdateMetadata';
-export * from './MsgUpdateOphostParams';
+export * from './MsgRecordBatch'
+export * from './MsgCreateBridge'
+export * from './MsgProposeOutput'
+export * from './MsgDeleteOutput'
+export * from './MsgInitiateTokenDeposit'
+export * from './MsgFinalizeTokenWithdrawal'
+export * from './MsgUpdateProposer'
+export * from './MsgUpdateChallenger'
+export * from './MsgUpdateBatchInfo'
+export * from './MsgUpdateMetadata'
+export * from './MsgUpdateOphostParams'
 
 export type OphostMsg =
   | MsgRecordBatch
@@ -33,7 +33,7 @@ export type OphostMsg =
   | MsgUpdateChallenger
   | MsgUpdateBatchInfo
   | MsgUpdateMetadata
-  | MsgUpdateOphostParams;
+  | MsgUpdateOphostParams
 
 export namespace OphostMsg {
   export type Amino =
@@ -47,7 +47,7 @@ export namespace OphostMsg {
     | MsgUpdateChallenger.Amino
     | MsgUpdateBatchInfo.Amino
     | MsgUpdateMetadata.Amino
-    | MsgUpdateOphostParams.Amino;
+    | MsgUpdateOphostParams.Amino
 
   export type Data =
     | MsgRecordBatch.Data
@@ -60,7 +60,7 @@ export namespace OphostMsg {
     | MsgUpdateChallenger.Data
     | MsgUpdateBatchInfo.Data
     | MsgUpdateMetadata.Data
-    | MsgUpdateOphostParams.Data;
+    | MsgUpdateOphostParams.Data
 
   export type Proto =
     | MsgRecordBatch.Proto
@@ -73,5 +73,5 @@ export namespace OphostMsg {
     | MsgUpdateChallenger.Proto
     | MsgUpdateBatchInfo.Proto
     | MsgUpdateMetadata.Proto
-    | MsgUpdateOphostParams.Proto;
+    | MsgUpdateOphostParams.Proto
 }

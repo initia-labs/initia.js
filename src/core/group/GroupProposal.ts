@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../util/json';
-import { num } from '../num';
-import { AccAddress } from '../bech32';
-import { Msg } from '../Msg';
+import { JSONSerializable } from '../../util/json'
+import { num } from '../num'
+import { AccAddress } from '../bech32'
+import { Msg } from '../Msg'
 import {
   Proposal as Proposal_pb,
   ProposalStatus,
@@ -11,8 +11,8 @@ import {
   proposalStatusToJSON,
   proposalExecutorResultFromJSON,
   proposalExecutorResultToJSON,
-} from '@initia/initia.proto/cosmos/group/v1/types';
-import Long from 'long';
+} from '@initia/initia.proto/cosmos/group/v1/types'
+import Long from 'long'
 
 /**
  * A group proposal consists of a set of `sdk.Msg`s that will be executed if the proposal
@@ -56,7 +56,7 @@ export class GroupProposal extends JSONSerializable<
     public title: string,
     public summary: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: GroupProposal.Amino): GroupProposal {
@@ -75,7 +75,7 @@ export class GroupProposal extends JSONSerializable<
       messages,
       title,
       summary,
-    } = data;
+    } = data
 
     return new GroupProposal(
       Number.parseInt(id),
@@ -99,7 +99,7 @@ export class GroupProposal extends JSONSerializable<
       messages.map(Msg.fromAmino),
       title,
       summary
-    );
+    )
   }
 
   public toAmino(): GroupProposal.Amino {
@@ -118,7 +118,7 @@ export class GroupProposal extends JSONSerializable<
       messages,
       title,
       summary,
-    } = this;
+    } = this
 
     return {
       id: id.toString(),
@@ -139,10 +139,10 @@ export class GroupProposal extends JSONSerializable<
       },
       voting_period_end: voting_period_end.toISOString(),
       executor_result: proposalExecutorResultToJSON(executor_result),
-      messages: messages.map(msg => msg.toAmino()),
+      messages: messages.map((msg) => msg.toAmino()),
       title,
       summary,
-    };
+    }
   }
 
   public static fromData(data: GroupProposal.Data): GroupProposal {
@@ -161,7 +161,7 @@ export class GroupProposal extends JSONSerializable<
       messages,
       title,
       summary,
-    } = data;
+    } = data
 
     return new GroupProposal(
       Number.parseInt(id),
@@ -185,7 +185,7 @@ export class GroupProposal extends JSONSerializable<
       messages.map(Msg.fromData),
       title,
       summary
-    );
+    )
   }
 
   public toData(): GroupProposal.Data {
@@ -204,7 +204,7 @@ export class GroupProposal extends JSONSerializable<
       messages,
       title,
       summary,
-    } = this;
+    } = this
 
     return {
       id: id.toString(),
@@ -225,10 +225,10 @@ export class GroupProposal extends JSONSerializable<
       },
       voting_period_end: voting_period_end.toISOString(),
       executor_result: proposalExecutorResultToJSON(executor_result),
-      messages: messages.map(msg => msg.toData()),
+      messages: messages.map((msg) => msg.toData()),
       title,
       summary,
-    };
+    }
   }
 
   public static fromProto(data: GroupProposal.Proto): GroupProposal {
@@ -254,7 +254,7 @@ export class GroupProposal extends JSONSerializable<
       data.messages.map(Msg.fromProto),
       data.title,
       data.summary
-    );
+    )
   }
 
   public toProto(): GroupProposal.Proto {
@@ -273,16 +273,16 @@ export class GroupProposal extends JSONSerializable<
       messages,
       title,
       summary,
-    } = this;
+    } = this
 
-    let ftr: TallyResult | undefined;
+    let ftr: TallyResult | undefined
     if (final_tally_result) {
       ftr = TallyResult.fromPartial({
         yesCount: final_tally_result.yes_count.toString(),
         noCount: final_tally_result.no_count.toString(),
         abstainCount: final_tally_result.abstain_count.toString(),
         noWithVetoCount: final_tally_result.no_with_veto_count.toString(),
-      });
+      })
     }
 
     return Proposal_pb.fromPartial({
@@ -297,69 +297,69 @@ export class GroupProposal extends JSONSerializable<
       finalTallyResult: ftr,
       votingPeriodEnd: voting_period_end,
       executorResult: executor_result,
-      messages: messages.map(msg => msg.packAny()),
+      messages: messages.map((msg) => msg.packAny()),
       title,
       summary,
-    });
+    })
   }
 }
 
 export namespace GroupProposal {
-  export const Status = ProposalStatus;
-  export type Status = ProposalStatus;
-  export const ExecutorResult = ProposalExecutorResult;
-  export type ExecutorResult = ProposalExecutorResult;
+  export const Status = ProposalStatus
+  export type Status = ProposalStatus
+  export const ExecutorResult = ProposalExecutorResult
+  export type ExecutorResult = ProposalExecutorResult
 
   export interface FinalTallyResult {
-    yes_count: string;
-    abstain_count: string;
-    no_count: string;
-    no_with_veto_count: string;
+    yes_count: string
+    abstain_count: string
+    no_count: string
+    no_with_veto_count: string
   }
 
   export interface Amino {
-    id: string;
-    group_policy_address: AccAddress;
-    metadata: string;
-    proposers: AccAddress[];
-    submit_time: string;
-    group_version: string;
-    group_policy_version: string;
-    status: string;
+    id: string
+    group_policy_address: AccAddress
+    metadata: string
+    proposers: AccAddress[]
+    submit_time: string
+    group_version: string
+    group_policy_version: string
+    status: string
     final_tally_result: {
-      yes_count: string;
-      abstain_count: string;
-      no_count: string;
-      no_with_veto_count: string;
-    };
-    voting_period_end: string;
-    executor_result: string;
-    messages: Msg.Amino[];
-    title: string;
-    summary: string;
+      yes_count: string
+      abstain_count: string
+      no_count: string
+      no_with_veto_count: string
+    }
+    voting_period_end: string
+    executor_result: string
+    messages: Msg.Amino[]
+    title: string
+    summary: string
   }
 
   export interface Data {
-    id: string;
-    group_policy_address: AccAddress;
-    metadata: string;
-    proposers: AccAddress[];
-    submit_time: string;
-    group_version: string;
-    group_policy_version: string;
-    status: string;
+    id: string
+    group_policy_address: AccAddress
+    metadata: string
+    proposers: AccAddress[]
+    submit_time: string
+    group_version: string
+    group_policy_version: string
+    status: string
     final_tally_result: {
-      yes_count: string;
-      abstain_count: string;
-      no_count: string;
-      no_with_veto_count: string;
-    };
-    voting_period_end: string;
-    executor_result: string;
-    messages: Msg.Data[];
-    title: string;
-    summary: string;
+      yes_count: string
+      abstain_count: string
+      no_count: string
+      no_with_veto_count: string
+    }
+    voting_period_end: string
+    executor_result: string
+    messages: Msg.Data[]
+    title: string
+    summary: string
   }
 
-  export type Proto = Proposal_pb;
+  export type Proto = Proposal_pb
 }

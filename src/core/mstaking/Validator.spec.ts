@@ -1,6 +1,6 @@
-import { Validator } from './Validator';
-import { ValConsPublicKey } from '../PublicKey';
-import { Coins } from '../Coins';
+import { Validator } from './Validator'
+import { ValConsPublicKey } from '../PublicKey'
+import { Coins } from '../Coins'
 
 describe('Validator', () => {
   it('deserializes', () => {
@@ -55,7 +55,7 @@ describe('Validator', () => {
         { denom: 'ustake', amount: '20000000' },
       ],
       voting_power: '5745331862',
-    });
+    })
 
     expect(validator).toMatchObject({
       operator_address: 'initvaloper1y3qwj2nf2x9gc6ctgt4vzh6e3q23cy9xz2gn99',
@@ -97,6 +97,6 @@ describe('Validator', () => {
         ustake: 20000000,
       }),
       voting_power: '5745331862',
-    });
-  });
-});
+    })
+  })
+})

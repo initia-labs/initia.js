@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUpdateGroupMetadata as MsgUpdateGroupMetadata_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgUpdateGroupMetadata as MsgUpdateGroupMetadata_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
+import Long from 'long'
 
 export class MsgUpdateGroupMetadata extends JSONSerializable<
   MsgUpdateGroupMetadata.Amino,
@@ -19,7 +19,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     public group_id: number,
     public metadata: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -27,16 +27,16 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
   ): MsgUpdateGroupMetadata {
     const {
       value: { admin, group_id, metadata },
-    } = data;
+    } = data
     return new MsgUpdateGroupMetadata(
       admin,
       Number.parseInt(group_id),
       metadata
-    );
+    )
   }
 
   public toAmino(): MsgUpdateGroupMetadata.Amino {
-    const { admin, group_id, metadata } = this;
+    const { admin, group_id, metadata } = this
     return {
       type: 'cosmos-sdk/MsgUpdateGroupMetadata',
       value: {
@@ -44,28 +44,28 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
         group_id: group_id.toString(),
         metadata,
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgUpdateGroupMetadata.Data
   ): MsgUpdateGroupMetadata {
-    const { admin, group_id, metadata } = data;
+    const { admin, group_id, metadata } = data
     return new MsgUpdateGroupMetadata(
       admin,
       Number.parseInt(group_id),
       metadata
-    );
+    )
   }
 
   public toData(): MsgUpdateGroupMetadata.Data {
-    const { admin, group_id, metadata } = this;
+    const { admin, group_id, metadata } = this
     return {
       '@type': '/cosmos.group.v1.MsgUpdateGroupMetadata',
       admin,
       group_id: group_id.toString(),
       metadata,
-    };
+    }
   }
 
   public static fromProto(
@@ -75,48 +75,48 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
       data.admin,
       data.groupId.toNumber(),
       data.metadata
-    );
+    )
   }
 
   public toProto(): MsgUpdateGroupMetadata.Proto {
-    const { admin, group_id, metadata } = this;
+    const { admin, group_id, metadata } = this
     return MsgUpdateGroupMetadata_pb.fromPartial({
       admin,
       groupId: Long.fromNumber(group_id),
       metadata,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.group.v1.MsgUpdateGroupMetadata',
       value: MsgUpdateGroupMetadata_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpdateGroupMetadata {
     return MsgUpdateGroupMetadata.fromProto(
       MsgUpdateGroupMetadata_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgUpdateGroupMetadata {
   export interface Amino {
-    type: 'cosmos-sdk/MsgUpdateGroupMetadata';
+    type: 'cosmos-sdk/MsgUpdateGroupMetadata'
     value: {
-      admin: AccAddress;
-      group_id: string;
-      metadata: string;
-    };
+      admin: AccAddress
+      group_id: string
+      metadata: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.group.v1.MsgUpdateGroupMetadata';
-    admin: AccAddress;
-    group_id: string;
-    metadata: string;
+    '@type': '/cosmos.group.v1.MsgUpdateGroupMetadata'
+    admin: AccAddress
+    group_id: string
+    metadata: string
   }
 
-  export type Proto = MsgUpdateGroupMetadata_pb;
+  export type Proto = MsgUpdateGroupMetadata_pb
 }

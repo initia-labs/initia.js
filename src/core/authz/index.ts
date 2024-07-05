@@ -1,2 +1,2 @@
-export * from './authorizations';
-export * from './msgs';
+export * from './authorizations'
+export * from './msgs'

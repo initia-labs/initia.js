@@ -1,30 +1,30 @@
-export const CLA = 0x55;
-export const CHUNK_SIZE = 250;
-export const APP_KEY = 'CSM';
+export const CLA = 0x55
+export const CHUNK_SIZE = 250
+export const APP_KEY = 'CSM'
 
 export const INS = {
   GET_VERSION: 0x00,
   INS_PUBLIC_KEY_SECP256K1: 0x01, // Obsolete
   SIGN_SECP256K1: 0x02,
   GET_ADDR_SECP256K1: 0x04,
-};
+}
 
 export const PAYLOAD_TYPE = {
   INIT: 0x00,
   ADD: 0x01,
   LAST: 0x02,
-};
+}
 
 export const P1_VALUES = {
   ONLY_RETRIEVE: 0x00,
   SHOW_ADDRESS_IN_DEVICE: 0x01,
-};
+}
 
 export const ERROR_CODE = {
   NoError: 0x9000,
-};
+}
 
-export const ERROR_DESCRIPTION: { [key: number]: string } = {
+export const ERROR_DESCRIPTION: Record<number, string> = {
   1: 'U2F: Unknown',
   2: 'U2F: Bad request',
   3: 'U2F: Configuration unsupported',
@@ -48,4 +48,4 @@ export const ERROR_DESCRIPTION: { [key: number]: string } = {
   0x6e00: 'App does not seem to be open',
   0x6f00: 'Unknown error',
   0x6f01: 'Sign/verify error',
-};
+}

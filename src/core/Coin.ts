@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../util/json';
-import { Denom } from './Denom';
-import { num, checkDecimal } from './num';
-import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin';
+import { JSONSerializable } from '../util/json'
+import { Denom } from './Denom'
+import { num, checkDecimal } from './num'
+import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin'
 
 /**
  * Captures `sdk.Coin` and `sdk.DecCoin` from Cosmos SDK. A composite value that combines
@@ -9,8 +9,8 @@ import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin';
  * that return Coin will return a new Coin. See [[Coins]] for a collection of Coin objects.
  */
 export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
-  public readonly amount: string;
-  public readonly isDecimal: boolean;
+  public readonly amount: string
+  public readonly isDecimal: boolean
 
   /**
    * Creates a new coin. Depending on the type of amount, it will be converted to an
@@ -19,24 +19,27 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param denom denomination
    * @param amount coin's amount
    */
-  constructor(public readonly denom: Denom, amount: number | string) {
-    super();
-    this.amount = num(amount).toString();
-    this.isDecimal = checkDecimal(amount);
+  constructor(
+    public readonly denom: Denom,
+    amount: number | string
+  ) {
+    super()
+    this.amount = num(amount).toString()
+    this.isDecimal = checkDecimal(amount)
   }
 
   /**
    * Turns the Coin into an Integer coin.
    */
   public toIntCoin(): Coin {
-    return new Coin(this.denom, num(this.amount).toFixed(0));
+    return new Coin(this.denom, num(this.amount).toFixed(0))
   }
 
   /**
    * Turns the Coin into an Integer coin with ceiling the amount.
    */
   public toIntCeilCoin(): Coin {
-    return new Coin(this.denom, num(this.amount).toFixed(0, 2));
+    return new Coin(this.denom, num(this.amount).toFixed(0, 2))
   }
 
   /**
@@ -46,7 +49,7 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
     return new Coin(
       this.denom,
       this.amount.includes('.') ? this.amount : num(this.amount).toFixed(1)
-    );
+    )
   }
 
   /**
@@ -58,18 +61,18 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
     const amount =
       this.isDecimal && !this.amount.includes('.')
         ? num(this.amount).toFixed(1)
-        : num(this.amount).toFixed();
-    return `${amount}${this.denom}`;
+        : num(this.amount).toFixed()
+    return `${amount}${this.denom}`
   }
 
   public static fromString(str: string): Coin {
-    const m = str.match(/^(-?[0-9]+(\.[0-9]+)?)([0-9a-zA-Z/]+)$/);
+    const m = str.match(/^(-?[0-9]+(\.[0-9]+)?)([0-9a-zA-Z/]+)$/)
     if (m === null) {
-      throw new Error(`failed to parse to Coin: ${str}`);
+      throw new Error(`failed to parse to Coin: ${str}`)
     }
-    const amount = m[1];
-    const denom = m[3];
-    return new Coin(denom, amount);
+    const amount = m[1]
+    const denom = m[3]
+    return new Coin(denom, amount)
   }
 
   /**
@@ -78,26 +81,26 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param other
    */
   public add(other: number | string | Coin): Coin {
-    let otherAmount;
-    let isDecimal = this.isDecimal;
+    let otherAmount
+    let isDecimal = this.isDecimal
     if (other instanceof Coin) {
       if (other.denom !== this.denom) {
         throw new Coin.ArithmeticError(
           `cannot add two Coins of different denoms: ${this.denom} and ${other.denom}`
-        );
+        )
       }
-      otherAmount = other.amount;
-      isDecimal = isDecimal || other.isDecimal;
+      otherAmount = other.amount
+      isDecimal = isDecimal || other.isDecimal
     } else {
-      otherAmount = other;
-      isDecimal = isDecimal || checkDecimal(other);
+      otherAmount = other
+      isDecimal = isDecimal || checkDecimal(other)
     }
-    const res = num(this.amount).plus(otherAmount);
+    const res = num(this.amount).plus(otherAmount)
 
     return new Coin(
       this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
-    );
+    )
   }
 
   /**
@@ -105,26 +108,26 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param other
    */
   public sub(other: number | string | Coin): Coin {
-    let otherAmount;
-    let isDecimal = this.isDecimal;
+    let otherAmount
+    let isDecimal = this.isDecimal
     if (other instanceof Coin) {
       if (other.denom !== this.denom) {
         throw new Coin.ArithmeticError(
           `cannot subtract two Coins of different denoms: ${this.denom} and ${other.denom}`
-        );
+        )
       }
-      otherAmount = other.amount;
-      isDecimal = isDecimal || other.isDecimal;
+      otherAmount = other.amount
+      isDecimal = isDecimal || other.isDecimal
     } else {
-      otherAmount = other;
-      isDecimal = isDecimal || checkDecimal(other);
+      otherAmount = other
+      isDecimal = isDecimal || checkDecimal(other)
     }
-    const res = num(this.amount).minus(otherAmount);
+    const res = num(this.amount).minus(otherAmount)
 
     return new Coin(
       this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
-    );
+    )
   }
 
   /**
@@ -132,13 +135,13 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param other
    */
   public mul(other: number | string): Coin {
-    const isDecimal = this.isDecimal || checkDecimal(other);
-    const res = num(this.amount).multipliedBy(other);
+    const isDecimal = this.isDecimal || checkDecimal(other)
+    const res = num(this.amount).multipliedBy(other)
 
     return new Coin(
       this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
-    );
+    )
   }
 
   /**
@@ -146,13 +149,13 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param other
    */
   public div(other: number | string): Coin {
-    const isDecimal = this.isDecimal || checkDecimal(other);
-    const res = num(this.amount).dividedBy(other);
+    const isDecimal = this.isDecimal || checkDecimal(other)
+    const res = num(this.amount).dividedBy(other)
 
     return new Coin(
       this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
-    );
+    )
   }
 
   /**
@@ -160,67 +163,67 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * @param other
    */
   public mod(other: number | string): Coin {
-    const isDecimal = this.isDecimal || checkDecimal(other);
-    const res = num(this.amount).mod(other);
+    const isDecimal = this.isDecimal || checkDecimal(other)
+    const res = num(this.amount).mod(other)
 
     return new Coin(
       this.denom,
       isDecimal && res.isInteger() ? res.toFixed(1) : res.toFixed()
-    );
+    )
   }
 
   public static fromAmino(data: Coin.Amino): Coin {
-    const { denom, amount } = data;
-    return new Coin(denom, amount);
+    const { denom, amount } = data
+    return new Coin(denom, amount)
   }
 
   public toAmino(): Coin.Amino {
-    const { denom, amount } = this;
+    const { denom, amount } = this
     return {
       denom,
       amount: this.isDecimal ? num(amount).toFixed(18) : amount,
-    };
+    }
   }
 
   public static fromData(data: Coin.Data): Coin {
-    const { denom, amount } = data;
-    return new Coin(denom, amount);
+    const { denom, amount } = data
+    return new Coin(denom, amount)
   }
 
   public toData(): Coin.Data {
-    const { denom, amount } = this;
+    const { denom, amount } = this
     return {
       denom,
       amount: this.isDecimal ? num(amount).toFixed(18) : amount,
-    };
+    }
   }
 
   public static fromProto(proto: Coin.Proto): Coin {
-    return new Coin(proto.denom, proto.amount);
+    return new Coin(proto.denom, proto.amount)
   }
 
   public toProto(): Coin.Proto {
     return Coin_pb.fromPartial({
       denom: this.denom,
       amount: this.isDecimal ? num(this.amount).toFixed(18) : this.amount,
-    });
+    })
   }
 }
 
 export namespace Coin {
   export interface Amino {
-    denom: Denom;
-    amount: string;
+    denom: Denom
+    amount: string
   }
 
   export interface Data {
-    denom: Denom;
-    amount: string;
+    denom: Denom
+    amount: string
   }
 
   export class ArithmeticError {
     constructor(public readonly message: string) {}
   }
 
-  export type Proto = Coin_pb;
+  export type Proto = Coin_pb
 }

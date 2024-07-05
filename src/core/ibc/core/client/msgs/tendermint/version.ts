@@ -1,9 +1,9 @@
-import { JSONSerializable } from '../../../../../../util/json';
+import { JSONSerializable } from '../../../../../../util/json'
 import {
   Consensus as Consensus_pb,
   App as App_pb,
-} from '@initia/initia.proto/tendermint/version/types';
-import Long from 'long';
+} from '@initia/initia.proto/tendermint/version/types'
+import Long from 'long'
 
 /**
  * Consensus captures the consensus rules for processing a block in the blockchain,
@@ -19,53 +19,56 @@ export class Consensus extends JSONSerializable<
    * @param block
    * @param app
    */
-  constructor(public block: number, public app: number) {
-    super();
+  constructor(
+    public block: number,
+    public app: number
+  ) {
+    super()
   }
 
   public static fromAmino(_: any): Consensus {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: Consensus.Data): Consensus {
-    const { block, app } = data;
-    return new Consensus(Number.parseInt(block), Number.parseInt(app));
+    const { block, app } = data
+    return new Consensus(Number.parseInt(block), Number.parseInt(app))
   }
 
   public toData(): Consensus.Data {
-    const { block, app } = this;
+    const { block, app } = this
     const res: Consensus.Data = {
       block: block.toFixed(),
       app: app.toFixed(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Consensus.Proto): Consensus {
-    return new Consensus(proto.block.toNumber(), proto.app.toNumber());
+    return new Consensus(proto.block.toNumber(), proto.app.toNumber())
   }
 
   public toProto(): Consensus.Proto {
-    const { block, app } = this;
+    const { block, app } = this
     return Consensus_pb.fromPartial({
       block: Long.fromNumber(block),
       app: Long.fromNumber(app),
-    });
+    })
   }
 }
 
 export namespace Consensus {
   export interface Data {
-    block: string;
-    app: string;
+    block: string
+    app: string
   }
 
-  export type Proto = Consensus_pb;
+  export type Proto = Consensus_pb
 }
 
 /**
@@ -78,51 +81,54 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
    * @param protocol
    * @param software
    */
-  constructor(public protocol: number, public software: string) {
-    super();
+  constructor(
+    public protocol: number,
+    public software: string
+  ) {
+    super()
   }
 
   public static fromAmino(_: any): App {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: App.Data): App {
-    const { protocol, software } = data;
-    return new App(Number.parseInt(protocol), software);
+    const { protocol, software } = data
+    return new App(Number.parseInt(protocol), software)
   }
 
   public toData(): App.Data {
-    const { protocol, software } = this;
+    const { protocol, software } = this
     const res: App.Data = {
       protocol: protocol.toFixed(),
       software: software,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: App.Proto): App {
-    return new App(proto.protocol.toNumber(), proto.software);
+    return new App(proto.protocol.toNumber(), proto.software)
   }
 
   public toProto(): App.Proto {
-    const { protocol, software } = this;
+    const { protocol, software } = this
     return App_pb.fromPartial({
       protocol: Long.fromNumber(protocol),
       software: software,
-    });
+    })
   }
 }
 
 export namespace App {
   export interface Data {
-    protocol: string;
-    software: string;
+    protocol: string
+    software: string
   }
 
-  export type Proto = App_pb;
+  export type Proto = App_pb
 }

@@ -1,5 +1,5 @@
-import { AccAddress } from '../../../core';
-import { BaseAPI } from './BaseAPI';
+import { AccAddress } from '../../../core'
+import { BaseAPI } from './BaseAPI'
 
 export class InterTxAPI extends BaseAPI {
   public async interchainAccount(
@@ -7,9 +7,11 @@ export class InterTxAPI extends BaseAPI {
     connection_id: string
   ): Promise<string> {
     return this.c
-      .get<{ interchain_account_address: string }>(
+      .get<{
+        interchain_account_address: string
+      }>(
         `/inter-tx/interchain_account/owner/${owner}/connection/${connection_id}`
       )
-      .then(d => d.interchain_account_address);
+      .then((d) => d.interchain_account_address)
   }
 }

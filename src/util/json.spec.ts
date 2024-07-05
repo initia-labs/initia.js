@@ -1,4 +1,4 @@
-import { removeNull } from './json';
+import { removeNull } from './json'
 
 describe('removeNull', () => {
   const object = {
@@ -16,10 +16,10 @@ describe('removeNull', () => {
       },
       b: 123,
     },
-  };
+  }
 
   it('removes null values from object', () => {
-    const newObject = removeNull(object);
+    const newObject = removeNull(object)
     expect(newObject).toEqual({
       a: 'abc',
       b: {
@@ -32,21 +32,21 @@ describe('removeNull', () => {
         },
         b: 123,
       },
-    });
-  });
+    })
+  })
 
   it('does not mutate object', () => {
-    removeNull(object);
-    expect(object).toEqual(object);
-  });
+    removeNull(object)
+    expect(object).toEqual(object)
+  })
 
   it('returns object or primitive if not Object', () => {
-    const string = 'string';
-    const number = 1;
-    const boolean = false;
+    const string = 'string'
+    const number = 1
+    const boolean = false
 
-    expect(removeNull(string)).toEqual(string);
-    expect(removeNull(number)).toEqual(number);
-    expect(removeNull(boolean)).toEqual(boolean);
-  });
-});
+    expect(removeNull(string)).toEqual(string)
+    expect(removeNull(number)).toEqual(number)
+    expect(removeNull(boolean)).toEqual(boolean)
+  })
+})

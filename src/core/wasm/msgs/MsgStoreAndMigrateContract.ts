@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgStoreAndMigrateContract as MsgStoreAndMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx';
-import { AccessConfig } from '../AccessConfig';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgStoreAndMigrateContract as MsgStoreAndMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
+import { AccessConfig } from '../AccessConfig'
 
 export class MsgStoreAndMigrateContract extends JSONSerializable<
   MsgStoreAndMigrateContract.Amino,
@@ -23,7 +23,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
     public contract: AccAddress,
     public msg: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -37,7 +37,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         contract,
         msg,
       },
-    } = data;
+    } = data
 
     return new MsgStoreAndMigrateContract(
       authority,
@@ -47,12 +47,12 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         : undefined,
       contract,
       msg
-    );
+    )
   }
 
   public toAmino(): MsgStoreAndMigrateContract.Amino {
     const { authority, wasm_byte_code, instantiate_permission, contract, msg } =
-      this;
+      this
 
     return {
       type: 'wasm/MsgStoreAndMigrateContract',
@@ -63,14 +63,14 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         contract,
         msg,
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgStoreAndMigrateContract.Data
   ): MsgStoreAndMigrateContract {
     const { authority, wasm_byte_code, instantiate_permission, contract, msg } =
-      data;
+      data
 
     return new MsgStoreAndMigrateContract(
       authority,
@@ -80,12 +80,12 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         : undefined,
       contract,
       msg
-    );
+    )
   }
 
   public toData(): MsgStoreAndMigrateContract.Data {
     const { authority, wasm_byte_code, instantiate_permission, contract, msg } =
-      this;
+      this
 
     return {
       '@type': '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract',
@@ -94,7 +94,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
       instantiate_permission: instantiate_permission?.toData(),
       contract,
       msg,
-    };
+    }
   }
 
   public static fromProto(
@@ -108,12 +108,12 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         : undefined,
       data.contract,
       Buffer.from(data.msg).toString('base64')
-    );
+    )
   }
 
   public toProto(): MsgStoreAndMigrateContract.Proto {
     const { authority, wasm_byte_code, instantiate_permission, contract, msg } =
-      this;
+      this
 
     return MsgStoreAndMigrateContract_pb.fromPartial({
       authority,
@@ -121,43 +121,43 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
       instantiatePermission: instantiate_permission?.toProto(),
       contract,
       msg: Buffer.from(msg, 'base64'),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract',
       value: MsgStoreAndMigrateContract_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgStoreAndMigrateContract {
     return MsgStoreAndMigrateContract.fromProto(
       MsgStoreAndMigrateContract_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgStoreAndMigrateContract {
   export interface Amino {
-    type: 'wasm/MsgStoreAndMigrateContract';
+    type: 'wasm/MsgStoreAndMigrateContract'
     value: {
-      authority: AccAddress;
-      wasm_byte_code: string;
-      instantiate_permission?: AccessConfig.Amino;
-      contract: AccAddress;
-      msg: string;
-    };
+      authority: AccAddress
+      wasm_byte_code: string
+      instantiate_permission?: AccessConfig.Amino
+      contract: AccAddress
+      msg: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract';
-    authority: AccAddress;
-    wasm_byte_code: string;
-    instantiate_permission?: AccessConfig.Data;
-    contract: AccAddress;
-    msg: string;
+    '@type': '/cosmwasm.wasm.v1.MsgStoreAndMigrateContract'
+    authority: AccAddress
+    wasm_byte_code: string
+    instantiate_permission?: AccessConfig.Data
+    contract: AccAddress
+    msg: string
   }
 
-  export type Proto = MsgStoreAndMigrateContract_pb;
+  export type Proto = MsgStoreAndMigrateContract_pb
 }

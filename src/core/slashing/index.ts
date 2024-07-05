@@ -1,2 +1,2 @@
-export * from './msgs';
-export * from './SlashingParams';
+export * from './msgs'
+export * from './SlashingParams'

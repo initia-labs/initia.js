@@ -1,15 +1,15 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgScript as MsgScript_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgScript as MsgScript_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 export class MsgScript extends JSONSerializable<
   MsgScript.Amino,
   MsgScript.Data,
   MsgScript.Proto
 > {
-  public type_args: string[];
-  public args: string[];
+  public type_args: string[]
+  public args: string[]
 
   /**
    * @param sender the actor that signed the messages
@@ -23,20 +23,20 @@ export class MsgScript extends JSONSerializable<
     type_args: string[] = [],
     args: string[] = []
   ) {
-    super();
-    this.type_args = type_args;
-    this.args = args;
+    super()
+    this.type_args = type_args
+    this.args = args
   }
 
   public static fromAmino(data: MsgScript.Amino): MsgScript {
     const {
       value: { sender, code_bytes, type_args, args },
-    } = data;
-    return new MsgScript(sender, code_bytes, type_args ?? [], args ?? []);
+    } = data
+    return new MsgScript(sender, code_bytes, type_args ?? [], args ?? [])
   }
 
   public toAmino(): MsgScript.Amino {
-    const { sender, code_bytes, type_args, args } = this;
+    const { sender, code_bytes, type_args, args } = this
 
     return {
       type: 'move/MsgScript',
@@ -46,7 +46,7 @@ export class MsgScript extends JSONSerializable<
         type_args: type_args.length === 0 ? undefined : type_args,
         args: args.length === 0 ? undefined : args,
       },
-    };
+    }
   }
 
   public static fromProto(data: MsgScript.Proto): MsgScript {
@@ -54,66 +54,66 @@ export class MsgScript extends JSONSerializable<
       data.sender,
       Buffer.from(data.codeBytes).toString('base64'),
       data.typeArgs,
-      data.args.map(arg => Buffer.from(arg).toString('base64'))
-    );
+      data.args.map((arg) => Buffer.from(arg).toString('base64'))
+    )
   }
 
   public toProto(): MsgScript.Proto {
-    const { sender, code_bytes, type_args, args } = this;
+    const { sender, code_bytes, type_args, args } = this
     return MsgScript_pb.fromPartial({
       sender,
       codeBytes: Buffer.from(code_bytes, 'base64'),
       typeArgs: type_args,
-      args: args.map(arg => Buffer.from(arg, 'base64')),
-    });
+      args: args.map((arg) => Buffer.from(arg, 'base64')),
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.move.v1.MsgScript',
       value: MsgScript_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgScript {
-    return MsgScript.fromProto(MsgScript_pb.decode(msgAny.value));
+    return MsgScript.fromProto(MsgScript_pb.decode(msgAny.value))
   }
 
   public static fromData(data: MsgScript.Data): MsgScript {
-    const { sender, code_bytes, type_args, args } = data;
-    return new MsgScript(sender, code_bytes, type_args, args);
+    const { sender, code_bytes, type_args, args } = data
+    return new MsgScript(sender, code_bytes, type_args, args)
   }
 
   public toData(): MsgScript.Data {
-    const { sender, code_bytes, type_args, args } = this;
+    const { sender, code_bytes, type_args, args } = this
     return {
       '@type': '/initia.move.v1.MsgScript',
       sender,
       code_bytes,
       type_args,
       args,
-    };
+    }
   }
 }
 
 export namespace MsgScript {
   export interface Amino {
-    type: 'move/MsgScript';
+    type: 'move/MsgScript'
     value: {
-      sender: AccAddress;
-      code_bytes: string;
-      type_args?: string[];
-      args?: string[];
-    };
+      sender: AccAddress
+      code_bytes: string
+      type_args?: string[]
+      args?: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgScript';
-    sender: AccAddress;
-    code_bytes: string;
-    type_args: string[];
-    args: string[];
+    '@type': '/initia.move.v1.MsgScript'
+    sender: AccAddress
+    code_bytes: string
+    type_args: string[]
+    args: string[]
   }
 
-  export type Proto = MsgScript_pb;
+  export type Proto = MsgScript_pb
 }

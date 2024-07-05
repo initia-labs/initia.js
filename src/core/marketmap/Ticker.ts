@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../util/json';
-import { CurrencyPair } from '../oracle';
-import { Ticker as Ticker_pb } from '@initia/initia.proto/slinky/marketmap/v1/market';
-import Long from 'long';
+import { JSONSerializable } from '../../util/json'
+import { CurrencyPair } from '../oracle'
+import { Ticker as Ticker_pb } from '@initia/initia.proto/slinky/marketmap/v1/market'
+import Long from 'long'
 
 export class Ticker extends JSONSerializable<
   Ticker.Amino,
@@ -22,7 +22,7 @@ export class Ticker extends JSONSerializable<
     public enabled: boolean,
     public metadata_JSON: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: Ticker.Amino): Ticker {
@@ -32,14 +32,14 @@ export class Ticker extends JSONSerializable<
       min_provider_count,
       enabled,
       metadata_JSON,
-    } = data;
+    } = data
     return new Ticker(
       CurrencyPair.fromAmino(currency_pair),
       Number.parseInt(decimals),
       Number.parseInt(min_provider_count),
       enabled,
       metadata_JSON
-    );
+    )
   }
 
   public toAmino(): Ticker.Amino {
@@ -49,14 +49,14 @@ export class Ticker extends JSONSerializable<
       min_provider_count,
       enabled,
       metadata_JSON,
-    } = this;
+    } = this
     return {
       currency_pair: currency_pair.toAmino(),
       decimals: decimals.toString(),
       min_provider_count: min_provider_count.toString(),
       enabled,
       metadata_JSON,
-    };
+    }
   }
 
   public static fromData(data: Ticker.Data): Ticker {
@@ -66,14 +66,14 @@ export class Ticker extends JSONSerializable<
       min_provider_count,
       enabled,
       metadata_JSON,
-    } = data;
+    } = data
     return new Ticker(
       CurrencyPair.fromData(currency_pair),
       Number.parseInt(decimals),
       Number.parseInt(min_provider_count),
       enabled,
       metadata_JSON
-    );
+    )
   }
 
   public toData(): Ticker.Data {
@@ -83,14 +83,14 @@ export class Ticker extends JSONSerializable<
       min_provider_count,
       enabled,
       metadata_JSON,
-    } = this;
+    } = this
     return {
       currency_pair: currency_pair.toData(),
       decimals: decimals.toString(),
       min_provider_count: min_provider_count.toString(),
       enabled,
       metadata_JSON,
-    };
+    }
   }
 
   public static fromProto(proto: Ticker.Proto): Ticker {
@@ -100,7 +100,7 @@ export class Ticker extends JSONSerializable<
       proto.minProviderCount.toNumber(),
       proto.enabled,
       proto.metadataJSON
-    );
+    )
   }
 
   public toProto(): Ticker.Proto {
@@ -110,33 +110,33 @@ export class Ticker extends JSONSerializable<
       min_provider_count,
       enabled,
       metadata_JSON,
-    } = this;
+    } = this
     return Ticker_pb.fromPartial({
       currencyPair: currency_pair,
       decimals: Long.fromNumber(decimals),
       minProviderCount: Long.fromNumber(min_provider_count),
       enabled,
       metadataJSON: metadata_JSON,
-    });
+    })
   }
 }
 
 export namespace Ticker {
   export interface Amino {
-    currency_pair: CurrencyPair.Amino;
-    decimals: string;
-    min_provider_count: string;
-    enabled: boolean;
-    metadata_JSON: string;
+    currency_pair: CurrencyPair.Amino
+    decimals: string
+    min_provider_count: string
+    enabled: boolean
+    metadata_JSON: string
   }
 
   export interface Data {
-    currency_pair: CurrencyPair.Data;
-    decimals: string;
-    min_provider_count: string;
-    enabled: boolean;
-    metadata_JSON: string;
+    currency_pair: CurrencyPair.Data
+    decimals: string
+    min_provider_count: string
+    enabled: boolean
+    metadata_JSON: string
   }
 
-  export type Proto = Ticker_pb;
+  export type Proto = Ticker_pb
 }

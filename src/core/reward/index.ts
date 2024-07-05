@@ -1,2 +1,2 @@
-export * from './msgs';
-export * from './RewardParams';
+export * from './msgs'
+export * from './RewardParams'

@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Allowance } from '../allowances';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgGrantAllowance as MsgGrantAllowance_pb } from '@initia/initia.proto/cosmos/feegrant/v1beta1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Allowance } from '../allowances'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgGrantAllowance as MsgGrantAllowance_pb } from '@initia/initia.proto/cosmos/feegrant/v1beta1/tx'
 
 /**
  * MsgGrantAllowance adds permission for Grantee to spend up to Allowance
@@ -24,22 +24,22 @@ export class MsgGrantAllowance extends JSONSerializable<
     public grantee: AccAddress,
     public allowance: Allowance
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgGrantAllowance.Amino): MsgGrantAllowance {
     const {
       value: { granter, grantee, allowance },
-    } = data;
+    } = data
     return new MsgGrantAllowance(
       granter,
       grantee,
       Allowance.fromAmino(allowance)
-    );
+    )
   }
 
   public toAmino(): MsgGrantAllowance.Amino {
-    const { granter, grantee, allowance } = this;
+    const { granter, grantee, allowance } = this
     return {
       type: 'cosmos-sdk/MsgGrantAllowance',
       value: {
@@ -47,26 +47,26 @@ export class MsgGrantAllowance extends JSONSerializable<
         grantee,
         allowance: allowance.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(data: MsgGrantAllowance.Data): MsgGrantAllowance {
-    const { granter, grantee, allowance } = data;
+    const { granter, grantee, allowance } = data
     return new MsgGrantAllowance(
       granter,
       grantee,
       Allowance.fromData(allowance)
-    );
+    )
   }
 
   public toData(): MsgGrantAllowance.Data {
-    const { granter, grantee, allowance } = this;
+    const { granter, grantee, allowance } = this
     return {
       '@type': '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
       granter,
       grantee,
       allowance: allowance.toData(),
-    };
+    }
   }
 
   public static fromProto(proto: MsgGrantAllowance.Proto): MsgGrantAllowance {
@@ -74,48 +74,48 @@ export class MsgGrantAllowance extends JSONSerializable<
       proto.granter,
       proto.grantee,
       Allowance.fromProto(proto.allowance as Any)
-    );
+    )
   }
 
   public toProto(): MsgGrantAllowance.Proto {
-    const { granter, grantee, allowance } = this;
+    const { granter, grantee, allowance } = this
     return MsgGrantAllowance_pb.fromPartial({
       allowance: allowance.packAny(),
       grantee,
       granter,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.feegrant.v1beta1.MsgGrantAllowance',
       value: MsgGrantAllowance_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgGrantAllowance {
     return MsgGrantAllowance.fromProto(
       MsgGrantAllowance_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgGrantAllowance {
   export interface Amino {
-    type: 'cosmos-sdk/MsgGrantAllowance';
+    type: 'cosmos-sdk/MsgGrantAllowance'
     value: {
-      granter: AccAddress;
-      grantee: AccAddress;
-      allowance: Allowance.Amino;
-    };
+      granter: AccAddress
+      grantee: AccAddress
+      allowance: Allowance.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.feegrant.v1beta1.MsgGrantAllowance';
-    granter: AccAddress;
-    grantee: AccAddress;
-    allowance: Allowance.Data;
+    '@type': '/cosmos.feegrant.v1beta1.MsgGrantAllowance'
+    granter: AccAddress
+    grantee: AccAddress
+    allowance: Allowance.Data
   }
 
-  export type Proto = MsgGrantAllowance_pb;
+  export type Proto = MsgGrantAllowance_pb
 }

@@ -1,2 +1,2 @@
-export * from './msgs';
-export * from './AuctionParams';
+export * from './msgs'
+export * from './AuctionParams'

@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../util/json';
-import { Coin } from '../Coin';
-import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis';
+import { JSONSerializable } from '../../util/json'
+import { Coin } from '../Coin'
+import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis'
 
 export class AuctionParams extends JSONSerializable<
   AuctionParams.Amino,
@@ -23,7 +23,7 @@ export class AuctionParams extends JSONSerializable<
     public front_running_protection: boolean,
     public proposer_fee: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: AuctionParams.Amino): AuctionParams {
@@ -36,7 +36,7 @@ export class AuctionParams extends JSONSerializable<
         front_running_protection,
         proposer_fee,
       },
-    } = data;
+    } = data
 
     return new AuctionParams(
       Number.parseInt(max_bundle_size),
@@ -45,7 +45,7 @@ export class AuctionParams extends JSONSerializable<
       Coin.fromAmino(min_bid_increment),
       front_running_protection,
       proposer_fee
-    );
+    )
   }
 
   public toAmino(): AuctionParams.Amino {
@@ -56,7 +56,7 @@ export class AuctionParams extends JSONSerializable<
       min_bid_increment,
       front_running_protection,
       proposer_fee,
-    } = this;
+    } = this
 
     return {
       type: 'block-sdk/x/auction/Params',
@@ -68,7 +68,7 @@ export class AuctionParams extends JSONSerializable<
         front_running_protection,
         proposer_fee,
       },
-    };
+    }
   }
 
   public static fromData(data: AuctionParams.Data): AuctionParams {
@@ -79,7 +79,7 @@ export class AuctionParams extends JSONSerializable<
       min_bid_increment,
       front_running_protection,
       proposer_fee,
-    } = data;
+    } = data
 
     return new AuctionParams(
       Number.parseInt(max_bundle_size),
@@ -88,7 +88,7 @@ export class AuctionParams extends JSONSerializable<
       Coin.fromData(min_bid_increment),
       front_running_protection,
       proposer_fee
-    );
+    )
   }
 
   public toData(): AuctionParams.Data {
@@ -99,7 +99,7 @@ export class AuctionParams extends JSONSerializable<
       min_bid_increment,
       front_running_protection,
       proposer_fee,
-    } = this;
+    } = this
 
     return {
       '@type': '/sdk.auction.v1.Params',
@@ -109,7 +109,7 @@ export class AuctionParams extends JSONSerializable<
       min_bid_increment: min_bid_increment.toData(),
       front_running_protection,
       proposer_fee,
-    };
+    }
   }
 
   public static fromProto(data: AuctionParams.Proto): AuctionParams {
@@ -120,7 +120,7 @@ export class AuctionParams extends JSONSerializable<
       Coin.fromProto(data.minBidIncrement as Coin),
       data.frontRunningProtection,
       data.proposerFee
-    );
+    )
   }
 
   public toProto(): AuctionParams.Proto {
@@ -131,7 +131,7 @@ export class AuctionParams extends JSONSerializable<
       min_bid_increment,
       front_running_protection,
       proposer_fee,
-    } = this;
+    } = this
 
     return Params_pb.fromPartial({
       maxBundleSize: max_bundle_size,
@@ -140,32 +140,32 @@ export class AuctionParams extends JSONSerializable<
       minBidIncrement: min_bid_increment.toProto(),
       frontRunningProtection: front_running_protection,
       proposerFee: proposer_fee,
-    });
+    })
   }
 }
 
 export namespace AuctionParams {
   export interface Amino {
-    type: 'block-sdk/x/auction/Params';
+    type: 'block-sdk/x/auction/Params'
     value: {
-      max_bundle_size: string;
-      escrow_account_address: string;
-      reserve_fee: Coin.Amino;
-      min_bid_increment: Coin.Amino;
-      front_running_protection: boolean;
-      proposer_fee: string;
-    };
+      max_bundle_size: string
+      escrow_account_address: string
+      reserve_fee: Coin.Amino
+      min_bid_increment: Coin.Amino
+      front_running_protection: boolean
+      proposer_fee: string
+    }
   }
 
   export interface Data {
-    '@type': '/sdk.auction.v1.Params';
-    max_bundle_size: string;
-    escrow_account_address: string;
-    reserve_fee: Coin.Data;
-    min_bid_increment: Coin.Data;
-    front_running_protection: boolean;
-    proposer_fee: string;
+    '@type': '/sdk.auction.v1.Params'
+    max_bundle_size: string
+    escrow_account_address: string
+    reserve_fee: Coin.Data
+    min_bid_increment: Coin.Data
+    front_running_protection: boolean
+    proposer_fee: string
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

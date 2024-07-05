@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/noble/forwarding/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/noble/forwarding/v1/tx'
 
 export class MsgRegisterForwardingAccount extends JSONSerializable<
   MsgRegisterForwardingAccount.Amino,
@@ -18,7 +18,7 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
     public recipient: string,
     public channel: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -26,12 +26,12 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
   ): MsgRegisterForwardingAccount {
     const {
       value: { signer, recipient, channel },
-    } = data;
-    return new MsgRegisterForwardingAccount(signer, recipient, channel);
+    } = data
+    return new MsgRegisterForwardingAccount(signer, recipient, channel)
   }
 
   public toAmino(): MsgRegisterForwardingAccount.Amino {
-    const { signer, recipient, channel } = this;
+    const { signer, recipient, channel } = this
     return {
       type: 'noble/forwarding/RegisterAccount',
       value: {
@@ -39,24 +39,24 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
         recipient,
         channel,
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgRegisterForwardingAccount.Data
   ): MsgRegisterForwardingAccount {
-    const { signer, recipient, channel } = data;
-    return new MsgRegisterForwardingAccount(signer, recipient, channel);
+    const { signer, recipient, channel } = data
+    return new MsgRegisterForwardingAccount(signer, recipient, channel)
   }
 
   public toData(): MsgRegisterForwardingAccount.Data {
-    const { signer, recipient, channel } = this;
+    const { signer, recipient, channel } = this
     return {
       '@type': '/noble.forwarding.v1.MsgRegisterAccount',
       signer,
       recipient,
       channel,
-    };
+    }
   }
 
   public static fromProto(
@@ -66,48 +66,48 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
       data.signer,
       data.recipient,
       data.channel
-    );
+    )
   }
 
   public toProto(): MsgRegisterForwardingAccount.Proto {
-    const { signer, recipient, channel } = this;
+    const { signer, recipient, channel } = this
     return MsgRegisterAccount_pb.fromPartial({
       signer,
       recipient,
       channel,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/noble.forwarding.v1.MsgRegisterAccount',
       value: MsgRegisterAccount_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgRegisterForwardingAccount {
     return MsgRegisterForwardingAccount.fromProto(
       MsgRegisterAccount_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgRegisterForwardingAccount {
   export interface Amino {
-    type: 'noble/forwarding/RegisterAccount';
+    type: 'noble/forwarding/RegisterAccount'
     value: {
-      signer: AccAddress;
-      recipient: string;
-      channel: string;
-    };
+      signer: AccAddress
+      recipient: string
+      channel: string
+    }
   }
 
   export interface Data {
-    '@type': '/noble.forwarding.v1.MsgRegisterAccount';
-    signer: AccAddress;
-    recipient: string;
-    channel: string;
+    '@type': '/noble.forwarding.v1.MsgRegisterAccount'
+    signer: AccAddress
+    recipient: string
+    channel: string
   }
 
-  export type Proto = MsgRegisterAccount_pb;
+  export type Proto = MsgRegisterAccount_pb
 }

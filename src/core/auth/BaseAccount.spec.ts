@@ -1,7 +1,7 @@
-import { BaseAccount } from './BaseAccount';
-import { SimplePublicKey } from '../PublicKey';
+import { BaseAccount } from './BaseAccount'
+import { SimplePublicKey } from '../PublicKey'
 
-const data = require('./BaseAccount.data.json');
+const data = require('./BaseAccount.data.json')
 
 describe('Account', () => {
   it('deserializes accounts correctly', () => {
@@ -16,8 +16,8 @@ describe('Account', () => {
         account_number: '251248',
         sequence: '58',
       },
-    };
-    const acct = BaseAccount.fromAmino(data);
+    }
+    const acct = BaseAccount.fromAmino(data)
     expect(acct).toMatchObject({
       address: 'init12fm3tql2uu0gheuj3st9cwz7ml97tq9mla88c2',
       public_key: new SimplePublicKey(
@@ -25,9 +25,9 @@ describe('Account', () => {
       ),
       account_number: 251248,
       sequence: 58,
-    });
-    expect(acct.toAmino()).toMatchObject(data);
-  });
+    })
+    expect(acct.toAmino()).toMatchObject(data)
+  })
 
   it('deserializes a new account correctly', () => {
     // a new account does not yet have a public key
@@ -39,12 +39,12 @@ describe('Account', () => {
         account_number: '0',
         sequence: '0',
       },
-    };
+    }
 
     expect(BaseAccount.fromAmino(newAccount).toAmino()).toMatchObject(
       newAccount
-    );
-  });
+    )
+  })
 
   it('serializes accounts correctly', () => {
     const acct = new BaseAccount(
@@ -52,7 +52,7 @@ describe('Account', () => {
       new SimplePublicKey('abc'),
       251248,
       58
-    );
+    )
 
     expect(acct.toAmino()).toMatchObject({
       type: 'cosmos-sdk/BaseAccount',
@@ -65,12 +65,12 @@ describe('Account', () => {
         account_number: '251248',
         sequence: '58',
       },
-    });
-  });
+    })
+  })
 
   it('deserializes from example data', () => {
     data.forEach((ex: BaseAccount.Amino) => {
-      expect(BaseAccount.fromAmino(ex).toAmino()).toMatchObject(ex);
-    });
-  });
-});
+      expect(BaseAccount.fromAmino(ex).toAmino()).toMatchObject(ex)
+    })
+  })
+})

@@ -1,9 +1,9 @@
-import { APIRequester } from '../APIRequester';
-import { DistributionAPI } from './DistributionAPI';
-import { Coins } from '../../../core';
+import { APIRequester } from '../APIRequester'
+import { DistributionAPI } from './DistributionAPI'
+import { Coins } from '../../../core'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const distribution = new DistributionAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const distribution = new DistributionAPI(c)
 
 describe('DistributionAPI', () => {
   it('parameters', async () => {
@@ -16,20 +16,20 @@ describe('DistributionAPI', () => {
           weight: expect.any(String),
         }),
       ]),
-    });
-  });
+    })
+  })
 
   it('withdrawAddress', async () => {
     await expect(
       distribution.withdrawAddress(
         'init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs'
       )
-    ).resolves.toEqual('init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs');
-  });
+    ).resolves.toEqual('init1wlvk4e083pd3nddlfe5quy56e68atra3gu9xfs')
+  })
 
   it('communityPool', async () => {
     await expect(distribution.communityPool()).resolves.toEqual(
       expect.any(Coins)
-    );
-  });
-});
+    )
+  })
+})

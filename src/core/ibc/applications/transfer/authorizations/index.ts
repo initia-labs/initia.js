@@ -1,2 +1,2 @@
-export * from './Allocation';
-export * from './TransferAuthorization';
+export * from './Allocation'
+export * from './TransferAuthorization'

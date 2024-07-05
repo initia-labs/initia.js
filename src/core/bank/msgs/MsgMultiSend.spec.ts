@@ -1,6 +1,6 @@
-import { MsgMultiSend } from './MsgMultiSend';
-import { Coins } from '../../Coins';
-import { Coin } from '../../Coin';
+import { MsgMultiSend } from './MsgMultiSend'
+import { Coins } from '../../Coins'
+import { Coin } from '../../Coin'
 
 const example: MsgMultiSend.Amino = {
   type: 'cosmos-sdk/MsgMultiSend',
@@ -136,7 +136,7 @@ const example: MsgMultiSend.Amino = {
       },
     ],
   },
-};
+}
 
 const proto_example: MsgMultiSend.Data = {
   '@type': '/cosmos.bank.v1beta1.MsgMultiSend',
@@ -270,18 +270,18 @@ const proto_example: MsgMultiSend.Data = {
       ],
     },
   ],
-};
+}
 
 describe('MsgMultiSend', () => {
   it('deserialize correctly', () => {
-    const multisend = MsgMultiSend.fromAmino(example);
-    expect(multisend.toAmino()).toMatchObject(example);
-  });
+    const multisend = MsgMultiSend.fromAmino(example)
+    expect(multisend.toAmino()).toMatchObject(example)
+  })
 
   it('deserialize correctly proto', () => {
-    const multisend = MsgMultiSend.fromProto(proto_example);
-    expect(multisend.toData()).toMatchObject(proto_example);
-  });
+    const multisend = MsgMultiSend.fromProto(proto_example)
+    expect(multisend.toData()).toMatchObject(proto_example)
+  })
 
   it('can be created manually', () => {
     const inputs: MsgMultiSend.Input[] = [
@@ -294,7 +294,7 @@ describe('MsgMultiSend', () => {
       new MsgMultiSend.Input('init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfad', [
         new Coin('uinit', 123123),
       ]),
-    ];
+    ]
 
     const outputs: MsgMultiSend.Output[] = [
       new MsgMultiSend.Output(
@@ -306,8 +306,8 @@ describe('MsgMultiSend', () => {
       new MsgMultiSend.Output('init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfga', {
         uinit: 123123,
       }),
-    ];
-    const multisend = new MsgMultiSend(inputs, outputs);
+    ]
+    const multisend = new MsgMultiSend(inputs, outputs)
     expect(multisend.toAmino()).toMatchObject({
       type: 'cosmos-sdk/MsgMultiSend',
       value: {
@@ -352,6 +352,6 @@ describe('MsgMultiSend', () => {
           },
         ],
       },
-    });
-  });
-});
+    })
+  })
+})

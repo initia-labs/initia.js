@@ -1,15 +1,14 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams } from '../APIRequester';
-import { CurrencyPair, QuotePrice } from '../../../core';
+import { BaseAPI } from './BaseAPI'
+import { APIParams } from '../APIRequester'
+import { CurrencyPair, QuotePrice } from '../../../core'
 
 export class OracleAPI extends BaseAPI {
   public async currencyPairs(params: APIParams = {}): Promise<CurrencyPair[]> {
     return this.c
-      .get<{ currency_pairs: CurrencyPair.Data[] }>(
-        `/slinky/oracle/v1/get_all_tickers`,
-        params
-      )
-      .then(d => d.currency_pairs.map(CurrencyPair.fromData));
+      .get<{
+        currency_pairs: CurrencyPair.Data[]
+      }>(`/slinky/oracle/v1/get_all_tickers`, params)
+      .then((d) => d.currency_pairs.map(CurrencyPair.fromData))
   }
 
   public async price(
@@ -21,6 +20,6 @@ export class OracleAPI extends BaseAPI {
         ...params,
         currency_pair_id: pair.toString(),
       })
-      .then(d => QuotePrice.fromData(d.price));
+      .then((d) => QuotePrice.fromData(d.price))
   }
 }

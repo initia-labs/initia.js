@@ -1,5 +1,5 @@
-import { Metadata as Metadata_pb } from '@initia/initia.proto/ibc/applications/interchain_accounts/v1/metadata';
-import { JSONSerializable } from '../../../../util/json';
+import { Metadata as Metadata_pb } from '@initia/initia.proto/ibc/applications/interchain_accounts/v1/metadata'
+import { JSONSerializable } from '../../../../util/json'
 
 /**
  * Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
@@ -26,7 +26,7 @@ export class Metadata extends JSONSerializable<
     public encoding: string,
     public tx_type: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: Metadata.Amino): Metadata {
@@ -37,7 +37,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    } = data;
+    } = data
     return new Metadata(
       version,
       controller_connection_id,
@@ -45,7 +45,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type
-    );
+    )
   }
 
   public toAmino(): Metadata.Amino {
@@ -56,7 +56,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    } = this;
+    } = this
     const res: Metadata.Amino = {
       version,
       controller_connection_id,
@@ -64,8 +64,8 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromData(data: Metadata.Data): Metadata {
@@ -76,7 +76,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    } = data;
+    } = data
     return new Metadata(
       version,
       controller_connection_id,
@@ -84,7 +84,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type
-    );
+    )
   }
 
   public toData(): Metadata.Data {
@@ -95,7 +95,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    } = this;
+    } = this
     const res: Metadata.Data = {
       version,
       controller_connection_id,
@@ -103,8 +103,8 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Metadata.Proto): Metadata {
@@ -115,7 +115,7 @@ export class Metadata extends JSONSerializable<
       proto.address,
       proto.encoding,
       proto.txType
-    );
+    )
   }
 
   public toProto(): Metadata.Proto {
@@ -126,7 +126,7 @@ export class Metadata extends JSONSerializable<
       address,
       encoding,
       tx_type,
-    } = this;
+    } = this
     return Metadata_pb.fromPartial({
       version: version,
       controllerConnectionId: controller_connection_id,
@@ -134,28 +134,28 @@ export class Metadata extends JSONSerializable<
       address: address,
       encoding: encoding,
       txType: tx_type,
-    });
+    })
   }
 }
 
 export namespace Metadata {
   export interface Amino {
-    version: string;
-    controller_connection_id: string;
-    host_connection_id: string;
-    address: string;
-    encoding: string;
-    tx_type: string;
+    version: string
+    controller_connection_id: string
+    host_connection_id: string
+    address: string
+    encoding: string
+    tx_type: string
   }
 
   export interface Data {
-    version: string;
-    controller_connection_id: string;
-    host_connection_id: string;
-    address: string;
-    encoding: string;
-    tx_type: string;
+    version: string
+    controller_connection_id: string
+    host_connection_id: string
+    address: string
+    encoding: string
+    tx_type: string
   }
 
-  export type Proto = Metadata_pb;
+  export type Proto = Metadata_pb
 }

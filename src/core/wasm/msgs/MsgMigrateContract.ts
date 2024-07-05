@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgMigrateContract as MsgMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgMigrateContract as MsgMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
+import Long from 'long'
 
 export class MsgMigrateContract extends JSONSerializable<
   MsgMigrateContract.Amino,
@@ -21,24 +21,24 @@ export class MsgMigrateContract extends JSONSerializable<
     public code_id: number,
     public msg: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgMigrateContract.Amino): MsgMigrateContract {
     const {
       value: { sender, contract, code_id, msg },
-    } = data;
+    } = data
 
     return new MsgMigrateContract(
       sender,
       contract,
       Number.parseInt(code_id),
       msg
-    );
+    )
   }
 
   public toAmino(): MsgMigrateContract.Amino {
-    const { sender, contract, code_id, msg } = this;
+    const { sender, contract, code_id, msg } = this
     return {
       type: 'wasm/MsgMigrateContract',
       value: {
@@ -47,28 +47,28 @@ export class MsgMigrateContract extends JSONSerializable<
         code_id: code_id.toString(),
         msg,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgMigrateContract.Data): MsgMigrateContract {
-    const { sender, contract, code_id, msg } = data;
+    const { sender, contract, code_id, msg } = data
     return new MsgMigrateContract(
       sender,
       contract,
       Number.parseInt(code_id),
       msg
-    );
+    )
   }
 
   public toData(): MsgMigrateContract.Data {
-    const { sender, contract, code_id, msg } = this;
+    const { sender, contract, code_id, msg } = this
     return {
       '@type': '/cosmwasm.wasm.v1.MsgMigrateContract',
       sender,
       contract,
       code_id: code_id.toString(),
       msg,
-    };
+    }
   }
 
   public static fromProto(data: MsgMigrateContract.Proto): MsgMigrateContract {
@@ -77,51 +77,51 @@ export class MsgMigrateContract extends JSONSerializable<
       data.contract,
       data.codeId.toNumber(),
       Buffer.from(data.msg).toString('base64')
-    );
+    )
   }
 
   public toProto(): MsgMigrateContract.Proto {
-    const { sender, contract, code_id, msg } = this;
+    const { sender, contract, code_id, msg } = this
     return MsgMigrateContract_pb.fromPartial({
       sender,
       contract,
       codeId: Long.fromNumber(code_id),
       msg: Buffer.from(msg, 'base64'),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmwasm.wasm.v1.MsgMigrateContract',
       value: MsgMigrateContract_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgMigrateContract {
     return MsgMigrateContract.fromProto(
       MsgMigrateContract_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgMigrateContract {
   export interface Amino {
-    type: 'wasm/MsgMigrateContract';
+    type: 'wasm/MsgMigrateContract'
     value: {
-      sender: AccAddress;
-      contract: AccAddress;
-      code_id: string;
-      msg: string;
-    };
+      sender: AccAddress
+      contract: AccAddress
+      code_id: string
+      msg: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.MsgMigrateContract';
-    sender: AccAddress;
-    contract: AccAddress;
-    code_id: string;
-    msg: string;
+    '@type': '/cosmwasm.wasm.v1.MsgMigrateContract'
+    sender: AccAddress
+    contract: AccAddress
+    code_id: string
+    msg: string
   }
 
-  export type Proto = MsgMigrateContract_pb;
+  export type Proto = MsgMigrateContract_pb
 }

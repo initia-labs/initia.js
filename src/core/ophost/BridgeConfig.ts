@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../util/json';
-import { AccAddress } from '../bech32';
-import { Duration } from '../Duration';
-import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types';
-import { BatchInfo } from './BatchInfo';
+import { JSONSerializable } from '../../util/json'
+import { AccAddress } from '../bech32'
+import { Duration } from '../Duration'
+import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
+import { BatchInfo } from './BatchInfo'
 
 export class BridgeConfig extends JSONSerializable<
   BridgeConfig.Amino,
@@ -27,7 +27,7 @@ export class BridgeConfig extends JSONSerializable<
     public submission_start_time: Date,
     public metadata?: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: BridgeConfig.Amino): BridgeConfig {
@@ -39,7 +39,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period,
       submission_start_time,
       metadata,
-    } = data;
+    } = data
 
     return new BridgeConfig(
       challenger,
@@ -49,7 +49,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromAmino(finalization_period),
       new Date(submission_start_time),
       metadata
-    );
+    )
   }
 
   public toAmino(): BridgeConfig.Amino {
@@ -61,7 +61,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period,
       submission_start_time,
       metadata,
-    } = this;
+    } = this
 
     return {
       challenger,
@@ -71,7 +71,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period: finalization_period.toAmino(),
       submission_start_time: submission_start_time.toISOString(),
       metadata,
-    };
+    }
   }
 
   public static fromData(data: BridgeConfig.Data): BridgeConfig {
@@ -83,7 +83,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period,
       submission_start_time,
       metadata,
-    } = data;
+    } = data
 
     return new BridgeConfig(
       challenger,
@@ -93,7 +93,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromData(finalization_period),
       new Date(submission_start_time),
       metadata
-    );
+    )
   }
 
   public toData(): BridgeConfig.Data {
@@ -105,7 +105,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period,
       submission_start_time,
       metadata,
-    } = this;
+    } = this
 
     return {
       challenger,
@@ -115,7 +115,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period: finalization_period.toData(),
       submission_start_time: submission_start_time.toISOString(),
       metadata,
-    };
+    }
   }
 
   public static fromProto(data: BridgeConfig.Proto): BridgeConfig {
@@ -127,7 +127,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
       data.submissionStartTime as Date,
       Buffer.from(data.metadata).toString('base64')
-    );
+    )
   }
 
   public toProto(): BridgeConfig.Proto {
@@ -139,7 +139,7 @@ export class BridgeConfig extends JSONSerializable<
       finalization_period,
       submission_start_time,
       metadata,
-    } = this;
+    } = this
 
     return BridgeConfig_pb.fromPartial({
       challenger,
@@ -149,30 +149,30 @@ export class BridgeConfig extends JSONSerializable<
       finalizationPeriod: finalization_period.toProto(),
       submissionStartTime: submission_start_time,
       metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
-    });
+    })
   }
 }
 
 export namespace BridgeConfig {
   export interface Amino {
-    challenger: AccAddress;
-    proposer: AccAddress;
-    batch_info: BatchInfo.Amino;
-    submission_interval: Duration.Amino;
-    finalization_period: Duration.Amino;
-    submission_start_time: string;
-    metadata?: string;
+    challenger: AccAddress
+    proposer: AccAddress
+    batch_info: BatchInfo.Amino
+    submission_interval: Duration.Amino
+    finalization_period: Duration.Amino
+    submission_start_time: string
+    metadata?: string
   }
 
   export interface Data {
-    challenger: AccAddress;
-    proposer: AccAddress;
-    batch_info: BatchInfo.Data;
-    submission_interval: Duration.Data;
-    finalization_period: Duration.Data;
-    submission_start_time: string;
-    metadata?: string;
+    challenger: AccAddress
+    proposer: AccAddress
+    batch_info: BatchInfo.Data
+    submission_interval: Duration.Data
+    finalization_period: Duration.Data
+    submission_start_time: string
+    metadata?: string
   }
 
-  export type Proto = BridgeConfig_pb;
+  export type Proto = BridgeConfig_pb
 }

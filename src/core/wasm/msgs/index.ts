@@ -1,38 +1,38 @@
-import { MsgStoreCode } from './MsgStoreCode';
-import { MsgInstantiateContract } from './MsgInstantiateContract';
-import { MsgInstantiateContractV2 } from './MsgInstantiateContractV2';
-import { MsgExecuteContract } from './MsgExecuteContract';
-import { MsgMigrateContract } from './MsgMigrateContract';
-import { MsgUpdateAdmin } from './MsgUpdateAdmin';
-import { MsgClearAdmin } from './MsgClearAdmin';
-import { MsgUpdateInstantiateConfig } from './MsgUpdateInstantiateConfig';
-import { MsgUpdateWasmParams } from './MsgUpdateWasmParams';
-import { MsgSudoContract } from './MsgSudoContract';
-import { MsgPinCodes } from './MsgPinCodes';
-import { MsgUnpinCodes } from './MsgUnpinCodes';
-import { MsgStoreAndInstantiateContract } from './MsgStoreAndInstantiateContract';
-import { MsgStoreAndMigrateContract } from './MsgStoreAndMigrateContract';
-import { MsgAddCodeUploadParamsAddresses } from './MsgAddCodeUploadParamsAddresses';
-import { MsgRemoveCodeUploadParamsAddresses } from './MsgRemoveCodeUploadParamsAddresses';
-import { MsgUpdateContractLabel } from './MsgUpdateContractLabel';
+import { MsgStoreCode } from './MsgStoreCode'
+import { MsgInstantiateContract } from './MsgInstantiateContract'
+import { MsgInstantiateContractV2 } from './MsgInstantiateContractV2'
+import { MsgExecuteContract } from './MsgExecuteContract'
+import { MsgMigrateContract } from './MsgMigrateContract'
+import { MsgUpdateAdmin } from './MsgUpdateAdmin'
+import { MsgClearAdmin } from './MsgClearAdmin'
+import { MsgUpdateInstantiateConfig } from './MsgUpdateInstantiateConfig'
+import { MsgUpdateWasmParams } from './MsgUpdateWasmParams'
+import { MsgSudoContract } from './MsgSudoContract'
+import { MsgPinCodes } from './MsgPinCodes'
+import { MsgUnpinCodes } from './MsgUnpinCodes'
+import { MsgStoreAndInstantiateContract } from './MsgStoreAndInstantiateContract'
+import { MsgStoreAndMigrateContract } from './MsgStoreAndMigrateContract'
+import { MsgAddCodeUploadParamsAddresses } from './MsgAddCodeUploadParamsAddresses'
+import { MsgRemoveCodeUploadParamsAddresses } from './MsgRemoveCodeUploadParamsAddresses'
+import { MsgUpdateContractLabel } from './MsgUpdateContractLabel'
 
-export * from './MsgStoreCode';
-export * from './MsgInstantiateContract';
-export * from './MsgInstantiateContractV2';
-export * from './MsgExecuteContract';
-export * from './MsgMigrateContract';
-export * from './MsgUpdateAdmin';
-export * from './MsgClearAdmin';
-export * from './MsgUpdateInstantiateConfig';
-export * from './MsgUpdateWasmParams';
-export * from './MsgSudoContract';
-export * from './MsgPinCodes';
-export * from './MsgUnpinCodes';
-export * from './MsgStoreAndInstantiateContract';
-export * from './MsgStoreAndMigrateContract';
-export * from './MsgAddCodeUploadParamsAddresses';
-export * from './MsgRemoveCodeUploadParamsAddresses';
-export * from './MsgUpdateContractLabel';
+export * from './MsgStoreCode'
+export * from './MsgInstantiateContract'
+export * from './MsgInstantiateContractV2'
+export * from './MsgExecuteContract'
+export * from './MsgMigrateContract'
+export * from './MsgUpdateAdmin'
+export * from './MsgClearAdmin'
+export * from './MsgUpdateInstantiateConfig'
+export * from './MsgUpdateWasmParams'
+export * from './MsgSudoContract'
+export * from './MsgPinCodes'
+export * from './MsgUnpinCodes'
+export * from './MsgStoreAndInstantiateContract'
+export * from './MsgStoreAndMigrateContract'
+export * from './MsgAddCodeUploadParamsAddresses'
+export * from './MsgRemoveCodeUploadParamsAddresses'
+export * from './MsgUpdateContractLabel'
 
 export type WasmMsg =
   | MsgStoreCode
@@ -51,7 +51,7 @@ export type WasmMsg =
   | MsgStoreAndMigrateContract
   | MsgAddCodeUploadParamsAddresses
   | MsgRemoveCodeUploadParamsAddresses
-  | MsgUpdateContractLabel;
+  | MsgUpdateContractLabel
 
 export namespace WasmMsg {
   export type Amino =
@@ -71,7 +71,7 @@ export namespace WasmMsg {
     | MsgStoreAndMigrateContract.Amino
     | MsgAddCodeUploadParamsAddresses.Amino
     | MsgRemoveCodeUploadParamsAddresses.Amino
-    | MsgUpdateContractLabel.Amino;
+    | MsgUpdateContractLabel.Amino
   export type Data =
     | MsgStoreCode.Data
     | MsgInstantiateContract.Data
@@ -89,7 +89,7 @@ export namespace WasmMsg {
     | MsgStoreAndMigrateContract.Data
     | MsgAddCodeUploadParamsAddresses.Data
     | MsgRemoveCodeUploadParamsAddresses.Data
-    | MsgUpdateContractLabel.Data;
+    | MsgUpdateContractLabel.Data
   export type Proto =
     | MsgStoreCode.Proto
     | MsgInstantiateContract.Proto
@@ -107,5 +107,5 @@ export namespace WasmMsg {
     | MsgStoreAndMigrateContract.Proto
     | MsgAddCodeUploadParamsAddresses.Proto
     | MsgRemoveCodeUploadParamsAddresses.Proto
-    | MsgUpdateContractLabel.Proto;
+    | MsgUpdateContractLabel.Proto
 }

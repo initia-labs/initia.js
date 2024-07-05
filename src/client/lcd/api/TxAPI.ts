@@ -1,4 +1,4 @@
-import { BaseAPI } from './BaseAPI';
+import { BaseAPI } from './BaseAPI'
 import {
   Msg,
   Tx,
@@ -11,146 +11,143 @@ import {
   num,
   TxLog,
   Event,
-} from '../../../core';
-import { hashToHex } from '../../../util';
-import { LCDClient } from '../LCDClient';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service';
+} from '../../../core'
+import { hashToHex } from '../../../util'
+import { LCDClient } from '../LCDClient'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
+import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
 interface Wait {
-  height: number;
-  txhash: string;
-  raw_log: string;
-  gas_wanted: number;
-  gas_used: number;
-  logs: TxLog[];
-  timestamp: string;
+  height: number
+  txhash: string
+  raw_log: string
+  gas_wanted: number
+  gas_used: number
+  logs: TxLog[]
+  timestamp: string
 }
 
 interface Block extends Wait {
-  info: string;
-  data: string;
+  info: string
+  data: string
 }
 
 interface Sync {
-  height: number;
-  txhash: string;
-  raw_log: string;
+  height: number
+  txhash: string
+  raw_log: string
 }
 
 interface Async {
-  height: number;
-  txhash: string;
+  height: number
+  txhash: string
 }
 
 export type TxBroadcastResult<
   B extends Wait | Block | Sync | Async,
-  C extends TxSuccess | TxError | {}
-> = B & C;
+  C extends TxSuccess | TxError | object,
+> = B & C
 
 export interface TxSuccess {
-  logs: TxLog[];
+  logs: TxLog[]
 }
 
 export interface TxError {
-  code: number | string;
-  codespace?: string;
+  code: number | string
+  codespace?: string
 }
 
-export type WaitTxBroadcastResult = TxBroadcastResult<
-  Wait,
-  TxSuccess | TxError
->;
+export type WaitTxBroadcastResult = TxBroadcastResult<Wait, TxSuccess | TxError>
 export type BlockTxBroadcastResult = TxBroadcastResult<
   Block,
   TxSuccess | TxError
->;
-export type SyncTxBroadcastResult = TxBroadcastResult<Sync, TxError | {}>;
-export type AsyncTxBroadcastResult = TxBroadcastResult<Async, {}>;
+>
+export type SyncTxBroadcastResult = TxBroadcastResult<Sync, TxError | object>
+export type AsyncTxBroadcastResult = TxBroadcastResult<Async, object>
 
 export function isTxError<
   T extends TxBroadcastResult<B, C>,
   B extends Wait | Block | Sync,
-  C extends TxSuccess | TxError | {}
+  C extends TxSuccess | TxError | object,
 >(x: T): x is T & TxBroadcastResult<B, TxError> {
   return (
     (x as T & TxError).code !== undefined &&
     (x as T & TxError).code !== 0 &&
     (x as T & TxError).code !== '0'
-  );
+  )
 }
 
 export namespace BlockTxBroadcastResult {
   export interface Data {
-    height: string;
-    txhash: string;
-    raw_log: string;
-    gas_wanted: string;
-    gas_used: string;
-    logs: TxLog.Data[];
-    code: number | string;
-    codespace: string;
-    info: string;
-    data: string;
-    timestamp: string;
-    events: Event[];
+    height: string
+    txhash: string
+    raw_log: string
+    gas_wanted: string
+    gas_used: string
+    logs: TxLog.Data[]
+    code: number | string
+    codespace: string
+    info: string
+    data: string
+    timestamp: string
+    events: Event[]
   }
 }
 
 export namespace AsyncTxBroadcastResult {
-  export type Data = Pick<BlockTxBroadcastResult.Data, 'height' | 'txhash'>;
+  export type Data = Pick<BlockTxBroadcastResult.Data, 'height' | 'txhash'>
 }
 
 export namespace SyncTxBroadcastResult {
   export type Data = Pick<
     BlockTxBroadcastResult.Data,
     'height' | 'txhash' | 'raw_log' | 'code' | 'codespace'
-  >;
+  >
 }
 
 export interface SignerOptions {
-  address: string;
-  sequenceNumber?: number;
-  publicKey?: PublicKey;
+  address: string
+  sequenceNumber?: number
+  publicKey?: PublicKey
 }
 
 export interface SignerData {
-  sequenceNumber: number;
-  publicKey?: PublicKey;
+  sequenceNumber: number
+  publicKey?: PublicKey
 }
 
 export interface CreateTxOptions {
-  msgs: Msg[];
-  fee?: Fee;
-  memo?: string;
-  gas?: string;
-  gasPrices?: Coins.Input;
-  gasAdjustment?: number | string;
-  feeDenoms?: string[];
-  timeoutHeight?: number;
+  msgs: Msg[]
+  fee?: Fee
+  memo?: string
+  gas?: string
+  gasPrices?: Coins.Input
+  gasAdjustment?: number | string
+  feeDenoms?: string[]
+  timeoutHeight?: number
 }
 
 export interface TxResult {
-  tx: TxInfo;
+  tx: TxInfo
 }
 
 export namespace TxResult {
   export interface Data {
-    tx: Tx.Data;
-    tx_response: TxInfo.Data;
+    tx: Tx.Data
+    tx_response: TxInfo.Data
   }
 }
 
 export interface TxSearchResult {
-  pagination: Pagination;
-  txs: TxInfo[];
+  pagination: Pagination
+  txs: TxInfo[]
 }
 
 export namespace TxSearchResult {
   export interface Data {
-    txs: Tx.Data[];
-    tx_responses: TxInfo.Data[];
-    pagination: Pagination;
+    txs: Tx.Data[]
+    tx_responses: TxInfo.Data[]
+    pagination: Pagination
   }
 }
 
@@ -158,9 +155,9 @@ export class SimulateResponse {
   constructor(
     public gas_info: { gas_wanted: number; gas_used: number },
     public result: {
-      data: string;
-      log: string;
-      events: { type: string; attributes: { key: string; value: string }[] }[];
+      data: string
+      log: string
+      events: { type: string; attributes: { key: string; value: string }[] }[]
     }
   ) {}
 
@@ -171,31 +168,31 @@ export class SimulateResponse {
         gas_used: Number.parseInt(data.gas_info.gas_used),
       },
       data.result
-    );
+    )
   }
 }
 
 export namespace SimulateResponse {
   export interface Data {
     gas_info: {
-      gas_wanted: string;
-      gas_used: string;
-    };
+      gas_wanted: string
+      gas_used: string
+    }
     result: {
-      data: string;
-      log: string;
-      events: { type: string; attributes: { key: string; value: string }[] }[];
-    };
+      data: string
+      log: string
+      events: { type: string; attributes: { key: string; value: string }[] }[]
+    }
   }
 }
 
 export interface TxSearchOptions extends PaginationOptions {
-  query: { key: string; value: string }[];
+  query: { key: string; value: string }[]
 }
 
 export class TxAPI extends BaseAPI {
   constructor(public lcd: LCDClient) {
-    super(lcd.apiRequester);
+    super(lcd.apiRequester)
   }
 
   /**
@@ -205,7 +202,7 @@ export class TxAPI extends BaseAPI {
   public async txInfo(txHash: string, params: APIParams = {}): Promise<TxInfo> {
     return this.c
       .getRaw<TxResult.Data>(`/cosmos/tx/v1beta1/txs/${txHash}`, params)
-      .then(v => TxInfo.fromData(v.tx_response));
+      .then((v) => TxInfo.fromData(v.tx_response))
   }
 
   /**
@@ -222,40 +219,40 @@ export class TxAPI extends BaseAPI {
     signers: SignerOptions[],
     options: CreateTxOptions
   ): Promise<Tx> {
-    let { fee } = options;
-    const { msgs, memo, timeoutHeight } = options;
+    let { fee } = options
+    const { msgs, memo, timeoutHeight } = options
 
-    const signerDatas: SignerData[] = [];
+    const signerDatas: SignerData[] = []
     for (const signer of signers) {
-      let sequenceNumber = signer.sequenceNumber;
-      let publicKey = signer.publicKey;
+      let sequenceNumber = signer.sequenceNumber
+      let publicKey = signer.publicKey
 
       if (sequenceNumber === undefined || !publicKey) {
-        const account = await this.lcd.auth.accountInfo(signer.address);
+        const account = await this.lcd.auth.accountInfo(signer.address)
         if (sequenceNumber === undefined) {
-          sequenceNumber = account.getSequenceNumber();
+          sequenceNumber = account.getSequenceNumber()
         }
 
         if (!publicKey) {
-          publicKey = account.getPublicKey();
+          publicKey = account.getPublicKey()
         }
       }
 
       signerDatas.push({
         sequenceNumber,
         publicKey,
-      });
+      })
     }
 
     if (fee === undefined) {
-      fee = await this.lcd.tx.estimateFee(signerDatas, options);
+      fee = await this.lcd.tx.estimateFee(signerDatas, options)
     }
 
     return new Tx(
       new TxBody(msgs, memo ?? '', timeoutHeight ?? 0),
       new AuthInfo([], fee),
       []
-    );
+    )
   }
 
   /**
@@ -264,19 +261,19 @@ export class TxAPI extends BaseAPI {
    * @param height block height
    */
   public async txInfosByHeight(height: number | undefined): Promise<TxInfo[]> {
-    const blockInfo = await this.lcd.tendermint.blockInfo(height);
-    const { txs } = blockInfo.block.data;
+    const blockInfo = await this.lcd.tendermint.blockInfo(height)
+    const { txs } = blockInfo.block.data
     if (!txs) {
-      return [];
+      return []
     } else {
-      const txhashes = txs.map(txdata => hashToHex(txdata));
-      const txInfos: TxInfo[] = [];
+      const txhashes = txs.map((txdata) => hashToHex(txdata))
+      const txInfos: TxInfo[] = []
 
       for (const txhash of txhashes) {
-        txInfos.push(await this.txInfo(txhash));
+        txInfos.push(await this.txInfo(txhash))
       }
 
-      return txInfos;
+      return txInfos
     }
   }
 
@@ -290,76 +287,75 @@ export class TxAPI extends BaseAPI {
     signers: SignerData[],
     options: CreateTxOptions
   ): Promise<Fee> {
-    const gasPrices = options.gasPrices ?? this.lcd.config.gasPrices;
-    const gasAdjustment =
-      options.gasAdjustment ?? this.lcd.config.gasAdjustment;
-    const feeDenoms = options.feeDenoms ?? ['uinit'];
-    let gas = options.gas;
-    let gasPricesCoins: Coins | undefined;
+    const gasPrices = options.gasPrices ?? this.lcd.config.gasPrices
+    const gasAdjustment = options.gasAdjustment ?? this.lcd.config.gasAdjustment
+    const feeDenoms = options.feeDenoms ?? ['uinit']
+    let gas = options.gas
+    let gasPricesCoins: Coins | undefined
 
     if (gasPrices) {
-      gasPricesCoins = new Coins(gasPrices);
+      gasPricesCoins = new Coins(gasPrices)
 
       if (feeDenoms) {
-        const gasPricesCoinsFiltered = gasPricesCoins.filter(c =>
+        const gasPricesCoinsFiltered = gasPricesCoins.filter((c) =>
           feeDenoms.includes(c.denom)
-        );
+        )
 
         if (gasPricesCoinsFiltered.toArray().length > 0) {
-          gasPricesCoins = gasPricesCoinsFiltered;
+          gasPricesCoins = gasPricesCoinsFiltered
         }
       }
     }
 
-    const txBody = new TxBody(options.msgs, options.memo ?? '');
-    const authInfo = new AuthInfo([], new Fee(0, new Coins()));
-    const tx = new Tx(txBody, authInfo, []);
+    const txBody = new TxBody(options.msgs, options.memo ?? '')
+    const authInfo = new AuthInfo([], new Fee(0, new Coins()))
+    const tx = new Tx(txBody, authInfo, [])
 
     // fill empty signature
-    tx.appendEmptySignatures(signers);
+    tx.appendEmptySignatures(signers)
 
     // simulate gas
     if (!gas || gas === 'auto' || gas === '0') {
-      gas = await this.estimateGas(tx, { gasAdjustment });
+      gas = await this.estimateGas(tx, { gasAdjustment })
     }
 
     const feeAmount = gasPricesCoins
       ? gasPricesCoins.mul(gas).toIntCeilCoins()
-      : '0uinit';
+      : '0uinit'
 
-    return new Fee(Number.parseInt(gas), feeAmount, '', '');
+    return new Fee(Number.parseInt(gas), feeAmount, '', '')
   }
 
   public async estimateGas(
     tx: Tx,
     options?: {
-      gasAdjustment?: number | string;
-      signers?: SignerData[];
+      gasAdjustment?: number | string
+      signers?: SignerData[]
     }
   ): Promise<string> {
     const gasAdjustment =
-      options?.gasAdjustment ?? this.lcd.config.gasAdjustment;
+      options?.gasAdjustment ?? this.lcd.config.gasAdjustment
 
     // append empty signatures if there's no signatures in tx
-    let simTx: Tx = tx;
+    let simTx: Tx = tx
     if (tx.signatures.length <= 0) {
       if (!(options && options.signers && options.signers.length > 0)) {
-        throw new Error('cannot append signature');
+        throw new Error('cannot append signature')
       }
-      const authInfo = new AuthInfo([], new Fee(0, new Coins()));
-      simTx = new Tx(tx.body, authInfo, []);
-      simTx.appendEmptySignatures(options.signers);
+      const authInfo = new AuthInfo([], new Fee(0, new Coins()))
+      simTx = new Tx(tx.body, authInfo, [])
+      simTx.appendEmptySignatures(options.signers)
     }
 
     const simulateRes = await this.c
       .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
         tx_bytes: TxAPI.encode(simTx),
       })
-      .then(d => SimulateResponse.fromData(d));
+      .then((d) => SimulateResponse.fromData(d))
 
     return num(gasAdjustment ?? 0)
       .multipliedBy(simulateRes.gas_info.gas_used)
-      .toString();
+      .toString()
   }
 
   /**
@@ -367,7 +363,7 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction to encode
    */
   public static encode(tx: Tx): string {
-    return Buffer.from(tx.toBytes()).toString('base64');
+    return Buffer.from(tx.toBytes()).toString('base64')
   }
 
   /**
@@ -375,7 +371,7 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction string to decode
    */
   public static decode(encodedTx: string): Tx {
-    return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'));
+    return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'))
   }
 
   /**
@@ -383,19 +379,19 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction to hash
    */
   public static hash(tx: Tx): string {
-    const txBytes = TxAPI.encode(tx);
-    return hashToHex(txBytes);
+    const txBytes = TxAPI.encode(tx)
+    return hashToHex(txBytes)
   }
 
   private async _broadcast<T>(
     tx: Tx | string,
     mode: keyof typeof BroadcastMode
   ): Promise<T> {
-    const txBytes = tx instanceof Tx ? TxAPI.encode(tx) : tx;
+    const txBytes = tx instanceof Tx ? TxAPI.encode(tx) : tx
     return await this.c.post<any>(`/cosmos/tx/v1beta1/txs`, {
       tx_bytes: txBytes,
       mode,
-    });
+    })
   }
 
   /**
@@ -410,10 +406,10 @@ export class TxAPI extends BaseAPI {
     tx: Tx | string,
     timeout = 30000
   ): Promise<WaitTxBroadcastResult> {
-    const POLL_INTERVAL = 500;
+    const POLL_INTERVAL = 500
     const { tx_response: txResponse } = await this._broadcast<{
-      tx_response: SyncTxBroadcastResult.Data;
-    }>(tx, 'BROADCAST_MODE_SYNC');
+      tx_response: SyncTxBroadcastResult.Data
+    }>(tx, 'BROADCAST_MODE_SYNC')
 
     if (txResponse.code != undefined && txResponse.code != 0) {
       const result: WaitTxBroadcastResult = {
@@ -426,29 +422,29 @@ export class TxAPI extends BaseAPI {
         gas_wanted: 0,
         timestamp: '',
         logs: [],
-      };
-      return result;
+      }
+      return result
     }
 
-    let txInfo: undefined | TxInfo;
+    let txInfo: undefined | TxInfo
     for (let i = 0; i <= timeout / POLL_INTERVAL; i++) {
       try {
-        txInfo = await this.txInfo(txResponse.txhash);
+        txInfo = await this.txInfo(txResponse.txhash)
       } catch (error) {
         // Errors when transaction is not found.
       }
 
       if (txInfo) {
-        break;
+        break
       }
 
-      await new Promise(resolve => setTimeout(resolve, POLL_INTERVAL));
+      await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL))
     }
 
     if (!txInfo) {
       throw new Error(
         `Transaction was not included in a block before timeout of ${timeout}ms`
-      );
+      )
     }
 
     return {
@@ -457,11 +453,11 @@ export class TxAPI extends BaseAPI {
       gas_wanted: txInfo.gas_wanted,
       gas_used: txInfo.gas_used,
       height: +txInfo.height,
-      logs: (txInfo.logs ?? []).map(l => TxLog.fromData(l)),
+      logs: (txInfo.logs ?? []).map((l) => TxLog.fromData(l)),
       code: txInfo.code,
       codespace: txInfo.codespace,
       timestamp: txInfo.timestamp,
-    };
+    }
   }
 
   /**
@@ -480,18 +476,18 @@ export class TxAPI extends BaseAPI {
         height: +d.height,
         txhash: d.txhash,
         raw_log: d.raw_log,
-      };
+      }
 
       if (d.code) {
-        blockResult.code = d.code;
+        blockResult.code = d.code
       }
 
       if (d.codespace) {
-        blockResult.codespace = d.codespace;
+        blockResult.codespace = d.codespace
       }
 
-      return blockResult;
-    });
+      return blockResult
+    })
   }
 
   /**
@@ -507,7 +503,7 @@ export class TxAPI extends BaseAPI {
     ).then(({ tx_response: d }) => ({
       height: +d.height,
       txhash: d.txhash,
-    }));
+    }))
   }
 
   /**
@@ -517,29 +513,31 @@ export class TxAPI extends BaseAPI {
   public async search(
     options: Partial<TxSearchOptions>
   ): Promise<TxSearchResult> {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams()
 
     // build search params
-    options.query?.forEach(v =>
+    options.query?.forEach((v) =>
       params.append(
         'query',
         v.key === 'tx.height' ? `${v.key}=${v.value}` : `${v.key}='${v.value}'`
       )
-    );
+    )
 
-    delete options['query'];
+    delete options['query']
 
-    Object.entries(options).forEach(v => {
-      params.append(v[0], v[1] as string);
-    });
+    Object.entries(options).forEach((v) => {
+      params.append(v[0], v[1] as string)
+    })
 
     return this.c
       .getRaw<TxSearchResult.Data>(`/cosmos/tx/v1beta1/txs`, params)
-      .then(d => {
+      .then((d) => {
         return {
-          txs: d.tx_responses.map(tx_response => TxInfo.fromData(tx_response)),
+          txs: d.tx_responses.map((tx_response) =>
+            TxInfo.fromData(tx_response)
+          ),
           pagination: d.pagination,
-        };
-      });
+        }
+      })
   }
 }

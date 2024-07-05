@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { MsgUpdateProposer as MsgUpdateProposer_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { MsgUpdateProposer as MsgUpdateProposer_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import Long from 'long'
 
 export class MsgUpdateProposer extends JSONSerializable<
   MsgUpdateProposer.Amino,
@@ -19,23 +19,23 @@ export class MsgUpdateProposer extends JSONSerializable<
     public bridge_id: number,
     public new_proposer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgUpdateProposer.Amino): MsgUpdateProposer {
     const {
       value: { authority, bridge_id, new_proposer },
-    } = data;
+    } = data
 
     return new MsgUpdateProposer(
       authority,
       Number.parseInt(bridge_id),
       new_proposer
-    );
+    )
   }
 
   public toAmino(): MsgUpdateProposer.Amino {
-    const { authority, bridge_id, new_proposer } = this;
+    const { authority, bridge_id, new_proposer } = this
     return {
       type: 'ophost/MsgUpdateProposer',
       value: {
@@ -43,26 +43,26 @@ export class MsgUpdateProposer extends JSONSerializable<
         bridge_id: bridge_id.toString(),
         new_proposer,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgUpdateProposer.Data): MsgUpdateProposer {
-    const { authority, bridge_id, new_proposer } = data;
+    const { authority, bridge_id, new_proposer } = data
     return new MsgUpdateProposer(
       authority,
       Number.parseInt(bridge_id),
       new_proposer
-    );
+    )
   }
 
   public toData(): MsgUpdateProposer.Data {
-    const { authority, bridge_id, new_proposer } = this;
+    const { authority, bridge_id, new_proposer } = this
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateProposer',
       authority,
       bridge_id: bridge_id.toString(),
       new_proposer,
-    };
+    }
   }
 
   public static fromProto(data: MsgUpdateProposer.Proto): MsgUpdateProposer {
@@ -70,48 +70,48 @@ export class MsgUpdateProposer extends JSONSerializable<
       data.authority,
       data.bridgeId.toNumber(),
       data.newProposer
-    );
+    )
   }
 
   public toProto(): MsgUpdateProposer.Proto {
-    const { authority, bridge_id, new_proposer } = this;
+    const { authority, bridge_id, new_proposer } = this
     return MsgUpdateProposer_pb.fromPartial({
       authority,
       bridgeId: Long.fromNumber(bridge_id),
       newProposer: new_proposer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/opinit.ophost.v1.MsgUpdateProposer',
       value: MsgUpdateProposer_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpdateProposer {
     return MsgUpdateProposer.fromProto(
       MsgUpdateProposer_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgUpdateProposer {
   export interface Amino {
-    type: 'ophost/MsgUpdateProposer';
+    type: 'ophost/MsgUpdateProposer'
     value: {
-      authority: AccAddress;
-      bridge_id: string;
-      new_proposer: AccAddress;
-    };
+      authority: AccAddress
+      bridge_id: string
+      new_proposer: AccAddress
+    }
   }
 
   export interface Data {
-    '@type': '/opinit.ophost.v1.MsgUpdateProposer';
-    authority: AccAddress;
-    bridge_id: string;
-    new_proposer: AccAddress;
+    '@type': '/opinit.ophost.v1.MsgUpdateProposer'
+    authority: AccAddress
+    bridge_id: string
+    new_proposer: AccAddress
   }
 
-  export type Proto = MsgUpdateProposer_pb;
+  export type Proto = MsgUpdateProposer_pb
 }

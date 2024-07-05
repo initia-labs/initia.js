@@ -1,7 +1,7 @@
-import { PacketFee as PacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/fee';
-import { JSONSerializable } from '../../../../util/json';
-import { IbcFee } from './IbcFee';
-import { AccAddress } from '../../../..';
+import { PacketFee as PacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/fee'
+import { JSONSerializable } from '../../../../util/json'
+import { IbcFee } from './IbcFee'
+import { AccAddress } from '../../../..'
 
 /**
  *  PacketFee contains ICS29 relayer fees, refund address and optional list of permitted relayers
@@ -21,45 +21,45 @@ export class PacketFee extends JSONSerializable<
     public refund_address: AccAddress,
     public relayers: string[] = []
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: PacketFee.Amino): PacketFee {
-    const { fee, refund_address, relayers } = data;
+    const { fee, refund_address, relayers } = data
     return new PacketFee(
       fee ? IbcFee.fromAmino(fee) : undefined,
       refund_address,
       relayers
-    );
+    )
   }
 
   public toAmino(): PacketFee.Amino {
-    const { fee, refund_address, relayers } = this;
+    const { fee, refund_address, relayers } = this
     const res: PacketFee.Amino = {
       fee: fee?.toAmino(),
       refund_address,
       relayers,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromData(data: PacketFee.Data): PacketFee {
-    const { fee, refund_address, relayers } = data;
+    const { fee, refund_address, relayers } = data
     return new PacketFee(
       fee ? IbcFee.fromData(fee) : undefined,
       refund_address,
       relayers
-    );
+    )
   }
 
   public toData(): PacketFee.Data {
-    const { fee, refund_address, relayers } = this;
+    const { fee, refund_address, relayers } = this
     const res: PacketFee.Data = {
       fee: fee?.toData(),
       refund_address,
       relayers,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: PacketFee.Proto): PacketFee {
@@ -67,31 +67,31 @@ export class PacketFee extends JSONSerializable<
       proto.fee ? IbcFee.fromProto(proto.fee) : undefined,
       proto.refundAddress,
       proto.relayers
-    );
+    )
   }
 
   public toProto(): PacketFee.Proto {
-    const { fee, refund_address, relayers } = this;
+    const { fee, refund_address, relayers } = this
     return PacketFee_pb.fromPartial({
       fee: fee?.toProto(),
       refundAddress: refund_address,
       relayers: relayers,
-    });
+    })
   }
 }
 
 export namespace PacketFee {
   export interface Amino {
-    fee?: IbcFee.Amino;
-    refund_address: AccAddress;
-    relayers: string[];
+    fee?: IbcFee.Amino
+    refund_address: AccAddress
+    relayers: string[]
   }
 
   export interface Data {
-    fee?: IbcFee.Data;
-    refund_address: AccAddress;
-    relayers: string[];
+    fee?: IbcFee.Data
+    refund_address: AccAddress
+    relayers: string[]
   }
 
-  export type Proto = PacketFee_pb;
+  export type Proto = PacketFee_pb
 }

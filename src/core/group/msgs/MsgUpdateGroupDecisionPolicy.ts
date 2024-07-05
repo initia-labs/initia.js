@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { DecisionPolicy } from '../policies';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUpdateGroupPolicyDecisionPolicy as MsgUpdateGroupPolicyDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { DecisionPolicy } from '../policies'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgUpdateGroupPolicyDecisionPolicy as MsgUpdateGroupPolicyDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
 export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
   MsgUpdateGroupDecisionPolicy.Amino,
@@ -19,7 +19,7 @@ export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
     public group_policy_address: AccAddress,
     public decision_policy: DecisionPolicy
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -27,16 +27,16 @@ export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
   ): MsgUpdateGroupDecisionPolicy {
     const {
       value: { admin, group_policy_address, decision_policy },
-    } = data;
+    } = data
     return new MsgUpdateGroupDecisionPolicy(
       admin,
       group_policy_address,
       DecisionPolicy.fromAmino(decision_policy)
-    );
+    )
   }
 
   public toAmino(): MsgUpdateGroupDecisionPolicy.Amino {
-    const { admin, group_policy_address, decision_policy } = this;
+    const { admin, group_policy_address, decision_policy } = this
     return {
       type: 'cosmos-sdk/MsgUpdateGroupDecisionPolicy',
       value: {
@@ -44,28 +44,28 @@ export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
         group_policy_address,
         decision_policy: decision_policy.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgUpdateGroupDecisionPolicy.Data
   ): MsgUpdateGroupDecisionPolicy {
-    const { admin, group_policy_address, decision_policy } = data;
+    const { admin, group_policy_address, decision_policy } = data
     return new MsgUpdateGroupDecisionPolicy(
       admin,
       group_policy_address,
       DecisionPolicy.fromData(decision_policy)
-    );
+    )
   }
 
   public toData(): MsgUpdateGroupDecisionPolicy.Data {
-    const { admin, group_policy_address, decision_policy } = this;
+    const { admin, group_policy_address, decision_policy } = this
     return {
       '@type': '/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy',
       admin,
       group_policy_address,
       decision_policy: decision_policy.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -75,16 +75,16 @@ export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
       data.admin,
       data.groupPolicyAddress,
       DecisionPolicy.fromProto(data.decisionPolicy as DecisionPolicy.Proto)
-    );
+    )
   }
 
   public toProto(): MsgUpdateGroupDecisionPolicy.Proto {
-    const { admin, group_policy_address, decision_policy } = this;
+    const { admin, group_policy_address, decision_policy } = this
     return MsgUpdateGroupPolicyDecisionPolicy_pb.fromPartial({
       admin,
       groupPolicyAddress: group_policy_address,
       decisionPolicy: decision_policy.packAny(),
-    });
+    })
   }
 
   public packAny(): Any {
@@ -93,32 +93,32 @@ export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
       value: MsgUpdateGroupPolicyDecisionPolicy_pb.encode(
         this.toProto()
       ).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpdateGroupDecisionPolicy {
     return MsgUpdateGroupDecisionPolicy.fromProto(
       MsgUpdateGroupPolicyDecisionPolicy_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgUpdateGroupDecisionPolicy {
   export interface Amino {
-    type: 'cosmos-sdk/MsgUpdateGroupDecisionPolicy';
+    type: 'cosmos-sdk/MsgUpdateGroupDecisionPolicy'
     value: {
-      admin: AccAddress;
-      group_policy_address: AccAddress;
-      decision_policy: DecisionPolicy.Amino;
-    };
+      admin: AccAddress
+      group_policy_address: AccAddress
+      decision_policy: DecisionPolicy.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy';
-    admin: AccAddress;
-    group_policy_address: AccAddress;
-    decision_policy: DecisionPolicy.Data;
+    '@type': '/cosmos.group.v1.MsgUpdateGroupPolicyDecisionPolicy'
+    admin: AccAddress
+    group_policy_address: AccAddress
+    decision_policy: DecisionPolicy.Data
   }
 
-  export type Proto = MsgUpdateGroupPolicyDecisionPolicy_pb;
+  export type Proto = MsgUpdateGroupPolicyDecisionPolicy_pb
 }
