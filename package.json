@@ -2,7 +2,7 @@
   "name": "@initia/initia.js",
   "version": "0.2.9",
   "description": "The JavaScript SDK for Initia",
-  "license": "BUSL-1.1",
+  "license": "Apache-2.0",
   "author": "Initia Foundation",
   "repository": {
     "type": "git",
