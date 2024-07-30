@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgChannelOpenTry as MsgChannelOpenTry_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx';
-import { Channel, Height } from '../../../core';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgChannelOpenTry as MsgChannelOpenTry_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
+import { Channel, Height } from '../../../core'
 
 /**
  * MsgChannelOpenTry defines a msg sent by a Relayer to try to open a channel on Chain B
@@ -30,16 +30,16 @@ export class MsgChannelOpenTry extends JSONSerializable<
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgChannelOpenTry {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgChannelOpenTry.Data): MsgChannelOpenTry {
@@ -51,7 +51,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proof_init,
       proof_height,
       signer,
-    } = data;
+    } = data
     return new MsgChannelOpenTry(
       port_id,
       previous_channel_id,
@@ -60,7 +60,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proof_init,
       proof_height ? Height.fromData(proof_height) : undefined,
       signer
-    );
+    )
   }
 
   public toData(): MsgChannelOpenTry.Data {
@@ -72,7 +72,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proof_init,
       proof_height,
       signer,
-    } = this;
+    } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelOpenTry',
       port_id,
@@ -82,7 +82,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proof_init,
       proof_height: proof_height?.toData(),
       signer,
-    };
+    }
   }
 
   public static fromProto(proto: MsgChannelOpenTry.Proto): MsgChannelOpenTry {
@@ -94,7 +94,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       Buffer.from(proto.proofInit).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgChannelOpenTry.Proto {
@@ -106,7 +106,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proof_init,
       proof_height,
       signer,
-    } = this;
+    } = this
     return MsgChannelOpenTry_pb.fromPartial({
       portId: port_id,
       previousChannelId: previous_channel_id,
@@ -115,33 +115,33 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proofInit: Buffer.from(proof_init, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.channel.v1.MsgChannelOpenTry',
       value: MsgChannelOpenTry_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgChannelOpenTry {
     return MsgChannelOpenTry.fromProto(
       MsgChannelOpenTry_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgChannelOpenTry {
   export interface Data {
-    '@type': '/ibc.core.channel.v1.MsgChannelOpenTry';
-    port_id: string;
-    previous_channel_id: string;
-    channel?: Channel.Data;
-    counterparty_version: string;
-    proof_init: string;
-    proof_height?: Height.Data;
-    signer: AccAddress;
+    '@type': '/ibc.core.channel.v1.MsgChannelOpenTry'
+    port_id: string
+    previous_channel_id: string
+    channel?: Channel.Data
+    counterparty_version: string
+    proof_init: string
+    proof_height?: Height.Data
+    signer: AccAddress
   }
-  export type Proto = MsgChannelOpenTry_pb;
+  export type Proto = MsgChannelOpenTry_pb
 }

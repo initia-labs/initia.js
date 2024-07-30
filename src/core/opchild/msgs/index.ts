@@ -1,22 +1,22 @@
-import { MsgAddValidator } from './MsgAddValidator';
-import { MsgRemoveValidator } from './MsgRemoveValidator';
-import { MsgFinalizeTokenDeposit } from './MsgFinalizeTokenDeposit';
-import { MsgInitiateTokenWithdrawal } from './MsgInitiateTokenWithdrawal';
-import { MsgExecuteMessages } from './MsgExecuteMessages';
-import { MsgSpendFeePool } from './MsgSpendFeePool';
-import { MsgSetBridgeInfo } from './MsgSetBridgeInfo';
-import { MsgUpdateOracle } from './MsgUpdateOracle';
-import { MsgUpdateOpchildParams } from './MsgUpdateOpchildParams';
+import { MsgAddValidator } from './MsgAddValidator'
+import { MsgRemoveValidator } from './MsgRemoveValidator'
+import { MsgFinalizeTokenDeposit } from './MsgFinalizeTokenDeposit'
+import { MsgInitiateTokenWithdrawal } from './MsgInitiateTokenWithdrawal'
+import { MsgExecuteMessages } from './MsgExecuteMessages'
+import { MsgSpendFeePool } from './MsgSpendFeePool'
+import { MsgSetBridgeInfo } from './MsgSetBridgeInfo'
+import { MsgUpdateOracle } from './MsgUpdateOracle'
+import { MsgUpdateOpchildParams } from './MsgUpdateOpchildParams'
 
-export * from './MsgAddValidator';
-export * from './MsgRemoveValidator';
-export * from './MsgFinalizeTokenDeposit';
-export * from './MsgInitiateTokenWithdrawal';
-export * from './MsgExecuteMessages';
-export * from './MsgSpendFeePool';
-export * from './MsgSetBridgeInfo';
-export * from './MsgUpdateOracle';
-export * from './MsgUpdateOpchildParams';
+export * from './MsgAddValidator'
+export * from './MsgRemoveValidator'
+export * from './MsgFinalizeTokenDeposit'
+export * from './MsgInitiateTokenWithdrawal'
+export * from './MsgExecuteMessages'
+export * from './MsgSpendFeePool'
+export * from './MsgSetBridgeInfo'
+export * from './MsgUpdateOracle'
+export * from './MsgUpdateOpchildParams'
 
 export type OpchildMsg =
   | MsgAddValidator
@@ -27,7 +27,7 @@ export type OpchildMsg =
   | MsgSpendFeePool
   | MsgSetBridgeInfo
   | MsgUpdateOracle
-  | MsgUpdateOpchildParams;
+  | MsgUpdateOpchildParams
 
 export namespace OpchildMsg {
   export type Amino =
@@ -39,7 +39,7 @@ export namespace OpchildMsg {
     | MsgSpendFeePool.Amino
     | MsgSetBridgeInfo.Amino
     | MsgUpdateOracle.Amino
-    | MsgUpdateOpchildParams.Amino;
+    | MsgUpdateOpchildParams.Amino
 
   export type Data =
     | MsgAddValidator.Data
@@ -50,7 +50,7 @@ export namespace OpchildMsg {
     | MsgSpendFeePool.Data
     | MsgSetBridgeInfo.Data
     | MsgUpdateOracle.Data
-    | MsgUpdateOpchildParams.Data;
+    | MsgUpdateOpchildParams.Data
 
   export type Proto =
     | MsgAddValidator.Proto
@@ -61,5 +61,5 @@ export namespace OpchildMsg {
     | MsgSpendFeePool.Proto
     | MsgSetBridgeInfo.Proto
     | MsgUpdateOracle.Proto
-    | MsgUpdateOpchildParams.Proto;
+    | MsgUpdateOpchildParams.Proto
 }

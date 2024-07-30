@@ -1,23 +1,23 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
-import { OphostParams, Output, BridgeInfo } from '../../../core';
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
+import { OphostParams, Output, BridgeInfo } from '../../../core'
 
 export interface TokenPair {
-  l1_denom: string;
-  l2_denom: string;
+  l1_denom: string
+  l2_denom: string
 }
 
 export interface OutputInfo {
-  bridge_id?: number;
-  output_index: number;
-  output_proposal: Output;
+  bridge_id?: number
+  output_index: number
+  output_proposal: Output
 }
 
 export namespace OutputInfo {
   export interface Data {
-    bridge_id?: string;
-    output_index: string;
-    output_proposal: Output.Data;
+    bridge_id?: string
+    output_index: string
+    output_proposal: Output.Data
   }
 }
 
@@ -27,10 +27,10 @@ export class OphostAPI extends BaseAPI {
   ): Promise<[BridgeInfo[], Pagination]> {
     return this.c
       .get<{
-        bridges: BridgeInfo.Data[];
-        pagination: Pagination;
+        bridges: BridgeInfo.Data[]
+        pagination: Pagination
       }>(`/opinit/ophost/v1/bridges`, params)
-      .then(d => [d.bridges.map(BridgeInfo.fromData), d.pagination]);
+      .then((d) => [d.bridges.map(BridgeInfo.fromData), d.pagination])
   }
 
   public async bridgeInfo(
@@ -39,7 +39,7 @@ export class OphostAPI extends BaseAPI {
   ): Promise<BridgeInfo> {
     return this.c
       .get<BridgeInfo.Data>(`/opinit/ophost/v1/bridges/${bridgeId}`, params)
-      .then(d => BridgeInfo.fromData(d));
+      .then((d) => BridgeInfo.fromData(d))
   }
 
   public async tokenPairs(
@@ -48,10 +48,10 @@ export class OphostAPI extends BaseAPI {
   ): Promise<[TokenPair[], Pagination]> {
     return this.c
       .get<{
-        token_pairs: TokenPair[];
-        pagination: Pagination;
+        token_pairs: TokenPair[]
+        pagination: Pagination
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/token_pairs`, params)
-      .then(d => [d.token_pairs, d.pagination]);
+      .then((d) => [d.token_pairs, d.pagination])
   }
 
   public async tokenPairByL1Denom(
@@ -60,11 +60,13 @@ export class OphostAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<TokenPair> {
     return this.c
-      .get<{ token_pair: TokenPair }>(
-        `/opinit/ophost/v1/bridges/${bridgeId}/token_pairs/by_l1_denom`,
-        { ...params, l1_denom: l1Denom }
-      )
-      .then(d => d.token_pair);
+      .get<{
+        token_pair: TokenPair
+      }>(`/opinit/ophost/v1/bridges/${bridgeId}/token_pairs/by_l1_denom`, {
+        ...params,
+        l1_denom: l1Denom,
+      })
+      .then((d) => d.token_pair)
   }
 
   public async tokenPairByL2Denom(
@@ -73,11 +75,13 @@ export class OphostAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<TokenPair> {
     return this.c
-      .get<{ token_pair: TokenPair }>(
-        `/opinit/ophost/v1/bridges/${bridgeId}/token_pairs/by_l2_denom`,
-        { ...params, l2_denom: l2Denom }
-      )
-      .then(d => d.token_pair);
+      .get<{
+        token_pair: TokenPair
+      }>(`/opinit/ophost/v1/bridges/${bridgeId}/token_pairs/by_l2_denom`, {
+        ...params,
+        l2_denom: l2Denom,
+      })
+      .then((d) => d.token_pair)
   }
 
   public async lastFinalizedOutput(
@@ -89,10 +93,10 @@ export class OphostAPI extends BaseAPI {
         `/opinit/ophost/v1/bridges/${bridgeId}/last_finalized_output`,
         params
       )
-      .then(d => ({
+      .then((d) => ({
         output_index: Number.parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
-      }));
+      }))
   }
 
   public async outputInfos(
@@ -101,17 +105,17 @@ export class OphostAPI extends BaseAPI {
   ): Promise<[OutputInfo[], Pagination]> {
     return this.c
       .get<{
-        output_proposals: OutputInfo.Data[];
-        pagination: Pagination;
+        output_proposals: OutputInfo.Data[]
+        pagination: Pagination
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/outputs`, params)
-      .then(d => [
-        d.output_proposals.map(info => ({
+      .then((d) => [
+        d.output_proposals.map((info) => ({
           bridge_id: Number.parseInt(info.bridge_id ?? `${bridgeId}`),
           output_index: Number.parseInt(info.output_index),
           output_proposal: Output.fromData(info.output_proposal),
         })),
         d.pagination,
-      ]);
+      ])
   }
 
   public async outputInfo(
@@ -124,16 +128,16 @@ export class OphostAPI extends BaseAPI {
         `/opinit/ophost/v1/bridges/${bridgeId}/outputs/${outputIndex}`,
         params
       )
-      .then(d => ({
+      .then((d) => ({
         bridge_id: Number.parseInt(d.bridge_id ?? `${bridgeId}`),
         output_index: Number.parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
-      }));
+      }))
   }
 
   public async parameters(params: APIParams = {}): Promise<OphostParams> {
     return this.c
       .get<{ params: OphostParams.Data }>(`/opinit/opchild/v1/params`, params)
-      .then(d => OphostParams.fromData(d.params));
+      .then((d) => OphostParams.fromData(d.params))
   }
 }

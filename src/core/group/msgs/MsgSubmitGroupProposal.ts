@@ -1,13 +1,13 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Msg } from '../../Msg';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Msg } from '../../Msg'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
 import {
   MsgSubmitProposal as MsgSubmitProposal_pb,
   Exec as Exec_pb,
   execFromJSON,
   execToJSON,
-} from '@initia/initia.proto/cosmos/group/v1/tx';
+} from '@initia/initia.proto/cosmos/group/v1/tx'
 
 export class MsgSubmitGroupProposal extends JSONSerializable<
   MsgSubmitGroupProposal.Amino,
@@ -32,7 +32,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
     public title: string,
     public summary: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -48,7 +48,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
         title,
         summary,
       },
-    } = data;
+    } = data
 
     return new MsgSubmitGroupProposal(
       group_policy_address,
@@ -58,7 +58,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       execFromJSON(exec),
       title,
       summary
-    );
+    )
   }
 
   public toAmino(): MsgSubmitGroupProposal.Amino {
@@ -70,7 +70,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       exec,
       title,
       summary,
-    } = this;
+    } = this
 
     return {
       type: 'cosmos-sdk/group/MsgSubmitProposal',
@@ -78,12 +78,12 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
         group_policy_address,
         proposers,
         metadata,
-        messages: messages.map(msg => msg.toAmino()),
+        messages: messages.map((msg) => msg.toAmino()),
         exec: execToJSON(exec),
         title,
         summary,
       },
-    };
+    }
   }
 
   public static fromData(
@@ -97,7 +97,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       exec,
       title,
       summary,
-    } = data;
+    } = data
 
     return new MsgSubmitGroupProposal(
       group_policy_address,
@@ -107,7 +107,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       execFromJSON(exec),
       title,
       summary
-    );
+    )
   }
 
   public toData(): MsgSubmitGroupProposal.Data {
@@ -119,18 +119,18 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       exec,
       title,
       summary,
-    } = this;
+    } = this
 
     return {
       '@type': '/cosmos.group.v1.MsgSubmitProposal',
       group_policy_address,
       proposers,
       metadata,
-      messages: messages.map(msg => msg.toData()),
+      messages: messages.map((msg) => msg.toData()),
       exec: execToJSON(exec),
       title,
       summary,
-    };
+    }
   }
 
   public static fromProto(
@@ -144,7 +144,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       data.exec,
       data.title,
       data.summary
-    );
+    )
   }
 
   public toProto(): MsgSubmitGroupProposal.Proto {
@@ -156,60 +156,60 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
       exec,
       title,
       summary,
-    } = this;
+    } = this
 
     return MsgSubmitProposal_pb.fromPartial({
       groupPolicyAddress: group_policy_address,
       proposers,
       metadata,
-      messages: messages.map(msg => msg.packAny()),
+      messages: messages.map((msg) => msg.packAny()),
       exec,
       title,
       summary,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.group.v1.MsgSubmitProposal',
       value: MsgSubmitProposal_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgSubmitGroupProposal {
     return MsgSubmitGroupProposal.fromProto(
       MsgSubmitProposal_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgSubmitGroupProposal {
-  export type Exec = Exec_pb;
-  export const Exec = Exec_pb;
+  export type Exec = Exec_pb
+  export const Exec = Exec_pb
 
   export interface Amino {
-    type: 'cosmos-sdk/group/MsgSubmitProposal';
+    type: 'cosmos-sdk/group/MsgSubmitProposal'
     value: {
-      group_policy_address: AccAddress;
-      proposers: AccAddress[];
-      metadata: string;
-      messages: Msg.Amino[];
-      exec: string;
-      title: string;
-      summary: string;
-    };
+      group_policy_address: AccAddress
+      proposers: AccAddress[]
+      metadata: string
+      messages: Msg.Amino[]
+      exec: string
+      title: string
+      summary: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.group.v1.MsgSubmitProposal';
-    group_policy_address: AccAddress;
-    proposers: AccAddress[];
-    metadata: string;
-    messages: Msg.Data[];
-    exec: string;
-    title: string;
-    summary: string;
+    '@type': '/cosmos.group.v1.MsgSubmitProposal'
+    group_policy_address: AccAddress
+    proposers: AccAddress[]
+    metadata: string
+    messages: Msg.Data[]
+    exec: string
+    title: string
+    summary: string
   }
 
-  export type Proto = MsgSubmitProposal_pb;
+  export type Proto = MsgSubmitProposal_pb
 }

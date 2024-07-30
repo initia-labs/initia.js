@@ -1,12 +1,12 @@
-import { BaseAPI } from './BaseAPI';
-import { BlockInfo, ValConsAddress, ValConsPublicKey } from '../../../core';
-import { APIParams, Pagination } from '../APIRequester';
+import { BaseAPI } from './BaseAPI'
+import { BlockInfo, ValConsAddress, ValConsPublicKey } from '../../../core'
+import { APIParams, Pagination } from '../APIRequester'
 
 export interface DelegateValidator {
-  address: ValConsAddress;
-  pub_key: ValConsPublicKey.Data;
-  proposer_priority: string;
-  voting_power: string;
+  address: ValConsAddress
+  pub_key: ValConsPublicKey.Data
+  proposer_priority: string
+  voting_power: string
 }
 
 export class TendermintAPI extends BaseAPI {
@@ -14,7 +14,7 @@ export class TendermintAPI extends BaseAPI {
    * Gets the node's information.
    */
   public async nodeInfo(params: APIParams = {}): Promise<object> {
-    return this.c.getRaw(`/cosmos/base/tendermint/v1beta1/node_info`, params);
+    return this.c.getRaw(`/cosmos/base/tendermint/v1beta1/node_info`, params)
   }
 
   /**
@@ -22,11 +22,10 @@ export class TendermintAPI extends BaseAPI {
    */
   public async chainId(params: APIParams = {}): Promise<string> {
     return this.c
-      .get<{ default_node_info: { network: string } }>(
-        `/cosmos/base/tendermint/v1beta1/node_info`,
-        params
-      )
-      .then(res => res?.default_node_info?.network);
+      .get<{
+        default_node_info: { network: string }
+      }>(`/cosmos/base/tendermint/v1beta1/node_info`, params)
+      .then((res) => res?.default_node_info?.network)
   }
 
   /**
@@ -34,11 +33,10 @@ export class TendermintAPI extends BaseAPI {
    */
   public async syncing(params: APIParams = {}): Promise<boolean> {
     return this.c
-      .getRaw<{ syncing: boolean }>(
-        `/cosmos/base/tendermint/v1beta1/syncing`,
-        params
-      )
-      .then(d => d.syncing);
+      .getRaw<{
+        syncing: boolean
+      }>(`/cosmos/base/tendermint/v1beta1/syncing`, params)
+      .then((d) => d.syncing)
   }
 
   /**
@@ -52,14 +50,14 @@ export class TendermintAPI extends BaseAPI {
     const url =
       height !== undefined
         ? `/cosmos/base/tendermint/v1beta1/validatorsets/${height}`
-        : `/cosmos/base/tendermint/v1beta1/validatorsets/latest`;
+        : `/cosmos/base/tendermint/v1beta1/validatorsets/latest`
     return this.c
       .get<{
-        block_height: string;
-        validators: DelegateValidator[];
-        pagination: Pagination;
+        block_height: string
+        validators: DelegateValidator[]
+        pagination: Pagination
       }>(url, params)
-      .then(d => [d.validators, d.pagination]);
+      .then((d) => [d.validators, d.pagination])
   }
 
   /**
@@ -73,7 +71,7 @@ export class TendermintAPI extends BaseAPI {
     const url =
       height !== undefined
         ? `/cosmos/base/tendermint/v1beta1/blocks/${height}`
-        : `/cosmos/base/tendermint/v1beta1/blocks/latest`;
-    return this.c.getRaw<BlockInfo>(url, params);
+        : `/cosmos/base/tendermint/v1beta1/blocks/latest`
+    return this.c.getRaw<BlockInfo>(url, params)
   }
 }

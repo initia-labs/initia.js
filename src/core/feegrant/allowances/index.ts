@@ -1,65 +1,62 @@
-import { BasicAllowance } from './BasicAllowance';
-import { PeriodicAllowance } from './PeriodicAllowance';
-import { AllowedMsgAllowance } from './AllowedMsgAllowance';
+import { BasicAllowance } from './BasicAllowance'
+import { PeriodicAllowance } from './PeriodicAllowance'
+import { AllowedMsgAllowance } from './AllowedMsgAllowance'
 
-export * from './BasicAllowance';
-export * from './PeriodicAllowance';
-export * from './AllowedMsgAllowance';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
+export * from './BasicAllowance'
+export * from './PeriodicAllowance'
+export * from './AllowedMsgAllowance'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
 
-export type Allowance =
-  | BasicAllowance
-  | PeriodicAllowance
-  | AllowedMsgAllowance;
+export type Allowance = BasicAllowance | PeriodicAllowance | AllowedMsgAllowance
 
 export namespace Allowance {
   export type Amino =
     | BasicAllowance.Amino
     | PeriodicAllowance.Amino
-    | AllowedMsgAllowance.Amino;
+    | AllowedMsgAllowance.Amino
 
   export type Data =
     | BasicAllowance.Data
     | PeriodicAllowance.Data
-    | AllowedMsgAllowance.Data;
+    | AllowedMsgAllowance.Data
 
   export type Proto =
     | BasicAllowance.Proto
     | PeriodicAllowance.Proto
-    | AllowedMsgAllowance.Proto;
+    | AllowedMsgAllowance.Proto
 
   export function fromAmino(data: Allowance.Amino): Allowance {
     switch (data.type) {
       case 'cosmos-sdk/BasicAllowance':
-        return BasicAllowance.fromAmino(data);
+        return BasicAllowance.fromAmino(data)
       case 'cosmos-sdk/PeriodicAllowance':
-        return PeriodicAllowance.fromAmino(data);
+        return PeriodicAllowance.fromAmino(data)
       case 'cosmos-sdk/AllowedMsgAllowance':
-        return AllowedMsgAllowance.fromAmino(data);
+        return AllowedMsgAllowance.fromAmino(data)
     }
   }
 
   export function fromData(data: Allowance.Data): Allowance {
     switch (data['@type']) {
       case '/cosmos.feegrant.v1beta1.PeriodicAllowance':
-        return PeriodicAllowance.fromData(data);
+        return PeriodicAllowance.fromData(data)
       case '/cosmos.feegrant.v1beta1.BasicAllowance':
-        return BasicAllowance.fromData(data);
+        return BasicAllowance.fromData(data)
       case '/cosmos.feegrant.v1beta1.AllowedMsgAllowance':
-        return AllowedMsgAllowance.fromData(data);
+        return AllowedMsgAllowance.fromData(data)
     }
   }
 
   export function fromProto(proto: Any): Allowance {
     switch (proto.typeUrl) {
       case '/cosmos.feegrant.v1beta1.PeriodicAllowance':
-        return PeriodicAllowance.unpackAny(proto);
+        return PeriodicAllowance.unpackAny(proto)
       case '/cosmos.feegrant.v1beta1.BasicAllowance':
-        return BasicAllowance.unpackAny(proto);
+        return BasicAllowance.unpackAny(proto)
       case '/cosmos.feegrant.v1beta1.AllowedMsgAllowance':
-        return AllowedMsgAllowance.unpackAny(proto);
+        return AllowedMsgAllowance.unpackAny(proto)
     }
 
-    throw new Error(`not supported allowance ${proto.typeUrl}`);
+    throw new Error(`not supported allowance ${proto.typeUrl}`)
   }
 }

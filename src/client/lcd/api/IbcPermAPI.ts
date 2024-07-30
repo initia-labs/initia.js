@@ -1,10 +1,10 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
 export interface PermissionedRelayers {
-  port_id: string;
-  channel_id: string;
-  relayers: string[];
+  port_id: string
+  channel_id: string
+  relayers: string[]
 }
 
 export class IbcPermAPI extends BaseAPI {
@@ -13,10 +13,10 @@ export class IbcPermAPI extends BaseAPI {
   ): Promise<[PermissionedRelayers[], Pagination]> {
     return this.c
       .get<{
-        permissioned_relayers: PermissionedRelayers[];
-        pagination: Pagination;
+        permissioned_relayers: PermissionedRelayers[]
+        pagination: Pagination
       }>(`/ibc/apps/perm/v1/relayers`, params)
-      .then(d => [d.permissioned_relayers, d.pagination]);
+      .then((d) => [d.permissioned_relayers, d.pagination])
   }
 
   public async relayersByChannel(
@@ -24,9 +24,9 @@ export class IbcPermAPI extends BaseAPI {
     channel_id: string
   ): Promise<PermissionedRelayers> {
     return this.c
-      .get<{ permissioned_relayers: PermissionedRelayers }>(
-        `/ibc/apps/perm/v1/relayers/${port_id}/${channel_id}`
-      )
-      .then(d => d.permissioned_relayers);
+      .get<{
+        permissioned_relayers: PermissionedRelayers
+      }>(`/ibc/apps/perm/v1/relayers/${port_id}/${channel_id}`)
+      .then((d) => d.permissioned_relayers)
   }
 }

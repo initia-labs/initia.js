@@ -1,20 +1,20 @@
-import { MsgCreateDenom } from './MsgCreateDenom';
-import { MsgMint } from './MsgMint';
-import { MsgBurn } from './MsgBurn';
-import { MsgChangeAdmin } from './MsgChangeAdmin';
-import { MsgSetDenomMetadataWasm } from './MsgSetDenomMetadataWasm';
-import { MsgSetBeforeSendHook } from './MsgSetBeforeSendHook';
-import { MsgForceTransfer } from './MsgForceTransfer';
-import { MsgUpdateTokenfactoryParams } from './MsgUpdateTokenfactoryParams';
+import { MsgCreateDenom } from './MsgCreateDenom'
+import { MsgMint } from './MsgMint'
+import { MsgBurn } from './MsgBurn'
+import { MsgChangeAdmin } from './MsgChangeAdmin'
+import { MsgSetDenomMetadataWasm } from './MsgSetDenomMetadataWasm'
+import { MsgSetBeforeSendHook } from './MsgSetBeforeSendHook'
+import { MsgForceTransfer } from './MsgForceTransfer'
+import { MsgUpdateTokenfactoryParams } from './MsgUpdateTokenfactoryParams'
 
-export * from './MsgCreateDenom';
-export * from './MsgMint';
-export * from './MsgBurn';
-export * from './MsgChangeAdmin';
-export * from './MsgSetDenomMetadataWasm';
-export * from './MsgSetBeforeSendHook';
-export * from './MsgForceTransfer';
-export * from './MsgUpdateTokenfactoryParams';
+export * from './MsgCreateDenom'
+export * from './MsgMint'
+export * from './MsgBurn'
+export * from './MsgChangeAdmin'
+export * from './MsgSetDenomMetadataWasm'
+export * from './MsgSetBeforeSendHook'
+export * from './MsgForceTransfer'
+export * from './MsgUpdateTokenfactoryParams'
 
 export type TokenfactoryMsg =
   | MsgCreateDenom
@@ -24,7 +24,7 @@ export type TokenfactoryMsg =
   | MsgSetDenomMetadataWasm
   | MsgSetBeforeSendHook
   | MsgForceTransfer
-  | MsgUpdateTokenfactoryParams;
+  | MsgUpdateTokenfactoryParams
 
 export namespace TokenfactoryMsg {
   export type Amino =
@@ -35,7 +35,7 @@ export namespace TokenfactoryMsg {
     | MsgSetDenomMetadataWasm.Amino
     | MsgSetBeforeSendHook.Amino
     | MsgForceTransfer.Amino
-    | MsgUpdateTokenfactoryParams.Amino;
+    | MsgUpdateTokenfactoryParams.Amino
 
   export type Data =
     | MsgCreateDenom.Data
@@ -45,7 +45,7 @@ export namespace TokenfactoryMsg {
     | MsgSetDenomMetadataWasm.Data
     | MsgSetBeforeSendHook.Data
     | MsgForceTransfer.Data
-    | MsgUpdateTokenfactoryParams.Data;
+    | MsgUpdateTokenfactoryParams.Data
 
   export type Proto =
     | MsgCreateDenom.Proto
@@ -55,5 +55,5 @@ export namespace TokenfactoryMsg {
     | MsgSetDenomMetadataWasm.Proto
     | MsgSetBeforeSendHook.Proto
     | MsgForceTransfer.Proto
-    | MsgUpdateTokenfactoryParams.Proto;
+    | MsgUpdateTokenfactoryParams.Proto
 }

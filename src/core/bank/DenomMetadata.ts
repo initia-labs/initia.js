@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../util/json';
-import { DenomUnit } from './DenomUnit';
-import { Metadata as Metadata_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank';
+import { JSONSerializable } from '../../util/json'
+import { DenomUnit } from './DenomUnit'
+import { Metadata as Metadata_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
 export class DenomMetadata extends JSONSerializable<
   DenomMetadata.Amino,
@@ -27,7 +27,7 @@ export class DenomMetadata extends JSONSerializable<
     public uri: string,
     public uri_hash: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: DenomMetadata.Amino): DenomMetadata {
@@ -40,7 +40,7 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash,
-    } = data;
+    } = data
 
     return new DenomMetadata(
       description,
@@ -51,7 +51,7 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash
-    );
+    )
   }
 
   public toAmino(): DenomMetadata.Amino {
@@ -64,18 +64,18 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash,
-    } = this;
+    } = this
 
     return {
       description,
-      denom_units: denom_units.map(d => d.toAmino()),
+      denom_units: denom_units.map((d) => d.toAmino()),
       base,
       display,
       name,
       symbol,
       uri,
       uri_hash,
-    };
+    }
   }
 
   public static fromData(data: DenomMetadata.Data): DenomMetadata {
@@ -88,7 +88,7 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash,
-    } = data;
+    } = data
 
     return new DenomMetadata(
       description,
@@ -99,7 +99,7 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash
-    );
+    )
   }
 
   public toData(): DenomMetadata.Data {
@@ -112,18 +112,18 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash,
-    } = this;
+    } = this
 
     return {
       description,
-      denom_units: denom_units.map(d => d.toData()),
+      denom_units: denom_units.map((d) => d.toData()),
       base,
       display,
       name,
       symbol,
       uri,
       uri_hash,
-    };
+    }
   }
 
   public static fromProto(data: DenomMetadata.Proto): DenomMetadata {
@@ -136,7 +136,7 @@ export class DenomMetadata extends JSONSerializable<
       data.symbol,
       data.uri,
       data.uriHash
-    );
+    )
   }
 
   public toProto(): DenomMetadata.Proto {
@@ -149,43 +149,43 @@ export class DenomMetadata extends JSONSerializable<
       symbol,
       uri,
       uri_hash,
-    } = this;
+    } = this
 
     return Metadata_pb.fromPartial({
       description,
-      denomUnits: denom_units.map(d => d.toProto()),
+      denomUnits: denom_units.map((d) => d.toProto()),
       base,
       display,
       name,
       symbol,
       uri,
       uriHash: uri_hash,
-    });
+    })
   }
 }
 
 export namespace DenomMetadata {
   export interface Amino {
-    description: string;
-    denom_units: DenomUnit.Amino[];
-    base: string;
-    display: string;
-    name: string;
-    symbol: string;
-    uri: string;
-    uri_hash: string;
+    description: string
+    denom_units: DenomUnit.Amino[]
+    base: string
+    display: string
+    name: string
+    symbol: string
+    uri: string
+    uri_hash: string
   }
 
   export interface Data {
-    description: string;
-    denom_units: DenomUnit.Data[];
-    base: string;
-    display: string;
-    name: string;
-    symbol: string;
-    uri: string;
-    uri_hash: string;
+    description: string
+    denom_units: DenomUnit.Data[]
+    base: string
+    display: string
+    name: string
+    symbol: string
+    uri: string
+    uri_hash: string
   }
 
-  export type Proto = Metadata_pb;
+  export type Proto = Metadata_pb
 }

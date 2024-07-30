@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../util/json';
-import { Denom } from '../Denom';
-import { DenomUnit as DenomUnit_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank';
+import { JSONSerializable } from '../../util/json'
+import { Denom } from '../Denom'
+import { DenomUnit as DenomUnit_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
 export class DenomUnit extends JSONSerializable<
   DenomUnit.Amino,
@@ -17,63 +17,63 @@ export class DenomUnit extends JSONSerializable<
     public exponent: number,
     public aliases: string[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: DenomUnit.Amino): DenomUnit {
-    const { denom, exponent, aliases } = data;
-    return new DenomUnit(denom, Number.parseInt(exponent), aliases);
+    const { denom, exponent, aliases } = data
+    return new DenomUnit(denom, Number.parseInt(exponent), aliases)
   }
 
   public toAmino(): DenomUnit.Amino {
-    const { denom, exponent, aliases } = this;
+    const { denom, exponent, aliases } = this
     return {
       denom,
       exponent: exponent.toString(),
       aliases,
-    };
+    }
   }
 
   public static fromData(data: DenomUnit.Data): DenomUnit {
-    const { denom, exponent, aliases } = data;
-    return new DenomUnit(denom, Number.parseInt(exponent), aliases);
+    const { denom, exponent, aliases } = data
+    return new DenomUnit(denom, Number.parseInt(exponent), aliases)
   }
 
   public toData(): DenomUnit.Data {
-    const { denom, exponent, aliases } = this;
+    const { denom, exponent, aliases } = this
     return {
       denom,
       exponent: exponent.toString(),
       aliases,
-    };
+    }
   }
 
   public static fromProto(data: DenomUnit.Proto): DenomUnit {
-    return new DenomUnit(data.denom, data.exponent, data.aliases);
+    return new DenomUnit(data.denom, data.exponent, data.aliases)
   }
 
   public toProto(): DenomUnit.Proto {
-    const { denom, exponent, aliases } = this;
+    const { denom, exponent, aliases } = this
     return DenomUnit_pb.fromPartial({
       denom,
       exponent,
       aliases,
-    });
+    })
   }
 }
 
 export namespace DenomUnit {
   export interface Amino {
-    denom: Denom;
-    exponent: string;
-    aliases: string[];
+    denom: Denom
+    exponent: string
+    aliases: string[]
   }
 
   export interface Data {
-    denom: Denom;
-    exponent: string;
-    aliases: string[];
+    denom: Denom
+    exponent: string
+    aliases: string[]
   }
 
-  export type Proto = DenomUnit_pb;
+  export type Proto = DenomUnit_pb
 }

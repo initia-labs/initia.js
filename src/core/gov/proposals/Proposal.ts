@@ -1,16 +1,16 @@
-import { JSONSerializable } from '../../../util/json';
-import { Coins } from '../../Coins';
-import { num } from '../../num';
-import { AccAddress } from '../../bech32';
-import { Msg } from '../../Msg';
+import { JSONSerializable } from '../../../util/json'
+import { Coins } from '../../Coins'
+import { num } from '../../num'
+import { AccAddress } from '../../bech32'
+import { Msg } from '../../Msg'
 import {
   ProposalStatus,
   TallyResult,
   proposalStatusFromJSON,
   proposalStatusToJSON,
-} from '@initia/initia.proto/cosmos/gov/v1/gov';
-import { Proposal as Proposal_pb } from '@initia/initia.proto/initia/gov/v1/gov';
-import Long from 'long';
+} from '@initia/initia.proto/cosmos/gov/v1/gov'
+import { Proposal as Proposal_pb } from '@initia/initia.proto/initia/gov/v1/gov'
+import Long from 'long'
 
 /**
  * Defines the core field members of a governance proposal
@@ -20,7 +20,7 @@ export class Proposal extends JSONSerializable<
   Proposal.Data,
   Proposal.Proto
 > {
-  public total_deposit: Coins;
+  public total_deposit: Coins
 
   /**
    *
@@ -63,8 +63,8 @@ export class Proposal extends JSONSerializable<
     public emergency: boolean,
     public failed_reason: string
   ) {
-    super();
-    this.total_deposit = new Coins(total_deposit);
+    super()
+    this.total_deposit = new Coins(total_deposit)
   }
 
   public static fromAmino(data: Proposal.Amino): Proposal {
@@ -87,7 +87,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    } = data;
+    } = data
 
     return new Proposal(
       Number.parseInt(id),
@@ -115,7 +115,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason
-    );
+    )
   }
 
   public toAmino(): Proposal.Amino {
@@ -138,11 +138,11 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    } = this;
+    } = this
 
     return {
       id: id.toString(),
-      messages: messages.map(msg => msg.toAmino()),
+      messages: messages.map((msg) => msg.toAmino()),
       status: proposalStatusToJSON(status),
       final_tally_result: {
         yes_count: num(final_tally_result.yes_count).toFixed(),
@@ -166,7 +166,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    };
+    }
   }
 
   public static fromData(data: Proposal.Data): Proposal {
@@ -189,7 +189,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    } = data;
+    } = data
 
     return new Proposal(
       Number.parseInt(id),
@@ -217,7 +217,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason
-    );
+    )
   }
 
   public toData(): Proposal.Data {
@@ -240,11 +240,11 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    } = this;
+    } = this
 
     return {
       id: id.toString(),
-      messages: messages.map(msg => msg.toData()),
+      messages: messages.map((msg) => msg.toData()),
       status: proposalStatusToJSON(status),
       final_tally_result: {
         yes_count: num(final_tally_result.yes_count).toFixed(),
@@ -268,7 +268,7 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    };
+    }
   }
 
   public static fromProto(data: Proposal.Proto): Proposal {
@@ -298,7 +298,7 @@ export class Proposal extends JSONSerializable<
       data.expedited,
       data.emergency,
       data.failedReason
-    );
+    )
   }
 
   public toProto(): Proposal.Proto {
@@ -321,21 +321,21 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failed_reason,
-    } = this;
+    } = this
 
-    let ftr: TallyResult | undefined;
+    let ftr: TallyResult | undefined
     if (final_tally_result) {
       ftr = TallyResult.fromPartial({
         yesCount: final_tally_result.yes_count.toString(),
         noCount: final_tally_result.no_count.toString(),
         abstainCount: final_tally_result.abstain_count.toString(),
         noWithVetoCount: final_tally_result.no_with_veto_count.toString(),
-      });
+      })
     }
 
     return Proposal_pb.fromPartial({
       id: Long.fromNumber(id),
-      messages: messages.map(msg => msg.packAny()),
+      messages: messages.map((msg) => msg.packAny()),
       status,
       finalTallyResult: ftr,
       submitTime: submit_time,
@@ -352,72 +352,72 @@ export class Proposal extends JSONSerializable<
       expedited,
       emergency,
       failedReason: failed_reason,
-    });
+    })
   }
 }
 
 export namespace Proposal {
-  export const Status = ProposalStatus;
-  export type Status = ProposalStatus;
+  export const Status = ProposalStatus
+  export type Status = ProposalStatus
 
   export interface FinalTallyResult {
-    yes_count: string;
-    abstain_count: string;
-    no_count: string;
-    no_with_veto_count: string;
+    yes_count: string
+    abstain_count: string
+    no_count: string
+    no_with_veto_count: string
   }
 
   export interface Amino {
-    id: string;
-    messages: Msg.Amino[];
-    status: string;
+    id: string
+    messages: Msg.Amino[]
+    status: string
     final_tally_result: {
-      yes_count: string;
-      abstain_count: string;
-      no_count: string;
-      no_with_veto_count: string;
-    };
-    submit_time: string;
-    deposit_end_time: string;
-    total_deposit: Coins.Amino;
-    voting_start_time: string;
-    voting_end_time: string;
-    emergency_start_time: string;
-    emergency_next_tally_time: string;
-    metadata: string;
-    title: string;
-    summary: string;
-    proposer: AccAddress;
-    expedited: boolean;
-    emergency: boolean;
-    failed_reason: string;
+      yes_count: string
+      abstain_count: string
+      no_count: string
+      no_with_veto_count: string
+    }
+    submit_time: string
+    deposit_end_time: string
+    total_deposit: Coins.Amino
+    voting_start_time: string
+    voting_end_time: string
+    emergency_start_time: string
+    emergency_next_tally_time: string
+    metadata: string
+    title: string
+    summary: string
+    proposer: AccAddress
+    expedited: boolean
+    emergency: boolean
+    failed_reason: string
   }
 
   export interface Data {
-    id: string;
-    messages: Msg.Data[];
-    status: string;
+    id: string
+    messages: Msg.Data[]
+    status: string
     final_tally_result: {
-      yes_count: string;
-      abstain_count: string;
-      no_count: string;
-      no_with_veto_count: string;
-    };
-    submit_time: string;
-    deposit_end_time: string;
-    total_deposit: Coins.Data;
-    voting_start_time: string;
-    voting_end_time: string;
-    emergency_start_time: string;
-    emergency_next_tally_time: string;
-    metadata: string;
-    title: string;
-    summary: string;
-    proposer: AccAddress;
-    expedited: boolean;
-    emergency: boolean;
-    failed_reason: string;
+      yes_count: string
+      abstain_count: string
+      no_count: string
+      no_with_veto_count: string
+    }
+    submit_time: string
+    deposit_end_time: string
+    total_deposit: Coins.Data
+    voting_start_time: string
+    voting_end_time: string
+    emergency_start_time: string
+    emergency_next_tally_time: string
+    metadata: string
+    title: string
+    summary: string
+    proposer: AccAddress
+    expedited: boolean
+    emergency: boolean
+    failed_reason: string
   }
 
-  export type Proto = Proposal_pb;
+  export type Proto = Proposal_pb
 }

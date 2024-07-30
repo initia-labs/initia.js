@@ -1,5 +1,5 @@
-import { MsgSend } from './MsgSend';
-import { Coins } from '../../Coins';
+import { MsgSend } from './MsgSend'
+import { Coins } from '../../Coins'
 
 describe('MsgSend', () => {
   it('deserialize correctly', () => {
@@ -15,7 +15,7 @@ describe('MsgSend', () => {
           },
         ],
       },
-    });
+    })
 
     expect(send).toMatchObject({
       from_address: 'init1y4umfuqfg76t8mfcff6zzx7elvy93jtp4xcdvw',
@@ -23,7 +23,7 @@ describe('MsgSend', () => {
       amount: new Coins({
         uinit: 8102024952,
       }),
-    });
+    })
 
     expect(send.toAmino()).toMatchObject({
       type: 'cosmos-sdk/MsgSend',
@@ -37,8 +37,8 @@ describe('MsgSend', () => {
           },
         ],
       },
-    });
-  });
+    })
+  })
 
   it('deserialize correctly proto', () => {
     const send = MsgSend.fromData({
@@ -51,7 +51,7 @@ describe('MsgSend', () => {
           amount: '8102024952',
         },
       ],
-    });
+    })
 
     expect(send).toMatchObject({
       from_address: 'init1y4umfuqfg76t8mfcff6zzx7elvy93jtp4xcdvw',
@@ -59,7 +59,7 @@ describe('MsgSend', () => {
       amount: new Coins({
         uinit: 8102024952,
       }),
-    });
+    })
 
     expect(send.toData()).toMatchObject({
       '@type': '/cosmos.bank.v1beta1.MsgSend',
@@ -71,6 +71,6 @@ describe('MsgSend', () => {
           amount: '8102024952',
         },
       ],
-    });
-  });
-});
+    })
+  })
+})

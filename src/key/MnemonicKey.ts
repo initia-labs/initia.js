@@ -1,36 +1,36 @@
-import * as bip32 from 'bip32';
-import * as bip39 from 'bip39';
-import { RawKey } from './RawKey';
+import * as bip32 from 'bip32'
+import * as bip39 from 'bip39'
+import { RawKey } from './RawKey'
 
-export const INIT_COIN_TYPE = 118;
+export const INIT_COIN_TYPE = 118
 
 interface MnemonicKeyOptions {
   /**
    * Space-separated list of words for the mnemonic key.
    */
-  mnemonic?: string;
+  mnemonic?: string
 
   /**
    * BIP44 account number.
    */
-  account?: number;
+  account?: number
 
   /**
    * BIP44 index number
    */
-  index?: number;
+  index?: number
 
   /**
    * Coin type. Default is INIT, 118.
    */
-  coinType?: number;
+  coinType?: number
 }
 
 const DEFAULT_OPTIONS = {
   account: 0,
   index: 0,
   coinType: INIT_COIN_TYPE,
-};
+}
 
 /**
  * Implements a BIP39 mnemonic wallet with standard key derivation from a word list. Note
@@ -41,7 +41,7 @@ export class MnemonicKey extends RawKey {
   /**
    * Space-separated mnemonic phrase.
    */
-  public mnemonic: string;
+  public mnemonic: string
 
   /**
    * Creates a new signing key from a mnemonic phrase. If no mnemonic is provided, one
@@ -69,22 +69,22 @@ export class MnemonicKey extends RawKey {
     const { account, index, coinType } = {
       ...DEFAULT_OPTIONS,
       ...options,
-    };
-    let { mnemonic } = options;
-    if (mnemonic === undefined) {
-      mnemonic = bip39.generateMnemonic(256);
     }
-    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic);
-    const masterKey = bip32.fromSeed(seed);
-    const hdPathInitia = `m/44'/${coinType}'/${account}'/0/${index}`;
-    const initiaHD = masterKey.derivePath(hdPathInitia);
-    const privateKey = initiaHD.privateKey;
+    let { mnemonic } = options
+    if (mnemonic === undefined) {
+      mnemonic = bip39.generateMnemonic(256)
+    }
+    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic)
+    const masterKey = bip32.fromSeed(seed)
+    const hdPathInitia = `m/44'/${coinType}'/${account}'/0/${index}`
+    const initiaHD = masterKey.derivePath(hdPathInitia)
+    const privateKey = initiaHD.privateKey
 
     if (!privateKey) {
-      throw new Error('Failed to derive key pair');
+      throw new Error('Failed to derive key pair')
     }
 
-    super(privateKey);
-    this.mnemonic = mnemonic;
+    super(privateKey)
+    this.mnemonic = mnemonic
   }
 }

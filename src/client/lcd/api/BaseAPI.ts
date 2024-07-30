@@ -1,4 +1,4 @@
-import { APIRequester } from '../APIRequester';
+import { APIRequester } from '../APIRequester'
 
 export abstract class BaseAPI {
   constructor(protected c: APIRequester) {}

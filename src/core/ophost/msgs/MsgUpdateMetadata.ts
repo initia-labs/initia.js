@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { MsgUpdateMetadata as MsgUpdateMetadata_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { MsgUpdateMetadata as MsgUpdateMetadata_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import Long from 'long'
 
 export class MsgUpdateMetadata extends JSONSerializable<
   MsgUpdateMetadata.Amino,
@@ -19,23 +19,23 @@ export class MsgUpdateMetadata extends JSONSerializable<
     public bridge_id: number,
     public metadata: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgUpdateMetadata.Amino): MsgUpdateMetadata {
     const {
       value: { authority, bridge_id, metadata },
-    } = data;
+    } = data
 
     return new MsgUpdateMetadata(
       authority,
       Number.parseInt(bridge_id),
       metadata
-    );
+    )
   }
 
   public toAmino(): MsgUpdateMetadata.Amino {
-    const { authority, bridge_id, metadata } = this;
+    const { authority, bridge_id, metadata } = this
     return {
       type: 'ophost/MsgUpdateMetadata',
       value: {
@@ -43,26 +43,26 @@ export class MsgUpdateMetadata extends JSONSerializable<
         bridge_id: bridge_id.toString(),
         metadata,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgUpdateMetadata.Data): MsgUpdateMetadata {
-    const { authority, bridge_id, metadata } = data;
+    const { authority, bridge_id, metadata } = data
     return new MsgUpdateMetadata(
       authority,
       Number.parseInt(bridge_id),
       metadata
-    );
+    )
   }
 
   public toData(): MsgUpdateMetadata.Data {
-    const { authority, bridge_id, metadata } = this;
+    const { authority, bridge_id, metadata } = this
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateMetadata',
       authority,
       bridge_id: bridge_id.toString(),
       metadata,
-    };
+    }
   }
 
   public static fromProto(data: MsgUpdateMetadata.Proto): MsgUpdateMetadata {
@@ -70,48 +70,48 @@ export class MsgUpdateMetadata extends JSONSerializable<
       data.authority,
       data.bridgeId.toNumber(),
       Buffer.from(data.metadata).toString('base64')
-    );
+    )
   }
 
   public toProto(): MsgUpdateMetadata.Proto {
-    const { authority, bridge_id, metadata } = this;
+    const { authority, bridge_id, metadata } = this
     return MsgUpdateMetadata_pb.fromPartial({
       authority,
       bridgeId: Long.fromNumber(bridge_id),
       metadata: Buffer.from(metadata, 'base64'),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/opinit.ophost.v1.MsgUpdateMetadata',
       value: MsgUpdateMetadata_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpdateMetadata {
     return MsgUpdateMetadata.fromProto(
       MsgUpdateMetadata_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgUpdateMetadata {
   export interface Amino {
-    type: 'ophost/MsgUpdateMetadata';
+    type: 'ophost/MsgUpdateMetadata'
     value: {
-      authority: AccAddress;
-      bridge_id: string;
-      metadata: string;
-    };
+      authority: AccAddress
+      bridge_id: string
+      metadata: string
+    }
   }
 
   export interface Data {
-    '@type': '/opinit.ophost.v1.MsgUpdateMetadata';
-    authority: AccAddress;
-    bridge_id: string;
-    metadata: string;
+    '@type': '/opinit.ophost.v1.MsgUpdateMetadata'
+    authority: AccAddress
+    bridge_id: string
+    metadata: string
   }
 
-  export type Proto = MsgUpdateMetadata_pb;
+  export type Proto = MsgUpdateMetadata_pb
 }

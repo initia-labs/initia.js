@@ -1,10 +1,10 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgConnectionOpenInit as MsgConnectionOpenInit_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
-import { ConnectionCounterparty } from '../ConnectionCounterparty';
-import { IbcVersion } from '../IbcVersion';
-import Long from 'long';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgConnectionOpenInit as MsgConnectionOpenInit_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
+import { ConnectionCounterparty } from '../ConnectionCounterparty'
+import { IbcVersion } from '../IbcVersion'
+import Long from 'long'
 
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to initialize a connection with Chain B.
@@ -28,33 +28,33 @@ export class MsgConnectionOpenInit extends JSONSerializable<
     public delay_period: number,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgConnectionOpenInit {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
     data: MsgConnectionOpenInit.Data
   ): MsgConnectionOpenInit {
-    const { client_id, counterparty, version, delay_period, signer } = data;
+    const { client_id, counterparty, version, delay_period, signer } = data
     return new MsgConnectionOpenInit(
       client_id,
       ConnectionCounterparty.fromData(counterparty),
       version ? IbcVersion.fromData(version) : undefined,
       Number.parseInt(delay_period),
       signer
-    );
+    )
   }
 
   public toData(): MsgConnectionOpenInit.Data {
-    const { client_id, counterparty, version, delay_period, signer } = this;
+    const { client_id, counterparty, version, delay_period, signer } = this
     return {
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit',
       client_id,
@@ -62,7 +62,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       version: version?.toData(),
       delay_period: delay_period.toFixed(),
       signer,
-    };
+    }
   }
 
   public static fromProto(
@@ -76,43 +76,43 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       proto.version ? IbcVersion.fromProto(proto.version) : undefined,
       proto.delayPeriod.toNumber(),
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgConnectionOpenInit.Proto {
-    const { client_id, counterparty, version, delay_period, signer } = this;
+    const { client_id, counterparty, version, delay_period, signer } = this
     return MsgConnectionOpenInit_pb.fromPartial({
       clientId: client_id,
       counterparty: counterparty.toProto(),
       version: version?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.connection.v1.MsgConnectionOpenInit',
       value: MsgConnectionOpenInit_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgConnectionOpenInit {
     return MsgConnectionOpenInit.fromProto(
       MsgConnectionOpenInit_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgConnectionOpenInit {
   export interface Data {
-    '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit';
-    client_id: string;
-    counterparty: ConnectionCounterparty.Data;
-    version?: IbcVersion.Data;
-    delay_period: string;
-    signer: AccAddress;
+    '@type': '/ibc.core.connection.v1.MsgConnectionOpenInit'
+    client_id: string
+    counterparty: ConnectionCounterparty.Data
+    version?: IbcVersion.Data
+    delay_period: string
+    signer: AccAddress
   }
 
-  export type Proto = MsgConnectionOpenInit_pb;
+  export type Proto = MsgConnectionOpenInit_pb
 }

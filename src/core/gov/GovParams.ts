@@ -1,17 +1,17 @@
-import { JSONSerializable } from '../../util/json';
-import { AccAddress } from '../bech32';
-import { Coins } from '../Coins';
-import { Duration } from '../Duration';
-import { Params as Params_pb } from '@initia/initia.proto/initia/gov/v1/gov';
+import { JSONSerializable } from '../../util/json'
+import { AccAddress } from '../bech32'
+import { Coins } from '../Coins'
+import { Duration } from '../Duration'
+import { Params as Params_pb } from '@initia/initia.proto/initia/gov/v1/gov'
 
 export class GovParams extends JSONSerializable<
   GovParams.Amino,
   GovParams.Data,
   GovParams.Proto
 > {
-  public min_deposit: Coins;
-  public expedited_min_deposit: Coins;
-  public emergency_min_deposit: Coins;
+  public min_deposit: Coins
+  public expedited_min_deposit: Coins
+  public emergency_min_deposit: Coins
 
   /**
    * @param min_deposit Minimum deposit for a proposal to enter voting period
@@ -55,10 +55,10 @@ export class GovParams extends JSONSerializable<
     public emergency_tally_interval: Duration,
     public low_threshold_functions: string[]
   ) {
-    super();
-    this.min_deposit = new Coins(min_deposit);
-    this.expedited_min_deposit = new Coins(expedited_min_deposit);
-    this.emergency_min_deposit = new Coins(emergency_min_deposit);
+    super()
+    this.min_deposit = new Coins(min_deposit)
+    this.expedited_min_deposit = new Coins(expedited_min_deposit)
+    this.emergency_min_deposit = new Coins(emergency_min_deposit)
   }
 
   public static fromAmino(data: GovParams.Amino): GovParams {
@@ -82,7 +82,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
-    } = data;
+    } = data
 
     return new GovParams(
       Coins.fromAmino(min_deposit),
@@ -104,7 +104,7 @@ export class GovParams extends JSONSerializable<
       Coins.fromAmino(emergency_min_deposit),
       Duration.fromAmino(emergency_tally_interval),
       low_threshold_functions
-    );
+    )
   }
 
   public toAmino(): GovParams.Amino {
@@ -128,7 +128,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
-    } = this;
+    } = this
 
     return {
       min_deposit: min_deposit.toAmino(),
@@ -150,7 +150,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit: emergency_min_deposit.toAmino(),
       emergency_tally_interval: emergency_tally_interval.toAmino(),
       low_threshold_functions,
-    };
+    }
   }
 
   public static fromData(data: GovParams.Data): GovParams {
@@ -174,7 +174,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
-    } = data;
+    } = data
 
     return new GovParams(
       Coins.fromData(min_deposit),
@@ -196,7 +196,7 @@ export class GovParams extends JSONSerializable<
       Coins.fromData(emergency_min_deposit),
       Duration.fromData(emergency_tally_interval),
       low_threshold_functions
-    );
+    )
   }
 
   public toData(): GovParams.Data {
@@ -220,7 +220,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
-    } = this;
+    } = this
 
     return {
       min_deposit: min_deposit.toData(),
@@ -242,7 +242,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit: emergency_min_deposit.toData(),
       emergency_tally_interval: emergency_tally_interval.toData(),
       low_threshold_functions,
-    };
+    }
   }
 
   public static fromProto(data: GovParams.Proto): GovParams {
@@ -266,7 +266,7 @@ export class GovParams extends JSONSerializable<
       Coins.fromProto(data.emergencyMinDeposit),
       Duration.fromProto(data.emergencyTallyInterval as Duration.Proto),
       data.lowThresholdFunctions
-    );
+    )
   }
 
   public toProto(): GovParams.Proto {
@@ -290,7 +290,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
-    } = this;
+    } = this
 
     return Params_pb.fromPartial({
       minDeposit: min_deposit.toProto(),
@@ -312,54 +312,54 @@ export class GovParams extends JSONSerializable<
       emergencyMinDeposit: emergency_min_deposit.toProto(),
       emergencyTallyInterval: emergency_tally_interval.toProto(),
       lowThresholdFunctions: low_threshold_functions,
-    });
+    })
   }
 }
 
 export namespace GovParams {
   export interface Amino {
-    min_deposit: Coins.Amino;
-    max_deposit_period: Duration.Amino;
-    voting_period: Duration.Amino;
-    quorum: string;
-    threshold: string;
-    veto_threshold: string;
-    min_initial_deposit_ratio: string;
-    proposal_cancel_ratio: string;
-    proposal_cancel_dest: AccAddress;
-    expedited_voting_period: Duration.Amino;
-    expedited_threshold: string;
-    expedited_min_deposit: Coins.Amino;
-    burn_vote_quorum: boolean;
-    burn_proposal_deposit_prevote: boolean;
-    burn_vote_veto: boolean;
-    min_deposit_ratio: string;
-    emergency_min_deposit: Coins.Amino;
-    emergency_tally_interval: Duration.Amino;
-    low_threshold_functions: string[];
+    min_deposit: Coins.Amino
+    max_deposit_period: Duration.Amino
+    voting_period: Duration.Amino
+    quorum: string
+    threshold: string
+    veto_threshold: string
+    min_initial_deposit_ratio: string
+    proposal_cancel_ratio: string
+    proposal_cancel_dest: AccAddress
+    expedited_voting_period: Duration.Amino
+    expedited_threshold: string
+    expedited_min_deposit: Coins.Amino
+    burn_vote_quorum: boolean
+    burn_proposal_deposit_prevote: boolean
+    burn_vote_veto: boolean
+    min_deposit_ratio: string
+    emergency_min_deposit: Coins.Amino
+    emergency_tally_interval: Duration.Amino
+    low_threshold_functions: string[]
   }
 
   export interface Data {
-    min_deposit: Coins.Data;
-    max_deposit_period: Duration.Data;
-    voting_period: Duration.Data;
-    quorum: string;
-    threshold: string;
-    veto_threshold: string;
-    min_initial_deposit_ratio: string;
-    proposal_cancel_ratio: string;
-    proposal_cancel_dest: AccAddress;
-    expedited_voting_period: Duration.Data;
-    expedited_threshold: string;
-    expedited_min_deposit: Coins.Data;
-    burn_vote_quorum: boolean;
-    burn_proposal_deposit_prevote: boolean;
-    burn_vote_veto: boolean;
-    min_deposit_ratio: string;
-    emergency_min_deposit: Coins.Data;
-    emergency_tally_interval: Duration.Data;
-    low_threshold_functions: string[];
+    min_deposit: Coins.Data
+    max_deposit_period: Duration.Data
+    voting_period: Duration.Data
+    quorum: string
+    threshold: string
+    veto_threshold: string
+    min_initial_deposit_ratio: string
+    proposal_cancel_ratio: string
+    proposal_cancel_dest: AccAddress
+    expedited_voting_period: Duration.Data
+    expedited_threshold: string
+    expedited_min_deposit: Coins.Data
+    burn_vote_quorum: boolean
+    burn_proposal_deposit_prevote: boolean
+    burn_vote_veto: boolean
+    min_deposit_ratio: string
+    emergency_min_deposit: Coins.Data
+    emergency_tally_interval: Duration.Data
+    low_threshold_functions: string[]
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

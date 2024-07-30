@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { Coins } from '../../Coins';
-import { AccAddress, ValAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgBeginRedelegate as MsgBeginRedelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { Coins } from '../../Coins'
+import { AccAddress, ValAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgBeginRedelegate as MsgBeginRedelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
  * A delegator can choose to redelegate their bonded Initia and transfer a delegation
@@ -14,7 +14,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
   MsgBeginRedelegate.Data,
   MsgBeginRedelegate.Proto
 > {
-  public amount: Coins;
+  public amount: Coins
 
   /**
    *
@@ -29,8 +29,8 @@ export class MsgBeginRedelegate extends JSONSerializable<
     public validator_dst_address: ValAddress,
     amount: Coins.Input
   ) {
-    super();
-    this.amount = new Coins(amount);
+    super()
+    this.amount = new Coins(amount)
   }
 
   public static fromAmino(data: MsgBeginRedelegate.Amino): MsgBeginRedelegate {
@@ -41,13 +41,13 @@ export class MsgBeginRedelegate extends JSONSerializable<
         validator_dst_address,
         amount,
       },
-    } = data;
+    } = data
     return new MsgBeginRedelegate(
       delegator_address,
       validator_src_address,
       validator_dst_address,
       Coins.fromAmino(amount)
-    );
+    )
   }
 
   public toAmino(): MsgBeginRedelegate.Amino {
@@ -56,7 +56,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       amount,
-    } = this;
+    } = this
     return {
       type: 'mstaking/MsgBeginRedelegate',
       value: {
@@ -65,7 +65,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
         validator_dst_address,
         amount: amount.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(data: MsgBeginRedelegate.Data): MsgBeginRedelegate {
@@ -74,13 +74,13 @@ export class MsgBeginRedelegate extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       amount,
-    } = data;
+    } = data
     return new MsgBeginRedelegate(
       delegator_address,
       validator_src_address,
       validator_dst_address,
       Coins.fromData(amount)
-    );
+    )
   }
 
   public toData(): MsgBeginRedelegate.Data {
@@ -89,14 +89,14 @@ export class MsgBeginRedelegate extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       amount,
-    } = this;
+    } = this
     return {
       '@type': '/initia.mstaking.v1.MsgBeginRedelegate',
       delegator_address,
       validator_src_address,
       validator_dst_address,
       amount: amount.toData(),
-    };
+    }
   }
 
   public static fromProto(proto: MsgBeginRedelegate.Proto): MsgBeginRedelegate {
@@ -105,7 +105,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
       proto.validatorSrcAddress,
       proto.validatorDstAddress,
       Coins.fromProto(proto.amount as Coins.Proto)
-    );
+    )
   }
 
   public toProto(): MsgBeginRedelegate.Proto {
@@ -114,47 +114,47 @@ export class MsgBeginRedelegate extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       amount,
-    } = this;
+    } = this
     return MsgBeginRedelegate_pb.fromPartial({
       amount: amount.toProto(),
       delegatorAddress: delegator_address,
       validatorDstAddress: validator_dst_address,
       validatorSrcAddress: validator_src_address,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.mstaking.v1.MsgBeginRedelegate',
       value: MsgBeginRedelegate_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgBeginRedelegate {
     return MsgBeginRedelegate.fromProto(
       MsgBeginRedelegate_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgBeginRedelegate {
   export interface Amino {
-    type: 'mstaking/MsgBeginRedelegate';
+    type: 'mstaking/MsgBeginRedelegate'
     value: {
-      delegator_address: AccAddress;
-      validator_src_address: ValAddress;
-      validator_dst_address: ValAddress;
-      amount: Coins.Amino;
-    };
+      delegator_address: AccAddress
+      validator_src_address: ValAddress
+      validator_dst_address: ValAddress
+      amount: Coins.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/initia.mstaking.v1.MsgBeginRedelegate';
-    delegator_address: AccAddress;
-    validator_src_address: ValAddress;
-    validator_dst_address: ValAddress;
-    amount: Coins.Data;
+    '@type': '/initia.mstaking.v1.MsgBeginRedelegate'
+    delegator_address: AccAddress
+    validator_src_address: ValAddress
+    validator_dst_address: ValAddress
+    amount: Coins.Data
   }
 
-  export type Proto = MsgBeginRedelegate_pb;
+  export type Proto = MsgBeginRedelegate_pb
 }

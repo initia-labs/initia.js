@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgPayPacketFee as MsgPayPacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx';
-import { IbcFee } from '../IbcFee';
+import { JSONSerializable } from '../../../../../util/json'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgPayPacketFee as MsgPayPacketFee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx'
+import { IbcFee } from '../IbcFee'
 
 /**
  * MsgPayPacketFee defines the request type for the PayPacketFee rpc
@@ -26,20 +26,20 @@ export class MsgPayPacketFee extends JSONSerializable<
     public signer: string,
     public relayers: string[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgPayPacketFee {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgPayPacketFee.Data): MsgPayPacketFee {
-    const { fee, source_port_id, source_channel_id, signer, relayers } = data;
+    const { fee, source_port_id, source_channel_id, signer, relayers } = data
 
     return new MsgPayPacketFee(
       fee ? IbcFee.fromData(fee) : undefined,
@@ -47,11 +47,11 @@ export class MsgPayPacketFee extends JSONSerializable<
       source_channel_id,
       signer,
       relayers
-    );
+    )
   }
 
   public toData(): MsgPayPacketFee.Data {
-    const { fee, source_port_id, source_channel_id, signer, relayers } = this;
+    const { fee, source_port_id, source_channel_id, signer, relayers } = this
     return {
       '@type': '/ibc.applications.fee.v1.MsgPayPacketFee',
       fee: fee?.toData(),
@@ -59,7 +59,7 @@ export class MsgPayPacketFee extends JSONSerializable<
       source_channel_id,
       signer,
       relayers,
-    };
+    }
   }
 
   public static fromProto(proto: MsgPayPacketFee.Proto): MsgPayPacketFee {
@@ -69,41 +69,41 @@ export class MsgPayPacketFee extends JSONSerializable<
       proto.sourceChannelId,
       proto.signer,
       proto.relayers
-    );
+    )
   }
 
   public toProto(): MsgPayPacketFee.Proto {
-    const { fee, source_port_id, source_channel_id, signer, relayers } = this;
+    const { fee, source_port_id, source_channel_id, signer, relayers } = this
     return MsgPayPacketFee_pb.fromPartial({
       fee: fee?.toProto(),
       sourcePortId: source_port_id,
       sourceChannelId: source_channel_id,
       signer,
       relayers,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.applications.fee.v1.MsgPayPacketFee',
       value: MsgPayPacketFee_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgPayPacketFee {
-    return MsgPayPacketFee.fromProto(MsgPayPacketFee_pb.decode(msgAny.value));
+    return MsgPayPacketFee.fromProto(MsgPayPacketFee_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgPayPacketFee {
   export interface Data {
-    '@type': '/ibc.applications.fee.v1.MsgPayPacketFee';
-    fee?: IbcFee.Data;
-    source_port_id: string;
-    source_channel_id: string;
-    signer: string;
-    relayers: string[];
+    '@type': '/ibc.applications.fee.v1.MsgPayPacketFee'
+    fee?: IbcFee.Data
+    source_port_id: string
+    source_channel_id: string
+    signer: string
+    relayers: string[]
   }
 
-  export type Proto = MsgPayPacketFee_pb;
+  export type Proto = MsgPayPacketFee_pb
 }

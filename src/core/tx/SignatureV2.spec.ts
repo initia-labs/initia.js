@@ -1,13 +1,13 @@
-import { CompactBitArray } from './CompactBitArray';
-import { SimplePublicKey } from '../PublicKey';
-import { SignatureV2 } from './SignatureV2';
+import { CompactBitArray } from './CompactBitArray'
+import { SimplePublicKey } from '../PublicKey'
+import { SignatureV2 } from './SignatureV2'
 
 describe('SignatureV2', () => {
   it('conversion: single sign', () => {
-    const sequence = 1234;
+    const sequence = 1234
     //const data = new SignatureV2.Descriptor(
-    const signMode = SignatureV2.SignMode.SIGN_MODE_DIRECT;
-    const signature = 'fakesignature';
+    const signMode = SignatureV2.SignMode.SIGN_MODE_DIRECT
+    const signature = 'fakesignature'
 
     const sigv2 = new SignatureV2(
       new SimplePublicKey('A/PwvW/JLEnhb0/o5g+AnOqMN+FFT24gjJfDtA1tBsBv'),
@@ -15,25 +15,25 @@ describe('SignatureV2', () => {
         new SignatureV2.Descriptor.Single(signMode, signature)
       ),
       sequence
-    );
+    )
 
-    const toData = sigv2.toData();
-    const fromData = SignatureV2.fromData(toData);
-    const toData2 = fromData.toData();
+    const toData = sigv2.toData()
+    const fromData = SignatureV2.fromData(toData)
+    const toData2 = fromData.toData()
 
-    expect(toData.public_key).toEqual(toData2.public_key);
-    expect(toData.sequence).toEqual(toData2.sequence);
-    expect(toData.data).toEqual(toData2.data);
-  });
+    expect(toData.public_key).toEqual(toData2.public_key)
+    expect(toData.sequence).toEqual(toData2.sequence)
+    expect(toData.data).toEqual(toData2.data)
+  })
 
   it('conversion: multi sign', () => {
-    const sequence = 1234;
+    const sequence = 1234
     //const data = new SignatureV2.Descriptor(
-    const signMode = SignatureV2.SignMode.SIGN_MODE_LEGACY_AMINO_JSON;
-    const signature = 'fakesignature';
+    const signMode = SignatureV2.SignMode.SIGN_MODE_LEGACY_AMINO_JSON
+    const signature = 'fakesignature'
     const single = new SignatureV2.Descriptor(
       new SignatureV2.Descriptor.Single(signMode, signature)
-    );
+    )
 
     const sigv2 = new SignatureV2(
       new SimplePublicKey('A/PwvW/JLEnhb0/o5g+AnOqMN+FFT24gjJfDtA1tBsBv'),
@@ -44,14 +44,14 @@ describe('SignatureV2', () => {
         ])
       ),
       sequence
-    );
+    )
 
-    const toData = sigv2.toData();
-    const fromData = SignatureV2.fromData(toData);
-    const toData2 = fromData.toData();
+    const toData = sigv2.toData()
+    const fromData = SignatureV2.fromData(toData)
+    const toData2 = fromData.toData()
 
-    expect(toData.public_key).toEqual(toData2.public_key);
-    expect(toData.sequence).toEqual(toData2.sequence);
-    expect(toData.data).toEqual(toData2.data);
-  });
-});
+    expect(toData.public_key).toEqual(toData2.public_key)
+    expect(toData.sequence).toEqual(toData2.sequence)
+    expect(toData.data).toEqual(toData2.data)
+  })
+})

@@ -1,1 +1,1 @@
-export * from './ParameterChangeProposal';
+export * from './ParameterChangeProposal'

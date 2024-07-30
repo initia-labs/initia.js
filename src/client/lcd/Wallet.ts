@@ -1,46 +1,49 @@
-import { LCDClient } from './LCDClient';
-import { Key } from '../../key';
-import { CreateTxOptions } from '../lcd/api/TxAPI';
-import { Tx } from '../../core';
-import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing';
+import { LCDClient } from './LCDClient'
+import { Key } from '../../key'
+import { CreateTxOptions } from '../lcd/api/TxAPI'
+import { Tx } from '../../core'
+import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing'
 
 export class Wallet {
-  private accAddress: string;
-  constructor(public lcd: LCDClient, public key: Key) {
-    this.accAddress = key.accAddress;
+  private accAddress: string
+  constructor(
+    public lcd: LCDClient,
+    public key: Key
+  ) {
+    this.accAddress = key.accAddress
   }
 
   public setAccountAddress(accAddress: string) {
-    this.accAddress = accAddress;
+    this.accAddress = accAddress
   }
 
   public async accountNumberAndSequence(): Promise<{
-    account_number: number;
-    sequence: number;
+    account_number: number
+    sequence: number
   }> {
-    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
+    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
       return {
         account_number: d.getAccountNumber(),
         sequence: d.getSequenceNumber(),
-      };
-    });
+      }
+    })
   }
 
   public async accountNumber(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
-      return d.getAccountNumber();
-    });
+    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
+      return d.getAccountNumber()
+    })
   }
 
   public async sequence(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.accAddress).then(d => {
-      return d.getSequenceNumber();
-    });
+    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
+      return d.getSequenceNumber()
+    })
   }
 
   public async createTx(
     options: CreateTxOptions & {
-      sequence?: number;
+      sequence?: number
     }
   ): Promise<Tx> {
     return this.lcd.tx.create(
@@ -52,43 +55,43 @@ export class Wallet {
         },
       ],
       options
-    );
+    )
   }
 
   public async createAndSignTx(
     options: CreateTxOptions & {
-      sequence?: number;
-      accountNumber?: number;
-      signMode?: SignMode;
+      sequence?: number
+      accountNumber?: number
+      signMode?: SignMode
     }
   ): Promise<Tx> {
     if (!this.lcd.config.chainId) {
-      this.lcd.config.chainId = await this.lcd.tendermint.chainId();
+      this.lcd.config.chainId = await this.lcd.tendermint.chainId()
     }
 
-    let accountNumber = options.accountNumber;
-    let sequence = options.sequence;
+    let accountNumber = options.accountNumber
+    let sequence = options.sequence
 
     if (accountNumber === undefined || sequence === undefined) {
-      const res = await this.accountNumberAndSequence();
+      const res = await this.accountNumberAndSequence()
       if (accountNumber === undefined) {
-        accountNumber = res.account_number;
+        accountNumber = res.account_number
       }
 
       if (sequence === undefined) {
-        sequence = res.sequence;
+        sequence = res.sequence
       }
     }
 
-    options.sequence = sequence;
-    options.accountNumber = accountNumber;
+    options.sequence = sequence
+    options.accountNumber = accountNumber
 
-    const tx = await this.createTx(options);
+    const tx = await this.createTx(options)
     return this.key.signTx(tx, {
       accountNumber,
       sequence,
       chainId: this.lcd.config.chainId,
       signMode: options.signMode ?? SignMode.SIGN_MODE_DIRECT,
-    });
+    })
   }
 }

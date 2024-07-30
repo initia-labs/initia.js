@@ -1,16 +1,16 @@
-import { JSONSerializable } from '../../../util/json';
-import { Coins } from '../../Coins';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgStoreAndInstantiateContract as MsgStoreAndInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx';
-import { AccessConfig } from '../AccessConfig';
+import { JSONSerializable } from '../../../util/json'
+import { Coins } from '../../Coins'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgStoreAndInstantiateContract as MsgStoreAndInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
+import { AccessConfig } from '../AccessConfig'
 
 export class MsgStoreAndInstantiateContract extends JSONSerializable<
   MsgStoreAndInstantiateContract.Amino,
   MsgStoreAndInstantiateContract.Data,
   MsgStoreAndInstantiateContract.Proto
 > {
-  public funds: Coins;
+  public funds: Coins
   /**
    * @param authority the address of the governance account
    * @param wasm_byte_code can be raw or gzip compressed
@@ -37,8 +37,8 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
     public builder: string,
     public code_hash: string
   ) {
-    super();
-    this.funds = new Coins(funds);
+    super()
+    this.funds = new Coins(funds)
   }
 
   public static fromAmino(
@@ -58,7 +58,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
         builder,
         code_hash,
       },
-    } = data;
+    } = data
 
     return new MsgStoreAndInstantiateContract(
       authority,
@@ -74,7 +74,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash
-    );
+    )
   }
 
   public toAmino(): MsgStoreAndInstantiateContract.Amino {
@@ -90,7 +90,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash,
-    } = this;
+    } = this
 
     return {
       type: 'wasm/MsgStoreAndInstantiateContract',
@@ -107,7 +107,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
         builder,
         code_hash,
       },
-    };
+    }
   }
 
   public static fromData(
@@ -125,7 +125,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash,
-    } = data;
+    } = data
 
     return new MsgStoreAndInstantiateContract(
       authority,
@@ -141,7 +141,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash
-    );
+    )
   }
 
   public toData(): MsgStoreAndInstantiateContract.Data {
@@ -157,7 +157,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash,
-    } = this;
+    } = this
 
     return {
       '@type': '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract',
@@ -172,7 +172,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash,
-    };
+    }
   }
 
   public static fromProto(
@@ -192,7 +192,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       data.source,
       data.builder,
       Buffer.from(data.codeHash).toString('base64')
-    );
+    )
   }
 
   public toProto(): MsgStoreAndInstantiateContract.Proto {
@@ -208,7 +208,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       code_hash,
-    } = this;
+    } = this
 
     return MsgStoreAndInstantiateContract_pb.fromPartial({
       authority,
@@ -222,55 +222,55 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       source,
       builder,
       codeHash: Buffer.from(code_hash, 'base64'),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract',
       value: MsgStoreAndInstantiateContract_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgStoreAndInstantiateContract {
     return MsgStoreAndInstantiateContract.fromProto(
       MsgStoreAndInstantiateContract_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgStoreAndInstantiateContract {
   export interface Amino {
-    type: 'wasm/MsgStoreAndInstantiateContract';
+    type: 'wasm/MsgStoreAndInstantiateContract'
     value: {
-      authority: AccAddress;
-      wasm_byte_code: string;
-      instantiate_permission?: AccessConfig.Amino;
-      unpin_code?: boolean;
-      admin?: AccAddress;
-      label?: string;
-      msg: string;
-      funds: Coins.Amino;
-      source: string;
-      builder: string;
-      code_hash: string;
-    };
+      authority: AccAddress
+      wasm_byte_code: string
+      instantiate_permission?: AccessConfig.Amino
+      unpin_code?: boolean
+      admin?: AccAddress
+      label?: string
+      msg: string
+      funds: Coins.Amino
+      source: string
+      builder: string
+      code_hash: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract';
-    authority: AccAddress;
-    wasm_byte_code: string;
-    instantiate_permission?: AccessConfig.Data;
-    unpin_code?: boolean;
-    admin?: AccAddress;
-    label?: string;
-    msg: string;
-    funds: Coins.Amino;
-    source: string;
-    builder: string;
-    code_hash: string;
+    '@type': '/cosmwasm.wasm.v1.MsgStoreAndInstantiateContract'
+    authority: AccAddress
+    wasm_byte_code: string
+    instantiate_permission?: AccessConfig.Data
+    unpin_code?: boolean
+    admin?: AccAddress
+    label?: string
+    msg: string
+    funds: Coins.Amino
+    source: string
+    builder: string
+    code_hash: string
   }
 
-  export type Proto = MsgStoreAndInstantiateContract_pb;
+  export type Proto = MsgStoreAndInstantiateContract_pb
 }

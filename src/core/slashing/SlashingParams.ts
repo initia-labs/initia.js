@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../util/json';
-import { Duration } from '../Duration';
-import { Params as Params_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing';
-import Long from 'long';
+import { JSONSerializable } from '../../util/json'
+import { Duration } from '../Duration'
+import { Params as Params_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing'
+import Long from 'long'
 
 export class SlashingParams extends JSONSerializable<
   SlashingParams.Amino,
@@ -22,7 +22,7 @@ export class SlashingParams extends JSONSerializable<
     public slash_fraction_double_sign: number,
     public slash_fraction_downtime: number
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: SlashingParams.Amino): SlashingParams {
@@ -34,7 +34,7 @@ export class SlashingParams extends JSONSerializable<
         slash_fraction_double_sign,
         slash_fraction_downtime,
       },
-    } = data;
+    } = data
 
     return new SlashingParams(
       Number.parseInt(signed_blocks_window),
@@ -42,7 +42,7 @@ export class SlashingParams extends JSONSerializable<
       Duration.fromAmino(downtime_jail_duration),
       Number.parseInt(slash_fraction_double_sign),
       Number.parseInt(slash_fraction_downtime)
-    );
+    )
   }
 
   public toAmino(): SlashingParams.Amino {
@@ -52,7 +52,7 @@ export class SlashingParams extends JSONSerializable<
       downtime_jail_duration,
       slash_fraction_double_sign,
       slash_fraction_downtime,
-    } = this;
+    } = this
 
     return {
       type: 'cosmos-sdk/x/slashing/Params',
@@ -63,7 +63,7 @@ export class SlashingParams extends JSONSerializable<
         slash_fraction_double_sign: slash_fraction_double_sign.toString(),
         slash_fraction_downtime: slash_fraction_downtime.toString(),
       },
-    };
+    }
   }
 
   public static fromData(data: SlashingParams.Data): SlashingParams {
@@ -73,7 +73,7 @@ export class SlashingParams extends JSONSerializable<
       downtime_jail_duration,
       slash_fraction_double_sign,
       slash_fraction_downtime,
-    } = data;
+    } = data
 
     return new SlashingParams(
       Number.parseInt(signed_blocks_window),
@@ -81,7 +81,7 @@ export class SlashingParams extends JSONSerializable<
       Duration.fromData(downtime_jail_duration),
       Number.parseInt(slash_fraction_double_sign),
       Number.parseInt(slash_fraction_downtime)
-    );
+    )
   }
 
   public toData(): SlashingParams.Data {
@@ -91,7 +91,7 @@ export class SlashingParams extends JSONSerializable<
       downtime_jail_duration,
       slash_fraction_double_sign,
       slash_fraction_downtime,
-    } = this;
+    } = this
 
     return {
       '@type': '/cosmos.slashing.v1beta1.Params',
@@ -100,7 +100,7 @@ export class SlashingParams extends JSONSerializable<
       downtime_jail_duration: downtime_jail_duration.toData(),
       slash_fraction_double_sign: slash_fraction_double_sign.toString(),
       slash_fraction_downtime: slash_fraction_downtime.toString(),
-    };
+    }
   }
 
   public static fromProto(data: SlashingParams.Proto): SlashingParams {
@@ -110,7 +110,7 @@ export class SlashingParams extends JSONSerializable<
       Duration.fromProto(data.downtimeJailDuration as Duration.Proto),
       Number.parseFloat(data.slashFractionDoubleSign.toString()),
       Number.parseFloat(data.slashFractionDowntime.toString())
-    );
+    )
   }
 
   public toProto(): SlashingParams.Proto {
@@ -120,7 +120,7 @@ export class SlashingParams extends JSONSerializable<
       downtime_jail_duration,
       slash_fraction_double_sign,
       slash_fraction_downtime,
-    } = this;
+    } = this
 
     return Params_pb.fromPartial({
       signedBlocksWindow: Long.fromNumber(signed_blocks_window),
@@ -130,30 +130,30 @@ export class SlashingParams extends JSONSerializable<
         slash_fraction_double_sign.toString()
       ),
       slashFractionDowntime: Buffer.from(slash_fraction_downtime.toString()),
-    });
+    })
   }
 }
 
 export namespace SlashingParams {
   export interface Amino {
-    type: 'cosmos-sdk/x/slashing/Params';
+    type: 'cosmos-sdk/x/slashing/Params'
     value: {
-      signed_blocks_window: string;
-      min_signed_per_window: string;
-      downtime_jail_duration: Duration.Amino;
-      slash_fraction_double_sign: string;
-      slash_fraction_downtime: string;
-    };
+      signed_blocks_window: string
+      min_signed_per_window: string
+      downtime_jail_duration: Duration.Amino
+      slash_fraction_double_sign: string
+      slash_fraction_downtime: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.slashing.v1beta1.Params';
-    signed_blocks_window: string;
-    min_signed_per_window: string;
-    downtime_jail_duration: Duration.Data;
-    slash_fraction_double_sign: string;
-    slash_fraction_downtime: string;
+    '@type': '/cosmos.slashing.v1beta1.Params'
+    signed_blocks_window: string
+    min_signed_per_window: string
+    downtime_jail_duration: Duration.Data
+    slash_fraction_double_sign: string
+    slash_fraction_downtime: string
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

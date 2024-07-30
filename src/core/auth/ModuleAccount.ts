@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../util/json';
-import { PublicKey } from '../PublicKey';
-import { BaseAccount } from './BaseAccount';
-import { ModuleAccount as ModuleAccount_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/auth';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
+import { JSONSerializable } from '../../util/json'
+import { PublicKey } from '../PublicKey'
+import { BaseAccount } from './BaseAccount'
+import { ModuleAccount as ModuleAccount_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/auth'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
  * Stores information about an account for modules that holds coins on a pool.
@@ -23,25 +23,25 @@ export class ModuleAccount extends JSONSerializable<
     public name: string,
     public permissions: string[]
   ) {
-    super();
+    super()
   }
 
   public getAccountNumber(): number {
-    return this.base_account.account_number;
+    return this.base_account.account_number
   }
 
   public getSequenceNumber(): number {
-    return this.base_account.sequence;
+    return this.base_account.sequence
   }
 
   public getPublicKey(): PublicKey | undefined {
-    return this.base_account.public_key;
+    return this.base_account.public_key
   }
 
   public static fromAmino(data: ModuleAccount.Amino): ModuleAccount {
     const {
       value: { base_account, name, permissions },
-    } = data;
+    } = data
 
     return new ModuleAccount(
       BaseAccount.fromAmino({
@@ -50,11 +50,11 @@ export class ModuleAccount extends JSONSerializable<
       }),
       name,
       permissions
-    );
+    )
   }
 
   public toAmino(): ModuleAccount.Amino {
-    const { base_account, name, permissions } = this;
+    const { base_account, name, permissions } = this
     return {
       type: 'cosmos-sdk/ModuleAccount',
       value: {
@@ -62,11 +62,11 @@ export class ModuleAccount extends JSONSerializable<
         name,
         permissions,
       },
-    };
+    }
   }
 
   public static fromData(data: ModuleAccount.Data): ModuleAccount {
-    const { base_account, name, permissions } = data;
+    const { base_account, name, permissions } = data
 
     return new ModuleAccount(
       BaseAccount.fromData({
@@ -75,17 +75,17 @@ export class ModuleAccount extends JSONSerializable<
       }),
       name,
       permissions
-    );
+    )
   }
 
   public toData(): ModuleAccount.Data {
-    const { base_account, name, permissions } = this;
+    const { base_account, name, permissions } = this
     return {
       '@type': '/cosmos.auth.v1beta1.ModuleAccount',
       base_account: base_account.toData(),
       name,
       permissions,
-    };
+    }
   }
 
   public static fromProto(proto: ModuleAccount.Proto): ModuleAccount {
@@ -93,46 +93,46 @@ export class ModuleAccount extends JSONSerializable<
       BaseAccount.fromProto(proto.baseAccount as BaseAccount.Proto),
       proto.name,
       proto.permissions
-    );
+    )
   }
 
   public toProto(): ModuleAccount.Proto {
-    const { base_account, name, permissions } = this;
+    const { base_account, name, permissions } = this
     return ModuleAccount_pb.fromPartial({
       baseAccount: base_account.toProto(),
       name,
       permissions,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.auth.v1beta1.ModuleAccount',
       value: ModuleAccount_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(pubkeyAny: Any): ModuleAccount {
-    return ModuleAccount.fromProto(ModuleAccount_pb.decode(pubkeyAny.value));
+    return ModuleAccount.fromProto(ModuleAccount_pb.decode(pubkeyAny.value))
   }
 }
 
 export namespace ModuleAccount {
   export interface Amino {
-    type: 'cosmos-sdk/ModuleAccount';
+    type: 'cosmos-sdk/ModuleAccount'
     value: {
-      base_account: BaseAccount.AminoValue;
-      name: string;
-      permissions: string[];
-    };
+      base_account: BaseAccount.AminoValue
+      name: string
+      permissions: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.auth.v1beta1.ModuleAccount';
-    base_account: BaseAccount.DataValue;
-    name: string;
-    permissions: string[];
+    '@type': '/cosmos.auth.v1beta1.ModuleAccount'
+    base_account: BaseAccount.DataValue
+    name: string
+    permissions: string[]
   }
 
-  export type Proto = ModuleAccount_pb;
+  export type Proto = ModuleAccount_pb
 }

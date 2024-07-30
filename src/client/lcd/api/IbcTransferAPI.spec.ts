@@ -1,18 +1,18 @@
-import { APIRequester } from '../APIRequester';
-import { IbcTransferAPI } from './IbcTransferAPI';
-import { DenomTrace } from '../../../core/ibc/applications/transfer/v1/DenomTrace';
+import { APIRequester } from '../APIRequester'
+import { IbcTransferAPI } from './IbcTransferAPI'
+import { DenomTrace } from '../../../core/ibc/applications/transfer/v1/DenomTrace'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const ibctx = new IbcTransferAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const ibctx = new IbcTransferAPI(c)
 
 describe('IbcTransferAPI', () => {
   it('denomTraces', async () => {
-    const denomTraces = await ibctx.denomTraces().then(v => v[0]);
+    const denomTraces = await ibctx.denomTraces().then((v) => v[0])
     denomTraces.forEach(function (denomTrace: DenomTrace.Data) {
-      expect(denomTrace.path).toMatch('transfer/channel-');
-      expect(denomTrace.base_denom).not.toBeUndefined();
-    });
-  });
+      expect(denomTrace.path).toMatch('transfer/channel-')
+      expect(denomTrace.base_denom).not.toBeUndefined()
+    })
+  })
 
   // it('denomTrace', async () => {
   //   const denomTrace = await ibctx.denomTrace(
@@ -23,8 +23,8 @@ describe('IbcTransferAPI', () => {
   // });
 
   it('params', async () => {
-    const param = await ibctx.parameters();
-    expect(param.send_enabled).toEqual(expect.any(Boolean));
-    expect(param.receive_enabled).toEqual(expect.any(Boolean));
-  });
-});
+    const param = await ibctx.parameters()
+    expect(param.send_enabled).toEqual(expect.any(Boolean))
+    expect(param.receive_enabled).toEqual(expect.any(Boolean))
+  })
+})

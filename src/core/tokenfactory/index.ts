@@ -1,2 +1,2 @@
-export * from './msgs';
-export * from './TokenfactoryParams';
+export * from './msgs'
+export * from './TokenfactoryParams'

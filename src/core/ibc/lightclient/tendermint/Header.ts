@@ -1,11 +1,11 @@
-import { JSONSerializable } from '../../../../util/json';
-import { Header as Header_pb } from '@initia/initia.proto/ibc/lightclients/tendermint/v1/tendermint';
-import { Height } from '../../core/client/Height';
+import { JSONSerializable } from '../../../../util/json'
+import { Header as Header_pb } from '@initia/initia.proto/ibc/lightclients/tendermint/v1/tendermint'
+import { Height } from '../../core/client/Height'
 import {
   SignedHeader,
   ValidatorSet,
-} from '../../core/client/msgs/tendermint/types';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
+} from '../../core/client/msgs/tendermint/types'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
  * Header defines the Tendermint client consensus Header.
@@ -34,16 +34,16 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     public trustedHeight?: Height,
     public trustedValidators?: ValidatorSet
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): Header {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: Header.Data): Header {
@@ -52,67 +52,67 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       validator_set: validatorSet,
       trusted_height: trustedHeight,
       trusted_validators: trustedValidators,
-    } = data;
+    } = data
     return new Header(
       signedHeader ? SignedHeader.fromData(signedHeader) : undefined,
       validatorSet ? ValidatorSet.fromData(validatorSet) : undefined,
       trustedHeight ? Height.fromData(trustedHeight) : undefined,
       trustedValidators ? ValidatorSet.fromData(trustedValidators) : undefined
-    );
+    )
   }
 
   public toData(): Header.Data {
     const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
-      this;
+      this
     return {
       signed_header: signedHeader?.toData(),
       validator_set: validatorSet?.toData(),
       trusted_height: trustedHeight?.toData(),
       trusted_validators: trustedValidators?.toData(),
-    };
+    }
   }
 
   public static fromProto(proto: Header.Proto): Header {
     const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
-      proto;
+      proto
     return new Header(
       signedHeader ? SignedHeader.fromProto(signedHeader) : undefined,
       validatorSet ? ValidatorSet.fromProto(validatorSet) : undefined,
       trustedHeight ? Height.fromProto(trustedHeight) : undefined,
       trustedValidators ? ValidatorSet.fromProto(trustedValidators) : undefined
-    );
+    )
   }
 
   public toProto(): Header.Proto {
     const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
-      this;
+      this
     return Header_pb.fromPartial({
       signedHeader: signedHeader?.toProto(),
       validatorSet: validatorSet?.toProto(),
       trustedHeight: trustedHeight?.toProto(),
       trustedValidators: trustedValidators?.toProto(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: 'ibc.lightclients.tendermint.v1.Header',
       value: Header_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): Header {
-    return Header.fromProto(Header_pb.decode(msgAny.value));
+    return Header.fromProto(Header_pb.decode(msgAny.value))
   }
 }
 
 export namespace Header {
   export interface Data {
-    signed_header?: SignedHeader.Data;
-    validator_set?: ValidatorSet.Data;
-    trusted_height?: Height.Data;
-    trusted_validators?: ValidatorSet.Data;
+    signed_header?: SignedHeader.Data
+    validator_set?: ValidatorSet.Data
+    trusted_height?: Height.Data
+    trusted_validators?: ValidatorSet.Data
   }
 
-  export type Proto = Header_pb;
+  export type Proto = Header_pb
 }

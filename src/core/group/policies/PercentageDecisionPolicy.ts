@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { DecisionPolicyWindows } from './DecisionPolicyWindows';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { PercentageDecisionPolicy as PercentageDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/types';
+import { JSONSerializable } from '../../../util/json'
+import { DecisionPolicyWindows } from './DecisionPolicyWindows'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { PercentageDecisionPolicy as PercentageDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
 export class PercentageDecisionPolicy extends JSONSerializable<
   PercentageDecisionPolicy.Amino,
@@ -16,7 +16,7 @@ export class PercentageDecisionPolicy extends JSONSerializable<
     public percentage: string,
     public windows: DecisionPolicyWindows
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -24,41 +24,41 @@ export class PercentageDecisionPolicy extends JSONSerializable<
   ): PercentageDecisionPolicy {
     const {
       value: { percentage, windows },
-    } = data;
+    } = data
     return new PercentageDecisionPolicy(
       percentage,
       DecisionPolicyWindows.fromAmino(windows)
-    );
+    )
   }
 
   public toAmino(): PercentageDecisionPolicy.Amino {
-    const { percentage, windows } = this;
+    const { percentage, windows } = this
     return {
       type: 'cosmos-sdk/PercentageDecisionPolicy',
       value: {
         percentage,
         windows: windows.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
     data: PercentageDecisionPolicy.Data
   ): PercentageDecisionPolicy {
-    const { percentage, windows } = data;
+    const { percentage, windows } = data
     return new PercentageDecisionPolicy(
       percentage,
       DecisionPolicyWindows.fromData(windows)
-    );
+    )
   }
 
   public toData(): PercentageDecisionPolicy.Data {
-    const { percentage, windows } = this;
+    const { percentage, windows } = this
     return {
       '@type': '/cosmos.group.v1.PercentageDecisionPolicy',
       percentage,
       windows: windows.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -69,45 +69,45 @@ export class PercentageDecisionPolicy extends JSONSerializable<
       DecisionPolicyWindows.fromProto(
         data.windows as DecisionPolicyWindows.Proto
       )
-    );
+    )
   }
 
   public toProto(): PercentageDecisionPolicy.Proto {
-    const { percentage, windows } = this;
+    const { percentage, windows } = this
     return PercentageDecisionPolicy_pb.fromPartial({
       percentage,
       windows: windows.toProto(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.group.v1.PercentageDecisionPolicy',
       value: PercentageDecisionPolicy_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): PercentageDecisionPolicy {
     return PercentageDecisionPolicy.fromProto(
       PercentageDecisionPolicy_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace PercentageDecisionPolicy {
   export interface Amino {
-    type: 'cosmos-sdk/PercentageDecisionPolicy';
+    type: 'cosmos-sdk/PercentageDecisionPolicy'
     value: {
-      percentage: string;
-      windows: DecisionPolicyWindows.Amino;
-    };
+      percentage: string
+      windows: DecisionPolicyWindows.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.group.v1.PercentageDecisionPolicy';
-    percentage: string;
-    windows: DecisionPolicyWindows.Data;
+    '@type': '/cosmos.group.v1.PercentageDecisionPolicy'
+    percentage: string
+    windows: DecisionPolicyWindows.Data
   }
 
-  export type Proto = PercentageDecisionPolicy_pb;
+  export type Proto = PercentageDecisionPolicy_pb
 }

@@ -1,6 +1,6 @@
-import { LCDClient } from './lcd/LCDClient';
-import { Wallet } from './lcd/Wallet';
-import { MnemonicKey } from '../key/MnemonicKey';
+import { LCDClient } from './lcd/LCDClient'
+import { Wallet } from './lcd/Wallet'
+import { MnemonicKey } from '../key/MnemonicKey'
 
 const LOCALINITIA_MNEMONICS = {
   validator:
@@ -25,25 +25,25 @@ const LOCALINITIA_MNEMONICS = {
     'index light average senior silent limit usual local involve delay update rack cause inmate wall render magnet common feature laundry exact casual resource hundred',
   test10:
     'prefer forget visit mistake mixture feel eyebrow autumn shop pair address airport diesel street pass vague innocent poem method awful require hurry unhappy shoulder',
-};
+}
 
 export class LocalInitia extends LCDClient {
   public wallets: {
-    validator: Wallet;
-    test1: Wallet;
-    test2: Wallet;
-    test3: Wallet;
-    test4: Wallet;
-    test5: Wallet;
-    test6: Wallet;
-    test7: Wallet;
-    test8: Wallet;
-    test9: Wallet;
-    test10: Wallet;
-  };
+    validator: Wallet
+    test1: Wallet
+    test2: Wallet
+    test3: Wallet
+    test4: Wallet
+    test5: Wallet
+    test6: Wallet
+    test7: Wallet
+    test8: Wallet
+    test9: Wallet
+    test10: Wallet
+  }
 
   constructor() {
-    super('https://stone-rest.initia.tech', { chainId: 'localinitia' });
+    super('https://stone-rest.initia.tech', { chainId: 'localinitia' })
 
     this.wallets = {
       validator: this.wallet(
@@ -79,6 +79,6 @@ export class LocalInitia extends LCDClient {
       test10: this.wallet(
         new MnemonicKey({ mnemonic: LOCALINITIA_MNEMONICS.test10 })
       ),
-    };
+    }
   }
 }

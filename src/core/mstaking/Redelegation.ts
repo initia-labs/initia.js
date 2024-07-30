@@ -1,13 +1,13 @@
-import { JSONSerializable } from '../../util/json';
-import { Coins } from '../Coins';
-import { AccAddress, ValAddress } from '../bech32';
+import { JSONSerializable } from '../../util/json'
+import { Coins } from '../Coins'
+import { AccAddress, ValAddress } from '../bech32'
 import {
   RedelegationResponse as RedelegationResponse_pb,
   Redelegation as Redelegation_pb,
   RedelegationEntry as RedelegationEntry_pb,
   RedelegationEntryResponse as RedelegationEntryResponse_pb,
-} from '@initia/initia.proto/initia/mstaking/v1/staking';
-import Long from 'long';
+} from '@initia/initia.proto/initia/mstaking/v1/staking'
+import Long from 'long'
 
 /**
  * A redelegation is when a delegator decides to stop mstaking with one validator and
@@ -39,7 +39,7 @@ export class Redelegation extends JSONSerializable<
     public validator_dst_address: ValAddress,
     public entries: Redelegation.Entry[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: Redelegation.Amino): Redelegation {
@@ -50,13 +50,13 @@ export class Redelegation extends JSONSerializable<
         validator_dst_address,
       },
       entries,
-    } = data;
+    } = data
     return new Redelegation(
       delegator_address,
       validator_src_address,
       validator_dst_address,
-      entries.map(e => Redelegation.Entry.fromAmino(e))
-    );
+      entries.map((e) => Redelegation.Entry.fromAmino(e))
+    )
   }
 
   public toAmino(): Redelegation.Amino {
@@ -65,15 +65,15 @@ export class Redelegation extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       entries,
-    } = this;
+    } = this
     return {
       redelegation: {
         delegator_address,
         validator_src_address,
         validator_dst_address,
       },
-      entries: entries.map(e => e.toAmino()),
-    };
+      entries: entries.map((e) => e.toAmino()),
+    }
   }
 
   public static fromData(data: Redelegation.Data): Redelegation {
@@ -84,13 +84,13 @@ export class Redelegation extends JSONSerializable<
         validator_dst_address,
       },
       entries,
-    } = data;
+    } = data
     return new Redelegation(
       delegator_address,
       validator_src_address,
       validator_dst_address,
-      entries.map(e => Redelegation.Entry.fromData(e))
-    );
+      entries.map((e) => Redelegation.Entry.fromData(e))
+    )
   }
 
   public toData(): Redelegation.Data {
@@ -99,25 +99,25 @@ export class Redelegation extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       entries,
-    } = this;
+    } = this
     return {
       redelegation: {
         delegator_address,
         validator_src_address,
         validator_dst_address,
       },
-      entries: entries.map(e => e.toData()),
-    };
+      entries: entries.map((e) => e.toData()),
+    }
   }
 
   public static fromProto(data: Redelegation.Proto): Redelegation {
-    const redelegationProto = data.redelegation as Redelegation_pb;
+    const redelegationProto = data.redelegation as Redelegation_pb
     return new Redelegation(
       redelegationProto.delegatorAddress,
       redelegationProto.validatorDstAddress,
       redelegationProto.validatorDstAddress,
-      data.entries.map(e => Redelegation.Entry.fromProto(e))
-    );
+      data.entries.map((e) => Redelegation.Entry.fromProto(e))
+    )
   }
 
   public toProto(): Redelegation.Proto {
@@ -126,51 +126,51 @@ export class Redelegation extends JSONSerializable<
       validator_src_address,
       validator_dst_address,
       entries,
-    } = this;
+    } = this
 
     return RedelegationResponse_pb.fromPartial({
-      entries: entries.map(e => e.toProto()),
+      entries: entries.map((e) => e.toProto()),
       redelegation: Redelegation_pb.fromPartial({
         delegatorAddress: delegator_address,
         entries: entries.map(
-          e => e.toProto().redelegationEntry as RedelegationEntry_pb
+          (e) => e.toProto().redelegationEntry as RedelegationEntry_pb
         ),
         validatorDstAddress: validator_dst_address,
         validatorSrcAddress: validator_src_address,
       }),
-    });
+    })
   }
 }
 
 export namespace Redelegation {
   export interface Amino {
     redelegation: {
-      delegator_address: AccAddress;
-      validator_src_address: ValAddress;
-      validator_dst_address: ValAddress;
-    };
-    entries: Redelegation.Entry.Amino[];
+      delegator_address: AccAddress
+      validator_src_address: ValAddress
+      validator_dst_address: ValAddress
+    }
+    entries: Redelegation.Entry.Amino[]
   }
 
   export interface Data {
     redelegation: {
-      delegator_address: AccAddress;
-      validator_src_address: ValAddress;
-      validator_dst_address: ValAddress;
-    };
-    entries: Redelegation.Entry.Data[];
+      delegator_address: AccAddress
+      validator_src_address: ValAddress
+      validator_dst_address: ValAddress
+    }
+    entries: Redelegation.Entry.Data[]
   }
 
-  export type Proto = RedelegationResponse_pb;
+  export type Proto = RedelegationResponse_pb
 
   export class Entry extends JSONSerializable<
     Entry.Amino,
     Entry.Data,
     Entry.Proto
   > {
-    public initial_balance: Coins;
-    public shares_dst: Coins;
-    public balance: Coins;
+    public initial_balance: Coins
+    public shares_dst: Coins
+    public balance: Coins
 
     /**
      *
@@ -186,10 +186,10 @@ export namespace Redelegation {
       public creation_height: number,
       public completion_time: Date
     ) {
-      super();
-      this.initial_balance = new Coins(initial_balance);
-      this.balance = new Coins(balance);
-      this.shares_dst = new Coins(shares_dst);
+      super()
+      this.initial_balance = new Coins(initial_balance)
+      this.balance = new Coins(balance)
+      this.shares_dst = new Coins(shares_dst)
     }
 
     public toAmino(): Entry.Amino {
@@ -201,7 +201,7 @@ export namespace Redelegation {
           completion_time: this.completion_time.toISOString(),
         },
         balance: this.balance.toAmino(),
-      };
+      }
     }
 
     public static fromAmino(data: Entry.Amino): Entry {
@@ -213,14 +213,14 @@ export namespace Redelegation {
           completion_time,
         },
         balance,
-      } = data;
+      } = data
       return new Entry(
         Coins.fromAmino(initial_balance),
         Coins.fromAmino(balance),
         Coins.fromAmino(shares_dst),
         creation_height,
         new Date(completion_time)
-      );
+      )
     }
 
     public toData(): Entry.Data {
@@ -232,7 +232,7 @@ export namespace Redelegation {
           completion_time: this.completion_time.toISOString(),
         },
         balance: this.balance.toData(),
-      };
+      }
     }
 
     public static fromData(data: Entry.Data): Entry {
@@ -244,14 +244,14 @@ export namespace Redelegation {
           completion_time,
         },
         balance,
-      } = data;
+      } = data
       return new Entry(
         Coins.fromData(initial_balance),
         Coins.fromData(balance),
         Coins.fromData(shares_dst),
         creation_height,
         new Date(completion_time)
-      );
+      )
     }
 
     public toProto(): Entry.Proto {
@@ -261,7 +261,7 @@ export namespace Redelegation {
         shares_dst,
         creation_height,
         completion_time,
-      } = this;
+      } = this
 
       return RedelegationEntryResponse_pb.fromPartial({
         balance: balance.toProto(),
@@ -271,12 +271,12 @@ export namespace Redelegation {
           initialBalance: initial_balance.toProto(),
           sharesDst: shares_dst.toProto(),
         }),
-      });
+      })
     }
 
     public static fromProto(proto: Entry.Proto): Entry {
       const redelegationEntryProto =
-        proto.redelegationEntry as RedelegationEntry_pb;
+        proto.redelegationEntry as RedelegationEntry_pb
 
       return new Entry(
         Coins.fromProto(redelegationEntryProto.initialBalance),
@@ -284,31 +284,31 @@ export namespace Redelegation {
         Coins.fromProto(redelegationEntryProto.sharesDst),
         redelegationEntryProto.creationHeight.toNumber(),
         redelegationEntryProto.completionTime as Date
-      );
+      )
     }
   }
 
   export namespace Entry {
     export interface Amino {
       redelegation_entry: {
-        creation_height: number;
-        completion_time: string;
-        initial_balance: Coins.Amino;
-        shares_dst: Coins.Amino;
-      };
-      balance: Coins.Amino;
+        creation_height: number
+        completion_time: string
+        initial_balance: Coins.Amino
+        shares_dst: Coins.Amino
+      }
+      balance: Coins.Amino
     }
 
     export interface Data {
       redelegation_entry: {
-        creation_height: number;
-        completion_time: string;
-        initial_balance: Coins.Data;
-        shares_dst: Coins.Data;
-      };
-      balance: Coins.Data;
+        creation_height: number
+        completion_time: string
+        initial_balance: Coins.Data
+        shares_dst: Coins.Data
+      }
+      balance: Coins.Data
     }
 
-    export type Proto = RedelegationEntryResponse_pb;
+    export type Proto = RedelegationEntryResponse_pb
   }
 }

@@ -1,5 +1,5 @@
-import { JSONSerializable } from '../../util/json';
-import { Params as Params_pb } from '@initia/initia.proto/initia/move/v1/types';
+import { JSONSerializable } from '../../util/json'
+import { Params as Params_pb } from '@initia/initia.proto/initia/move/v1/types'
 
 export class MoveParams extends JSONSerializable<
   MoveParams.Amino,
@@ -18,7 +18,7 @@ export class MoveParams extends JSONSerializable<
     public contract_shared_revenue_ratio: string,
     public allowed_publishers: string[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MoveParams.Amino): MoveParams {
@@ -29,13 +29,13 @@ export class MoveParams extends JSONSerializable<
         contract_shared_revenue_ratio,
         allowed_publishers,
       },
-    } = data;
+    } = data
     return new MoveParams(
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers
-    );
+    )
   }
 
   public toAmino(): MoveParams.Amino {
@@ -44,7 +44,7 @@ export class MoveParams extends JSONSerializable<
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers,
-    } = this;
+    } = this
     return {
       type: 'move/Params',
       value: {
@@ -53,7 +53,7 @@ export class MoveParams extends JSONSerializable<
         contract_shared_revenue_ratio,
         allowed_publishers,
       },
-    };
+    }
   }
 
   public static fromData(data: MoveParams.Data): MoveParams {
@@ -62,13 +62,13 @@ export class MoveParams extends JSONSerializable<
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers,
-    } = data;
+    } = data
     return new MoveParams(
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers
-    );
+    )
   }
 
   public toData(): MoveParams.Data {
@@ -77,14 +77,14 @@ export class MoveParams extends JSONSerializable<
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers,
-    } = this;
+    } = this
     return {
       '@type': '/initia.move.v1.Params',
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers,
-    };
+    }
   }
 
   public static fromProto(data: MoveParams.Proto): MoveParams {
@@ -93,7 +93,7 @@ export class MoveParams extends JSONSerializable<
       data.baseMinGasPrice,
       data.contractSharedRevenueRatio,
       data.allowedPublishers
-    );
+    )
   }
 
   public toProto(): MoveParams.Proto {
@@ -102,34 +102,34 @@ export class MoveParams extends JSONSerializable<
       base_min_gas_price,
       contract_shared_revenue_ratio,
       allowed_publishers,
-    } = this;
+    } = this
     return Params_pb.fromPartial({
       baseDenom: base_denom,
       baseMinGasPrice: base_min_gas_price,
       contractSharedRevenueRatio: contract_shared_revenue_ratio,
       allowedPublishers: allowed_publishers,
-    });
+    })
   }
 }
 
 export namespace MoveParams {
   export interface Amino {
-    type: 'move/Params';
+    type: 'move/Params'
     value: {
-      base_denom: string;
-      base_min_gas_price: string;
-      contract_shared_revenue_ratio: string;
-      allowed_publishers: string[];
-    };
+      base_denom: string
+      base_min_gas_price: string
+      contract_shared_revenue_ratio: string
+      allowed_publishers: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.Params';
-    base_denom: string;
-    base_min_gas_price: string;
-    contract_shared_revenue_ratio: string;
-    allowed_publishers: string[];
+    '@type': '/initia.move.v1.Params'
+    base_denom: string
+    base_min_gas_price: string
+    contract_shared_revenue_ratio: string
+    allowed_publishers: string[]
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

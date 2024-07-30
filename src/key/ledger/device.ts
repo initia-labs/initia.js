@@ -1,4 +1,4 @@
-import Transport from '@ledgerhq/hw-transport';
+import Transport from '@ledgerhq/hw-transport'
 import {
   CLA,
   ERROR_CODE,
@@ -7,21 +7,21 @@ import {
   PAYLOAD_TYPE,
   CHUNK_SIZE,
   ERROR_DESCRIPTION,
-} from './constants';
+} from './constants'
 import {
   AppInfoResponse,
   VersionResponse,
   DeviceInfoResponse,
   PublicKeyResponse,
   SignResponse,
-} from './types';
+} from './types'
 
 function errorCodeToString(statusCode: number): string {
   if (statusCode in ERROR_DESCRIPTION) {
-    return ERROR_DESCRIPTION[statusCode];
+    return ERROR_DESCRIPTION[statusCode]
   }
 
-  return `Unknown Status Code: ${statusCode}`;
+  return `Unknown Status Code: ${statusCode}`
 }
 
 function isDict(v: any): boolean {
@@ -30,7 +30,7 @@ function isDict(v: any): boolean {
     v !== null &&
     !(v instanceof Array) &&
     !(v instanceof Date)
-  );
+  )
 }
 
 function processErrorResponse(response: any) {
@@ -40,42 +40,42 @@ function processErrorResponse(response: any) {
         return {
           return_code: response.statusCode,
           error_message: errorCodeToString(response.statusCode),
-        };
+        }
       }
 
       if (
         Object.prototype.hasOwnProperty.call(response, 'return_code') &&
         Object.prototype.hasOwnProperty.call(response, 'error_message')
       ) {
-        return response;
+        return response
       }
     }
 
     return {
       return_code: 0xffff,
       error_message: response.toString(),
-    };
+    }
   }
 
   return {
     return_code: 0xffff,
     error_message: response.toString(),
-  };
+  }
 }
 
 export function serializePath(path: number[]): Buffer {
   if (path?.length !== 5) {
-    throw new TypeError('Invalid path.');
+    throw new TypeError('Invalid path.')
   }
 
-  const buf = Buffer.alloc(20);
+  const buf = Buffer.alloc(20)
 
-  buf.writeUInt32LE(0x80000000 + path[0], 0);
-  buf.writeUInt32LE(0x80000000 + path[1], 4);
-  buf.writeUInt32LE(0x80000000 + path[2], 8);
-  buf.writeUInt32LE(path[3], 12);
-  buf.writeUInt32LE(path[4], 16);
-  return buf;
+  buf.writeUInt32LE(0x80000000 + path[0], 0)
+  buf.writeUInt32LE(0x80000000 + path[1], 4)
+  buf.writeUInt32LE(0x80000000 + path[2], 8)
+  buf.writeUInt32LE(path[3], 12)
+  buf.writeUInt32LE(path[4], 16)
+  return buf
 }
 
 export async function getVersion(
@@ -83,18 +83,18 @@ export async function getVersion(
 ): Promise<VersionResponse> {
   return transport
     .send(CLA, INS.GET_VERSION, 0, 0)
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const return_code = errorCodeData[0] * 256 + errorCodeData[1];
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const return_code = errorCodeData[0] * 256 + errorCodeData[1]
 
-      let targetId = 0;
+      let targetId = 0
       if (response.length >= 9) {
         /* eslint-disable no-bitwise */
         targetId =
           (response[5] << 24) +
           (response[6] << 16) +
           (response[7] << 8) +
-          (response[8] << 0);
+          (response[8] << 0)
         /* eslint-enable no-bitwise */
       }
 
@@ -108,9 +108,9 @@ export async function getVersion(
         patch: response[3],
         device_locked: response[4] === 1,
         target_id: targetId.toString(16),
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function getAppInfo(
@@ -118,35 +118,33 @@ export async function getAppInfo(
 ): Promise<AppInfoResponse> {
   return transport
     .send(0xb0, 0x01, 0, 0)
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      let return_code: number = errorCodeData[0] * 256 + errorCodeData[1];
-      let error_message: string;
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      let return_code: number = errorCodeData[0] * 256 + errorCodeData[1]
+      let error_message: string
 
-      let app_name = 'err';
-      let app_version = 'err';
-      let flag_len = 0;
-      let flags_value = 0;
+      let app_name = 'err'
+      let app_version = 'err'
+      let flag_len = 0
+      let flags_value = 0
 
       if (response[0] !== 1) {
         // Ledger responds with format ID 1. There is no spec for any format != 1
-        error_message = 'response format ID not recognized';
-        return_code = 0x9001;
+        error_message = 'response format ID not recognized'
+        return_code = 0x9001
       } else {
-        error_message = 'No errors';
-        const appNameLen = response[1];
-        app_name = response.slice(2, 2 + appNameLen).toString('ascii');
-        let idx = 2 + appNameLen;
-        const appVersionLen = response[idx];
-        idx += 1;
-        app_version = response
-          .slice(idx, idx + appVersionLen)
-          .toString('ascii');
-        idx += appVersionLen;
-        const appFlagsLen = response[idx];
-        idx += 1;
-        flag_len = appFlagsLen;
-        flags_value = response[idx];
+        error_message = 'No errors'
+        const appNameLen = response[1]
+        app_name = response.slice(2, 2 + appNameLen).toString('ascii')
+        let idx = 2 + appNameLen
+        const appVersionLen = response[idx]
+        idx += 1
+        app_version = response.slice(idx, idx + appVersionLen).toString('ascii')
+        idx += appVersionLen
+        const appFlagsLen = response[idx]
+        idx += 1
+        flag_len = appFlagsLen
+        flags_value = response[idx]
       }
 
       return {
@@ -165,9 +163,9 @@ export async function getAppInfo(
         flag_onboarded: (flags_value & 4) !== 0,
         // eslint-disable-next-line no-bitwise
         flag_pin_validated: (flags_value & 128) !== 0,
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function getDeviceInfo(
@@ -175,40 +173,40 @@ export async function getDeviceInfo(
 ): Promise<DeviceInfoResponse> {
   return transport
     .send(0xe0, 0x01, 0, 0, Buffer.from([]), [ERROR_CODE.NoError, 0x6e00])
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1]
 
       if (returnCode === 0x6e00) {
         return {
           return_code: returnCode,
           error_message: 'This command is only available in the Dashboard',
-        };
+        }
       }
 
-      const target_id = response.slice(0, 4).toString('hex');
+      const target_id = response.slice(0, 4).toString('hex')
 
-      let pos = 4;
-      const secureElementVersionLen = response[pos];
-      pos += 1;
+      let pos = 4
+      const secureElementVersionLen = response[pos]
+      pos += 1
       const se_version = response
         .slice(pos, pos + secureElementVersionLen)
-        .toString();
-      pos += secureElementVersionLen;
+        .toString()
+      pos += secureElementVersionLen
 
-      const flagsLen = response[pos];
-      pos += 1;
-      const flag = response.slice(pos, pos + flagsLen).toString('hex');
-      pos += flagsLen;
+      const flagsLen = response[pos]
+      pos += 1
+      const flag = response.slice(pos, pos + flagsLen).toString('hex')
+      pos += flagsLen
 
-      const mcuVersionLen = response[pos];
-      pos += 1;
+      const mcuVersionLen = response[pos]
+      pos += 1
       // Patch issue in mcu version
-      let tmp = response.slice(pos, pos + mcuVersionLen);
+      let tmp = response.slice(pos, pos + mcuVersionLen)
       if (tmp[mcuVersionLen - 1] === 0) {
-        tmp = response.slice(pos, pos + mcuVersionLen - 1);
+        tmp = response.slice(pos, pos + mcuVersionLen - 1)
       }
-      const mcu_version = tmp.toString();
+      const mcu_version = tmp.toString()
 
       return {
         return_code: returnCode,
@@ -218,9 +216,9 @@ export async function getDeviceInfo(
         se_version,
         flag,
         mcu_version,
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function publicKey(
@@ -229,19 +227,19 @@ export async function publicKey(
 ): Promise<PublicKeyResponse> {
   return transport
     .send(CLA, INS.GET_ADDR_SECP256K1, 0, 0, data, [ERROR_CODE.NoError])
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const returnCode: number = errorCodeData[0] * 256 + errorCodeData[1];
-      const compressedPk = response ? Buffer.from(response.slice(0, 33)) : null;
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const returnCode: number = errorCodeData[0] * 256 + errorCodeData[1]
+      const compressedPk = response ? Buffer.from(response.slice(0, 33)) : null
 
       return {
         pk: 'OBSOLETE PROPERTY',
         compressed_pk: compressedPk ? compressedPk.toJSON() : compressedPk,
         return_code: returnCode,
         error_message: errorCodeToString(returnCode),
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function getAddressAndPubKey(
@@ -252,21 +250,21 @@ export async function getAddressAndPubKey(
     .send(CLA, INS.GET_ADDR_SECP256K1, P1_VALUES.ONLY_RETRIEVE, 0, data, [
       ERROR_CODE.NoError,
     ])
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1]
 
-      const compressedPk = Buffer.from(response.slice(0, 33));
-      const bech32Address = Buffer.from(response.slice(33, -2)).toString();
+      const compressedPk = Buffer.from(response.slice(0, 33))
+      const bech32Address = Buffer.from(response.slice(33, -2)).toString()
 
       return {
         bech32_address: bech32Address,
         compressed_pk: compressedPk.toJSON(),
         return_code: returnCode,
         error_message: errorCodeToString(returnCode),
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function showAddressAndPubKey(
@@ -282,41 +280,41 @@ export async function showAddressAndPubKey(
       data,
       [ERROR_CODE.NoError]
     )
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1]
 
-      const compressedPk = Buffer.from(response.slice(0, 33));
-      const bech32Address = Buffer.from(response.slice(33, -2)).toString();
+      const compressedPk = Buffer.from(response.slice(0, 33))
+      const bech32Address = Buffer.from(response.slice(33, -2)).toString()
 
       return {
         bech32_address: bech32Address,
         compressed_pk: compressedPk.toJSON(),
         return_code: returnCode,
         error_message: errorCodeToString(returnCode),
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 function signGetChunks(path: number[], message: Buffer): Buffer[] {
-  const result = serializePath(path);
-  const chunks: Buffer[] = [];
+  const result = serializePath(path)
+  const chunks: Buffer[] = []
 
   if (result instanceof Buffer) {
-    chunks.push(result);
-    const buffer = Buffer.from(message);
+    chunks.push(result)
+    const buffer = Buffer.from(message)
 
     for (let i = 0; i < buffer.length; i += CHUNK_SIZE) {
-      let end = i + CHUNK_SIZE;
+      let end = i + CHUNK_SIZE
       if (i > buffer.length) {
-        end = buffer.length;
+        end = buffer.length
       }
-      chunks.push(buffer.slice(i, end));
+      chunks.push(buffer.slice(i, end))
     }
   }
 
-  return chunks;
+  return chunks
 }
 
 async function signSendChunk(
@@ -325,14 +323,14 @@ async function signSendChunk(
   chunkNum: number,
   chunk: Buffer
 ): Promise<SignResponse> {
-  let payloadType = PAYLOAD_TYPE.ADD;
+  let payloadType = PAYLOAD_TYPE.ADD
 
   if (chunkIdx === 1) {
-    payloadType = PAYLOAD_TYPE.INIT;
+    payloadType = PAYLOAD_TYPE.INIT
   }
 
   if (chunkIdx === chunkNum) {
-    payloadType = PAYLOAD_TYPE.LAST;
+    payloadType = PAYLOAD_TYPE.LAST
   }
 
   return transport
@@ -341,30 +339,30 @@ async function signSendChunk(
       0x6984,
       0x6a80,
     ])
-    .then(response => {
-      const errorCodeData = response.slice(-2);
-      const returnCode = errorCodeData[0] * 256 + errorCodeData[1];
-      let errorMessage = errorCodeToString(returnCode);
+    .then((response) => {
+      const errorCodeData = response.slice(-2)
+      const returnCode = errorCodeData[0] * 256 + errorCodeData[1]
+      let errorMessage = errorCodeToString(returnCode)
 
       if (returnCode === 0x6a80 || returnCode === 0x6984) {
         errorMessage = `${errorMessage} : ${response
           .slice(0, response.length - 2)
-          .toString('ascii')}`;
+          .toString('ascii')}`
       }
 
-      let signature: Buffer = Buffer.from([]);
+      let signature: Buffer = Buffer.from([])
 
       if (response.length > 2) {
-        signature = response.slice(0, response.length - 2);
+        signature = response.slice(0, response.length - 2)
       }
 
       return {
         signature: signature.toJSON(),
         return_code: returnCode,
         error_message: errorMessage,
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }
 
 export async function sign(
@@ -372,26 +370,21 @@ export async function sign(
   path: number[],
   message: Buffer
 ): Promise<SignResponse> {
-  const chunks = signGetChunks(path, message);
+  const chunks = signGetChunks(path, message)
 
   return signSendChunk(transport, 1, chunks.length, chunks[0])
-    .then(async response => {
+    .then(async (response) => {
       let result: SignResponse = {
         return_code: response.return_code,
         error_message: response.error_message,
         signature: { type: 'Buffer', data: [] },
-      };
+      }
 
       for (let i = 1; i < chunks.length; i += 1) {
-        result = await signSendChunk(
-          transport,
-          1 + i,
-          chunks.length,
-          chunks[i]
-        );
+        result = await signSendChunk(transport, 1 + i, chunks.length, chunks[i])
 
         if (result.return_code !== ERROR_CODE.NoError) {
-          break;
+          break
         }
       }
 
@@ -399,7 +392,7 @@ export async function sign(
         return_code: result.return_code,
         error_message: result.error_message,
         signature: result.signature,
-      };
+      }
     })
-    .catch(processErrorResponse);
+    .catch(processErrorResponse)
 }

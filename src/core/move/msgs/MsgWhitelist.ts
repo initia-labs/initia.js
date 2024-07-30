@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 export class MsgWhitelist extends JSONSerializable<
   MsgWhitelist.Amino,
@@ -18,19 +18,19 @@ export class MsgWhitelist extends JSONSerializable<
     public metadata_lp: string,
     public reward_weight: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgWhitelist.Amino): MsgWhitelist {
     const {
       value: { authority, metadata_lp, reward_weight },
-    } = data;
+    } = data
 
-    return new MsgWhitelist(authority, metadata_lp, reward_weight);
+    return new MsgWhitelist(authority, metadata_lp, reward_weight)
   }
 
   public toAmino(): MsgWhitelist.Amino {
-    const { authority, metadata_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this
 
     return {
       type: 'move/MsgWhitelist',
@@ -39,68 +39,68 @@ export class MsgWhitelist extends JSONSerializable<
         metadata_lp,
         reward_weight,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgWhitelist.Data): MsgWhitelist {
-    const { authority, metadata_lp, reward_weight } = data;
+    const { authority, metadata_lp, reward_weight } = data
 
-    return new MsgWhitelist(authority, metadata_lp, reward_weight);
+    return new MsgWhitelist(authority, metadata_lp, reward_weight)
   }
 
   public toData(): MsgWhitelist.Data {
-    const { authority, metadata_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this
 
     return {
       '@type': '/initia.move.v1.MsgWhitelist',
       authority,
       metadata_lp,
       reward_weight,
-    };
+    }
   }
 
   public static fromProto(data: MsgWhitelist.Proto): MsgWhitelist {
-    return new MsgWhitelist(data.authority, data.metadataLp, data.rewardWeight);
+    return new MsgWhitelist(data.authority, data.metadataLp, data.rewardWeight)
   }
 
   public toProto(): MsgWhitelist.Proto {
-    const { authority, metadata_lp, reward_weight } = this;
+    const { authority, metadata_lp, reward_weight } = this
 
     return MsgWhitelist_pb.fromPartial({
       authority,
       metadataLp: metadata_lp,
       rewardWeight: reward_weight,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.move.v1.MsgWhitelist',
       value: MsgWhitelist_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgWhitelist {
-    return MsgWhitelist.fromProto(MsgWhitelist_pb.decode(msgAny.value));
+    return MsgWhitelist.fromProto(MsgWhitelist_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgWhitelist {
   export interface Amino {
-    type: 'move/MsgWhitelist';
+    type: 'move/MsgWhitelist'
     value: {
-      authority: AccAddress;
-      metadata_lp: string;
-      reward_weight: string;
-    };
+      authority: AccAddress
+      metadata_lp: string
+      reward_weight: string
+    }
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgWhitelist';
-    authority: AccAddress;
-    metadata_lp: string;
-    reward_weight: string;
+    '@type': '/initia.move.v1.MsgWhitelist'
+    authority: AccAddress
+    metadata_lp: string
+    reward_weight: string
   }
 
-  export type Proto = MsgWhitelist_pb;
+  export type Proto = MsgWhitelist_pb
 }

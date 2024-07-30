@@ -1,12 +1,12 @@
-import { EventEmitter } from 'events';
-import WebSocket from 'ws';
-import { hashToHex } from '../util';
+import { EventEmitter } from 'events'
+import WebSocket from 'ws'
+import { hashToHex } from '../util'
 
-type Callback = (data: TendermintSubscriptionResponse) => void;
+type Callback = (data: TendermintSubscriptionResponse) => void
 
 export interface TendermintSubscriptionResponse {
-  type: string;
-  value: Record<string, any>;
+  type: string
+  value: Record<string, any>
 }
 
 export type TendermintEventType =
@@ -21,45 +21,44 @@ export type TendermintEventType =
   | 'NewRoundStep'
   | 'Polka'
   | 'Relock'
-  | 'Relock'
   | 'TimeoutPropose'
   | 'TimeoutWait'
   | 'Unlock'
   | 'ValidBlock'
-  | 'Vote';
+  | 'Vote'
 
-type TendermintQueryOperand = string | number | Date;
+type TendermintQueryOperand = string | number | Date
 
-export interface TendermintQuery {
-  [k: string]:
-    | TendermintQueryOperand
-    | ['>', number | Date]
-    | ['<', number | Date]
-    | ['<=', number | Date]
-    | ['>=', number | Date]
-    | ['CONTAINS', string]
-    | ['EXISTS'];
-}
+export type TendermintQuery = Record<
+  string,
+  | TendermintQueryOperand
+  | ['>', number | Date]
+  | ['<', number | Date]
+  | ['<=', number | Date]
+  | ['>=', number | Date]
+  | ['CONTAINS', string]
+  | ['EXISTS']
+>
 
-const escapeSingleQuotes = (str: string) => str.replace(/'/g, "\\'");
+const escapeSingleQuotes = (str: string) => str.replace(/'/g, "\\'")
 
 function makeQueryParams(query: TendermintQuery): string {
-  const queryBuilder: string[] = [];
+  const queryBuilder: string[] = []
   for (const key of Object.keys(query)) {
-    let queryItem: string;
-    const value = query[key];
+    let queryItem: string
+    const value = query[key]
     // if value is scalar
     if (!Array.isArray(value)) {
       switch (typeof value) {
         case 'number':
-          queryItem = `${key}=${value}`;
-          break;
+          queryItem = `${key}=${value}`
+          break
         case 'string':
-          queryItem = `${key}='${escapeSingleQuotes(value)}'`;
-          break;
+          queryItem = `${key}='${escapeSingleQuotes(value)}'`
+          break
         default:
           // Date
-          queryItem = `${key}=${value.toISOString()}`;
+          queryItem = `${key}=${value.toISOString()}`
       }
     } else {
       switch (value[0]) {
@@ -68,22 +67,22 @@ function makeQueryParams(query: TendermintQuery): string {
         case '<=':
         case '>=':
           if (typeof value[1] !== 'number') {
-            queryItem = `${key}${value[0]}${value[1].toISOString()}`;
+            queryItem = `${key}${value[0]}${value[1].toISOString()}`
           } else {
-            queryItem = `${key}${value[0]}${value[1]}`;
+            queryItem = `${key}${value[0]}${value[1]}`
           }
-          break;
+          break
         case 'CONTAINS':
-          queryItem = `${key} CONTAINS '${escapeSingleQuotes(value[1])}'`;
-          break;
+          queryItem = `${key} CONTAINS '${escapeSingleQuotes(value[1])}'`
+          break
         case 'EXISTS':
-          queryItem = `${key} EXISTS`;
-          break;
+          queryItem = `${key} EXISTS`
+          break
       }
     }
-    queryBuilder.push(queryItem);
+    queryBuilder.push(queryItem)
   }
-  return queryBuilder.join(' AND ');
+  return queryBuilder.join(' AND ')
 }
 
 /**
@@ -127,13 +126,13 @@ function makeQueryParams(query: TendermintQuery): string {
  * ```
  */
 export class WebSocketClient extends EventEmitter {
-  public isConnected: boolean;
-  private reconnectTimeoutId?: NodeJS.Timeout;
-  private queryParams?: string;
-  private callback?: Callback;
-  private shouldAttemptReconnect: boolean;
-  private socket!: WebSocket;
-  private _reconnectCount: number;
+  public isConnected: boolean
+  private reconnectTimeoutId?: NodeJS.Timeout
+  private queryParams?: string
+  private callback?: Callback
+  private shouldAttemptReconnect: boolean
+  private socket!: WebSocket
+  private _reconnectCount: number
 
   /**
    * WebSocketClient constructor
@@ -147,35 +146,35 @@ export class WebSocketClient extends EventEmitter {
     private reconnectCount = 0,
     private reconnectInterval = 1000
   ) {
-    super();
-    this._reconnectCount = this.reconnectCount;
-    this.isConnected = false;
-    this.shouldAttemptReconnect = !!this.reconnectInterval;
+    super()
+    this._reconnectCount = this.reconnectCount
+    this.isConnected = false
+    this.shouldAttemptReconnect = !!this.reconnectInterval
   }
 
   /**
    * Destroys class as well as socket
    */
   destroy() {
-    this.shouldAttemptReconnect = false;
-    this.reconnectTimeoutId && clearTimeout(this.reconnectTimeoutId);
-    this.socket && this.socket.close();
+    this.shouldAttemptReconnect = false
+    this.reconnectTimeoutId && clearTimeout(this.reconnectTimeoutId)
+    this.socket && this.socket.close()
   }
 
   start() {
-    this.socket = new WebSocket(this.URL);
+    this.socket = new WebSocket(this.URL)
 
-    this.socket.onopen = this.onOpen.bind(this);
-    this.socket.onmessage = this.onMessage.bind(this);
-    this.socket.onclose = this.onClose.bind(this);
-    this.socket.onerror = () => undefined;
+    this.socket.onopen = this.onOpen.bind(this)
+    this.socket.onmessage = this.onMessage.bind(this)
+    this.socket.onclose = this.onClose.bind(this)
+    this.socket.onerror = () => undefined
   }
 
   private onOpen() {
-    this.isConnected = true;
-    this.emit('connect');
+    this.isConnected = true
+    this.emit('connect')
     // reset reconnectCount after connection establishment
-    this._reconnectCount = this.reconnectCount;
+    this._reconnectCount = this.reconnectCount
 
     this.socket.send(
       JSON.stringify({
@@ -184,12 +183,22 @@ export class WebSocketClient extends EventEmitter {
         params: [this.queryParams],
         id: 1,
       })
-    );
+    )
   }
 
   private onMessage(message: WebSocket.MessageEvent) {
     try {
-      const parsedData = JSON.parse(message.data.toString());
+      let data: string
+
+      if (typeof message.data === 'string') {
+        data = message.data
+      } else if (message.data instanceof Buffer) {
+        data = message.data.toString()
+      } else {
+        throw new Error('Unsupported message data type')
+      }
+
+      const parsedData = JSON.parse(data)
 
       if (
         this.callback &&
@@ -197,31 +206,31 @@ export class WebSocketClient extends EventEmitter {
         parsedData.result.query === this.queryParams
       ) {
         // this.emit('message', parsedData.result.data);
-        this.callback(parsedData.result.data);
+        this.callback(parsedData.result.data)
       }
     } catch (err) {
-      this.emit('error', err);
+      this.emit('error', err)
     }
   }
 
   private onClose() {
-    this.isConnected = false;
+    this.isConnected = false
 
     if (
       this.shouldAttemptReconnect &&
       (this._reconnectCount > 0 || this._reconnectCount === -1)
     ) {
       if (this._reconnectCount !== -1) {
-        this._reconnectCount--;
+        this._reconnectCount--
       }
 
-      this.reconnectTimeoutId && clearTimeout(this.reconnectTimeoutId);
+      this.reconnectTimeoutId && clearTimeout(this.reconnectTimeoutId)
       this.reconnectTimeoutId = setTimeout(() => {
-        this.emit('reconnect');
-        this.start();
-      }, this.reconnectInterval);
+        this.emit('reconnect')
+        this.start()
+      }, this.reconnectInterval)
     } else {
-      this.emit('destroyed');
+      this.emit('destroyed')
     }
   }
 
@@ -233,16 +242,16 @@ export class WebSocketClient extends EventEmitter {
     this.queryParams = makeQueryParams({
       'tm.event': event,
       ...query,
-    });
-    this.callback = callback;
+    })
+    this.callback = callback
   }
 
   public subscribeTx(query: TendermintQuery, callback: Callback): void {
-    const newCallback: Callback = d => {
-      d.value.TxResult.txhash = hashToHex(d.value.TxResult.tx);
-      return callback(d);
-    };
+    const newCallback: Callback = (d) => {
+      d.value.TxResult.txhash = hashToHex(d.value.TxResult.tx)
+      return callback(d)
+    }
 
-    this.subscribe('Tx', query, newCallback);
+    this.subscribe('Tx', query, newCallback)
   }
 }
