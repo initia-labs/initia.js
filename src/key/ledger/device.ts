@@ -38,8 +38,8 @@ function processErrorResponse(response: any) {
     if (isDict(response)) {
       if (Object.prototype.hasOwnProperty.call(response, 'statusCode')) {
         return {
-          return_code: response.statusCode,
-          error_message: errorCodeToString(response.statusCode),
+          return_code: response.statusCode, // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+          error_message: errorCodeToString(response.statusCode as number), // eslint-disable-line @typescript-eslint/no-unsafe-member-access
         }
       }
 
@@ -53,13 +53,13 @@ function processErrorResponse(response: any) {
 
     return {
       return_code: 0xffff,
-      error_message: response.toString(),
+      error_message: response.toString(), // eslint-disable-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
     }
   }
 
   return {
     return_code: 0xffff,
-    error_message: response.toString(),
+    error_message: response.toString(), // eslint-disable-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
   }
 }
 

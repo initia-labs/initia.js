@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
-    "@initia/builder.js": "^0.1.6",
     "@types/bn.js": "^5.1.1",
     "@types/eslint": "^8.56.10",
     "@types/eslint__js": "^8.42.3",

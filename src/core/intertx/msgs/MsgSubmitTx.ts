@@ -17,7 +17,7 @@ export class MsgSubmitTx extends JSONSerializable<
   constructor(
     public owner: AccAddress,
     public connection_id: string,
-    public msg: Msg
+    public msg?: Msg
   ) {
     super()
   }
@@ -27,7 +27,11 @@ export class MsgSubmitTx extends JSONSerializable<
       value: { owner, connection_id, msg },
     } = data
 
-    return new MsgSubmitTx(owner, connection_id, Msg.fromAmino(msg))
+    return new MsgSubmitTx(
+      owner,
+      connection_id,
+      msg ? Msg.fromAmino(msg) : undefined
+    )
   }
 
   public toAmino(): MsgSubmitTx.Amino {
@@ -37,14 +41,18 @@ export class MsgSubmitTx extends JSONSerializable<
       value: {
         owner,
         connection_id,
-        msg: msg.toAmino(),
+        msg: msg?.toAmino(),
       },
     }
   }
 
   public static fromData(data: MsgSubmitTx.Data): MsgSubmitTx {
     const { owner, connection_id, msg } = data
-    return new MsgSubmitTx(owner, connection_id, Msg.fromData(msg))
+    return new MsgSubmitTx(
+      owner,
+      connection_id,
+      msg ? Msg.fromData(msg) : undefined
+    )
   }
 
   public toData(): MsgSubmitTx.Data {
@@ -53,7 +61,7 @@ export class MsgSubmitTx extends JSONSerializable<
       '@type': '/initia.intertx.v1.MsgSubmitTx',
       owner,
       connection_id,
-      msg: msg.toData(),
+      msg: msg?.toData(),
     }
   }
 
@@ -61,7 +69,7 @@ export class MsgSubmitTx extends JSONSerializable<
     return new MsgSubmitTx(
       proto.owner,
       proto.connectionId,
-      Msg.fromProto(proto.msg as any)
+      proto.msg ? Msg.fromProto(proto.msg) : undefined
     )
   }
 
@@ -70,7 +78,7 @@ export class MsgSubmitTx extends JSONSerializable<
     return MsgSubmitTx_pb.fromPartial({
       owner,
       connectionId: connection_id,
-      msg: msg.packAny(),
+      msg: msg?.packAny(),
     })
   }
 
@@ -92,7 +100,7 @@ export namespace MsgSubmitTx {
     value: {
       owner: AccAddress
       connection_id: string
-      msg: Msg.Amino
+      msg?: Msg.Amino
     }
   }
 
@@ -100,7 +108,7 @@ export namespace MsgSubmitTx {
     '@type': '/initia.intertx.v1.MsgSubmitTx'
     owner: AccAddress
     connection_id: string
-    msg: Msg.Data
+    msg?: Msg.Data
   }
 
   export type Proto = MsgSubmitTx_pb

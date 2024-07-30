@@ -202,11 +202,11 @@ export class WebSocketClient extends EventEmitter {
 
       if (
         this.callback &&
-        parsedData.result &&
-        parsedData.result.query === this.queryParams
+        parsedData.result && // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+        parsedData.result.query === this.queryParams // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       ) {
         // this.emit('message', parsedData.result.data);
-        this.callback(parsedData.result.data)
+        this.callback(parsedData.result.data) // eslint-disable-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       }
     } catch (err) {
       this.emit('error', err)
@@ -248,7 +248,7 @@ export class WebSocketClient extends EventEmitter {
 
   public subscribeTx(query: TendermintQuery, callback: Callback): void {
     const newCallback: Callback = (d) => {
-      d.value.TxResult.txhash = hashToHex(d.value.TxResult.tx)
+      d.value.TxResult.txhash = hashToHex(d.value.TxResult.tx as string) // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       return callback(d)
     }
 

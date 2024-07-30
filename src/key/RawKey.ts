@@ -28,6 +28,7 @@ export class RawKey extends Key {
     return new RawKey(Buffer.from(hex, 'hex'))
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(payload: Buffer): Promise<Buffer> {
     const hash = Buffer.from(
       SHA256.hash(new Word32Array(payload)).toString(),
@@ -42,6 +43,7 @@ export class RawKey extends Key {
     return Buffer.from(signature)
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async signWithKeccak256(payload: Buffer): Promise<Buffer> {
     const hash = keccak256(payload)
 

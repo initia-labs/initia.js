@@ -36,7 +36,7 @@ export class MsgExecAuthorized extends JSONSerializable<
       type: 'cosmos-sdk/MsgExec',
       value: {
         grantee,
-        msgs: msgs.map((msg) => {
+        msgs: msgs.map((msg): Msg.Amino => {
           return msg.toAmino()
         }),
       },

@@ -21,7 +21,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
    * @param proposer proposer's account address
    */
   constructor(
-    public content: Content,
+    public content: Content | undefined,
     initial_deposit: Coins.Input,
     public proposer: AccAddress
   ) {
@@ -36,7 +36,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
       value: { content, initial_deposit, proposer },
     } = data
     return new MsgSubmitProposalLegacy(
-      Content.fromAmino(content),
+      content ? Content.fromAmino(content) : undefined,
       Coins.fromAmino(initial_deposit),
       proposer
     )
@@ -47,7 +47,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
     return {
       type: 'cosmos-sdk/MsgSubmitProposal',
       value: {
-        content: content.toAmino(),
+        content: content?.toAmino(),
         initial_deposit: initial_deposit.toAmino(),
         proposer,
       },
@@ -59,7 +59,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
   ): MsgSubmitProposalLegacy {
     const { content, initial_deposit, proposer } = data
     return new MsgSubmitProposalLegacy(
-      Content.fromData(content),
+      content ? Content.fromData(content) : undefined,
       Coins.fromData(initial_deposit),
       proposer
     )
@@ -69,7 +69,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
     const { content, initial_deposit, proposer } = this
     return {
       '@type': '/cosmos.gov.v1beta1.MsgSubmitProposal',
-      content: content.toData(),
+      content: content?.toData(),
       initial_deposit: initial_deposit.toData(),
       proposer,
     }
@@ -79,7 +79,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
     proto: MsgSubmitProposalLegacy.Proto
   ): MsgSubmitProposalLegacy {
     return new MsgSubmitProposalLegacy(
-      Content.fromProto(proto.content as any),
+      proto.content ? Content.fromProto(proto.content) : undefined,
       Coins.fromProto(proto.initialDeposit),
       proto.proposer
     )
@@ -88,7 +88,7 @@ export class MsgSubmitProposalLegacy extends JSONSerializable<
   public toProto(): MsgSubmitProposalLegacy.Proto {
     const { content, initial_deposit, proposer } = this
     return MsgSubmitProposal_pb.fromPartial({
-      content: content.packAny(),
+      content: content?.packAny(),
       initialDeposit: initial_deposit.toProto(),
       proposer,
     })
@@ -112,7 +112,7 @@ export namespace MsgSubmitProposalLegacy {
   export interface Amino {
     type: 'cosmos-sdk/MsgSubmitProposal'
     value: {
-      content: Content.Amino
+      content: Content.Amino | undefined
       initial_deposit: Coins.Amino
       proposer: AccAddress
     }
@@ -120,7 +120,7 @@ export namespace MsgSubmitProposalLegacy {
 
   export interface Data {
     '@type': '/cosmos.gov.v1beta1.MsgSubmitProposal'
-    content: Content.Data
+    content: Content.Data | undefined
     initial_deposit: Coins.Data
     proposer: AccAddress
   }
