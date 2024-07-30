@@ -33,7 +33,7 @@ export class MsgExecuteMessages extends JSONSerializable<
       type: 'opchild/MsgExecuteMessages',
       value: {
         sender,
-        messages: messages.map((msg) => msg.toAmino()),
+        messages: messages.map((msg): Msg.Amino => msg.toAmino()),
       },
     }
   }

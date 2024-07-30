@@ -479,11 +479,11 @@ export class TxAPI extends BaseAPI {
       }
 
       if (d.code) {
-        blockResult.code = d.code
+        blockResult.code = d.code // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       }
 
       if (d.codespace) {
-        blockResult.codespace = d.codespace
+        blockResult.codespace = d.codespace // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       }
 
       return blockResult

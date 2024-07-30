@@ -139,7 +139,7 @@ export class GroupProposal extends JSONSerializable<
       },
       voting_period_end: voting_period_end.toISOString(),
       executor_result: proposalExecutorResultToJSON(executor_result),
-      messages: messages.map((msg) => msg.toAmino()),
+      messages: messages.map((msg): Msg.Amino => msg.toAmino()),
       title,
       summary,
     }

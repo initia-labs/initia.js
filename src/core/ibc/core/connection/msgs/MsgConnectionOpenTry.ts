@@ -30,7 +30,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
    */
   constructor(
     public client_id: string,
-    public client_state: any,
+    public client_state: Any | undefined,
     public counterparty: ConnectionCounterparty | undefined,
     public delay_period: number,
     public counterparty_versions: IbcVersion[],
@@ -152,7 +152,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
     } = this
     return MsgConnectionOpenTry_pb.fromPartial({
       clientId: client_id,
-      clientState: client_state.toProto(),
+      clientState: client_state,
       counterparty: counterparty?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
       counterpartyVersions: counterparty_versions.map((cv) => cv.toProto()),
@@ -183,7 +183,7 @@ export namespace MsgConnectionOpenTry {
   export interface Data {
     '@type': '/ibc.core.connection.v1.MsgConnectionOpenTry'
     client_id: string
-    client_state: Any
+    client_state?: Any
     counterparty?: ConnectionCounterparty.Data
     delay_period: string
     counterparty_versions: IbcVersion.Data[]
