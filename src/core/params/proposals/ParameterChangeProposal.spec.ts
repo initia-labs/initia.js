@@ -1,4 +1,4 @@
-import { ParameterChangeProposal } from './ParameterChangeProposal';
+import { ParameterChangeProposal } from './ParameterChangeProposal'
 
 const aminoJson: ParameterChangeProposal.Amino = {
   type: 'cosmos-sdk/ParameterChangeProposal',
@@ -100,26 +100,26 @@ const aminoJson: ParameterChangeProposal.Amino = {
       },
     ],
   },
-};
+}
 
 describe('ParameterChangeProposal', () => {
   it('parses parameter change proposals (amino)', () => {
-    expect(ParameterChangeProposal.fromAmino(aminoJson)).toBeTruthy();
-  });
+    expect(ParameterChangeProposal.fromAmino(aminoJson)).toBeTruthy()
+  })
 
   it('parses parameter change proposals (data)', () => {
     const p = new ParameterChangeProposal(
       'testing params',
       'yay!',
       aminoJson.value.changes
-    );
-    const data = p.toData();
+    )
+    const data = p.toData()
 
-    expect(ParameterChangeProposal.fromData(data)).toEqual(p); // check that serialization / deserialization is consistent
+    expect(ParameterChangeProposal.fromData(data)).toEqual(p) // check that serialization / deserialization is consistent
     // check that output is consistent with json
     expect(data).toMatchObject({
       '@type': '/cosmos.params.v1beta1.ParameterChangeProposal',
       ...aminoJson.value,
-    });
-  });
-});
+    })
+  })
+})

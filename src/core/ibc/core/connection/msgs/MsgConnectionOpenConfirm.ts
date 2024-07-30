@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgConnectionOpenConfirm as MsgConnectionOpenConfirm_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
-import { Height } from '../../client/Height';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgConnectionOpenConfirm as MsgConnectionOpenConfirm_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
+import { Height } from '../../client/Height'
 
 /**
  * MsgConnectionOpenConfirm defines a msg sent by a Relayer to Chain B to
@@ -25,39 +25,39 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgConnectionOpenConfirm {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
     data: MsgConnectionOpenConfirm.Data
   ): MsgConnectionOpenConfirm {
-    const { connection_id, proof_ack, proof_height, signer } = data;
+    const { connection_id, proof_ack, proof_height, signer } = data
     return new MsgConnectionOpenConfirm(
       connection_id,
       proof_ack,
       proof_height ? Height.fromData(proof_height) : undefined,
       signer
-    );
+    )
   }
 
   public toData(): MsgConnectionOpenConfirm.Data {
-    const { connection_id, proof_ack, proof_height, signer } = this;
+    const { connection_id, proof_ack, proof_height, signer } = this
     return {
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenConfirm',
       connection_id,
       proof_ack,
       proof_height: proof_height?.toData(),
       signer,
-    };
+    }
   }
 
   public static fromProto(
@@ -68,40 +68,40 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
       Buffer.from(proto.proofAck).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgConnectionOpenConfirm.Proto {
-    const { connection_id, proof_ack, proof_height, signer } = this;
+    const { connection_id, proof_ack, proof_height, signer } = this
     return MsgConnectionOpenConfirm_pb.fromPartial({
       connectionId: connection_id,
       proofAck: Buffer.from(proof_ack, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.connection.v1.MsgConnectionOpenConfirm',
       value: MsgConnectionOpenConfirm_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgConnectionOpenConfirm {
     return MsgConnectionOpenConfirm.fromProto(
       MsgConnectionOpenConfirm_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgConnectionOpenConfirm {
   export interface Data {
-    '@type': '/ibc.core.connection.v1.MsgConnectionOpenConfirm';
-    connection_id: string;
-    proof_ack: string;
-    proof_height?: Height.Data;
-    signer: AccAddress;
+    '@type': '/ibc.core.connection.v1.MsgConnectionOpenConfirm'
+    connection_id: string
+    proof_ack: string
+    proof_height?: Height.Data
+    signer: AccAddress
   }
-  export type Proto = MsgConnectionOpenConfirm_pb;
+  export type Proto = MsgConnectionOpenConfirm_pb
 }

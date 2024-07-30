@@ -1,6 +1,6 @@
-import { AccAddress, Allowance } from '../../../core';
-import { BaseAPI } from './BaseAPI';
-import { Pagination, PaginationOptions } from '../APIRequester';
+import { AccAddress, Allowance } from '../../../core'
+import { BaseAPI } from './BaseAPI'
+import { Pagination, PaginationOptions } from '../APIRequester'
 
 export class FeeGrantAPI extends BaseAPI {
   public async allowances(
@@ -8,29 +8,29 @@ export class FeeGrantAPI extends BaseAPI {
     params: Partial<PaginationOptions> = {}
   ): Promise<{
     allowances: {
-      granter: AccAddress;
-      grantee: AccAddress;
-      allowance: Allowance;
-    }[];
-    pagination: Pagination;
+      granter: AccAddress
+      grantee: AccAddress
+      allowance: Allowance
+    }[]
+    pagination: Pagination
   }> {
     return this.c
       .get<{
         allowances: {
-          granter: AccAddress;
-          grantee: AccAddress;
-          allowance: Allowance.Data;
-        }[];
-        pagination: Pagination;
+          granter: AccAddress
+          grantee: AccAddress
+          allowance: Allowance.Data
+        }[]
+        pagination: Pagination
       }>(`/cosmos/feegrant/v1beta1/allowances/${grantee}`, params)
-      .then(d => ({
-        allowances: d.allowances.map(allowance => ({
+      .then((d) => ({
+        allowances: d.allowances.map((allowance) => ({
           granter: allowance.granter,
           grantee: allowance.grantee,
           allowance: Allowance.fromData(allowance.allowance),
         })),
         pagination: d.pagination,
-      }));
+      }))
   }
 
   public async allowance(
@@ -40,12 +40,12 @@ export class FeeGrantAPI extends BaseAPI {
     return this.c
       .get<{
         allowance: {
-          granter: AccAddress;
-          grantee: AccAddress;
-          allowance: Allowance.Data;
-        };
+          granter: AccAddress
+          grantee: AccAddress
+          allowance: Allowance.Data
+        }
       }>(`/cosmos/feegrant/v1beta1/allowance/${granter}/${grantee}`)
-      .then(d => Allowance.fromData(d.allowance.allowance));
+      .then((d) => Allowance.fromData(d.allowance.allowance))
   }
 
   public async allowancesByGranter(
@@ -53,28 +53,28 @@ export class FeeGrantAPI extends BaseAPI {
     params: Partial<PaginationOptions> = {}
   ): Promise<{
     allowances: {
-      granter: AccAddress;
-      grantee: AccAddress;
-      allowance: Allowance;
-    }[];
-    pagination: Pagination;
+      granter: AccAddress
+      grantee: AccAddress
+      allowance: Allowance
+    }[]
+    pagination: Pagination
   }> {
     return this.c
       .get<{
         allowances: {
-          granter: AccAddress;
-          grantee: AccAddress;
-          allowance: Allowance.Data;
-        }[];
-        pagination: Pagination;
+          granter: AccAddress
+          grantee: AccAddress
+          allowance: Allowance.Data
+        }[]
+        pagination: Pagination
       }>(`/cosmos/feegrant/v1beta1/issued/${granter}`, params)
-      .then(d => ({
-        allowances: d.allowances.map(allowance => ({
+      .then((d) => ({
+        allowances: d.allowances.map((allowance) => ({
           granter: allowance.granter,
           grantee: allowance.grantee,
           allowance: Allowance.fromData(allowance.allowance),
         })),
         pagination: d.pagination,
-      }));
+      }))
   }
 }

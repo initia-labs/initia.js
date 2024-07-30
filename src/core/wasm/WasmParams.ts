@@ -1,10 +1,10 @@
-import { JSONSerializable } from '../../util/json';
+import { JSONSerializable } from '../../util/json'
 import {
   Params as Params_pb,
   accessTypeFromJSON,
   accessTypeToJSON,
-} from '@initia/initia.proto/cosmwasm/wasm/v1/types';
-import { AccessConfig } from './AccessConfig';
+} from '@initia/initia.proto/cosmwasm/wasm/v1/types'
+import { AccessConfig } from './AccessConfig'
 
 export class WasmParams extends JSONSerializable<
   WasmParams.Amino,
@@ -19,22 +19,22 @@ export class WasmParams extends JSONSerializable<
     public code_upload_access: AccessConfig,
     public instantiate_default_permission: AccessConfig.Type
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: WasmParams.Amino): WasmParams {
     const {
       value: { code_upload_access, instantiate_default_permission },
-    } = data;
+    } = data
 
     return new WasmParams(
       AccessConfig.fromAmino(code_upload_access),
       accessTypeFromJSON(instantiate_default_permission)
-    );
+    )
   }
 
   public toAmino(): WasmParams.Amino {
-    const { code_upload_access, instantiate_default_permission } = this;
+    const { code_upload_access, instantiate_default_permission } = this
 
     return {
       type: 'wasm/Params',
@@ -44,20 +44,20 @@ export class WasmParams extends JSONSerializable<
           instantiate_default_permission
         ),
       },
-    };
+    }
   }
 
   public static fromData(data: WasmParams.Data): WasmParams {
-    const { code_upload_access, instantiate_default_permission } = data;
+    const { code_upload_access, instantiate_default_permission } = data
 
     return new WasmParams(
       AccessConfig.fromData(code_upload_access),
       accessTypeFromJSON(instantiate_default_permission)
-    );
+    )
   }
 
   public toData(): WasmParams.Data {
-    const { code_upload_access, instantiate_default_permission } = this;
+    const { code_upload_access, instantiate_default_permission } = this
 
     return {
       '@type': '/cosmwasm.wasm.v1.Params',
@@ -65,40 +65,40 @@ export class WasmParams extends JSONSerializable<
       instantiate_default_permission: accessTypeToJSON(
         instantiate_default_permission
       ),
-    };
+    }
   }
 
   public static fromProto(data: WasmParams.Proto): WasmParams {
     return new WasmParams(
       AccessConfig.fromProto(data.codeUploadAccess as AccessConfig.Proto),
       data.instantiateDefaultPermission
-    );
+    )
   }
 
   public toProto(): WasmParams.Proto {
-    const { code_upload_access, instantiate_default_permission } = this;
+    const { code_upload_access, instantiate_default_permission } = this
 
     return Params_pb.fromPartial({
       codeUploadAccess: code_upload_access.toProto(),
       instantiateDefaultPermission: instantiate_default_permission,
-    });
+    })
   }
 }
 
 export namespace WasmParams {
   export interface Amino {
-    type: 'wasm/Params';
+    type: 'wasm/Params'
     value: {
-      code_upload_access: AccessConfig.Amino;
-      instantiate_default_permission: string;
-    };
+      code_upload_access: AccessConfig.Amino
+      instantiate_default_permission: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.Params';
-    code_upload_access: AccessConfig.Data;
-    instantiate_default_permission: string;
+    '@type': '/cosmwasm.wasm.v1.Params'
+    code_upload_access: AccessConfig.Data
+    instantiate_default_permission: string
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

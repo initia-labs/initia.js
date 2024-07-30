@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../util/json';
-import { Duration } from '../Duration';
-import { Params as Params_pb } from '@initia/initia.proto/initia/reward/v1/types';
+import { JSONSerializable } from '../../util/json'
+import { Duration } from '../Duration'
+import { Params as Params_pb } from '@initia/initia.proto/initia/reward/v1/types'
 
 export class RewardParams extends JSONSerializable<
   RewardParams.Amino,
@@ -21,7 +21,7 @@ export class RewardParams extends JSONSerializable<
     public dilution_rate: string,
     public release_enabled: boolean
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: RewardParams.Amino): RewardParams {
@@ -33,7 +33,7 @@ export class RewardParams extends JSONSerializable<
         dilution_rate,
         release_enabled,
       },
-    } = data;
+    } = data
 
     return new RewardParams(
       reward_denom,
@@ -41,7 +41,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled
-    );
+    )
   }
 
   public toAmino(): RewardParams.Amino {
@@ -51,7 +51,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled,
-    } = this;
+    } = this
 
     return {
       type: 'reward/Params',
@@ -62,7 +62,7 @@ export class RewardParams extends JSONSerializable<
         dilution_rate,
         release_enabled,
       },
-    };
+    }
   }
 
   public static fromData(data: RewardParams.Data): RewardParams {
@@ -72,7 +72,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled,
-    } = data;
+    } = data
 
     return new RewardParams(
       reward_denom,
@@ -80,7 +80,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled
-    );
+    )
   }
 
   public toData(): RewardParams.Data {
@@ -90,7 +90,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled,
-    } = this;
+    } = this
 
     return {
       '@type': '/initia.reward.v1.Params',
@@ -99,7 +99,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled,
-    };
+    }
   }
 
   public static fromProto(data: RewardParams.Proto): RewardParams {
@@ -109,7 +109,7 @@ export class RewardParams extends JSONSerializable<
       data.releaseRate,
       data.dilutionRate,
       data.releaseEnabled
-    );
+    )
   }
 
   public toProto(): RewardParams.Proto {
@@ -119,7 +119,7 @@ export class RewardParams extends JSONSerializable<
       release_rate,
       dilution_rate,
       release_enabled,
-    } = this;
+    } = this
 
     return Params_pb.fromPartial({
       rewardDenom: reward_denom,
@@ -127,30 +127,30 @@ export class RewardParams extends JSONSerializable<
       releaseRate: release_rate,
       dilutionRate: dilution_rate,
       releaseEnabled: release_enabled,
-    });
+    })
   }
 }
 
 export namespace RewardParams {
   export interface Amino {
-    type: 'reward/Params';
+    type: 'reward/Params'
     value: {
-      reward_denom: string;
-      dilution_period: Duration.Amino;
-      release_rate: string;
-      dilution_rate: string;
-      release_enabled: boolean;
-    };
+      reward_denom: string
+      dilution_period: Duration.Amino
+      release_rate: string
+      dilution_rate: string
+      release_enabled: boolean
+    }
   }
 
   export interface Data {
-    '@type': '/initia.reward.v1.Params';
-    reward_denom: string;
-    dilution_period: Duration.Data;
-    release_rate: string;
-    dilution_rate: string;
-    release_enabled: boolean;
+    '@type': '/initia.reward.v1.Params'
+    reward_denom: string
+    dilution_period: Duration.Data
+    release_rate: string
+    dilution_rate: string
+    release_enabled: boolean
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

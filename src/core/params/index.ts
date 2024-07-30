@@ -1,2 +1,2 @@
-export * from './proposals';
-export * from './ParamChange';
+export * from './proposals'
+export * from './ParamChange'

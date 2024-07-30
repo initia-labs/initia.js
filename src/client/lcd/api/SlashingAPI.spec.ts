@@ -1,8 +1,8 @@
-import { APIRequester } from '../APIRequester';
-import { SlashingAPI } from './SlashingAPI';
+import { APIRequester } from '../APIRequester'
+import { SlashingAPI } from './SlashingAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const slashing = new SlashingAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const slashing = new SlashingAPI(c)
 
 describe('SlashingAPI', () => {
   it('parameters', async () => {
@@ -12,6 +12,6 @@ describe('SlashingAPI', () => {
       downtime_jail_duration: expect.any(Number),
       slash_fraction_double_sign: expect.any(String),
       slash_fraction_downtime: expect.any(String),
-    });
-  });
-});
+    })
+  })
+})

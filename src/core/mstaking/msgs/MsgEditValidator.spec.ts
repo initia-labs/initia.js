@@ -1,15 +1,15 @@
-import { MsgEditValidator } from './MsgEditValidator';
-const MsgEditValidatorAmino = require('./MsgEditValidator.data.json');
+import { MsgEditValidator } from './MsgEditValidator'
+const MsgEditValidatorAmino = require('./MsgEditValidator.data.json')
 
 describe('MsgEditValidator', () => {
   it('deserializes', () => {
     MsgEditValidatorAmino.txs.forEach((txinfo: any) => {
       txinfo.tx.value.msg.forEach((msg: any) => {
         if (msg.type == 'cosmos-sdk/MsgEditValidator') {
-          const e = MsgEditValidator.fromAmino(msg);
-          expect(e.toAmino()).toEqual(msg);
+          const e = MsgEditValidator.fromAmino(msg)
+          expect(e.toAmino()).toEqual(msg)
         }
-      });
-    });
-  });
-});
+      })
+    })
+  })
+})

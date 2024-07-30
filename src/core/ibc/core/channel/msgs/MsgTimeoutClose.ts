@@ -1,9 +1,9 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgTimeoutOnClose as MsgTimeoutOnClose_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx';
-import { Packet, Height } from '../../../core';
-import Long from 'long';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgTimeoutOnClose as MsgTimeoutOnClose_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
+import { Packet, Height } from '../../../core'
+import Long from 'long'
 
 /**
  * MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
@@ -29,16 +29,16 @@ export class MsgTimeoutOnClose extends JSONSerializable<
     public next_sequence_recv: number,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgTimeoutOnClose {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgTimeoutOnClose.Data): MsgTimeoutOnClose {
@@ -49,7 +49,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_height,
       next_sequence_recv,
       signer,
-    } = data;
+    } = data
     return new MsgTimeoutOnClose(
       packet ? Packet.fromData(packet) : undefined,
       proof_close,
@@ -57,7 +57,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_height ? Height.fromData(proof_height) : undefined,
       Number.parseInt(next_sequence_recv),
       signer
-    );
+    )
   }
 
   public toData(): MsgTimeoutOnClose.Data {
@@ -68,7 +68,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_height,
       next_sequence_recv,
       signer,
-    } = this;
+    } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgTimeoutOnClose',
       packet: packet?.toData(),
@@ -77,7 +77,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_height: proof_height?.toData(),
       next_sequence_recv: next_sequence_recv.toFixed(),
       signer,
-    };
+    }
   }
 
   public static fromProto(proto: MsgTimeoutOnClose.Proto): MsgTimeoutOnClose {
@@ -88,7 +88,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.nextSequenceRecv.toNumber(),
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgTimeoutOnClose.Proto {
@@ -99,7 +99,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_height,
       next_sequence_recv,
       signer,
-    } = this;
+    } = this
     return MsgTimeoutOnClose_pb.fromPartial({
       packet: packet?.toProto(),
       proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
@@ -107,32 +107,32 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proofHeight: proof_height?.toProto(),
       nextSequenceRecv: Long.fromNumber(next_sequence_recv),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.channel.v1.MsgTimeoutOnClose',
       value: MsgTimeoutOnClose_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgTimeoutOnClose {
     return MsgTimeoutOnClose.fromProto(
       MsgTimeoutOnClose_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgTimeoutOnClose {
   export interface Data {
-    '@type': '/ibc.core.channel.v1.MsgTimeoutOnClose';
-    packet?: Packet.Data;
-    proof_unreceived: string;
-    proof_close: string;
-    proof_height?: Height.Data;
-    next_sequence_recv: string;
-    signer: AccAddress;
+    '@type': '/ibc.core.channel.v1.MsgTimeoutOnClose'
+    packet?: Packet.Data
+    proof_unreceived: string
+    proof_close: string
+    proof_height?: Height.Data
+    next_sequence_recv: string
+    signer: AccAddress
   }
-  export type Proto = MsgTimeoutOnClose_pb;
+  export type Proto = MsgTimeoutOnClose_pb
 }

@@ -1,6 +1,6 @@
-import { Height as Height_pb } from '@initia/initia.proto/ibc/core/client/v1/client';
-import Long from 'long';
-import { JSONSerializable } from '../../../../util/json';
+import { Height as Height_pb } from '@initia/initia.proto/ibc/core/client/v1/client'
+import Long from 'long'
+import { JSONSerializable } from '../../../../util/json'
 
 /**
  * Height is a monotonically increasing data type
@@ -23,72 +23,75 @@ export class Height extends JSONSerializable<
    * @param revision_number the revision that the client is currently on
    * @param revision_height the height within the given revision
    */
-  constructor(public revision_number: number, public revision_height: number) {
-    super();
+  constructor(
+    public revision_number: number,
+    public revision_height: number
+  ) {
+    super()
   }
 
   public static fromAmino(data: Height.Amino): Height {
-    const { revision_number, revision_height } = data;
+    const { revision_number, revision_height } = data
     return new Height(
       parseInt(revision_number ?? '0'),
       parseInt(revision_height ?? '0')
-    );
+    )
   }
 
   public toAmino(): Height.Amino {
-    const { revision_number, revision_height } = this;
+    const { revision_number, revision_height } = this
     const res: Height.Amino = {
       revision_number:
         revision_number > 0 ? revision_number.toFixed() : undefined,
       revision_height:
         revision_height > 0 ? revision_height.toFixed() : undefined,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromData(data: Height.Data): Height {
-    const { revision_number, revision_height } = data;
+    const { revision_number, revision_height } = data
     return new Height(
       Number.parseInt(revision_number),
       Number.parseInt(revision_height)
-    );
+    )
   }
 
   public toData(): Height.Data {
-    const { revision_number, revision_height } = this;
+    const { revision_number, revision_height } = this
     const res: Height.Data = {
       revision_number: revision_number.toFixed(),
       revision_height: revision_height.toFixed(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Height.Proto): Height {
     return new Height(
       proto.revisionNumber.toNumber(),
       proto.revisionHeight.toNumber()
-    );
+    )
   }
 
   public toProto(): Height.Proto {
-    const { revision_number, revision_height } = this;
+    const { revision_number, revision_height } = this
     return Height_pb.fromPartial({
       revisionNumber: Long.fromNumber(revision_number),
       revisionHeight: Long.fromNumber(revision_height),
-    });
+    })
   }
 }
 
 export namespace Height {
   export interface Amino {
-    revision_number?: string;
-    revision_height?: string;
+    revision_number?: string
+    revision_height?: string
   }
 
   export interface Data {
-    revision_number: string;
-    revision_height: string;
+    revision_number: string
+    revision_height: string
   }
 
-  export type Proto = Height_pb;
+  export type Proto = Height_pb
 }

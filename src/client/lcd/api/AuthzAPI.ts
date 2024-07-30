@@ -1,6 +1,6 @@
-import { AccAddress, AuthorizationGrant } from '../../../core';
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination } from '../APIRequester';
+import { AccAddress, AuthorizationGrant } from '../../../core'
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination } from '../APIRequester'
 
 export class AuthzAPI extends BaseAPI {
   /**
@@ -24,7 +24,7 @@ export class AuthzAPI extends BaseAPI {
           params
         )
       )
-      .then(d => [d.grants.map(AuthorizationGrant.fromData), d.pagination]);
+      .then((d) => [d.grants.map(AuthorizationGrant.fromData), d.pagination])
   }
 
   /**
@@ -35,14 +35,14 @@ export class AuthzAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
-      .get<{ grants: AuthorizationGrant.Data[]; pagination: Pagination }>(
-        `/cosmos/authz/v1beta1/grants/granter/${granter}`,
-        params
-      )
-      .then(d => [
-        d.grants.map(g => AuthorizationGrant.fromData(g)),
+      .get<{
+        grants: AuthorizationGrant.Data[]
+        pagination: Pagination
+      }>(`/cosmos/authz/v1beta1/grants/granter/${granter}`, params)
+      .then((d) => [
+        d.grants.map((g) => AuthorizationGrant.fromData(g)),
         d.pagination,
-      ]);
+      ])
   }
 
   /**
@@ -53,13 +53,13 @@ export class AuthzAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
-      .get<{ grants: AuthorizationGrant.Data[]; pagination: Pagination }>(
-        `/cosmos/authz/v1beta1/grants/grantee/${grantee}`,
-        params
-      )
-      .then(d => [
-        d.grants.map(g => AuthorizationGrant.fromData(g)),
+      .get<{
+        grants: AuthorizationGrant.Data[]
+        pagination: Pagination
+      }>(`/cosmos/authz/v1beta1/grants/grantee/${grantee}`, params)
+      .then((d) => [
+        d.grants.map((g) => AuthorizationGrant.fromData(g)),
         d.pagination,
-      ]);
+      ])
   }
 }

@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgCreateMarkets as MsgCreateMarkets_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx';
-import { Market } from '../Market';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgCreateMarkets as MsgCreateMarkets_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx'
+import { Market } from '../Market'
 
 export class MsgCreateMarkets extends JSONSerializable<
   MsgCreateMarkets.Amino,
@@ -13,86 +13,86 @@ export class MsgCreateMarkets extends JSONSerializable<
    * @param authority the signer of this transaction
    * @param create_markets the list of all markets to be created for the given transaction
    */
-  constructor(public authority: AccAddress, public create_markets: Market[]) {
-    super();
+  constructor(
+    public authority: AccAddress,
+    public create_markets: Market[]
+  ) {
+    super()
   }
 
   public static fromAmino(data: MsgCreateMarkets.Amino): MsgCreateMarkets {
     const {
       value: { authority, create_markets },
-    } = data;
-    return new MsgCreateMarkets(
-      authority,
-      create_markets.map(Market.fromAmino)
-    );
+    } = data
+    return new MsgCreateMarkets(authority, create_markets.map(Market.fromAmino))
   }
 
   public toAmino(): MsgCreateMarkets.Amino {
-    const { authority, create_markets } = this;
+    const { authority, create_markets } = this
     return {
       type: 'slinky/x/marketmap/MsgCreateMarkets',
       value: {
         authority,
-        create_markets: create_markets.map(msg => msg.toAmino()),
+        create_markets: create_markets.map((msg) => msg.toAmino()),
       },
-    };
+    }
   }
 
   public static fromData(data: MsgCreateMarkets.Data): MsgCreateMarkets {
-    const { authority, create_markets } = data;
-    return new MsgCreateMarkets(authority, create_markets.map(Market.fromData));
+    const { authority, create_markets } = data
+    return new MsgCreateMarkets(authority, create_markets.map(Market.fromData))
   }
 
   public toData(): MsgCreateMarkets.Data {
-    const { authority, create_markets } = this;
+    const { authority, create_markets } = this
     return {
       '@type': '/slinky.marketmap.v1.MsgCreateMarkets',
       authority,
-      create_markets: create_markets.map(msg => msg.toData()),
-    };
+      create_markets: create_markets.map((msg) => msg.toData()),
+    }
   }
 
   public static fromProto(data: MsgCreateMarkets.Proto): MsgCreateMarkets {
     return new MsgCreateMarkets(
       data.authority,
       data.createMarkets.map(Market.fromProto)
-    );
+    )
   }
 
   public toProto(): MsgCreateMarkets.Proto {
-    const { authority, create_markets } = this;
+    const { authority, create_markets } = this
     return MsgCreateMarkets_pb.fromPartial({
       authority,
-      createMarkets: create_markets.map(c => c.toProto()),
-    });
+      createMarkets: create_markets.map((c) => c.toProto()),
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/slinky.marketmap.v1.MsgCreateMarkets',
       value: MsgCreateMarkets_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgCreateMarkets {
-    return MsgCreateMarkets.fromProto(MsgCreateMarkets_pb.decode(msgAny.value));
+    return MsgCreateMarkets.fromProto(MsgCreateMarkets_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgCreateMarkets {
   export interface Amino {
-    type: 'slinky/x/marketmap/MsgCreateMarkets';
+    type: 'slinky/x/marketmap/MsgCreateMarkets'
     value: {
-      authority: AccAddress;
-      create_markets: Market.Amino[];
-    };
+      authority: AccAddress
+      create_markets: Market.Amino[]
+    }
   }
 
   export interface Data {
-    '@type': '/slinky.marketmap.v1.MsgCreateMarkets';
-    authority: AccAddress;
-    create_markets: Market.Data[];
+    '@type': '/slinky.marketmap.v1.MsgCreateMarkets'
+    authority: AccAddress
+    create_markets: Market.Data[]
   }
 
-  export type Proto = MsgCreateMarkets_pb;
+  export type Proto = MsgCreateMarkets_pb
 }

@@ -1,30 +1,30 @@
-import { MsgCreateGroup } from './MsgCreateGroup';
-import { MsgCreateGroupPolicy } from './MsgCreateGroupPolicy';
-import { MsgCreateGroupWithPolicy } from './MsgCreateGroupWithPolicy';
-import { MsgGroupExec } from './MsgGroupExec';
-import { MsgGroupVote } from './MsgGroupVote';
-import { MsgLeaveGroup } from './MsgLeaveGroup';
-import { MsgSubmitGroupProposal } from './MsgSubmitGroupProposal';
-import { MsgUpdateGroupAdmin } from './MsgUpdateGroupAdmin';
-import { MsgUpdateGroupDecisionPolicy } from './MsgUpdateGroupDecisionPolicy';
-import { MsgUpdateGroupMembers } from './MsgUpdateGroupMembers';
-import { MsgUpdateGroupMetadata } from './MsgUpdateGroupMetadata';
-import { MsgUpdateGroupPolicyAdmin } from './MsgUpdateGroupPolicyAdmin';
-import { MsgUpdateGroupPolicyMetadata } from './MsgUpdateGroupPolicyMetadata';
+import { MsgCreateGroup } from './MsgCreateGroup'
+import { MsgCreateGroupPolicy } from './MsgCreateGroupPolicy'
+import { MsgCreateGroupWithPolicy } from './MsgCreateGroupWithPolicy'
+import { MsgGroupExec } from './MsgGroupExec'
+import { MsgGroupVote } from './MsgGroupVote'
+import { MsgLeaveGroup } from './MsgLeaveGroup'
+import { MsgSubmitGroupProposal } from './MsgSubmitGroupProposal'
+import { MsgUpdateGroupAdmin } from './MsgUpdateGroupAdmin'
+import { MsgUpdateGroupDecisionPolicy } from './MsgUpdateGroupDecisionPolicy'
+import { MsgUpdateGroupMembers } from './MsgUpdateGroupMembers'
+import { MsgUpdateGroupMetadata } from './MsgUpdateGroupMetadata'
+import { MsgUpdateGroupPolicyAdmin } from './MsgUpdateGroupPolicyAdmin'
+import { MsgUpdateGroupPolicyMetadata } from './MsgUpdateGroupPolicyMetadata'
 
-export * from './MsgCreateGroup';
-export * from './MsgCreateGroupPolicy';
-export * from './MsgCreateGroupWithPolicy';
-export * from './MsgGroupExec';
-export * from './MsgGroupVote';
-export * from './MsgLeaveGroup';
-export * from './MsgSubmitGroupProposal';
-export * from './MsgUpdateGroupAdmin';
-export * from './MsgUpdateGroupDecisionPolicy';
-export * from './MsgUpdateGroupMembers';
-export * from './MsgUpdateGroupMetadata';
-export * from './MsgUpdateGroupPolicyAdmin';
-export * from './MsgUpdateGroupPolicyMetadata';
+export * from './MsgCreateGroup'
+export * from './MsgCreateGroupPolicy'
+export * from './MsgCreateGroupWithPolicy'
+export * from './MsgGroupExec'
+export * from './MsgGroupVote'
+export * from './MsgLeaveGroup'
+export * from './MsgSubmitGroupProposal'
+export * from './MsgUpdateGroupAdmin'
+export * from './MsgUpdateGroupDecisionPolicy'
+export * from './MsgUpdateGroupMembers'
+export * from './MsgUpdateGroupMetadata'
+export * from './MsgUpdateGroupPolicyAdmin'
+export * from './MsgUpdateGroupPolicyMetadata'
 
 export type GroupMsg =
   | MsgCreateGroup
@@ -39,7 +39,7 @@ export type GroupMsg =
   | MsgUpdateGroupMembers
   | MsgUpdateGroupMetadata
   | MsgUpdateGroupPolicyAdmin
-  | MsgUpdateGroupPolicyMetadata;
+  | MsgUpdateGroupPolicyMetadata
 
 export namespace GroupMsg {
   export type Amino =
@@ -55,7 +55,7 @@ export namespace GroupMsg {
     | MsgUpdateGroupMembers.Amino
     | MsgUpdateGroupMetadata.Amino
     | MsgUpdateGroupPolicyAdmin.Amino
-    | MsgUpdateGroupPolicyMetadata.Amino;
+    | MsgUpdateGroupPolicyMetadata.Amino
 
   export type Data =
     | MsgCreateGroup.Data
@@ -70,7 +70,7 @@ export namespace GroupMsg {
     | MsgUpdateGroupMembers.Data
     | MsgUpdateGroupMetadata.Data
     | MsgUpdateGroupPolicyAdmin.Data
-    | MsgUpdateGroupPolicyMetadata.Data;
+    | MsgUpdateGroupPolicyMetadata.Data
 
   export type Proto =
     | MsgCreateGroup.Proto
@@ -85,5 +85,5 @@ export namespace GroupMsg {
     | MsgUpdateGroupMembers.Proto
     | MsgUpdateGroupMetadata.Proto
     | MsgUpdateGroupPolicyAdmin.Proto
-    | MsgUpdateGroupPolicyMetadata.Proto;
+    | MsgUpdateGroupPolicyMetadata.Proto
 }

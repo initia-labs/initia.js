@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgAddCodeUploadParamsAddresses as MsgAddCodeUploadParamsAddresses_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgAddCodeUploadParamsAddresses as MsgAddCodeUploadParamsAddresses_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
 export class MsgAddCodeUploadParamsAddresses extends JSONSerializable<
   MsgAddCodeUploadParamsAddresses.Amino,
@@ -12,8 +12,11 @@ export class MsgAddCodeUploadParamsAddresses extends JSONSerializable<
    * @param authority the address of the governance account
    * @param addresses
    */
-  constructor(public authority: AccAddress, public addresses: AccAddress[]) {
-    super();
+  constructor(
+    public authority: AccAddress,
+    public addresses: AccAddress[]
+  ) {
+    super()
   }
 
   public static fromAmino(
@@ -21,79 +24,79 @@ export class MsgAddCodeUploadParamsAddresses extends JSONSerializable<
   ): MsgAddCodeUploadParamsAddresses {
     const {
       value: { authority, addresses },
-    } = data;
-    return new MsgAddCodeUploadParamsAddresses(authority, addresses);
+    } = data
+    return new MsgAddCodeUploadParamsAddresses(authority, addresses)
   }
 
   public toAmino(): MsgAddCodeUploadParamsAddresses.Amino {
-    const { authority, addresses } = this;
+    const { authority, addresses } = this
     return {
       type: 'wasm/MsgAddCodeUploadParamsAddresses',
       value: {
         authority,
         addresses,
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgAddCodeUploadParamsAddresses.Data
   ): MsgAddCodeUploadParamsAddresses {
-    const { authority, addresses } = data;
-    return new MsgAddCodeUploadParamsAddresses(authority, addresses);
+    const { authority, addresses } = data
+    return new MsgAddCodeUploadParamsAddresses(authority, addresses)
   }
 
   public toData(): MsgAddCodeUploadParamsAddresses.Data {
-    const { authority, addresses } = this;
+    const { authority, addresses } = this
     return {
       '@type': '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses',
       authority,
       addresses,
-    };
+    }
   }
 
   public static fromProto(
     data: MsgAddCodeUploadParamsAddresses.Proto
   ): MsgAddCodeUploadParamsAddresses {
-    return new MsgAddCodeUploadParamsAddresses(data.authority, data.addresses);
+    return new MsgAddCodeUploadParamsAddresses(data.authority, data.addresses)
   }
 
   public toProto(): MsgAddCodeUploadParamsAddresses.Proto {
-    const { authority, addresses } = this;
+    const { authority, addresses } = this
     return MsgAddCodeUploadParamsAddresses_pb.fromPartial({
       authority,
       addresses,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses',
       value: MsgAddCodeUploadParamsAddresses_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgAddCodeUploadParamsAddresses {
     return MsgAddCodeUploadParamsAddresses.fromProto(
       MsgAddCodeUploadParamsAddresses_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgAddCodeUploadParamsAddresses {
   export interface Amino {
-    type: 'wasm/MsgAddCodeUploadParamsAddresses';
+    type: 'wasm/MsgAddCodeUploadParamsAddresses'
     value: {
-      authority: AccAddress;
-      addresses: AccAddress[];
-    };
+      authority: AccAddress
+      addresses: AccAddress[]
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses';
-    authority: AccAddress;
-    addresses: AccAddress[];
+    '@type': '/cosmwasm.wasm.v1.MsgAddCodeUploadParamsAddresses'
+    authority: AccAddress
+    addresses: AccAddress[]
   }
 
-  export type Proto = MsgAddCodeUploadParamsAddresses_pb;
+  export type Proto = MsgAddCodeUploadParamsAddresses_pb
 }

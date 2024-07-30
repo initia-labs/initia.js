@@ -15,10 +15,10 @@
  *  limitations under the License.
  ******************************************************************************* */
 
-import * as crypto from 'crypto';
-import Ripemd160 from 'ripemd160';
-import Transport from '@ledgerhq/hw-transport';
-import { bech32 } from 'bech32';
+import * as crypto from 'crypto'
+import Ripemd160 from 'ripemd160'
+import Transport from '@ledgerhq/hw-transport'
+import { bech32 } from 'bech32'
 import {
   publicKey,
   serializePath,
@@ -28,7 +28,7 @@ import {
   getDeviceInfo,
   getAddressAndPubKey,
   showAddressAndPubKey,
-} from './device';
+} from './device'
 import {
   CommonResponse,
   AppInfoResponse,
@@ -36,65 +36,65 @@ import {
   PublicKeyResponse,
   DeviceInfoResponse,
   SignResponse,
-} from './types';
+} from './types'
 
-const APP_NAME_INITIA = 'Initia';
-const APP_NAME_COSMOS = 'Cosmos';
+const APP_NAME_INITIA = 'Initia'
+const APP_NAME_COSMOS = 'Cosmos'
 
 export default class InitiaApp {
-  private transport: Transport;
-  private info!: AppInfoResponse;
-  private version!: VersionResponse;
+  private transport: Transport
+  private info!: AppInfoResponse
+  private version!: VersionResponse
 
   constructor(transport?: Transport) {
     if (!transport) {
-      throw new Error('Transport has not been defined');
+      throw new Error('Transport has not been defined')
     }
 
-    this.transport = transport;
+    this.transport = transport
   }
 
   static serializeHRP(hrp: string): Buffer {
     if (!hrp?.length || hrp.length < 3 || hrp.length > 83) {
-      throw new Error('Invalid HRP');
+      throw new Error('Invalid HRP')
     }
-    const buf = Buffer.alloc(1 + hrp.length);
-    buf.writeUInt8(hrp.length, 0);
-    buf.write(hrp, 1);
-    return buf;
+    const buf = Buffer.alloc(1 + hrp.length)
+    buf.writeUInt8(hrp.length, 0)
+    buf.write(hrp, 1)
+    return buf
   }
 
   static getBech32FromPK(hrp: string, pk: Buffer): string {
     if (pk.length !== 33) {
-      throw new Error('expected compressed public key [31 bytes]');
+      throw new Error('expected compressed public key [31 bytes]')
     }
-    const hashSha256 = crypto.createHash('sha256').update(pk).digest();
-    const hashRip = new Ripemd160().update(hashSha256).digest();
-    return bech32.encode(hrp, bech32.toWords(hashRip));
+    const hashSha256 = crypto.createHash('sha256').update(pk).digest()
+    const hashRip = new Ripemd160().update(hashSha256).digest()
+    return bech32.encode(hrp, bech32.toWords(hashRip))
   }
 
   private validateCompatibility(): CommonResponse | undefined {
     if (this.info && this.version) {
       if (this.info.return_code !== 0x9000) {
-        return this.info;
+        return this.info
       }
 
       if (this.version.return_code !== 0x9000) {
-        return this.version;
+        return this.version
       }
 
       if (
         (this.info.app_name === APP_NAME_INITIA && this.version.major === 1) ||
         (this.info.app_name === APP_NAME_COSMOS && this.version.major === 2)
       ) {
-        return;
+        return
       }
     }
 
     return {
       return_code: 0x6400,
       error_message: 'App Version is not supported',
-    };
+    }
   }
 
   /**
@@ -102,50 +102,50 @@ export default class InitiaApp {
    */
   async initialize(): Promise<CommonResponse | undefined> {
     return getAppInfo(this.transport)
-      .then(appInfo => {
-        this.info = appInfo;
-        return getVersion(this.transport);
+      .then((appInfo) => {
+        this.info = appInfo
+        return getVersion(this.transport)
       })
-      .then(version => {
-        this.version = version;
-        return this.validateCompatibility();
-      });
+      .then((version) => {
+        this.version = version
+        return this.validateCompatibility()
+      })
   }
 
   getInfo(): AppInfoResponse {
-    return this.info;
+    return this.info
   }
 
   getVersion(): VersionResponse {
-    return this.version;
+    return this.version
   }
 
   getDeviceInfo(): Promise<DeviceInfoResponse> {
-    return getDeviceInfo(this.transport);
+    return getDeviceInfo(this.transport)
   }
 
   getPublicKey(path: number[]): Promise<PublicKeyResponse> {
-    const result = serializePath(path);
-    const data = Buffer.concat([InitiaApp.serializeHRP('init'), result]);
-    return publicKey(this.transport, data);
+    const result = serializePath(path)
+    const data = Buffer.concat([InitiaApp.serializeHRP('init'), result])
+    return publicKey(this.transport, data)
   }
 
   getAddressAndPubKey(path: number[], hrp: string): Promise<PublicKeyResponse> {
-    const result = serializePath(path);
-    const data = Buffer.concat([InitiaApp.serializeHRP(hrp), result]);
-    return getAddressAndPubKey(this.transport, data);
+    const result = serializePath(path)
+    const data = Buffer.concat([InitiaApp.serializeHRP(hrp), result])
+    return getAddressAndPubKey(this.transport, data)
   }
 
   showAddressAndPubKey(
     path: number[],
     hrp: string
   ): Promise<PublicKeyResponse> {
-    const result = serializePath(path);
-    const data = Buffer.concat([InitiaApp.serializeHRP(hrp), result]);
-    return showAddressAndPubKey(this.transport, data);
+    const result = serializePath(path)
+    const data = Buffer.concat([InitiaApp.serializeHRP(hrp), result])
+    return showAddressAndPubKey(this.transport, data)
   }
 
   sign(path: number[], message: Buffer): Promise<SignResponse> {
-    return sign(this.transport, path, message);
+    return sign(this.transport, path, message)
   }
 }

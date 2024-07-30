@@ -1,31 +1,30 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams } from '../APIRequester';
-import { CurrencyPair, Market, MarketmapParams } from '../../../core';
+import { BaseAPI } from './BaseAPI'
+import { APIParams } from '../APIRequester'
+import { CurrencyPair, Market, MarketmapParams } from '../../../core'
 
 export interface MarketMap {
-  markets: { [ticker: string]: Market };
+  markets: Record<string, Market>
 }
 
 export namespace MarketMap {
   export interface Data {
-    markets: { [ticker: string]: Market.Data };
+    markets: Record<string, Market.Data>
   }
 }
 
 export class MarketmapAPI extends BaseAPI {
   public async marketMap(params: APIParams = {}): Promise<MarketMap> {
     return this.c
-      .get<{ market_map: MarketMap.Data }>(
-        `/slinky/marketmap/v1/marketmap`,
-        params
-      )
-      .then(d => {
-        const markets: { [ticker: string]: Market } = {};
+      .get<{
+        market_map: MarketMap.Data
+      }>(`/slinky/marketmap/v1/marketmap`, params)
+      .then((d) => {
+        const markets: Record<string, Market> = {}
         for (const [ticker, market] of Object.entries(d.market_map.markets)) {
-          markets[ticker] = Market.fromData(market);
+          markets[ticker] = Market.fromData(market)
         }
-        return { markets };
-      });
+        return { markets }
+      })
   }
 
   public async market(
@@ -38,24 +37,22 @@ export class MarketmapAPI extends BaseAPI {
         'currency_pair.Base': pair.Base,
         'currency_pair.Quote': pair.Quote,
       })
-      .then(d => Market.fromData(d.market));
+      .then((d) => Market.fromData(d.market))
   }
 
   public async lastUpdated(params: APIParams = {}): Promise<number> {
     return this.c
-      .get<{ last_updated: string }>(
-        `/slinky/marketmap/v1/last_updated`,
-        params
-      )
-      .then(d => Number.parseInt(d.last_updated));
+      .get<{
+        last_updated: string
+      }>(`/slinky/marketmap/v1/last_updated`, params)
+      .then((d) => Number.parseInt(d.last_updated))
   }
 
   public async parameters(params: APIParams = {}): Promise<MarketmapParams> {
     return this.c
-      .get<{ params: MarketmapParams.Data }>(
-        `/slinky/marketmap/v1/params`,
-        params
-      )
-      .then(d => MarketmapParams.fromData(d.params));
+      .get<{
+        params: MarketmapParams.Data
+      }>(`/slinky/marketmap/v1/params`, params)
+      .then((d) => MarketmapParams.fromData(d.params))
   }
 }

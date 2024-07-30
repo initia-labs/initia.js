@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Coin } from '../../Coin';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/crisis/v1beta1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Coin } from '../../Coin'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/crisis/v1beta1/tx'
 
 export class MsgUpdateCrisisParams extends JSONSerializable<
   MsgUpdateCrisisParams.Amino,
@@ -13,8 +13,11 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
    * @param authority the address that controls the module
    * @param constant_fee constant_fee defines the x/crisis parameters to update
    */
-  constructor(public authority: AccAddress, public constant_fee: Coin) {
-    super();
+  constructor(
+    public authority: AccAddress,
+    public constant_fee: Coin
+  ) {
+    super()
   }
 
   public static fromAmino(
@@ -22,35 +25,35 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
   ): MsgUpdateCrisisParams {
     const {
       value: { authority, constant_fee },
-    } = data;
-    return new MsgUpdateCrisisParams(authority, Coin.fromAmino(constant_fee));
+    } = data
+    return new MsgUpdateCrisisParams(authority, Coin.fromAmino(constant_fee))
   }
 
   public toAmino(): MsgUpdateCrisisParams.Amino {
-    const { authority, constant_fee } = this;
+    const { authority, constant_fee } = this
     return {
       type: 'cosmos-sdk/x/crisis/MsgUpdateParams',
       value: {
         authority,
         constant_fee: constant_fee.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgUpdateCrisisParams.Data
   ): MsgUpdateCrisisParams {
-    const { authority, constant_fee } = data;
-    return new MsgUpdateCrisisParams(authority, Coin.fromData(constant_fee));
+    const { authority, constant_fee } = data
+    return new MsgUpdateCrisisParams(authority, Coin.fromData(constant_fee))
   }
 
   public toData(): MsgUpdateCrisisParams.Data {
-    const { authority, constant_fee } = this;
+    const { authority, constant_fee } = this
     return {
       '@type': '/cosmos.crisis.v1beta1.MsgUpdateParams',
       authority,
       constant_fee: constant_fee.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -59,45 +62,45 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
     return new MsgUpdateCrisisParams(
       data.authority,
       Coin.fromProto(data.constantFee as Coin.Proto)
-    );
+    )
   }
 
   public toProto(): MsgUpdateCrisisParams.Proto {
-    const { authority, constant_fee } = this;
+    const { authority, constant_fee } = this
     return MsgUpdateParams_pb.fromPartial({
       authority,
       constantFee: constant_fee.toProto(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.crisis.v1beta1.MsgUpdateParams',
       value: MsgUpdateParams_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpdateCrisisParams {
     return MsgUpdateCrisisParams.fromProto(
       MsgUpdateParams_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgUpdateCrisisParams {
   export interface Amino {
-    type: 'cosmos-sdk/x/crisis/MsgUpdateParams';
+    type: 'cosmos-sdk/x/crisis/MsgUpdateParams'
     value: {
-      authority: AccAddress;
-      constant_fee: Coin.Amino;
-    };
+      authority: AccAddress
+      constant_fee: Coin.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.crisis.v1beta1.MsgUpdateParams';
-    authority: AccAddress;
-    constant_fee: Coin.Data;
+    '@type': '/cosmos.crisis.v1beta1.MsgUpdateParams'
+    authority: AccAddress
+    constant_fee: Coin.Data
   }
 
-  export type Proto = MsgUpdateParams_pb;
+  export type Proto = MsgUpdateParams_pb
 }

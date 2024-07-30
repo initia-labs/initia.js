@@ -1,4 +1,4 @@
-import { JSONSerializable } from '../../../../../../util/json';
+import { JSONSerializable } from '../../../../../../util/json'
 import {
   Header as Header_pb,
   SignedHeader as SignedHeader_pb,
@@ -6,17 +6,17 @@ import {
   PartSetHeader as PartSetHeader_pb,
   Commit as Commit_pb,
   CommitSig as CommitSig_pb,
-} from '@initia/initia.proto/tendermint/types/types';
+} from '@initia/initia.proto/tendermint/types/types'
 import {
   Validator as Validator_pb,
   ValidatorSet as ValidatorSet_pb,
   BlockIDFlag,
   blockIDFlagFromJSON,
   blockIDFlagToJSON,
-} from '@initia/initia.proto/tendermint/types/validator';
-import { Consensus } from './version';
-import { PublicKey } from './crypto';
-import Long from 'long';
+} from '@initia/initia.proto/tendermint/types/validator'
+import { Consensus } from './version'
+import { PublicKey } from './crypto'
+import Long from 'long'
 
 /** Header defines the structure of a Tendermint block header. */
 export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
@@ -40,16 +40,16 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     public evidenceHash: string,
     public proposerAddress: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): Header {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: Header.Data): Header {
@@ -68,7 +68,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       last_results_hash: lastResultsHash,
       evidence_hash: evidenceHash,
       proposer_address: proposerAddress,
-    } = data;
+    } = data
     return new Header(
       version ? Consensus.fromData(version) : undefined,
       chainId,
@@ -84,7 +84,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       lastResultsHash,
       evidenceHash,
       proposerAddress
-    );
+    )
   }
 
   public toData(): Header.Data {
@@ -103,7 +103,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       lastResultsHash,
       evidenceHash,
       proposerAddress,
-    } = this;
+    } = this
     const res: Header.Data = {
       version: version?.toData(),
       chain_id: chainId,
@@ -119,8 +119,8 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       last_results_hash: lastResultsHash,
       evidence_hash: evidenceHash,
       proposer_address: proposerAddress,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Header.Proto): Header {
@@ -139,7 +139,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       lastResultsHash,
       evidenceHash,
       proposerAddress,
-    } = proto;
+    } = proto
     return new Header(
       version ? Consensus.fromProto(version) : undefined,
       chainId,
@@ -155,7 +155,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       Buffer.from(lastResultsHash).toString('base64'),
       Buffer.from(evidenceHash).toString('base64'),
       Buffer.from(proposerAddress).toString('base64')
-    );
+    )
   }
 
   public toProto(): Header.Proto {
@@ -174,7 +174,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       lastResultsHash,
       evidenceHash,
       proposerAddress,
-    } = this;
+    } = this
     return Header_pb.fromPartial({
       version: version?.toProto(),
       chainId,
@@ -190,29 +190,29 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       lastResultsHash: Buffer.from(lastResultsHash, 'base64'),
       evidenceHash: Buffer.from(evidenceHash, 'base64'),
       proposerAddress: Buffer.from(proposerAddress, 'base64'),
-    });
+    })
   }
 }
 
 export namespace Header {
   export interface Data {
-    version?: Consensus.Data;
-    chain_id: string;
-    height: string;
-    time?: string;
-    last_block_id?: BlockID.Data;
-    last_commit_hash: string;
-    data_hash: string;
-    validators_hash: string;
-    next_validators_hash: string;
-    consensus_hash: string;
-    app_hash: string;
-    last_results_hash: string;
-    evidence_hash: string;
-    proposer_address: string;
+    version?: Consensus.Data
+    chain_id: string
+    height: string
+    time?: string
+    last_block_id?: BlockID.Data
+    last_commit_hash: string
+    data_hash: string
+    validators_hash: string
+    next_validators_hash: string
+    consensus_hash: string
+    app_hash: string
+    last_results_hash: string
+    evidence_hash: string
+    proposer_address: string
   }
 
-  export type Proto = Header_pb;
+  export type Proto = Header_pb
 }
 
 export class SignedHeader extends JSONSerializable<
@@ -224,59 +224,62 @@ export class SignedHeader extends JSONSerializable<
    * @param header
    * @param commit
    */
-  constructor(public header?: Header, public commit?: Commit) {
-    super();
+  constructor(
+    public header?: Header,
+    public commit?: Commit
+  ) {
+    super()
   }
 
   public static fromAmino(_: any): SignedHeader {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: SignedHeader.Data): SignedHeader {
-    const { header, commit } = data;
+    const { header, commit } = data
     return new SignedHeader(
       header ? Header.fromData(header) : undefined,
       commit ? Commit.fromData(commit) : undefined
-    );
+    )
   }
 
   public toData(): SignedHeader.Data {
-    const { header, commit } = this;
+    const { header, commit } = this
     const res: SignedHeader.Data = {
       header: header?.toData(),
       commit: commit?.toData(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: SignedHeader.Proto): SignedHeader {
     return new SignedHeader(
       proto.header ? Header.fromProto(proto.header) : undefined,
       proto.commit ? Commit.fromProto(proto.commit) : undefined
-    );
+    )
   }
 
   public toProto(): SignedHeader.Proto {
-    const { header, commit } = this;
+    const { header, commit } = this
     return SignedHeader_pb.fromPartial({
       header: header?.toProto(),
       commit: commit?.toProto(),
-    });
+    })
   }
 }
 
 export namespace SignedHeader {
   export interface Data {
-    header?: Header.Data;
-    commit?: Commit.Data;
+    header?: Header.Data
+    commit?: Commit.Data
   }
 
-  export type Proto = SignedHeader_pb;
+  export type Proto = SignedHeader_pb
 }
 
 /** BlockID */
@@ -289,34 +292,37 @@ export class BlockID extends JSONSerializable<
    * @param hash
    * @param partSetHeader
    */
-  constructor(public hash: string, public partSetHeader?: PartSetHeader) {
-    super();
+  constructor(
+    public hash: string,
+    public partSetHeader?: PartSetHeader
+  ) {
+    super()
   }
 
   public static fromAmino(_: any): BlockID {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: BlockID.Data): BlockID {
-    const { hash, part_set_header: partSetHeader } = data;
+    const { hash, part_set_header: partSetHeader } = data
     return new BlockID(
       hash,
       partSetHeader ? PartSetHeader.fromData(partSetHeader) : undefined
-    );
+    )
   }
 
   public toData(): BlockID.Data {
-    const { hash, partSetHeader } = this;
+    const { hash, partSetHeader } = this
     const res: BlockID.Data = {
       hash,
       part_set_header: partSetHeader?.toData(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: BlockID.Proto): BlockID {
@@ -325,25 +331,25 @@ export class BlockID extends JSONSerializable<
       proto.partSetHeader
         ? PartSetHeader.fromProto(proto.partSetHeader)
         : undefined
-    );
+    )
   }
 
   public toProto(): BlockID.Proto {
-    const { hash, partSetHeader } = this;
+    const { hash, partSetHeader } = this
     return BlockID_pb.fromPartial({
       hash: Buffer.from(hash, 'base64'),
       partSetHeader: partSetHeader?.toProto(),
-    });
+    })
   }
 }
 
 export namespace BlockID {
   export interface Data {
-    hash: string;
-    part_set_header?: PartSetHeader.Data;
+    hash: string
+    part_set_header?: PartSetHeader.Data
   }
 
-  export type Proto = BlockID_pb;
+  export type Proto = BlockID_pb
 }
 
 /** PartsetHeader */
@@ -356,56 +362,59 @@ export class PartSetHeader extends JSONSerializable<
    * @param total
    * @param hash
    */
-  constructor(public total: number, public hash: string) {
-    super();
+  constructor(
+    public total: number,
+    public hash: string
+  ) {
+    super()
   }
 
   public static fromAmino(_: any): PartSetHeader {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: PartSetHeader.Data): PartSetHeader {
-    const { total, hash } = data;
-    return new PartSetHeader(parseInt(total), hash);
+    const { total, hash } = data
+    return new PartSetHeader(parseInt(total), hash)
   }
 
   public toData(): PartSetHeader.Data {
-    const { total, hash } = this;
+    const { total, hash } = this
     const res: PartSetHeader.Data = {
       total: total.toFixed(),
       hash: hash,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: PartSetHeader.Proto): PartSetHeader {
     return new PartSetHeader(
       proto.total,
       Buffer.from(proto.hash).toString('base64')
-    );
+    )
   }
 
   public toProto(): PartSetHeader.Proto {
-    const { total, hash } = this;
+    const { total, hash } = this
     return PartSetHeader_pb.fromPartial({
       total: total,
       hash: Buffer.from(hash, 'base64'),
-    });
+    })
   }
 }
 
 export namespace PartSetHeader {
   export interface Data {
-    total: string;
-    hash: string;
+    total: string
+    hash: string
   }
 
-  export type Proto = PartSetHeader_pb;
+  export type Proto = PartSetHeader_pb
 }
 
 /** Commit contains the evidence that a block was committed by a set of validators. */
@@ -422,69 +431,69 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
     public blockId: BlockID | undefined,
     public signatures: CommitSig[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): Commit {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: Commit.Data): Commit {
-    const { height, round, block_id: blockId, signatures } = data;
+    const { height, round, block_id: blockId, signatures } = data
     return new Commit(
       Long.fromString(height),
       Number.parseInt(round),
       blockId ? BlockID.fromData(blockId) : undefined,
-      signatures.map(sig => CommitSig.fromData(sig))
-    );
+      signatures.map((sig) => CommitSig.fromData(sig))
+    )
   }
 
   public toData(): Commit.Data {
-    const { height, round, blockId, signatures } = this;
+    const { height, round, blockId, signatures } = this
     const res: Commit.Data = {
       height: height.toString(),
       round: round.toFixed(),
       block_id: blockId?.toData(),
-      signatures: signatures.map(sig => sig.toData()),
-    };
-    return res;
+      signatures: signatures.map((sig) => sig.toData()),
+    }
+    return res
   }
 
   public static fromProto(proto: Commit.Proto): Commit {
-    const { height, round, blockId, signatures } = proto;
+    const { height, round, blockId, signatures } = proto
     return new Commit(
       height,
       round,
       blockId ? BlockID.fromProto(blockId) : undefined,
-      signatures.map(sig => CommitSig.fromProto(sig))
-    );
+      signatures.map((sig) => CommitSig.fromProto(sig))
+    )
   }
 
   public toProto(): Commit.Proto {
-    const { height, round, blockId, signatures } = this;
+    const { height, round, blockId, signatures } = this
     return Commit_pb.fromPartial({
       height,
       round,
       blockId: blockId?.toProto(),
-      signatures: signatures.map(sig => sig.toProto()),
-    });
+      signatures: signatures.map((sig) => sig.toProto()),
+    })
   }
 }
 
 export namespace Commit {
   export interface Data {
-    height: string;
-    round: string;
-    block_id?: BlockID.Data;
-    signatures: CommitSig.Data[];
+    height: string
+    round: string
+    block_id?: BlockID.Data
+    signatures: CommitSig.Data[]
   }
 
-  export type Proto = Commit_pb;
+  export type Proto = Commit_pb
 }
 
 /** CommitSig is a part of the Vote included in a Commit. */
@@ -505,51 +514,51 @@ export class CommitSig extends JSONSerializable<
     public timestamp?: Date,
     public signature?: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): CommitSig {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: CommitSig.Data): CommitSig {
-    const { block_id_flag, validator_address, timestamp, signature } = data;
+    const { block_id_flag, validator_address, timestamp, signature } = data
     return new CommitSig(
       blockIDFlagFromJSON(block_id_flag),
       validator_address,
       timestamp ? new Date(timestamp) : undefined,
       signature
-    );
+    )
   }
 
   public toData(): CommitSig.Data {
-    const { blockIdFlag, validatorAddress, timestamp, signature } = this;
+    const { blockIdFlag, validatorAddress, timestamp, signature } = this
     const res: CommitSig.Data = {
       block_id_flag: blockIDFlagToJSON(blockIdFlag),
       validator_address: validatorAddress ?? '',
       timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
       signature: signature ?? '',
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: CommitSig.Proto): CommitSig {
-    const { blockIdFlag, validatorAddress, timestamp, signature } = proto;
+    const { blockIdFlag, validatorAddress, timestamp, signature } = proto
     return new CommitSig(
       blockIdFlag,
       Buffer.from(validatorAddress).toString('base64'),
       timestamp,
       Buffer.from(signature).toString('base64')
-    );
+    )
   }
 
   public toProto(): CommitSig.Proto {
-    const { blockIdFlag, validatorAddress, timestamp, signature } = this;
+    const { blockIdFlag, validatorAddress, timestamp, signature } = this
     return CommitSig_pb.fromPartial({
       blockIdFlag,
       validatorAddress: validatorAddress
@@ -557,19 +566,19 @@ export class CommitSig extends JSONSerializable<
         : undefined,
       timestamp,
       signature: signature ? Buffer.from(signature, 'base64') : undefined,
-    });
+    })
   }
 }
 
 export namespace CommitSig {
   export interface Data {
-    block_id_flag: string;
-    validator_address?: string;
-    timestamp?: string;
-    signature?: string;
+    block_id_flag: string
+    validator_address?: string
+    timestamp?: string
+    signature?: string
   }
 
-  export type Proto = CommitSig_pb;
+  export type Proto = CommitSig_pb
 }
 
 export class ValidatorSet extends JSONSerializable<
@@ -587,64 +596,64 @@ export class ValidatorSet extends JSONSerializable<
     public proposer: Validator | undefined,
     public totalVotingPower: Long
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): ValidatorSet {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: ValidatorSet.Data): ValidatorSet {
-    const { validators, proposer, total_voting_power } = data;
+    const { validators, proposer, total_voting_power } = data
     return new ValidatorSet(
-      validators.map(val => Validator.fromData(val)),
+      validators.map((val) => Validator.fromData(val)),
       proposer ? Validator.fromData(proposer) : undefined,
       Long.fromString(total_voting_power)
-    );
+    )
   }
 
   public toData(): ValidatorSet.Data {
-    const { validators, proposer, totalVotingPower } = this;
+    const { validators, proposer, totalVotingPower } = this
     const res: ValidatorSet.Data = {
-      validators: validators.map(val => val.toData()),
+      validators: validators.map((val) => val.toData()),
       proposer: proposer?.toData(),
       total_voting_power: totalVotingPower.toString(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: ValidatorSet.Proto): ValidatorSet {
-    const { validators, proposer, totalVotingPower } = proto;
+    const { validators, proposer, totalVotingPower } = proto
     return new ValidatorSet(
-      validators.map(val => Validator.fromProto(val)),
+      validators.map((val) => Validator.fromProto(val)),
       proposer ? Validator.fromProto(proposer) : undefined,
       totalVotingPower
-    );
+    )
   }
 
   public toProto(): ValidatorSet.Proto {
-    const { validators, proposer, totalVotingPower } = this;
+    const { validators, proposer, totalVotingPower } = this
     return ValidatorSet_pb.fromPartial({
-      validators: validators.map(val => val.toProto()),
+      validators: validators.map((val) => val.toProto()),
       proposer: proposer?.toProto(),
       totalVotingPower,
-    });
+    })
   }
 }
 
 export namespace ValidatorSet {
   export interface Data {
-    validators: Validator.Data[];
-    proposer?: Validator.Data;
-    total_voting_power: string;
+    validators: Validator.Data[]
+    proposer?: Validator.Data
+    total_voting_power: string
   }
 
-  export type Proto = ValidatorSet_pb;
+  export type Proto = ValidatorSet_pb
 }
 
 export class Validator extends JSONSerializable<
@@ -664,16 +673,16 @@ export class Validator extends JSONSerializable<
     public votingPower: Long,
     public proposerPriority: Long
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): Validator {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: Validator.Data): Validator {
@@ -682,54 +691,54 @@ export class Validator extends JSONSerializable<
       pub_key: pubKey,
       voting_power: votingPower,
       proposer_priority: proposerPriority,
-    } = data;
+    } = data
     return new Validator(
       address,
       pubKey ? PublicKey.fromData(pubKey) : undefined,
       Long.fromString(votingPower),
       Long.fromString(proposerPriority)
-    );
+    )
   }
 
   public toData(): Validator.Data {
-    const { address, pubKey, votingPower, proposerPriority } = this;
+    const { address, pubKey, votingPower, proposerPriority } = this
     const res: Validator.Data = {
       address,
       pub_key: pubKey?.toData(),
       voting_power: votingPower.toString(),
       proposer_priority: proposerPriority.toString(),
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Validator.Proto): Validator {
-    const { address, pubKey, votingPower, proposerPriority } = proto;
+    const { address, pubKey, votingPower, proposerPriority } = proto
     return new Validator(
       Buffer.from(address).toString('base64'),
       pubKey ? PublicKey.fromProto(pubKey) : undefined,
       votingPower,
       proposerPriority
-    );
+    )
   }
 
   public toProto(): Validator.Proto {
-    const { address, pubKey, votingPower, proposerPriority } = this;
+    const { address, pubKey, votingPower, proposerPriority } = this
     return Validator_pb.fromPartial({
       address: Buffer.from(address, 'base64'),
       pubKey: pubKey?.toProto(),
       votingPower,
       proposerPriority,
-    });
+    })
   }
 }
 
 export namespace Validator {
   export interface Data {
-    address: string;
-    pub_key?: PublicKey.Data;
-    voting_power: string;
-    proposer_priority: string;
+    address: string
+    pub_key?: PublicKey.Data
+    voting_power: string
+    proposer_priority: string
   }
 
-  export type Proto = Validator_pb;
+  export type Proto = Validator_pb
 }

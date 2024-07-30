@@ -1,30 +1,30 @@
-import { MsgPublish } from './MsgPublish';
-import { MsgExecute } from './MsgExecute';
-import { MsgExecuteJSON } from './MsgExecuteJSON';
-import { MsgScript } from './MsgScript';
-import { MsgScriptJSON } from './MsgScriptJSON';
-import { MsgUpdateMoveParams } from './MsgUpdateMoveParams';
-import { MsgWhitelist } from './MsgWhitelist';
-import { MsgDelist } from './MsgDelist';
-import { MsgGovExecute } from './MsgGovExecute';
-import { MsgGovExecuteJSON } from './MsgGovExecuteJSON';
-import { MsgGovPublish } from './MsgGovPublish';
-import { MsgGovScript } from './MsgGovScript';
-import { MsgGovScriptJSON } from './MsgGovScriptJSON';
+import { MsgPublish } from './MsgPublish'
+import { MsgExecute } from './MsgExecute'
+import { MsgExecuteJSON } from './MsgExecuteJSON'
+import { MsgScript } from './MsgScript'
+import { MsgScriptJSON } from './MsgScriptJSON'
+import { MsgUpdateMoveParams } from './MsgUpdateMoveParams'
+import { MsgWhitelist } from './MsgWhitelist'
+import { MsgDelist } from './MsgDelist'
+import { MsgGovExecute } from './MsgGovExecute'
+import { MsgGovExecuteJSON } from './MsgGovExecuteJSON'
+import { MsgGovPublish } from './MsgGovPublish'
+import { MsgGovScript } from './MsgGovScript'
+import { MsgGovScriptJSON } from './MsgGovScriptJSON'
 
-export * from './MsgPublish';
-export * from './MsgExecute';
-export * from './MsgExecuteJSON';
-export * from './MsgScript';
-export * from './MsgScriptJSON';
-export * from './MsgUpdateMoveParams';
-export * from './MsgWhitelist';
-export * from './MsgDelist';
-export * from './MsgGovExecute';
-export * from './MsgGovExecuteJSON';
-export * from './MsgGovPublish';
-export * from './MsgGovScript';
-export * from './MsgGovScriptJSON';
+export * from './MsgPublish'
+export * from './MsgExecute'
+export * from './MsgExecuteJSON'
+export * from './MsgScript'
+export * from './MsgScriptJSON'
+export * from './MsgUpdateMoveParams'
+export * from './MsgWhitelist'
+export * from './MsgDelist'
+export * from './MsgGovExecute'
+export * from './MsgGovExecuteJSON'
+export * from './MsgGovPublish'
+export * from './MsgGovScript'
+export * from './MsgGovScriptJSON'
 
 export type MoveMsg =
   | MsgPublish
@@ -39,7 +39,7 @@ export type MoveMsg =
   | MsgGovExecuteJSON
   | MsgGovPublish
   | MsgGovScript
-  | MsgGovScriptJSON;
+  | MsgGovScriptJSON
 
 export namespace MoveMsg {
   export type Amino =
@@ -55,7 +55,7 @@ export namespace MoveMsg {
     | MsgGovExecuteJSON.Amino
     | MsgGovPublish.Amino
     | MsgGovScript.Amino
-    | MsgGovScriptJSON.Amino;
+    | MsgGovScriptJSON.Amino
 
   export type Data =
     | MsgPublish.Data
@@ -70,7 +70,7 @@ export namespace MoveMsg {
     | MsgGovExecuteJSON.Data
     | MsgGovPublish.Data
     | MsgGovScript.Data
-    | MsgGovScriptJSON.Data;
+    | MsgGovScriptJSON.Data
 
   export type Proto =
     | MsgPublish.Proto
@@ -85,5 +85,5 @@ export namespace MoveMsg {
     | MsgGovExecuteJSON.Proto
     | MsgGovPublish.Proto
     | MsgGovScript.Proto
-    | MsgGovScriptJSON.Proto;
+    | MsgGovScriptJSON.Proto
 }

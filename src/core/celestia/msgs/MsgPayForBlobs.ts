@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgPayForBlobs as MsgPayForBlobs_pb } from '@initia/initia.proto/celestia/blob/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgPayForBlobs as MsgPayForBlobs_pb } from '@initia/initia.proto/celestia/blob/v1/tx'
 
 export class MsgPayForBlobs extends JSONSerializable<
   any,
@@ -22,16 +22,16 @@ export class MsgPayForBlobs extends JSONSerializable<
     public share_commitments: string[],
     public share_versions: number[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgPayForBlobs {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgPayForBlobs.Data): MsgPayForBlobs {
@@ -41,14 +41,14 @@ export class MsgPayForBlobs extends JSONSerializable<
       blob_sizes,
       share_commitments,
       share_versions,
-    } = data;
+    } = data
     return new MsgPayForBlobs(
       signer,
       namespaces,
       blob_sizes.map(Number.parseInt),
       share_commitments,
       share_versions.map(Number.parseInt)
-    );
+    )
   }
 
   public toData(): MsgPayForBlobs.Data {
@@ -58,29 +58,29 @@ export class MsgPayForBlobs extends JSONSerializable<
       blob_sizes,
       share_commitments,
       share_versions,
-    } = this;
+    } = this
     return {
       '@type': '/celestia.blob.v1.MsgPayForBlobs',
       signer,
       namespaces,
-      blob_sizes: blob_sizes.map(size => size.toString()),
+      blob_sizes: blob_sizes.map((size) => size.toString()),
       share_commitments,
-      share_versions: share_versions.map(version => version.toString()),
-    };
+      share_versions: share_versions.map((version) => version.toString()),
+    }
   }
 
   public static fromProto(data: MsgPayForBlobs.Proto): MsgPayForBlobs {
     return new MsgPayForBlobs(
       data.signer,
-      data.namespaces.map(namespace =>
+      data.namespaces.map((namespace) =>
         Buffer.from(namespace).toString('base64')
       ),
       data.blobSizes,
-      data.shareCommitments.map(commitment =>
+      data.shareCommitments.map((commitment) =>
         Buffer.from(commitment).toString('base64')
       ),
       data.shareVersions
-    );
+    )
   }
 
   public toProto(): MsgPayForBlobs.Proto {
@@ -90,39 +90,41 @@ export class MsgPayForBlobs extends JSONSerializable<
       blob_sizes,
       share_commitments,
       share_versions,
-    } = this;
+    } = this
     return MsgPayForBlobs_pb.fromPartial({
       signer,
-      namespaces: namespaces.map(namespace => Buffer.from(namespace, 'base64')),
+      namespaces: namespaces.map((namespace) =>
+        Buffer.from(namespace, 'base64')
+      ),
       blobSizes: blob_sizes,
-      shareCommitments: share_commitments.map(commitment =>
+      shareCommitments: share_commitments.map((commitment) =>
         Buffer.from(commitment, 'base64')
       ),
       shareVersions: share_versions,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/celestia.blob.v1.MsgPayForBlobs',
       value: MsgPayForBlobs_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgPayForBlobs {
-    return MsgPayForBlobs.fromProto(MsgPayForBlobs_pb.decode(msgAny.value));
+    return MsgPayForBlobs.fromProto(MsgPayForBlobs_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgPayForBlobs {
   export interface Data {
-    '@type': '/celestia.blob.v1.MsgPayForBlobs';
-    signer: AccAddress;
-    namespaces: string[];
-    blob_sizes: string[];
-    share_commitments: string[];
-    share_versions: string[];
+    '@type': '/celestia.blob.v1.MsgPayForBlobs'
+    signer: AccAddress
+    namespaces: string[]
+    blob_sizes: string[]
+    share_commitments: string[]
+    share_versions: string[]
   }
 
-  export type Proto = MsgPayForBlobs_pb;
+  export type Proto = MsgPayForBlobs_pb
 }

@@ -1,10 +1,10 @@
-import { APIRequester } from '../APIRequester';
-import { MstakingAPI } from './MstakingAPI';
-import { Coins } from '../../../core';
-import { ValConsPublicKey } from '../../../core';
+import { APIRequester } from '../APIRequester'
+import { MstakingAPI } from './MstakingAPI'
+import { Coins } from '../../../core'
+import { ValConsPublicKey } from '../../../core'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const mstaking = new MstakingAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const mstaking = new MstakingAPI(c)
 
 describe('MstakingAPI', () => {
   it('parameters', async () => {
@@ -13,21 +13,21 @@ describe('MstakingAPI', () => {
       max_validators: expect.any(Number),
       max_entries: expect.any(Number),
       historical_entries: expect.any(Number),
-      bond_denoms: expect.any(Array<String>),
+      bond_denoms: expect.any(Array<string>),
       min_voting_power: expect.any(Number),
-    });
-  });
+    })
+  })
 
   it('delegations without parameter should throw an error', async () => {
-    await expect(mstaking.delegations()).rejects.toThrowError();
-  });
+    await expect(mstaking.delegations()).rejects.toThrowError()
+  })
 
   it('unbondingDelegations without parameter should throw an error', async () => {
-    await expect(mstaking.unbondingDelegations()).rejects.toThrowError();
-  });
+    await expect(mstaking.unbondingDelegations()).rejects.toThrowError()
+  })
 
   it('validators', async () => {
-    const validators = await mstaking.validators().then(v => v[0]);
+    const validators = await mstaking.validators().then((v) => v[0])
 
     expect(validators).toContainEqual({
       operator_address: expect.any(String),
@@ -55,13 +55,13 @@ describe('MstakingAPI', () => {
       },
       voting_powers: expect.any(Coins),
       voting_power: expect.any(String),
-    });
-  });
+    })
+  })
 
   it('pool', async () => {
     await expect(mstaking.pool()).resolves.toMatchObject({
       bonded_tokens: expect.any(Coins),
       not_bonded_tokens: expect.any(Coins),
-    });
-  });
-});
+    })
+  })
+})

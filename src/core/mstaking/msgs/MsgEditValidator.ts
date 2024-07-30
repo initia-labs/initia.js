@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { ValAddress } from '../../bech32';
-import { Validator } from '../Validator';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { ValAddress } from '../../bech32'
+import { Validator } from '../Validator'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
  * A validator can edit its delegate information, such as moniker, website, commission
@@ -27,22 +27,22 @@ export class MsgEditValidator extends JSONSerializable<
     public validator_address: ValAddress,
     public commission_rate?: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgEditValidator.Amino): MsgEditValidator {
     const {
       value: { description, validator_address, commission_rate },
-    } = data;
+    } = data
     return new MsgEditValidator(
       Validator.Description.fromAmino(description),
       validator_address,
       commission_rate
-    );
+    )
   }
 
   public toAmino(): MsgEditValidator.Amino {
-    const { description, validator_address, commission_rate } = this;
+    const { description, validator_address, commission_rate } = this
     return {
       type: 'mstaking/MsgEditValidator',
       value: {
@@ -50,7 +50,7 @@ export class MsgEditValidator extends JSONSerializable<
         validator_address,
         commission_rate,
       },
-    };
+    }
   }
 
   public static fromProto(data: MsgEditValidator.Proto): MsgEditValidator {
@@ -60,46 +60,46 @@ export class MsgEditValidator extends JSONSerializable<
       ),
       data.validatorAddress,
       data.commissionRate !== '' ? data.commissionRate : undefined
-    );
+    )
   }
 
   public toProto(): MsgEditValidator.Proto {
-    const { description, validator_address, commission_rate } = this;
+    const { description, validator_address, commission_rate } = this
     return MsgEditValidator_pb.fromPartial({
       description: description.toProto(),
       commissionRate: commission_rate?.toString() ?? '',
       validatorAddress: validator_address,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.mstaking.v1.MsgEditValidator',
       value: MsgEditValidator_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgEditValidator {
-    return MsgEditValidator.fromProto(MsgEditValidator_pb.decode(msgAny.value));
+    return MsgEditValidator.fromProto(MsgEditValidator_pb.decode(msgAny.value))
   }
 
   public static fromData(data: MsgEditValidator.Data): MsgEditValidator {
-    const { description, validator_address, commission_rate } = data;
+    const { description, validator_address, commission_rate } = data
     return new MsgEditValidator(
       Validator.Description.fromData(description),
       validator_address,
       commission_rate
-    );
+    )
   }
 
   public toData(): MsgEditValidator.Data {
-    const { description, validator_address, commission_rate } = this;
+    const { description, validator_address, commission_rate } = this
     return {
       '@type': '/initia.mstaking.v1.MsgEditValidator',
       description,
       validator_address,
       commission_rate,
-    };
+    }
   }
 }
 
@@ -110,23 +110,23 @@ export namespace MsgEditValidator {
     identity: '[do-not-modify]',
     details: '[do-not-modify]',
     security_contact: '[do-not-modify]',
-  };
+  }
 
   export interface Amino {
-    type: 'mstaking/MsgEditValidator';
+    type: 'mstaking/MsgEditValidator'
     value: {
-      description: Validator.Description.Amino;
-      validator_address: ValAddress;
-      commission_rate?: string;
-    };
+      description: Validator.Description.Amino
+      validator_address: ValAddress
+      commission_rate?: string
+    }
   }
 
   export interface Data {
-    '@type': '/initia.mstaking.v1.MsgEditValidator';
-    description: Validator.Description.Data;
-    validator_address: ValAddress;
-    commission_rate?: string;
+    '@type': '/initia.mstaking.v1.MsgEditValidator'
+    description: Validator.Description.Data
+    validator_address: ValAddress
+    commission_rate?: string
   }
 
-  export type Proto = MsgEditValidator_pb;
+  export type Proto = MsgEditValidator_pb
 }

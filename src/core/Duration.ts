@@ -1,5 +1,5 @@
-import { Duration as Duration_pb } from '@initia/initia.proto/google/protobuf/duration';
-import Long from 'long';
+import { Duration as Duration_pb } from '@initia/initia.proto/google/protobuf/duration'
+import Long from 'long'
 
 /**
  * A Duration represents a signed, fixed-length span of time represented
@@ -20,55 +20,55 @@ import Long from 'long';
  * microsecond should be expressed in JSON format as "3.000001s".
  */
 export class Duration {
-  public seconds: Long;
-  public nanos: number;
+  public seconds: Long
+  public nanos: number
 
   constructor(seconds: number, nanos = 0) {
     const [sec, nano] = (nanos / Math.pow(10, 9) + seconds)
       .toFixed(9)
-      .split('.');
-    this.seconds = Long.fromString(sec);
-    this.nanos = Number.parseInt(nano);
+      .split('.')
+    this.seconds = Long.fromString(sec)
+    this.nanos = Number.parseInt(nano)
   }
 
   public static fromString(str: string): Duration {
     const [sec, nano] = Number.parseFloat(str.replace('s', ''))
       .toFixed(9)
-      .split('.');
-    return new Duration(Number.parseInt(sec), Number.parseInt(nano));
+      .split('.')
+    return new Duration(Number.parseInt(sec), Number.parseInt(nano))
   }
 
   public toString(): string {
-    return `${this.nanos / Math.pow(10, 9) + this.seconds.toNumber()}s`;
+    return `${this.nanos / Math.pow(10, 9) + this.seconds.toNumber()}s`
   }
 
   public static fromAmino(amino: Duration.Amino): Duration {
-    return Duration.fromString(amino);
+    return Duration.fromString(amino)
   }
 
   public toAmino(): Duration.Amino {
-    return this.toString();
+    return this.toString()
   }
 
   public static fromData(data: Duration.Data): Duration {
-    return Duration.fromString(data);
+    return Duration.fromString(data)
   }
 
   public toData(): Duration.Data {
-    return this.toString();
+    return this.toString()
   }
 
   public static fromProto(proto: Duration.Proto): Duration {
-    return new Duration(proto.seconds.toNumber(), proto.nanos);
+    return new Duration(proto.seconds.toNumber(), proto.nanos)
   }
 
   public toProto(): Duration.Proto {
-    return { seconds: this.seconds, nanos: this.nanos };
+    return { seconds: this.seconds, nanos: this.nanos }
   }
 }
 
 export namespace Duration {
-  export type Amino = string;
-  export type Data = string;
-  export type Proto = Duration_pb;
+  export type Amino = string
+  export type Data = string
+  export type Proto = Duration_pb
 }

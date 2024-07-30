@@ -1,21 +1,21 @@
-import { APIRequester } from '../APIRequester';
-import { IbcAPI } from './IbcAPI';
+import { APIRequester } from '../APIRequester'
+import { IbcAPI } from './IbcAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const ibc = new IbcAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const ibc = new IbcAPI(c)
 
 describe('IbcClientAPI', () => {
   it('params', async () => {
-    const param = await ibc.parameters();
-    expect(param.allowed_clients).not.toBeNull();
-    expect(param.allowed_clients).not.toBeUndefined();
-  });
+    const param = await ibc.parameters()
+    expect(param.allowed_clients).not.toBeNull()
+    expect(param.allowed_clients).not.toBeUndefined()
+  })
 
   it('client_states', async () => {
-    const res = await ibc.clientStates();
-    expect(res).not.toBeNull();
-    expect(res).not.toBeUndefined();
-  });
+    const res = await ibc.clientStates()
+    expect(res).not.toBeNull()
+    expect(res).not.toBeUndefined()
+  })
 
   // it('client_state', async () => {
   //   const res = await ibc.clientState('07-tendermint-0');
@@ -30,10 +30,10 @@ describe('IbcClientAPI', () => {
   // });
 
   it('consensus_states', async () => {
-    const res = await ibc.consensusStates('07-tendermint-0');
-    expect(res).not.toBeNull();
-    expect(res).not.toBeUndefined();
-  });
+    const res = await ibc.consensusStates('07-tendermint-0')
+    expect(res).not.toBeNull()
+    expect(res).not.toBeUndefined()
+  })
 
   // it('channels', async () => {
   //   const [res, _] = await ibc.channels();
@@ -72,4 +72,4 @@ describe('IbcClientAPI', () => {
   //   expect(res).not.toBeNull();
   //   expect(res).not.toBeUndefined();
   // });
-});
+})

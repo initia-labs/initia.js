@@ -1,9 +1,9 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Coin } from '../../Coin';
-import { MsgFinalizeTokenWithdrawal as MsgFinalizeTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Coin } from '../../Coin'
+import { MsgFinalizeTokenWithdrawal as MsgFinalizeTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import Long from 'long'
 
 export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
   MsgFinalizeTokenWithdrawal.Amino,
@@ -36,7 +36,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     public storage_root: string,
     public latest_block_hash: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -56,7 +56,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
         storage_root,
         latest_block_hash,
       },
-    } = data;
+    } = data
 
     return new MsgFinalizeTokenWithdrawal(
       Number.parseInt(bridge_id),
@@ -70,7 +70,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash
-    );
+    )
   }
 
   public toAmino(): MsgFinalizeTokenWithdrawal.Amino {
@@ -86,7 +86,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash,
-    } = this;
+    } = this
 
     return {
       type: 'ophost/MsgFinalizeTokenWithdrawal',
@@ -103,7 +103,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
         storage_root,
         latest_block_hash,
       },
-    };
+    }
   }
 
   public static fromData(
@@ -121,7 +121,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash,
-    } = data;
+    } = data
 
     return new MsgFinalizeTokenWithdrawal(
       Number.parseInt(bridge_id),
@@ -135,7 +135,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash
-    );
+    )
   }
 
   public toData(): MsgFinalizeTokenWithdrawal.Data {
@@ -151,7 +151,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash,
-    } = this;
+    } = this
 
     return {
       '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal',
@@ -166,7 +166,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash,
-    };
+    }
   }
 
   public static fromProto(
@@ -175,7 +175,9 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return new MsgFinalizeTokenWithdrawal(
       data.bridgeId.toNumber(),
       data.outputIndex.toNumber(),
-      data.withdrawalProofs.map(proof => Buffer.from(proof).toString('base64')),
+      data.withdrawalProofs.map((proof) =>
+        Buffer.from(proof).toString('base64')
+      ),
       data.sender,
       data.receiver,
       data.sequence.toNumber(),
@@ -184,7 +186,7 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       Buffer.from(data.stateRoot).toString('base64'),
       Buffer.from(data.storageRoot).toString('base64'),
       Buffer.from(data.latestBlockHash).toString('base64')
-    );
+    )
   }
 
   public toProto(): MsgFinalizeTokenWithdrawal.Proto {
@@ -200,12 +202,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       state_root,
       storage_root,
       latest_block_hash,
-    } = this;
+    } = this
 
     return MsgFinalizeTokenWithdrawal_pb.fromPartial({
       bridgeId: Long.fromNumber(bridge_id),
       outputIndex: Long.fromNumber(output_index),
-      withdrawalProofs: withdrawal_proofs.map(proof =>
+      withdrawalProofs: withdrawal_proofs.map((proof) =>
         Buffer.from(proof, 'base64')
       ),
       sender,
@@ -216,55 +218,55 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       stateRoot: Buffer.from(state_root, 'base64'),
       storageRoot: Buffer.from(storage_root, 'base64'),
       latestBlockHash: Buffer.from(latest_block_hash, 'base64'),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal',
       value: MsgFinalizeTokenWithdrawal_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgFinalizeTokenWithdrawal {
     return MsgFinalizeTokenWithdrawal.fromProto(
       MsgFinalizeTokenWithdrawal_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgFinalizeTokenWithdrawal {
   export interface Amino {
-    type: 'ophost/MsgFinalizeTokenWithdrawal';
+    type: 'ophost/MsgFinalizeTokenWithdrawal'
     value: {
-      bridge_id: string;
-      output_index: string;
-      withdrawal_proofs: string[];
-      sender: AccAddress;
-      receiver: AccAddress;
-      sequence: string;
-      amount: Coin.Amino;
-      version: string;
-      state_root: string;
-      storage_root: string;
-      latest_block_hash: string;
-    };
+      bridge_id: string
+      output_index: string
+      withdrawal_proofs: string[]
+      sender: AccAddress
+      receiver: AccAddress
+      sequence: string
+      amount: Coin.Amino
+      version: string
+      state_root: string
+      storage_root: string
+      latest_block_hash: string
+    }
   }
 
   export interface Data {
-    '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal';
-    bridge_id: string;
-    output_index: string;
-    withdrawal_proofs: string[];
-    sender: AccAddress;
-    receiver: AccAddress;
-    sequence: string;
-    amount: Coin.Data;
-    version: string;
-    state_root: string;
-    storage_root: string;
-    latest_block_hash: string;
+    '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal'
+    bridge_id: string
+    output_index: string
+    withdrawal_proofs: string[]
+    sender: AccAddress
+    receiver: AccAddress
+    sequence: string
+    amount: Coin.Data
+    version: string
+    state_root: string
+    storage_root: string
+    latest_block_hash: string
   }
 
-  export type Proto = MsgFinalizeTokenWithdrawal_pb;
+  export type Proto = MsgFinalizeTokenWithdrawal_pb
 }

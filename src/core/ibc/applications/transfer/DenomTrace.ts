@@ -1,5 +1,5 @@
-import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/denomtrace';
-import { JSONSerializable } from '../../../../util/json';
+import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/denomtrace'
+import { JSONSerializable } from '../../../../util/json'
 
 /**
  * DenomTrace is a monotonically increasing data type
@@ -22,58 +22,61 @@ export class DenomTrace extends JSONSerializable<
    * @param path the revision that the client is currently on
    * @param base_denom the height within the given revision
    */
-  constructor(public path: string, public base_denom: string) {
-    super();
+  constructor(
+    public path: string,
+    public base_denom: string
+  ) {
+    super()
   }
 
   public static fromAmino(data: DenomTrace.Amino): DenomTrace {
-    const { path, base_denom } = data;
-    return new DenomTrace(path, base_denom);
+    const { path, base_denom } = data
+    return new DenomTrace(path, base_denom)
   }
 
   public toAmino(): DenomTrace.Amino {
-    const { path, base_denom } = this;
+    const { path, base_denom } = this
     const res: DenomTrace.Amino = {
       path,
       base_denom,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromData(data: DenomTrace.Data): DenomTrace {
-    const { path, base_denom } = data;
-    return new DenomTrace(path, base_denom);
+    const { path, base_denom } = data
+    return new DenomTrace(path, base_denom)
   }
 
   public toData(): DenomTrace.Data {
-    const { path, base_denom } = this;
+    const { path, base_denom } = this
     const res: DenomTrace.Data = {
       path,
       base_denom,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: DenomTrace.Proto): DenomTrace {
-    return new DenomTrace(proto.path, proto.baseDenom);
+    return new DenomTrace(proto.path, proto.baseDenom)
   }
 
   public toProto(): DenomTrace.Proto {
-    const { path, base_denom } = this;
-    return DenomTrace_pb.fromPartial({ path, baseDenom: base_denom });
+    const { path, base_denom } = this
+    return DenomTrace_pb.fromPartial({ path, baseDenom: base_denom })
   }
 }
 
 export namespace DenomTrace {
   export interface Amino {
-    path: string;
-    base_denom: string;
+    path: string
+    base_denom: string
   }
 
   export interface Data {
-    path: string;
-    base_denom: string;
+    path: string
+    base_denom: string
   }
 
-  export type Proto = DenomTrace_pb;
+  export type Proto = DenomTrace_pb
 }

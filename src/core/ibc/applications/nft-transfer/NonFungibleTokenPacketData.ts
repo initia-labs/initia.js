@@ -1,5 +1,5 @@
-import { NonFungibleTokenPacketData as NonFungibleTokenPacketData_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/packet';
-import { JSONSerializable } from '../../../../util/json';
+import { NonFungibleTokenPacketData as NonFungibleTokenPacketData_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/packet'
+import { JSONSerializable } from '../../../../util/json'
 
 /**
  *  NonFungibleTokenPacketData defines a struct for the packet payload
@@ -33,7 +33,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
     public receiver: string,
     public memo?: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -49,7 +49,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    } = data;
+    } = data
 
     return new NonFungibleTokenPacketData(
       class_id,
@@ -61,7 +61,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo
-    );
+    )
   }
 
   public toAmino(): NonFungibleTokenPacketData.Amino {
@@ -75,7 +75,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    } = this;
+    } = this
 
     return {
       class_id,
@@ -87,7 +87,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    };
+    }
   }
 
   public static fromData(
@@ -103,7 +103,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    } = data;
+    } = data
 
     return new NonFungibleTokenPacketData(
       class_id,
@@ -115,7 +115,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo
-    );
+    )
   }
 
   public toData(): NonFungibleTokenPacketData.Data {
@@ -129,7 +129,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    } = this;
+    } = this
 
     return {
       class_id,
@@ -141,7 +141,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    };
+    }
   }
 
   public static fromProto(
@@ -157,7 +157,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       proto.sender,
       proto.receiver,
       proto.memo
-    );
+    )
   }
 
   public toProto(): NonFungibleTokenPacketData.Proto {
@@ -171,7 +171,7 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    } = this;
+    } = this
 
     return NonFungibleTokenPacketData_pb.fromPartial({
       classId: class_id,
@@ -183,34 +183,34 @@ export class NonFungibleTokenPacketData extends JSONSerializable<
       sender,
       receiver,
       memo,
-    });
+    })
   }
 }
 
 export namespace NonFungibleTokenPacketData {
   export interface Amino {
-    class_id: string;
-    class_uri: string;
-    class_data: string;
-    token_ids: string[];
-    token_uris: string[];
-    token_data: string[];
-    sender: string;
-    receiver: string;
-    memo?: string;
+    class_id: string
+    class_uri: string
+    class_data: string
+    token_ids: string[]
+    token_uris: string[]
+    token_data: string[]
+    sender: string
+    receiver: string
+    memo?: string
   }
 
   export interface Data {
-    class_id: string;
-    class_uri: string;
-    class_data: string;
-    token_ids: string[];
-    token_uris: string[];
-    token_data: string[];
-    sender: string;
-    receiver: string;
-    memo?: string;
+    class_id: string
+    class_uri: string
+    class_data: string
+    token_ids: string[]
+    token_uris: string[]
+    token_data: string[]
+    sender: string
+    receiver: string
+    memo?: string
   }
 
-  export type Proto = NonFungibleTokenPacketData_pb;
+  export type Proto = NonFungibleTokenPacketData_pb
 }

@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgCreateDenom as MsgCreateDenom_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgCreateDenom as MsgCreateDenom_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
 export class MsgCreateDenom extends JSONSerializable<
   MsgCreateDenom.Amino,
@@ -12,81 +12,84 @@ export class MsgCreateDenom extends JSONSerializable<
    * @param sender the actor that signed the messages
    * @param subdenom can be up to 44 "alphanumeric" characters long
    */
-  constructor(public sender: AccAddress, public subdenom: string) {
-    super();
+  constructor(
+    public sender: AccAddress,
+    public subdenom: string
+  ) {
+    super()
   }
 
   public static fromAmino(data: MsgCreateDenom.Amino): MsgCreateDenom {
     const {
       value: { sender, subdenom },
-    } = data;
+    } = data
 
-    return new MsgCreateDenom(sender, subdenom);
+    return new MsgCreateDenom(sender, subdenom)
   }
 
   public toAmino(): MsgCreateDenom.Amino {
-    const { sender, subdenom } = this;
+    const { sender, subdenom } = this
     return {
       type: 'tokenfactory/MsgCreateDenom',
       value: {
         sender,
         subdenom,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgCreateDenom.Data): MsgCreateDenom {
-    const { sender, subdenom } = data;
-    return new MsgCreateDenom(sender, subdenom);
+    const { sender, subdenom } = data
+    return new MsgCreateDenom(sender, subdenom)
   }
 
   public toData(): MsgCreateDenom.Data {
-    const { sender, subdenom } = this;
+    const { sender, subdenom } = this
     return {
       '@type': '/miniwasm.tokenfactory.v1.MsgCreateDenom',
       sender,
       subdenom,
-    };
+    }
   }
 
   public static fromProto(data: MsgCreateDenom.Proto): MsgCreateDenom {
-    return new MsgCreateDenom(data.sender, data.subdenom);
+    return new MsgCreateDenom(data.sender, data.subdenom)
   }
 
   public toProto(): MsgCreateDenom.Proto {
-    const { sender, subdenom } = this;
+    const { sender, subdenom } = this
     return MsgCreateDenom_pb.fromPartial({
       sender,
       subdenom,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/miniwasm.tokenfactory.v1.MsgCreateDenom',
       value: MsgCreateDenom_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgCreateDenom {
-    return MsgCreateDenom.fromProto(MsgCreateDenom_pb.decode(msgAny.value));
+    return MsgCreateDenom.fromProto(MsgCreateDenom_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgCreateDenom {
   export interface Amino {
-    type: 'tokenfactory/MsgCreateDenom';
+    type: 'tokenfactory/MsgCreateDenom'
     value: {
-      sender: AccAddress;
-      subdenom: string;
-    };
+      sender: AccAddress
+      subdenom: string
+    }
   }
 
   export interface Data {
-    '@type': '/miniwasm.tokenfactory.v1.MsgCreateDenom';
-    sender: AccAddress;
-    subdenom: string;
+    '@type': '/miniwasm.tokenfactory.v1.MsgCreateDenom'
+    sender: AccAddress
+    subdenom: string
   }
 
-  export type Proto = MsgCreateDenom_pb;
+  export type Proto = MsgCreateDenom_pb
 }

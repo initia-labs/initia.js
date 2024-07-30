@@ -2,9 +2,9 @@ import {
   State,
   Order,
   Channel as Channel_pb,
-} from '@initia/initia.proto/ibc/core/channel/v1/channel';
-import { JSONSerializable } from '../../../../util/json';
-import { ChannelCounterparty } from './ChannelCounterparty';
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
+import { JSONSerializable } from '../../../../util/json'
+import { ChannelCounterparty } from './ChannelCounterparty'
 
 /**
  * Channel is a monotonically increasing data type
@@ -37,53 +37,53 @@ export class Channel extends JSONSerializable<
     public connection_hops: string[],
     public version: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: Channel.Amino): Channel {
-    const { state, ordering, counterparty, connection_hops, version } = data;
+    const { state, ordering, counterparty, connection_hops, version } = data
     return new Channel(
       state,
       ordering,
       counterparty ? ChannelCounterparty.fromAmino(counterparty) : undefined,
       connection_hops,
       version
-    );
+    )
   }
 
   public toAmino(): Channel.Amino {
-    const { state, ordering, counterparty, connection_hops, version } = this;
+    const { state, ordering, counterparty, connection_hops, version } = this
     const res: Channel.Amino = {
       state,
       ordering,
       counterparty: counterparty?.toAmino(),
       connection_hops,
       version,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromData(data: Channel.Data): Channel {
-    const { state, ordering, counterparty, connection_hops, version } = data;
+    const { state, ordering, counterparty, connection_hops, version } = data
     return new Channel(
       state,
       ordering,
       counterparty ? ChannelCounterparty.fromData(counterparty) : undefined,
       connection_hops,
       version
-    );
+    )
   }
 
   public toData(): Channel.Data {
-    const { state, ordering, counterparty, connection_hops, version } = this;
+    const { state, ordering, counterparty, connection_hops, version } = this
     const res: Channel.Data = {
       state,
       ordering,
       counterparty: counterparty?.toData(),
       connection_hops,
       version,
-    };
-    return res;
+    }
+    return res
   }
 
   public static fromProto(proto: Channel.Proto): Channel {
@@ -95,37 +95,37 @@ export class Channel extends JSONSerializable<
         : undefined,
       proto.connectionHops,
       proto.version
-    );
+    )
   }
 
   public toProto(): Channel.Proto {
-    const { state, ordering, counterparty, connection_hops, version } = this;
+    const { state, ordering, counterparty, connection_hops, version } = this
     return Channel_pb.fromPartial({
       state,
       ordering,
       counterparty: counterparty?.toProto(),
       connectionHops: connection_hops,
       version,
-    });
+    })
   }
 }
 
 export namespace Channel {
   export interface Amino {
-    state: State;
-    ordering: Order;
-    counterparty?: ChannelCounterparty.Amino;
-    connection_hops: string[];
-    version: string;
+    state: State
+    ordering: Order
+    counterparty?: ChannelCounterparty.Amino
+    connection_hops: string[]
+    version: string
   }
 
   export interface Data {
-    state: State;
-    ordering: Order;
-    counterparty?: ChannelCounterparty.Data;
-    connection_hops: string[];
-    version: string;
+    state: State
+    ordering: Order
+    counterparty?: ChannelCounterparty.Data
+    connection_hops: string[]
+    version: string
   }
 
-  export type Proto = Channel_pb;
+  export type Proto = Channel_pb
 }

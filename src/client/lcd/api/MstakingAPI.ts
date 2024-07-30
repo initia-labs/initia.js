@@ -7,22 +7,22 @@ import {
   Validator,
   Redelegation,
   MstakingParams,
-} from '../../../core';
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+} from '../../../core'
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
 export interface MstakingPool {
   /** amount of tokens are bonded, including those that are currently unbonding */
-  bonded_tokens: Coins;
+  bonded_tokens: Coins
 
   /** amount of tokens that are not bonded */
-  not_bonded_tokens: Coins;
+  not_bonded_tokens: Coins
 }
 
 export namespace MstakingPool {
   export interface Data {
-    bonded_tokens: Coins.Data;
-    not_bonded_tokens: Coins.Data;
+    bonded_tokens: Coins.Data
+    not_bonded_tokens: Coins.Data
   }
 }
 
@@ -41,38 +41,40 @@ export class MstakingAPI extends BaseAPI {
   ): Promise<[Delegation[], Pagination]> {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
-        .get<{ delegation_response: Delegation.Data }>(
+        .get<{
+          delegation_response: Delegation.Data
+        }>(
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}`,
           params
         )
         .then(({ delegation_response: data }) => [
           [Delegation.fromData(data)],
           { total: 1, next_key: '' },
-        ]);
+        ])
     } else if (delegator !== undefined) {
       return this.c
         .get<{
-          delegation_responses: Delegation.Data[];
-          pagination: Pagination;
+          delegation_responses: Delegation.Data[]
+          pagination: Pagination
         }>(`/initia/mstaking/v1/delegations/${delegator}`, params)
-        .then(data => [
+        .then((data) => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
-        ]);
+        ])
     } else if (validator !== undefined) {
       return this.c
         .get<{
-          delegation_responses: Delegation.Data[];
-          pagination: Pagination;
+          delegation_responses: Delegation.Data[]
+          pagination: Pagination
         }>(`/initia/mstaking/v1/validators/${validator}/delegations`, params)
-        .then(data => [
+        .then((data) => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
-        ]);
+        ])
     } else {
       throw new TypeError(
         'arguments delegator and validator cannot both be empty'
-      );
+      )
     }
   }
 
@@ -85,7 +87,7 @@ export class MstakingAPI extends BaseAPI {
     delegator: AccAddress,
     validator: ValAddress
   ): Promise<Delegation> {
-    return this.delegations(delegator, validator).then(delgs => delgs[0][0]);
+    return this.delegations(delegator, validator).then((delgs) => delgs[0][0])
   }
 
   /**
@@ -102,44 +104,46 @@ export class MstakingAPI extends BaseAPI {
   ): Promise<[UnbondingDelegation[], Pagination]> {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
-        .get<{ unbond: UnbondingDelegation.Data }>(
+        .get<{
+          unbond: UnbondingDelegation.Data
+        }>(
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
           params
         )
         .then(({ unbond: data }) => [
           [UnbondingDelegation.fromData(data)],
           { next_key: '', total: 1 },
-        ]);
+        ])
     } else if (delegator !== undefined) {
       return this.c
         .get<{
-          unbonding_responses: UnbondingDelegation.Data[];
-          pagination: Pagination;
+          unbonding_responses: UnbondingDelegation.Data[]
+          pagination: Pagination
         }>(
           `/initia/mstaking/v1/delegators/${delegator}/unbonding_delegations`,
           params
         )
-        .then(data => [
+        .then((data) => [
           data.unbonding_responses.map(UnbondingDelegation.fromData),
           data.pagination,
-        ]);
+        ])
     } else if (validator !== undefined) {
       return this.c
         .get<{
-          unbonding_responses: UnbondingDelegation.Data[];
-          pagination: Pagination;
+          unbonding_responses: UnbondingDelegation.Data[]
+          pagination: Pagination
         }>(
           `/initia/mstaking/v1/validators/${validator}/unbonding_delegations`,
           params
         )
-        .then(data => [
+        .then((data) => [
           data.unbonding_responses.map(UnbondingDelegation.fromData),
           data.pagination,
-        ]);
+        ])
     } else {
       throw new TypeError(
         'arguments delegator and validator cannot both be empty'
-      );
+      )
     }
   }
 
@@ -153,8 +157,8 @@ export class MstakingAPI extends BaseAPI {
     validator?: ValAddress
   ): Promise<UnbondingDelegation> {
     return this.unbondingDelegations(delegator, validator).then(
-      udelgs => udelgs[0][0]
-    );
+      (udelgs) => udelgs[0][0]
+    )
   }
 
   /**
@@ -173,16 +177,16 @@ export class MstakingAPI extends BaseAPI {
       ..._params,
       src_validator_addr: validatorSrc,
       dst_validator_addr: validatorDst,
-    };
+    }
     return this.c
       .get<{
-        redelegation_responses: Redelegation.Data[];
-        pagination: Pagination;
+        redelegation_responses: Redelegation.Data[]
+        pagination: Pagination
       }>(`/initia/mstaking/v1/delegators/${delegator}/redelegations`, params)
-      .then(d => [
+      .then((d) => [
         d.redelegation_responses.map(Redelegation.fromData),
         d.pagination,
-      ]);
+      ])
   }
 
   /**
@@ -194,11 +198,11 @@ export class MstakingAPI extends BaseAPI {
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Validator[], Pagination]> {
     return this.c
-      .get<{ validators: Validator.Data[]; pagination: Pagination }>(
-        `/initia/mstaking/v1/delegators/${delegator}/validators`,
-        params
-      )
-      .then(d => [d.validators.map(Validator.fromData), d.pagination]);
+      .get<{
+        validators: Validator.Data[]
+        pagination: Pagination
+      }>(`/initia/mstaking/v1/delegators/${delegator}/validators`, params)
+      .then((d) => [d.validators.map(Validator.fromData), d.pagination])
   }
 
   /**
@@ -208,11 +212,11 @@ export class MstakingAPI extends BaseAPI {
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Validator[], Pagination]> {
     return this.c
-      .get<{ validators: Validator.Data[]; pagination: Pagination }>(
-        `/initia/mstaking/v1/validators`,
-        params
-      )
-      .then(d => [d.validators.map(Validator.fromData), d.pagination]);
+      .get<{
+        validators: Validator.Data[]
+        pagination: Pagination
+      }>(`/initia/mstaking/v1/validators`, params)
+      .then((d) => [d.validators.map(Validator.fromData), d.pagination])
   }
 
   /**
@@ -224,11 +228,10 @@ export class MstakingAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<Validator> {
     return this.c
-      .get<{ validator: Validator.Data }>(
-        `/initia/mstaking/v1/validators/${validator}`,
-        params
-      )
-      .then(d => Validator.fromData(d.validator));
+      .get<{
+        validator: Validator.Data
+      }>(`/initia/mstaking/v1/validators/${validator}`, params)
+      .then((d) => Validator.fromData(d.validator))
   }
 
   /**
@@ -240,7 +243,7 @@ export class MstakingAPI extends BaseAPI {
       .then(({ pool: d }) => ({
         bonded_tokens: Coins.fromData(d.bonded_tokens),
         not_bonded_tokens: Coins.fromData(d.not_bonded_tokens),
-      }));
+      }))
   }
 
   /**
@@ -248,10 +251,9 @@ export class MstakingAPI extends BaseAPI {
    */
   public async parameters(params: APIParams = {}): Promise<MstakingParams> {
     return this.c
-      .get<{ params: MstakingParams.Data }>(
-        `/initia/mstaking/v1/params`,
-        params
-      )
-      .then(({ params: d }) => MstakingParams.fromData(d));
+      .get<{
+        params: MstakingParams.Data
+      }>(`/initia/mstaking/v1/params`, params)
+      .then(({ params: d }) => MstakingParams.fromData(d))
   }
 }

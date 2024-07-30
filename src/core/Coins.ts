@@ -1,6 +1,6 @@
-import { Coin } from './Coin';
-import { JSONSerializable } from '../util/json';
-import { Denom } from './Denom';
+import { Coin } from './Coin'
+import { JSONSerializable } from '../util/json'
+import { Denom } from './Denom'
 
 /**
  * Analogous to `sdk.Coins` and `sdk.DecCoins` from Cosmos-SDK, and represents a collection
@@ -15,15 +15,15 @@ export class Coins
 
   // implement iterator interface for interop
   [Symbol.iterator]() {
-    let index = -1;
-    const data = this.toArray();
+    let index = -1
+    const data = this.toArray()
 
     return {
       next: () => ({
         value: data[++index],
         done: (index === data.length) as true,
       }),
-    };
+    }
   }
 
   /**
@@ -33,8 +33,8 @@ export class Coins
    */
   public toString(): string {
     return this.toArray()
-      .map(c => c.toString())
-      .join(',');
+      .map((c) => c.toString())
+      .join(',')
   }
 
   /**
@@ -45,74 +45,74 @@ export class Coins
    * @param str comma-separated list of coins
    */
   public static fromString(str: string): Coins {
-    const coin_strings = str.split(/,\s*/);
-    const coins = coin_strings.map(s => Coin.fromString(s));
-    return new Coins(coins);
+    const coin_strings = str.split(/,\s*/)
+    const coins = coin_strings.map((s) => Coin.fromString(s))
+    return new Coins(coins)
   }
 
   /**
    * Gets the list of denominations
    */
   public denoms(): Denom[] {
-    return this.map(c => c.denom);
+    return this.map((c) => c.denom)
   }
 
   /**
    * Creates a new Coins object with all Decimal coins
    */
   public toDecCoins(): Coins {
-    return new Coins(this.map(c => c.toDecCoin()));
+    return new Coins(this.map((c) => c.toDecCoin()))
   }
 
   /**
    * Creates a new Coins object with all Integer coins
    */
   public toIntCoins(): Coins {
-    return new Coins(this.map(c => c.toIntCoin()));
+    return new Coins(this.map((c) => c.toIntCoin()))
   }
 
   /**
    * Creates a new Coins object with all Integer coins with ceiling the amount
    */
   public toIntCeilCoins(): Coins {
-    return new Coins(this.map(c => c.toIntCeilCoin()));
+    return new Coins(this.map((c) => c.toIntCeilCoin()))
   }
 
   /**
    * @param arg coins to input
    */
   constructor(arg: Coins.Input = {}) {
-    super();
+    super()
     if (arg instanceof Coins) {
-      this._coins = { ...arg._coins };
+      this._coins = { ...arg._coins }
     } else if (typeof arg === 'string') {
-      this._coins = Coins.fromString(arg)._coins;
+      this._coins = Coins.fromString(arg)._coins
     } else {
-      this._coins = {};
-      let coins: Coin[];
+      this._coins = {}
+      let coins: Coin[]
       if (!Array.isArray(arg)) {
-        coins = [];
-        Object.keys(arg).forEach(denom =>
+        coins = []
+        Object.keys(arg).forEach((denom) =>
           coins.push(new Coin(denom, arg[denom]))
-        );
+        )
       } else {
-        coins = arg;
+        coins = arg
       }
 
       for (const coin of coins) {
-        const { denom } = coin;
-        const x = this._coins[denom];
+        const { denom } = coin
+        const x = this._coins[denom]
         if (x !== undefined) {
-          this._coins[denom] = x.add(coin);
+          this._coins[denom] = x.add(coin)
         } else {
-          this._coins[denom] = coin;
+          this._coins[denom] = coin
         }
       }
 
       // convert all coins to Dec if one is Dec
-      if (this.toArray().some(c => c.isDecimal)) {
+      if (this.toArray().some((c) => c.isDecimal)) {
         for (const denom of Object.keys(this._coins)) {
-          this._coins[denom] = this._coins[denom].toDecCoin();
+          this._coins[denom] = this._coins[denom].toDecCoin()
         }
       }
     }
@@ -123,7 +123,7 @@ export class Coins
    * @param denom denomination to lookup
    */
   public get(denom: Denom): Coin | undefined {
-    return this._coins[denom];
+    return this._coins[denom]
   }
 
   /**
@@ -132,18 +132,18 @@ export class Coins
    * @param value value to set
    */
   public set(denom: Denom, value: number | string | Coin): void {
-    let val;
+    let val
     if (value instanceof Coin) {
       if (value.denom != denom) {
         throw new Error(
           `Denoms must match when setting: ${denom}, ${value.denom}`
-        );
+        )
       }
-      val = value;
+      val = value
     } else {
-      val = new Coin(denom, value);
+      val = new Coin(denom, value)
     }
-    this._coins[denom] = val;
+    this._coins[denom] = val
   }
 
   /**
@@ -152,7 +152,7 @@ export class Coins
   public toArray(): Coin[] {
     return Object.values(this._coins).sort((a, b) =>
       a.denom.localeCompare(b.denom)
-    );
+    )
   }
 
   /**
@@ -162,12 +162,12 @@ export class Coins
    */
   public add(other: Coin | Coins): Coins {
     if (other instanceof Coin) {
-      return new Coins([other, ...Object.values(this._coins)]);
+      return new Coins([other, ...Object.values(this._coins)])
     } else {
       return new Coins([
         ...Object.values(other._coins),
         ...Object.values(this._coins),
-      ]);
+      ])
     }
   }
 
@@ -176,7 +176,7 @@ export class Coins
    * @param other
    */
   public sub(other: Coin | Coins): Coins {
-    return this.add(other.mul(-1));
+    return this.add(other.mul(-1))
   }
 
   /**
@@ -184,7 +184,7 @@ export class Coins
    * @param other
    */
   public mul(other: number | string): Coins {
-    return new Coins(this.map(c => c.mul(other)));
+    return new Coins(this.map((c) => c.mul(other)))
   }
 
   /**
@@ -192,7 +192,7 @@ export class Coins
    * @param other
    */
   public div(other: number | string): Coins {
-    return new Coins(this.map(c => c.div(other)));
+    return new Coins(this.map((c) => c.div(other)))
   }
 
   /**
@@ -200,7 +200,7 @@ export class Coins
    * @param other
    */
   public mod(other: number | string): Coins {
-    return new Coins(this.map(c => c.mod(other)));
+    return new Coins(this.map((c) => c.mod(other)))
   }
 
   /**
@@ -208,7 +208,7 @@ export class Coins
    * @param fn
    */
   public map<T>(fn: (c: Coin) => T): T[] {
-    return this.toArray().map(fn);
+    return this.toArray().map(fn)
   }
 
   /**
@@ -216,43 +216,39 @@ export class Coins
    * @param fn predicate
    */
   public filter(fn: (c: Coin) => boolean): Coins {
-    return new Coins(this.toArray().filter(fn));
+    return new Coins(this.toArray().filter(fn))
   }
 
   public static fromAmino(data?: Coins.Amino): Coins {
-    return new Coins((data ?? []).map(Coin.fromAmino));
+    return new Coins((data ?? []).map(Coin.fromAmino))
   }
 
   public toAmino(): Coins.Amino {
-    return this.toArray().map(c => c.toAmino());
+    return this.toArray().map((c) => c.toAmino())
   }
 
   public static fromData(data?: Coins.Data): Coins {
-    return new Coins((data ?? []).map(Coin.fromData));
+    return new Coins((data ?? []).map(Coin.fromData))
   }
 
   public toData(): Coins.Data {
-    return this.toArray().map(c => c.toData());
+    return this.toArray().map((c) => c.toData())
   }
 
   public static fromProto(data?: Coins.Proto): Coins {
-    return new Coins((data ?? []).map(Coin.fromProto));
+    return new Coins((data ?? []).map(Coin.fromProto))
   }
 
   public toProto(): Coins.Proto {
-    return this.toArray().map(c => c.toProto());
+    return this.toArray().map((c) => c.toProto())
   }
 }
 
 export namespace Coins {
-  export type Input = Coins.AminoDict | Coin[] | Coins | string;
-  export type Amino = Coin.Amino[];
-  export type Data = Coin.Data[];
-  export type Proto = Coin.Proto[];
-  export type AminoDict = {
-    [denom: string]: number | string;
-  };
-  export type ReprDict = {
-    [denom: string]: Coin;
-  };
+  export type Input = Coins.AminoDict | Coin[] | Coins | string
+  export type Amino = Coin.Amino[]
+  export type Data = Coin.Data[]
+  export type Proto = Coin.Proto[]
+  export type AminoDict = Record<string, number | string>
+  export type ReprDict = Record<string, Coin>
 }

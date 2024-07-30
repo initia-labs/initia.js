@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgUpgradeClient as MsgUpgradeClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgUpgradeClient as MsgUpgradeClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
  * MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client state
@@ -27,16 +27,16 @@ export class MsgUpgradeClient extends JSONSerializable<
     public proof_upgrade_consensus_state: string,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgUpgradeClient {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgUpgradeClient.Data): MsgUpgradeClient {
@@ -47,7 +47,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       proof_upgrade_client,
       proof_upgrade_consensus_state,
       signer,
-    } = data;
+    } = data
     return new MsgUpgradeClient(
       client_id,
       client_state,
@@ -55,7 +55,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       proof_upgrade_client,
       proof_upgrade_consensus_state,
       signer
-    );
+    )
   }
 
   public toData(): MsgUpgradeClient.Data {
@@ -66,7 +66,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       proof_upgrade_client,
       proof_upgrade_consensus_state,
       signer,
-    } = this;
+    } = this
     return {
       '@type': '/ibc.core.client.v1.MsgUpgradeClient',
       client_id,
@@ -75,7 +75,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       proof_upgrade_client,
       proof_upgrade_consensus_state,
       signer,
-    };
+    }
   }
 
   public static fromProto(proto: MsgUpgradeClient.Proto): MsgUpgradeClient {
@@ -86,7 +86,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       Buffer.from(proto.proofUpgradeClient).toString('base64'),
       Buffer.from(proto.proofUpgradeConsensusState).toString('base64'),
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgUpgradeClient.Proto {
@@ -97,7 +97,7 @@ export class MsgUpgradeClient extends JSONSerializable<
       proof_upgrade_client,
       proof_upgrade_consensus_state,
       signer,
-    } = this;
+    } = this
     return MsgUpgradeClient_pb.fromPartial({
       clientId: client_id,
       clientState: client_state,
@@ -108,30 +108,30 @@ export class MsgUpgradeClient extends JSONSerializable<
         'base64'
       ),
       signer: signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.client.v1.MsgUpgradeClient',
       value: MsgUpgradeClient_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgUpgradeClient {
-    return MsgUpgradeClient.fromProto(MsgUpgradeClient_pb.decode(msgAny.value));
+    return MsgUpgradeClient.fromProto(MsgUpgradeClient_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgUpgradeClient {
   export interface Data {
-    '@type': '/ibc.core.client.v1.MsgUpgradeClient';
-    client_id: string;
-    client_state: any;
-    consensus_state: any;
-    proof_upgrade_client: string;
-    proof_upgrade_consensus_state: string;
-    signer: AccAddress;
+    '@type': '/ibc.core.client.v1.MsgUpgradeClient'
+    client_id: string
+    client_state: any
+    consensus_state: any
+    proof_upgrade_client: string
+    proof_upgrade_consensus_state: string
+    signer: AccAddress
   }
-  export type Proto = MsgUpgradeClient_pb;
+  export type Proto = MsgUpgradeClient_pb
 }

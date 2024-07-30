@@ -1,9 +1,9 @@
-import { APIRequester } from '../APIRequester';
-import { GovAPI } from './GovAPI';
-import { Coins } from '../../../core';
+import { APIRequester } from '../APIRequester'
+import { GovAPI } from './GovAPI'
+import { Coins } from '../../../core'
 
-const c = new APIRequester('https://stone-rest.initia.tech/');
-const gov = new GovAPI(c);
+const c = new APIRequester('https://stone-rest.initia.tech/')
+const gov = new GovAPI(c)
 
 describe('GovAPI', () => {
   it('parameters', async () => {
@@ -20,8 +20,8 @@ describe('GovAPI', () => {
         threshold: expect.any(String),
         veto_threshold: expect.any(String),
       },
-    });
-  });
+    })
+  })
 
   // it('tally', async () => {
   //   await expect(gov.tally(5333)).resolves.toMatchObject({
@@ -63,4 +63,4 @@ describe('GovAPI', () => {
   //     expect(deposits).toEqual(expect.any(Deposit));
   //   }
   // });
-});
+})

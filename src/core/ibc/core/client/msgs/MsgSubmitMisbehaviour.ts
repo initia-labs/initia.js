@@ -1,7 +1,7 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgSubmitMisbehaviour as MsgSubmitMisbehaviour_pb } from '@initia/initia.proto/ibc/core/client/v1/tx';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgSubmitMisbehaviour as MsgSubmitMisbehaviour_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
  *  MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for light client misbehaviour.
@@ -21,33 +21,33 @@ export class MsgSubmitMisbehaviour extends JSONSerializable<
     public misbehaviour: any,
     public signer: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgSubmitMisbehaviour {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
     data: MsgSubmitMisbehaviour.Data
   ): MsgSubmitMisbehaviour {
-    const { client_id, misbehaviour, signer } = data;
-    return new MsgSubmitMisbehaviour(client_id, misbehaviour, signer);
+    const { client_id, misbehaviour, signer } = data
+    return new MsgSubmitMisbehaviour(client_id, misbehaviour, signer)
   }
 
   public toData(): MsgSubmitMisbehaviour.Data {
-    const { client_id, misbehaviour, signer } = this;
+    const { client_id, misbehaviour, signer } = this
     return {
       '@type': '/ibc.core.client.v1.MsgSubmitMisbehaviour',
       client_id,
       misbehaviour,
       signer,
-    };
+    }
   }
 
   public static fromProto(
@@ -57,38 +57,38 @@ export class MsgSubmitMisbehaviour extends JSONSerializable<
       proto.clientId,
       proto.misbehaviour,
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgSubmitMisbehaviour.Proto {
-    const { client_id, misbehaviour, signer } = this;
+    const { client_id, misbehaviour, signer } = this
     return MsgSubmitMisbehaviour_pb.fromPartial({
       clientId: client_id,
       misbehaviour,
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.client.v1.MsgSubmitMisbehaviour',
       value: MsgSubmitMisbehaviour_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgSubmitMisbehaviour {
     return MsgSubmitMisbehaviour.fromProto(
       MsgSubmitMisbehaviour_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgSubmitMisbehaviour {
   export interface Data {
-    '@type': '/ibc.core.client.v1.MsgSubmitMisbehaviour';
-    client_id: string;
-    misbehaviour: any;
-    signer: AccAddress;
+    '@type': '/ibc.core.client.v1.MsgSubmitMisbehaviour'
+    client_id: string
+    misbehaviour: any
+    signer: AccAddress
   }
-  export type Proto = MsgSubmitMisbehaviour_pb;
+  export type Proto = MsgSubmitMisbehaviour_pb
 }

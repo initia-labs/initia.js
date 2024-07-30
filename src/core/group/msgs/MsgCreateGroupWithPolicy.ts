@@ -1,9 +1,9 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { DecisionPolicy } from '../policies';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MemberRequest } from '../GroupMember';
-import { MsgCreateGroupWithPolicy as MsgCreateGroupWithPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { DecisionPolicy } from '../policies'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MemberRequest } from '../GroupMember'
+import { MsgCreateGroupWithPolicy as MsgCreateGroupWithPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
 export class MsgCreateGroupWithPolicy extends JSONSerializable<
   MsgCreateGroupWithPolicy.Amino,
@@ -26,7 +26,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
     public group_policy_as_admin: boolean,
     public decision_policy: DecisionPolicy
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
@@ -41,7 +41,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
         group_policy_as_admin,
         decision_policy,
       },
-    } = data;
+    } = data
 
     return new MsgCreateGroupWithPolicy(
       admin,
@@ -50,7 +50,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       DecisionPolicy.fromAmino(decision_policy)
-    );
+    )
   }
 
   public toAmino(): MsgCreateGroupWithPolicy.Amino {
@@ -61,19 +61,19 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       decision_policy,
-    } = this;
+    } = this
 
     return {
       type: 'cosmos-sdk/MsgCreateGroupWithPolicy',
       value: {
         admin,
-        members: members.map(d => d.toAmino()),
+        members: members.map((d) => d.toAmino()),
         group_metadata,
         group_policy_metadata,
         group_policy_as_admin,
         decision_policy: decision_policy.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
@@ -86,7 +86,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       decision_policy,
-    } = data;
+    } = data
 
     return new MsgCreateGroupWithPolicy(
       admin,
@@ -95,7 +95,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       DecisionPolicy.fromData(decision_policy)
-    );
+    )
   }
 
   public toData(): MsgCreateGroupWithPolicy.Data {
@@ -106,17 +106,17 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       decision_policy,
-    } = this;
+    } = this
 
     return {
       '@type': '/cosmos.group.v1.MsgCreateGroupWithPolicy',
       admin,
-      members: members.map(d => d.toData()),
+      members: members.map((d) => d.toData()),
       group_metadata,
       group_policy_metadata,
       group_policy_as_admin,
       decision_policy: decision_policy.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -129,7 +129,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       data.groupPolicyMetadata,
       data.groupPolicyAsAdmin,
       DecisionPolicy.fromProto(data.decisionPolicy as DecisionPolicy.Proto)
-    );
+    )
   }
 
   public toProto(): MsgCreateGroupWithPolicy.Proto {
@@ -140,54 +140,54 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       group_policy_metadata,
       group_policy_as_admin,
       decision_policy,
-    } = this;
+    } = this
 
     return MsgCreateGroupWithPolicy_pb.fromPartial({
       admin,
-      members: members.map(d => d.toProto()),
+      members: members.map((d) => d.toProto()),
       groupMetadata: group_metadata,
       groupPolicyMetadata: group_policy_metadata,
       groupPolicyAsAdmin: group_policy_as_admin,
       decisionPolicy: decision_policy.packAny(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.group.v1.MsgCreateGroupWithPolicy',
       value: MsgCreateGroupWithPolicy_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgCreateGroupWithPolicy {
     return MsgCreateGroupWithPolicy.fromProto(
       MsgCreateGroupWithPolicy_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgCreateGroupWithPolicy {
   export interface Amino {
-    type: 'cosmos-sdk/MsgCreateGroupWithPolicy';
+    type: 'cosmos-sdk/MsgCreateGroupWithPolicy'
     value: {
-      admin: AccAddress;
-      members: MemberRequest.Amino[];
-      group_metadata: string;
-      group_policy_metadata: string;
-      group_policy_as_admin: boolean;
-      decision_policy: DecisionPolicy.Amino;
-    };
+      admin: AccAddress
+      members: MemberRequest.Amino[]
+      group_metadata: string
+      group_policy_metadata: string
+      group_policy_as_admin: boolean
+      decision_policy: DecisionPolicy.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.group.v1.MsgCreateGroupWithPolicy';
-    admin: AccAddress;
-    members: MemberRequest.Data[];
-    group_metadata: string;
-    group_policy_metadata: string;
-    group_policy_as_admin: boolean;
-    decision_policy: DecisionPolicy.Data;
+    '@type': '/cosmos.group.v1.MsgCreateGroupWithPolicy'
+    admin: AccAddress
+    members: MemberRequest.Data[]
+    group_metadata: string
+    group_policy_metadata: string
+    group_policy_as_admin: boolean
+    decision_policy: DecisionPolicy.Data
   }
 
-  export type Proto = MsgCreateGroupWithPolicy_pb;
+  export type Proto = MsgCreateGroupWithPolicy_pb
 }

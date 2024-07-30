@@ -1,5 +1,5 @@
-import { JSONSerializable } from '../../util/json';
-import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/slinky/types/v1/currency_pair';
+import { JSONSerializable } from '../../util/json'
+import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/slinky/types/v1/currency_pair'
 
 export class CurrencyPair extends JSONSerializable<
   CurrencyPair.Amino,
@@ -10,58 +10,61 @@ export class CurrencyPair extends JSONSerializable<
    * @param Base
    * @param Quote
    */
-  constructor(public Base: string, public Quote: string) {
-    super();
+  constructor(
+    public Base: string,
+    public Quote: string
+  ) {
+    super()
   }
 
   public toString(): string {
-    return `${this.Base}/${this.Quote}`;
+    return `${this.Base}/${this.Quote}`
   }
 
   public static fromAmino(data: CurrencyPair.Amino): CurrencyPair {
-    return new CurrencyPair(data.Base, data.Quote);
+    return new CurrencyPair(data.Base, data.Quote)
   }
 
   public toAmino(): CurrencyPair.Amino {
     return {
       Base: this.Base,
       Quote: this.Quote,
-    };
+    }
   }
 
   public static fromData(data: CurrencyPair.Data): CurrencyPair {
-    return new CurrencyPair(data.Base, data.Quote);
+    return new CurrencyPair(data.Base, data.Quote)
   }
 
   public toData(): CurrencyPair.Data {
     return {
       Base: this.Base,
       Quote: this.Quote,
-    };
+    }
   }
 
   public static fromProto(proto: CurrencyPair.Proto): CurrencyPair {
-    return new CurrencyPair(proto.Base, proto.Quote);
+    return new CurrencyPair(proto.Base, proto.Quote)
   }
 
   public toProto(): CurrencyPair.Proto {
     return CurrencyPair_pb.fromPartial({
       Base: this.Base,
       Quote: this.Quote,
-    });
+    })
   }
 }
 
 export namespace CurrencyPair {
   export interface Amino {
-    Base: string;
-    Quote: string;
+    Base: string
+    Quote: string
   }
 
   export interface Data {
-    Base: string;
-    Quote: string;
+    Base: string
+    Quote: string
   }
 
-  export type Proto = CurrencyPair_pb;
+  export type Proto = CurrencyPair_pb
 }

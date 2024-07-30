@@ -1,1 +1,1 @@
-export * from './msgs';
+export * from './msgs'

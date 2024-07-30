@@ -1,2 +1,2 @@
-export * from './allowances';
-export * from './msgs';
+export * from './allowances'
+export * from './msgs'

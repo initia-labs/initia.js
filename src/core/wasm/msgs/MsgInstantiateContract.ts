@@ -1,16 +1,16 @@
-import { JSONSerializable } from '../../../util/json';
-import { Coins } from '../../Coins';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgInstantiateContract as MsgInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx';
-import Long from 'long';
+import { JSONSerializable } from '../../../util/json'
+import { Coins } from '../../Coins'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgInstantiateContract as MsgInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
+import Long from 'long'
 
 export class MsgInstantiateContract extends JSONSerializable<
   MsgInstantiateContract.Amino,
   MsgInstantiateContract.Data,
   MsgInstantiateContract.Proto
 > {
-  public funds: Coins;
+  public funds: Coins
   /**
    * @param sender the actor that signed the messages
    * @param admin an optional address that can execute migrations
@@ -27,8 +27,8 @@ export class MsgInstantiateContract extends JSONSerializable<
     public msg: string,
     funds: Coins.Input
   ) {
-    super();
-    this.funds = new Coins(funds);
+    super()
+    this.funds = new Coins(funds)
   }
 
   public static fromAmino(
@@ -36,7 +36,7 @@ export class MsgInstantiateContract extends JSONSerializable<
   ): MsgInstantiateContract {
     const {
       value: { sender, admin, code_id, label, msg, funds },
-    } = data;
+    } = data
 
     return new MsgInstantiateContract(
       sender,
@@ -45,11 +45,11 @@ export class MsgInstantiateContract extends JSONSerializable<
       label,
       msg,
       Coins.fromAmino(funds)
-    );
+    )
   }
 
   public toAmino(): MsgInstantiateContract.Amino {
-    const { sender, admin, code_id, label, msg, funds } = this;
+    const { sender, admin, code_id, label, msg, funds } = this
     return {
       type: 'wasm/MsgInstantiateContract',
       value: {
@@ -60,13 +60,13 @@ export class MsgInstantiateContract extends JSONSerializable<
         msg,
         funds: funds.toAmino(),
       },
-    };
+    }
   }
 
   public static fromData(
     data: MsgInstantiateContract.Data
   ): MsgInstantiateContract {
-    const { sender, admin, code_id, label, msg, funds } = data;
+    const { sender, admin, code_id, label, msg, funds } = data
     return new MsgInstantiateContract(
       sender,
       admin,
@@ -74,11 +74,11 @@ export class MsgInstantiateContract extends JSONSerializable<
       label,
       msg,
       Coins.fromData(funds)
-    );
+    )
   }
 
   public toData(): MsgInstantiateContract.Data {
-    const { sender, admin, code_id, label, msg, funds } = this;
+    const { sender, admin, code_id, label, msg, funds } = this
     return {
       '@type': '/cosmwasm.wasm.v1.MsgInstantiateContract',
       sender,
@@ -87,7 +87,7 @@ export class MsgInstantiateContract extends JSONSerializable<
       label,
       msg,
       funds: funds.toData(),
-    };
+    }
   }
 
   public static fromProto(
@@ -100,11 +100,11 @@ export class MsgInstantiateContract extends JSONSerializable<
       data.label,
       Buffer.from(data.msg).toString('base64'),
       Coins.fromProto(data.funds)
-    );
+    )
   }
 
   public toProto(): MsgInstantiateContract.Proto {
-    const { sender, admin, code_id, label, msg, funds } = this;
+    const { sender, admin, code_id, label, msg, funds } = this
     return MsgInstantiateContract_pb.fromPartial({
       sender,
       admin,
@@ -112,45 +112,45 @@ export class MsgInstantiateContract extends JSONSerializable<
       label,
       msg: Buffer.from(msg, 'base64'),
       funds: funds.toProto(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmwasm.wasm.v1.MsgInstantiateContract',
       value: MsgInstantiateContract_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgInstantiateContract {
     return MsgInstantiateContract.fromProto(
       MsgInstantiateContract_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgInstantiateContract {
   export interface Amino {
-    type: 'wasm/MsgInstantiateContract';
+    type: 'wasm/MsgInstantiateContract'
     value: {
-      sender: AccAddress;
-      admin?: AccAddress;
-      code_id: string;
-      label?: string;
-      msg: string;
-      funds: Coins.Amino;
-    };
+      sender: AccAddress
+      admin?: AccAddress
+      code_id: string
+      label?: string
+      msg: string
+      funds: Coins.Amino
+    }
   }
 
   export interface Data {
-    '@type': '/cosmwasm.wasm.v1.MsgInstantiateContract';
-    sender: AccAddress;
-    admin?: AccAddress;
-    code_id: string;
-    label?: string;
-    msg: string;
-    funds: Coins.Data;
+    '@type': '/cosmwasm.wasm.v1.MsgInstantiateContract'
+    sender: AccAddress
+    admin?: AccAddress
+    code_id: string
+    label?: string
+    msg: string
+    funds: Coins.Data
   }
 
-  export type Proto = MsgInstantiateContract_pb;
+  export type Proto = MsgInstantiateContract_pb
 }

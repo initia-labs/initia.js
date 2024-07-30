@@ -1,18 +1,18 @@
-import { MsgDelegate } from './MsgDelegate';
-import { MsgUndelegate } from './MsgUndelegate';
-import { MsgBeginRedelegate } from './MsgBeginRedelegate';
-import { MsgCreateValidator } from './MsgCreateValidator';
-import { MsgEditValidator } from './MsgEditValidator';
-import { MsgCancelUnbondingDelegation } from './MsgCancelUnbondingDelegation';
-import { MsgUpdateMstakingParams } from './MsgUpdateMstakingParams';
+import { MsgDelegate } from './MsgDelegate'
+import { MsgUndelegate } from './MsgUndelegate'
+import { MsgBeginRedelegate } from './MsgBeginRedelegate'
+import { MsgCreateValidator } from './MsgCreateValidator'
+import { MsgEditValidator } from './MsgEditValidator'
+import { MsgCancelUnbondingDelegation } from './MsgCancelUnbondingDelegation'
+import { MsgUpdateMstakingParams } from './MsgUpdateMstakingParams'
 
-export * from './MsgDelegate';
-export * from './MsgUndelegate';
-export * from './MsgBeginRedelegate';
-export * from './MsgCreateValidator';
-export * from './MsgEditValidator';
-export * from './MsgCancelUnbondingDelegation';
-export * from './MsgUpdateMstakingParams';
+export * from './MsgDelegate'
+export * from './MsgUndelegate'
+export * from './MsgBeginRedelegate'
+export * from './MsgCreateValidator'
+export * from './MsgEditValidator'
+export * from './MsgCancelUnbondingDelegation'
+export * from './MsgUpdateMstakingParams'
 
 export type MstakingMsg =
   | MsgDelegate
@@ -21,7 +21,7 @@ export type MstakingMsg =
   | MsgCreateValidator
   | MsgEditValidator
   | MsgCancelUnbondingDelegation
-  | MsgUpdateMstakingParams;
+  | MsgUpdateMstakingParams
 
 export namespace MstakingMsg {
   export type Amino =
@@ -31,7 +31,7 @@ export namespace MstakingMsg {
     | MsgCreateValidator.Amino
     | MsgEditValidator.Amino
     | MsgCancelUnbondingDelegation.Amino
-    | MsgUpdateMstakingParams.Amino;
+    | MsgUpdateMstakingParams.Amino
   export type Data =
     | MsgDelegate.Data
     | MsgUndelegate.Data
@@ -39,7 +39,7 @@ export namespace MstakingMsg {
     | MsgCreateValidator.Data
     | MsgEditValidator.Data
     | MsgCancelUnbondingDelegation.Data
-    | MsgUpdateMstakingParams.Data;
+    | MsgUpdateMstakingParams.Data
   export type Proto =
     | MsgDelegate.Proto
     | MsgUndelegate.Proto
@@ -47,5 +47,5 @@ export namespace MstakingMsg {
     | MsgCreateValidator.Proto
     | MsgEditValidator.Proto
     | MsgCancelUnbondingDelegation.Proto
-    | MsgUpdateMstakingParams.Proto;
+    | MsgUpdateMstakingParams.Proto
 }

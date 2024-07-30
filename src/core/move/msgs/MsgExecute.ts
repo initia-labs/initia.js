@@ -1,15 +1,15 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgExecute as MsgExecute_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgExecute as MsgExecute_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 export class MsgExecute extends JSONSerializable<
   MsgExecute.Amino,
   MsgExecute.Data,
   MsgExecute.Proto
 > {
-  public type_args: string[];
-  public args: string[];
+  public type_args: string[]
+  public args: string[]
 
   /**
    * @param sender the actor that signed the messages
@@ -27,9 +27,9 @@ export class MsgExecute extends JSONSerializable<
     type_args: string[] = [],
     args: string[] = []
   ) {
-    super();
-    this.type_args = type_args;
-    this.args = args;
+    super()
+    this.type_args = type_args
+    this.args = args
   }
 
   public static fromAmino(data: MsgExecute.Amino): MsgExecute {
@@ -42,7 +42,7 @@ export class MsgExecute extends JSONSerializable<
         type_args,
         args,
       },
-    } = data;
+    } = data
     return new MsgExecute(
       sender,
       module_address,
@@ -50,7 +50,7 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args ?? [],
       args ?? []
-    );
+    )
   }
 
   public toAmino(): MsgExecute.Amino {
@@ -61,7 +61,7 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
 
     return {
       type: 'move/MsgExecute',
@@ -73,7 +73,7 @@ export class MsgExecute extends JSONSerializable<
         type_args: type_args.length === 0 ? undefined : type_args,
         args: args.length === 0 ? undefined : args,
       },
-    };
+    }
   }
 
   public static fromProto(data: MsgExecute.Proto): MsgExecute {
@@ -83,8 +83,8 @@ export class MsgExecute extends JSONSerializable<
       data.moduleName,
       data.functionName,
       data.typeArgs,
-      data.args.map(arg => Buffer.from(arg).toString('base64'))
-    );
+      data.args.map((arg) => Buffer.from(arg).toString('base64'))
+    )
   }
 
   public toProto(): MsgExecute.Proto {
@@ -95,26 +95,26 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
     return MsgExecute_pb.fromPartial({
       sender,
       moduleAddress: module_address,
       moduleName: module_name,
       functionName: function_name,
       typeArgs: type_args,
-      args: args.map(arg => Buffer.from(arg, 'base64')),
-    });
+      args: args.map((arg) => Buffer.from(arg, 'base64')),
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.move.v1.MsgExecute',
       value: MsgExecute_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgExecute {
-    return MsgExecute.fromProto(MsgExecute_pb.decode(msgAny.value));
+    return MsgExecute.fromProto(MsgExecute_pb.decode(msgAny.value))
   }
 
   public static fromData(data: MsgExecute.Data): MsgExecute {
@@ -125,7 +125,7 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = data;
+    } = data
     return new MsgExecute(
       sender,
       module_address,
@@ -133,7 +133,7 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args
-    );
+    )
   }
 
   public toData(): MsgExecute.Data {
@@ -144,7 +144,7 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
     return {
       '@type': '/initia.move.v1.MsgExecute',
       sender,
@@ -153,32 +153,32 @@ export class MsgExecute extends JSONSerializable<
       function_name,
       type_args,
       args,
-    };
+    }
   }
 }
 
 export namespace MsgExecute {
   export interface Amino {
-    type: 'move/MsgExecute';
+    type: 'move/MsgExecute'
     value: {
-      sender: AccAddress;
-      module_address: AccAddress;
-      module_name: string;
-      function_name: string;
-      type_args?: string[];
-      args?: string[];
-    };
+      sender: AccAddress
+      module_address: AccAddress
+      module_name: string
+      function_name: string
+      type_args?: string[]
+      args?: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgExecute';
-    sender: AccAddress;
-    module_address: AccAddress;
-    module_name: string;
-    function_name: string;
-    type_args: string[];
-    args: string[];
+    '@type': '/initia.move.v1.MsgExecute'
+    sender: AccAddress
+    module_address: AccAddress
+    module_name: string
+    function_name: string
+    type_args: string[]
+    args: string[]
   }
 
-  export type Proto = MsgExecute_pb;
+  export type Proto = MsgExecute_pb
 }

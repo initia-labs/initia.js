@@ -1,1 +1,1 @@
-export * from './tendermint/Header';
+export * from './tendermint/Header'

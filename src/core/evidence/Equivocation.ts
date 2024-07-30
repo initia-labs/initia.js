@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../util/json';
-import { ValConsAddress } from '../bech32';
-import { Equivocation as Equivocation_pb } from '@initia/initia.proto/cosmos/evidence/v1beta1/evidence';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import Long from 'long';
+import { JSONSerializable } from '../../util/json'
+import { ValConsAddress } from '../bech32'
+import { Equivocation as Equivocation_pb } from '@initia/initia.proto/cosmos/evidence/v1beta1/evidence'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import Long from 'long'
 
 export class Equivocation extends JSONSerializable<
   Equivocation.Amino,
@@ -21,24 +21,24 @@ export class Equivocation extends JSONSerializable<
     public power: number,
     public consensus_address: ValConsAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: Equivocation.Amino): Equivocation {
     const {
       value: { height, time, power, consensus_address },
-    } = data;
+    } = data
 
     return new Equivocation(
       Number.parseInt(height),
       new Date(time),
       Number.parseInt(power),
       consensus_address
-    );
+    )
   }
 
   public toAmino(): Equivocation.Amino {
-    const { height, time, power, consensus_address } = this;
+    const { height, time, power, consensus_address } = this
 
     return {
       type: 'cosmos-sdk/Equivocation',
@@ -48,22 +48,22 @@ export class Equivocation extends JSONSerializable<
         power: power.toString(),
         consensus_address,
       },
-    };
+    }
   }
 
   public static fromData(data: Equivocation.Data): Equivocation {
-    const { height, time, power, consensus_address } = data;
+    const { height, time, power, consensus_address } = data
 
     return new Equivocation(
       Number.parseInt(height),
       new Date(time),
       Number.parseInt(power),
       consensus_address
-    );
+    )
   }
 
   public toData(): Equivocation.Data {
-    const { height, time, power, consensus_address } = this;
+    const { height, time, power, consensus_address } = this
 
     return {
       '@type': '/cosmos.evidence.v1beta1.Equivocation',
@@ -71,7 +71,7 @@ export class Equivocation extends JSONSerializable<
       time: time.toISOString(),
       power: power.toString(),
       consensus_address,
-    };
+    }
   }
 
   public static fromProto(data: Equivocation.Proto): Equivocation {
@@ -80,50 +80,50 @@ export class Equivocation extends JSONSerializable<
       data.time as Date,
       data.power.toNumber(),
       data.consensusAddress
-    );
+    )
   }
 
   public toProto(): Equivocation.Proto {
-    const { height, time, power, consensus_address } = this;
+    const { height, time, power, consensus_address } = this
 
     return Equivocation_pb.fromPartial({
       height: Long.fromNumber(height),
       time,
       power: Long.fromNumber(power),
       consensusAddress: consensus_address,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.evidence.v1beta1.Equivocation',
       value: Equivocation_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): Equivocation {
-    return Equivocation.fromProto(Equivocation_pb.decode(msgAny.value));
+    return Equivocation.fromProto(Equivocation_pb.decode(msgAny.value))
   }
 }
 
 export namespace Equivocation {
   export interface Amino {
-    type: 'cosmos-sdk/Equivocation';
+    type: 'cosmos-sdk/Equivocation'
     value: {
-      height: string;
-      time: string;
-      power: string;
-      consensus_address: ValConsAddress;
-    };
+      height: string
+      time: string
+      power: string
+      consensus_address: ValConsAddress
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.evidence.v1beta1.Equivocation';
-    height: string;
-    time: string;
-    power: string;
-    consensus_address: ValConsAddress;
+    '@type': '/cosmos.evidence.v1beta1.Equivocation'
+    height: string
+    time: string
+    power: string
+    consensus_address: ValConsAddress
   }
 
-  export type Proto = Equivocation_pb;
+  export type Proto = Equivocation_pb
 }

@@ -1,11 +1,11 @@
-import { BaseAPI } from './BaseAPI';
-import { APIParams, Pagination, PaginationOptions } from '../APIRequester';
+import { BaseAPI } from './BaseAPI'
+import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import {
   OpValidator,
   ValAddress,
   OpchildParams,
   BridgeInfo,
-} from '../../../core';
+} from '../../../core'
 
 export class OpchildAPI extends BaseAPI {
   public async validators(
@@ -13,10 +13,10 @@ export class OpchildAPI extends BaseAPI {
   ): Promise<[OpValidator[], Pagination]> {
     return this.c
       .get<{
-        validators: OpValidator.Data[];
-        pagination: Pagination;
+        validators: OpValidator.Data[]
+        pagination: Pagination
       }>(`/opinit/opchild/v1/validators`, params)
-      .then(d => [d.validators.map(OpValidator.fromData), d.pagination]);
+      .then((d) => [d.validators.map(OpValidator.fromData), d.pagination])
   }
 
   public async validator(
@@ -24,25 +24,23 @@ export class OpchildAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<OpValidator> {
     return this.c
-      .get<{ validator: OpValidator.Data }>(
-        `/opinit/opchild/v1/validator/${validatorAddr}`,
-        params
-      )
-      .then(d => OpValidator.fromData(d.validator));
+      .get<{
+        validator: OpValidator.Data
+      }>(`/opinit/opchild/v1/validator/${validatorAddr}`, params)
+      .then((d) => OpValidator.fromData(d.validator))
   }
 
   public async bridgeInfo(params: APIParams = {}): Promise<BridgeInfo> {
     return this.c
-      .get<{ bridge_info: BridgeInfo.Data }>(
-        `/opinit/opchild/v1/bridge_info`,
-        params
-      )
-      .then(d => BridgeInfo.fromData(d.bridge_info));
+      .get<{
+        bridge_info: BridgeInfo.Data
+      }>(`/opinit/opchild/v1/bridge_info`, params)
+      .then((d) => BridgeInfo.fromData(d.bridge_info))
   }
 
   public async parameters(params: APIParams = {}): Promise<OpchildParams> {
     return this.c
       .get<{ params: OpchildParams.Data }>(`/opinit/opchild/v1/params`, params)
-      .then(d => OpchildParams.fromData(d.params));
+      .then((d) => OpchildParams.fromData(d.params))
   }
 }

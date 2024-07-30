@@ -1,4 +1,4 @@
-import { bech32 } from 'bech32';
+import { bech32 } from 'bech32'
 import {
   AccAddress,
   ValAddress,
@@ -9,8 +9,8 @@ import {
   AuthInfo,
   PublicKey,
   SignatureV2,
-} from '../core';
-import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing';
+} from '../core'
+import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing'
 
 /**
  * Abstract key interface that provides transaction signing features and Bech32 address
@@ -26,7 +26,7 @@ export abstract class Key {
    *
    * @param payload the data to be signed
    */
-  public abstract sign(payload: Buffer): Promise<Buffer>; // needs to be async for ledger key signing
+  public abstract sign(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
 
   /**
    * You will need to supply `signWithKeccak256`, which produces a signature for an arbitrary bytes payload
@@ -34,17 +34,17 @@ export abstract class Key {
    *
    * @param payload the data to be signed
    */
-  public abstract signWithKeccak256(payload: Buffer): Promise<Buffer>; // needs to be async for ledger key signing
+  public abstract signWithKeccak256(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
 
   /**
    * Initia account address. `init-` prefixed.
    */
   public get accAddress(): AccAddress {
     if (!this.publicKey) {
-      throw new Error('Could not compute accAddress: missing rawAddress');
+      throw new Error('Could not compute accAddress: missing rawAddress')
     }
 
-    return this.publicKey.address();
+    return this.publicKey.address()
   }
 
   /**
@@ -52,13 +52,13 @@ export abstract class Key {
    */
   public get valAddress(): ValAddress {
     if (!this.publicKey) {
-      throw new Error('Could not compute valAddress: missing rawAddress');
+      throw new Error('Could not compute valAddress: missing rawAddress')
     }
 
     return bech32.encode(
       'initvaloper',
       bech32.toWords(this.publicKey.rawAddress())
-    );
+    )
   }
 
   /**
@@ -79,7 +79,7 @@ export abstract class Key {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
-      );
+      )
     }
 
     return new SignatureV2(
@@ -91,7 +91,7 @@ export abstract class Key {
         )
       ),
       tx.sequence
-    );
+    )
   }
 
   /**
@@ -103,25 +103,25 @@ export abstract class Key {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
-      );
+      )
     }
 
     // backup for restore
-    const signerInfos = signDoc.auth_info.signer_infos;
+    const signerInfos = signDoc.auth_info.signer_infos
     signDoc.auth_info.signer_infos = [
       new SignerInfo(
         this.publicKey,
         signDoc.sequence,
         new ModeInfo(new ModeInfo.Single(SignMode.SIGN_MODE_DIRECT))
       ),
-    ];
+    ]
 
     const sigBytes = (await this.sign(Buffer.from(signDoc.toBytes()))).toString(
       'base64'
-    );
+    )
 
     // restore signDoc to origin
-    signDoc.auth_info.signer_infos = signerInfos;
+    signDoc.auth_info.signer_infos = signerInfos
 
     return new SignatureV2(
       this.publicKey,
@@ -129,7 +129,7 @@ export abstract class Key {
         new SignatureV2.Descriptor.Single(SignMode.SIGN_MODE_DIRECT, sigBytes)
       ),
       signDoc.sequence
-    );
+    )
   }
 
   /**
@@ -142,16 +142,16 @@ export abstract class Key {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
-      );
+      )
     }
 
-    const message = Buffer.from(tx.toAminoJSON());
-    const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n';
+    const message = Buffer.from(tx.toAminoJSON())
+    const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n'
     const signBytes = Buffer.concat([
       Buffer.from(EIP191MessagePrefix),
       Buffer.from(message.length.toString()),
       message,
-    ]);
+    ])
 
     return new SignatureV2(
       this.publicKey,
@@ -162,7 +162,7 @@ export abstract class Key {
         )
       ),
       tx.sequence
-    );
+    )
   }
 
   /**
@@ -170,28 +170,28 @@ export abstract class Key {
    * @param tx
    */
   public async signTx(tx: Tx, options: SignOptions): Promise<Tx> {
-    const copyTx = new Tx(tx.body, new AuthInfo([], tx.auth_info.fee), []);
+    const copyTx = new Tx(tx.body, new AuthInfo([], tx.auth_info.fee), [])
     const sign_doc = new SignDoc(
       options.chainId,
       options.accountNumber,
       options.sequence,
       copyTx.auth_info,
       copyTx.body
-    );
+    )
 
-    let signature: SignatureV2;
+    let signature: SignatureV2
     if (options.signMode === SignMode.SIGN_MODE_LEGACY_AMINO_JSON) {
-      signature = await this.createSignatureAmino(sign_doc);
+      signature = await this.createSignatureAmino(sign_doc)
     } else if (options.signMode == SignMode.SIGN_MODE_DIRECT) {
-      signature = await this.createSignature(sign_doc);
+      signature = await this.createSignature(sign_doc)
     } else if (options.signMode == SignMode.SIGN_MODE_EIP_191) {
-      signature = await this.createSignatureEIP191(sign_doc);
+      signature = await this.createSignatureEIP191(sign_doc)
     } else {
-      throw new Error('not supported sign mode');
+      throw new Error('not supported sign mode')
     }
 
-    const sigData = signature.data.single as SignatureV2.Descriptor.Single;
-    copyTx.signatures.push(...tx.signatures, sigData.signature);
+    const sigData = signature.data.single as SignatureV2.Descriptor.Single
+    copyTx.signatures.push(...tx.signatures, sigData.signature)
     copyTx.auth_info.signer_infos.push(
       ...tx.auth_info.signer_infos,
       new SignerInfo(
@@ -199,15 +199,15 @@ export abstract class Key {
         signature.sequence,
         new ModeInfo(new ModeInfo.Single(sigData.mode))
       )
-    );
+    )
 
-    return copyTx;
+    return copyTx
   }
 }
 
 export interface SignOptions {
-  accountNumber: number;
-  sequence: number;
-  signMode: SignMode;
-  chainId: string;
+  accountNumber: number
+  sequence: number
+  signMode: SignMode
+  chainId: string
 }

@@ -1,16 +1,16 @@
-import { BaseAPI } from './BaseAPI';
-import { Plan } from '../../../core';
-import { APIParams, PaginationOptions } from '../APIRequester';
+import { BaseAPI } from './BaseAPI'
+import { Plan } from '../../../core'
+import { APIParams, PaginationOptions } from '../APIRequester'
 
 export interface ModuleVersion {
-  name: string;
-  version: number;
+  name: string
+  version: number
 }
 
 export namespace ModuleVersion {
   export interface Data {
-    name: string;
-    version: string;
+    name: string
+    version: string
   }
 }
 
@@ -24,11 +24,10 @@ export class UpgradeAPI extends BaseAPI {
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<number> {
     return this.c
-      .get<{ height: string }>(
-        `/cosmos/upgrade/v1beta1/applied_plan/${name}`,
-        params
-      )
-      .then(d => Number.parseInt(d.height));
+      .get<{
+        height: string
+      }>(`/cosmos/upgrade/v1beta1/applied_plan/${name}`, params)
+      .then((d) => Number.parseInt(d.height))
   }
 
   /**
@@ -37,7 +36,7 @@ export class UpgradeAPI extends BaseAPI {
   public async currentPlan(params: APIParams = {}): Promise<Plan | undefined> {
     return this.c
       .get<{ plan?: Plan.Data }>(`/cosmos/upgrade/v1beta1/current_plan`, params)
-      .then(d => (d.plan ? Plan.fromData(d.plan) : undefined));
+      .then((d) => (d.plan ? Plan.fromData(d.plan) : undefined))
   }
 
   /**
@@ -48,12 +47,12 @@ export class UpgradeAPI extends BaseAPI {
   ): Promise<ModuleVersion[]> {
     return this.c
       .get<{
-        module_versions: ModuleVersion.Data[];
+        module_versions: ModuleVersion.Data[]
       }>(`/cosmos/upgrade/v1beta1/module_versions`, params)
-      .then(d =>
-        d.module_versions.map(mv => {
-          return { name: mv.name, version: Number.parseInt(mv.version) };
+      .then((d) =>
+        d.module_versions.map((mv) => {
+          return { name: mv.name, version: Number.parseInt(mv.version) }
         })
-      );
+      )
   }
 }

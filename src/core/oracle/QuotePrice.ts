@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../util/json';
-import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/slinky/oracle/v1/genesis';
-import Long from 'long';
+import { JSONSerializable } from '../../util/json'
+import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/slinky/oracle/v1/genesis'
+import Long from 'long'
 
 export class QuotePrice extends JSONSerializable<
   QuotePrice.Amino,
@@ -17,43 +17,43 @@ export class QuotePrice extends JSONSerializable<
     public block_timestamp: Date,
     public block_height: number
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: QuotePrice.Amino): QuotePrice {
-    const { price, block_timestamp, block_height } = data;
+    const { price, block_timestamp, block_height } = data
     return new QuotePrice(
       price,
       new Date(block_timestamp),
       Number.parseInt(block_height)
-    );
+    )
   }
 
   public toAmino(): QuotePrice.Amino {
-    const { price, block_timestamp, block_height } = this;
+    const { price, block_timestamp, block_height } = this
     return {
       price,
       block_timestamp: block_timestamp.toISOString(),
       block_height: block_height.toString(),
-    };
+    }
   }
 
   public static fromData(data: QuotePrice.Data): QuotePrice {
-    const { price, block_timestamp, block_height } = data;
+    const { price, block_timestamp, block_height } = data
     return new QuotePrice(
       price,
       new Date(block_timestamp),
       Number.parseInt(block_height)
-    );
+    )
   }
 
   public toData(): QuotePrice.Data {
-    const { price, block_timestamp, block_height } = this;
+    const { price, block_timestamp, block_height } = this
     return {
       price,
       block_timestamp: block_timestamp.toISOString(),
       block_height: block_height.toString(),
-    };
+    }
   }
 
   public static fromProto(proto: QuotePrice.Proto): QuotePrice {
@@ -61,31 +61,31 @@ export class QuotePrice extends JSONSerializable<
       proto.price,
       proto.blockTimestamp as Date,
       proto.blockHeight.toNumber()
-    );
+    )
   }
 
   public toProto(): QuotePrice.Proto {
-    const { price, block_timestamp, block_height } = this;
+    const { price, block_timestamp, block_height } = this
     return QuotePrice_pb.fromPartial({
       price,
       blockTimestamp: block_timestamp,
       blockHeight: Long.fromNumber(block_height),
-    });
+    })
   }
 }
 
 export namespace QuotePrice {
   export interface Amino {
-    price: string;
-    block_timestamp: string;
-    block_height: string;
+    price: string
+    block_timestamp: string
+    block_height: string
   }
 
   export interface Data {
-    price: string;
-    block_timestamp: string;
-    block_height: string;
+    price: string
+    block_timestamp: string
+    block_height: string
   }
 
-  export type Proto = QuotePrice_pb;
+  export type Proto = QuotePrice_pb
 }

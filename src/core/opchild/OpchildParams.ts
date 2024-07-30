@@ -1,14 +1,14 @@
-import { JSONSerializable } from '../../util/json';
-import { Coins } from '../Coins';
-import { AccAddress } from '../bech32';
-import { Params as Params_pb } from '@initia/opinit.proto/opinit/opchild/v1/types';
+import { JSONSerializable } from '../../util/json'
+import { Coins } from '../Coins'
+import { AccAddress } from '../bech32'
+import { Params as Params_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 
 export class OpchildParams extends JSONSerializable<
   OpchildParams.Amino,
   OpchildParams.Data,
   OpchildParams.Proto
 > {
-  public min_gas_prices: Coins;
+  public min_gas_prices: Coins
 
   /**
    * @param max_validators the maximum number of validators
@@ -26,8 +26,8 @@ export class OpchildParams extends JSONSerializable<
     public admin: AccAddress,
     public fee_whitelist: string[]
   ) {
-    super();
-    this.min_gas_prices = new Coins(min_gas_prices);
+    super()
+    this.min_gas_prices = new Coins(min_gas_prices)
   }
 
   public static fromAmino(data: OpchildParams.Amino): OpchildParams {
@@ -40,7 +40,7 @@ export class OpchildParams extends JSONSerializable<
         admin,
         fee_whitelist,
       },
-    } = data;
+    } = data
 
     return new OpchildParams(
       max_validators,
@@ -49,7 +49,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist
-    );
+    )
   }
 
   public toAmino(): OpchildParams.Amino {
@@ -60,7 +60,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist,
-    } = this;
+    } = this
 
     return {
       type: 'opchild/Params',
@@ -72,7 +72,7 @@ export class OpchildParams extends JSONSerializable<
         admin,
         fee_whitelist,
       },
-    };
+    }
   }
 
   public static fromData(data: OpchildParams.Data): OpchildParams {
@@ -83,7 +83,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist,
-    } = data;
+    } = data
 
     return new OpchildParams(
       max_validators,
@@ -92,7 +92,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist
-    );
+    )
   }
 
   public toData(): OpchildParams.Data {
@@ -103,7 +103,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist,
-    } = this;
+    } = this
 
     return {
       '@type': '/opinit.opchild.v1.Params',
@@ -113,7 +113,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist,
-    };
+    }
   }
 
   public static fromProto(data: OpchildParams.Proto): OpchildParams {
@@ -124,7 +124,7 @@ export class OpchildParams extends JSONSerializable<
       data.bridgeExecutor,
       data.admin,
       data.feeWhitelist
-    );
+    )
   }
 
   public toProto(): OpchildParams.Proto {
@@ -135,7 +135,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executor,
       admin,
       fee_whitelist,
-    } = this;
+    } = this
 
     return Params_pb.fromPartial({
       maxValidators: max_validators,
@@ -144,32 +144,32 @@ export class OpchildParams extends JSONSerializable<
       bridgeExecutor: bridge_executor,
       admin,
       feeWhitelist: fee_whitelist,
-    });
+    })
   }
 }
 
 export namespace OpchildParams {
   export interface Amino {
-    type: 'opchild/Params';
+    type: 'opchild/Params'
     value: {
-      max_validators: number;
-      historical_entries: number;
-      min_gas_prices: Coins.Amino;
-      bridge_executor: AccAddress;
-      admin: AccAddress;
-      fee_whitelist: string[];
-    };
+      max_validators: number
+      historical_entries: number
+      min_gas_prices: Coins.Amino
+      bridge_executor: AccAddress
+      admin: AccAddress
+      fee_whitelist: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/opinit.opchild.v1.Params';
-    max_validators: number;
-    historical_entries: number;
-    min_gas_prices: Coins.Data;
-    bridge_executor: AccAddress;
-    admin: AccAddress;
-    fee_whitelist: string[];
+    '@type': '/opinit.opchild.v1.Params'
+    max_validators: number
+    historical_entries: number
+    min_gas_prices: Coins.Data
+    bridge_executor: AccAddress
+    admin: AccAddress
+    fee_whitelist: string[]
   }
 
-  export type Proto = Params_pb;
+  export type Proto = Params_pb
 }

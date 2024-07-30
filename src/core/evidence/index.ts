@@ -1,3 +1,3 @@
-export * from './msgs';
-export * from './Equivocation';
-export * from './Evidence';
+export * from './msgs'
+export * from './Equivocation'
+export * from './Evidence'

@@ -1,3 +1,3 @@
-export * from './msgs';
-export * from './ACL';
-export * from './IbcHooksParams';
+export * from './msgs'
+export * from './ACL'
+export * from './IbcHooksParams'

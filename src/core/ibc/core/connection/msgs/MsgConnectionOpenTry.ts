@@ -1,11 +1,11 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { AccAddress } from '../../../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgConnectionOpenTry as MsgConnectionOpenTry_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx';
-import { ConnectionCounterparty } from '../ConnectionCounterparty';
-import { IbcVersion } from '../IbcVersion';
-import { Height } from '../../client';
-import Long from 'long';
+import { JSONSerializable } from '../../../../../util/json'
+import { AccAddress } from '../../../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgConnectionOpenTry as MsgConnectionOpenTry_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
+import { ConnectionCounterparty } from '../ConnectionCounterparty'
+import { IbcVersion } from '../IbcVersion'
+import { Height } from '../../client'
+import Long from 'long'
 
 /**
  *  MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a connection on Chain B.
@@ -41,16 +41,16 @@ export class MsgConnectionOpenTry extends JSONSerializable<
     public consensus_height: Height | undefined,
     public signer: AccAddress
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgConnectionOpenTry {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
@@ -68,20 +68,20 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = data;
+    } = data
     return new MsgConnectionOpenTry(
       client_id,
       client_state,
       counterparty ? ConnectionCounterparty.fromData(counterparty) : undefined,
       Number.parseInt(delay_period),
-      counterparty_versions.map(cv => IbcVersion.fromData(cv)),
+      counterparty_versions.map((cv) => IbcVersion.fromData(cv)),
       proof_height ? Height.fromData(proof_height) : undefined,
       Buffer.from(proof_init).toString('base64'),
       Buffer.from(proof_client).toString('base64'),
       Buffer.from(proof_consensus).toString('base64'),
       consensus_height ? Height.fromData(consensus_height) : undefined,
       signer
-    );
+    )
   }
 
   public toData(): MsgConnectionOpenTry.Data {
@@ -97,21 +97,21 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = this;
+    } = this
     return {
       '@type': '/ibc.core.connection.v1.MsgConnectionOpenTry',
       client_id,
       client_state,
       counterparty: counterparty?.toData(),
       delay_period: delay_period.toFixed(),
-      counterparty_versions: counterparty_versions.map(cv => cv.toData()),
+      counterparty_versions: counterparty_versions.map((cv) => cv.toData()),
       proof_height: proof_height?.toData(),
       proof_init,
       proof_client,
       proof_consensus,
       consensus_height: consensus_height?.toData(),
       signer,
-    };
+    }
   }
 
   public static fromProto(
@@ -124,7 +124,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
         ? ConnectionCounterparty.fromProto(proto.counterparty)
         : undefined,
       proto.delayPeriod.toNumber(),
-      proto.counterpartyVersions.map(cv => IbcVersion.fromProto(cv)),
+      proto.counterpartyVersions.map((cv) => IbcVersion.fromProto(cv)),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       Buffer.from(proto.proofInit).toString('base64'),
       Buffer.from(proto.proofClient).toString('base64'),
@@ -133,7 +133,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
         ? Height.fromProto(proto.consensusHeight)
         : undefined,
       proto.signer
-    );
+    )
   }
 
   public toProto(): MsgConnectionOpenTry.Proto {
@@ -149,51 +149,51 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       proof_consensus,
       consensus_height,
       signer,
-    } = this;
+    } = this
     return MsgConnectionOpenTry_pb.fromPartial({
       clientId: client_id,
       clientState: client_state.toProto(),
       counterparty: counterparty?.toProto(),
       delayPeriod: Long.fromNumber(delay_period),
-      counterpartyVersions: counterparty_versions.map(cv => cv.toProto()),
+      counterpartyVersions: counterparty_versions.map((cv) => cv.toProto()),
       proofHeight: proof_height?.toProto(),
       proofInit: Buffer.from(proof_init, 'base64'),
       proofClient: Buffer.from(proof_client, 'base64'),
       proofConsensus: Buffer.from(proof_consensus, 'base64'),
       consensusHeight: consensus_height?.toProto(),
       signer,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.core.connection.v1.MsgConnectionOpenTry',
       value: MsgConnectionOpenTry_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgConnectionOpenTry {
     return MsgConnectionOpenTry.fromProto(
       MsgConnectionOpenTry_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgConnectionOpenTry {
   export interface Data {
-    '@type': '/ibc.core.connection.v1.MsgConnectionOpenTry';
-    client_id: string;
-    client_state: Any;
-    counterparty?: ConnectionCounterparty.Data;
-    delay_period: string;
-    counterparty_versions: IbcVersion.Data[];
-    proof_height?: Height.Data;
-    proof_init: string;
-    proof_client: string;
-    proof_consensus: string;
-    consensus_height?: Height.Data;
-    signer: AccAddress;
+    '@type': '/ibc.core.connection.v1.MsgConnectionOpenTry'
+    client_id: string
+    client_state: Any
+    counterparty?: ConnectionCounterparty.Data
+    delay_period: string
+    counterparty_versions: IbcVersion.Data[]
+    proof_height?: Height.Data
+    proof_init: string
+    proof_client: string
+    proof_consensus: string
+    consensus_height?: Height.Data
+    signer: AccAddress
   }
 
-  export type Proto = MsgConnectionOpenTry_pb;
+  export type Proto = MsgConnectionOpenTry_pb
 }

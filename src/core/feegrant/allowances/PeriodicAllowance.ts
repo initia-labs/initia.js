@@ -1,9 +1,9 @@
-import { JSONSerializable } from '../../../util/json';
-import { Coins } from '../../Coins';
-import { Duration } from '../../Duration';
-import { BasicAllowance } from './BasicAllowance';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { PeriodicAllowance as PeriodicAllowance_pb } from '@initia/initia.proto/cosmos/feegrant/v1beta1/feegrant';
+import { JSONSerializable } from '../../../util/json'
+import { Coins } from '../../Coins'
+import { Duration } from '../../Duration'
+import { BasicAllowance } from './BasicAllowance'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { PeriodicAllowance as PeriodicAllowance_pb } from '@initia/initia.proto/cosmos/feegrant/v1beta1/feegrant'
 
 /**
  * PeriodicAllowance extends Allowance to allow for both a maximum cap,
@@ -14,8 +14,8 @@ export class PeriodicAllowance extends JSONSerializable<
   PeriodicAllowance.Data,
   PeriodicAllowance.Proto
 > {
-  public period_spend_limit: Coins;
-  public period_can_spend: Coins;
+  public period_spend_limit: Coins
+  public period_can_spend: Coins
 
   /**
    * @param basic basic allowance given per period
@@ -31,10 +31,10 @@ export class PeriodicAllowance extends JSONSerializable<
     period_can_spend: Coins.Input,
     public period_reset: Date
   ) {
-    super();
+    super()
 
-    this.period_spend_limit = new Coins(period_spend_limit);
-    this.period_can_spend = new Coins(period_can_spend);
+    this.period_spend_limit = new Coins(period_spend_limit)
+    this.period_can_spend = new Coins(period_can_spend)
   }
 
   public static fromAmino(data: PeriodicAllowance.Amino): PeriodicAllowance {
@@ -46,7 +46,7 @@ export class PeriodicAllowance extends JSONSerializable<
         period_can_spend,
         period_reset,
       },
-    } = data;
+    } = data
 
     return new PeriodicAllowance(
       BasicAllowance.fromAmino(basic),
@@ -54,7 +54,7 @@ export class PeriodicAllowance extends JSONSerializable<
       Coins.fromAmino(period_spend_limit),
       Coins.fromAmino(period_can_spend),
       new Date(period_reset)
-    );
+    )
   }
 
   public toAmino(): PeriodicAllowance.Amino {
@@ -64,7 +64,7 @@ export class PeriodicAllowance extends JSONSerializable<
       period_spend_limit,
       period_can_spend,
       period_reset,
-    } = this;
+    } = this
     return {
       type: 'cosmos-sdk/PeriodicAllowance',
       value: {
@@ -74,7 +74,7 @@ export class PeriodicAllowance extends JSONSerializable<
         period_can_spend: period_can_spend.toAmino(),
         period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
       },
-    };
+    }
   }
 
   public static fromData(proto: PeriodicAllowance.Data): PeriodicAllowance {
@@ -84,14 +84,14 @@ export class PeriodicAllowance extends JSONSerializable<
       period_spend_limit,
       period_can_spend,
       period_reset,
-    } = proto;
+    } = proto
     return new PeriodicAllowance(
       BasicAllowance.fromData(basic),
       Duration.fromData(period),
       Coins.fromData(period_spend_limit),
       Coins.fromData(period_can_spend),
       new Date(period_reset)
-    );
+    )
   }
 
   public toData(): PeriodicAllowance.Data {
@@ -101,7 +101,7 @@ export class PeriodicAllowance extends JSONSerializable<
       period_spend_limit,
       period_can_spend,
       period_reset,
-    } = this;
+    } = this
     return {
       '@type': '/cosmos.feegrant.v1beta1.PeriodicAllowance',
       basic: basic.toData(),
@@ -109,7 +109,7 @@ export class PeriodicAllowance extends JSONSerializable<
       period_spend_limit: period_spend_limit.toData(),
       period_can_spend: period_can_spend.toData(),
       period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
-    };
+    }
   }
 
   public static fromProto(proto: PeriodicAllowance.Proto): PeriodicAllowance {
@@ -119,7 +119,7 @@ export class PeriodicAllowance extends JSONSerializable<
       Coins.fromProto(proto.periodSpendLimit),
       Coins.fromProto(proto.periodCanSpend),
       proto.periodReset as Date
-    );
+    )
   }
 
   public toProto(): PeriodicAllowance.Proto {
@@ -129,7 +129,7 @@ export class PeriodicAllowance extends JSONSerializable<
       period_spend_limit,
       period_can_spend,
       period_reset,
-    } = this;
+    } = this
 
     return PeriodicAllowance_pb.fromPartial({
       basic: basic.toProto(),
@@ -137,43 +137,43 @@ export class PeriodicAllowance extends JSONSerializable<
       periodCanSpend: period_can_spend.toProto(),
       periodReset: period_reset,
       periodSpendLimit: period_spend_limit.toProto(),
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.feegrant.v1beta1.PeriodicAllowance',
       value: PeriodicAllowance_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): PeriodicAllowance {
     return PeriodicAllowance.fromProto(
       PeriodicAllowance_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace PeriodicAllowance {
   export interface Amino {
-    type: 'cosmos-sdk/PeriodicAllowance';
+    type: 'cosmos-sdk/PeriodicAllowance'
     value: {
-      basic: BasicAllowance.Amino;
-      period: Duration.Amino;
-      period_spend_limit: Coins.Amino;
-      period_can_spend: Coins.Amino;
-      period_reset: string;
-    };
+      basic: BasicAllowance.Amino
+      period: Duration.Amino
+      period_spend_limit: Coins.Amino
+      period_can_spend: Coins.Amino
+      period_reset: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.feegrant.v1beta1.PeriodicAllowance';
-    basic: BasicAllowance.Data;
-    period: Duration.Data;
-    period_spend_limit: Coins.Data;
-    period_can_spend: Coins.Data;
-    period_reset: string;
+    '@type': '/cosmos.feegrant.v1beta1.PeriodicAllowance'
+    basic: BasicAllowance.Data
+    period: Duration.Data
+    period_spend_limit: Coins.Data
+    period_can_spend: Coins.Data
+    period_reset: string
   }
 
-  export type Proto = PeriodicAllowance_pb;
+  export type Proto = PeriodicAllowance_pb
 }

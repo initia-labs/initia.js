@@ -1,8 +1,8 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Coin } from '../../Coin';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgAuctionBid as MsgAuctionBid_pb } from '@initia/initia.proto/sdk/auction/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Coin } from '../../Coin'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgAuctionBid as MsgAuctionBid_pb } from '@initia/initia.proto/sdk/auction/v1/tx'
 
 export class MsgAuctionBid extends JSONSerializable<
   MsgAuctionBid.Amino,
@@ -19,18 +19,18 @@ export class MsgAuctionBid extends JSONSerializable<
     public bid: Coin,
     public transactions: string[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(data: MsgAuctionBid.Amino): MsgAuctionBid {
     const {
       value: { bidder, bid, transactions },
-    } = data;
-    return new MsgAuctionBid(bidder, Coin.fromAmino(bid), transactions);
+    } = data
+    return new MsgAuctionBid(bidder, Coin.fromAmino(bid), transactions)
   }
 
   public toAmino(): MsgAuctionBid.Amino {
-    const { bidder, bid, transactions } = this;
+    const { bidder, bid, transactions } = this
     return {
       type: 'block-sdk/x/auction/MsgAuctionBid',
       value: {
@@ -38,69 +38,69 @@ export class MsgAuctionBid extends JSONSerializable<
         bid: bid.toAmino(),
         transactions,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgAuctionBid.Data): MsgAuctionBid {
-    const { bidder, bid, transactions } = data;
-    return new MsgAuctionBid(bidder, Coin.fromData(bid), transactions);
+    const { bidder, bid, transactions } = data
+    return new MsgAuctionBid(bidder, Coin.fromData(bid), transactions)
   }
 
   public toData(): MsgAuctionBid.Data {
-    const { bidder, bid, transactions } = this;
+    const { bidder, bid, transactions } = this
     return {
       '@type': '/sdk.auction.v1.MsgAuctionBid',
       bidder,
       bid: bid.toData(),
       transactions,
-    };
+    }
   }
 
   public static fromProto(data: MsgAuctionBid.Proto): MsgAuctionBid {
     return new MsgAuctionBid(
       data.bidder,
       Coin.fromProto(data.bid as Coin),
-      data.transactions.map(tx => Buffer.from(tx).toString('base64'))
-    );
+      data.transactions.map((tx) => Buffer.from(tx).toString('base64'))
+    )
   }
 
   public toProto(): MsgAuctionBid.Proto {
-    const { bidder, bid, transactions } = this;
+    const { bidder, bid, transactions } = this
     return MsgAuctionBid_pb.fromPartial({
       bidder,
       bid: bid.toProto(),
-      transactions: transactions.map(tx => Buffer.from(tx, 'base64')),
-    });
+      transactions: transactions.map((tx) => Buffer.from(tx, 'base64')),
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/sdk.auction.v1.MsgAuctionBid',
       value: MsgAuctionBid_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgAuctionBid {
-    return MsgAuctionBid.fromProto(MsgAuctionBid_pb.decode(msgAny.value));
+    return MsgAuctionBid.fromProto(MsgAuctionBid_pb.decode(msgAny.value))
   }
 }
 
 export namespace MsgAuctionBid {
   export interface Amino {
-    type: 'block-sdk/x/auction/MsgAuctionBid';
+    type: 'block-sdk/x/auction/MsgAuctionBid'
     value: {
-      bidder: AccAddress;
-      bid: Coin.Amino;
-      transactions: string[];
-    };
+      bidder: AccAddress
+      bid: Coin.Amino
+      transactions: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/sdk.auction.v1.MsgAuctionBid';
-    bidder: AccAddress;
-    bid: Coin.Data;
-    transactions: string[];
+    '@type': '/sdk.auction.v1.MsgAuctionBid'
+    bidder: AccAddress
+    bid: Coin.Data
+    transactions: string[]
   }
 
-  export type Proto = MsgAuctionBid_pb;
+  export type Proto = MsgAuctionBid_pb
 }

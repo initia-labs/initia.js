@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../../util/json';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { TextProposal as TextProposal_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/gov';
+import { JSONSerializable } from '../../../util/json'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { TextProposal as TextProposal_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
 
 /**
  * Basic proposal which describes the candidate proposition that must be put into effect
@@ -16,80 +16,83 @@ export class TextProposal extends JSONSerializable<
    * @param title proposal's title
    * @param description proposal's description
    */
-  constructor(public title: string, public description: string) {
-    super();
+  constructor(
+    public title: string,
+    public description: string
+  ) {
+    super()
   }
 
   public static fromAmino(data: TextProposal.Amino): TextProposal {
     const {
       value: { title, description },
-    } = data;
-    return new TextProposal(title, description);
+    } = data
+    return new TextProposal(title, description)
   }
 
   public toAmino(): TextProposal.Amino {
-    const { title, description } = this;
+    const { title, description } = this
     return {
       type: 'cosmos-sdk/TextProposal',
       value: {
         title,
         description,
       },
-    };
+    }
   }
 
   public static fromData(proto: TextProposal.Data): TextProposal {
-    const { title, description } = proto;
-    return new TextProposal(title, description);
+    const { title, description } = proto
+    return new TextProposal(title, description)
   }
 
   public toData(): TextProposal.Data {
-    const { title, description } = this;
+    const { title, description } = this
     return {
       '@type': '/cosmos.gov.v1beta1.TextProposal',
       title,
       description,
-    };
+    }
   }
 
   public static fromProto(proto: TextProposal.Proto): TextProposal {
-    return new TextProposal(proto.title, proto.description);
+    return new TextProposal(proto.title, proto.description)
   }
 
   public toProto(): TextProposal.Proto {
-    const { title, description } = this;
+    const { title, description } = this
     return TextProposal_pb.fromPartial({
       description,
       title,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/cosmos.gov.v1beta1.TextProposal',
       value: TextProposal_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): TextProposal {
-    return TextProposal.fromProto(TextProposal_pb.decode(msgAny.value));
+    return TextProposal.fromProto(TextProposal_pb.decode(msgAny.value))
   }
 }
 
 export namespace TextProposal {
   export interface Amino {
-    type: 'cosmos-sdk/TextProposal';
+    type: 'cosmos-sdk/TextProposal'
     value: {
-      title: string;
-      description: string;
-    };
+      title: string
+      description: string
+    }
   }
 
   export interface Data {
-    '@type': '/cosmos.gov.v1beta1.TextProposal';
-    title: string;
-    description: string;
+    '@type': '/cosmos.gov.v1beta1.TextProposal'
+    title: string
+    description: string
   }
 
-  export type Proto = TextProposal_pb;
+  export type Proto = TextProposal_pb
 }

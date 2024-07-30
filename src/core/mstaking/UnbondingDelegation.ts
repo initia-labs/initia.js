@@ -1,11 +1,11 @@
-import { JSONSerializable } from '../../util/json';
-import { Coins } from '../Coins';
-import { AccAddress, ValAddress } from '../bech32';
+import { JSONSerializable } from '../../util/json'
+import { Coins } from '../Coins'
+import { AccAddress, ValAddress } from '../bech32'
 import {
   UnbondingDelegation as UnbondingDelegation_pb,
   UnbondingDelegationEntry as UnbondingDelegationEntry_pb,
-} from '@initia/initia.proto/initia/mstaking/v1/staking';
-import Long from 'long';
+} from '@initia/initia.proto/initia/mstaking/v1/staking'
+import Long from 'long'
 
 /**
  * When a delegator decides to take out their funds from the mstaking pool, they must
@@ -28,54 +28,54 @@ export class UnbondingDelegation extends JSONSerializable<
     public validator_address: ValAddress,
     public entries: UnbondingDelegation.Entry[]
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(
     data: UnbondingDelegation.Amino
   ): UnbondingDelegation {
-    const { delegator_address, validator_address, entries } = data;
+    const { delegator_address, validator_address, entries } = data
     return new UnbondingDelegation(
       delegator_address,
       validator_address,
-      entries.map(e => UnbondingDelegation.Entry.fromAmino(e))
-    );
+      entries.map((e) => UnbondingDelegation.Entry.fromAmino(e))
+    )
   }
 
   public toAmino(): UnbondingDelegation.Amino {
-    const { delegator_address, validator_address, entries } = this;
+    const { delegator_address, validator_address, entries } = this
     return {
       delegator_address,
       validator_address,
-      entries: entries.map(e => e.toAmino()),
-    };
+      entries: entries.map((e) => e.toAmino()),
+    }
   }
 
   public static fromData(data: UnbondingDelegation.Data): UnbondingDelegation {
-    const { delegator_address, validator_address, entries } = data;
+    const { delegator_address, validator_address, entries } = data
     return new UnbondingDelegation(
       delegator_address,
       validator_address,
-      entries.map(e => UnbondingDelegation.Entry.fromData(e))
-    );
+      entries.map((e) => UnbondingDelegation.Entry.fromData(e))
+    )
   }
 
   public toData(): UnbondingDelegation.Data {
-    const { delegator_address, validator_address, entries } = this;
+    const { delegator_address, validator_address, entries } = this
     return {
       delegator_address,
       validator_address,
-      entries: entries.map(e => e.toData()),
-    };
+      entries: entries.map((e) => e.toData()),
+    }
   }
 
   public toProto(): UnbondingDelegation.Proto {
-    const { delegator_address, validator_address, entries } = this;
+    const { delegator_address, validator_address, entries } = this
     return UnbondingDelegation_pb.fromPartial({
       delegatorAddress: delegator_address,
-      entries: entries.map(e => e.toProto()),
+      entries: entries.map((e) => e.toProto()),
       validatorAddress: validator_address,
-    });
+    })
   }
 
   public static fromProto(
@@ -84,33 +84,33 @@ export class UnbondingDelegation extends JSONSerializable<
     return new UnbondingDelegation(
       proto.delegatorAddress,
       proto.validatorAddress,
-      proto.entries.map(e => UnbondingDelegation.Entry.fromProto(e))
-    );
+      proto.entries.map((e) => UnbondingDelegation.Entry.fromProto(e))
+    )
   }
 }
 
 export namespace UnbondingDelegation {
   export interface Amino {
-    delegator_address: AccAddress;
-    validator_address: ValAddress;
-    entries: UnbondingDelegation.Entry.Amino[];
+    delegator_address: AccAddress
+    validator_address: ValAddress
+    entries: UnbondingDelegation.Entry.Amino[]
   }
 
   export interface Data {
-    delegator_address: AccAddress;
-    validator_address: ValAddress;
-    entries: UnbondingDelegation.Entry.Data[];
+    delegator_address: AccAddress
+    validator_address: ValAddress
+    entries: UnbondingDelegation.Entry.Data[]
   }
 
-  export type Proto = UnbondingDelegation_pb;
+  export type Proto = UnbondingDelegation_pb
 
   export class Entry extends JSONSerializable<
     Entry.Amino,
     Entry.Data,
     Entry.Proto
   > {
-    public initial_balance: Coins;
-    public balance: Coins;
+    public initial_balance: Coins
+    public balance: Coins
 
     /**
      * Note that the size of the undelegation is `initial_balance - balance`
@@ -125,9 +125,9 @@ export namespace UnbondingDelegation {
       public creation_height: number,
       public completion_time: Date
     ) {
-      super();
-      this.initial_balance = new Coins(initial_balance);
-      this.balance = new Coins(balance);
+      super()
+      this.initial_balance = new Coins(initial_balance)
+      this.balance = new Coins(balance)
     }
 
     public toAmino(): Entry.Amino {
@@ -136,18 +136,18 @@ export namespace UnbondingDelegation {
         balance: this.balance.toAmino(),
         creation_height: this.creation_height.toFixed(),
         completion_time: this.completion_time.toISOString(),
-      };
+      }
     }
 
     public static fromAmino(data: Entry.Amino): Entry {
       const { initial_balance, balance, creation_height, completion_time } =
-        data;
+        data
       return new Entry(
         Coins.fromAmino(initial_balance),
         Coins.fromAmino(balance),
         Number.parseInt(creation_height),
         new Date(completion_time)
-      );
+      )
     }
 
     public toData(): Entry.Data {
@@ -156,29 +156,29 @@ export namespace UnbondingDelegation {
         balance: this.balance.toData(),
         creation_height: this.creation_height.toFixed(),
         completion_time: this.completion_time.toISOString(),
-      };
+      }
     }
 
     public static fromData(data: Entry.Data): Entry {
       const { initial_balance, balance, creation_height, completion_time } =
-        data;
+        data
       return new Entry(
         Coins.fromData(initial_balance),
         Coins.fromData(balance),
         Number.parseInt(creation_height),
         new Date(completion_time)
-      );
+      )
     }
 
     public toProto(): Entry.Proto {
       const { initial_balance, balance, creation_height, completion_time } =
-        this;
+        this
       return UnbondingDelegationEntry_pb.fromPartial({
         balance: balance.toProto(),
         completionTime: completion_time,
         creationHeight: Long.fromNumber(creation_height),
         initialBalance: initial_balance.toProto(),
-      });
+      })
     }
 
     public static fromProto(proto: Entry.Proto): Entry {
@@ -187,25 +187,25 @@ export namespace UnbondingDelegation {
         Coins.fromProto(proto.balance),
         proto.creationHeight.toNumber(),
         proto.completionTime as Date
-      );
+      )
     }
   }
 
   export namespace Entry {
     export interface Amino {
-      initial_balance: Coins.Amino;
-      balance: Coins.Amino;
-      creation_height: string;
-      completion_time: string;
+      initial_balance: Coins.Amino
+      balance: Coins.Amino
+      creation_height: string
+      completion_time: string
     }
 
     export interface Data {
-      initial_balance: Coins.Data;
-      balance: Coins.Data;
-      creation_height: string;
-      completion_time: string;
+      initial_balance: Coins.Data
+      balance: Coins.Data
+      creation_height: string
+      completion_time: string
     }
 
-    export type Proto = UnbondingDelegationEntry_pb;
+    export type Proto = UnbondingDelegationEntry_pb
   }
 }

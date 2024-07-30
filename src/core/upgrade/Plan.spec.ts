@@ -1,4 +1,4 @@
-import { Plan } from './Plan';
+import { Plan } from './Plan'
 
 describe('Plan', () => {
   it('deserializes', () => {
@@ -8,7 +8,7 @@ describe('Plan', () => {
       height: '5330001',
       info: 'testinfo',
       upgraded_client_state: 'deprecated',
-    });
+    })
 
     expect(plan).toMatchObject({
       name: `v0.5.2`,
@@ -16,6 +16,6 @@ describe('Plan', () => {
       height: '5330001',
       info: 'testinfo',
       upgraded_client_state: 'deprecated',
-    });
-  });
-});
+    })
+  })
+})

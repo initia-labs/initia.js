@@ -1,6 +1,6 @@
-import { JSONSerializable } from '../../../../../util/json';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgRegisterCounterpartyPayee as MsgRegisterCounterpartyPayee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx';
+import { JSONSerializable } from '../../../../../util/json'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgRegisterCounterpartyPayee as MsgRegisterCounterpartyPayee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx'
 
 /**
  * MsgRegisterCounterpartyPayee defines the request type for the RegisterCounterpartyPayee rpc
@@ -22,40 +22,40 @@ export class MsgRegisterCounterpartyPayee extends JSONSerializable<
     public relayer: string,
     public counterparty_payee: string
   ) {
-    super();
+    super()
   }
 
   public static fromAmino(_: any): MsgRegisterCounterpartyPayee {
-    _;
-    throw new Error('Amino not supported');
+    _
+    throw new Error('Amino not supported')
   }
 
   public toAmino(): any {
-    throw new Error('Amino not supported');
+    throw new Error('Amino not supported')
   }
 
   public static fromData(
     data: MsgRegisterCounterpartyPayee.Data
   ): MsgRegisterCounterpartyPayee {
-    const { port_id, channel_id, relayer, counterparty_payee } = data;
+    const { port_id, channel_id, relayer, counterparty_payee } = data
 
     return new MsgRegisterCounterpartyPayee(
       port_id,
       channel_id,
       relayer,
       counterparty_payee
-    );
+    )
   }
 
   public toData(): MsgRegisterCounterpartyPayee.Data {
-    const { port_id, channel_id, relayer, counterparty_payee } = this;
+    const { port_id, channel_id, relayer, counterparty_payee } = this
     return {
       '@type': '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee',
       port_id,
       channel_id,
       relayer,
       counterparty_payee,
-    };
+    }
   }
 
   public static fromProto(
@@ -66,41 +66,41 @@ export class MsgRegisterCounterpartyPayee extends JSONSerializable<
       proto.channelId,
       proto.relayer,
       proto.counterpartyPayee
-    );
+    )
   }
 
   public toProto(): MsgRegisterCounterpartyPayee.Proto {
-    const { port_id, channel_id, relayer, counterparty_payee } = this;
+    const { port_id, channel_id, relayer, counterparty_payee } = this
     return MsgRegisterCounterpartyPayee_pb.fromPartial({
       portId: port_id,
       channelId: channel_id,
       relayer,
       counterpartyPayee: counterparty_payee,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee',
       value: MsgRegisterCounterpartyPayee_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgRegisterCounterpartyPayee {
     return MsgRegisterCounterpartyPayee.fromProto(
       MsgRegisterCounterpartyPayee_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgRegisterCounterpartyPayee {
   export interface Data {
-    '@type': '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee';
-    port_id: string;
-    channel_id: string;
-    relayer: string;
-    counterparty_payee: string;
+    '@type': '/ibc.applications.fee.v1.MsgRegisterCounterpartyPayee'
+    port_id: string
+    channel_id: string
+    relayer: string
+    counterparty_payee: string
   }
 
-  export type Proto = MsgRegisterCounterpartyPayee_pb;
+  export type Proto = MsgRegisterCounterpartyPayee_pb
 }

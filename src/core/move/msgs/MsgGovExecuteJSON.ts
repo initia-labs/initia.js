@@ -1,15 +1,15 @@
-import { JSONSerializable } from '../../../util/json';
-import { AccAddress } from '../../bech32';
-import { Any } from '@initia/initia.proto/google/protobuf/any';
-import { MsgGovExecuteJSON as MsgGovExecuteJSON_pb } from '@initia/initia.proto/initia/move/v1/tx';
+import { JSONSerializable } from '../../../util/json'
+import { AccAddress } from '../../bech32'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
+import { MsgGovExecuteJSON as MsgGovExecuteJSON_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 export class MsgGovExecuteJSON extends JSONSerializable<
   MsgGovExecuteJSON.Amino,
   MsgGovExecuteJSON.Data,
   MsgGovExecuteJSON.Proto
 > {
-  public type_args: string[];
-  public args: string[];
+  public type_args: string[]
+  public args: string[]
 
   /**
    * @param authority the address that controls the module
@@ -29,9 +29,9 @@ export class MsgGovExecuteJSON extends JSONSerializable<
     type_args: string[] = [],
     args: string[] = []
   ) {
-    super();
-    this.type_args = type_args;
-    this.args = args;
+    super()
+    this.type_args = type_args
+    this.args = args
   }
 
   public static fromAmino(data: MsgGovExecuteJSON.Amino): MsgGovExecuteJSON {
@@ -45,7 +45,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
         type_args,
         args,
       },
-    } = data;
+    } = data
 
     return new MsgGovExecuteJSON(
       authority,
@@ -55,7 +55,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args ?? [],
       args ?? []
-    );
+    )
   }
 
   public toAmino(): MsgGovExecuteJSON.Amino {
@@ -67,7 +67,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
 
     return {
       type: 'move/MsgGovExecuteJSON',
@@ -80,7 +80,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
         type_args: type_args.length === 0 ? undefined : type_args,
         args: args.length === 0 ? undefined : args,
       },
-    };
+    }
   }
 
   public static fromData(data: MsgGovExecuteJSON.Data): MsgGovExecuteJSON {
@@ -92,7 +92,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = data;
+    } = data
 
     return new MsgGovExecuteJSON(
       authority,
@@ -102,7 +102,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args
-    );
+    )
   }
 
   public toData(): MsgGovExecuteJSON.Data {
@@ -114,7 +114,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
 
     return {
       '@type': '/initia.move.v1.MsgGovExecuteJSON',
@@ -125,7 +125,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args,
-    };
+    }
   }
 
   public static fromProto(data: MsgGovExecuteJSON.Proto): MsgGovExecuteJSON {
@@ -137,7 +137,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       data.functionName,
       data.typeArgs,
       data.args
-    );
+    )
   }
 
   public toProto(): MsgGovExecuteJSON.Proto {
@@ -149,7 +149,7 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       function_name,
       type_args,
       args,
-    } = this;
+    } = this
 
     return MsgGovExecuteJSON_pb.fromPartial({
       authority,
@@ -159,47 +159,47 @@ export class MsgGovExecuteJSON extends JSONSerializable<
       functionName: function_name,
       typeArgs: type_args,
       args,
-    });
+    })
   }
 
   public packAny(): Any {
     return Any.fromPartial({
       typeUrl: '/initia.move.v1.MsgGovExecuteJSON',
       value: MsgGovExecuteJSON_pb.encode(this.toProto()).finish(),
-    });
+    })
   }
 
   public static unpackAny(msgAny: Any): MsgGovExecuteJSON {
     return MsgGovExecuteJSON.fromProto(
       MsgGovExecuteJSON_pb.decode(msgAny.value)
-    );
+    )
   }
 }
 
 export namespace MsgGovExecuteJSON {
   export interface Amino {
-    type: 'move/MsgGovExecuteJSON';
+    type: 'move/MsgGovExecuteJSON'
     value: {
-      authority: AccAddress;
-      sender: AccAddress;
-      module_address: AccAddress;
-      module_name: string;
-      function_name: string;
-      type_args?: string[];
-      args?: string[];
-    };
+      authority: AccAddress
+      sender: AccAddress
+      module_address: AccAddress
+      module_name: string
+      function_name: string
+      type_args?: string[]
+      args?: string[]
+    }
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgGovExecuteJSON';
-    authority: AccAddress;
-    sender: AccAddress;
-    module_address: AccAddress;
-    module_name: string;
-    function_name: string;
-    type_args: string[];
-    args: string[];
+    '@type': '/initia.move.v1.MsgGovExecuteJSON'
+    authority: AccAddress
+    sender: AccAddress
+    module_address: AccAddress
+    module_name: string
+    function_name: string
+    type_args: string[]
+    args: string[]
   }
 
-  export type Proto = MsgGovExecuteJSON_pb;
+  export type Proto = MsgGovExecuteJSON_pb
 }
