@@ -43,7 +43,7 @@ export class LocalInitia extends LCDClient {
   }
 
   constructor() {
-    super('https://stone-rest.initia.tech', { chainId: 'localinitia' })
+    super('http://localhost:1317', { chainId: 'local-initia' })
 
     this.wallets = {
       validator: this.wallet(
