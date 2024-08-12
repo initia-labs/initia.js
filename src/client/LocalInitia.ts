@@ -4,27 +4,27 @@ import { MnemonicKey } from '../key/MnemonicKey'
 
 const LOCALINITIA_MNEMONICS = {
   validator:
-    'satisfy adjust timber high purchase tuition stool faith fine install that you unaware feed domain license impose boss human eager hat rent enjoy dawn',
+    'walk only potato reason dance meadow any milk raise inflict retreat parent force resource battle concert acquire regret drill better cabin meadow ordinary save',
   test1:
-    'notice oak worry limit wrap speak medal online prefer cluster roof addict wrist behave treat actual wasp year salad speed social layer crew genius',
+    'exclude stay club ten scrap inflict wheat riot fly usage wait dog grain turtle fetch toy insect snap mimic inner juice hotel grant net',
   test2:
-    'quality vacuum heart guard buzz spike sight swarm shove special gym robust assume sudden deposit grid alcohol choice devote leader tilt noodle tide penalty',
+    'explain inch inherit clean poverty crime guess material element arm night demand stem kid pool large hour soul measure scan pave error weather tragic',
   test3:
-    'symbol force gallery make bulk round subway violin worry mixture penalty kingdom boring survey tool fringe patrol sausage hard admit remember broken alien absorb',
+    'coconut climb noble cupboard leader decide power apple twice fiber blue region present orient negative jungle blanket fat gym moon fossil bulb evil apart',
   test4:
-    'bounce success option birth apple portion aunt rural episode solution hockey pencil lend session cause hedgehog slender journey system canvas decorate razor catch empty',
+    'topic visual tide critic march unhappy thrive permit load math artwork speed only lawn effort general under cable door relief liberty avocado swallow tenant',
   test5:
-    'second render cat sing soup reward cluster island bench diet lumber grocery repeat balcony perfect diesel stumble piano distance caught occur example ozone loyal',
+    'large smoke slam staff crisp any version olympic spatial broom forward detect notice pull option hundred private outdoor oven hint box interest into power',
   test6:
-    'spatial forest elevator battle also spoon fun skirt flight initial nasty transfer glory palm drama gossip remove fan joke shove label dune debate quick',
+    'private fuel exile give tribe profit waste sight primary fish rookie skirt wear broom issue gold bird process once pattern tongue rival sense reject',
   test7:
-    'noble width taxi input there patrol clown public spell aunt wish punch moment will misery eight excess arena pen turtle minimum grain vague inmate',
+    'segment hire punch same escape soap economy health what either flat diamond hammer auction index omit museum tuition decline weekend lava over time mango',
   test8:
-    'cream sport mango believe inhale text fish rely elegant below earth april wall rug ritual blossom cherry detail length blind digital proof identify ride',
+    'churn hill piece army zero random breeze ginger magnet huge fat notable ceiling yellow security chalk merry normal junior warm theme false fade later',
   test9:
-    'index light average senior silent limit usual local involve delay update rack cause inmate wall render magnet common feature laundry exact casual resource hundred',
+    'primary scale invite wife carpet roast blouse utility lyrics tank marriage science problem salmon minor grocery there ladder noise never gather aerobic neglect rigid',
   test10:
-    'prefer forget visit mistake mixture feel eyebrow autumn shop pair address airport diesel street pass vague innocent poem method awful require hurry unhappy shoulder',
+    'forum shiver flush artefact analyst undo hundred mixed diamond mushroom submit city march crater fatigue deal host asthma reopen barrel virtual accuse crime dune',
 }
 
 export class LocalInitia extends LCDClient {
