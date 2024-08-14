@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
-    "@types/bn.js": "^5.1.1",
     "@types/eslint": "^8.56.10",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.0.3",
@@ -33,11 +32,9 @@
     "@types/ripemd160": "^2.0.0",
     "@types/secp256k1": "^4.0.6",
     "@types/semver": "^7.5.8",
-    "@types/tmp": "^0.2.3",
     "@types/ws": "^7.4.7",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -66,7 +63,7 @@
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
     "@ledgerhq/hw-transport-webusb": "^6.27.12",
     "@mysten/bcs": "^1.0.2",
-    "axios": "^1.6.5",
+    "axios": "^1.7.4",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.0",
     "bip32": "^2.0.6",
@@ -76,7 +73,7 @@
     "long": "^5.2.0",
     "ripemd160": "^2.0.2",
     "secp256k1": "^5.0.0",
-    "tmp": "^0.2.1",
+    "semver": "^7.6.3",
     "ws": "^7.5.10"
   },
   "lint-staged": {
