@@ -531,7 +531,7 @@ export class TxAPI extends BaseAPI {
     }, '')
 
     if (query) params.append('query', query)
-    options['query'] = undefined
+    delete options['query']
 
     Object.entries(options).forEach((v) => {
       params.append(v[0], v[1].toString())
