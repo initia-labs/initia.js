@@ -529,7 +529,7 @@ export class TxAPI extends BaseAPI {
       return str ? `${str} AND ${queryStr}` : queryStr
     }, '')
 
-    params.append('query', query)
+    if (query) params.append('query', query)
     delete options['query']
 
     Object.entries(options).forEach((v) => {
