@@ -522,6 +522,7 @@ export class TxAPI extends BaseAPI {
     const params = new URLSearchParams()
 
     const query: string = (options.query ?? []).reduce((str, q) => {
+      if (!q.key) return str
       const op = q.op ?? '='
       const value = q.key === 'tx.height' ? `${q.value}` : `'${q.value}'`
       const queryStr =
@@ -530,7 +531,7 @@ export class TxAPI extends BaseAPI {
     }, '')
 
     if (query) params.append('query', query)
-    delete options['query']
+    options['query'] = undefined
 
     Object.entries(options).forEach((v) => {
       params.append(v[0], v[1].toString())
