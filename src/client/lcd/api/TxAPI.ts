@@ -186,8 +186,14 @@ export namespace SimulateResponse {
   }
 }
 
+export type TxSearchOp = '=' | '<' | '<=' | '>' | '>=' | 'CONTAINS' | 'EXISTS'
+
 export interface TxSearchOptions extends PaginationOptions {
-  query: { key: string; value: string }[]
+  query: {
+    key: string
+    value: string
+    op?: TxSearchOp
+  }[]
 }
 
 export class TxAPI extends BaseAPI {
@@ -515,18 +521,20 @@ export class TxAPI extends BaseAPI {
   ): Promise<TxSearchResult> {
     const params = new URLSearchParams()
 
-    // build search params
-    options.query?.forEach((v) =>
-      params.append(
-        'query',
-        v.key === 'tx.height' ? `${v.key}=${v.value}` : `${v.key}='${v.value}'`
-      )
-    )
+    const query: string = (options.query ?? []).reduce((str, q) => {
+      if (!q.key) return str
+      const op = q.op ?? '='
+      const value = q.key === 'tx.height' ? `${q.value}` : `'${q.value}'`
+      const queryStr =
+        op === 'EXISTS' ? `${q.key} ${op}` : `${q.key} ${op} ${value}`
+      return str ? `${str} AND ${queryStr}` : queryStr
+    }, '')
 
-    delete options['query']
+    if (query) params.append('query', query)
+    options['query'] = undefined
 
     Object.entries(options).forEach((v) => {
-      params.append(v[0], v[1] as string)
+      params.append(v[0], v[1].toString())
     })
 
     return this.c
