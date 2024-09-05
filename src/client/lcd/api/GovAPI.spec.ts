@@ -1,25 +1,32 @@
 import { APIRequester } from '../APIRequester'
 import { GovAPI } from './GovAPI'
-import { Coins } from '../../../core'
+import { Coins, Duration } from '../../../core'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const gov = new GovAPI(c)
 
 describe('GovAPI', () => {
   it('parameters', async () => {
     await expect(gov.parameters()).resolves.toMatchObject({
-      deposit_params: {
-        min_deposit: expect.any(Coins),
-        max_deposit_period: expect.any(Number),
-      },
-      voting_params: {
-        voting_period: expect.any(Number),
-      },
-      tally_params: {
-        quorum: expect.any(String),
-        threshold: expect.any(String),
-        veto_threshold: expect.any(String),
-      },
+      min_deposit: expect.any(Coins),
+      max_deposit_period: expect.any(Duration),
+      voting_period: expect.any(Duration),
+      quorum: expect.any(String),
+      threshold: expect.any(String),
+      veto_threshold: expect.any(String),
+      min_initial_deposit_ratio: expect.any(String),
+      proposal_cancel_ratio: expect.any(String),
+      proposal_cancel_dest: expect.any(String),
+      expedited_voting_period: expect.any(Duration),
+      expedited_threshold: expect.any(String),
+      expedited_min_deposit: expect.any(Coins),
+      burn_vote_quorum: expect.any(Boolean),
+      burn_proposal_deposit_prevote: expect.any(Boolean),
+      burn_vote_veto: expect.any(Boolean),
+      min_deposit_ratio: expect.any(String),
+      emergency_min_deposit: expect.any(Coins),
+      emergency_tally_interval: expect.any(Duration),
+      low_threshold_functions: expect.any(Array<string>),
     })
   })
 

@@ -1,7 +1,7 @@
 import { APIRequester } from '../APIRequester'
 import { IbcAPI } from './IbcAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const ibc = new IbcAPI(c)
 
 describe('IbcClientAPI', () => {

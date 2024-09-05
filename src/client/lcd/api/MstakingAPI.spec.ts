@@ -1,20 +1,20 @@
 import { APIRequester } from '../APIRequester'
 import { MstakingAPI } from './MstakingAPI'
-import { Coins } from '../../../core'
-import { ValConsPublicKey } from '../../../core'
+import { Coins, Duration, ValConsPublicKey } from '../../../core'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const mstaking = new MstakingAPI(c)
 
 describe('MstakingAPI', () => {
   it('parameters', async () => {
     await expect(mstaking.parameters()).resolves.toMatchObject({
-      unbonding_time: expect.any(Number),
+      unbonding_time: expect.any(Duration),
       max_validators: expect.any(Number),
       max_entries: expect.any(Number),
       historical_entries: expect.any(Number),
       bond_denoms: expect.any(Array<string>),
       min_voting_power: expect.any(Number),
+      min_commission_rate: expect.any(String),
     })
   })
 
