@@ -1,27 +1,27 @@
-import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs';
-import { AccAddress, BigNumber, num } from '../core';
+import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs'
+import { AccAddress, BigNumber, num } from '../core'
 
 const initiaAddress = (
-  options?: BcsTypeOptions<Uint8Array, Iterable<number>>,
+  options?: BcsTypeOptions<Uint8Array, Iterable<number>>
 ) =>
   mystenBcs.bytes(32, options).transform({
     input: (val: string) => {
       if (val.startsWith('init1')) {
-        val = AccAddress.toHex(val);
+        val = AccAddress.toHex(val)
       }
 
       if (val.startsWith('0x')) {
-        val = val.slice(2).padStart(64, '0');
+        val = val.slice(2).padStart(64, '0')
       }
 
       if (!val.match(/[0-9a-f]+$/i)) {
-        throw new Error('invalid address');
+        throw new Error('invalid address')
       }
 
-      return Buffer.from(val, 'hex');
+      return Buffer.from(val, 'hex')
     },
     output: (val) => `0x${Buffer.from(val).toString('hex')}`,
-  });
+  })
 
 // initia specific types
 const initiaBcs = {
@@ -49,9 +49,9 @@ const initiaBcs = {
   fixed_point32: (options?: BcsTypeOptions<string, string | number | bigint>) =>
     mystenBcs.u64(options).transform({
       input: (val: number | string) => {
-        const n = num(val).times(new BigNumber('4294967296'));
+        const n = num(val).times(new BigNumber('4294967296'))
 
-        return n.toFixed(0, BigNumber.ROUND_DOWN);
+        return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
       output: (val) => num(val).div(new BigNumber('4294967296')).toNumber(),
     }),
@@ -64,9 +64,9 @@ const initiaBcs = {
   fixed_point64: (options?: BcsTypeOptions<string, string | number | bigint>) =>
     mystenBcs.u128(options).transform({
       input: (val: number | string) => {
-        const n = num(val).times(new BigNumber('18446744073709551616'));
+        const n = num(val).times(new BigNumber('18446744073709551616'))
 
-        return n.toFixed(0, BigNumber.ROUND_DOWN);
+        return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
       output: (val) =>
         num(val).div(new BigNumber('18446744073709551616')).toNumber(),
@@ -80,9 +80,9 @@ const initiaBcs = {
   decimal128: (options?: BcsTypeOptions<string, string | number | bigint>) =>
     mystenBcs.u128(options).transform({
       input: (val: number | string) => {
-        const n = num(val).times(new BigNumber('1000000000000000000'));
+        const n = num(val).times(new BigNumber('1000000000000000000'))
 
-        return n.toFixed(0, BigNumber.ROUND_DOWN);
+        return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
       output: (val) =>
         num(val).div(new BigNumber('1000000000000000000')).toNumber(),
@@ -96,9 +96,9 @@ const initiaBcs = {
   decimal256: (options?: BcsTypeOptions<string, string | number | bigint>) =>
     mystenBcs.u256(options).transform({
       input: (val: number | string) => {
-        const n = num(val).times(new BigNumber('1000000000000000000'));
+        const n = num(val).times(new BigNumber('1000000000000000000'))
 
-        return n.toFixed(0, BigNumber.ROUND_DOWN);
+        return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
       output: (val) =>
         num(val).div(new BigNumber('1000000000000000000')).toNumber(),
@@ -112,10 +112,10 @@ const initiaBcs = {
   biguint: (options?: BcsTypeOptions<string, string | number | bigint>) =>
     mystenBcs.vector(mystenBcs.u8(options)).transform({
       input: (val: number | string | bigint) => {
-        return toLittleEndian(BigInt(val));
+        return toLittleEndian(BigInt(val))
       },
       output: (val) => {
-        return fromLittleEndian(val);
+        return fromLittleEndian(val)
       },
     }),
 
@@ -127,37 +127,35 @@ const initiaBcs = {
   bigdecimal: (options?: BcsTypeOptions<string, string | number>) =>
     mystenBcs.vector(mystenBcs.u8(options)).transform({
       input: (val: number | string) => {
-        const n = num(val).times(new BigNumber('1000000000000000000'));
-        const biguint = n.toFixed(0, BigNumber.ROUND_DOWN);
-        return toLittleEndian(BigInt(biguint));
+        const n = num(val).times(new BigNumber('1000000000000000000'))
+        const biguint = n.toFixed(0, BigNumber.ROUND_DOWN)
+        return toLittleEndian(BigInt(biguint))
       },
       output: (val) => {
-        const biguint = fromLittleEndian(val).toString();
-        return num(biguint)
-          .div(new BigNumber('1000000000000000000'))
-          .toNumber();
+        const biguint = fromLittleEndian(val).toString()
+        return num(biguint).div(new BigNumber('1000000000000000000')).toNumber()
       },
     }),
-};
+}
 
 export const bcs = {
   ...mystenBcs,
   ...initiaBcs,
-};
+}
 
 function toLittleEndian(bigint: bigint): Uint8Array {
-  const result = [];
+  const result = []
   while (bigint > 0) {
-    result.push(Number(bigint % BigInt(256)));
-    bigint = bigint / BigInt(256);
+    result.push(Number(bigint % BigInt(256)))
+    bigint = bigint / BigInt(256)
   }
-  return new Uint8Array(result);
+  return new Uint8Array(result)
 }
 
 function fromLittleEndian(bytes: number[]): bigint {
-  let result = 0n;
+  let result = 0n
   while (bytes.length > 0) {
-    result = result * 256n + BigInt(bytes.pop() as number);
+    result = result * 256n + BigInt(bytes.pop() as number)
   }
-  return result;
+  return result
 }
