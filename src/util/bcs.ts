@@ -103,9 +103,59 @@ const initiaBcs = {
       output: (val) =>
         num(val).div(new BigNumber('1000000000000000000')).toNumber(),
     }),
+
+  /**
+   * Creates a BcsType that can be used to read and write a biguint.
+   * @example
+   * bcs.biguint().serialize('123')
+   */
+  biguint: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+    mystenBcs.vector(mystenBcs.u8(options)).transform({
+      input: (val: number | string | bigint) => {
+        return toLittleEndian(BigInt(val))
+      },
+      output: (val) => {
+        return fromLittleEndian(val)
+      },
+    }),
+
+  /**
+   * Creates a BcsType that can be used to read and write a bigdecimal.
+   * @example
+   * bcs.bigdecimal().serialize('1.23')
+   */
+  bigdecimal: (options?: BcsTypeOptions<string, string | number>) =>
+    mystenBcs.vector(mystenBcs.u8(options)).transform({
+      input: (val: number | string) => {
+        const n = num(val).times(new BigNumber('1000000000000000000'))
+        const biguint = n.toFixed(0, BigNumber.ROUND_DOWN)
+        return toLittleEndian(BigInt(biguint))
+      },
+      output: (val) => {
+        const biguint = fromLittleEndian(val).toString()
+        return num(biguint).div(new BigNumber('1000000000000000000')).toNumber()
+      },
+    }),
 }
 
 export const bcs = {
   ...mystenBcs,
   ...initiaBcs,
+}
+
+function toLittleEndian(bigint: bigint): Uint8Array {
+  const result = []
+  while (bigint > 0) {
+    result.push(Number(bigint % BigInt(256)))
+    bigint = bigint / BigInt(256)
+  }
+  return new Uint8Array(result)
+}
+
+function fromLittleEndian(bytes: number[]): bigint {
+  let result = 0n
+  while (bytes.length > 0) {
+    result = result * 256n + BigInt(bytes.pop() as number)
+  }
+  return result
 }

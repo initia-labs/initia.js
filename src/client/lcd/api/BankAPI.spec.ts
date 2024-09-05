@@ -1,7 +1,7 @@
 import { APIRequester } from '../APIRequester'
 import { BankAPI } from './BankAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const bank = new BankAPI(c)
 
 describe('BankAPI', () => {

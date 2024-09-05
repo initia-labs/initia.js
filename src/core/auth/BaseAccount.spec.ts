@@ -35,7 +35,6 @@ describe('Account', () => {
       type: 'cosmos-sdk/BaseAccount',
       value: {
         address: '',
-        public_key: null,
         account_number: '0',
         sequence: '0',
       },
