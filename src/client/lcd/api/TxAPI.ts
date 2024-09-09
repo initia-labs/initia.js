@@ -583,7 +583,6 @@ export class TxAPI extends BaseAPI {
     }
 
     const { txs, total } = await this.search({ query })
-    console.log(total)
     const events = txs.flatMap((tx) => filterEvents(tx))
     targetEvents.push(...events)
     if (total <= 100) return targetEvents
