@@ -585,18 +585,20 @@ export class TxAPI extends BaseAPI {
     const { txs, total } = await this.search({ query })
     const events = txs.flatMap((tx) => filterEvents(tx))
     targetEvents.push(...events)
-    if (total <= 100) return targetEvents
 
-    const lastPage = Math.ceil(total / 100)
-    const pages = [...Array(lastPage - 1).keys()].map((page) => page + 2)
-    const eventsList: Event[][] = await Promise.all(
-      pages.map(async (page) => {
-        return this.search({ query, page }).then((res) =>
-          res.txs.flatMap((tx) => filterEvents(tx))
-        )
-      })
-    )
-    targetEvents.push(...eventsList.flat())
+    if (total > 100) {
+      const lastPage = Math.ceil(total / 100)
+      // if last page = 10, pages = [2, 3, 4, 5, ..., 10]
+      const pages = [...Array(lastPage - 1).keys()].map((page) => page + 2)
+      const eventsList: Event[][] = await Promise.all(
+        pages.map(async (page) => {
+          return this.search({ query, page }).then((res) =>
+            res.txs.flatMap((tx) => filterEvents(tx))
+          )
+        })
+      )
+      targetEvents.push(...eventsList.flat())
+    }
 
     return targetEvents
   }
