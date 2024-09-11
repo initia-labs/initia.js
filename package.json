@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -17,7 +17,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc --module commonjs && webpack --mode production",
+    "build": "vite build",
     "test": "jest --passWithNoTests",
     "lint": "npx eslint . --fix",
     "prepare": "husky",
@@ -52,6 +52,8 @@
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.1",
+    "vite": "^5.4.3",
+    "vite-plugin-dts": "^4.2.1",
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0"

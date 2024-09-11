@@ -35,6 +35,6 @@ export default tseslint.config(
   },
   eslintPluginPrettierRecommended,
   {
-    ignores: ['dist/**/*', 'integration-tests/**/*', '**/*.config.js', '**/*.config.mjs', '**/*.spec.ts'],
+    ignores: ['dist/**/*', 'integration-tests/**/*', '**/*.config.js', '**/*.config.mjs', '**/*.spec.ts', '**/*.config.ts'],
   },
 )
