@@ -123,6 +123,7 @@ export class LedgerKey extends Key {
     return this
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(message: Buffer): Promise<Buffer> {
     if (!this.publicKey) {
       await this.loadAccountDetails()
@@ -130,14 +131,15 @@ export class LedgerKey extends Key {
     const res = await this.app.sign(this.path, message)
     checkLedgerErrors(res)
 
-    return Buffer.from(signatureImport(Buffer.from(res.signature as any)))
+    return Buffer.from(signatureImport(Buffer.from(res.signature as any))) // eslint-disable-line @typescript-eslint/no-unsafe-argument
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async signWithKeccak256(): Promise<Buffer> {
     throw new Error('LedgerKey does not support signWithKeccak256()')
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
   public async createSignature(_tx: SignDoc): Promise<SignatureV2> {
     throw new Error('direct sign mode is not supported')
   }

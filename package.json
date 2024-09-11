@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.2.9",
+  "version": "0.2.14",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -17,7 +17,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc --module commonjs && webpack --mode production",
+    "build": "vite build",
     "test": "jest --passWithNoTests",
     "lint": "npx eslint . --fix",
     "prepare": "husky",
@@ -25,8 +25,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.5.0",
-    "@initia/builder.js": "^0.1.6",
-    "@types/bn.js": "^5.1.1",
     "@types/eslint": "^8.56.10",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.0.3",
@@ -34,11 +32,9 @@
     "@types/ripemd160": "^2.0.0",
     "@types/secp256k1": "^4.0.6",
     "@types/semver": "^7.5.8",
-    "@types/tmp": "^0.2.3",
     "@types/ws": "^7.4.7",
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
-    "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
@@ -50,12 +46,14 @@
     "prettier": "^3.1.1",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
-    "ts-jest": "^29.1.1",
+    "ts-jest": "^29.2.5",
     "ts-loader": "^9.4.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.1",
+    "vite": "^5.4.3",
+    "vite-plugin-dts": "^4.2.1",
     "webpack": "^5.74.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0"
@@ -67,7 +65,7 @@
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
     "@ledgerhq/hw-transport-webusb": "^6.27.12",
     "@mysten/bcs": "^1.0.2",
-    "axios": "^1.6.5",
+    "axios": "^1.7.4",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.0",
     "bip32": "^2.0.6",
@@ -77,8 +75,8 @@
     "long": "^5.2.0",
     "ripemd160": "^2.0.2",
     "secp256k1": "^5.0.0",
-    "tmp": "^0.2.1",
-    "ws": "^7.5.9"
+    "semver": "^7.6.3",
+    "ws": "^7.5.10"
   },
   "lint-staged": {
     "src/**/*.{mjs|ts}": [

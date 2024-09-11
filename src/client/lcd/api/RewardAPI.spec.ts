@@ -1,7 +1,8 @@
+import { Duration } from '../../../core'
 import { APIRequester } from '../APIRequester'
 import { RewardAPI } from './RewardAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const api = new RewardAPI(c)
 
 describe('RewardAPI', () => {
@@ -18,7 +19,7 @@ describe('RewardAPI', () => {
   it('parameters', async () => {
     await expect(api.parameters()).resolves.toMatchObject({
       reward_denom: expect.any(String),
-      dilution_period: expect.any(String),
+      dilution_period: expect.any(Duration),
       release_rate: expect.any(String),
       dilution_rate: expect.any(String),
       release_enabled: expect.any(Boolean),

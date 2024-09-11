@@ -71,7 +71,7 @@ const DEFAULT_GAS_PRICES_BY_CHAIN_ID: Record<string, Coins.Input> = {
  * ```ts
  * import { LCDClient } from 'initia.js';
  *
- * const initia = new LCDClient("https://stone-rest.initia.tech", {
+ * const initia = new LCDClient("https://lcd.devnet.initia.xyz", {
  *    chainId: "testnet"
  * });
  * ```

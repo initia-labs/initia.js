@@ -140,6 +140,7 @@ export namespace TxResult {
 
 export interface TxSearchResult {
   pagination: Pagination
+  total: number
   txs: TxInfo[]
 }
 
@@ -148,6 +149,7 @@ export namespace TxSearchResult {
     txs: Tx.Data[]
     tx_responses: TxInfo.Data[]
     pagination: Pagination
+    total: string
   }
 }
 
@@ -186,8 +188,15 @@ export namespace SimulateResponse {
   }
 }
 
+export type TxSearchOp = '=' | '<' | '<=' | '>' | '>=' | 'CONTAINS' | 'EXISTS'
+export interface TxSearchQuery {
+  key: string
+  value: string
+  op?: TxSearchOp
+}
 export interface TxSearchOptions extends PaginationOptions {
-  query: { key: string; value: string }[]
+  page: number
+  query: TxSearchQuery[]
 }
 
 export class TxAPI extends BaseAPI {
@@ -479,11 +488,11 @@ export class TxAPI extends BaseAPI {
       }
 
       if (d.code) {
-        blockResult.code = d.code
+        blockResult.code = d.code // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       }
 
       if (d.codespace) {
-        blockResult.codespace = d.codespace
+        blockResult.codespace = d.codespace // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       }
 
       return blockResult
@@ -515,18 +524,20 @@ export class TxAPI extends BaseAPI {
   ): Promise<TxSearchResult> {
     const params = new URLSearchParams()
 
-    // build search params
-    options.query?.forEach((v) =>
-      params.append(
-        'query',
-        v.key === 'tx.height' ? `${v.key}=${v.value}` : `${v.key}='${v.value}'`
-      )
-    )
+    const query: string = (options.query ?? []).reduce((str, q) => {
+      if (!q.key) return str
+      const op = q.op ?? '='
+      const value = q.key === 'tx.height' ? `${q.value}` : `'${q.value}'`
+      const queryStr =
+        op === 'EXISTS' ? `${q.key} ${op}` : `${q.key} ${op} ${value}`
+      return str ? `${str} AND ${queryStr}` : queryStr
+    }, '')
 
+    if (query) params.append('query', query)
     delete options['query']
 
     Object.entries(options).forEach((v) => {
-      params.append(v[0], v[1] as string)
+      params.append(v[0], v[1].toString())
     })
 
     return this.c
@@ -537,7 +548,58 @@ export class TxAPI extends BaseAPI {
             TxInfo.fromData(tx_response)
           ),
           pagination: d.pagination,
+          total: Number(d.total),
         }
       })
+  }
+
+  public async searchEvents(
+    moduleAddr: string,
+    moduleName: string,
+    startHeight: number,
+    endHeight: number
+  ): Promise<Event[]> {
+    if (endHeight < startHeight) {
+      throw new Error(`Start height cannot be greater than end height`)
+    }
+
+    if (endHeight - startHeight > 100) {
+      throw new Error(`Query height range cannot be greater than 100`)
+    }
+
+    const targetEvents: Event[] = []
+    const targetTag = `${moduleAddr}::${moduleName}`
+    const query: TxSearchQuery[] = [
+      { key: 'tx.height', value: startHeight.toString(), op: '>=' },
+      { key: 'tx.height', value: endHeight.toString(), op: '<=' },
+      { key: 'move.type_tag', value: targetTag, op: 'CONTAINS' },
+    ]
+    const filterEvents = (tx: TxInfo) => {
+      return tx.events.filter((event) => {
+        if (event.type !== 'move') return false
+        const typeTag = event.attributes.find((attr) => attr.key === 'type_tag')
+        return typeTag && typeTag.value.startsWith(targetTag)
+      })
+    }
+
+    const { txs, total } = await this.search({ query })
+    const events = txs.flatMap((tx) => filterEvents(tx))
+    targetEvents.push(...events)
+
+    if (total > 100) {
+      const lastPage = Math.ceil(total / 100)
+      // if last page = 10, pages = [2, 3, 4, 5, ..., 10]
+      const pages = [...Array(lastPage - 1).keys()].map((page) => page + 2)
+      const eventsList: Event[][] = await Promise.all(
+        pages.map(async (page) => {
+          return this.search({ query, page }).then((res) =>
+            res.txs.flatMap((tx) => filterEvents(tx))
+          )
+        })
+      )
+      targetEvents.push(...eventsList.flat())
+    }
+
+    return targetEvents
   }
 }

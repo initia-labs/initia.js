@@ -10,11 +10,12 @@ export function prepareSignBytes(obj: any): any {
 
   const sorted: any = {}
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   Object.keys(obj)
     .sort()
     .forEach((key) => {
-      if (obj[key] === undefined || obj[key] === null) return
-      sorted[key] = prepareSignBytes(obj[key])
+      if (obj[key] === undefined || obj[key] === null) return // eslint-disable-line @typescript-eslint/no-unsafe-member-access
+      sorted[key] = prepareSignBytes(obj[key]) // eslint-disable-line @typescript-eslint/no-unsafe-member-access
     })
   return sorted
 }
@@ -33,7 +34,8 @@ export abstract class JSONSerializable<A, D, P> {
 
 export function removeNull(obj: any): any {
   if (obj !== null && typeof obj === 'object') {
-    return Object.entries(obj)
+    // eslint-disable-line @typescript-eslint/no-unsafe-argument
+    return Object.entries(obj) // eslint-disable-line @typescript-eslint/no-unsafe-argument
       .filter(([, v]) => v != null)
       .reduce(
         (acc, [k, v]) => ({

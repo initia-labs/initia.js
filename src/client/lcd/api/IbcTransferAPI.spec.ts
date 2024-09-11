@@ -1,8 +1,8 @@
 import { APIRequester } from '../APIRequester'
 import { IbcTransferAPI } from './IbcTransferAPI'
-import { DenomTrace } from '../../../core/ibc/applications/transfer/v1/DenomTrace'
+import { DenomTrace } from '../../../core/ibc/applications/transfer/DenomTrace'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const ibctx = new IbcTransferAPI(c)
 
 describe('IbcTransferAPI', () => {

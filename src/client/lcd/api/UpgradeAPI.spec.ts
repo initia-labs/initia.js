@@ -2,7 +2,7 @@ import { APIRequester } from '../APIRequester'
 import { Plan } from '../../../core'
 import { UpgradeAPI } from './UpgradeAPI'
 
-const c = new APIRequester('https://stone-rest.initia.tech/')
+const c = new APIRequester('https://lcd.devnet.initia.xyz/')
 const upgrade = new UpgradeAPI(c)
 
 describe('UpgradeAPI', () => {
@@ -22,7 +22,7 @@ describe('UpgradeAPI', () => {
 
   describe('node_versions', () => {
     it('module count', async () => {
-      expect(await upgrade.moduleVersions()).toHaveLength(22)
+      expect(await upgrade.moduleVersions()).toHaveLength(34)
     })
   })
 })

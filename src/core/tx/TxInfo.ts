@@ -81,7 +81,11 @@ export interface Event {
   attributes: EventKV[]
 }
 
-export type EventsByType = Record<string, Record<string, string[]>>
+// Record<EvnetType, Map<AttributeKey, AttributeValue[]>>
+export type EventsByType = Record<
+  /*eventType*/ string,
+  /*attributes*/ Map</*key*/ string, /*value*/ string[]>
+>
 
 export namespace EventsByType {
   export function parse(eventAmino: Event[]): EventsByType {
@@ -89,14 +93,13 @@ export namespace EventsByType {
     eventAmino.forEach((ev) => {
       ev.attributes.forEach((attr) => {
         if (!(ev.type in events)) {
-          events[ev.type] = {}
+          events[ev.type] = new Map<string, string[]>()
         }
 
         if (!(attr.key in events[ev.type])) {
-          events[ev.type][attr.key] = []
+          events[ev.type].set(attr.key, [])
         }
-
-        events[ev.type][attr.key].push(attr.value)
+        events[ev.type].get(attr.key)!.push(attr.value)
       })
     })
     return events

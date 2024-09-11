@@ -18,7 +18,8 @@ export class OracleAPI extends BaseAPI {
     return this.c
       .get<{ price: QuotePrice.Data }>(`/slinky/oracle/v1/get_price`, {
         ...params,
-        currency_pair_id: pair.toString(),
+        'currency_pair.Base': pair.Base,
+        'currency_pair.Quote': pair.Quote,
       })
       .then((d) => QuotePrice.fromData(d.price))
   }

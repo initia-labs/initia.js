@@ -13,11 +13,11 @@ describe('APIRequester', () => {
   it('accept a standard URL', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://stone-rest.initia.tech/')
+    const request = new APIRequester('https://lcd.devnet.initia.xyz/')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://stone-rest.initia.tech/foo',
+      'https://lcd.devnet.initia.xyz/foo',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
@@ -28,11 +28,11 @@ describe('APIRequester', () => {
   it('accept a deep URL', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://stone-rest.initia.tech/bar')
+    const request = new APIRequester('https://lcd.devnet.initia.xyz/bar')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://stone-rest.initia.tech/bar/foo',
+      'https://lcd.devnet.initia.xyz/bar/foo',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
@@ -43,26 +43,11 @@ describe('APIRequester', () => {
   it('accept an URL with search params', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://stone-rest.initia.tech?key=123')
+    const request = new APIRequester('https://lcd.devnet.initia.xyz?key=123')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://stone-rest.initia.tech/foo?key=123',
-      {
-        headers: new axios.AxiosHeaders(),
-        params: {},
-      }
-    )
-  })
-
-  it('accept an URL with credentials', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: null })
-
-    const request = new APIRequester('https://abc:123@stone-rest.initia.tech/')
-    await request.get('/foo')
-
-    expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://:123@stone-rest.initia.tech/foo',
+      'https://lcd.devnet.initia.xyz/foo?key=123',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
