@@ -1,6 +1,11 @@
 import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
-import { OphostParams, Output, BridgeInfo } from '../../../core'
+import {
+  OphostParams,
+  Output,
+  BridgeInfo,
+  BatchInfoWithOutput,
+} from '../../../core'
 
 export interface TokenPair {
   l1_denom: string
@@ -133,6 +138,47 @@ export class OphostAPI extends BaseAPI {
         output_index: Number.parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
       }))
+  }
+
+  public async withdrawalClaimed(
+    bridgeId: number,
+    withdrawalHash: string,
+    params: APIParams = {}
+  ): Promise<boolean> {
+    return this.c
+      .get<{
+        claimed: boolean
+      }>(`/opinit/ophost/v1/bridges/${bridgeId}/withdrawals/claimed/by_hash`, {
+        ...params,
+        withdrawal_hash: Buffer.from(withdrawalHash, 'hex').toString('base64'),
+      })
+      .then((d) => d.claimed)
+  }
+
+  public async nextL1Sequence(
+    bridgeId: number,
+    params: APIParams = {}
+  ): Promise<number> {
+    return this.c
+      .get<{
+        next_l1_sequence: string
+      }>(`/opinit/ophost/v1/bridges/${bridgeId}/next_l1_sequence`, params)
+      .then((d) => parseInt(d.next_l1_sequence))
+  }
+
+  public async batchInfos(
+    bridgeId: number,
+    params: Partial<PaginationOptions & APIParams> = {}
+  ): Promise<[BatchInfoWithOutput[], Pagination]> {
+    return this.c
+      .get<{
+        batch_infos: BatchInfoWithOutput.Data[]
+        pagination: Pagination
+      }>(`/opinit/ophost/v1/bridges/${bridgeId}/batch_infos`, params)
+      .then((d) => [
+        d.batch_infos.map((info) => BatchInfoWithOutput.fromData(info)),
+        d.pagination,
+      ])
   }
 
   public async parameters(params: APIParams = {}): Promise<OphostParams> {

@@ -10,14 +10,14 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param port_id
    * @param channel_id
-   * @param relayer
+   * @param port_id
+   * @param relayers
    */
   constructor(
     public authority: AccAddress,
-    public port_id: string,
     public channel_id: string,
+    public port_id: string,
     public relayers: string[]
   ) {
     super()
@@ -27,24 +27,24 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
     data: MsgSetPermissionedRelayers.Amino
   ): MsgSetPermissionedRelayers {
     const {
-      value: { authority, port_id, channel_id, relayers },
+      value: { authority, channel_id, port_id, relayers },
     } = data
     return new MsgSetPermissionedRelayers(
       authority,
-      port_id,
       channel_id,
+      port_id,
       relayers
     )
   }
 
   public toAmino(): MsgSetPermissionedRelayers.Amino {
-    const { authority, port_id, channel_id, relayers } = this
+    const { authority, channel_id, port_id, relayers } = this
     return {
       type: 'perm/MsgSetPermissionedRelayers',
       value: {
         authority,
-        port_id,
         channel_id,
+        port_id,
         relayers,
       },
     }
@@ -53,22 +53,22 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
   public static fromData(
     data: MsgSetPermissionedRelayers.Data
   ): MsgSetPermissionedRelayers {
-    const { authority, port_id, channel_id, relayers } = data
+    const { authority, channel_id, port_id, relayers } = data
     return new MsgSetPermissionedRelayers(
       authority,
-      port_id,
       channel_id,
+      port_id,
       relayers
     )
   }
 
   public toData(): MsgSetPermissionedRelayers.Data {
-    const { authority, port_id, channel_id, relayers } = this
+    const { authority, channel_id, port_id, relayers } = this
     return {
       '@type': '/ibc.applications.perm.v1.MsgSetPermissionedRelayers',
       authority,
-      port_id,
       channel_id,
+      port_id,
       relayers,
     }
   }
@@ -78,18 +78,18 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
   ): MsgSetPermissionedRelayers {
     return new MsgSetPermissionedRelayers(
       data.authority,
-      data.portId,
       data.channelId,
+      data.portId,
       data.relayers
     )
   }
 
   public toProto(): MsgSetPermissionedRelayers.Proto {
-    const { authority, port_id, channel_id, relayers } = this
+    const { authority, channel_id, port_id, relayers } = this
     return MsgSetPermissionedRelayers_pb.fromPartial({
       authority,
-      portId: port_id,
       channelId: channel_id,
+      portId: port_id,
       relayers,
     })
   }
@@ -113,8 +113,8 @@ export namespace MsgSetPermissionedRelayers {
     type: 'perm/MsgSetPermissionedRelayers'
     value: {
       authority: AccAddress
-      port_id: string
       channel_id: string
+      port_id: string
       relayers: string[]
     }
   }
@@ -122,8 +122,8 @@ export namespace MsgSetPermissionedRelayers {
   export interface Data {
     '@type': '/ibc.applications.perm.v1.MsgSetPermissionedRelayers'
     authority: AccAddress
-    port_id: string
     channel_id: string
+    port_id: string
     relayers: string[]
   }
 

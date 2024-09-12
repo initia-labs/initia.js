@@ -44,7 +44,7 @@ export class MsgDepositValidatorRewardsPool extends JSONSerializable<
   public toAmino(): MsgDepositValidatorRewardsPool.Amino {
     const { depositor, validator_address, denom, amount } = this
     return {
-      type: 'cosmos-sdk/distr/MsgDepositValRewards',
+      type: 'distr/MsgDepositValidatorRewardsPool',
       value: {
         depositor,
         validator_address,
@@ -114,7 +114,7 @@ export class MsgDepositValidatorRewardsPool extends JSONSerializable<
 
 export namespace MsgDepositValidatorRewardsPool {
   export interface Amino {
-    type: 'cosmos-sdk/distr/MsgDepositValRewards'
+    type: 'distr/MsgDepositValidatorRewardsPool'
     value: {
       depositor: AccAddress
       validator_address: ValAddress

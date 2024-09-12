@@ -14,7 +14,7 @@ export class OpchildParams extends JSONSerializable<
    * @param max_validators the maximum number of validators
    * @param historical_entries the number of historical entries to persist
    * @param min_gas_prices
-   * @param bridge_executor the account address of bridge executor who can execute permissioned bridge messages
+   * @param bridge_executors the account addresses of bridge executor who can execute permissioned bridge messages
    * @param admin the account address of admin who can execute permissioned cosmos messages
    * @param fee_whitelist the list of addresses that are allowed to pay zero fee
    */
@@ -22,7 +22,7 @@ export class OpchildParams extends JSONSerializable<
     public max_validators: number,
     public historical_entries: number,
     min_gas_prices: Coins.Input,
-    public bridge_executor: AccAddress,
+    public bridge_executors: AccAddress[],
     public admin: AccAddress,
     public fee_whitelist: string[]
   ) {
@@ -36,7 +36,7 @@ export class OpchildParams extends JSONSerializable<
         max_validators,
         historical_entries,
         min_gas_prices,
-        bridge_executor,
+        bridge_executors,
         admin,
         fee_whitelist,
       },
@@ -46,7 +46,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       Coins.fromAmino(min_gas_prices),
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist
     )
@@ -57,7 +57,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       min_gas_prices,
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist,
     } = this
@@ -68,7 +68,7 @@ export class OpchildParams extends JSONSerializable<
         max_validators,
         historical_entries,
         min_gas_prices: min_gas_prices.toAmino(),
-        bridge_executor,
+        bridge_executors,
         admin,
         fee_whitelist,
       },
@@ -80,7 +80,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       min_gas_prices,
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist,
     } = data
@@ -89,7 +89,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       Coins.fromData(min_gas_prices),
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist
     )
@@ -100,7 +100,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       min_gas_prices,
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist,
     } = this
@@ -110,7 +110,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       min_gas_prices: min_gas_prices.toData(),
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist,
     }
@@ -121,7 +121,7 @@ export class OpchildParams extends JSONSerializable<
       data.maxValidators,
       data.historicalEntries,
       Coins.fromProto(data.minGasPrices),
-      data.bridgeExecutor,
+      data.bridgeExecutors,
       data.admin,
       data.feeWhitelist
     )
@@ -132,7 +132,7 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       min_gas_prices,
-      bridge_executor,
+      bridge_executors,
       admin,
       fee_whitelist,
     } = this
@@ -141,7 +141,7 @@ export class OpchildParams extends JSONSerializable<
       maxValidators: max_validators,
       historicalEntries: historical_entries,
       minGasPrices: min_gas_prices.toProto(),
-      bridgeExecutor: bridge_executor,
+      bridgeExecutors: bridge_executors,
       admin,
       feeWhitelist: fee_whitelist,
     })
@@ -155,7 +155,7 @@ export namespace OpchildParams {
       max_validators: number
       historical_entries: number
       min_gas_prices: Coins.Amino
-      bridge_executor: AccAddress
+      bridge_executors: AccAddress[]
       admin: AccAddress
       fee_whitelist: string[]
     }
@@ -166,7 +166,7 @@ export namespace OpchildParams {
     max_validators: number
     historical_entries: number
     min_gas_prices: Coins.Data
-    bridge_executor: AccAddress
+    bridge_executors: AccAddress[]
     admin: AccAddress
     fee_whitelist: string[]
   }

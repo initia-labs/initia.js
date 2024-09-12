@@ -1,32 +1,38 @@
 import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
-export interface PermissionedRelayers {
+export interface ChannelState {
   port_id: string
   channel_id: string
+  halt_state: HaltState
   relayers: string[]
 }
 
+export interface HaltState {
+  halted: boolean
+  halted_by: string
+}
+
 export class IbcPermAPI extends BaseAPI {
-  public async relayers(
+  public async channelStates(
     params: Partial<PaginationOptions & APIParams> = {}
-  ): Promise<[PermissionedRelayers[], Pagination]> {
+  ): Promise<[ChannelState[], Pagination]> {
     return this.c
       .get<{
-        permissioned_relayers: PermissionedRelayers[]
+        channel_states: ChannelState[]
         pagination: Pagination
-      }>(`/ibc/apps/perm/v1/relayers`, params)
-      .then((d) => [d.permissioned_relayers, d.pagination])
+      }>(`/ibc/apps/perm/v1/channel_states`, params)
+      .then((d) => [d.channel_states, d.pagination])
   }
 
-  public async relayersByChannel(
-    port_id: string,
-    channel_id: string
-  ): Promise<PermissionedRelayers> {
+  public async channelState(
+    channelId: string,
+    portId: string
+  ): Promise<ChannelState> {
     return this.c
       .get<{
-        permissioned_relayers: PermissionedRelayers
-      }>(`/ibc/apps/perm/v1/relayers/${port_id}/${channel_id}`)
-      .then((d) => d.permissioned_relayers)
+        channel_state: ChannelState
+      }>(`/ibc/apps/perm/v1/channel_states/${channelId}/${portId}`)
+      .then((d) => d.channel_state)
   }
 }

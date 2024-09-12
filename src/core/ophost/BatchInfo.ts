@@ -1,5 +1,11 @@
 import { JSONSerializable } from '../../util/json'
-import { BatchInfo as BatchInfo_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
+import { AccAddress } from '../bech32'
+import {
+  BatchInfo as BatchInfo_pb,
+  BatchInfo_ChainType as ChainType,
+  batchInfo_ChainTypeFromJSON as chainTypeFromJSON,
+  batchInfo_ChainTypeToJSON as chainTypeToJSON,
+} from '@initia/opinit.proto/opinit/ophost/v1/types'
 
 export class BatchInfo extends JSONSerializable<
   BatchInfo.Amino,
@@ -8,57 +14,57 @@ export class BatchInfo extends JSONSerializable<
 > {
   /**
    * @param submitter the address of the batch submitter
-   * @param chain the target chain
+   * @param chain_type the target chain type
    */
   constructor(
-    public submitter: string,
-    public chain: string
+    public submitter: AccAddress,
+    public chain_type: ChainType
   ) {
     super()
   }
 
   public static fromAmino(data: BatchInfo.Amino): BatchInfo {
-    const { submitter, chain } = data
-    return new BatchInfo(submitter, chain)
+    const { submitter, chain_type } = data
+    return new BatchInfo(submitter, chainTypeFromJSON(chain_type))
   }
 
   public toAmino(): BatchInfo.Amino {
-    const { submitter, chain } = this
-    return { submitter, chain }
+    const { submitter, chain_type } = this
+    return { submitter, chain_type: chainTypeToJSON(chain_type) }
   }
 
   public static fromData(data: BatchInfo.Data): BatchInfo {
-    const { submitter, chain } = data
-    return new BatchInfo(submitter, chain)
+    const { submitter, chain_type } = data
+    return new BatchInfo(submitter, chainTypeFromJSON(chain_type))
   }
 
   public toData(): BatchInfo.Data {
-    const { submitter, chain } = this
-    return { submitter, chain }
+    const { submitter, chain_type } = this
+    return { submitter, chain_type: chainTypeToJSON(chain_type) }
   }
 
   public static fromProto(data: BatchInfo.Proto): BatchInfo {
-    return new BatchInfo(data.submitter, data.chain)
+    return new BatchInfo(data.submitter, data.chainType)
   }
 
   public toProto(): BatchInfo.Proto {
-    const { submitter, chain } = this
+    const { submitter, chain_type } = this
     return BatchInfo_pb.fromPartial({
       submitter,
-      chain,
+      chainType: chain_type,
     })
   }
 }
 
 export namespace BatchInfo {
   export interface Amino {
-    submitter: string
-    chain: string
+    submitter: AccAddress
+    chain_type: string
   }
 
   export interface Data {
-    submitter: string
-    chain: string
+    submitter: AccAddress
+    chain_type: string
   }
 
   export type Proto = BatchInfo_pb

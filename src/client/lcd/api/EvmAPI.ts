@@ -35,6 +35,14 @@ export class EvmAPI extends BaseAPI {
       .then((d) => d.value)
   }
 
+  public async erc20Factory(params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{
+        address: string
+      }>(`/minievm/evm/v1/contracts/erc20_factory`, params)
+      .then((d) => d.address)
+  }
+
   public async contractAddrByDenom(
     denom: string,
     params: APIParams = {}
