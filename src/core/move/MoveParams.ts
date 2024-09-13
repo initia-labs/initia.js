@@ -16,6 +16,7 @@ export class MoveParams extends JSONSerializable<
     public base_denom: string,
     public base_min_gas_price: string,
     public contract_shared_revenue_ratio: string,
+    public script_enabled: boolean,
     public allowed_publishers: string[]
   ) {
     super()
@@ -27,6 +28,7 @@ export class MoveParams extends JSONSerializable<
         base_denom,
         base_min_gas_price,
         contract_shared_revenue_ratio,
+        script_enabled,
         allowed_publishers,
       },
     } = data
@@ -34,6 +36,7 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers
     )
   }
@@ -43,6 +46,7 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers,
     } = this
     return {
@@ -51,6 +55,7 @@ export class MoveParams extends JSONSerializable<
         base_denom,
         base_min_gas_price,
         contract_shared_revenue_ratio,
+        script_enabled,
         allowed_publishers,
       },
     }
@@ -61,12 +66,14 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers,
     } = data
     return new MoveParams(
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers
     )
   }
@@ -76,6 +83,7 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers,
     } = this
     return {
@@ -83,6 +91,7 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers,
     }
   }
@@ -92,6 +101,7 @@ export class MoveParams extends JSONSerializable<
       data.baseDenom,
       data.baseMinGasPrice,
       data.contractSharedRevenueRatio,
+      data.scriptEnabled,
       data.allowedPublishers
     )
   }
@@ -101,12 +111,14 @@ export class MoveParams extends JSONSerializable<
       base_denom,
       base_min_gas_price,
       contract_shared_revenue_ratio,
+      script_enabled,
       allowed_publishers,
     } = this
     return Params_pb.fromPartial({
       baseDenom: base_denom,
       baseMinGasPrice: base_min_gas_price,
       contractSharedRevenueRatio: contract_shared_revenue_ratio,
+      scriptEnabled: script_enabled,
       allowedPublishers: allowed_publishers,
     })
   }
@@ -119,6 +131,7 @@ export namespace MoveParams {
       base_denom: string
       base_min_gas_price: string
       contract_shared_revenue_ratio: string
+      script_enabled: boolean
       allowed_publishers: string[]
     }
   }
@@ -128,6 +141,7 @@ export namespace MoveParams {
     base_denom: string
     base_min_gas_price: string
     contract_shared_revenue_ratio: string
+    script_enabled: boolean
     allowed_publishers: string[]
   }
 

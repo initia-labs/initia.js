@@ -5,8 +5,9 @@ import { MsgDeleteOutput } from './MsgDeleteOutput'
 import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit'
 import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal'
 import { MsgUpdateProposer } from './MsgUpdateProposer'
-import { MsgUpdateChallenger } from './MsgUpdateChallenger'
+import { MsgUpdateChallengers } from './MsgUpdateChallengers'
 import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo'
+import { MsgUpdateOracleConfig } from './MsgUpdateOracleConfig'
 import { MsgUpdateMetadata } from './MsgUpdateMetadata'
 import { MsgUpdateOphostParams } from './MsgUpdateOphostParams'
 
@@ -17,8 +18,9 @@ export * from './MsgDeleteOutput'
 export * from './MsgInitiateTokenDeposit'
 export * from './MsgFinalizeTokenWithdrawal'
 export * from './MsgUpdateProposer'
-export * from './MsgUpdateChallenger'
+export * from './MsgUpdateChallengers'
 export * from './MsgUpdateBatchInfo'
+export * from './MsgUpdateOracleConfig'
 export * from './MsgUpdateMetadata'
 export * from './MsgUpdateOphostParams'
 
@@ -30,8 +32,9 @@ export type OphostMsg =
   | MsgInitiateTokenDeposit
   | MsgFinalizeTokenWithdrawal
   | MsgUpdateProposer
-  | MsgUpdateChallenger
+  | MsgUpdateChallengers
   | MsgUpdateBatchInfo
+  | MsgUpdateOracleConfig
   | MsgUpdateMetadata
   | MsgUpdateOphostParams
 
@@ -44,8 +47,9 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Amino
     | MsgFinalizeTokenWithdrawal.Amino
     | MsgUpdateProposer.Amino
-    | MsgUpdateChallenger.Amino
+    | MsgUpdateChallengers.Amino
     | MsgUpdateBatchInfo.Amino
+    | MsgUpdateOracleConfig.Amino
     | MsgUpdateMetadata.Amino
     | MsgUpdateOphostParams.Amino
 
@@ -57,8 +61,9 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Data
     | MsgFinalizeTokenWithdrawal.Data
     | MsgUpdateProposer.Data
-    | MsgUpdateChallenger.Data
+    | MsgUpdateChallengers.Data
     | MsgUpdateBatchInfo.Data
+    | MsgUpdateOracleConfig.Data
     | MsgUpdateMetadata.Data
     | MsgUpdateOphostParams.Data
 
@@ -70,8 +75,9 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Proto
     | MsgFinalizeTokenWithdrawal.Proto
     | MsgUpdateProposer.Proto
-    | MsgUpdateChallenger.Proto
+    | MsgUpdateChallengers.Proto
     | MsgUpdateBatchInfo.Proto
+    | MsgUpdateOracleConfig.Proto
     | MsgUpdateMetadata.Proto
     | MsgUpdateOphostParams.Proto
 }

@@ -11,56 +11,61 @@ export class MsgCreate extends JSONSerializable<
   /**
    * @param sender the actor that signed the messages
    * @param code hex encoded raw contract bytes code
+   * @param value the amount of fee denom token to transfer to the contract
    */
   constructor(
     public sender: AccAddress,
-    public code: string
+    public code: string,
+    public value: string
   ) {
     super()
   }
 
   public static fromAmino(data: MsgCreate.Amino): MsgCreate {
     const {
-      value: { sender, code },
+      value: { sender, code, value },
     } = data
 
-    return new MsgCreate(sender, code)
+    return new MsgCreate(sender, code, value)
   }
 
   public toAmino(): MsgCreate.Amino {
-    const { sender, code } = this
+    const { sender, code, value } = this
     return {
       type: 'evm/MsgCreate',
       value: {
         sender,
         code,
+        value,
       },
     }
   }
 
   public static fromData(data: MsgCreate.Data): MsgCreate {
-    const { sender, code } = data
-    return new MsgCreate(sender, code)
+    const { sender, code, value } = data
+    return new MsgCreate(sender, code, value)
   }
 
   public toData(): MsgCreate.Data {
-    const { sender, code } = this
+    const { sender, code, value } = this
     return {
       '@type': '/minievm.evm.v1.MsgCreate',
       sender,
       code,
+      value,
     }
   }
 
   public static fromProto(data: MsgCreate.Proto): MsgCreate {
-    return new MsgCreate(data.sender, data.code)
+    return new MsgCreate(data.sender, data.code, data.value)
   }
 
   public toProto(): MsgCreate.Proto {
-    const { sender, code } = this
+    const { sender, code, value } = this
     return MsgCreate_pb.fromPartial({
       sender,
       code,
+      value,
     })
   }
 
@@ -82,6 +87,7 @@ export namespace MsgCreate {
     value: {
       sender: AccAddress
       code: string
+      value: string
     }
   }
 
@@ -89,6 +95,7 @@ export namespace MsgCreate {
     '@type': '/minievm.evm.v1.MsgCreate'
     sender: AccAddress
     code: string
+    value: string
   }
 
   export type Proto = MsgCreate_pb
