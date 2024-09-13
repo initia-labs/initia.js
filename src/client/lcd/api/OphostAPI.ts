@@ -163,7 +163,7 @@ export class OphostAPI extends BaseAPI {
       .get<{
         next_l1_sequence: string
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/next_l1_sequence`, params)
-      .then((d) => parseInt(d.next_l1_sequence))
+      .then((d) => Number.parseInt(d.next_l1_sequence))
   }
 
   public async batchInfos(

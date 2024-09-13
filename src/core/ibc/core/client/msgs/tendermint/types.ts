@@ -380,7 +380,7 @@ export class PartSetHeader extends JSONSerializable<
 
   public static fromData(data: PartSetHeader.Data): PartSetHeader {
     const { total, hash } = data
-    return new PartSetHeader(parseInt(total), hash)
+    return new PartSetHeader(Number.parseInt(total), hash)
   }
 
   public toData(): PartSetHeader.Data {
