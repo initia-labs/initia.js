@@ -15,15 +15,15 @@ import { ParameterChangeProposal as ParameterChangeProposal_pb } from '@initia/i
  *    Dec,
  *    MsgSubmitProposal,
  *    ParameterChangeProposal
- * } from "@initia/initia.js";
+ * } from "@initia/initia.js"
  *
  * const proposal = new ParameterChangeProposal("title", "description", {
  *    mstaking: {
  *      UnbondingTime: 15000000
  *    }
- * });
+ * })
  *
- * const msg = new MsgSubmitProposal();
+ * const msg = new MsgSubmitProposal()
  * ```
  */
 export class ParameterChangeProposal extends JSONSerializable<
