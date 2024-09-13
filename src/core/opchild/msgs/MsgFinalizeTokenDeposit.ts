@@ -18,6 +18,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
    * @param amount the coin amount to deposit
    * @param sequence the sequence number of l1 bridge
    * @param height the height of l1 which is including the deposit message
+   * @param base_denom the l1 denomination of the sent coin
    * @param data extra bytes for hooks
    */
   constructor(

@@ -28,7 +28,13 @@ import {
   MsgDepositValidatorRewardsPool,
 } from './distribution'
 import { EvidenceMsg, MsgSubmitEvidence } from './evidence'
-import { EvmMsg, MsgCreate, MsgCall, MsgUpdateEvmParams } from './evm'
+import {
+  EvmMsg,
+  MsgCreate,
+  MsgCreate2,
+  MsgCall,
+  MsgUpdateEvmParams,
+} from './evm'
 import { FeeGrantMsg, MsgGrantAllowance, MsgRevokeAllowance } from './feegrant'
 import {
   ForwardingMsg,
@@ -77,7 +83,12 @@ import {
   MsgNftTransfer,
   MsgUpdateIbcNftParams,
 } from './ibc/applications/nft-transfer'
-import { IbcPermMsg, MsgSetPermissionedRelayers } from './ibc/applications/perm'
+import {
+  IbcPermMsg,
+  MsgSetPermissionedRelayers,
+  MsgHaltChannel,
+  MsgResumeChannel,
+} from './ibc/applications/perm'
 import {
   IbcTransferMsg,
   MsgTransfer,
@@ -170,8 +181,9 @@ import {
   MsgInitiateTokenDeposit,
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
-  MsgUpdateChallenger,
+  MsgUpdateChallengers,
   MsgUpdateBatchInfo,
+  MsgUpdateOracleConfig,
   MsgUpdateMetadata,
   MsgUpdateOphostParams,
 } from './ophost'
@@ -411,7 +423,7 @@ export namespace Msg {
         return MsgUpdateDistrParams.fromAmino(data)
       case 'cosmos-sdk/distr/MsgCommunityPoolSpend':
         return MsgCommunityPoolSpend.fromAmino(data)
-      case 'cosmos-sdk/distr/MsgDepositValRewards':
+      case 'distr/MsgDepositValidatorRewardsPool':
         return MsgDepositValidatorRewardsPool.fromAmino(data)
 
       // evidence
@@ -421,6 +433,8 @@ export namespace Msg {
       // evm
       case 'evm/MsgCreate':
         return MsgCreate.fromAmino(data)
+      case 'evm/MsgCreate2':
+        return MsgCreate2.fromAmino(data)
       case 'evm/MsgCall':
         return MsgCall.fromAmino(data)
       case 'evm/MsgUpdateParams':
@@ -503,6 +517,10 @@ export namespace Msg {
       // ibc-perm
       case 'perm/MsgSetPermissionedRelayers':
         return MsgSetPermissionedRelayers.fromAmino(data)
+      case 'perm/MsgHaltChannel':
+        return MsgHaltChannel.fromAmino(data)
+      case 'perm/MsgResumeChannel':
+        return MsgResumeChannel.fromAmino(data)
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -603,10 +621,12 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.fromAmino(data)
       case 'ophost/MsgUpdateProposer':
         return MsgUpdateProposer.fromAmino(data)
-      case 'ophost/MsgUpdateChallenger':
-        return MsgUpdateChallenger.fromAmino(data)
+      case 'ophost/MsgUpdateChallengers':
+        return MsgUpdateChallengers.fromAmino(data)
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data)
+      case 'ophost/MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.fromAmino(data)
       case 'ophost/MsgUpdateMetadata':
         return MsgUpdateMetadata.fromAmino(data)
       case 'ophost/MsgUpdateParams':
@@ -759,6 +779,8 @@ export namespace Msg {
       // evm
       case '/minievm.evm.v1.MsgCreate':
         return MsgCreate.fromData(data)
+      case '/minievm.evm.v1.MsgCreate2':
+        return MsgCreate2.fromData(data)
       case '/minievm.evm.v1.MsgCall':
         return MsgCall.fromData(data)
       case '/minievm.evm.v1.MsgUpdateParams':
@@ -851,6 +873,10 @@ export namespace Msg {
       // ibc-perm
       case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
         return MsgSetPermissionedRelayers.fromData(data)
+      case '/ibc.applications.perm.v1.MsgHaltChannel':
+        return MsgHaltChannel.fromData(data)
+      case '/ibc.applications.perm.v1.MsgResumeChannel':
+        return MsgResumeChannel.fromData(data)
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -1005,10 +1031,12 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateProposer':
         return MsgUpdateProposer.fromData(data)
-      case '/opinit.ophost.v1.MsgUpdateChallenger':
-        return MsgUpdateChallenger.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateChallengers':
+        return MsgUpdateChallengers.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateMetadata':
         return MsgUpdateMetadata.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateParams':
@@ -1161,6 +1189,8 @@ export namespace Msg {
       // evm
       case '/minievm.evm.v1.MsgCreate':
         return MsgCreate.unpackAny(proto)
+      case '/minievm.evm.v1.MsgCreate2':
+        return MsgCreate2.unpackAny(proto)
       case '/minievm.evm.v1.MsgCall':
         return MsgCall.unpackAny(proto)
       case '/minievm.evm.v1.MsgUpdateParams':
@@ -1253,6 +1283,10 @@ export namespace Msg {
       // ibc-perm
       case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
         return MsgSetPermissionedRelayers.unpackAny(proto)
+      case '/ibc.applications.perm.v1.MsgHaltChannel':
+        return MsgHaltChannel.unpackAny(proto)
+      case '/ibc.applications.perm.v1.MsgResumeChannel':
+        return MsgResumeChannel.unpackAny(proto)
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -1407,10 +1441,12 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateProposer':
         return MsgUpdateProposer.unpackAny(proto)
-      case '/opinit.ophost.v1.MsgUpdateChallenger':
-        return MsgUpdateChallenger.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateChallengers':
+        return MsgUpdateChallengers.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateMetadata':
         return MsgUpdateMetadata.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateParams':

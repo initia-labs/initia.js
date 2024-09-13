@@ -2,6 +2,7 @@ import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { Coins } from '../Coins'
 import { Duration } from '../Duration'
+import { Vesting } from './Vesting'
 import { Params as Params_pb } from '@initia/initia.proto/initia/gov/v1/gov'
 
 export class GovParams extends JSONSerializable<
@@ -33,6 +34,7 @@ export class GovParams extends JSONSerializable<
    * @param emergency_min_deposit minimum deposit for a emergency proposal to enter voting period
    * @param emergency_tally_interval tally interval for emergency proposal
    * @param low_threshold_functions low threshold functions for emergency and expedited proposal
+   * @param vesting the vesting contract info for tally
    */
   constructor(
     min_deposit: Coins.Input,
@@ -53,7 +55,8 @@ export class GovParams extends JSONSerializable<
     public min_deposit_ratio: string,
     emergency_min_deposit: Coins.Input,
     public emergency_tally_interval: Duration,
-    public low_threshold_functions: string[]
+    public low_threshold_functions: string[],
+    public vesting?: Vesting
   ) {
     super()
     this.min_deposit = new Coins(min_deposit)
@@ -82,6 +85,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
+      vesting,
     } = data
 
     return new GovParams(
@@ -103,7 +107,8 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       Coins.fromAmino(emergency_min_deposit),
       Duration.fromAmino(emergency_tally_interval),
-      low_threshold_functions
+      low_threshold_functions,
+      vesting ? Vesting.fromAmino(vesting) : undefined
     )
   }
 
@@ -128,6 +133,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
+      vesting,
     } = this
 
     return {
@@ -150,6 +156,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit: emergency_min_deposit.toAmino(),
       emergency_tally_interval: emergency_tally_interval.toAmino(),
       low_threshold_functions,
+      vesting: vesting?.toAmino(),
     }
   }
 
@@ -174,6 +181,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
+      vesting,
     } = data
 
     return new GovParams(
@@ -195,7 +203,8 @@ export class GovParams extends JSONSerializable<
       min_deposit_ratio,
       Coins.fromData(emergency_min_deposit),
       Duration.fromData(emergency_tally_interval),
-      low_threshold_functions
+      low_threshold_functions,
+      vesting ? Vesting.fromData(vesting) : undefined
     )
   }
 
@@ -220,6 +229,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
+      vesting,
     } = this
 
     return {
@@ -242,6 +252,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit: emergency_min_deposit.toData(),
       emergency_tally_interval: emergency_tally_interval.toData(),
       low_threshold_functions,
+      vesting: vesting?.toData(),
     }
   }
 
@@ -265,7 +276,8 @@ export class GovParams extends JSONSerializable<
       data.minDepositRatio,
       Coins.fromProto(data.emergencyMinDeposit),
       Duration.fromProto(data.emergencyTallyInterval as Duration.Proto),
-      data.lowThresholdFunctions
+      data.lowThresholdFunctions,
+      data.vesting ? Vesting.fromProto(data.vesting) : undefined
     )
   }
 
@@ -290,6 +302,7 @@ export class GovParams extends JSONSerializable<
       emergency_min_deposit,
       emergency_tally_interval,
       low_threshold_functions,
+      vesting,
     } = this
 
     return Params_pb.fromPartial({
@@ -312,6 +325,7 @@ export class GovParams extends JSONSerializable<
       emergencyMinDeposit: emergency_min_deposit.toProto(),
       emergencyTallyInterval: emergency_tally_interval.toProto(),
       lowThresholdFunctions: low_threshold_functions,
+      vesting: vesting?.toProto(),
     })
   }
 }
@@ -337,6 +351,7 @@ export namespace GovParams {
     emergency_min_deposit: Coins.Amino
     emergency_tally_interval: Duration.Amino
     low_threshold_functions: string[]
+    vesting?: Vesting.Amino
   }
 
   export interface Data {
@@ -359,6 +374,7 @@ export namespace GovParams {
     emergency_min_deposit: Coins.Data
     emergency_tally_interval: Duration.Data
     low_threshold_functions: string[]
+    vesting?: Vesting.Data
   }
 
   export type Proto = Params_pb

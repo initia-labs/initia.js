@@ -38,6 +38,33 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => BridgeInfo.fromData(d.bridge_info))
   }
 
+  public async nextL1Sequence(params: APIParams = {}): Promise<number> {
+    return this.c
+      .get<{
+        next_l1_sequence: string
+      }>(`/opinit/opchild/v1/next_l1_sequence`, params)
+      .then((d) => parseInt(d.next_l1_sequence))
+  }
+
+  public async nextL2Sequence(params: APIParams = {}): Promise<number> {
+    return this.c
+      .get<{
+        next_l2_sequence: string
+      }>(`/opinit/opchild/v1/next_l2_sequence`, params)
+      .then((d) => parseInt(d.next_l2_sequence))
+  }
+
+  public async baseDenom(
+    denom: string,
+    params: APIParams = {}
+  ): Promise<string> {
+    return this.c
+      .get<{
+        base_denom: string
+      }>(`/opinit/opchild/v1/base_denom/${denom}`, params)
+      .then((d) => d.base_denom)
+  }
+
   public async parameters(params: APIParams = {}): Promise<OpchildParams> {
     return this.c
       .get<{ params: OpchildParams.Data }>(`/opinit/opchild/v1/params`, params)
