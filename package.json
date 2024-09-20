@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.2.15",
+  "version": "0.2.16",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -10,6 +10,11 @@
   },
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.es.js",
+    "require": "./dist/index.cjs.js",
+    "types": "./dist/index.d.ts"
+  },
   "files": [
     "dist"
   ],
