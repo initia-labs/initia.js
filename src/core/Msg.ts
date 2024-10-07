@@ -635,7 +635,7 @@ export namespace Msg {
       // oracle
       case 'connect/x/oracle/MsgAddCurrencyPairs':
         return MsgAddCurrencyPairs.fromAmino(data)
-      case 'connect/x/oracle/MsgSetCurrencyPairs':
+      case 'connect/x/oracle/MsgRemoveCurrencyPairs':
         return MsgRemoveCurrencyPairs.fromAmino(data)
 
       // reward

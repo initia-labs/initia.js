@@ -31,7 +31,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
   public toAmino(): MsgRemoveCurrencyPairs.Amino {
     const { authority, currency_pair_ids } = this
     return {
-      type: 'connect/x/oracle/MsgSetCurrencyPairs',
+      type: 'connect/x/oracle/MsgRemoveCurrencyPairs',
       value: {
         authority,
         currency_pair_ids,
@@ -85,7 +85,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
 
 export namespace MsgRemoveCurrencyPairs {
   export interface Amino {
-    type: 'connect/x/oracle/MsgSetCurrencyPairs'
+    type: 'connect/x/oracle/MsgRemoveCurrencyPairs'
     value: {
       authority: AccAddress
       currency_pair_ids: string[]
