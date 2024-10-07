@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgRemoveCurrencyPairs as MsgRemoveCurrencyPairs_pb } from '@initia/initia.proto/slinky/oracle/v1/tx'
+import { MsgRemoveCurrencyPairs as MsgRemoveCurrencyPairs_pb } from '@initia/initia.proto/connect/oracle/v2/tx'
 
 export class MsgRemoveCurrencyPairs extends JSONSerializable<
   MsgRemoveCurrencyPairs.Amino,
@@ -31,7 +31,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
   public toAmino(): MsgRemoveCurrencyPairs.Amino {
     const { authority, currency_pair_ids } = this
     return {
-      type: 'slinky/x/oracle/MsgSetCurrencyPairs',
+      type: 'connect/x/oracle/MsgSetCurrencyPairs',
       value: {
         authority,
         currency_pair_ids,
@@ -49,7 +49,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
   public toData(): MsgRemoveCurrencyPairs.Data {
     const { authority, currency_pair_ids } = this
     return {
-      '@type': '/slinky.oracle.v1.MsgRemoveCurrencyPairs',
+      '@type': '/connect.oracle.v2.MsgRemoveCurrencyPairs',
       authority,
       currency_pair_ids,
     }
@@ -71,7 +71,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.oracle.v1.MsgRemoveCurrencyPairs',
+      typeUrl: '/connect.oracle.v2.MsgRemoveCurrencyPairs',
       value: MsgRemoveCurrencyPairs_pb.encode(this.toProto()).finish(),
     })
   }
@@ -85,7 +85,7 @@ export class MsgRemoveCurrencyPairs extends JSONSerializable<
 
 export namespace MsgRemoveCurrencyPairs {
   export interface Amino {
-    type: 'slinky/x/oracle/MsgSetCurrencyPairs'
+    type: 'connect/x/oracle/MsgSetCurrencyPairs'
     value: {
       authority: AccAddress
       currency_pair_ids: string[]
@@ -93,7 +93,7 @@ export namespace MsgRemoveCurrencyPairs {
   }
 
   export interface Data {
-    '@type': '/slinky.oracle.v1.MsgRemoveCurrencyPairs'
+    '@type': '/connect.oracle.v2.MsgRemoveCurrencyPairs'
     authority: AccAddress
     currency_pair_ids: string[]
   }

@@ -17,7 +17,7 @@ export class MarketmapAPI extends BaseAPI {
     return this.c
       .get<{
         market_map: MarketMap.Data
-      }>(`/slinky/marketmap/v1/marketmap`, params)
+      }>(`/connect/marketmap/v2/marketmap`, params)
       .then((d) => {
         const markets: Record<string, Market> = {}
         for (const [ticker, market] of Object.entries(d.market_map.markets)) {
@@ -32,7 +32,7 @@ export class MarketmapAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<Market> {
     return this.c
-      .get<{ market: Market.Data }>(`/slinky/marketmap/v1/market`, {
+      .get<{ market: Market.Data }>(`/connect/marketmap/v2/market`, {
         ...params,
         'currency_pair.Base': pair.Base,
         'currency_pair.Quote': pair.Quote,
@@ -44,7 +44,7 @@ export class MarketmapAPI extends BaseAPI {
     return this.c
       .get<{
         last_updated: string
-      }>(`/slinky/marketmap/v1/last_updated`, params)
+      }>(`/connect/marketmap/v2/last_updated`, params)
       .then((d) => Number.parseInt(d.last_updated))
   }
 
@@ -52,7 +52,7 @@ export class MarketmapAPI extends BaseAPI {
     return this.c
       .get<{
         params: MarketmapParams.Data
-      }>(`/slinky/marketmap/v1/params`, params)
+      }>(`/connect/marketmap/v2/params`, params)
       .then((d) => MarketmapParams.fromData(d.params))
   }
 }

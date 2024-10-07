@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../util/json'
 import { ProviderConfig } from './ProviderConfig'
 import { Ticker } from './Ticker'
-import { Market as Market_pb } from '@initia/initia.proto/slinky/marketmap/v1/market'
+import { Market as Market_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
 
 export class Market extends JSONSerializable<
   Market.Amino,

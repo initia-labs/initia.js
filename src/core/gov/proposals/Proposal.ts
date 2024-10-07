@@ -1,11 +1,10 @@
 import { JSONSerializable } from '../../../util/json'
 import { Coins } from '../../Coins'
-import { num } from '../../num'
 import { AccAddress } from '../../bech32'
 import { Msg } from '../../Msg'
+import { TallyResult } from '../TallyResult'
 import {
   ProposalStatus,
-  TallyResult,
   proposalStatusFromJSON,
   proposalStatusToJSON,
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
@@ -47,7 +46,7 @@ export class Proposal extends JSONSerializable<
     public id: number,
     public messages: Msg[],
     public status: ProposalStatus,
-    public final_tally_result: Proposal.FinalTallyResult,
+    public final_tally_result: TallyResult,
     public submit_time: Date,
     public deposit_end_time: Date,
     total_deposit: Coins.Input,
@@ -93,14 +92,7 @@ export class Proposal extends JSONSerializable<
       Number.parseInt(id),
       messages.map(Msg.fromAmino),
       proposalStatusFromJSON(status),
-      {
-        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),
-        no_count: num(final_tally_result.no_count ?? 0).toFixed(0),
-        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(0),
-        no_with_veto_count: num(
-          final_tally_result.no_with_veto_count ?? 0
-        ).toFixed(0),
-      },
+      TallyResult.fromAmino(final_tally_result),
       new Date(submit_time),
       new Date(deposit_end_time),
       Coins.fromAmino(total_deposit),
@@ -144,14 +136,7 @@ export class Proposal extends JSONSerializable<
       id: id.toString(),
       messages: messages.map((msg): Msg.Amino => msg.toAmino()),
       status: proposalStatusToJSON(status),
-      final_tally_result: {
-        yes_count: num(final_tally_result.yes_count).toFixed(),
-        no_count: num(final_tally_result.no_count).toFixed(),
-        abstain_count: num(final_tally_result.abstain_count).toFixed(),
-        no_with_veto_count: num(
-          final_tally_result.no_with_veto_count
-        ).toFixed(),
-      },
+      final_tally_result: final_tally_result.toAmino(),
       submit_time: submit_time.toISOString(),
       deposit_end_time: deposit_end_time.toISOString(),
       total_deposit: total_deposit.toAmino(),
@@ -195,14 +180,7 @@ export class Proposal extends JSONSerializable<
       Number.parseInt(id),
       messages.map(Msg.fromData),
       proposalStatusFromJSON(status),
-      {
-        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),
-        no_count: num(final_tally_result.no_count ?? 0).toFixed(0),
-        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(0),
-        no_with_veto_count: num(
-          final_tally_result.no_with_veto_count ?? 0
-        ).toFixed(0),
-      },
+      TallyResult.fromData(final_tally_result),
       new Date(submit_time),
       new Date(deposit_end_time),
       Coins.fromData(total_deposit),
@@ -246,14 +224,7 @@ export class Proposal extends JSONSerializable<
       id: id.toString(),
       messages: messages.map((msg) => msg.toData()),
       status: proposalStatusToJSON(status),
-      final_tally_result: {
-        yes_count: num(final_tally_result.yes_count).toFixed(),
-        no_count: num(final_tally_result.no_count).toFixed(),
-        abstain_count: num(final_tally_result.abstain_count).toFixed(),
-        no_with_veto_count: num(
-          final_tally_result.no_with_veto_count
-        ).toFixed(),
-      },
+      final_tally_result: final_tally_result.toData(),
       submit_time: submit_time.toISOString(),
       deposit_end_time: deposit_end_time.toISOString(),
       total_deposit: total_deposit.toData(),
@@ -276,14 +247,7 @@ export class Proposal extends JSONSerializable<
       data.id.toNumber(),
       data.messages.map(Msg.fromProto),
       data.status,
-      {
-        yes_count: num(data.finalTallyResult?.yesCount ?? 0).toFixed(0),
-        no_count: num(data.finalTallyResult?.noCount ?? 0).toFixed(0),
-        abstain_count: num(data.finalTallyResult?.abstainCount ?? 0).toFixed(0),
-        no_with_veto_count: num(
-          data.finalTallyResult?.noWithVetoCount ?? 0
-        ).toFixed(0),
-      },
+      TallyResult.fromProto(data.finalTallyResult as TallyResult.Proto),
       data.submitTime as Date,
       data.depositEndTime as Date,
       Coins.fromProto(data.totalDeposit),
@@ -323,21 +287,11 @@ export class Proposal extends JSONSerializable<
       failed_reason,
     } = this
 
-    let ftr: TallyResult | undefined
-    if (final_tally_result) {
-      ftr = TallyResult.fromPartial({
-        yesCount: final_tally_result.yes_count.toString(),
-        noCount: final_tally_result.no_count.toString(),
-        abstainCount: final_tally_result.abstain_count.toString(),
-        noWithVetoCount: final_tally_result.no_with_veto_count.toString(),
-      })
-    }
-
     return Proposal_pb.fromPartial({
       id: Long.fromNumber(id),
       messages: messages.map((msg) => msg.packAny()),
       status,
-      finalTallyResult: ftr,
+      finalTallyResult: final_tally_result.toProto(),
       submitTime: submit_time,
       depositEndTime: deposit_end_time,
       totalDeposit: total_deposit.toProto(),
@@ -360,23 +314,11 @@ export namespace Proposal {
   export const Status = ProposalStatus
   export type Status = ProposalStatus
 
-  export interface FinalTallyResult {
-    yes_count: string
-    abstain_count: string
-    no_count: string
-    no_with_veto_count: string
-  }
-
   export interface Amino {
     id: string
     messages: Msg.Amino[]
     status: string
-    final_tally_result: {
-      yes_count: string
-      abstain_count: string
-      no_count: string
-      no_with_veto_count: string
-    }
+    final_tally_result: TallyResult.Amino
     submit_time: string
     deposit_end_time: string
     total_deposit: Coins.Amino
@@ -397,12 +339,7 @@ export namespace Proposal {
     id: string
     messages: Msg.Data[]
     status: string
-    final_tally_result: {
-      yes_count: string
-      abstain_count: string
-      no_count: string
-      no_with_veto_count: string
-    }
+    final_tally_result: TallyResult.Data
     submit_time: string
     deposit_end_time: string
     total_deposit: Coins.Data

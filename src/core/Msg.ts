@@ -85,9 +85,8 @@ import {
 } from './ibc/applications/nft-transfer'
 import {
   IbcPermMsg,
-  MsgSetPermissionedRelayers,
-  MsgHaltChannel,
-  MsgResumeChannel,
+  MsgUpdateIbcPermAdmin,
+  MsgUpdatePermissionedRelayers,
 } from './ibc/applications/perm'
 import {
   IbcTransferMsg,
@@ -131,6 +130,7 @@ import {
   MarketmapMsg,
   MsgCreateMarkets,
   MsgUpdateMarkets,
+  MsgUpsertMarkets,
   MsgRemoveMarketAuthorities,
   MsgUpdateMarketmapParams,
 } from './marketmap/msgs'
@@ -181,7 +181,7 @@ import {
   MsgInitiateTokenDeposit,
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
-  MsgUpdateChallengers,
+  MsgUpdateChallenger,
   MsgUpdateBatchInfo,
   MsgUpdateOracleConfig,
   MsgUpdateMetadata,
@@ -515,12 +515,10 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromAmino(data)
 
       // ibc-perm
-      case 'perm/MsgSetPermissionedRelayers':
-        return MsgSetPermissionedRelayers.fromAmino(data)
-      case 'perm/MsgHaltChannel':
-        return MsgHaltChannel.fromAmino(data)
-      case 'perm/MsgResumeChannel':
-        return MsgResumeChannel.fromAmino(data)
+      case 'ibc-perm/MsgUpdateAdmin':
+        return MsgUpdateIbcPermAdmin.fromAmino(data)
+      case 'ibc-perm/MsgUpdatePermissionedRelayers':
+        return MsgUpdatePermissionedRelayers.fromAmino(data)
 
       // ibc-transfer
       case 'cosmos-sdk/MsgTransfer':
@@ -533,13 +531,15 @@ export namespace Msg {
         return MsgSubmitTx.fromAmino(data)
 
       // marketmap
-      case 'slinky/x/marketmap/MsgCreateMarkets':
+      case 'connect/x/marketmap/MsgCreateMarkets':
         return MsgCreateMarkets.fromAmino(data)
-      case 'slinky/x/marketmap/MsgUpdateMarkets':
+      case 'connect/x/marketmap/MsgUpdateMarkets':
         return MsgUpdateMarkets.fromAmino(data)
-      case 'slinky/x/marketmap/MsgRemoveMarketAuthorities':
+      case 'connect/x/marketmap/MsgUpsertMarkets':
+        return MsgUpsertMarkets.fromAmino(data)
+      case 'connect/x/marketmap/MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.fromAmino(data)
-      case 'slinky/x/marketmap/MsgParams':
+      case 'connect/x/marketmap/MsgParams':
         return MsgUpdateMarketmapParams.fromAmino(data)
 
       // move
@@ -621,8 +621,8 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.fromAmino(data)
       case 'ophost/MsgUpdateProposer':
         return MsgUpdateProposer.fromAmino(data)
-      case 'ophost/MsgUpdateChallengers':
-        return MsgUpdateChallengers.fromAmino(data)
+      case 'ophost/MsgUpdateChallenger':
+        return MsgUpdateChallenger.fromAmino(data)
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data)
       case 'ophost/MsgUpdateOracleConfig':
@@ -633,9 +633,9 @@ export namespace Msg {
         return MsgUpdateOphostParams.fromAmino(data)
 
       // oracle
-      case 'slinky/x/oracle/MsgAddCurrencyPairs':
+      case 'connect/x/oracle/MsgAddCurrencyPairs':
         return MsgAddCurrencyPairs.fromAmino(data)
-      case 'slinky/x/oracle/MsgSetCurrencyPairs':
+      case 'connect/x/oracle/MsgSetCurrencyPairs':
         return MsgRemoveCurrencyPairs.fromAmino(data)
 
       // reward
@@ -871,12 +871,10 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.fromData(data)
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
-        return MsgSetPermissionedRelayers.fromData(data)
-      case '/ibc.applications.perm.v1.MsgHaltChannel':
-        return MsgHaltChannel.fromData(data)
-      case '/ibc.applications.perm.v1.MsgResumeChannel':
-        return MsgResumeChannel.fromData(data)
+      case '/ibc.applications.perm.v1.MsgUpdateAdmin':
+        return MsgUpdateIbcPermAdmin.fromData(data)
+      case '/ibc.applications.perm.v1.MsgUpdatePermissionedRelayers':
+        return MsgUpdatePermissionedRelayers.fromData(data)
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -943,13 +941,15 @@ export namespace Msg {
         return MsgSubmitTx.fromData(data)
 
       // marketmap
-      case '/slinky.marketmap.v1.MsgCreateMarkets':
+      case '/connect.marketmap.v2.MsgCreateMarkets':
         return MsgCreateMarkets.fromData(data)
-      case '/slinky.marketmap.v1.MsgUpdateMarkets':
+      case '/connect.marketmap.v2.MsgUpdateMarkets':
         return MsgUpdateMarkets.fromData(data)
-      case '/slinky.marketmap.v1.MsgRemoveMarketAuthorities':
+      case '/connect.marketmap.v2.MsgUpsertMarkets':
+        return MsgUpsertMarkets.fromData(data)
+      case '/connect.marketmap.v2.MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.fromData(data)
-      case '/slinky.marketmap.v1.MsgParams':
+      case '/connect.marketmap.v2.MsgParams':
         return MsgUpdateMarketmapParams.fromData(data)
 
       // move
@@ -1031,8 +1031,8 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateProposer':
         return MsgUpdateProposer.fromData(data)
-      case '/opinit.ophost.v1.MsgUpdateChallengers':
-        return MsgUpdateChallengers.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateChallenger':
+        return MsgUpdateChallenger.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
@@ -1043,9 +1043,9 @@ export namespace Msg {
         return MsgUpdateOphostParams.fromData(data)
 
       // oracle
-      case '/slinky.oracle.v1.MsgAddCurrencyPairs':
+      case '/connect.oracle.v2.MsgAddCurrencyPairs':
         return MsgAddCurrencyPairs.fromData(data)
-      case '/slinky.oracle.v1.MsgRemoveCurrencyPairs':
+      case '/connect.oracle.v2.MsgRemoveCurrencyPairs':
         return MsgRemoveCurrencyPairs.fromData(data)
 
       // reward
@@ -1281,12 +1281,10 @@ export namespace Msg {
         return MsgUpdateIbcNftParams.unpackAny(proto)
 
       // ibc-perm
-      case '/ibc.applications.perm.v1.MsgSetPermissionedRelayers':
-        return MsgSetPermissionedRelayers.unpackAny(proto)
-      case '/ibc.applications.perm.v1.MsgHaltChannel':
-        return MsgHaltChannel.unpackAny(proto)
-      case '/ibc.applications.perm.v1.MsgResumeChannel':
-        return MsgResumeChannel.unpackAny(proto)
+      case '/ibc.applications.perm.v1.MsgUpdateAdmin':
+        return MsgUpdateIbcPermAdmin.unpackAny(proto)
+      case '/ibc.applications.perm.v1.MsgUpdatePermissionedRelayers':
+        return MsgUpdatePermissionedRelayers.unpackAny(proto)
 
       // ibc-transfer
       case '/ibc.applications.transfer.v1.MsgTransfer':
@@ -1353,13 +1351,15 @@ export namespace Msg {
         return MsgSubmitTx.unpackAny(proto)
 
       // marketmap
-      case '/slinky.marketmap.v1.MsgCreateMarkets':
+      case '/connect.marketmap.v2.MsgCreateMarkets':
         return MsgCreateMarkets.unpackAny(proto)
-      case '/slinky.marketmap.v1.MsgUpdateMarkets':
+      case '/connect.marketmap.v2.MsgUpdateMarkets':
         return MsgUpdateMarkets.unpackAny(proto)
-      case '/slinky.marketmap.v1.MsgRemoveMarketAuthorities':
+      case '/connect.marketmap.v2.MsgUpsertMarkets':
+        return MsgUpsertMarkets.unpackAny(proto)
+      case '/connect.marketmap.v2.MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.unpackAny(proto)
-      case '/slinky.marketmap.v1.MsgParams':
+      case '/connect.marketmap.v2.MsgParams':
         return MsgUpdateMarketmapParams.unpackAny(proto)
 
       // move
@@ -1441,8 +1441,8 @@ export namespace Msg {
         return MsgFinalizeTokenWithdrawal.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateProposer':
         return MsgUpdateProposer.unpackAny(proto)
-      case '/opinit.ophost.v1.MsgUpdateChallengers':
-        return MsgUpdateChallengers.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateChallenger':
+        return MsgUpdateChallenger.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
@@ -1453,9 +1453,9 @@ export namespace Msg {
         return MsgUpdateOphostParams.unpackAny(proto)
 
       // oracle
-      case '/slinky.oracle.v1.MsgAddCurrencyPairs':
+      case '/connect.oracle.v2.MsgAddCurrencyPairs':
         return MsgAddCurrencyPairs.unpackAny(proto)
-      case '/slinky.oracle.v1.MsgRemoveCurrencyPairs':
+      case '/connect.oracle.v2.MsgRemoveCurrencyPairs':
         return MsgRemoveCurrencyPairs.unpackAny(proto)
 
       // reward

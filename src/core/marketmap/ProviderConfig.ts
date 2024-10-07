@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { CurrencyPair } from '../oracle'
-import { ProviderConfig as ProviderConfig_pb } from '@initia/initia.proto/slinky/marketmap/v1/market'
+import { ProviderConfig as ProviderConfig_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
 
 export class ProviderConfig extends JSONSerializable<
   ProviderConfig.Amino,
