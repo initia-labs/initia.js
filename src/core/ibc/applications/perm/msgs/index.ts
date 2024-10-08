@@ -1,26 +1,18 @@
-import { MsgSetPermissionedRelayers } from './MsgSetPermissionedRelayers'
-import { MsgHaltChannel } from './MsgHaltChannel'
-import { MsgResumeChannel } from './MsgResumeChannel'
+import { MsgUpdateIbcPermAdmin } from './MsgUpdateIbcPermAdmin'
+import { MsgUpdatePermissionedRelayers } from './MsgUpdatePermissionedRelayers'
 
-export * from './MsgSetPermissionedRelayers'
-export * from './MsgHaltChannel'
-export * from './MsgResumeChannel'
+export * from './MsgUpdateIbcPermAdmin'
+export * from './MsgUpdatePermissionedRelayers'
 
-export type IbcPermMsg =
-  | MsgSetPermissionedRelayers
-  | MsgHaltChannel
-  | MsgResumeChannel
+export type IbcPermMsg = MsgUpdateIbcPermAdmin | MsgUpdatePermissionedRelayers
 export namespace IbcPermMsg {
   export type Amino =
-    | MsgSetPermissionedRelayers.Amino
-    | MsgHaltChannel.Amino
-    | MsgResumeChannel.Amino
+    | MsgUpdateIbcPermAdmin.Amino
+    | MsgUpdatePermissionedRelayers.Amino
   export type Data =
-    | MsgSetPermissionedRelayers.Data
-    | MsgHaltChannel.Data
-    | MsgResumeChannel.Data
+    | MsgUpdateIbcPermAdmin.Data
+    | MsgUpdatePermissionedRelayers.Data
   export type Proto =
-    | MsgSetPermissionedRelayers.Proto
-    | MsgHaltChannel.Proto
-    | MsgResumeChannel.Proto
+    | MsgUpdateIbcPermAdmin.Proto
+    | MsgUpdatePermissionedRelayers.Proto
 }

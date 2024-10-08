@@ -1,5 +1,5 @@
 import { JSONSerializable } from '../../util/json'
-import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/slinky/types/v1/currency_pair'
+import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/connect/types/v2/currency_pair'
 
 export class CurrencyPair extends JSONSerializable<
   CurrencyPair.Amino,

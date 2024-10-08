@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgCreateMarkets as MsgCreateMarkets_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx'
+import { MsgCreateMarkets as MsgCreateMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 import { Market } from '../Market'
 
 export class MsgCreateMarkets extends JSONSerializable<
@@ -30,7 +30,7 @@ export class MsgCreateMarkets extends JSONSerializable<
   public toAmino(): MsgCreateMarkets.Amino {
     const { authority, create_markets } = this
     return {
-      type: 'slinky/x/marketmap/MsgCreateMarkets',
+      type: 'connect/x/marketmap/MsgCreateMarkets',
       value: {
         authority,
         create_markets: create_markets.map((msg) => msg.toAmino()),
@@ -46,7 +46,7 @@ export class MsgCreateMarkets extends JSONSerializable<
   public toData(): MsgCreateMarkets.Data {
     const { authority, create_markets } = this
     return {
-      '@type': '/slinky.marketmap.v1.MsgCreateMarkets',
+      '@type': '/connect.marketmap.v2.MsgCreateMarkets',
       authority,
       create_markets: create_markets.map((msg) => msg.toData()),
     }
@@ -69,7 +69,7 @@ export class MsgCreateMarkets extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.marketmap.v1.MsgCreateMarkets',
+      typeUrl: '/connect.marketmap.v2.MsgCreateMarkets',
       value: MsgCreateMarkets_pb.encode(this.toProto()).finish(),
     })
   }
@@ -81,7 +81,7 @@ export class MsgCreateMarkets extends JSONSerializable<
 
 export namespace MsgCreateMarkets {
   export interface Amino {
-    type: 'slinky/x/marketmap/MsgCreateMarkets'
+    type: 'connect/x/marketmap/MsgCreateMarkets'
     value: {
       authority: AccAddress
       create_markets: Market.Amino[]
@@ -89,7 +89,7 @@ export namespace MsgCreateMarkets {
   }
 
   export interface Data {
-    '@type': '/slinky.marketmap.v1.MsgCreateMarkets'
+    '@type': '/connect.marketmap.v2.MsgCreateMarkets'
     authority: AccAddress
     create_markets: Market.Data[]
   }

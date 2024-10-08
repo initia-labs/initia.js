@@ -11,7 +11,7 @@ export class BridgeConfig extends JSONSerializable<
   BridgeConfig.Proto
 > {
   /**
-   * @param challengers the addresses of the challengers
+   * @param challenger the address of the challenger
    * @param proposer the address of the proposer
    * @param batch_info the information about batch submission
    * @param submission_interval the time interval at which checkpoints must be submitted
@@ -21,7 +21,7 @@ export class BridgeConfig extends JSONSerializable<
    * @param metadata normally IBC channelID for permissioned IBC relayer
    */
   constructor(
-    public challengers: AccAddress[],
+    public challenger: AccAddress,
     public proposer: AccAddress,
     public batch_info: BatchInfo,
     public submission_interval: Duration,
@@ -35,7 +35,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public static fromAmino(data: BridgeConfig.Amino): BridgeConfig {
     const {
-      challengers,
+      challenger,
       proposer,
       batch_info,
       submission_interval,
@@ -46,7 +46,7 @@ export class BridgeConfig extends JSONSerializable<
     } = data
 
     return new BridgeConfig(
-      challengers,
+      challenger,
       proposer,
       BatchInfo.fromAmino(batch_info),
       Duration.fromAmino(submission_interval),
@@ -59,7 +59,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public toAmino(): BridgeConfig.Amino {
     const {
-      challengers,
+      challenger,
       proposer,
       batch_info,
       submission_interval,
@@ -70,7 +70,7 @@ export class BridgeConfig extends JSONSerializable<
     } = this
 
     return {
-      challengers,
+      challenger,
       proposer,
       batch_info: batch_info.toAmino(),
       submission_interval: submission_interval.toAmino(),
@@ -83,7 +83,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public static fromData(data: BridgeConfig.Data): BridgeConfig {
     const {
-      challengers,
+      challenger,
       proposer,
       batch_info,
       submission_interval,
@@ -94,7 +94,7 @@ export class BridgeConfig extends JSONSerializable<
     } = data
 
     return new BridgeConfig(
-      challengers,
+      challenger,
       proposer,
       BatchInfo.fromData(batch_info),
       Duration.fromData(submission_interval),
@@ -107,7 +107,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public toData(): BridgeConfig.Data {
     const {
-      challengers,
+      challenger,
       proposer,
       batch_info,
       submission_interval,
@@ -118,7 +118,7 @@ export class BridgeConfig extends JSONSerializable<
     } = this
 
     return {
-      challengers,
+      challenger,
       proposer,
       batch_info: batch_info.toData(),
       submission_interval: submission_interval.toData(),
@@ -131,7 +131,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public static fromProto(data: BridgeConfig.Proto): BridgeConfig {
     return new BridgeConfig(
-      data.challengers,
+      data.challenger,
       data.proposer,
       BatchInfo.fromProto(data.batchInfo as BatchInfo.Proto),
       Duration.fromProto(data.submissionInterval as Duration.Proto),
@@ -144,7 +144,7 @@ export class BridgeConfig extends JSONSerializable<
 
   public toProto(): BridgeConfig.Proto {
     const {
-      challengers,
+      challenger,
       proposer,
       batch_info,
       submission_interval,
@@ -155,7 +155,7 @@ export class BridgeConfig extends JSONSerializable<
     } = this
 
     return BridgeConfig_pb.fromPartial({
-      challengers,
+      challenger,
       proposer,
       batchInfo: batch_info.toProto(),
       submissionInterval: submission_interval.toProto(),
@@ -169,7 +169,7 @@ export class BridgeConfig extends JSONSerializable<
 
 export namespace BridgeConfig {
   export interface Amino {
-    challengers: AccAddress[]
+    challenger: AccAddress
     proposer: AccAddress
     batch_info: BatchInfo.Amino
     submission_interval: Duration.Amino
@@ -180,7 +180,7 @@ export namespace BridgeConfig {
   }
 
   export interface Data {
-    challengers: AccAddress[]
+    challenger: AccAddress
     proposer: AccAddress
     batch_info: BatchInfo.Data
     submission_interval: Duration.Data

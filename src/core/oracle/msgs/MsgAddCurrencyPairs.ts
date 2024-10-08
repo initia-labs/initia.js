@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgAddCurrencyPairs as MsgAddCurrencyPairs_pb } from '@initia/initia.proto/slinky/oracle/v1/tx'
+import { MsgAddCurrencyPairs as MsgAddCurrencyPairs_pb } from '@initia/initia.proto/connect/oracle/v2/tx'
 import { CurrencyPair } from '../CurrencyPair'
 
 export class MsgAddCurrencyPairs extends JSONSerializable<
@@ -35,7 +35,7 @@ export class MsgAddCurrencyPairs extends JSONSerializable<
   public toAmino(): MsgAddCurrencyPairs.Amino {
     const { authority, currency_pairs } = this
     return {
-      type: 'slinky/x/oracle/MsgAddCurrencyPairs',
+      type: 'connect/x/oracle/MsgAddCurrencyPairs',
       value: {
         authority,
         currency_pairs: currency_pairs.map((msg) => msg.toAmino()),
@@ -54,7 +54,7 @@ export class MsgAddCurrencyPairs extends JSONSerializable<
   public toData(): MsgAddCurrencyPairs.Data {
     const { authority, currency_pairs } = this
     return {
-      '@type': '/slinky.oracle.v1.MsgAddCurrencyPairs',
+      '@type': '/connect.oracle.v2.MsgAddCurrencyPairs',
       authority,
       currency_pairs: currency_pairs.map((msg) => msg.toData()),
     }
@@ -79,7 +79,7 @@ export class MsgAddCurrencyPairs extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.oracle.v1.MsgAddCurrencyPairs',
+      typeUrl: '/connect.oracle.v2.MsgAddCurrencyPairs',
       value: MsgAddCurrencyPairs_pb.encode(this.toProto()).finish(),
     })
   }
@@ -93,7 +93,7 @@ export class MsgAddCurrencyPairs extends JSONSerializable<
 
 export namespace MsgAddCurrencyPairs {
   export interface Amino {
-    type: 'slinky/x/oracle/MsgAddCurrencyPairs'
+    type: 'connect/x/oracle/MsgAddCurrencyPairs'
     value: {
       authority: AccAddress
       currency_pairs: CurrencyPair.Amino[]
@@ -101,7 +101,7 @@ export namespace MsgAddCurrencyPairs {
   }
 
   export interface Data {
-    '@type': '/slinky.oracle.v1.MsgAddCurrencyPairs'
+    '@type': '/connect.oracle.v2.MsgAddCurrencyPairs'
     authority: AccAddress
     currency_pairs: CurrencyPair.Data[]
   }

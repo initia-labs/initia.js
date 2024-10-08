@@ -1,5 +1,5 @@
 import { JSONSerializable } from '../../util/json'
-import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/slinky/oracle/v1/genesis'
+import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/connect/oracle/v2/genesis'
 import Long from 'long'
 
 export class QuotePrice extends JSONSerializable<

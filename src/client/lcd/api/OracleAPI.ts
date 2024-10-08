@@ -7,7 +7,7 @@ export class OracleAPI extends BaseAPI {
     return this.c
       .get<{
         currency_pairs: CurrencyPair.Data[]
-      }>(`/slinky/oracle/v1/get_all_tickers`, params)
+      }>(`/connect/oracle/v2/get_all_tickers`, params)
       .then((d) => d.currency_pairs.map(CurrencyPair.fromData))
   }
 
@@ -16,10 +16,9 @@ export class OracleAPI extends BaseAPI {
     params: APIParams = {}
   ): Promise<QuotePrice> {
     return this.c
-      .get<{ price: QuotePrice.Data }>(`/slinky/oracle/v1/get_price`, {
+      .get<{ price: QuotePrice.Data }>(`/connect/oracle/v2/get_price`, {
         ...params,
-        'currency_pair.Base': pair.Base,
-        'currency_pair.Quote': pair.Quote,
+        currency_pair: pair.toString(),
       })
       .then((d) => QuotePrice.fromData(d.price))
   }

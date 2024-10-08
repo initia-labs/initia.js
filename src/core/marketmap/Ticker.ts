@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { CurrencyPair } from '../oracle'
-import { Ticker as Ticker_pb } from '@initia/initia.proto/slinky/marketmap/v1/market'
+import { Ticker as Ticker_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
 import Long from 'long'
 
 export class Ticker extends JSONSerializable<

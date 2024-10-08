@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgUpdateMarkets as MsgUpdateMarkets_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx'
+import { MsgUpdateMarkets as MsgUpdateMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 import { Market } from '../Market'
 
 export class MsgUpdateMarkets extends JSONSerializable<
@@ -30,7 +30,7 @@ export class MsgUpdateMarkets extends JSONSerializable<
   public toAmino(): MsgUpdateMarkets.Amino {
     const { authority, update_markets } = this
     return {
-      type: 'slinky/x/marketmap/MsgUpdateMarkets',
+      type: 'connect/x/marketmap/MsgUpdateMarkets',
       value: {
         authority,
         update_markets: update_markets.map((msg) => msg.toAmino()),
@@ -46,7 +46,7 @@ export class MsgUpdateMarkets extends JSONSerializable<
   public toData(): MsgUpdateMarkets.Data {
     const { authority, update_markets } = this
     return {
-      '@type': '/slinky.marketmap.v1.MsgUpdateMarkets',
+      '@type': '/connect.marketmap.v2.MsgUpdateMarkets',
       authority,
       update_markets: update_markets.map((msg) => msg.toData()),
     }
@@ -69,7 +69,7 @@ export class MsgUpdateMarkets extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.marketmap.v1.MsgUpdateMarkets',
+      typeUrl: '/connect.marketmap.v2.MsgUpdateMarkets',
       value: MsgUpdateMarkets_pb.encode(this.toProto()).finish(),
     })
   }
@@ -81,7 +81,7 @@ export class MsgUpdateMarkets extends JSONSerializable<
 
 export namespace MsgUpdateMarkets {
   export interface Amino {
-    type: 'slinky/x/marketmap/MsgUpdateMarkets'
+    type: 'connect/x/marketmap/MsgUpdateMarkets'
     value: {
       authority: AccAddress
       update_markets: Market.Amino[]
@@ -89,7 +89,7 @@ export namespace MsgUpdateMarkets {
   }
 
   export interface Data {
-    '@type': '/slinky.marketmap.v1.MsgUpdateMarkets'
+    '@type': '/connect.marketmap.v2.MsgUpdateMarkets'
     authority: AccAddress
     update_markets: Market.Data[]
   }

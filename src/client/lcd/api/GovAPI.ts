@@ -1,5 +1,5 @@
 import { BaseAPI } from './BaseAPI'
-import { Proposal, Deposit, Vote, GovParams } from '../../../core'
+import { Proposal, Deposit, Vote, GovParams, TallyResult } from '../../../core'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
 export class GovAPI extends BaseAPI {
@@ -74,12 +74,12 @@ export class GovAPI extends BaseAPI {
   public async tally(
     proposalId: number,
     params: APIParams = {}
-  ): Promise<Proposal.FinalTallyResult> {
+  ): Promise<TallyResult> {
     return this.c
       .get<{
-        tally: Proposal.FinalTallyResult
-      }>(`/cosmos/gov/v1/proposals/${proposalId}/tally`, params)
-      .then((d) => d.tally)
+        tally_result: TallyResult.Data
+      }>(`/initia/gov/v1/proposals/${proposalId}/tally`, params)
+      .then((d) => TallyResult.fromData(d.tally_result))
   }
 
   /** Gets the Gov module's current parameters  */
