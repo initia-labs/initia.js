@@ -74,8 +74,7 @@ export class MnemonicKey extends RawKey {
     if (mnemonic === undefined) {
       mnemonic = bip39.generateMnemonic(256)
     }
-    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic)
-    const masterKey = bip32.fromSeed(seed)
+    const masterKey = bip32.fromSeed(bip39.mnemonicToSeedSync(mnemonic))
     const hdPathInitia = `m/44'/${coinType}'/${account}'/0/${index}`
     const initiaHD = masterKey.derivePath(hdPathInitia)
     const privateKey = initiaHD.privateKey
