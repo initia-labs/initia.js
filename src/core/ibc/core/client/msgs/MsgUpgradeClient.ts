@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpgradeClient as MsgUpgradeClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
@@ -83,8 +84,8 @@ export class MsgUpgradeClient extends JSONSerializable<
       proto.clientId,
       proto.clientState,
       proto.consensusState,
-      Buffer.from(proto.proofUpgradeClient).toString('base64'),
-      Buffer.from(proto.proofUpgradeConsensusState).toString('base64'),
+      base64FromBytes(proto.proofUpgradeClient),
+      base64FromBytes(proto.proofUpgradeConsensusState),
       proto.signer
     )
   }
@@ -102,10 +103,9 @@ export class MsgUpgradeClient extends JSONSerializable<
       clientId: client_id,
       clientState: client_state,
       consensusState: consensus_state,
-      proofUpgradeClient: Buffer.from(proof_upgrade_client, 'base64'),
-      proofUpgradeConsensusState: Buffer.from(
-        proof_upgrade_consensus_state,
-        'base64'
+      proofUpgradeClient: bytesFromBase64(proof_upgrade_client),
+      proofUpgradeConsensusState: bytesFromBase64(
+        proof_upgrade_consensus_state
       ),
       signer: signer,
     })

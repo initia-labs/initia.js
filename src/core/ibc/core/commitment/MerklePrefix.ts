@@ -1,5 +1,6 @@
 import { MerklePrefix as MerklePrefix_pb } from '@initia/initia.proto/ibc/core/commitment/v1/commitment'
 import { JSONSerializable } from '../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../util/polyfill'
 
 /*
  * MerklePrefix is merkle path prefixed to the key.
@@ -45,13 +46,13 @@ export class MerklePrefix extends JSONSerializable<
   }
 
   public static fromProto(proto: MerklePrefix.Proto): MerklePrefix {
-    return new MerklePrefix(Buffer.from(proto.keyPrefix).toString('base64'))
+    return new MerklePrefix(base64FromBytes(proto.keyPrefix))
   }
 
   public toProto(): MerklePrefix.Proto {
     const { key_prefix } = this
     return MerklePrefix_pb.fromPartial({
-      keyPrefix: Buffer.from(key_prefix, 'base64'),
+      keyPrefix: bytesFromBase64(key_prefix),
     })
   }
 }

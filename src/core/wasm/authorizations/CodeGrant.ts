@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { CodeGrant as CodeGrant_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { AccessConfig } from '../AccessConfig'
 
@@ -52,7 +53,7 @@ export class CodeGrant extends JSONSerializable<
 
   public static fromProto(data: CodeGrant.Proto): CodeGrant {
     return new CodeGrant(
-      Buffer.from(data.codeHash).toString('base64'),
+      base64FromBytes(data.codeHash),
       data.instantiatePermission
         ? AccessConfig.fromProto(data.instantiatePermission)
         : undefined
@@ -62,7 +63,7 @@ export class CodeGrant extends JSONSerializable<
   public toProto(): CodeGrant.Proto {
     const { code_hash, instantiate_permission } = this
     return CodeGrant_pb.fromPartial({
-      codeHash: Buffer.from(code_hash, 'base64'),
+      codeHash: bytesFromBase64(code_hash),
       instantiatePermission: instantiate_permission?.toProto(),
     })
   }

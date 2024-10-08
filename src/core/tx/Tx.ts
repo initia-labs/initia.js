@@ -1,3 +1,4 @@
+import { base64FromBytes, bytesFromBase64 } from '../../util/polyfill'
 import {
   PublicKey,
   SimplePublicKey,
@@ -72,7 +73,7 @@ export class Tx {
     return new Tx(
       TxBody.fromProto(proto.body as TxBody_pb),
       AuthInfo.fromProto(proto.authInfo as AuthInfo_pb),
-      proto.signatures.map((sig) => Buffer.from(sig).toString('base64'))
+      proto.signatures.map(base64FromBytes)
     )
   }
 
@@ -80,7 +81,7 @@ export class Tx {
     return Tx_pb.fromPartial({
       body: this.body.toProto(),
       authInfo: this.auth_info.toProto(),
-      signatures: this.signatures.map((s) => Buffer.from(s, 'base64')),
+      signatures: this.signatures.map(bytesFromBase64),
     })
   }
 
@@ -88,7 +89,7 @@ export class Tx {
     return Tx_pb.encode(this.toProto()).finish()
   }
 
-  public static fromBuffer(buf: Buffer): Tx {
+  public static fromBytes(buf: Uint8Array): Tx {
     return Tx.fromProto(Tx_pb.decode(buf))
   }
 
@@ -138,7 +139,7 @@ export class Tx {
     for (const signature of signatures) {
       const [modeInfo, sigBytes] = signature.data.toModeInfoAndSignature()
 
-      this.signatures.push(Buffer.from(sigBytes).toString('base64'))
+      this.signatures.push(base64FromBytes(sigBytes))
       this.auth_info.signer_infos.push(
         new SignerInfo(signature.public_key, signature.sequence, modeInfo)
       )

@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { MsgFinalizeTokenWithdrawal as MsgFinalizeTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
@@ -176,16 +177,14 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       data.sender,
       data.bridgeId.toNumber(),
       data.outputIndex.toNumber(),
-      data.withdrawalProofs.map((proof) =>
-        Buffer.from(proof).toString('base64')
-      ),
+      data.withdrawalProofs.map(base64FromBytes),
       data.from,
       data.to,
       data.sequence.toNumber(),
       Coin.fromProto(data.amount as Coin),
-      Buffer.from(data.version).toString('base64'),
-      Buffer.from(data.storageRoot).toString('base64'),
-      Buffer.from(data.lastBlockHash).toString('base64')
+      base64FromBytes(data.version),
+      base64FromBytes(data.storageRoot),
+      base64FromBytes(data.lastBlockHash)
     )
   }
 
@@ -208,16 +207,14 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       sender,
       bridgeId: Long.fromNumber(bridge_id),
       outputIndex: Long.fromNumber(output_index),
-      withdrawalProofs: withdrawal_proofs.map((proof) =>
-        Buffer.from(proof, 'base64')
-      ),
+      withdrawalProofs: withdrawal_proofs.map(bytesFromBase64),
       from,
       to,
       sequence: Long.fromNumber(sequence),
       amount: amount.toProto(),
-      version: Buffer.from(version, 'base64'),
-      storageRoot: Buffer.from(storage_root, 'base64'),
-      lastBlockHash: Buffer.from(last_block_hash, 'base64'),
+      version: bytesFromBase64(version),
+      storageRoot: bytesFromBase64(storage_root),
+      lastBlockHash: bytesFromBase64(last_block_hash),
     })
   }
 

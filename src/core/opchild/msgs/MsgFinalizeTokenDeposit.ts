@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { Denom } from '../../Denom'
@@ -114,9 +115,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       msgProto.sequence.toNumber(),
       msgProto.height.toNumber(),
       msgProto.baseDenom,
-      msgProto.data.length
-        ? Buffer.from(msgProto.data).toString('base64')
-        : undefined
+      msgProto.data.length ? base64FromBytes(msgProto.data) : undefined
     )
   }
 
@@ -131,7 +130,7 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       sequence: Long.fromNumber(sequence),
       height: Long.fromNumber(height),
       baseDenom: base_denom,
-      data: data ? Buffer.from(data, 'base64') : undefined,
+      data: data ? bytesFromBase64(data) : undefined,
     })
   }
 

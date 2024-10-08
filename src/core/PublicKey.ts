@@ -1,27 +1,24 @@
-import { JSONSerializable } from '../util/json'
+import { bech32 } from 'bech32'
 import { sha256, ripemd160 } from '../util/hash'
+import { JSONSerializable } from '../util/json'
+import {
+  bytesFromBase64,
+  bytesFromHex,
+  base64FromBytes,
+  concatBytes,
+} from '../util/polyfill'
 import { LegacyAminoPubKey as LegacyAminoPubKey_pb } from '@initia/initia.proto/cosmos/crypto/multisig/keys'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { PubKey as PubKey_pb } from '@initia/initia.proto/cosmos/crypto/secp256k1/keys'
 import { PubKey as ValConsPubKey_pb } from '@initia/initia.proto/cosmos/crypto/ed25519/keys'
-import { bech32 } from 'bech32'
 
 // As discussed in https://github.com/binance-chain/javascript-sdk/issues/163
 // Prefixes listed here: https://github.com/tendermint/tendermint/blob/d419fffe18531317c28c29a292ad7d253f6cafdf/docs/spec/blockchain/encoding.md#public-key-cryptography
 // Last bytes is varint-encoded length prefix
-const pubkeyAminoPrefixSecp256k1 = Buffer.from(
-  'eb5ae987' + '21' /* fixed length */,
-  'hex'
-)
-const pubkeyAminoPrefixEd25519 = Buffer.from(
-  '1624de64' + '20' /* fixed length */,
-  'hex'
-)
+const pubkeyAminoPrefixSecp256k1 = bytesFromHex('eb5ae987' + '21') // fixed length
+const pubkeyAminoPrefixEd25519 = bytesFromHex('1624de64' + '20') // fixed length
 /** See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740 */
-const pubkeyAminoPrefixMultisigThreshold = Buffer.from(
-  '22c1f7e2' /* variable length not included */,
-  'hex'
-)
+const pubkeyAminoPrefixMultisigThreshold = bytesFromHex('22c1f7e2') // variable length not included
 
 const encodeUvarint = (value: number | string): number[] => {
   const checked = Number.parseInt(value.toString())
@@ -117,12 +114,12 @@ export class SimplePublicKey extends JSONSerializable<
   }
 
   public static fromProto(pubkeyProto: SimplePublicKey.Proto): SimplePublicKey {
-    return new SimplePublicKey(Buffer.from(pubkeyProto.key).toString('base64'))
+    return new SimplePublicKey(base64FromBytes(pubkeyProto.key))
   }
 
   public toProto(): SimplePublicKey.Proto {
     return PubKey_pb.fromPartial({
-      key: Buffer.from(this.key, 'base64'),
+      key: bytesFromBase64(this.key),
     })
   }
 
@@ -138,14 +135,11 @@ export class SimplePublicKey extends JSONSerializable<
   }
 
   public encodeAminoPubkey(): Uint8Array {
-    return Buffer.concat([
-      pubkeyAminoPrefixSecp256k1,
-      Buffer.from(this.key, 'base64'),
-    ])
+    return concatBytes([pubkeyAminoPrefixSecp256k1, bytesFromBase64(this.key)])
   }
 
   public rawAddress(): Uint8Array {
-    const pubkeyData = Buffer.from(this.key, 'base64')
+    const pubkeyData = bytesFromBase64(this.key)
     return ripemd160(sha256(pubkeyData))
   }
 
@@ -328,12 +322,12 @@ export class ValConsPublicKey extends JSONSerializable<
   public static fromProto(
     pubkeyProto: ValConsPublicKey.Proto
   ): ValConsPublicKey {
-    return new ValConsPublicKey(Buffer.from(pubkeyProto.key).toString('base64'))
+    return new ValConsPublicKey(base64FromBytes(pubkeyProto.key))
   }
 
   public toProto(): ValConsPublicKey.Proto {
     return ValConsPubKey_pb.fromPartial({
-      key: Buffer.from(this.key, 'base64'),
+      key: bytesFromBase64(this.key),
     })
   }
 
@@ -349,14 +343,11 @@ export class ValConsPublicKey extends JSONSerializable<
   }
 
   public encodeAminoPubkey(): Uint8Array {
-    return Buffer.concat([
-      pubkeyAminoPrefixEd25519,
-      Buffer.from(this.key, 'base64'),
-    ])
+    return concatBytes([pubkeyAminoPrefixEd25519, bytesFromBase64(this.key)])
   }
 
   public rawAddress(): Uint8Array {
-    const pubkeyData = Buffer.from(this.key, 'base64')
+    const pubkeyData = bytesFromBase64(this.key)
     return sha256(pubkeyData).slice(0, 20)
   }
 

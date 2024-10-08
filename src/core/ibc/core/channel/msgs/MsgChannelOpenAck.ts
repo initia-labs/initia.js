@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgChannelOpenAck as MsgChannelOpenAck_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -91,7 +92,7 @@ export class MsgChannelOpenAck extends JSONSerializable<
       proto.channelId,
       proto.counterpartyChannelId,
       proto.counterpartyVersion,
-      Buffer.from(proto.proofTry).toString('base64'),
+      base64FromBytes(proto.proofTry),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -112,7 +113,7 @@ export class MsgChannelOpenAck extends JSONSerializable<
       channelId: channel_id,
       counterpartyChannelId: counterparty_channel_id,
       counterpartyVersion: counterparty_version,
-      proofTry: Buffer.from(proof_try, 'base64'),
+      proofTry: bytesFromBase64(proof_try),
       proofHeight: proof_height?.toProto(),
       signer,
     })

@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { Coins } from '../../Coins'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -180,18 +181,18 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
   ): MsgStoreAndInstantiateContract {
     return new MsgStoreAndInstantiateContract(
       data.authority,
-      Buffer.from(data.wasmByteCode).toString('base64'),
+      base64FromBytes(data.wasmByteCode),
       data.instantiatePermission
         ? AccessConfig.fromProto(data.instantiatePermission)
         : undefined,
       data.unpinCode,
       data.admin,
       data.label,
-      Buffer.from(data.msg).toString('base64'),
+      base64FromBytes(data.msg),
       Coins.fromProto(data.funds),
       data.source,
       data.builder,
-      Buffer.from(data.codeHash).toString('base64')
+      base64FromBytes(data.codeHash)
     )
   }
 
@@ -212,16 +213,16 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
 
     return MsgStoreAndInstantiateContract_pb.fromPartial({
       authority,
-      wasmByteCode: Buffer.from(wasm_byte_code, 'base64'),
+      wasmByteCode: bytesFromBase64(wasm_byte_code),
       instantiatePermission: instantiate_permission?.toProto(),
       unpinCode: unpin_code,
       admin,
       label,
-      msg: Buffer.from(msg, 'base64'),
+      msg: bytesFromBase64(msg),
       funds: funds.toProto(),
       source,
       builder,
-      codeHash: Buffer.from(code_hash, 'base64'),
+      codeHash: bytesFromBase64(code_hash),
     })
   }
 

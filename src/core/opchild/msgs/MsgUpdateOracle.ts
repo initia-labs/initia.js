@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateOracle as MsgUpdateOracle_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -64,7 +65,7 @@ export class MsgUpdateOracle extends JSONSerializable<
     return new MsgUpdateOracle(
       data.sender,
       data.height.toNumber(),
-      Buffer.from(data.data).toString('base64')
+      base64FromBytes(data.data)
     )
   }
 
@@ -73,7 +74,7 @@ export class MsgUpdateOracle extends JSONSerializable<
     return MsgUpdateOracle_pb.fromPartial({
       sender,
       height: Long.fromNumber(height),
-      data: Buffer.from(data, 'base64'),
+      data: bytesFromBase64(data),
     })
   }
 

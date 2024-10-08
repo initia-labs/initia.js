@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../util/polyfill'
 import { Output as Output_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
 import Long from 'long'
 
@@ -68,7 +69,7 @@ export class Output extends JSONSerializable<
 
   public static fromProto(data: Output.Proto): Output {
     return new Output(
-      Buffer.from(data.outputRoot).toString('base64'),
+      base64FromBytes(data.outputRoot),
       data.l1BlockNumber.toNumber(),
       data.l1BlockTime as Date,
       data.l2BlockNumber.toNumber()
@@ -79,7 +80,7 @@ export class Output extends JSONSerializable<
     const { output_root, l1_block_number, l1_block_time, l2_block_number } =
       this
     return Output_pb.fromPartial({
-      outputRoot: Buffer.from(output_root, 'base64'),
+      outputRoot: bytesFromBase64(output_root),
       l1BlockNumber: Long.fromNumber(l1_block_number),
       l1BlockTime: l1_block_time,
       l2BlockNumber: Long.fromNumber(l2_block_number),

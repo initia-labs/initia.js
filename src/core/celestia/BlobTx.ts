@@ -42,7 +42,7 @@ export class BlobTx extends JSONSerializable<any, BlobTx.Data, BlobTx.Proto> {
 
   public static fromProto(data: BlobTx.Proto): BlobTx {
     return new BlobTx(
-      Tx.fromBuffer(Buffer.from(data.tx)),
+      Tx.fromBytes(data.tx),
       data.blobs.map(Blob.fromProto),
       data.typeId
     )

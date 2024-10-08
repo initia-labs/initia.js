@@ -56,3 +56,52 @@ export function base64FromBytes(arr: Uint8Array): string {
     return gt.btoa(bin.join(''))
   }
 }
+
+export function bytesFromHex(hex: string): Uint8Array {
+  if (gt.Buffer) {
+    return Uint8Array.from(gt.Buffer.from(hex, 'hex'))
+  } else {
+    return new Uint8Array(
+      (hex.match(/.{1,2}/g) ?? []).map((byte) => parseInt(byte, 16))
+    )
+  }
+}
+
+export function hexFromBytes(arr: Uint8Array): string {
+  if (gt.Buffer) {
+    return gt.Buffer.from(arr).toString('hex')
+  } else {
+    return Array.from(arr, (byte) => byte.toString(16).padStart(2, '0')).join(
+      ''
+    )
+  }
+}
+
+export function bytesFromUtf8(utf8: string): Uint8Array {
+  if (gt.Buffer) {
+    return Uint8Array.from(gt.Buffer.from(utf8))
+  } else {
+    return new Uint8Array(new TextEncoder().encode(utf8))
+  }
+}
+
+export function utf8FromBytes(arr: Uint8Array): string {
+  if (gt.Buffer) {
+    return gt.Buffer.from(arr).toString()
+  } else {
+    return new TextDecoder().decode(arr)
+  }
+}
+
+export function concatBytes(arrs: Uint8Array[]): Uint8Array {
+  if (gt.Buffer) {
+    return gt.Buffer.concat(arrs)
+  } else {
+    return arrs.reduce((acc, arr) => {
+      const combined = new Uint8Array(acc.length + arr.length)
+      combined.set(acc)
+      combined.set(arr, acc.length)
+      return combined
+    }, new Uint8Array())
+  }
+}

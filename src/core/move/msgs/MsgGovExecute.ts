@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovExecute as MsgGovExecute_pb } from '@initia/initia.proto/initia/move/v1/tx'
@@ -136,7 +137,7 @@ export class MsgGovExecute extends JSONSerializable<
       data.moduleName,
       data.functionName,
       data.typeArgs,
-      data.args.map((arg) => Buffer.from(arg).toString('base64'))
+      data.args.map(base64FromBytes)
     )
   }
 
@@ -158,7 +159,7 @@ export class MsgGovExecute extends JSONSerializable<
       moduleName: module_name,
       functionName: function_name,
       typeArgs: type_args,
-      args: args.map((arg) => Buffer.from(arg, 'base64')),
+      args: args.map(bytesFromBase64),
     })
   }
 

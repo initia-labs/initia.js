@@ -84,7 +84,7 @@ export class MnemonicKey extends RawKey {
       throw new Error('Failed to derive key pair')
     }
 
-    super(privateKey)
+    super(Uint8Array.from(privateKey))
     this.mnemonic = mnemonic
   }
 }

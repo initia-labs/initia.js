@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgConnectionOpenConfirm as MsgConnectionOpenConfirm_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
@@ -65,7 +66,7 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
   ): MsgConnectionOpenConfirm {
     return new MsgConnectionOpenConfirm(
       proto.connectionId,
-      Buffer.from(proto.proofAck).toString('base64'),
+      base64FromBytes(proto.proofAck),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -75,7 +76,7 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
     const { connection_id, proof_ack, proof_height, signer } = this
     return MsgConnectionOpenConfirm_pb.fromPartial({
       connectionId: connection_id,
-      proofAck: Buffer.from(proof_ack, 'base64'),
+      proofAck: bytesFromBase64(proof_ack),
       proofHeight: proof_height?.toProto(),
       signer,
     })

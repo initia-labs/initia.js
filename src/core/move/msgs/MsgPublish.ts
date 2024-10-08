@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPublish as MsgPublish_pb } from '@initia/initia.proto/initia/move/v1/tx'
@@ -51,7 +52,7 @@ export class MsgPublish extends JSONSerializable<
   public static fromProto(proto: MsgPublish.Proto): MsgPublish {
     return new MsgPublish(
       proto.sender,
-      proto.codeBytes.map((code) => Buffer.from(code).toString('base64')),
+      proto.codeBytes.map(base64FromBytes),
       proto.upgradePolicy
     )
   }
@@ -60,7 +61,7 @@ export class MsgPublish extends JSONSerializable<
     const { sender, code_bytes, upgrade_policy } = this
     return MsgPublish_pb.fromPartial({
       sender,
-      codeBytes: code_bytes.map((code) => Buffer.from(code, 'base64')),
+      codeBytes: code_bytes.map(bytesFromBase64),
       upgradePolicy: upgrade_policy,
     })
   }

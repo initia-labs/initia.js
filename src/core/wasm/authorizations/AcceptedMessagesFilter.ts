@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AcceptedMessagesFilter as AcceptedMessagesFilter_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
@@ -40,14 +41,12 @@ export class AcceptedMessagesFilter extends JSONSerializable<
   public static fromProto(
     data: AcceptedMessagesFilter.Proto
   ): AcceptedMessagesFilter {
-    return new AcceptedMessagesFilter(
-      data.messages.map((msg) => Buffer.from(msg).toString('base64'))
-    )
+    return new AcceptedMessagesFilter(data.messages.map(base64FromBytes))
   }
 
   public toProto(): AcceptedMessagesFilter.Proto {
     return AcceptedMessagesFilter_pb.fromPartial({
-      messages: this.messages.map((msg) => Buffer.from(msg, 'base64')),
+      messages: this.messages.map(bytesFromBase64),
     })
   }
 

@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../util/polyfill'
 import { Coin } from '../Coin'
 import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis'
 
@@ -115,7 +116,7 @@ export class AuctionParams extends JSONSerializable<
   public static fromProto(data: AuctionParams.Proto): AuctionParams {
     return new AuctionParams(
       data.maxBundleSize,
-      Buffer.from(data.escrowAccountAddress).toString('base64'),
+      base64FromBytes(data.escrowAccountAddress),
       Coin.fromProto(data.reserveFee as Coin),
       Coin.fromProto(data.minBidIncrement as Coin),
       data.frontRunningProtection,
@@ -135,7 +136,7 @@ export class AuctionParams extends JSONSerializable<
 
     return Params_pb.fromPartial({
       maxBundleSize: max_bundle_size,
-      escrowAccountAddress: Buffer.from(escrow_account_address, 'base64'),
+      escrowAccountAddress: bytesFromBase64(escrow_account_address),
       reserveFee: reserve_fee.toProto(),
       minBidIncrement: min_bid_increment.toProto(),
       frontRunningProtection: front_running_protection,

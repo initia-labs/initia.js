@@ -1,5 +1,6 @@
 import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs'
 import { AccAddress, BigNumber, num } from '../core'
+import { hexFromBytes, bytesFromHex } from './polyfill'
 
 const initiaAddress = (
   options?: BcsTypeOptions<Uint8Array, Iterable<number>>
@@ -18,9 +19,9 @@ const initiaAddress = (
         throw new Error('invalid address')
       }
 
-      return Buffer.from(val, 'hex')
+      return bytesFromHex(val)
     },
-    output: (val) => `0x${Buffer.from(val).toString('hex')}`,
+    output: (val) => `0x${hexFromBytes(val)}`,
   })
 
 // initia specific types

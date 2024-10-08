@@ -1,5 +1,6 @@
 import { MerkleRoot as MerkleRoot_pb } from '@initia/initia.proto/ibc/core/commitment/v1/commitment'
 import { JSONSerializable } from '../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../util/polyfill'
 
 // MerkleRoot defines a merkle root hash.
 // In the Cosmos SDK, the AppHash of a block header becomes the root.
@@ -36,12 +37,12 @@ export class MerkleRoot extends JSONSerializable<
   }
 
   public static fromProto(proto: MerkleRoot.Proto): MerkleRoot {
-    return new MerkleRoot(Buffer.from(proto.hash).toString('base64'))
+    return new MerkleRoot(base64FromBytes(proto.hash))
   }
 
   public toProto(): MerkleRoot.Proto {
     return MerkleRoot_pb.fromPartial({
-      hash: Buffer.from(this.hash, 'base64'),
+      hash: bytesFromBase64(this.hash),
     })
   }
 }

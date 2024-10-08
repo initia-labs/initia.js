@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { Coins } from '../../Coins'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -98,7 +99,7 @@ export class MsgInstantiateContract extends JSONSerializable<
       data.admin,
       data.codeId.toNumber(),
       data.label,
-      Buffer.from(data.msg).toString('base64'),
+      base64FromBytes(data.msg),
       Coins.fromProto(data.funds)
     )
   }
@@ -110,7 +111,7 @@ export class MsgInstantiateContract extends JSONSerializable<
       admin,
       codeId: Long.fromNumber(code_id),
       label,
-      msg: Buffer.from(msg, 'base64'),
+      msg: bytesFromBase64(msg),
       funds: funds.toProto(),
     })
   }

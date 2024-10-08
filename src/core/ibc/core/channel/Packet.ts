@@ -1,7 +1,8 @@
+import { JSONSerializable } from '../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../util/polyfill'
+import { Height } from '../client/Height'
 import { Packet as Packet_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import Long from 'long'
-import { JSONSerializable } from '../../../../util/json'
-import { Height } from '../client/Height'
 
 /** Packet defines a type that carries data across different chains through IBC */
 export class Packet extends JSONSerializable<
@@ -127,7 +128,7 @@ export class Packet extends JSONSerializable<
       proto.sourceChannel,
       proto.destinationPort,
       proto.destinationChannel,
-      Buffer.from(proto.data).toString('base64'),
+      base64FromBytes(proto.data),
       proto.timeoutHeight ? Height.fromProto(proto.timeoutHeight) : undefined,
       proto.timeoutTimestamp.toString()
     )
@@ -150,7 +151,7 @@ export class Packet extends JSONSerializable<
       sourceChannel: source_channel,
       destinationPort: destination_port,
       destinationChannel: destination_channel,
-      data: Buffer.from(data, 'base64'),
+      data: bytesFromBase64(data),
       timeoutHeight: timeout_height?.toProto(),
       timeoutTimestamp: Long.fromString(timeout_timestamp),
     })

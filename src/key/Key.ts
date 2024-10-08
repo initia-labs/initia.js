@@ -11,6 +11,7 @@ import {
   SignatureV2,
 } from '../core'
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing'
+import { base64FromBytes, bytesFromUtf8, concatBytes } from '../util/polyfill'
 
 /**
  * Abstract key interface that provides transaction signing features and Bech32 address
@@ -26,7 +27,7 @@ export abstract class Key {
    *
    * @param payload the data to be signed
    */
-  public abstract sign(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
+  public abstract sign(payload: Uint8Array): Promise<Uint8Array> // needs to be async for ledger key signing
 
   /**
    * You will need to supply `signWithKeccak256`, which produces a signature for an arbitrary bytes payload
@@ -34,7 +35,7 @@ export abstract class Key {
    *
    * @param payload the data to be signed
    */
-  public abstract signWithKeccak256(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
+  public abstract signWithKeccak256(payload: Uint8Array): Promise<Uint8Array> // needs to be async for ledger key signing
 
   /**
    * Initia account address. `init-` prefixed.
@@ -87,7 +88,7 @@ export abstract class Key {
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
-          (await this.sign(Buffer.from(tx.toAminoJSON()))).toString('base64')
+          base64FromBytes(await this.sign(bytesFromUtf8(tx.toAminoJSON())))
         )
       ),
       tx.sequence
@@ -116,9 +117,7 @@ export abstract class Key {
       ),
     ]
 
-    const sigBytes = (await this.sign(Buffer.from(signDoc.toBytes()))).toString(
-      'base64'
-    )
+    const sigBytes = base64FromBytes(await this.sign(signDoc.toBytes()))
 
     // restore signDoc to origin
     signDoc.auth_info.signer_infos = signerInfos
@@ -145,11 +144,11 @@ export abstract class Key {
       )
     }
 
-    const message = Buffer.from(tx.toAminoJSON())
+    const message = bytesFromUtf8(tx.toAminoJSON())
     const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n'
-    const signBytes = Buffer.concat([
-      Buffer.from(EIP191MessagePrefix),
-      Buffer.from(message.length.toString()),
+    const signBytes = concatBytes([
+      bytesFromUtf8(EIP191MessagePrefix),
+      bytesFromUtf8(message.length.toString()),
       message,
     ])
 
@@ -158,7 +157,7 @@ export abstract class Key {
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_EIP_191,
-          (await this.signWithKeccak256(signBytes)).toString('base64')
+          base64FromBytes(await this.signWithKeccak256(signBytes))
         )
       ),
       tx.sequence

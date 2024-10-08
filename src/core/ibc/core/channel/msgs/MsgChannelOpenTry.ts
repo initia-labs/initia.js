@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgChannelOpenTry as MsgChannelOpenTry_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -91,7 +92,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       proto.previousChannelId,
       proto.channel ? Channel.fromProto(proto.channel) : undefined,
       proto.counterpartyVersion,
-      Buffer.from(proto.proofInit).toString('base64'),
+      base64FromBytes(proto.proofInit),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -112,7 +113,7 @@ export class MsgChannelOpenTry extends JSONSerializable<
       previousChannelId: previous_channel_id,
       channel: channel?.toProto(),
       counterpartyVersion: counterparty_version,
-      proofInit: Buffer.from(proof_init, 'base64'),
+      proofInit: bytesFromBase64(proof_init),
       proofHeight: proof_height?.toProto(),
       signer,
     })

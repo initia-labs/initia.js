@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgStoreAndMigrateContract as MsgStoreAndMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
@@ -102,12 +103,12 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
   ): MsgStoreAndMigrateContract {
     return new MsgStoreAndMigrateContract(
       data.authority,
-      Buffer.from(data.wasmByteCode).toString('base64'),
+      base64FromBytes(data.wasmByteCode),
       data.instantiatePermission
         ? AccessConfig.fromProto(data.instantiatePermission)
         : undefined,
       data.contract,
-      Buffer.from(data.msg).toString('base64')
+      base64FromBytes(data.msg)
     )
   }
 
@@ -117,10 +118,10 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
 
     return MsgStoreAndMigrateContract_pb.fromPartial({
       authority,
-      wasmByteCode: Buffer.from(wasm_byte_code, 'base64'),
+      wasmByteCode: bytesFromBase64(wasm_byte_code),
       instantiatePermission: instantiate_permission?.toProto(),
       contract,
-      msg: Buffer.from(msg, 'base64'),
+      msg: bytesFromBase64(msg),
     })
   }
 

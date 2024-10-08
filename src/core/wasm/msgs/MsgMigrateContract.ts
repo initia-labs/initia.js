@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgMigrateContract as MsgMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
@@ -76,7 +77,7 @@ export class MsgMigrateContract extends JSONSerializable<
       data.sender,
       data.contract,
       data.codeId.toNumber(),
-      Buffer.from(data.msg).toString('base64')
+      base64FromBytes(data.msg)
     )
   }
 
@@ -86,7 +87,7 @@ export class MsgMigrateContract extends JSONSerializable<
       sender,
       contract,
       codeId: Long.fromNumber(code_id),
-      msg: Buffer.from(msg, 'base64'),
+      msg: bytesFromBase64(msg),
     })
   }
 

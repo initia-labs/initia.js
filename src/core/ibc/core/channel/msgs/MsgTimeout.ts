@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgTimeout as MsgTimeout_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -77,7 +78,7 @@ export class MsgTimeout extends JSONSerializable<
   public static fromProto(proto: MsgTimeout.Proto): MsgTimeout {
     return new MsgTimeout(
       proto.packet ? Packet.fromProto(proto.packet) : undefined,
-      Buffer.from(proto.proofUnreceived).toString('base64'),
+      base64FromBytes(proto.proofUnreceived),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.nextSequenceRecv.toNumber(),
       proto.signer
@@ -94,7 +95,7 @@ export class MsgTimeout extends JSONSerializable<
     } = this
     return MsgTimeout_pb.fromPartial({
       packet: packet?.toProto(),
-      proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
+      proofUnreceived: bytesFromBase64(proof_unreceived),
       proofHeight: proof_height?.toProto(),
       nextSequenceRecv: Long.fromNumber(next_sequence_recv),
       signer,
