@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgRemoveMarketAuthorities as MsgRemoveMarketAuthorities_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx'
+import { MsgRemoveMarketAuthorities as MsgRemoveMarketAuthorities_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 
 export class MsgRemoveMarketAuthorities extends JSONSerializable<
   MsgRemoveMarketAuthorities.Amino,
@@ -31,7 +31,7 @@ export class MsgRemoveMarketAuthorities extends JSONSerializable<
   public toAmino(): MsgRemoveMarketAuthorities.Amino {
     const { remove_addresses, admin } = this
     return {
-      type: 'slinky/x/marketmap/MsgRemoveMarketAuthorities',
+      type: 'connect/x/marketmap/MsgRemoveMarketAuthorities',
       value: {
         remove_addresses,
         admin,
@@ -49,7 +49,7 @@ export class MsgRemoveMarketAuthorities extends JSONSerializable<
   public toData(): MsgRemoveMarketAuthorities.Data {
     const { remove_addresses, admin } = this
     return {
-      '@type': '/slinky.marketmap.v1.MsgRemoveMarketAuthorities',
+      '@type': '/connect.marketmap.v2.MsgRemoveMarketAuthorities',
       remove_addresses,
       admin,
     }
@@ -71,7 +71,7 @@ export class MsgRemoveMarketAuthorities extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.marketmap.v1.MsgRemoveMarketAuthorities',
+      typeUrl: '/connect.marketmap.v2.MsgRemoveMarketAuthorities',
       value: MsgRemoveMarketAuthorities_pb.encode(this.toProto()).finish(),
     })
   }
@@ -85,7 +85,7 @@ export class MsgRemoveMarketAuthorities extends JSONSerializable<
 
 export namespace MsgRemoveMarketAuthorities {
   export interface Amino {
-    type: 'slinky/x/marketmap/MsgRemoveMarketAuthorities'
+    type: 'connect/x/marketmap/MsgRemoveMarketAuthorities'
     value: {
       remove_addresses: AccAddress[]
       admin: AccAddress
@@ -93,7 +93,7 @@ export namespace MsgRemoveMarketAuthorities {
   }
 
   export interface Data {
-    '@type': '/slinky.marketmap.v1.MsgRemoveMarketAuthorities'
+    '@type': '/connect.marketmap.v2.MsgRemoveMarketAuthorities'
     remove_addresses: AccAddress[]
     admin: AccAddress
   }

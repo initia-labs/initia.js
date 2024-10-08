@@ -4,13 +4,8 @@ import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 export interface ChannelState {
   port_id: string
   channel_id: string
-  halt_state: HaltState
+  admin: string
   relayers: string[]
-}
-
-export interface HaltState {
-  halted: boolean
-  halted_by: string
 }
 
 export class IbcPermAPI extends BaseAPI {

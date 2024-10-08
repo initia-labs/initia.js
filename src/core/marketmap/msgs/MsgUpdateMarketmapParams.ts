@@ -2,7 +2,7 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MarketmapParams } from '../MarketmapParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgParams as MsgParams_pb } from '@initia/initia.proto/slinky/marketmap/v1/tx'
+import { MsgParams as MsgParams_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 
 export class MsgUpdateMarketmapParams extends JSONSerializable<
   MsgUpdateMarketmapParams.Amino,
@@ -35,7 +35,7 @@ export class MsgUpdateMarketmapParams extends JSONSerializable<
   public toAmino(): MsgUpdateMarketmapParams.Amino {
     const { authority, params } = this
     return {
-      type: 'slinky/x/marketmap/MsgParams',
+      type: 'connect/x/marketmap/MsgParams',
       value: {
         authority,
         params: params.toAmino(),
@@ -56,7 +56,7 @@ export class MsgUpdateMarketmapParams extends JSONSerializable<
   public toData(): MsgUpdateMarketmapParams.Data {
     const { authority, params } = this
     return {
-      '@type': '/slinky.marketmap.v1.MsgParams',
+      '@type': '/connect.marketmap.v2.MsgParams',
       authority,
       params: params.toData(),
     }
@@ -81,7 +81,7 @@ export class MsgUpdateMarketmapParams extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/slinky.marketmap.v1.MsgParams',
+      typeUrl: '/connect.marketmap.v2.MsgParams',
       value: MsgParams_pb.encode(this.toProto()).finish(),
     })
   }
@@ -93,7 +93,7 @@ export class MsgUpdateMarketmapParams extends JSONSerializable<
 
 export namespace MsgUpdateMarketmapParams {
   export interface Amino {
-    type: 'slinky/x/marketmap/MsgParams'
+    type: 'connect/x/marketmap/MsgParams'
     value: {
       authority: AccAddress
       params: MarketmapParams.Amino
@@ -101,7 +101,7 @@ export namespace MsgUpdateMarketmapParams {
   }
 
   export interface Data {
-    '@type': '/slinky.marketmap.v1.MsgParams'
+    '@type': '/connect.marketmap.v2.MsgParams'
     authority: AccAddress
     params: MarketmapParams.Data
   }

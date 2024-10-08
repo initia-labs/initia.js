@@ -5,7 +5,7 @@ import { MsgDeleteOutput } from './MsgDeleteOutput'
 import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit'
 import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal'
 import { MsgUpdateProposer } from './MsgUpdateProposer'
-import { MsgUpdateChallengers } from './MsgUpdateChallengers'
+import { MsgUpdateChallenger } from './MsgUpdateChallenger'
 import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo'
 import { MsgUpdateOracleConfig } from './MsgUpdateOracleConfig'
 import { MsgUpdateMetadata } from './MsgUpdateMetadata'
@@ -18,7 +18,7 @@ export * from './MsgDeleteOutput'
 export * from './MsgInitiateTokenDeposit'
 export * from './MsgFinalizeTokenWithdrawal'
 export * from './MsgUpdateProposer'
-export * from './MsgUpdateChallengers'
+export * from './MsgUpdateChallenger'
 export * from './MsgUpdateBatchInfo'
 export * from './MsgUpdateOracleConfig'
 export * from './MsgUpdateMetadata'
@@ -32,7 +32,7 @@ export type OphostMsg =
   | MsgInitiateTokenDeposit
   | MsgFinalizeTokenWithdrawal
   | MsgUpdateProposer
-  | MsgUpdateChallengers
+  | MsgUpdateChallenger
   | MsgUpdateBatchInfo
   | MsgUpdateOracleConfig
   | MsgUpdateMetadata
@@ -47,7 +47,7 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Amino
     | MsgFinalizeTokenWithdrawal.Amino
     | MsgUpdateProposer.Amino
-    | MsgUpdateChallengers.Amino
+    | MsgUpdateChallenger.Amino
     | MsgUpdateBatchInfo.Amino
     | MsgUpdateOracleConfig.Amino
     | MsgUpdateMetadata.Amino
@@ -61,7 +61,7 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Data
     | MsgFinalizeTokenWithdrawal.Data
     | MsgUpdateProposer.Data
-    | MsgUpdateChallengers.Data
+    | MsgUpdateChallenger.Data
     | MsgUpdateBatchInfo.Data
     | MsgUpdateOracleConfig.Data
     | MsgUpdateMetadata.Data
@@ -75,7 +75,7 @@ export namespace OphostMsg {
     | MsgInitiateTokenDeposit.Proto
     | MsgFinalizeTokenWithdrawal.Proto
     | MsgUpdateProposer.Proto
-    | MsgUpdateChallengers.Proto
+    | MsgUpdateChallenger.Proto
     | MsgUpdateBatchInfo.Proto
     | MsgUpdateOracleConfig.Proto
     | MsgUpdateMetadata.Proto

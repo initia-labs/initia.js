@@ -1,12 +1,12 @@
 import { JSONSerializable } from '../../../../../util/json'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgSetPermissionedRelayers as MsgSetPermissionedRelayers_pb } from '@initia/initia.proto/ibc/applications/perm/v1/tx'
+import { MsgUpdatePermissionedRelayers as MsgUpdatePermissionedRelayers_pb } from '@initia/initia.proto/ibc/applications/perm/v1/tx'
 
-export class MsgSetPermissionedRelayers extends JSONSerializable<
-  MsgSetPermissionedRelayers.Amino,
-  MsgSetPermissionedRelayers.Data,
-  MsgSetPermissionedRelayers.Proto
+export class MsgUpdatePermissionedRelayers extends JSONSerializable<
+  MsgUpdatePermissionedRelayers.Amino,
+  MsgUpdatePermissionedRelayers.Data,
+  MsgUpdatePermissionedRelayers.Proto
 > {
   /**
    * @param authority the address that controls the module
@@ -24,12 +24,12 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
   }
 
   public static fromAmino(
-    data: MsgSetPermissionedRelayers.Amino
-  ): MsgSetPermissionedRelayers {
+    data: MsgUpdatePermissionedRelayers.Amino
+  ): MsgUpdatePermissionedRelayers {
     const {
       value: { authority, channel_id, port_id, relayers },
     } = data
-    return new MsgSetPermissionedRelayers(
+    return new MsgUpdatePermissionedRelayers(
       authority,
       channel_id,
       port_id,
@@ -37,10 +37,10 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
     )
   }
 
-  public toAmino(): MsgSetPermissionedRelayers.Amino {
+  public toAmino(): MsgUpdatePermissionedRelayers.Amino {
     const { authority, channel_id, port_id, relayers } = this
     return {
-      type: 'perm/MsgSetPermissionedRelayers',
+      type: 'ibc-perm/MsgUpdatePermissionedRelayers',
       value: {
         authority,
         channel_id,
@@ -51,10 +51,10 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
   }
 
   public static fromData(
-    data: MsgSetPermissionedRelayers.Data
-  ): MsgSetPermissionedRelayers {
+    data: MsgUpdatePermissionedRelayers.Data
+  ): MsgUpdatePermissionedRelayers {
     const { authority, channel_id, port_id, relayers } = data
-    return new MsgSetPermissionedRelayers(
+    return new MsgUpdatePermissionedRelayers(
       authority,
       channel_id,
       port_id,
@@ -62,10 +62,10 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
     )
   }
 
-  public toData(): MsgSetPermissionedRelayers.Data {
+  public toData(): MsgUpdatePermissionedRelayers.Data {
     const { authority, channel_id, port_id, relayers } = this
     return {
-      '@type': '/ibc.applications.perm.v1.MsgSetPermissionedRelayers',
+      '@type': '/ibc.applications.perm.v1.MsgUpdatePermissionedRelayers',
       authority,
       channel_id,
       port_id,
@@ -74,9 +74,9 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
   }
 
   public static fromProto(
-    data: MsgSetPermissionedRelayers.Proto
-  ): MsgSetPermissionedRelayers {
-    return new MsgSetPermissionedRelayers(
+    data: MsgUpdatePermissionedRelayers.Proto
+  ): MsgUpdatePermissionedRelayers {
+    return new MsgUpdatePermissionedRelayers(
       data.authority,
       data.channelId,
       data.portId,
@@ -84,9 +84,9 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
     )
   }
 
-  public toProto(): MsgSetPermissionedRelayers.Proto {
+  public toProto(): MsgUpdatePermissionedRelayers.Proto {
     const { authority, channel_id, port_id, relayers } = this
-    return MsgSetPermissionedRelayers_pb.fromPartial({
+    return MsgUpdatePermissionedRelayers_pb.fromPartial({
       authority,
       channelId: channel_id,
       portId: port_id,
@@ -96,21 +96,21 @@ export class MsgSetPermissionedRelayers extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/ibc.applications.perm.v1.MsgSetPermissionedRelayers',
-      value: MsgSetPermissionedRelayers_pb.encode(this.toProto()).finish(),
+      typeUrl: '/ibc.applications.perm.v1.MsgUpdatePermissionedRelayers',
+      value: MsgUpdatePermissionedRelayers_pb.encode(this.toProto()).finish(),
     })
   }
 
-  public static unpackAny(msgAny: Any): MsgSetPermissionedRelayers {
-    return MsgSetPermissionedRelayers.fromProto(
-      MsgSetPermissionedRelayers_pb.decode(msgAny.value)
+  public static unpackAny(msgAny: Any): MsgUpdatePermissionedRelayers {
+    return MsgUpdatePermissionedRelayers.fromProto(
+      MsgUpdatePermissionedRelayers_pb.decode(msgAny.value)
     )
   }
 }
 
-export namespace MsgSetPermissionedRelayers {
+export namespace MsgUpdatePermissionedRelayers {
   export interface Amino {
-    type: 'perm/MsgSetPermissionedRelayers'
+    type: 'ibc-perm/MsgUpdatePermissionedRelayers'
     value: {
       authority: AccAddress
       channel_id: string
@@ -120,12 +120,12 @@ export namespace MsgSetPermissionedRelayers {
   }
 
   export interface Data {
-    '@type': '/ibc.applications.perm.v1.MsgSetPermissionedRelayers'
+    '@type': '/ibc.applications.perm.v1.MsgUpdatePermissionedRelayers'
     authority: AccAddress
     channel_id: string
     port_id: string
     relayers: string[]
   }
 
-  export type Proto = MsgSetPermissionedRelayers_pb
+  export type Proto = MsgUpdatePermissionedRelayers_pb
 }

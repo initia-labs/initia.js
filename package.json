@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "0.2.16",
+  "version": "0.2.17",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -57,15 +57,15 @@
     "tsconfig-paths-webpack-plugin": "^4.0.0",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.13.1",
-    "vite": "^5.4.3",
-    "vite-plugin-dts": "^4.2.1",
-    "webpack": "^5.74.0",
+    "vite": "^5.4.8",
+    "vite-plugin-dts": "^4.2.3",
+    "webpack": "^5.94.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
-    "@initia/initia.proto": "^0.2.2",
-    "@initia/opinit.proto": "^0.0.9",
+    "@initia/initia.proto": "^0.2.3",
+    "@initia/opinit.proto": "^0.0.10",
     "@ledgerhq/hw-transport": "^6.27.12",
     "@ledgerhq/hw-transport-webhid": "^6.27.12",
     "@ledgerhq/hw-transport-webusb": "^6.27.12",

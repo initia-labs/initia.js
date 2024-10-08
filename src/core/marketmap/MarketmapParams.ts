@@ -1,6 +1,6 @@
 import { AccAddress } from '../bech32'
 import { JSONSerializable } from '../../util/json'
-import { Params as Params_pb } from '@initia/initia.proto/slinky/marketmap/v1/params'
+import { Params as Params_pb } from '@initia/initia.proto/connect/marketmap/v2/params'
 
 export class MarketmapParams extends JSONSerializable<
   MarketmapParams.Amino,
