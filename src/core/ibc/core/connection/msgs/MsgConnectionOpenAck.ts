@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgConnectionOpenAck as MsgConnectionOpenAck_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
@@ -115,9 +116,9 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       proto.version ? IbcVersion.fromProto(proto.version) : undefined,
       proto.clientState,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
-      Buffer.from(proto.proofTry).toString('base64'),
-      Buffer.from(proto.proofClient).toString('base64'),
-      Buffer.from(proto.proofConsensus).toString('base64'),
+      base64FromBytes(proto.proofTry),
+      base64FromBytes(proto.proofClient),
+      base64FromBytes(proto.proofConsensus),
       proto.consensusHeight
         ? Height.fromProto(proto.consensusHeight)
         : undefined,
@@ -144,9 +145,9 @@ export class MsgConnectionOpenAck extends JSONSerializable<
       version: version?.toProto(),
       clientState: client_state,
       proofHeight: proof_height?.toProto(),
-      proofTry: Buffer.from(proof_try, 'base64'),
-      proofClient: Buffer.from(proof_client, 'base64'),
-      proofConsensus: Buffer.from(proof_consensus, 'base64'),
+      proofTry: bytesFromBase64(proof_try),
+      proofClient: bytesFromBase64(proof_client),
+      proofConsensus: bytesFromBase64(proof_consensus),
       consensusHeight: consensus_height?.toProto(),
       signer,
     })

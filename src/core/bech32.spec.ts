@@ -5,6 +5,7 @@ import {
   ValPubKey,
   ValConsAddress,
 } from './bech32'
+import { bytesFromUtf8 } from '../util/polyfill'
 import { bech32 } from 'bech32'
 
 describe('AccAddress', () => {
@@ -21,7 +22,7 @@ describe('AccAddress', () => {
       AccAddress.validate('cosmos176m2p8l3fps3dal7h8gf9jvrv98tu3rqfdht86')
     ).toBe(false)
 
-    const words = bech32.toWords(Buffer.from('foobar', 'utf8'))
+    const words = bech32.toWords(bytesFromUtf8('foobar'))
     const badAddress = bech32.encode('init', words)
 
     expect(AccAddress.validate(badAddress)).toBe(false)
@@ -41,7 +42,7 @@ describe('AccAddress', () => {
 
 describe('ValAddress', () => {
   it('validates validator address', () => {
-    const words = bech32.toWords(Buffer.from('foobar', 'utf8'))
+    const words = bech32.toWords(bytesFromUtf8('foobar'))
     const badAddress = bech32.encode('initvaloper', words)
 
     expect(ValAddress.validate(badAddress)).toBe(false)
@@ -66,7 +67,7 @@ describe('AccPubKey', () => {
       )
     ).toBe(false)
 
-    const words = bech32.toWords(Buffer.from('foobar', 'utf8'))
+    const words = bech32.toWords(bytesFromUtf8('foobar'))
     const badPubKey = bech32.encode('initpub', words)
 
     expect(AccPubKey.validate(badPubKey)).toBe(false)
@@ -90,7 +91,7 @@ describe('ValPubKey', () => {
       )
     ).toBe(true)
 
-    const words = bech32.toWords(Buffer.from('foobar', 'utf8'))
+    const words = bech32.toWords(bytesFromUtf8('foobar'))
     const badPubKey = bech32.encode('initpub', words)
 
     expect(ValPubKey.validate(badPubKey)).toBe(false)

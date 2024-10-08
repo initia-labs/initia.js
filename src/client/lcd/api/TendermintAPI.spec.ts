@@ -1,6 +1,7 @@
 import { APIRequester } from '../APIRequester'
 import { TendermintAPI } from './TendermintAPI'
 import { Tx } from '../../../core'
+import { bytesFromBase64 } from '../../../util/polyfill'
 import { Tx as Tx_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx'
 
 const c = new APIRequester('https://lcd.devnet.initia.xyz/')
@@ -11,7 +12,7 @@ describe('TendermintAPI', () => {
     const blockInfo = await tendermint.blockInfo(1)
     if (blockInfo.block.data.txs != null) {
       blockInfo.block.data.txs.every((txBytes) => {
-        const txProto = Tx_pb.decode(Buffer.from(txBytes, 'base64'))
+        const txProto = Tx_pb.decode(bytesFromBase64(txBytes))
         expect(Tx.fromProto(txProto)).toBeDefined()
       })
     }

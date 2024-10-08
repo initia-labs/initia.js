@@ -50,17 +50,17 @@ export class MnemonicKey extends RawKey {
    * ### Providing a mnemonic
    *
    * ```ts
-   * import { MnemonicKey } from 'initia.js';
+   * import { MnemonicKey } from 'initia.js'
    *
-   * const mk = new MnemonicKey({ mnemonic: '...' });
-   * console.log(mk.accAddress);
+   * const mk = new MnemonicKey({ mnemonic: '...' })
+   * console.log(mk.accAddress)
    * ```
    *
    * ### Generating a random mnemonic
    *
    * ```ts
-   * const mk2 = new MnemonicKey();
-   * console.log(mk2.mnemonic);
+   * const mk2 = new MnemonicKey()
+   * console.log(mk2.mnemonic)
    * ```
    *
    * @param options
@@ -74,8 +74,7 @@ export class MnemonicKey extends RawKey {
     if (mnemonic === undefined) {
       mnemonic = bip39.generateMnemonic(256)
     }
-    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic)
-    const masterKey = bip32.fromSeed(seed)
+    const masterKey = bip32.fromSeed(bip39.mnemonicToSeedSync(mnemonic))
     const hdPathInitia = `m/44'/${coinType}'/${account}'/0/${index}`
     const initiaHD = masterKey.derivePath(hdPathInitia)
     const privateKey = initiaHD.privateKey
@@ -84,7 +83,7 @@ export class MnemonicKey extends RawKey {
       throw new Error('Failed to derive key pair')
     }
 
-    super(privateKey)
+    super(Uint8Array.from(privateKey))
     this.mnemonic = mnemonic
   }
 }

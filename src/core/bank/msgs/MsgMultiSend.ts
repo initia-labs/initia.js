@@ -19,7 +19,7 @@ import {
  * Example:
  *
  * ```ts
- * import { MsgMultiSend } from "@initia/initia.js";
+ * import { MsgMultiSend } from "@initia/initia.js"
  *
  * const inputs: MsgMultiSend.Input[] = [
  *    new MsgMultiSend.Input(
@@ -31,7 +31,7 @@ import {
  *    new MsgMultiSend.Input('init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfad', [
  *      new Coin('uinit', 123123),
  *    ]),
- *  ];
+ *  ]
  *   const outputs: MsgMultiSend.Output[] = [
  *    new MsgMultiSend.Output(
  *      'init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfad',
@@ -44,8 +44,8 @@ import {
  *        uinit: 123123,
  *      }
  *    ),
- *  ];
- *  const multisend = new MsgMultiSend(inputs, outputs);
+ *  ]
+ *  const multisend = new MsgMultiSend(inputs, outputs)
  * ```
  */
 export class MsgMultiSend extends JSONSerializable<

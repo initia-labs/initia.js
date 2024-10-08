@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgScriptJSON as MsgScriptJSON_pb } from '@initia/initia.proto/initia/move/v1/tx'
@@ -68,7 +69,7 @@ export class MsgScriptJSON extends JSONSerializable<
   public static fromProto(data: MsgScriptJSON.Proto): MsgScriptJSON {
     return new MsgScriptJSON(
       data.sender,
-      Buffer.from(data.codeBytes).toString('base64'),
+      base64FromBytes(data.codeBytes),
       data.typeArgs,
       data.args
     )
@@ -78,7 +79,7 @@ export class MsgScriptJSON extends JSONSerializable<
     const { sender, code_bytes, type_args, args } = this
     return MsgScriptJSON_pb.fromPartial({
       sender,
-      codeBytes: Buffer.from(code_bytes, 'base64'),
+      codeBytes: bytesFromBase64(code_bytes),
       typeArgs: type_args,
       args,
     })

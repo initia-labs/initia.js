@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateMetadata as MsgUpdateMetadata_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -69,7 +70,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
     return new MsgUpdateMetadata(
       data.authority,
       data.bridgeId.toNumber(),
-      Buffer.from(data.metadata).toString('base64')
+      base64FromBytes(data.metadata)
     )
   }
 
@@ -78,7 +79,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
     return MsgUpdateMetadata_pb.fromPartial({
       authority,
       bridgeId: Long.fromNumber(bridge_id),
-      metadata: Buffer.from(metadata, 'base64'),
+      metadata: bytesFromBase64(metadata),
     })
   }
 

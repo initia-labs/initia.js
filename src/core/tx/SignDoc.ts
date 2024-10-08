@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { base64FromBytes } from '../../util/polyfill'
 import { Fee } from './Fee'
 import { Msg } from '../Msg'
 import Long from 'long'
@@ -63,8 +64,8 @@ export class SignDoc extends JSONSerializable<
   public toData(): SignDoc.Data {
     const { account_number, chain_id, tx_body, auth_info } = this
     return {
-      body_bytes: Buffer.from(tx_body.toBytes()).toString('base64'),
-      auth_info_bytes: Buffer.from(auth_info.toBytes()).toString('base64'),
+      body_bytes: base64FromBytes(tx_body.toBytes()),
+      auth_info_bytes: base64FromBytes(auth_info.toBytes()),
       account_number: account_number.toFixed(),
       chain_id,
     }

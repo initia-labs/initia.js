@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { utf8FromBytes, bytesFromUtf8 } from '../../util/polyfill'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing'
 import Long from 'long'
@@ -106,10 +107,10 @@ export class SlashingParams extends JSONSerializable<
   public static fromProto(data: SlashingParams.Proto): SlashingParams {
     return new SlashingParams(
       data.signedBlocksWindow.toNumber(),
-      Number.parseFloat(data.minSignedPerWindow.toString()),
+      Number.parseFloat(utf8FromBytes(data.minSignedPerWindow)),
       Duration.fromProto(data.downtimeJailDuration as Duration.Proto),
-      Number.parseFloat(data.slashFractionDoubleSign.toString()),
-      Number.parseFloat(data.slashFractionDowntime.toString())
+      Number.parseFloat(utf8FromBytes(data.slashFractionDoubleSign)),
+      Number.parseFloat(utf8FromBytes(data.slashFractionDowntime))
     )
   }
 
@@ -124,12 +125,12 @@ export class SlashingParams extends JSONSerializable<
 
     return Params_pb.fromPartial({
       signedBlocksWindow: Long.fromNumber(signed_blocks_window),
-      minSignedPerWindow: Buffer.from(min_signed_per_window.toString()),
+      minSignedPerWindow: bytesFromUtf8(min_signed_per_window.toString()),
       downtimeJailDuration: downtime_jail_duration.toProto(),
-      slashFractionDoubleSign: Buffer.from(
+      slashFractionDoubleSign: bytesFromUtf8(
         slash_fraction_double_sign.toString()
       ),
-      slashFractionDowntime: Buffer.from(slash_fraction_downtime.toString()),
+      slashFractionDowntime: bytesFromUtf8(slash_fraction_downtime.toString()),
     })
   }
 }

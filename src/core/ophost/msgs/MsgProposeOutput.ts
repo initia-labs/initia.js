@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { MsgProposeOutput as MsgProposeOutput_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -91,7 +92,7 @@ export class MsgProposeOutput extends JSONSerializable<
       data.bridgeId.toNumber(),
       data.outputIndex.toNumber(),
       data.l2BlockNumber.toNumber(),
-      Buffer.from(data.outputRoot).toString('base64')
+      base64FromBytes(data.outputRoot)
     )
   }
 
@@ -103,7 +104,7 @@ export class MsgProposeOutput extends JSONSerializable<
       bridgeId: Long.fromNumber(bridge_id),
       outputIndex: Long.fromNumber(output_index),
       l2BlockNumber: Long.fromNumber(l2_block_number),
-      outputRoot: output_root ? Buffer.from(output_root, 'base64') : undefined,
+      outputRoot: output_root ? bytesFromBase64(output_root) : undefined,
     })
   }
 

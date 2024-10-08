@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgStoreCode as MsgStoreCode_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
@@ -71,7 +72,7 @@ export class MsgStoreCode extends JSONSerializable<
   public static fromProto(data: MsgStoreCode.Proto): MsgStoreCode {
     return new MsgStoreCode(
       data.sender,
-      Buffer.from(data.wasmByteCode).toString('base64'),
+      base64FromBytes(data.wasmByteCode),
       data.instantiatePermission
         ? AccessConfig.fromProto(data.instantiatePermission)
         : undefined
@@ -82,7 +83,7 @@ export class MsgStoreCode extends JSONSerializable<
     const { sender, wasm_byte_code, instantiate_permission } = this
     return MsgStoreCode_pb.fromPartial({
       sender,
-      wasmByteCode: Buffer.from(wasm_byte_code, 'base64'),
+      wasmByteCode: bytesFromBase64(wasm_byte_code),
       instantiatePermission: instantiate_permission?.toProto(),
     })
   }

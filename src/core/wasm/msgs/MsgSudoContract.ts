@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSudoContract as MsgSudoContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
@@ -59,7 +60,7 @@ export class MsgSudoContract extends JSONSerializable<
     return new MsgSudoContract(
       data.authority,
       data.contract,
-      Buffer.from(data.msg).toString('base64')
+      base64FromBytes(data.msg)
     )
   }
 
@@ -68,7 +69,7 @@ export class MsgSudoContract extends JSONSerializable<
     return MsgSudoContract_pb.fromPartial({
       authority,
       contract,
-      msg: Buffer.from(msg, 'base64'),
+      msg: bytesFromBase64(msg),
     })
   }
 

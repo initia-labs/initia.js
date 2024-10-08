@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { MsgInitiateTokenDeposit as MsgInitiateTokenDeposit_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
@@ -89,9 +90,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       msgProto.bridgeId.toNumber(),
       msgProto.to,
       Coin.fromProto(msgProto.amount as Coin),
-      msgProto.data.length
-        ? Buffer.from(msgProto.data).toString('base64')
-        : undefined
+      msgProto.data.length ? base64FromBytes(msgProto.data) : undefined
     )
   }
 
@@ -102,7 +101,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       bridgeId: Long.fromNumber(bridge_id),
       to,
       amount: amount.toProto(),
-      data: data ? Buffer.from(data, 'base64') : undefined,
+      data: data ? bytesFromBase64(data) : undefined,
     })
   }
 

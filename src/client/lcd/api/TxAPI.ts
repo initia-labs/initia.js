@@ -12,7 +12,8 @@ import {
   TxLog,
   Event,
 } from '../../../core'
-import { hashToHex } from '../../../util'
+import { hashToHex } from '../../../util/hash'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { LCDClient } from '../LCDClient'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
@@ -372,7 +373,7 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction to encode
    */
   public static encode(tx: Tx): string {
-    return Buffer.from(tx.toBytes()).toString('base64')
+    return base64FromBytes(tx.toBytes())
   }
 
   /**
@@ -380,7 +381,7 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction string to decode
    */
   public static decode(encodedTx: string): Tx {
-    return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'))
+    return Tx.fromBytes(bytesFromBase64(encodedTx))
   }
 
   /**

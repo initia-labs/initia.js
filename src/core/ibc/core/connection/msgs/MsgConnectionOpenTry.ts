@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgConnectionOpenTry as MsgConnectionOpenTry_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
@@ -76,9 +77,9 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       Number.parseInt(delay_period),
       counterparty_versions.map((cv) => IbcVersion.fromData(cv)),
       proof_height ? Height.fromData(proof_height) : undefined,
-      Buffer.from(proof_init).toString('base64'),
-      Buffer.from(proof_client).toString('base64'),
-      Buffer.from(proof_consensus).toString('base64'),
+      proof_init,
+      proof_client,
+      proof_consensus,
       consensus_height ? Height.fromData(consensus_height) : undefined,
       signer
     )
@@ -126,9 +127,9 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       proto.delayPeriod.toNumber(),
       proto.counterpartyVersions.map((cv) => IbcVersion.fromProto(cv)),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
-      Buffer.from(proto.proofInit).toString('base64'),
-      Buffer.from(proto.proofClient).toString('base64'),
-      Buffer.from(proto.proofConsensus).toString('base64'),
+      base64FromBytes(proto.proofInit),
+      base64FromBytes(proto.proofClient),
+      base64FromBytes(proto.proofConsensus),
       proto.consensusHeight
         ? Height.fromProto(proto.consensusHeight)
         : undefined,
@@ -157,9 +158,9 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       delayPeriod: Long.fromNumber(delay_period),
       counterpartyVersions: counterparty_versions.map((cv) => cv.toProto()),
       proofHeight: proof_height?.toProto(),
-      proofInit: Buffer.from(proof_init, 'base64'),
-      proofClient: Buffer.from(proof_client, 'base64'),
-      proofConsensus: Buffer.from(proof_consensus, 'base64'),
+      proofInit: bytesFromBase64(proof_init),
+      proofClient: bytesFromBase64(proof_client),
+      proofConsensus: bytesFromBase64(proof_consensus),
       consensusHeight: consensus_height?.toProto(),
       signer,
     })

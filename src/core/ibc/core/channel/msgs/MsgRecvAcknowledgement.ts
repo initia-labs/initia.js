@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgAcknowledgement as MsgAcknowledgement_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -64,8 +65,8 @@ export class MsgAcknowledgement extends JSONSerializable<
   public static fromProto(proto: MsgAcknowledgement.Proto): MsgAcknowledgement {
     return new MsgAcknowledgement(
       proto.packet ? Packet.fromProto(proto.packet) : undefined,
-      Buffer.from(proto.acknowledgement).toString('base64'),
-      Buffer.from(proto.proofAcked).toString('base64'),
+      base64FromBytes(proto.acknowledgement),
+      base64FromBytes(proto.proofAcked),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -75,8 +76,8 @@ export class MsgAcknowledgement extends JSONSerializable<
     const { packet, acknowledgement, proof_acked, proof_height, signer } = this
     return MsgAcknowledgement_pb.fromPartial({
       packet: packet?.toProto(),
-      acknowledgement: Buffer.from(acknowledgement, 'base64'),
-      proofAcked: Buffer.from(proof_acked, 'base64'),
+      acknowledgement: bytesFromBase64(acknowledgement),
+      proofAcked: bytesFromBase64(proof_acked),
       proofHeight: proof_height?.toProto(),
       signer,
     })

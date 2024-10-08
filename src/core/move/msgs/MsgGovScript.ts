@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovScript as MsgGovScript_pb } from '@initia/initia.proto/initia/move/v1/tx'
@@ -79,9 +80,9 @@ export class MsgGovScript extends JSONSerializable<
     return new MsgGovScript(
       data.authority,
       data.sender,
-      Buffer.from(data.codeBytes).toString('base64'),
+      base64FromBytes(data.codeBytes),
       data.typeArgs,
-      data.args.map((arg) => Buffer.from(arg).toString('base64'))
+      data.args.map(base64FromBytes)
     )
   }
 
@@ -90,9 +91,9 @@ export class MsgGovScript extends JSONSerializable<
     return MsgGovScript_pb.fromPartial({
       authority,
       sender,
-      codeBytes: Buffer.from(code_bytes, 'base64'),
+      codeBytes: bytesFromBase64(code_bytes),
       typeArgs: type_args,
-      args: args.map((arg) => Buffer.from(arg, 'base64')),
+      args: args.map(bytesFromBase64),
     })
   }
 

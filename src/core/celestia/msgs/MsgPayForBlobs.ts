@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPayForBlobs as MsgPayForBlobs_pb } from '@initia/initia.proto/celestia/blob/v1/tx'
@@ -72,13 +73,9 @@ export class MsgPayForBlobs extends JSONSerializable<
   public static fromProto(data: MsgPayForBlobs.Proto): MsgPayForBlobs {
     return new MsgPayForBlobs(
       data.signer,
-      data.namespaces.map((namespace) =>
-        Buffer.from(namespace).toString('base64')
-      ),
+      data.namespaces.map(base64FromBytes),
       data.blobSizes,
-      data.shareCommitments.map((commitment) =>
-        Buffer.from(commitment).toString('base64')
-      ),
+      data.shareCommitments.map(base64FromBytes),
       data.shareVersions
     )
   }
@@ -93,13 +90,9 @@ export class MsgPayForBlobs extends JSONSerializable<
     } = this
     return MsgPayForBlobs_pb.fromPartial({
       signer,
-      namespaces: namespaces.map((namespace) =>
-        Buffer.from(namespace, 'base64')
-      ),
+      namespaces: namespaces.map(bytesFromBase64),
       blobSizes: blob_sizes,
-      shareCommitments: share_commitments.map((commitment) =>
-        Buffer.from(commitment, 'base64')
-      ),
+      shareCommitments: share_commitments.map(bytesFromBase64),
       shareVersions: share_versions,
     })
   }

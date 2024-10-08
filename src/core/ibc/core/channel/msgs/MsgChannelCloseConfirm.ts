@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgChannelCloseConfirm as MsgChannelCloseConfirm_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -69,7 +70,7 @@ export class MsgChannelCloseConfirm extends JSONSerializable<
     return new MsgChannelCloseConfirm(
       proto.portId,
       proto.channelId,
-      Buffer.from(proto.proofInit).toString('base64'),
+      base64FromBytes(proto.proofInit),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -80,7 +81,7 @@ export class MsgChannelCloseConfirm extends JSONSerializable<
     return MsgChannelCloseConfirm_pb.fromPartial({
       portId: port_id,
       channelId: channel_id,
-      proofInit: Buffer.from(proof_init, 'base64'),
+      proofInit: bytesFromBase64(proof_init),
       proofHeight: proof_height?.toProto(),
       signer,
     })

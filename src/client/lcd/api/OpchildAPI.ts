@@ -43,7 +43,7 @@ export class OpchildAPI extends BaseAPI {
       .get<{
         next_l1_sequence: string
       }>(`/opinit/opchild/v1/next_l1_sequence`, params)
-      .then((d) => parseInt(d.next_l1_sequence))
+      .then((d) => Number.parseInt(d.next_l1_sequence))
   }
 
   public async nextL2Sequence(params: APIParams = {}): Promise<number> {
@@ -51,7 +51,7 @@ export class OpchildAPI extends BaseAPI {
       .get<{
         next_l2_sequence: string
       }>(`/opinit/opchild/v1/next_l2_sequence`, params)
-      .then((d) => parseInt(d.next_l2_sequence))
+      .then((d) => Number.parseInt(d.next_l2_sequence))
   }
 
   public async baseDenom(

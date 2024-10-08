@@ -33,8 +33,8 @@ export class Height extends JSONSerializable<
   public static fromAmino(data: Height.Amino): Height {
     const { revision_number, revision_height } = data
     return new Height(
-      parseInt(revision_number ?? '0'),
-      parseInt(revision_height ?? '0')
+      Number.parseInt(revision_number ?? '0'),
+      Number.parseInt(revision_height ?? '0')
     )
   }
 

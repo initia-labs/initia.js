@@ -1,4 +1,5 @@
 import { bech32 } from 'bech32'
+import { bytesFromHex, hexFromBytes } from '../util/polyfill'
 
 /** `init-` prefixed account address */
 export type AccAddress = string
@@ -58,7 +59,7 @@ export namespace AccAddress {
    */
   export function toHex(address: AccAddress): string {
     const vals = bech32.decode(address)
-    return '0x' + Buffer.from(bech32.fromWords(vals.words)).toString('hex')
+    return '0x' + hexFromBytes(new Uint8Array(bech32.fromWords(vals.words)))
   }
 
   /**
@@ -72,19 +73,19 @@ export namespace AccAddress {
     if (hex.length <= 40) {
       return bech32.encode(
         'init',
-        bech32.toWords(Buffer.from(hex.padStart(40, '0'), 'hex'))
+        bech32.toWords(bytesFromHex(hex.padStart(40, '0')))
       )
     } else {
       return bech32.encode(
         'init',
-        bech32.toWords(Buffer.from(hex.padStart(64, '0'), 'hex'))
+        bech32.toWords(bytesFromHex(hex.padStart(64, '0')))
       )
     }
   }
 
-  export function toBuffer(address: AccAddress): Buffer {
+  export function toBytes(address: AccAddress): Uint8Array {
     const vals = bech32.decode(address)
-    return Buffer.from(bech32.fromWords(vals.words))
+    return new Uint8Array(bech32.fromWords(vals.words))
   }
 }
 

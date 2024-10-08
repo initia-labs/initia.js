@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -60,7 +61,7 @@ export class MsgAuctionBid extends JSONSerializable<
     return new MsgAuctionBid(
       data.bidder,
       Coin.fromProto(data.bid as Coin),
-      data.transactions.map((tx) => Buffer.from(tx).toString('base64'))
+      data.transactions.map(base64FromBytes)
     )
   }
 
@@ -69,7 +70,7 @@ export class MsgAuctionBid extends JSONSerializable<
     return MsgAuctionBid_pb.fromPartial({
       bidder,
       bid: bid.toProto(),
-      transactions: transactions.map((tx) => Buffer.from(tx, 'base64')),
+      transactions: transactions.map(bytesFromBase64),
     })
   }
 

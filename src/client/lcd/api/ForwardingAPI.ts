@@ -39,8 +39,8 @@ export class ForwardingAPI extends BaseAPI {
         params
       )
       .then((d) => ({
-        num_of_accounts: parseInt(d.num_of_accounts),
-        num_of_forwards: parseInt(d.num_of_forwards),
+        num_of_accounts: Number.parseInt(d.num_of_accounts),
+        num_of_forwards: Number.parseInt(d.num_of_forwards),
         total_forwarded: Coin.fromData(d.total_forwarded),
       }))
   }

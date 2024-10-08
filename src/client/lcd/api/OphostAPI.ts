@@ -6,6 +6,7 @@ import {
   BridgeInfo,
   BatchInfoWithOutput,
 } from '../../../core'
+import { bytesFromHex, base64FromBytes } from '../../../util/polyfill'
 
 export interface TokenPair {
   l1_denom: string
@@ -150,7 +151,7 @@ export class OphostAPI extends BaseAPI {
         claimed: boolean
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/withdrawals/claimed/by_hash`, {
         ...params,
-        withdrawal_hash: Buffer.from(withdrawalHash, 'hex').toString('base64'),
+        withdrawal_hash: base64FromBytes(bytesFromHex(withdrawalHash)),
       })
       .then((d) => d.claimed)
   }
@@ -163,7 +164,7 @@ export class OphostAPI extends BaseAPI {
       .get<{
         next_l1_sequence: string
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/next_l1_sequence`, params)
-      .then((d) => parseInt(d.next_l1_sequence))
+      .then((d) => Number.parseInt(d.next_l1_sequence))
   }
 
   public async batchInfos(

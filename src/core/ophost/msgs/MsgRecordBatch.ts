@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { MsgRecordBatch as MsgRecordBatch_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -68,7 +69,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return new MsgRecordBatch(
       data.submitter,
       data.bridgeId.toNumber(),
-      Buffer.from(data.batchBytes).toString('base64')
+      base64FromBytes(data.batchBytes)
     )
   }
 
@@ -77,7 +78,7 @@ export class MsgRecordBatch extends JSONSerializable<
     return MsgRecordBatch_pb.fromPartial({
       submitter,
       bridgeId: Long.fromNumber(bridge_id),
-      batchBytes: batch_bytes ? Buffer.from(batch_bytes, 'base64') : undefined,
+      batchBytes: batch_bytes ? bytesFromBase64(batch_bytes) : undefined,
     })
   }
 

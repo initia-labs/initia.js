@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../util/polyfill'
 import { AccAddress } from '../bech32'
 import { Duration } from '../Duration'
 import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
@@ -138,7 +139,7 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
       data.submissionStartHeight.toNumber(),
       data.oracleEnabled,
-      Buffer.from(data.metadata).toString('base64')
+      base64FromBytes(data.metadata)
     )
   }
 
@@ -162,7 +163,7 @@ export class BridgeConfig extends JSONSerializable<
       finalizationPeriod: finalization_period.toProto(),
       submissionStartHeight: Long.fromNumber(submission_start_height),
       oracleEnabled: oracle_enabled,
-      metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
+      metadata: metadata ? bytesFromBase64(metadata) : undefined,
     })
   }
 }

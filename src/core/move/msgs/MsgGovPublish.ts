@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../util/polyfill'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovPublish as MsgGovPublish_pb } from '@initia/initia.proto/initia/move/v1/tx'
@@ -73,7 +74,7 @@ export class MsgGovPublish extends JSONSerializable<
     return new MsgGovPublish(
       proto.authority,
       proto.sender,
-      proto.codeBytes.map((code) => Buffer.from(code).toString('base64')),
+      proto.codeBytes.map(base64FromBytes),
       proto.upgradePolicy
     )
   }
@@ -83,7 +84,7 @@ export class MsgGovPublish extends JSONSerializable<
     return MsgGovPublish_pb.fromPartial({
       authority,
       sender,
-      codeBytes: code_bytes.map((code) => Buffer.from(code, 'base64')),
+      codeBytes: code_bytes.map(bytesFromBase64),
       upgradePolicy: upgrade_policy,
     })
   }

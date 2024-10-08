@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../util/polyfill'
 import { Blob as Blob_pb } from '@initia/initia.proto/celestia/blob/v1/blob'
 
 export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
@@ -47,8 +48,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
 
   public static fromProto(data: Blob.Proto): Blob {
     return new Blob(
-      Buffer.from(data.namespaceId).toString('base64'),
-      Buffer.from(data.data).toString('base64'),
+      base64FromBytes(data.namespaceId),
+      base64FromBytes(data.data),
       data.shareVersion,
       data.namespaceVersion
     )
@@ -57,8 +58,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
   public toProto(): Blob.Proto {
     const { namespace_id, data, share_version, namespace_version } = this
     return Blob_pb.fromPartial({
-      namespaceId: Buffer.from(namespace_id, 'base64'),
-      data: Buffer.from(data, 'base64'),
+      namespaceId: bytesFromBase64(namespace_id),
+      data: bytesFromBase64(data),
       shareVersion: share_version,
       namespaceVersion: namespace_version,
     })

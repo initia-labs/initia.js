@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../../../../util/json'
+import { base64FromBytes, bytesFromBase64 } from '../../../../../util/polyfill'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRecvPacket as MsgRecvPacket_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
@@ -60,7 +61,7 @@ export class MsgRecvPacket extends JSONSerializable<
   public static fromProto(proto: MsgRecvPacket.Proto): MsgRecvPacket {
     return new MsgRecvPacket(
       proto.packet ? Packet.fromProto(proto.packet) : undefined,
-      Buffer.from(proto.proofCommitment).toString('base64'),
+      base64FromBytes(proto.proofCommitment),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -70,7 +71,7 @@ export class MsgRecvPacket extends JSONSerializable<
     const { packet, proof_commitment, proof_height, signer } = this
     return MsgRecvPacket_pb.fromPartial({
       packet: packet?.toProto(),
-      proofCommitment: Buffer.from(proof_commitment, 'base64'),
+      proofCommitment: bytesFromBase64(proof_commitment),
       proofHeight: proof_height?.toProto(),
       signer,
     })
