@@ -14,7 +14,6 @@ export default defineConfig({
       external: [
         new RegExp('^@initia/.*'),
         new RegExp('^jscrypto.*'),
-        '@ledgerhq/hw-transport',
         '@mysten/bcs',
         'axios',
         'bech32',

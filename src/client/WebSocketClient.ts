@@ -1,4 +1,4 @@
-import { EventEmitter } from 'events'
+import { EventEmitter } from 'eventemitter3'
 import WebSocket from 'ws'
 import { hashToHex } from '../util/hash'
 
