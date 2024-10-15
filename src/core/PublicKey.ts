@@ -457,15 +457,18 @@ export class EthPublicKey extends JSONSerializable<
   // }
 
   public rawAddress(): Uint8Array {
-    const pubKey = secp256k1.publicKeyVerify(Buffer.from(this.key, 'base64'));
+    const pubKey = secp256k1.publicKeyVerify(Buffer.from(this.key, 'base64'))
     if (!pubKey) {
-      throw new Error('Invalid public key');
+      throw new Error('Invalid public key')
     }
 
     // Serialize the public key in uncompressed format (65 bytes)
-    const pubBytes = secp256k1.publicKeyConvert(Buffer.from(this.key, 'base64'), false);
+    const pubBytes = secp256k1.publicKeyConvert(
+      Buffer.from(this.key, 'base64'),
+      false
+    )
 
-    return keccak256(pubBytes.slice(1)).slice(12);
+    return keccak256(pubBytes.slice(1)).slice(12)
   }
 
   public address(): string {
