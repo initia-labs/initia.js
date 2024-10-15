@@ -1,9 +1,11 @@
+import * as secp256k1 from 'secp256k1'
 import { JSONSerializable } from '../util/json'
-import { sha256, ripemd160 } from '../util/hash'
+import { sha256, ripemd160, keccak256 } from '../util/hash'
 import { LegacyAminoPubKey as LegacyAminoPubKey_pb } from '@initia/initia.proto/cosmos/crypto/multisig/keys'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { PubKey as PubKey_pb } from '@initia/initia.proto/cosmos/crypto/secp256k1/keys'
 import { PubKey as ValConsPubKey_pb } from '@initia/initia.proto/cosmos/crypto/ed25519/keys'
+import { PubKey as EthPubKey_pb } from '@initia/initia.proto/initia/crypto/v1beta1/ethsecp256k1/keys'
 import { bech32 } from 'bech32'
 
 // As discussed in https://github.com/binance-chain/javascript-sdk/issues/163
@@ -11,10 +13,6 @@ import { bech32 } from 'bech32'
 // Last bytes is varint-encoded length prefix
 const pubkeyAminoPrefixSecp256k1 = Buffer.from(
   'eb5ae987' + '21' /* fixed length */,
-  'hex'
-)
-const pubkeyAminoPrefixEd25519 = Buffer.from(
-  '1624de64' + '20' /* fixed length */,
   'hex'
 )
 /** See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740 */
@@ -37,16 +35,19 @@ export type PublicKey =
   | SimplePublicKey
   | LegacyAminoMultisigPublicKey
   | ValConsPublicKey
+  | EthPublicKey
 
 export namespace PublicKey {
   export type Amino =
     | SimplePublicKey.Amino
     | LegacyAminoMultisigPublicKey.Amino
     | ValConsPublicKey.Amino
+    | EthPublicKey.Amino
   export type Data =
     | SimplePublicKey.Data
     | LegacyAminoMultisigPublicKey.Data
     | ValConsPublicKey.Data
+    | EthPublicKey.Data
   export type Proto = Any
 
   export function fromAmino(data: PublicKey.Amino): PublicKey {
@@ -57,6 +58,8 @@ export namespace PublicKey {
         return LegacyAminoMultisigPublicKey.fromAmino(data)
       case 'tendermint/PubKeyEd25519':
         return ValConsPublicKey.fromAmino(data)
+      case 'initia/PubKeyEthSecp256k1':
+        return EthPublicKey.fromAmino(data)
     }
   }
 
@@ -68,6 +71,8 @@ export namespace PublicKey {
         return LegacyAminoMultisigPublicKey.fromData(data)
       case '/cosmos.crypto.ed25519.PubKey':
         return ValConsPublicKey.fromData(data)
+      case '/initia.crypto.v1beta1.ethsecp256k1.PubKey':
+        return EthPublicKey.fromData(data)
     }
   }
 
@@ -79,6 +84,8 @@ export namespace PublicKey {
       return LegacyAminoMultisigPublicKey.unpackAny(pubkeyAny)
     } else if (typeUrl === '/cosmos.crypto.ed25519.PubKey') {
       return ValConsPublicKey.unpackAny(pubkeyAny)
+    } else if (typeUrl === '/initia.crypto.v1beta1.ethsecp256k1.PubKey') {
+      return EthPublicKey.unpackAny(pubkeyAny)
     }
 
     throw new Error(`Pubkey type ${typeUrl} not recognized`)
@@ -152,10 +159,6 @@ export class SimplePublicKey extends JSONSerializable<
   public address(): string {
     return bech32.encode('init', bech32.toWords(this.rawAddress()))
   }
-
-  public pubkeyAddress(): string {
-    return bech32.encode('initpub', bech32.toWords(this.encodeAminoPubkey()))
-  }
 }
 
 export namespace SimplePublicKey {
@@ -204,10 +207,6 @@ export class LegacyAminoMultisigPublicKey extends JSONSerializable<
 
   public address(): string {
     return bech32.encode('init', bech32.toWords(this.rawAddress()))
-  }
-
-  public pubkeyAddress(): string {
-    return bech32.encode('initpub', bech32.toWords(this.encodeAminoPubkey()))
   }
 
   public static fromAmino(
@@ -348,13 +347,6 @@ export class ValConsPublicKey extends JSONSerializable<
     return ValConsPublicKey.fromProto(ValConsPubKey_pb.decode(pubkeyAny.value))
   }
 
-  public encodeAminoPubkey(): Uint8Array {
-    return Buffer.concat([
-      pubkeyAminoPrefixEd25519,
-      Buffer.from(this.key, 'base64'),
-    ])
-  }
-
   public rawAddress(): Uint8Array {
     const pubkeyData = Buffer.from(this.key, 'base64')
     return sha256(pubkeyData).slice(0, 20)
@@ -362,13 +354,6 @@ export class ValConsPublicKey extends JSONSerializable<
 
   public address(): string {
     return bech32.encode('initvalcons', bech32.toWords(this.rawAddress()))
-  }
-
-  public pubkeyAddress(): string {
-    return bech32.encode(
-      'initvalconspub',
-      bech32.toWords(this.encodeAminoPubkey())
-    )
   }
 }
 
@@ -384,4 +369,90 @@ export namespace ValConsPublicKey {
   }
 
   export type Proto = ValConsPubKey_pb
+}
+
+export class EthPublicKey extends JSONSerializable<
+  EthPublicKey.Amino,
+  EthPublicKey.Data,
+  EthPublicKey.Proto
+> {
+  constructor(public key: string) {
+    super()
+  }
+
+  public static fromAmino(data: EthPublicKey.Amino): EthPublicKey {
+    return new EthPublicKey(data.value)
+  }
+
+  public toAmino(): EthPublicKey.Amino {
+    return {
+      type: 'initia/PubKeyEthSecp256k1',
+      value: this.key,
+    }
+  }
+
+  public static fromData(data: EthPublicKey.Data): EthPublicKey {
+    return new EthPublicKey(data.key)
+  }
+
+  public toData(): EthPublicKey.Data {
+    return {
+      '@type': '/initia.crypto.v1beta1.ethsecp256k1.PubKey',
+      key: this.key,
+    }
+  }
+
+  public static fromProto(pubkeyProto: EthPublicKey.Proto): EthPublicKey {
+    return new EthPublicKey(Buffer.from(pubkeyProto.key).toString('base64'))
+  }
+
+  public toProto(): EthPublicKey.Proto {
+    return EthPubKey_pb.fromPartial({
+      key: Buffer.from(this.key, 'base64'),
+    })
+  }
+
+  public packAny(): Any {
+    return Any.fromPartial({
+      typeUrl: '/initia.crypto.v1beta1.ethsecp256k1.PubKey',
+      value: EthPubKey_pb.encode(this.toProto()).finish(),
+    })
+  }
+
+  public static unpackAny(pubkeyAny: Any): EthPublicKey {
+    return EthPublicKey.fromProto(EthPubKey_pb.decode(pubkeyAny.value))
+  }
+
+  public rawAddress(): Uint8Array {
+    const verified = secp256k1.publicKeyVerify(Buffer.from(this.key, 'base64'))
+    if (!verified) {
+      throw new Error('Invalid public key')
+    }
+
+    // Serialize the public key in uncompressed format (65 bytes)
+    const pubBytes = secp256k1.publicKeyConvert(
+      Buffer.from(this.key, 'base64'),
+      false
+    )
+
+    return keccak256(pubBytes.slice(1)).slice(12)
+  }
+
+  public address(): string {
+    return bech32.encode('init', bech32.toWords(this.rawAddress()))
+  }
+}
+
+export namespace EthPublicKey {
+  export interface Amino {
+    type: 'initia/PubKeyEthSecp256k1'
+    value: string
+  }
+
+  export interface Data {
+    '@type': '/initia.crypto.v1beta1.ethsecp256k1.PubKey'
+    key: string
+  }
+
+  export type Proto = EthPubKey_pb
 }
