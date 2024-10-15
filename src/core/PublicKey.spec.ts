@@ -1,4 +1,5 @@
 import {
+  EthPublicKey,
   LegacyAminoMultisigPublicKey,
   SimplePublicKey,
   ValConsPublicKey,
@@ -32,6 +33,15 @@ describe('PublicKey', () => {
     )
     expect(pubkey.address()).toEqual(
       'initvalcons1mlhj044zpxqdeaajfxpnav59rp4ap38tgp3hzm'
+    )
+  })
+
+  it('EthPubkey address', () => {
+    const pubkey = new EthPublicKey(
+      'Ahng0jM7JGSIWF38ey+qwH7T5EcUvzQqued27hn5kSgl'
+    )
+    expect(pubkey.address()).toEqual(
+      'init18cuwmw9f423hgfl9k8d6an8p6ffvvghvtmu6l7'
     )
   })
 })
