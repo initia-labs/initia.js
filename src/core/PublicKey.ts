@@ -15,10 +15,6 @@ const pubkeyAminoPrefixSecp256k1 = Buffer.from(
   'eb5ae987' + '21' /* fixed length */,
   'hex'
 )
-const pubkeyAminoPrefixEd25519 = Buffer.from(
-  '1624de64' + '20' /* fixed length */,
-  'hex'
-)
 /** See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740 */
 const pubkeyAminoPrefixMultisigThreshold = Buffer.from(
   '22c1f7e2' /* variable length not included */,
@@ -163,10 +159,6 @@ export class SimplePublicKey extends JSONSerializable<
   public address(): string {
     return bech32.encode('init', bech32.toWords(this.rawAddress()))
   }
-
-  public pubkeyAddress(): string {
-    return bech32.encode('initpub', bech32.toWords(this.encodeAminoPubkey()))
-  }
 }
 
 export namespace SimplePublicKey {
@@ -215,10 +207,6 @@ export class LegacyAminoMultisigPublicKey extends JSONSerializable<
 
   public address(): string {
     return bech32.encode('init', bech32.toWords(this.rawAddress()))
-  }
-
-  public pubkeyAddress(): string {
-    return bech32.encode('initpub', bech32.toWords(this.encodeAminoPubkey()))
   }
 
   public static fromAmino(
@@ -359,13 +347,6 @@ export class ValConsPublicKey extends JSONSerializable<
     return ValConsPublicKey.fromProto(ValConsPubKey_pb.decode(pubkeyAny.value))
   }
 
-  public encodeAminoPubkey(): Uint8Array {
-    return Buffer.concat([
-      pubkeyAminoPrefixEd25519,
-      Buffer.from(this.key, 'base64'),
-    ])
-  }
-
   public rawAddress(): Uint8Array {
     const pubkeyData = Buffer.from(this.key, 'base64')
     return sha256(pubkeyData).slice(0, 20)
@@ -373,13 +354,6 @@ export class ValConsPublicKey extends JSONSerializable<
 
   public address(): string {
     return bech32.encode('initvalcons', bech32.toWords(this.rawAddress()))
-  }
-
-  public pubkeyAddress(): string {
-    return bech32.encode(
-      'initvalconspub',
-      bech32.toWords(this.encodeAminoPubkey())
-    )
   }
 }
 
@@ -449,16 +423,9 @@ export class EthPublicKey extends JSONSerializable<
     return EthPublicKey.fromProto(EthPubKey_pb.decode(pubkeyAny.value))
   }
 
-  // public encodeAminoPubkey(): Uint8Array {
-  //   return Buffer.concat([
-  //     pubkeyAminoPrefixSecp256k1,
-  //     Buffer.from(this.key, 'base64'),
-  //   ])
-  // }
-
   public rawAddress(): Uint8Array {
-    const pubKey = secp256k1.publicKeyVerify(Buffer.from(this.key, 'base64'))
-    if (!pubKey) {
+    const verified = secp256k1.publicKeyVerify(Buffer.from(this.key, 'base64'))
+    if (!verified) {
       throw new Error('Invalid public key')
     }
 
@@ -474,10 +441,6 @@ export class EthPublicKey extends JSONSerializable<
   public address(): string {
     return bech32.encode('init', bech32.toWords(this.rawAddress()))
   }
-
-  // public pubkeyAddress(): string {
-  //   return bech32.encode('initpub', bech32.toWords(this.encodeAminoPubkey()))
-  // }
 }
 
 export namespace EthPublicKey {
