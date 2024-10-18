@@ -63,7 +63,7 @@ const DEFAULT_GAS_PRICES_BY_CHAIN_ID: Record<string, Coins.Input> = {
 }
 
 /**
- * An object repesenting a connection to a initiad node running the REST Client
+ * An object representing a connection to an Initia node running the REST Client
  * server, a REST server providing access to a node.
  *
  * ### Example
@@ -173,5 +173,7 @@ export class RESTClient {
   }
 }
 
-// For backward compatibility
+/**
+ * @deprecated Use `RESTClient` instead. `LCDClient` will be removed in future releases.
+ */
 export class LCDClient extends RESTClient {}
