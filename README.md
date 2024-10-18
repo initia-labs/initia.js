@@ -4,7 +4,7 @@ Initia.js is a TypeScript-written JavaScript SDK tailored for the Initia blockch
 ## Main Features
 - **Improved TypeScript Definitions**: Offers comprehensive integration with Initia core data structures for an enhanced developer experience.
 - **Core Layer**: Includes key management, BCS serialization, and support for initia.proto.
-- **Client Layer**: Facilitates API request generation and LCD provider interaction.
+- **Client Layer**: Facilitates API request generation and REST provider interaction.
 
 
 ## Installation
@@ -19,15 +19,15 @@ npm install @initia/initia.js
 
 The usage section of this document provides detailed explanations and code examples of the most commonly used classes of the Initia.js library, which can be utilized both in a Node.js environment and within a browser.
 
-### LCD client&#x20;
+### REST client&#x20;
 
-**LCD**(Light Client Daemon) class facilitates interaction with the Initia blockchain.
+**REST**(previously LCD) class facilitates interaction with the Initia blockchain.
 
 ```typescript
-import { LCDClient } from '@initia/initia.js';
+import { RESTClient } from '@initia/initia.js';
 
-const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
-    chainId: 'mahalo-1',
+const rest = new RESTClient('https://rest.testnet.initia.xyz', {
+    chainId: 'initiation-2',
     gasPrices: '0.15uinit', // default gas prices
     gasAdjustment: '1.75',  // default gas adjustment for fee estimation
 });
@@ -159,20 +159,20 @@ const msg = new MsgExecute(
 Create a wallet and sign transaction. &#x20;
 
 ```typescript
-import { Wallet, LCDClient, MnemonicKey } from '@initia/initia.js';
+import { Wallet, RESTClient, MnemonicKey } from '@initia/initia.js';
 
 const key = new MnemonicKey({
     mnemonic: 
         'moral wise tape glance grit gentle movie doll omit you pet soon enter year funny gauge digital supply cereal city ring egg repair coyote',
 });
 
-const lcd = new LCDClient('https://lcd.mahalo-1.initia.xyz', {
-    chainId: 'mahalo-1',
+const rest = new RESTClient('https://rest.testnet.initia.xyz', {
+    chainId: 'initiation-2',
     gasPrices: '0.15uinit', // default gas prices
     gasAdjustment: '1.75',  // default gas adjustment for fee estimation
 });
 
-const wallet = new Wallet(lcd, key);
+const wallet = new Wallet(rest, key);
 
 const sendMsg = new MsgSend(
     'init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu',   // sender address
@@ -193,7 +193,7 @@ When sending coins with `MsgSend`, sender address should be same with wallet add
 `broadcast()` is the action that sends your transaction to the blockchain code.
 
 ```typescript
-const broadcastResult = await lcd.tx.broadcast(signedTx);
+const broadcastResult = await rest.tx.broadcast(signedTx);
 ```
 
 ### Queries&#x20;
@@ -203,7 +203,7 @@ const broadcastResult = await lcd.tx.broadcast(signedTx);
 Query the balance of the account.
 
 ```typescript
-const balances = await lcd.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu');
+const balances = await rest.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu');
 ```
 
 * `viewfunction()`
@@ -211,7 +211,7 @@ const balances = await lcd.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt9
 Obtain the return values of a Move view function.
 
 ```typescript
-const res = await lcd.move.viewFunction(
+const res = await rest.move.viewFunction(
     '0x1',                                         // owner of the module
     'dex',                                         // name of the module
     'get_swap_simulation',                         // function name

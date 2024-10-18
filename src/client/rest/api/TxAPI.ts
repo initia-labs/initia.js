@@ -13,7 +13,7 @@ import {
   Event,
 } from '../../../core'
 import { hashToHex } from '../../../util'
-import { LCDClient } from '../LCDClient'
+import { RESTClient } from '../RESTClient'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
@@ -200,8 +200,8 @@ export interface TxSearchOptions extends PaginationOptions {
 }
 
 export class TxAPI extends BaseAPI {
-  constructor(public lcd: LCDClient) {
-    super(lcd.apiRequester)
+  constructor(public rest: RESTClient) {
+    super(rest.apiRequester)
   }
 
   /**
@@ -237,7 +237,7 @@ export class TxAPI extends BaseAPI {
       let publicKey = signer.publicKey
 
       if (sequenceNumber === undefined || !publicKey) {
-        const account = await this.lcd.auth.accountInfo(signer.address)
+        const account = await this.rest.auth.accountInfo(signer.address)
         if (sequenceNumber === undefined) {
           sequenceNumber = account.getSequenceNumber()
         }
@@ -254,7 +254,7 @@ export class TxAPI extends BaseAPI {
     }
 
     if (fee === undefined) {
-      fee = await this.lcd.tx.estimateFee(signerDatas, options)
+      fee = await this.rest.tx.estimateFee(signerDatas, options)
     }
 
     return new Tx(
@@ -270,7 +270,7 @@ export class TxAPI extends BaseAPI {
    * @param height block height
    */
   public async txInfosByHeight(height: number | undefined): Promise<TxInfo[]> {
-    const blockInfo = await this.lcd.tendermint.blockInfo(height)
+    const blockInfo = await this.rest.tendermint.blockInfo(height)
     const { txs } = blockInfo.block.data
     if (!txs) {
       return []
@@ -296,8 +296,9 @@ export class TxAPI extends BaseAPI {
     signers: SignerData[],
     options: CreateTxOptions
   ): Promise<Fee> {
-    const gasPrices = options.gasPrices ?? this.lcd.config.gasPrices
-    const gasAdjustment = options.gasAdjustment ?? this.lcd.config.gasAdjustment
+    const gasPrices = options.gasPrices ?? this.rest.config.gasPrices
+    const gasAdjustment =
+      options.gasAdjustment ?? this.rest.config.gasAdjustment
     const feeDenoms = options.feeDenoms ?? ['uinit']
     let gas = options.gas
     let gasPricesCoins: Coins | undefined
@@ -343,7 +344,7 @@ export class TxAPI extends BaseAPI {
     }
   ): Promise<string> {
     const gasAdjustment =
-      options?.gasAdjustment ?? this.lcd.config.gasAdjustment
+      options?.gasAdjustment ?? this.rest.config.gasAdjustment
 
     // append empty signatures if there's no signatures in tx
     let simTx: Tx = tx

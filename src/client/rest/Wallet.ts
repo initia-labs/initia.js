@@ -1,13 +1,13 @@
-import { LCDClient } from './LCDClient'
+import { RESTClient } from './RESTClient'
 import { Key } from '../../key'
-import { CreateTxOptions } from '../lcd/api/TxAPI'
+import { CreateTxOptions } from './api/TxAPI'
 import { Tx } from '../../core'
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing'
 
 export class Wallet {
   private accAddress: string
   constructor(
-    public lcd: LCDClient,
+    public rest: RESTClient,
     public key: Key
   ) {
     this.accAddress = key.accAddress
@@ -21,7 +21,7 @@ export class Wallet {
     account_number: number
     sequence: number
   }> {
-    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
+    return this.rest.auth.accountInfo(this.accAddress).then((d) => {
       return {
         account_number: d.getAccountNumber(),
         sequence: d.getSequenceNumber(),
@@ -30,13 +30,13 @@ export class Wallet {
   }
 
   public async accountNumber(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
+    return this.rest.auth.accountInfo(this.accAddress).then((d) => {
       return d.getAccountNumber()
     })
   }
 
   public async sequence(): Promise<number> {
-    return this.lcd.auth.accountInfo(this.accAddress).then((d) => {
+    return this.rest.auth.accountInfo(this.accAddress).then((d) => {
       return d.getSequenceNumber()
     })
   }
@@ -46,7 +46,7 @@ export class Wallet {
       sequence?: number
     }
   ): Promise<Tx> {
-    return this.lcd.tx.create(
+    return this.rest.tx.create(
       [
         {
           address: this.accAddress,
@@ -65,8 +65,8 @@ export class Wallet {
       signMode?: SignMode
     }
   ): Promise<Tx> {
-    if (!this.lcd.config.chainId) {
-      this.lcd.config.chainId = await this.lcd.tendermint.chainId()
+    if (!this.rest.config.chainId) {
+      this.rest.config.chainId = await this.rest.tendermint.chainId()
     }
 
     let accountNumber = options.accountNumber
@@ -90,7 +90,7 @@ export class Wallet {
     return this.key.signTx(tx, {
       accountNumber,
       sequence,
-      chainId: this.lcd.config.chainId,
+      chainId: this.rest.config.chainId,
       signMode: options.signMode ?? SignMode.SIGN_MODE_DIRECT,
     })
   }

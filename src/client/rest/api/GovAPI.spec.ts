@@ -2,7 +2,7 @@ import { APIRequester } from '../APIRequester'
 import { GovAPI } from './GovAPI'
 import { Coins, Duration } from '../../../core'
 
-const c = new APIRequester('https://lcd.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz/')
 const gov = new GovAPI(c)
 
 describe('GovAPI', () => {

@@ -1,5 +1,5 @@
-import { LCDClient } from './lcd/LCDClient'
-import { Wallet } from './lcd/Wallet'
+import { RESTClient } from './rest/RESTClient'
+import { Wallet } from './rest/Wallet'
 import { MnemonicKey } from '../key/MnemonicKey'
 
 const LOCALINITIA_MNEMONICS = {
@@ -27,7 +27,7 @@ const LOCALINITIA_MNEMONICS = {
     'forum shiver flush artefact analyst undo hundred mixed diamond mushroom submit city march crater fatigue deal host asthma reopen barrel virtual accuse crime dune',
 }
 
-export class LocalInitia extends LCDClient {
+export class LocalInitia extends RESTClient {
   public wallets: {
     validator: Wallet
     test1: Wallet
