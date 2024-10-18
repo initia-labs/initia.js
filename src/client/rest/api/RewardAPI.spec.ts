@@ -2,7 +2,7 @@ import { Duration } from '../../../core'
 import { APIRequester } from '../APIRequester'
 import { RewardAPI } from './RewardAPI'
 
-const c = new APIRequester('https://lcd.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz/')
 const api = new RewardAPI(c)
 
 describe('RewardAPI', () => {

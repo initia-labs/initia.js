@@ -1,7 +1,7 @@
 // import { APIRequester } from '../APIRequester';
 // import { FeeGrantAPI } from './FeeGrantAPI';
 
-// const c = new APIRequester('https://lcd.devnet.initia.xyz/');
+// const c = new APIRequester('https://rest.devnet.initia.xyz/');
 // const feeGrant = new FeeGrantAPI(c);
 
 describe('FeeGrantAPI', () => {

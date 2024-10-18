@@ -1,4 +1,4 @@
-import { LCDClient } from '../LCDClient'
+import { RESTClient } from '../RESTClient'
 import { APIRequester } from '../APIRequester'
 import { MsgSend } from '../../../core'
 import { MnemonicKey } from '../../../key'
@@ -8,7 +8,7 @@ const mk = new MnemonicKey({
   mnemonic:
     'sound hour era feature bacon code drift deal raw toward soldier nation winter consider tissue jewel script result mean faculty water exist lunch betray',
 })
-const initia = new LCDClient('https://lcd.devnet.initia.xyz', {
+const initia = new RESTClient('https://rest.devnet.initia.xyz', {
   chainId: 'stone-3',
 })
 const wallet = initia.wallet(mk)

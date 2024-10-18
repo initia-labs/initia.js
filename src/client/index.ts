@@ -1,10 +1,10 @@
-// LCDClient
-export * from './lcd/APIRequester'
-export * from './lcd/LCDClient'
-export * from './lcd/Wallet'
-export * from './lcd/api'
+// REST Client
+export * from './rest/APIRequester'
+export * from './rest/RESTClient'
+export * from './rest/Wallet'
+export * from './rest/api'
 
-// LocalInitia (LCDClient)
+// LocalInitia (REST Client)
 export * from './LocalInitia'
 
 // WebSocketClient

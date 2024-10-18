@@ -35,7 +35,7 @@ import { Wallet } from './Wallet'
 import { Coins } from '../../core'
 import { Key } from '../../key'
 
-export interface LCDClientConfig {
+export interface RESTClientConfig {
   /**
    * Chain ID of the blockchain to connect to.
    */
@@ -52,7 +52,7 @@ export interface LCDClientConfig {
   gasAdjustment?: string
 }
 
-const DEFAULT_LCD_OPTIONS: Partial<LCDClientConfig> = {
+const DEFAULT_REST_OPTIONS: Partial<RESTClientConfig> = {
   gasAdjustment: '1.75',
 }
 
@@ -63,23 +63,23 @@ const DEFAULT_GAS_PRICES_BY_CHAIN_ID: Record<string, Coins.Input> = {
 }
 
 /**
- * An object repesenting a connection to a initiad node running the Lite Client Daemon (LCD)
+ * An object repesenting a connection to a initiad node running the REST Client
  * server, a REST server providing access to a node.
  *
  * ### Example
  *
  * ```ts
- * import { LCDClient } from 'initia.js';
+ * import { RESTClient } from 'initia.js';
  *
- * const initia = new LCDClient("https://lcd.devnet.initia.xyz", {
+ * const initia = new RESTClient("https://rest.devnet.initia.xyz", {
  *    chainId: "testnet"
  * });
  * ```
  */
 
-export class LCDClient {
+export class RESTClient {
   public URL: string
-  public config: LCDClientConfig
+  public config: RESTClientConfig
   public apiRequester: APIRequester
 
   // API access
@@ -115,18 +115,18 @@ export class LCDClient {
   public wasm: WasmAPI
 
   /**
-   * Creates a new LCD client with the specified configuration.
+   * Creates a new REST client with the specified configuration.
    *
-   * @param config LCD configuration
+   * @param config REST configuration
    */
   constructor(
     URL: string,
-    config?: LCDClientConfig,
+    config?: RESTClientConfig,
     apiRequester?: APIRequester
   ) {
     this.URL = URL
     this.config = {
-      ...DEFAULT_LCD_OPTIONS,
+      ...DEFAULT_REST_OPTIONS,
       gasPrices:
         (config?.chainId && DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainId]) ??
         DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
@@ -172,3 +172,6 @@ export class LCDClient {
     return new Wallet(this, key)
   }
 }
+
+// For backward compatibility
+export class LCDClient extends RESTClient {}

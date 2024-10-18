@@ -3,7 +3,7 @@ import { AuthAPI } from './AuthAPI'
 import { BaseAccount } from '../../../core'
 import { MnemonicKey } from '../../../key'
 
-const c = new APIRequester('https://lcd.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz/')
 const auth = new AuthAPI(c)
 
 describe('AuthAPI', () => {

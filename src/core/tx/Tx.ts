@@ -23,7 +23,7 @@ import { Msg } from '../Msg'
 import { Fee } from './Fee'
 import Long from 'long'
 import { SignatureV2 } from './SignatureV2'
-import { SignerData } from '../../client/lcd/api/TxAPI'
+import { SignerData } from '../../client'
 
 export class Tx {
   constructor(
