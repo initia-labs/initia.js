@@ -13,7 +13,10 @@ export class RawKey extends Key {
    */
   public privateKey: Buffer
 
-  constructor(privateKey: Buffer, eth = false) {
+  constructor(
+    privateKey: Buffer,
+    public eth = false
+  ) {
     const publicKey = secp256k1.publicKeyCreate(
       new Uint8Array(privateKey),
       true
@@ -36,6 +39,8 @@ export class RawKey extends Key {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(payload: Buffer): Promise<Buffer> {
+    if (this.eth) return this.signWithKeccak256(payload)
+
     const hash = Buffer.from(
       SHA256.hash(new Word32Array(payload)).toString(),
       'hex'
