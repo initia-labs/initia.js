@@ -1,7 +1,7 @@
 import { SHA256, Word32Array } from 'jscrypto'
 import * as secp256k1 from 'secp256k1'
 import { Key } from './Key'
-import { SimplePublicKey } from '../core'
+import { EthPublicKey, SimplePublicKey } from '../core'
 import keccak256 from 'keccak256'
 
 /**
@@ -13,12 +13,18 @@ export class RawKey extends Key {
    */
   public privateKey: Buffer
 
-  constructor(privateKey: Buffer) {
+  constructor(privateKey: Buffer, eth = false) {
     const publicKey = secp256k1.publicKeyCreate(
       new Uint8Array(privateKey),
       true
     )
-    super(new SimplePublicKey(Buffer.from(publicKey).toString('base64')))
+
+    if (eth) {
+      super(new EthPublicKey(Buffer.from(publicKey).toString('base64')))
+    } else {
+      super(new SimplePublicKey(Buffer.from(publicKey).toString('base64')))
+    }
+
     this.privateKey = privateKey
   }
 
