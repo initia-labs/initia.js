@@ -24,12 +24,18 @@ interface MnemonicKeyOptions {
    * Coin type. Default is INIT, 118.
    */
   coinType?: number
+
+  /**
+   * Whether to use eth pubkey
+   */
+  eth?: boolean
 }
 
 const DEFAULT_OPTIONS = {
   account: 0,
   index: 0,
   coinType: INIT_COIN_TYPE,
+  eth: false,
 }
 
 /**
@@ -66,7 +72,7 @@ export class MnemonicKey extends RawKey {
    * @param options
    */
   constructor(options: MnemonicKeyOptions = {}) {
-    const { account, index, coinType } = {
+    const { account, index, coinType, eth } = {
       ...DEFAULT_OPTIONS,
       ...options,
     }
@@ -84,7 +90,7 @@ export class MnemonicKey extends RawKey {
       throw new Error('Failed to derive key pair')
     }
 
-    super(privateKey)
+    super(privateKey, eth)
     this.mnemonic = mnemonic
   }
 }
