@@ -18,7 +18,6 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
   }
 
   public static fromAmino(_: any): Blob {
-    _
     throw new Error('Amino not supported')
   }
 

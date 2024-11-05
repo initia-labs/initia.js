@@ -26,7 +26,6 @@ export class MsgRegisterPayee extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgRegisterPayee {
-    _
     throw new Error('Amino not supported')
   }
 

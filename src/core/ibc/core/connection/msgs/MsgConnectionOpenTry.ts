@@ -44,7 +44,6 @@ export class MsgConnectionOpenTry extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgConnectionOpenTry {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -25,7 +25,6 @@ export class MsgPayPacketFeeAsync extends JSONSerializable<
   }
 
   public static fromAmino(_: any): any {
-    _
     throw new Error('Amino not supported')
   }
 

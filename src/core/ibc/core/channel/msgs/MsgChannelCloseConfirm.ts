@@ -30,7 +30,6 @@ export class MsgChannelCloseConfirm extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgChannelCloseConfirm {
-    _
     throw new Error('Amino not supported')
   }
 

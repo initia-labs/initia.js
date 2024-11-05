@@ -19,7 +19,6 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   }
 
   public static fromAmino(_: any): Proof {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -92,7 +91,6 @@ export class PublicKey extends JSONSerializable<
   }
 
   public static fromAmino(_: any): PublicKey {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -7,11 +7,11 @@ import KECCAK256 from 'keccak256'
 /*
 DEPRECATED (was used by crypto-js)
 function byteArrayToWordArray(ba: Uint8Array): CryptoJS.LibWordArray {
-  const wa: number[] = [];
+  const wa: number[] = []
   for (let i = 0; i < ba.length; i += 1) {
-    wa[(i / 4) | 0] |= ba[i] << (24 - 8 * i);
+    wa[(i / 4) | 0] |= ba[i] << (24 - 8 * i)
   }
-  return crypto.lib.WordArray.create(wa);
+  return crypto.lib.WordArray.create(wa)
 }*/
 
 /**

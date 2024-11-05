@@ -27,7 +27,6 @@ export class MsgCreateClient extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgCreateClient {
-    _
     throw new Error('Amino not supported')
   }
 

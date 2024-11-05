@@ -16,7 +16,6 @@ export class MerkleRoot extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MerkleRoot {
-    _
     throw new Error('Amino not supported')
   }
 

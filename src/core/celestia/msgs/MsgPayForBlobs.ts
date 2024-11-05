@@ -26,7 +26,6 @@ export class MsgPayForBlobs extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgPayForBlobs {
-    _
     throw new Error('Amino not supported')
   }
 

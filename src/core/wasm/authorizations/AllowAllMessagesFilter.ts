@@ -14,7 +14,6 @@ export class AllowAllMessagesFilter extends JSONSerializable<
   public static fromAmino(
     _: AllowAllMessagesFilter.Amino
   ): AllowAllMessagesFilter {
-    _
     return new AllowAllMessagesFilter()
   }
 
@@ -28,7 +27,6 @@ export class AllowAllMessagesFilter extends JSONSerializable<
   public static fromData(
     _: AllowAllMessagesFilter.Data
   ): AllowAllMessagesFilter {
-    _
     return new AllowAllMessagesFilter()
   }
 
@@ -41,7 +39,6 @@ export class AllowAllMessagesFilter extends JSONSerializable<
   public static fromProto(
     _: AllowAllMessagesFilter.Proto
   ): AllowAllMessagesFilter {
-    _
     return new AllowAllMessagesFilter()
   }
 

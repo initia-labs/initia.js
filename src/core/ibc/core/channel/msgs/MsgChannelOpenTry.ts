@@ -34,7 +34,6 @@ export class MsgChannelOpenTry extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgChannelOpenTry {
-    _
     throw new Error('Amino not supported')
   }
 

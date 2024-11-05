@@ -191,18 +191,6 @@ export namespace Redelegation {
       this.shares_dst = new Coins(shares_dst)
     }
 
-    public toAmino(): Entry.Amino {
-      return {
-        redelegation_entry: {
-          initial_balance: this.initial_balance.toAmino(),
-          shares_dst: this.shares_dst.toAmino(),
-          creation_height: this.creation_height,
-          completion_time: this.completion_time.toISOString(),
-        },
-        balance: this.balance.toAmino(),
-      }
-    }
-
     public static fromAmino(data: Entry.Amino): Entry {
       const {
         redelegation_entry: {
@@ -222,15 +210,15 @@ export namespace Redelegation {
       )
     }
 
-    public toData(): Entry.Data {
+    public toAmino(): Entry.Amino {
       return {
         redelegation_entry: {
-          initial_balance: this.initial_balance.toData(),
-          shares_dst: this.shares_dst.toData(),
+          initial_balance: this.initial_balance.toAmino(),
+          shares_dst: this.shares_dst.toAmino(),
           creation_height: this.creation_height,
           completion_time: this.completion_time.toISOString(),
         },
-        balance: this.balance.toData(),
+        balance: this.balance.toAmino(),
       }
     }
 
@@ -253,6 +241,31 @@ export namespace Redelegation {
       )
     }
 
+    public toData(): Entry.Data {
+      return {
+        redelegation_entry: {
+          initial_balance: this.initial_balance.toData(),
+          shares_dst: this.shares_dst.toData(),
+          creation_height: this.creation_height,
+          completion_time: this.completion_time.toISOString(),
+        },
+        balance: this.balance.toData(),
+      }
+    }
+
+    public static fromProto(proto: Entry.Proto): Entry {
+      const redelegationEntryProto =
+        proto.redelegationEntry as RedelegationEntry_pb
+
+      return new Entry(
+        Coins.fromProto(redelegationEntryProto.initialBalance),
+        Coins.fromProto(proto.balance),
+        Coins.fromProto(redelegationEntryProto.sharesDst),
+        redelegationEntryProto.creationHeight.toNumber(),
+        redelegationEntryProto.completionTime as Date
+      )
+    }
+
     public toProto(): Entry.Proto {
       const {
         initial_balance,
@@ -271,19 +284,6 @@ export namespace Redelegation {
           sharesDst: shares_dst.toProto(),
         }),
       })
-    }
-
-    public static fromProto(proto: Entry.Proto): Entry {
-      const redelegationEntryProto =
-        proto.redelegationEntry as RedelegationEntry_pb
-
-      return new Entry(
-        Coins.fromProto(redelegationEntryProto.initialBalance),
-        Coins.fromProto(proto.balance),
-        Coins.fromProto(redelegationEntryProto.sharesDst),
-        redelegationEntryProto.creationHeight.toNumber(),
-        redelegationEntryProto.completionTime as Date
-      )
     }
   }
 

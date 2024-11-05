@@ -129,15 +129,6 @@ export namespace UnbondingDelegation {
       this.balance = new Coins(balance)
     }
 
-    public toAmino(): Entry.Amino {
-      return {
-        initial_balance: this.initial_balance.toAmino(),
-        balance: this.balance.toAmino(),
-        creation_height: this.creation_height.toFixed(),
-        completion_time: this.completion_time.toISOString(),
-      }
-    }
-
     public static fromAmino(data: Entry.Amino): Entry {
       const { initial_balance, balance, creation_height, completion_time } =
         data
@@ -149,10 +140,10 @@ export namespace UnbondingDelegation {
       )
     }
 
-    public toData(): Entry.Data {
+    public toAmino(): Entry.Amino {
       return {
-        initial_balance: this.initial_balance.toData(),
-        balance: this.balance.toData(),
+        initial_balance: this.initial_balance.toAmino(),
+        balance: this.balance.toAmino(),
         creation_height: this.creation_height.toFixed(),
         completion_time: this.completion_time.toISOString(),
       }
@@ -169,15 +160,13 @@ export namespace UnbondingDelegation {
       )
     }
 
-    public toProto(): Entry.Proto {
-      const { initial_balance, balance, creation_height, completion_time } =
-        this
-      return UnbondingDelegationEntry_pb.fromPartial({
-        balance: balance.toProto(),
-        completionTime: completion_time,
-        creationHeight: creation_height,
-        initialBalance: initial_balance.toProto(),
-      })
+    public toData(): Entry.Data {
+      return {
+        initial_balance: this.initial_balance.toData(),
+        balance: this.balance.toData(),
+        creation_height: this.creation_height.toFixed(),
+        completion_time: this.completion_time.toISOString(),
+      }
     }
 
     public static fromProto(proto: Entry.Proto): Entry {
@@ -187,6 +176,17 @@ export namespace UnbondingDelegation {
         proto.creationHeight.toNumber(),
         proto.completionTime as Date
       )
+    }
+
+    public toProto(): Entry.Proto {
+      const { initial_balance, balance, creation_height, completion_time } =
+        this
+      return UnbondingDelegationEntry_pb.fromPartial({
+        balance: balance.toProto(),
+        completionTime: completion_time,
+        creationHeight: creation_height,
+        initialBalance: initial_balance.toProto(),
+      })
     }
   }
 

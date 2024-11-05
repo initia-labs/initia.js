@@ -25,7 +25,6 @@ export class MsgRecoverClient extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgRecoverClient {
-    _
     throw new Error('Amino not supported')
   }
 

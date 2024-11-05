@@ -15,6 +15,19 @@ export class SignatureV2 {
     public sequence: number
   ) {}
 
+  public static fromAmino(data: SignatureV2.Amino): SignatureV2 {
+    return new SignatureV2(
+      PublicKey.fromAmino(data.pub_key),
+      new SignatureV2.Descriptor(
+        new SignatureV2.Descriptor.Single(
+          SignatureV2.SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
+          data.signature
+        )
+      ),
+      0
+    )
+  }
+
   public static fromData(data: SignatureV2.Data): SignatureV2 {
     return new SignatureV2(
       PublicKey.fromData(data.public_key),
@@ -29,19 +42,6 @@ export class SignatureV2 {
       data: this.data.toData(),
       sequence: this.sequence.toFixed(),
     }
-  }
-
-  public static fromAmino(data: SignatureV2.Amino): SignatureV2 {
-    return new SignatureV2(
-      PublicKey.fromAmino(data.pub_key),
-      new SignatureV2.Descriptor(
-        new SignatureV2.Descriptor.Single(
-          SignatureV2.SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
-          data.signature
-        )
-      ),
-      0
-    )
   }
 }
 

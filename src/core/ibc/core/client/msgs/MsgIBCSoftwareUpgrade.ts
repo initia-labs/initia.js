@@ -26,7 +26,6 @@ export class MsgIBCSoftwareUpgrade extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgIBCSoftwareUpgrade {
-    _
     throw new Error('Amino not supported')
   }
 

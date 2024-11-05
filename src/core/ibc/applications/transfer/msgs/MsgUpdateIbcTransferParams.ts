@@ -21,7 +21,6 @@ export class MsgUpdateIbcTransferParams extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgUpdateIbcTransferParams {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -32,7 +32,6 @@ export class MsgTimeoutOnClose extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgTimeoutOnClose {
-    _
     throw new Error('Amino not supported')
   }
 

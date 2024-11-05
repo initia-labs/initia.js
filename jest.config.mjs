@@ -4,6 +4,6 @@ const config = {
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
-};
+}
 
-export default config;
+export default config
