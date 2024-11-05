@@ -53,36 +53,6 @@ export class MsgEditValidator extends JSONSerializable<
     }
   }
 
-  public static fromProto(data: MsgEditValidator.Proto): MsgEditValidator {
-    return new MsgEditValidator(
-      Validator.Description.fromProto(
-        data.description as Validator.Description.Proto
-      ),
-      data.validatorAddress,
-      data.commissionRate !== '' ? data.commissionRate : undefined
-    )
-  }
-
-  public toProto(): MsgEditValidator.Proto {
-    const { description, validator_address, commission_rate } = this
-    return MsgEditValidator_pb.fromPartial({
-      description: description.toProto(),
-      commissionRate: commission_rate?.toString() ?? '',
-      validatorAddress: validator_address,
-    })
-  }
-
-  public packAny(): Any {
-    return Any.fromPartial({
-      typeUrl: '/initia.mstaking.v1.MsgEditValidator',
-      value: MsgEditValidator_pb.encode(this.toProto()).finish(),
-    })
-  }
-
-  public static unpackAny(msgAny: Any): MsgEditValidator {
-    return MsgEditValidator.fromProto(MsgEditValidator_pb.decode(msgAny.value))
-  }
-
   public static fromData(data: MsgEditValidator.Data): MsgEditValidator {
     const { description, validator_address, commission_rate } = data
     return new MsgEditValidator(
@@ -100,6 +70,36 @@ export class MsgEditValidator extends JSONSerializable<
       validator_address,
       commission_rate,
     }
+  }
+
+  public static fromProto(data: MsgEditValidator.Proto): MsgEditValidator {
+    return new MsgEditValidator(
+      Validator.Description.fromProto(
+        data.description as Validator.Description.Proto
+      ),
+      data.validatorAddress,
+      data.commissionRate !== '' ? data.commissionRate : undefined
+    )
+  }
+
+  public toProto(): MsgEditValidator.Proto {
+    const { description, validator_address, commission_rate } = this
+    return MsgEditValidator_pb.fromPartial({
+      description: description.toProto(),
+      commissionRate: commission_rate,
+      validatorAddress: validator_address,
+    })
+  }
+
+  public packAny(): Any {
+    return Any.fromPartial({
+      typeUrl: '/initia.mstaking.v1.MsgEditValidator',
+      value: MsgEditValidator_pb.encode(this.toProto()).finish(),
+    })
+  }
+
+  public static unpackAny(msgAny: Any): MsgEditValidator {
+    return MsgEditValidator.fromProto(MsgEditValidator_pb.decode(msgAny.value))
   }
 }
 

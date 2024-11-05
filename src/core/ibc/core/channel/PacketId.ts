@@ -1,6 +1,5 @@
 import { PacketId as PacketId_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { JSONSerializable } from '../../../../util/json'
-import Long from 'long'
 
 /**
  * PacketId is an identifer for a unique Packet
@@ -68,7 +67,7 @@ export class PacketId extends JSONSerializable<
     return PacketId_pb.fromPartial({
       portId: port_id,
       channelId: channel_id,
-      sequence: Long.fromNumber(sequence),
+      sequence,
     })
   }
 }

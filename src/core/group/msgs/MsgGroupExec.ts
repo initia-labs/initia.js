@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgExec as MsgExec_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgGroupExec extends JSONSerializable<
   MsgGroupExec.Amino,
@@ -32,7 +31,7 @@ export class MsgGroupExec extends JSONSerializable<
     return {
       type: 'cosmos-sdk/group/MsgExec',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         executor,
       },
     }
@@ -47,7 +46,7 @@ export class MsgGroupExec extends JSONSerializable<
     const { proposal_id, executor } = this
     return {
       '@type': '/cosmos.group.v1.MsgExec',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       executor,
     }
   }
@@ -59,7 +58,7 @@ export class MsgGroupExec extends JSONSerializable<
   public toProto(): MsgGroupExec.Proto {
     const { proposal_id, executor } = this
     return MsgExec_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       executor,
     })
   }

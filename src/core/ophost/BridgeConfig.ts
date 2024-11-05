@@ -3,7 +3,6 @@ import { AccAddress } from '../bech32'
 import { Duration } from '../Duration'
 import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
 import { BatchInfo } from './BatchInfo'
-import Long from 'long'
 
 export class BridgeConfig extends JSONSerializable<
   BridgeConfig.Amino,
@@ -75,7 +74,7 @@ export class BridgeConfig extends JSONSerializable<
       batch_info: batch_info.toAmino(),
       submission_interval: submission_interval.toAmino(),
       finalization_period: finalization_period.toAmino(),
-      submission_start_height: submission_start_height.toString(),
+      submission_start_height: submission_start_height.toFixed(),
       oracle_enabled,
       metadata,
     }
@@ -123,7 +122,7 @@ export class BridgeConfig extends JSONSerializable<
       batch_info: batch_info.toData(),
       submission_interval: submission_interval.toData(),
       finalization_period: finalization_period.toData(),
-      submission_start_height: submission_start_height.toString(),
+      submission_start_height: submission_start_height.toFixed(),
       oracle_enabled,
       metadata,
     }
@@ -160,7 +159,7 @@ export class BridgeConfig extends JSONSerializable<
       batchInfo: batch_info.toProto(),
       submissionInterval: submission_interval.toProto(),
       finalizationPeriod: finalization_period.toProto(),
-      submissionStartHeight: Long.fromNumber(submission_start_height),
+      submissionStartHeight: submission_start_height,
       oracleEnabled: oracle_enabled,
       metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
     })

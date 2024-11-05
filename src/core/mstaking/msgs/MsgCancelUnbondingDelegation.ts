@@ -3,7 +3,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress, ValAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCancelUnbondingDelegation as MsgCancelUnbondingDelegation_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
-import Long from 'long'
 
 export class MsgCancelUnbondingDelegation extends JSONSerializable<
   MsgCancelUnbondingDelegation.Amino,
@@ -50,7 +49,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
         delegator_address,
         validator_address,
         amount: amount.toAmino(),
-        creation_height: creation_height.toString(),
+        creation_height: creation_height.toFixed(),
       },
     }
   }
@@ -76,7 +75,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       delegator_address,
       validator_address,
       amount: amount.toData(),
-      creation_height: creation_height.toString(),
+      creation_height: creation_height.toFixed(),
     }
   }
 
@@ -98,7 +97,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       amount: amount.toProto(),
       delegatorAddress: delegator_address,
       validatorAddress: validator_address,
-      creationHeight: Long.fromNumber(creation_height),
+      creationHeight: creation_height,
     })
   }
 

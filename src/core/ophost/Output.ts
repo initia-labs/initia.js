@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { Output as Output_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
-import Long from 'long'
 
 export class Output extends JSONSerializable<
   Output.Amino,
@@ -38,9 +37,9 @@ export class Output extends JSONSerializable<
       this
     return {
       output_root,
-      l1_block_number: l1_block_number.toString(),
+      l1_block_number: l1_block_number.toFixed(),
       l1_block_time: l1_block_time.toISOString(),
-      l2_block_number: l2_block_number.toString(),
+      l2_block_number: l2_block_number.toFixed(),
     }
   }
 
@@ -60,9 +59,9 @@ export class Output extends JSONSerializable<
       this
     return {
       output_root,
-      l1_block_number: l1_block_number.toString(),
+      l1_block_number: l1_block_number.toFixed(),
       l1_block_time: l1_block_time.toISOString(),
-      l2_block_number: l2_block_number.toString(),
+      l2_block_number: l2_block_number.toFixed(),
     }
   }
 
@@ -80,9 +79,9 @@ export class Output extends JSONSerializable<
       this
     return Output_pb.fromPartial({
       outputRoot: Buffer.from(output_root, 'base64'),
-      l1BlockNumber: Long.fromNumber(l1_block_number),
+      l1BlockNumber: l1_block_number,
       l1BlockTime: l1_block_time,
-      l2BlockNumber: Long.fromNumber(l2_block_number),
+      l2BlockNumber: l2_block_number,
     })
   }
 }

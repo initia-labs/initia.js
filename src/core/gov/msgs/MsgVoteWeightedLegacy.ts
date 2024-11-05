@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { WeightedVoteOption } from '../Vote'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVoteWeighted as MsgVoteWeighted_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
-import Long from 'long'
 
 /**
  * Weighted vote for a proposal
@@ -86,7 +85,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     const { proposal_id, voter, options } = this
     return MsgVoteWeighted_pb.fromPartial({
       options: options.map((o) => o.toProto()),
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
     })
   }

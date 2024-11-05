@@ -3,7 +3,6 @@ import { Coins } from '../../Coins'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgInstantiateContract2 as MsgInstantiateContract2_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
-import Long from 'long'
 
 export class MsgInstantiateContractV2 extends JSONSerializable<
   MsgInstantiateContractV2.Amino,
@@ -61,7 +60,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       value: {
         sender,
         admin,
-        code_id: code_id.toString(),
+        code_id: code_id.toFixed(),
         label,
         msg,
         funds: funds.toAmino(),
@@ -93,7 +92,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       '@type': '/cosmwasm.wasm.v1.MsgInstantiateContract2',
       sender,
       admin,
-      code_id: code_id.toString(),
+      code_id: code_id.toFixed(),
       label,
       msg,
       funds: funds.toData(),
@@ -122,7 +121,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
     return MsgInstantiateContract2_pb.fromPartial({
       sender,
       admin,
-      codeId: Long.fromNumber(code_id),
+      codeId: code_id,
       label,
       msg: Buffer.from(msg, 'base64'),
       funds: funds.toProto(),

@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { TallyResult as V1TallyResult_pb } from '@initia/initia.proto/cosmos/gov/v1/gov'
 import { TallyResult as TallyResult_pb } from '@initia/initia.proto/initia/gov/v1/gov'
-import Long from 'long'
 
 export class TallyResult extends JSONSerializable<
   TallyResult.Amino,
@@ -46,7 +45,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = this
     return {
-      tally_height: tally_height.toString(),
+      tally_height: tally_height.toFixed(),
       total_staking_power,
       total_vesting_power,
       v1_tally_result,
@@ -76,7 +75,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = this
     return {
-      tally_height: tally_height.toString(),
+      tally_height: tally_height.toFixed(),
       total_staking_power,
       total_vesting_power,
       v1_tally_result,
@@ -105,7 +104,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = this
     return TallyResult_pb.fromPartial({
-      tallyHeight: Long.fromNumber(tally_height),
+      tallyHeight: tally_height,
       totalStakingPower: total_staking_power,
       totalVestingPower: total_vesting_power,
       v1TallyResult: V1TallyResult_pb.fromPartial({

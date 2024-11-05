@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateBatchInfo as MsgUpdateBatchInfo_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { BatchInfo } from '../BatchInfo'
-import Long from 'long'
 
 export class MsgUpdateBatchInfo extends JSONSerializable<
   MsgUpdateBatchInfo.Amino,
@@ -41,7 +40,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
       type: 'ophost/MsgUpdateBatchInfo',
       value: {
         authority,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         new_batch_info: new_batch_info.toAmino(),
       },
     }
@@ -61,7 +60,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateBatchInfo',
       authority,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       new_batch_info: new_batch_info.toData(),
     }
   }
@@ -78,7 +77,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
     const { authority, bridge_id, new_batch_info } = this
     return MsgUpdateBatchInfo_pb.fromPartial({
       authority,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       newBatchInfo: new_batch_info.toProto(),
     })
   }

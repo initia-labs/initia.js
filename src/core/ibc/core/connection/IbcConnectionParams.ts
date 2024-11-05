@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/ibc/core/connection/v1/connection'
-import Long from 'long'
 
 export class IbcConnectionParams extends JSONSerializable<
   IbcConnectionParams.Amino,
@@ -24,7 +23,7 @@ export class IbcConnectionParams extends JSONSerializable<
   public toAmino(): IbcConnectionParams.Amino {
     const { max_expected_time_per_block } = this
     return {
-      max_expected_time_per_block: max_expected_time_per_block.toString(),
+      max_expected_time_per_block: max_expected_time_per_block.toFixed(),
     }
   }
 
@@ -36,7 +35,7 @@ export class IbcConnectionParams extends JSONSerializable<
   public toData(): IbcConnectionParams.Data {
     const { max_expected_time_per_block } = this
     return {
-      max_expected_time_per_block: max_expected_time_per_block.toString(),
+      max_expected_time_per_block: max_expected_time_per_block.toFixed(),
     }
   }
 
@@ -49,7 +48,7 @@ export class IbcConnectionParams extends JSONSerializable<
   public toProto(): IbcConnectionParams.Proto {
     const { max_expected_time_per_block } = this
     return Params_pb.fromPartial({
-      maxExpectedTimePerBlock: Long.fromNumber(max_expected_time_per_block),
+      maxExpectedTimePerBlock: max_expected_time_per_block,
     })
   }
 }

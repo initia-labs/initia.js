@@ -1,5 +1,4 @@
 import { Height as Height_pb } from '@initia/initia.proto/ibc/core/client/v1/client'
-import Long from 'long'
 import { JSONSerializable } from '../../../../util/json'
 
 /**
@@ -73,8 +72,8 @@ export class Height extends JSONSerializable<
   public toProto(): Height.Proto {
     const { revision_number, revision_height } = this
     return Height_pb.fromPartial({
-      revisionNumber: Long.fromNumber(revision_number),
-      revisionHeight: Long.fromNumber(revision_height),
+      revisionNumber: revision_number,
+      revisionHeight: revision_height,
     })
   }
 }

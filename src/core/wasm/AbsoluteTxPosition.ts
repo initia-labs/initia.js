@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { AbsoluteTxPosition as AbsoluteTxPosition_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/types'
-import Long from 'long'
 
 export class AbsoluteTxPosition extends JSONSerializable<
   AbsoluteTxPosition.Amino,
@@ -26,8 +25,8 @@ export class AbsoluteTxPosition extends JSONSerializable<
   public toAmino(): AbsoluteTxPosition.Amino {
     const { block_height, tx_index } = this
     return {
-      block_height: block_height.toString(),
-      tx_index: tx_index.toString(),
+      block_height: block_height.toFixed(),
+      tx_index: tx_index.toFixed(),
     }
   }
 
@@ -39,8 +38,8 @@ export class AbsoluteTxPosition extends JSONSerializable<
   public toData(): AbsoluteTxPosition.Data {
     const { block_height, tx_index } = this
     return {
-      block_height: block_height.toString(),
-      tx_index: tx_index.toString(),
+      block_height: block_height.toFixed(),
+      tx_index: tx_index.toFixed(),
     }
   }
 
@@ -54,8 +53,8 @@ export class AbsoluteTxPosition extends JSONSerializable<
   public toProto(): AbsoluteTxPosition.Proto {
     const { block_height, tx_index } = this
     return AbsoluteTxPosition_pb.fromPartial({
-      blockHeight: Long.fromNumber(block_height),
-      txIndex: Long.fromNumber(tx_index),
+      blockHeight: block_height,
+      txIndex: tx_index,
     })
   }
 }

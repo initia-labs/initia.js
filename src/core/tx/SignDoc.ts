@@ -1,9 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Fee } from './Fee'
 import { Msg } from '../Msg'
-import Long from 'long'
 import { SignDoc as SignDoc_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx'
 import { TxBody, AuthInfo, Tx } from './Tx'
+
 /**
  * A sign message is a data structure that is used to create a [[StdSignature]] to be later
  * appended to the list of signatures in an [[StdTx]]. Essentially, it contains all the
@@ -48,11 +48,11 @@ export class SignDoc extends JSONSerializable<
 
     return {
       chain_id,
-      account_number: account_number.toString(),
-      sequence: sequence.toString(),
+      account_number: account_number.toFixed(),
+      sequence: sequence.toFixed(),
       timeout_height:
         timeout_height && timeout_height !== 0
-          ? timeout_height.toString()
+          ? timeout_height.toFixed()
           : undefined,
       fee: fee.toAmino(),
       msgs: messages.map((m): Msg.Amino => m.toAmino()),
@@ -75,7 +75,7 @@ export class SignDoc extends JSONSerializable<
     return SignDoc_pb.fromPartial({
       bodyBytes: tx_body.toBytes(),
       authInfoBytes: auth_info.toBytes(),
-      accountNumber: Long.fromNumber(account_number),
+      accountNumber: account_number,
       chainId: chain_id,
     })
   }

@@ -5,7 +5,6 @@ import {
   UnbondingDelegation as UnbondingDelegation_pb,
   UnbondingDelegationEntry as UnbondingDelegationEntry_pb,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 
 /**
  * When a delegator decides to take out their funds from the mstaking pool, they must
@@ -176,7 +175,7 @@ export namespace UnbondingDelegation {
       return UnbondingDelegationEntry_pb.fromPartial({
         balance: balance.toProto(),
         completionTime: completion_time,
-        creationHeight: Long.fromNumber(creation_height),
+        creationHeight: creation_height,
         initialBalance: initial_balance.toProto(),
       })
     }

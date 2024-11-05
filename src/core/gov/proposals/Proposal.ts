@@ -9,7 +9,6 @@ import {
   proposalStatusToJSON,
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
 import { Proposal as Proposal_pb } from '@initia/initia.proto/initia/gov/v1/gov'
-import Long from 'long'
 
 /**
  * Defines the core field members of a governance proposal
@@ -133,7 +132,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       messages: messages.map((msg): Msg.Amino => msg.toAmino()),
       status: proposalStatusToJSON(status),
       final_tally_result: final_tally_result.toAmino(),
@@ -221,7 +220,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       messages: messages.map((msg) => msg.toData()),
       status: proposalStatusToJSON(status),
       final_tally_result: final_tally_result.toData(),
@@ -288,7 +287,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return Proposal_pb.fromPartial({
-      id: Long.fromNumber(id),
+      id,
       messages: messages.map((msg) => msg.packAny()),
       status,
       finalTallyResult: final_tally_result.toProto(),

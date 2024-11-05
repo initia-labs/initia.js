@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../../../../../util/json'
 import { Proof as Proof_pb } from '@initia/initia.proto/tendermint/crypto/proof'
 import { PublicKey as PublicKey_pb } from '@initia/initia.proto/tendermint/crypto/keys'
-import Long from 'long'
 
 export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   /**
@@ -56,8 +55,8 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   public toProto(): Proof.Proto {
     const { total, index, leaf_hash, aunts } = this
     return Proof_pb.fromPartial({
-      total: Long.fromNumber(total),
-      index: Long.fromNumber(index),
+      total,
+      index,
       leafHash: Buffer.from(leaf_hash, 'base64'),
       aunts: aunts.map((aunt) => Buffer.from(aunt, 'base64')),
     })

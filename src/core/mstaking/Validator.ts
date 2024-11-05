@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { Coins } from '../Coins'
-import { num } from '../num'
 import { ValAddress } from '../bech32'
 import { ValConsPublicKey } from '../PublicKey'
 import {
@@ -10,7 +9,6 @@ import {
   CommissionRates as CommissionRates_pb,
   BondStatus,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
@@ -153,7 +151,7 @@ export class Validator extends JSONSerializable<
       tokens: tokens.toProto(),
       delegatorShares: delegator_shares.toProto(),
       description: description.toProto(),
-      unbondingHeight: Long.fromNumber(unbonding_height),
+      unbondingHeight: unbonding_height,
       unbondingTime: unbonding_time,
       commission: commission.toProto(),
       votingPowers: voting_powers.toProto(),
@@ -339,9 +337,6 @@ export namespace Validator {
       public max_change_rate: string
     ) {
       super()
-      this.rate = num(rate).toString()
-      this.max_rate = num(max_rate).toString()
-      this.max_change_rate = num(max_change_rate).toString()
     }
 
     public static fromAmino(data: CommissionRates.Amino): CommissionRates {

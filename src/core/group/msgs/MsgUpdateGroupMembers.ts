@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MemberRequest } from '../GroupMember'
 import { MsgUpdateGroupMembers as MsgUpdateGroupMembers_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgUpdateGroupMembers extends JSONSerializable<
   MsgUpdateGroupMembers.Amino,
@@ -42,7 +41,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
       type: 'cosmos-sdk/MsgUpdateGroupMembers',
       value: {
         admin,
-        group_id: group_id.toString(),
+        group_id: group_id.toFixed(),
         member_updates: member_updates.map((d) => d.toAmino()),
       },
     }
@@ -64,7 +63,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgUpdateGroupMembers',
       admin,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       member_updates: member_updates.map((d) => d.toData()),
     }
   }
@@ -83,7 +82,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     const { admin, group_id, member_updates } = this
     return MsgUpdateGroupMembers_pb.fromPartial({
       admin,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       memberUpdates: member_updates.map((d) => d.toProto()),
     })
   }

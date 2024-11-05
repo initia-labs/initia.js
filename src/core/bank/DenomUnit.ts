@@ -29,7 +29,7 @@ export class DenomUnit extends JSONSerializable<
     const { denom, exponent, aliases } = this
     return {
       denom,
-      exponent: exponent.toString(),
+      exponent: exponent.toFixed(),
       aliases,
     }
   }
@@ -43,7 +43,7 @@ export class DenomUnit extends JSONSerializable<
     const { denom, exponent, aliases } = this
     return {
       denom,
-      exponent: exponent.toString(),
+      exponent: exponent.toFixed(),
       aliases,
     }
   }

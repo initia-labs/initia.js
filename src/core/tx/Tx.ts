@@ -21,7 +21,6 @@ import {
 import { CompactBitArray } from './CompactBitArray'
 import { Msg } from '../Msg'
 import { Fee } from './Fee'
-import Long from 'long'
 import { SignatureV2 } from './SignatureV2'
 import { SignerData } from '../../client'
 
@@ -201,7 +200,7 @@ export class TxBody {
     return TxBody_pb.fromPartial({
       memo: this.memo,
       messages: this.messages.map((m) => m.packAny()),
-      timeoutHeight: Long.fromNumber(this.timeout_height ?? 0),
+      timeoutHeight: this.timeout_height,
     })
   }
 
@@ -303,7 +302,7 @@ export class SignerInfo {
     return SignerInfo_pb.fromPartial({
       modeInfo: mode_info.toProto(),
       publicKey: public_key?.packAny(),
-      sequence: Long.fromNumber(sequence),
+      sequence,
     })
   }
 }

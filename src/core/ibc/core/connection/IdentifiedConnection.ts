@@ -7,7 +7,6 @@ import {
   stateToJSON,
 } from '@initia/initia.proto/ibc/core/connection/v1/connection'
 import { ConnectionCounterparty } from './ConnectionCounterparty'
-import Long from 'long'
 
 export { State, stateFromJSON, stateToJSON }
 
@@ -115,7 +114,7 @@ export class IdentifiedConnection extends JSONSerializable<
       versions: versions.map((v) => v.toProto()),
       state,
       counterparty: counterparty?.toProto(),
-      delayPeriod: Long.fromNumber(delay_period),
+      delayPeriod: delay_period,
     })
   }
 }

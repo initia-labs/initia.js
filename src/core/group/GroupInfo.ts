@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { GroupInfo as GroupInfo_pb } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 export class GroupInfo extends JSONSerializable<
   GroupInfo.Amino,
@@ -42,10 +41,10 @@ export class GroupInfo extends JSONSerializable<
   public toAmino(): GroupInfo.Amino {
     const { id, admin, metadata, version, total_weight, created_at } = this
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       admin,
       metadata,
-      version: version.toString(),
+      version: version.toFixed(),
       total_weight,
       created_at: created_at.toISOString(),
     }
@@ -66,10 +65,10 @@ export class GroupInfo extends JSONSerializable<
   public toData(): GroupInfo.Data {
     const { id, admin, metadata, version, total_weight, created_at } = this
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       admin,
       metadata,
-      version: version.toString(),
+      version: version.toFixed(),
       total_weight,
       created_at: created_at.toISOString(),
     }
@@ -89,10 +88,10 @@ export class GroupInfo extends JSONSerializable<
   public toProto(): GroupInfo.Proto {
     const { id, admin, metadata, version, total_weight, created_at } = this
     return GroupInfo_pb.fromPartial({
-      id: Long.fromNumber(id),
+      id,
       admin,
       metadata,
-      version: Long.fromNumber(version),
+      version,
       totalWeight: total_weight,
       createdAt: created_at,
     })

@@ -22,7 +22,6 @@ export default defineConfig({
         'bip32',
         'bip39',
         'keccak256',
-        'long',
         'ripemd160',
         'secp256k1',
         'semver',

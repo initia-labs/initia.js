@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { MsgInitiateTokenDeposit as MsgInitiateTokenDeposit_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgInitiateTokenDeposit extends JSONSerializable<
   MsgInitiateTokenDeposit.Amino,
@@ -48,7 +47,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
       type: 'ophost/MsgInitiateTokenDeposit',
       value: {
         sender,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         to,
         amount: amount.toAmino(),
         data,
@@ -74,7 +73,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgInitiateTokenDeposit',
       sender,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       to,
       amount: amount.toData(),
       data,
@@ -99,7 +98,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     const { sender, bridge_id, to, amount, data } = this
     return MsgInitiateTokenDeposit_pb.fromPartial({
       sender,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       to,
       amount: amount.toProto(),
       data: data ? Buffer.from(data, 'base64') : undefined,

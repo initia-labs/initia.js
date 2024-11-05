@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgProposeOutput as MsgProposeOutput_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgProposeOutput extends JSONSerializable<
   MsgProposeOutput.Amino,
@@ -52,9 +51,9 @@ export class MsgProposeOutput extends JSONSerializable<
       type: 'ophost/MsgProposeOutput',
       value: {
         proposer,
-        bridge_id: bridge_id.toString(),
-        output_index: output_index.toString(),
-        l2_block_number: l2_block_number.toString(),
+        bridge_id: bridge_id.toFixed(),
+        output_index: output_index.toFixed(),
+        l2_block_number: l2_block_number.toFixed(),
         output_root,
       },
     }
@@ -78,9 +77,9 @@ export class MsgProposeOutput extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgProposeOutput',
       proposer,
-      bridge_id: bridge_id.toString(),
-      output_index: output_index.toString(),
-      l2_block_number: l2_block_number.toString(),
+      bridge_id: bridge_id.toFixed(),
+      output_index: output_index.toFixed(),
+      l2_block_number: l2_block_number.toFixed(),
       output_root,
     }
   }
@@ -100,9 +99,9 @@ export class MsgProposeOutput extends JSONSerializable<
       this
     return MsgProposeOutput_pb.fromPartial({
       proposer,
-      bridgeId: Long.fromNumber(bridge_id),
-      outputIndex: Long.fromNumber(output_index),
-      l2BlockNumber: Long.fromNumber(l2_block_number),
+      bridgeId: bridge_id,
+      outputIndex: output_index,
+      l2BlockNumber: l2_block_number,
       outputRoot: output_root ? Buffer.from(output_root, 'base64') : undefined,
     })
   }

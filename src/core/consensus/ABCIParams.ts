@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { ABCIParams as ABCIParams_pb } from '@initia/initia.proto/tendermint/types/params'
-import Long from 'long'
 
 export class ABCIParams extends JSONSerializable<
   ABCIParams.Amino,
@@ -21,7 +20,7 @@ export class ABCIParams extends JSONSerializable<
   public toAmino(): ABCIParams.Amino {
     return {
       vote_extensions_enable_height:
-        this.vote_extensions_enable_height.toString(),
+        this.vote_extensions_enable_height.toFixed(),
     }
   }
 
@@ -32,7 +31,7 @@ export class ABCIParams extends JSONSerializable<
   public toData(): ABCIParams.Data {
     return {
       vote_extensions_enable_height:
-        this.vote_extensions_enable_height.toString(),
+        this.vote_extensions_enable_height.toFixed(),
     }
   }
 
@@ -42,9 +41,7 @@ export class ABCIParams extends JSONSerializable<
 
   public toProto(): ABCIParams.Proto {
     return ABCIParams_pb.fromPartial({
-      voteExtensionsEnableHeight: Long.fromNumber(
-        this.vote_extensions_enable_height
-      ),
+      voteExtensionsEnableHeight: this.vote_extensions_enable_height,
     })
   }
 }

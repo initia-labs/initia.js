@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateOracleConfig as MsgUpdateOracleConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgUpdateOracleConfig extends JSONSerializable<
   MsgUpdateOracleConfig.Amino,
@@ -42,7 +41,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
       type: 'ophost/MsgUpdateOracleConfig',
       value: {
         authority,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         oracle_enabled,
       },
     }
@@ -64,7 +63,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateOracleConfig',
       authority,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       oracle_enabled,
     }
   }
@@ -83,7 +82,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
     const { authority, bridge_id, oracle_enabled } = this
     return MsgUpdateOracleConfig_pb.fromPartial({
       authority,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       oracleEnabled: oracle_enabled,
     })
   }

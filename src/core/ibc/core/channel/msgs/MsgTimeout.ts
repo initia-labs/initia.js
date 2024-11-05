@@ -3,7 +3,6 @@ import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgTimeout as MsgTimeout_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
 import { Packet, Height } from '../../../core'
-import Long from 'long'
 
 /**
  * MsgTimeout receives timed-out packet
@@ -96,7 +95,7 @@ export class MsgTimeout extends JSONSerializable<
       packet: packet?.toProto(),
       proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
       proofHeight: proof_height?.toProto(),
-      nextSequenceRecv: Long.fromNumber(next_sequence_recv),
+      nextSequenceRecv: next_sequence_recv,
       signer,
     })
   }

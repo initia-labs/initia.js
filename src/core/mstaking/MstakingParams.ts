@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 
 export class MstakingParams extends JSONSerializable<
   MstakingParams.Amino,
@@ -70,7 +69,7 @@ export class MstakingParams extends JSONSerializable<
         max_entries,
         historical_entries,
         bond_denoms,
-        min_voting_power: min_voting_power.toString(),
+        min_voting_power: min_voting_power.toFixed(),
         min_commission_rate,
       },
     }
@@ -114,7 +113,7 @@ export class MstakingParams extends JSONSerializable<
       max_entries,
       historical_entries,
       bond_denoms,
-      min_voting_power: min_voting_power.toString(),
+      min_voting_power: min_voting_power.toFixed(),
       min_commission_rate,
     }
   }
@@ -147,7 +146,7 @@ export class MstakingParams extends JSONSerializable<
       maxEntries: max_entries,
       historicalEntries: historical_entries,
       bondDenoms: bond_denoms,
-      minVotingPower: Long.fromNumber(min_voting_power),
+      minVotingPower: min_voting_power,
       minCommissionRate: min_commission_rate,
     })
   }

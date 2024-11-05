@@ -86,9 +86,9 @@ describe('Validator', () => {
       unbonding_time: new Date('1970-01-01T00:00:00Z'),
       commission: {
         commission_rates: {
-          rate: '0.1',
-          max_rate: '0.2',
-          max_change_rate: '0.01',
+          rate: '0.100000000000000000',
+          max_rate: '0.200000000000000000',
+          max_change_rate: '0.010000000000000000',
         },
         update_time: new Date('2023-01-26T06:28:02.349271477Z'),
       },

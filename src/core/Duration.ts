@@ -1,5 +1,4 @@
 import { Duration as Duration_pb } from '@initia/initia.proto/google/protobuf/duration'
-import Long from 'long'
 
 /**
  * A Duration represents a signed, fixed-length span of time represented
@@ -20,14 +19,14 @@ import Long from 'long'
  * microsecond should be expressed in JSON format as "3.000001s".
  */
 export class Duration {
-  public seconds: Long
+  public seconds: number
   public nanos: number
 
   constructor(seconds: number, nanos = 0) {
     const [sec, nano] = (nanos / Math.pow(10, 9) + seconds)
       .toFixed(9)
       .split('.')
-    this.seconds = Long.fromString(sec)
+    this.seconds = parseInt(sec)
     this.nanos = parseInt(nano)
   }
 
@@ -37,7 +36,7 @@ export class Duration {
   }
 
   public toString(): string {
-    return `${this.nanos / Math.pow(10, 9) + this.seconds.toNumber()}s`
+    return `${this.nanos / Math.pow(10, 9) + this.seconds}s`
   }
 
   public static fromAmino(amino: Duration.Amino): Duration {
@@ -61,7 +60,10 @@ export class Duration {
   }
 
   public toProto(): Duration.Proto {
-    return { seconds: this.seconds, nanos: this.nanos }
+    return Duration_pb.fromPartial({
+      seconds: this.seconds,
+      nanos: this.nanos,
+    })
   }
 }
 

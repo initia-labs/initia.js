@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1/gov'
-import Long from 'long'
 
 /**
  * Defines a message to cast a vote
@@ -40,7 +39,7 @@ export class MsgVote extends JSONSerializable<
     return {
       type: 'cosmos-sdk/v1/MsgVote',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         voter,
         option,
         metadata: metadata && metadata !== '' ? metadata : undefined,
@@ -57,7 +56,7 @@ export class MsgVote extends JSONSerializable<
     const { proposal_id, voter, option, metadata } = this
     return {
       '@type': '/cosmos.gov.v1.MsgVote',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       option,
       metadata,
@@ -76,7 +75,7 @@ export class MsgVote extends JSONSerializable<
   public toProto(): MsgVote.Proto {
     const { proposal_id, voter, option, metadata } = this
     return MsgVote_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       option,
       metadata,

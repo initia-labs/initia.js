@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupAdmin as MsgUpdateGroupAdmin_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgUpdateGroupAdmin extends JSONSerializable<
   MsgUpdateGroupAdmin.Amino,
@@ -37,7 +36,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
       type: 'cosmos-sdk/MsgUpdateGroupAdmin',
       value: {
         admin,
-        group_id: group_id.toString(),
+        group_id: group_id.toFixed(),
         new_admin,
       },
     }
@@ -53,7 +52,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgUpdateGroupAdmin',
       admin,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       new_admin,
     }
   }
@@ -72,7 +71,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
     const { admin, group_id, new_admin } = this
     return MsgUpdateGroupAdmin_pb.fromPartial({
       admin,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       newAdmin: new_admin,
     })
   }

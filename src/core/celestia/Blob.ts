@@ -40,8 +40,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
     return {
       namespace_id,
       data,
-      share_version: share_version.toString(),
-      namespace_version: namespace_version.toString(),
+      share_version: share_version.toFixed(),
+      namespace_version: namespace_version.toFixed(),
     }
   }
 

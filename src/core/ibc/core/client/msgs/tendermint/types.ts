@@ -16,7 +16,6 @@ import {
 } from '@initia/initia.proto/tendermint/types/validator'
 import { Consensus } from './version'
 import { PublicKey } from './crypto'
-import Long from 'long'
 
 /** Header defines the structure of a Tendermint block header. */
 export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
@@ -27,7 +26,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   constructor(
     public version: Consensus | undefined,
     public chain_id: string,
-    public height: string,
+    public height: number,
     public time: Date | undefined,
     public last_block_id: BlockID | undefined,
     public last_commit_hash: string,
@@ -72,7 +71,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return new Header(
       version ? Consensus.fromData(version) : undefined,
       chain_id,
-      height,
+      parseInt(height),
       time ? new Date(time) : undefined,
       last_block_id ? BlockID.fromData(last_block_id) : undefined,
       last_commit_hash,
@@ -107,7 +106,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     const res: Header.Data = {
       version: version?.toData(),
       chain_id,
-      height,
+      height: height.toFixed(),
       time: time?.toISOString().replace(/\.000Z$/, 'Z'),
       last_block_id: last_block_id?.toData(),
       last_commit_hash,
@@ -143,7 +142,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return new Header(
       version ? Consensus.fromProto(version) : undefined,
       chainId,
-      height.toString(),
+      height.toNumber(),
       time,
       lastBlockId ? BlockID.fromProto(lastBlockId) : undefined,
       Buffer.from(lastCommitHash).toString('base64'),
@@ -178,7 +177,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return Header_pb.fromPartial({
       version: version?.toProto(),
       chainId: chain_id,
-      height: Long.fromString(height),
+      height,
       time,
       lastBlockId: last_block_id?.toProto(),
       lastCommitHash: Buffer.from(last_commit_hash, 'base64'),
@@ -402,7 +401,7 @@ export class PartSetHeader extends JSONSerializable<
   public toProto(): PartSetHeader.Proto {
     const { total, hash } = this
     return PartSetHeader_pb.fromPartial({
-      total: total,
+      total,
       hash: Buffer.from(hash, 'base64'),
     })
   }
@@ -426,7 +425,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
    * @param signatures
    */
   constructor(
-    public height: Long,
+    public height: number,
     public round: number,
     public block_id: BlockID | undefined,
     public signatures: CommitSig[]
@@ -446,7 +445,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   public static fromData(data: Commit.Data): Commit {
     const { height, round, block_id, signatures } = data
     return new Commit(
-      Long.fromString(height),
+      parseInt(height),
       parseInt(round),
       block_id ? BlockID.fromData(block_id) : undefined,
       signatures.map((sig) => CommitSig.fromData(sig))
@@ -456,7 +455,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   public toData(): Commit.Data {
     const { height, round, block_id, signatures } = this
     const res: Commit.Data = {
-      height: height.toString(),
+      height: height.toFixed(),
       round: round.toFixed(),
       block_id: block_id?.toData(),
       signatures: signatures.map((sig) => sig.toData()),
@@ -467,7 +466,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   public static fromProto(proto: Commit.Proto): Commit {
     const { height, round, blockId, signatures } = proto
     return new Commit(
-      height,
+      height.toNumber(),
       round,
       blockId ? BlockID.fromProto(blockId) : undefined,
       signatures.map((sig) => CommitSig.fromProto(sig))
@@ -594,7 +593,7 @@ export class ValidatorSet extends JSONSerializable<
   constructor(
     public validators: Validator[],
     public proposer: Validator | undefined,
-    public total_voting_power: Long
+    public total_voting_power: number
   ) {
     super()
   }
@@ -613,7 +612,7 @@ export class ValidatorSet extends JSONSerializable<
     return new ValidatorSet(
       validators.map((val) => Validator.fromData(val)),
       proposer ? Validator.fromData(proposer) : undefined,
-      Long.fromString(total_voting_power)
+      parseInt(total_voting_power)
     )
   }
 
@@ -622,7 +621,7 @@ export class ValidatorSet extends JSONSerializable<
     const res: ValidatorSet.Data = {
       validators: validators.map((val) => val.toData()),
       proposer: proposer?.toData(),
-      total_voting_power: total_voting_power.toString(),
+      total_voting_power: total_voting_power.toFixed(),
     }
     return res
   }
@@ -632,7 +631,7 @@ export class ValidatorSet extends JSONSerializable<
     return new ValidatorSet(
       validators.map((val) => Validator.fromProto(val)),
       proposer ? Validator.fromProto(proposer) : undefined,
-      totalVotingPower
+      totalVotingPower.toNumber()
     )
   }
 
@@ -670,8 +669,8 @@ export class Validator extends JSONSerializable<
   constructor(
     public address: string, // not AccAddress in case of opposite chain is not cosmos-sdk based
     public pub_key: PublicKey | undefined,
-    public voting_power: Long,
-    public proposer_priority: Long
+    public voting_power: number,
+    public proposer_priority: number
   ) {
     super()
   }
@@ -690,8 +689,8 @@ export class Validator extends JSONSerializable<
     return new Validator(
       address,
       pub_key ? PublicKey.fromData(pub_key) : undefined,
-      Long.fromString(voting_power),
-      Long.fromString(proposer_priority)
+      parseInt(voting_power),
+      parseInt(proposer_priority)
     )
   }
 
@@ -700,8 +699,8 @@ export class Validator extends JSONSerializable<
     const res: Validator.Data = {
       address,
       pub_key: pub_key?.toData(),
-      voting_power: voting_power.toString(),
-      proposer_priority: proposer_priority.toString(),
+      voting_power: voting_power.toFixed(),
+      proposer_priority: proposer_priority.toFixed(),
     }
     return res
   }
@@ -711,8 +710,8 @@ export class Validator extends JSONSerializable<
     return new Validator(
       Buffer.from(address).toString('base64'),
       pubKey ? PublicKey.fromProto(pubKey) : undefined,
-      votingPower,
-      proposerPriority
+      votingPower.toNumber(),
+      proposerPriority.toNumber()
     )
   }
 

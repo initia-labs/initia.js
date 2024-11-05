@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { Plan as Plan_pb } from '@initia/initia.proto/cosmos/upgrade/v1beta1/upgrade'
-import Long from 'long'
 
 /*
  * Plan specifies information about a planned upgrade and when it should occur.
@@ -28,7 +27,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     const { name, height, info } = this
     return {
       name,
-      height: height.toString(),
+      height: height.toFixed(),
       info,
     }
   }
@@ -42,7 +41,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     const { name, height, info } = this
     return {
       name,
-      height: height.toString(),
+      height: height.toFixed(),
       info,
     }
   }
@@ -55,7 +54,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
     const { name, height, info } = this
     return Plan_pb.fromPartial({
       name,
-      height: Long.fromNumber(height),
+      height,
       info,
     })
   }

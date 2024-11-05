@@ -5,8 +5,7 @@ import {
   VoteOption,
   WeightedVoteOption as WeightedVoteOption_pb,
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
-import { num } from '../num'
-import Long from 'long'
+
 /**
  * Defines a vote on a governance proposal
  */
@@ -39,7 +38,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
   public toAmino(): Vote.Amino {
     const { proposal_id, voter, options, metadata } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       options: options.map((v) => v.toAmino()),
       metadata,
@@ -59,7 +58,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
   public toData(): Vote.Data {
     const { proposal_id, voter, options, metadata } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       options: options.map((v) => v.toData()),
       metadata,
@@ -79,7 +78,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
     const { proposal_id, voter, options, metadata } = this
     return Vote_pb.fromPartial({
       options: options.map((o) => o.toProto()),
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       metadata,
     })
@@ -112,50 +111,48 @@ export class WeightedVoteOption extends JSONSerializable<
   WeightedVoteOption.Data,
   WeightedVoteOption.Proto
 > {
-  public weight: string
   constructor(
     public option: VoteOption,
-    weight: number | string
+    public weight: number
   ) {
     super()
-    this.weight = num(weight).toString()
   }
 
   public static fromAmino(data: WeightedVoteOption.Amino): WeightedVoteOption {
     const { option, weight } = data
-    return new WeightedVoteOption(option, weight)
+    return new WeightedVoteOption(option, parseFloat(weight))
   }
 
   public toAmino(): WeightedVoteOption.Amino {
     const { option, weight } = this
     return {
       option,
-      weight,
+      weight: weight.toString(),
     }
   }
 
   public static fromData(data: WeightedVoteOption.Data): WeightedVoteOption {
     const { option, weight } = data
-    return new WeightedVoteOption(option, weight)
+    return new WeightedVoteOption(option, parseFloat(weight))
   }
 
   public toData(): WeightedVoteOption.Data {
     const { option, weight } = this
     return {
       option,
-      weight,
+      weight: weight.toString(),
     }
   }
 
   public static fromProto(proto: WeightedVoteOption.Proto): WeightedVoteOption {
-    return new WeightedVoteOption(proto.option, proto.weight)
+    return new WeightedVoteOption(proto.option, parseFloat(proto.weight))
   }
 
   public toProto(): WeightedVoteOption.Proto {
     const { option, weight } = this
     return WeightedVoteOption_pb.fromPartial({
       option,
-      weight,
+      weight: weight.toString(),
     })
   }
 }

@@ -4,7 +4,6 @@ import { Coin } from '../../Coin'
 import { Denom } from '../../Denom'
 import { MsgFinalizeTokenDeposit as MsgFinalizeTokenDeposit_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgFinalizeTokenDeposit extends JSONSerializable<
   MsgFinalizeTokenDeposit.Amino,
@@ -62,8 +61,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
         from,
         to,
         amount: amount.toAmino(),
-        sequence: sequence.toString(),
-        height: height.toString(),
+        sequence: sequence.toFixed(),
+        height: height.toFixed(),
         base_denom,
         data,
       },
@@ -96,8 +95,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       from,
       to,
       amount: amount.toData(),
-      sequence: sequence.toString(),
-      height: height.toString(),
+      sequence: sequence.toFixed(),
+      height: height.toFixed(),
       base_denom,
       data,
     }
@@ -128,8 +127,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       from,
       to,
       amount: amount.toProto(),
-      sequence: Long.fromNumber(sequence),
-      height: Long.fromNumber(height),
+      sequence,
+      height,
       baseDenom: base_denom,
       data: data ? Buffer.from(data, 'base64') : undefined,
     })

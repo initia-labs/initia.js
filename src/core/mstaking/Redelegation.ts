@@ -7,7 +7,6 @@ import {
   RedelegationEntry as RedelegationEntry_pb,
   RedelegationEntryResponse as RedelegationEntryResponse_pb,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 
 /**
  * A redelegation is when a delegator decides to stop mstaking with one validator and
@@ -267,7 +266,7 @@ export namespace Redelegation {
         balance: balance.toProto(),
         redelegationEntry: RedelegationEntry_pb.fromPartial({
           completionTime: completion_time,
-          creationHeight: Long.fromNumber(creation_height),
+          creationHeight: creation_height,
           initialBalance: initial_balance.toProto(),
           sharesDst: shares_dst.toProto(),
         }),

@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
 import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
-import Long from 'long'
 
 /**
  * Vote for a proposal
@@ -72,7 +71,7 @@ export class MsgVoteLegacy extends JSONSerializable<
     const { proposal_id, voter, option } = this
     return MsgVote_pb.fromPartial({
       option,
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
     })
   }

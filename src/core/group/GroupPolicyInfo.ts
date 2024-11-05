@@ -3,7 +3,6 @@ import { AccAddress } from '../bech32'
 import { DecisionPolicy } from './policies'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { GroupPolicyInfo as GroupPolicyInfo_pb } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 export class GroupPolicyInfo extends JSONSerializable<
   GroupPolicyInfo.Amino,
@@ -66,10 +65,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return {
       address,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       admin,
       metadata,
-      version: version.toString(),
+      version: version.toFixed(),
       decision_policy: decision_policy.toAmino(),
       created_at: created_at.toISOString(),
     }
@@ -110,10 +109,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return {
       address,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       admin,
       metadata,
-      version: version.toString(),
+      version: version.toFixed(),
       decision_policy: decision_policy.toData(),
       created_at: created_at.toISOString(),
     }
@@ -144,10 +143,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return GroupPolicyInfo_pb.fromPartial({
       address,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       admin,
       metadata,
-      version: Long.fromNumber(version),
+      version,
       decisionPolicy: decision_policy.packAny(),
       createdAt: created_at,
     })

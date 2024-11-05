@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateProposer as MsgUpdateProposer_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgUpdateProposer extends JSONSerializable<
   MsgUpdateProposer.Amino,
@@ -36,7 +35,7 @@ export class MsgUpdateProposer extends JSONSerializable<
       type: 'ophost/MsgUpdateProposer',
       value: {
         authority,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         new_proposer,
       },
     }
@@ -52,7 +51,7 @@ export class MsgUpdateProposer extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateProposer',
       authority,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       new_proposer,
     }
   }
@@ -69,7 +68,7 @@ export class MsgUpdateProposer extends JSONSerializable<
     const { authority, bridge_id, new_proposer } = this
     return MsgUpdateProposer_pb.fromPartial({
       authority,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       newProposer: new_proposer,
     })
   }

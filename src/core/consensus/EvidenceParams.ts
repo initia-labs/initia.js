@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { EvidenceParams as EvidenceParams_pb } from '@initia/initia.proto/tendermint/types/params'
-import Long from 'long'
 
 export class EvidenceParams extends JSONSerializable<
   EvidenceParams.Amino,
@@ -33,9 +32,9 @@ export class EvidenceParams extends JSONSerializable<
   public toAmino(): EvidenceParams.Amino {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return {
-      max_age_num_blocks: max_age_num_blocks.toString(),
+      max_age_num_blocks: max_age_num_blocks.toFixed(),
       max_age_duration: max_age_duration.toAmino(),
-      max_bytes: max_bytes.toString(),
+      max_bytes: max_bytes.toFixed(),
     }
   }
 
@@ -51,9 +50,9 @@ export class EvidenceParams extends JSONSerializable<
   public toData(): EvidenceParams.Data {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return {
-      max_age_num_blocks: max_age_num_blocks.toString(),
+      max_age_num_blocks: max_age_num_blocks.toFixed(),
       max_age_duration: max_age_duration.toData(),
-      max_bytes: max_bytes.toString(),
+      max_bytes: max_bytes.toFixed(),
     }
   }
 
@@ -68,9 +67,9 @@ export class EvidenceParams extends JSONSerializable<
   public toProto(): EvidenceParams.Proto {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return EvidenceParams_pb.fromPartial({
-      maxAgeNumBlocks: Long.fromNumber(max_age_num_blocks),
+      maxAgeNumBlocks: max_age_num_blocks,
       maxAgeDuration: max_age_duration.toProto(),
-      maxBytes: Long.fromNumber(max_bytes),
+      maxBytes: max_bytes,
     })
   }
 }

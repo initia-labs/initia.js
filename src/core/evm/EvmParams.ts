@@ -49,7 +49,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
     } = this
     return {
-      extra_eips: extra_eips.map((eip) => eip.toString()),
+      extra_eips: extra_eips.map((eip) => eip.toFixed()),
       allowed_publishers,
       allow_custom_erc20,
       allowed_custom_erc20s,
@@ -83,7 +83,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
     } = this
     return {
-      extra_eips: extra_eips.map((eip) => eip.toString()),
+      extra_eips: extra_eips.map((eip) => eip.toFixed()),
       allowed_publishers,
       allow_custom_erc20,
       allowed_custom_erc20s,

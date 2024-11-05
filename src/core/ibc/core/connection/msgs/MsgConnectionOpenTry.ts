@@ -5,7 +5,6 @@ import { MsgConnectionOpenTry as MsgConnectionOpenTry_pb } from '@initia/initia.
 import { ConnectionCounterparty } from '../ConnectionCounterparty'
 import { IbcVersion } from '../IbcVersion'
 import { Height } from '../../client'
-import Long from 'long'
 
 /**
  *  MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a connection on Chain B.
@@ -154,7 +153,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       clientId: client_id,
       clientState: client_state,
       counterparty: counterparty?.toProto(),
-      delayPeriod: Long.fromNumber(delay_period),
+      delayPeriod: delay_period,
       counterpartyVersions: counterparty_versions.map((cv) => cv.toProto()),
       proofHeight: proof_height?.toProto(),
       proofInit: Buffer.from(proof_init, 'base64'),

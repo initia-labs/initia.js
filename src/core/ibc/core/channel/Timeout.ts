@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Timeout as Timeout_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { Height } from '../client'
-import Long from 'long'
 
 export class Timeout extends JSONSerializable<
   Timeout.Amino,
@@ -28,7 +27,7 @@ export class Timeout extends JSONSerializable<
     const { height, timestamp } = this
     return {
       height: height.toAmino(),
-      timestamp: timestamp.toString(),
+      timestamp: timestamp.toFixed(),
     }
   }
 
@@ -41,7 +40,7 @@ export class Timeout extends JSONSerializable<
     const { height, timestamp } = this
     return {
       height: height.toData(),
-      timestamp: timestamp.toString(),
+      timestamp: timestamp.toFixed(),
     }
   }
 
@@ -56,7 +55,7 @@ export class Timeout extends JSONSerializable<
     const { height, timestamp } = this
     return Timeout_pb.fromPartial({
       height: height.toProto(),
-      timestamp: Long.fromNumber(timestamp),
+      timestamp,
     })
   }
 }
