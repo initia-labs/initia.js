@@ -51,7 +51,7 @@ export class BridgeConfig extends JSONSerializable<
       BatchInfo.fromAmino(batch_info),
       Duration.fromAmino(submission_interval),
       Duration.fromAmino(finalization_period),
-      Number.parseInt(submission_start_height),
+      parseInt(submission_start_height),
       oracle_enabled,
       metadata
     )
@@ -99,7 +99,7 @@ export class BridgeConfig extends JSONSerializable<
       BatchInfo.fromData(batch_info),
       Duration.fromData(submission_interval),
       Duration.fromData(finalization_period),
-      Number.parseInt(submission_start_height),
+      parseInt(submission_start_height),
       oracle_enabled,
       metadata
     )

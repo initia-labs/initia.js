@@ -33,7 +33,7 @@ export class MsgDeposit extends JSONSerializable<
       value: { proposal_id, depositor, amount },
     } = data
     return new MsgDeposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromAmino(amount)
     )
@@ -54,7 +54,7 @@ export class MsgDeposit extends JSONSerializable<
   public static fromData(data: MsgDeposit.Data): MsgDeposit {
     const { proposal_id, depositor, amount } = data
     return new MsgDeposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromData(amount)
     )

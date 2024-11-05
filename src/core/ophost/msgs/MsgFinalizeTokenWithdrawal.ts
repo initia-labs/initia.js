@@ -60,12 +60,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return new MsgFinalizeTokenWithdrawal(
       sender,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
+      parseInt(bridge_id),
+      parseInt(output_index),
       withdrawal_proofs,
       from,
       to,
-      Number.parseInt(sequence),
+      parseInt(sequence),
       Coin.fromAmino(amount),
       version,
       storage_root,
@@ -125,12 +125,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return new MsgFinalizeTokenWithdrawal(
       sender,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
+      parseInt(bridge_id),
+      parseInt(output_index),
       withdrawal_proofs,
       from,
       to,
-      Number.parseInt(sequence),
+      parseInt(sequence),
       Coin.fromData(amount),
       version,
       storage_root,

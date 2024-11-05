@@ -51,10 +51,7 @@ export class Height extends JSONSerializable<
 
   public static fromData(data: Height.Data): Height {
     const { revision_number, revision_height } = data
-    return new Height(
-      Number.parseInt(revision_number),
-      Number.parseInt(revision_height)
-    )
+    return new Height(parseInt(revision_number), parseInt(revision_height))
   }
 
   public toData(): Height.Data {

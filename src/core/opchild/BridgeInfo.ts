@@ -29,7 +29,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       data
     return new BridgeInfo(
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       bridge_addr,
       l1_chain_id,
       l1_client_id,
@@ -53,7 +53,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       data
     return new BridgeInfo(
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       bridge_addr,
       l1_chain_id,
       l1_client_id,

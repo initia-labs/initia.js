@@ -41,7 +41,7 @@ export class MsgInstantiateContract extends JSONSerializable<
     return new MsgInstantiateContract(
       sender,
       admin,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       label,
       msg,
       Coins.fromAmino(funds)
@@ -70,7 +70,7 @@ export class MsgInstantiateContract extends JSONSerializable<
     return new MsgInstantiateContract(
       sender,
       admin,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       label,
       msg,
       Coins.fromData(funds)

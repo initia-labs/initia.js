@@ -30,7 +30,7 @@ export class Deposit extends JSONSerializable<
   public static fromAmino(data: Deposit.Amino): Deposit {
     const { proposal_id, depositor, amount } = data
     return new Deposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromAmino(amount)
     )
@@ -47,11 +47,7 @@ export class Deposit extends JSONSerializable<
 
   public static fromData(data: Deposit.Data): Deposit {
     const { proposal_id, depositor, amount } = data
-    return new Deposit(
-      Number.parseInt(proposal_id),
-      depositor,
-      Coins.fromData(amount)
-    )
+    return new Deposit(parseInt(proposal_id), depositor, Coins.fromData(amount))
   }
 
   public toData(): Deposit.Data {

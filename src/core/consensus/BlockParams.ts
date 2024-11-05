@@ -20,7 +20,7 @@ export class BlockParams extends JSONSerializable<
 
   public static fromAmino(data: BlockParams.Amino): BlockParams {
     const { max_bytes, max_gas } = data
-    return new BlockParams(Number.parseInt(max_bytes), Number.parseInt(max_gas))
+    return new BlockParams(parseInt(max_bytes), parseInt(max_gas))
   }
 
   public toAmino(): BlockParams.Amino {
@@ -33,7 +33,7 @@ export class BlockParams extends JSONSerializable<
 
   public static fromData(data: BlockParams.Data): BlockParams {
     const { max_bytes, max_gas } = data
-    return new BlockParams(Number.parseInt(max_bytes), Number.parseInt(max_gas))
+    return new BlockParams(parseInt(max_bytes), parseInt(max_gas))
   }
 
   public toData(): BlockParams.Data {

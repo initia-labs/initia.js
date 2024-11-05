@@ -33,7 +33,7 @@ export class MsgVoteWeighted extends JSONSerializable<
       value: { proposal_id, voter, options, metadata },
     } = data
     return new MsgVoteWeighted(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       options.map((o) => WeightedVoteOption.fromAmino(o)),
       metadata ?? ''
@@ -56,7 +56,7 @@ export class MsgVoteWeighted extends JSONSerializable<
   public static fromData(data: MsgVoteWeighted.Data): MsgVoteWeighted {
     const { proposal_id, voter, options, metadata } = data
     return new MsgVoteWeighted(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       options.map((o) => WeightedVoteOption.fromData(o)),
       metadata

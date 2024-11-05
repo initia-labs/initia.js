@@ -30,9 +30,9 @@ export class Equivocation extends JSONSerializable<
     } = data
 
     return new Equivocation(
-      Number.parseInt(height),
+      parseInt(height),
       new Date(time),
-      Number.parseInt(power),
+      parseInt(power),
       consensus_address
     )
   }
@@ -55,9 +55,9 @@ export class Equivocation extends JSONSerializable<
     const { height, time, power, consensus_address } = data
 
     return new Equivocation(
-      Number.parseInt(height),
+      parseInt(height),
       new Date(time),
-      Number.parseInt(power),
+      parseInt(power),
       consensus_address
     )
   }

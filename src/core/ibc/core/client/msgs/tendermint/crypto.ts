@@ -7,13 +7,13 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   /**
    * @param total
    * @param index
-   * @param leafHash
+   * @param leaf_hash
    * @param aunts
    */
   constructor(
     public total: number,
     public index: number,
-    public leafHash: string,
+    public leaf_hash: string,
     public aunts: string[]
   ) {
     super()
@@ -29,21 +29,16 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   }
 
   public static fromData(data: Proof.Data): Proof {
-    const { total, index, leaf_hash: leafHash, aunts } = data
-    return new Proof(
-      Number.parseInt(total),
-      Number.parseInt(index),
-      leafHash,
-      aunts
-    )
+    const { total, index, leaf_hash, aunts } = data
+    return new Proof(parseInt(total), parseInt(index), leaf_hash, aunts)
   }
 
   public toData(): Proof.Data {
-    const { total, index, leafHash, aunts } = this
+    const { total, index, leaf_hash, aunts } = this
     const res: Proof.Data = {
       total: total.toFixed(),
       index: index.toFixed(),
-      leaf_hash: leafHash,
+      leaf_hash,
       aunts,
     }
     return res
@@ -59,11 +54,11 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   }
 
   public toProto(): Proof.Proto {
-    const { total, index, leafHash, aunts } = this
+    const { total, index, leaf_hash, aunts } = this
     return Proof_pb.fromPartial({
       total: Long.fromNumber(total),
       index: Long.fromNumber(index),
-      leafHash: Buffer.from(leafHash, 'base64'),
+      leafHash: Buffer.from(leaf_hash, 'base64'),
       aunts: aunts.map((aunt) => Buffer.from(aunt, 'base64')),
     })
   }

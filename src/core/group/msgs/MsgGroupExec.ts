@@ -24,7 +24,7 @@ export class MsgGroupExec extends JSONSerializable<
     const {
       value: { proposal_id, executor },
     } = data
-    return new MsgGroupExec(Number.parseInt(proposal_id), executor)
+    return new MsgGroupExec(parseInt(proposal_id), executor)
   }
 
   public toAmino(): MsgGroupExec.Amino {
@@ -40,7 +40,7 @@ export class MsgGroupExec extends JSONSerializable<
 
   public static fromData(data: MsgGroupExec.Data): MsgGroupExec {
     const { proposal_id, executor } = data
-    return new MsgGroupExec(Number.parseInt(proposal_id), executor)
+    return new MsgGroupExec(parseInt(proposal_id), executor)
   }
 
   public toData(): MsgGroupExec.Data {

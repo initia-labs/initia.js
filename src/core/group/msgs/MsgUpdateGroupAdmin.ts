@@ -28,7 +28,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
     const {
       value: { admin, group_id, new_admin },
     } = data
-    return new MsgUpdateGroupAdmin(admin, Number.parseInt(group_id), new_admin)
+    return new MsgUpdateGroupAdmin(admin, parseInt(group_id), new_admin)
   }
 
   public toAmino(): MsgUpdateGroupAdmin.Amino {
@@ -45,7 +45,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
 
   public static fromData(data: MsgUpdateGroupAdmin.Data): MsgUpdateGroupAdmin {
     const { admin, group_id, new_admin } = data
-    return new MsgUpdateGroupAdmin(admin, Number.parseInt(group_id), new_admin)
+    return new MsgUpdateGroupAdmin(admin, parseInt(group_id), new_admin)
   }
 
   public toData(): MsgUpdateGroupAdmin.Data {

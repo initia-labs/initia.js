@@ -36,11 +36,11 @@ export class AuthParams extends JSONSerializable<
     } = data
 
     return new AuthParams(
-      Number.parseInt(max_memo_characters),
-      Number.parseInt(tx_sig_limit),
-      Number.parseInt(tx_size_cost_per_byte),
-      Number.parseInt(sig_verify_cost_ed25519),
-      Number.parseInt(sig_verify_cost_secp256k1)
+      parseInt(max_memo_characters),
+      parseInt(tx_sig_limit),
+      parseInt(tx_size_cost_per_byte),
+      parseInt(sig_verify_cost_ed25519),
+      parseInt(sig_verify_cost_secp256k1)
     )
   }
 
@@ -75,11 +75,11 @@ export class AuthParams extends JSONSerializable<
     } = data
 
     return new AuthParams(
-      Number.parseInt(max_memo_characters),
-      Number.parseInt(tx_sig_limit),
-      Number.parseInt(tx_size_cost_per_byte),
-      Number.parseInt(sig_verify_cost_ed25519),
-      Number.parseInt(sig_verify_cost_secp256k1)
+      parseInt(max_memo_characters),
+      parseInt(tx_sig_limit),
+      parseInt(tx_size_cost_per_byte),
+      parseInt(sig_verify_cost_ed25519),
+      parseInt(sig_verify_cost_secp256k1)
     )
   }
 

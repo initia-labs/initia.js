@@ -27,11 +27,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
       value: { authority, bridge_id, metadata },
     } = data
 
-    return new MsgUpdateMetadata(
-      authority,
-      Number.parseInt(bridge_id),
-      metadata
-    )
+    return new MsgUpdateMetadata(authority, parseInt(bridge_id), metadata)
   }
 
   public toAmino(): MsgUpdateMetadata.Amino {
@@ -48,11 +44,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
 
   public static fromData(data: MsgUpdateMetadata.Data): MsgUpdateMetadata {
     const { authority, bridge_id, metadata } = data
-    return new MsgUpdateMetadata(
-      authority,
-      Number.parseInt(bridge_id),
-      metadata
-    )
+    return new MsgUpdateMetadata(authority, parseInt(bridge_id), metadata)
   }
 
   public toData(): MsgUpdateMetadata.Data {

@@ -31,7 +31,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     } = data
     return new MsgUpdateGroupMembers(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       member_updates.map(MemberRequest.fromAmino)
     )
   }
@@ -54,7 +54,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     const { admin, group_id, member_updates } = data
     return new MsgUpdateGroupMembers(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       member_updates.map(MemberRequest.fromData)
     )
   }

@@ -37,7 +37,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       delegator_address,
       validator_address,
       Coins.fromAmino(amount),
-      Number.parseInt(creation_height)
+      parseInt(creation_height)
     )
   }
 
@@ -64,7 +64,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       delegator_address,
       validator_address,
       Coins.fromData(amount),
-      Number.parseInt(creation_height)
+      parseInt(creation_height)
     )
   }
 

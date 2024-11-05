@@ -48,7 +48,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       client_id,
       ConnectionCounterparty.fromData(counterparty),
       version ? IbcVersion.fromData(version) : undefined,
-      Number.parseInt(delay_period),
+      parseInt(delay_period),
       signer
     )
   }

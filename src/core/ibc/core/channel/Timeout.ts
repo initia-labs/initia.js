@@ -21,7 +21,7 @@ export class Timeout extends JSONSerializable<
 
   public static fromAmino(data: Timeout.Amino): Timeout {
     const { height, timestamp } = data
-    return new Timeout(Height.fromAmino(height), Number.parseInt(timestamp))
+    return new Timeout(Height.fromAmino(height), parseInt(timestamp))
   }
 
   public toAmino(): Timeout.Amino {
@@ -34,7 +34,7 @@ export class Timeout extends JSONSerializable<
 
   public static fromData(data: Timeout.Data): Timeout {
     const { height, timestamp } = data
-    return new Timeout(Height.fromData(height), Number.parseInt(timestamp))
+    return new Timeout(Height.fromData(height), parseInt(timestamp))
   }
 
   public toData(): Timeout.Data {

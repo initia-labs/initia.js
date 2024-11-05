@@ -69,11 +69,11 @@ const DEFAULT_GAS_PRICES_BY_CHAIN_ID: Record<string, Coins.Input> = {
  * ### Example
  *
  * ```ts
- * import { RESTClient } from 'initia.js';
+ * import { RESTClient } from 'initia.js'
  *
  * const initia = new RESTClient("https://rest.devnet.initia.xyz", {
  *    chainId: "testnet"
- * });
+ * })
  * ```
  */
 

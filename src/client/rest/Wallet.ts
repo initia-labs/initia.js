@@ -6,11 +6,17 @@ import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing
 
 export class Wallet {
   private accAddress: string
+  /**
+   * @deprecated Use rest instead.
+   */
+  public lcd: RESTClient
+
   constructor(
     public rest: RESTClient,
     public key: Key
   ) {
     this.accAddress = key.accAddress
+    this.lcd = rest
   }
 
   public setAccountAddress(accAddress: string) {

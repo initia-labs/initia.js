@@ -24,9 +24,9 @@ export class EvidenceParams extends JSONSerializable<
   public static fromAmino(data: EvidenceParams.Amino): EvidenceParams {
     const { max_age_num_blocks, max_age_duration, max_bytes } = data
     return new EvidenceParams(
-      Number.parseInt(max_age_num_blocks),
+      parseInt(max_age_num_blocks),
       Duration.fromAmino(max_age_duration),
-      Number.parseInt(max_bytes)
+      parseInt(max_bytes)
     )
   }
 
@@ -42,9 +42,9 @@ export class EvidenceParams extends JSONSerializable<
   public static fromData(data: EvidenceParams.Data): EvidenceParams {
     const { max_age_num_blocks, max_age_duration, max_bytes } = data
     return new EvidenceParams(
-      Number.parseInt(max_age_num_blocks),
+      parseInt(max_age_num_blocks),
       Duration.fromData(max_age_duration),
-      Number.parseInt(max_bytes)
+      parseInt(max_bytes)
     )
   }
 

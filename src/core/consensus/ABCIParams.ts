@@ -15,7 +15,7 @@ export class ABCIParams extends JSONSerializable<
   }
 
   public static fromAmino(data: ABCIParams.Amino): ABCIParams {
-    return new ABCIParams(Number.parseInt(data.vote_extensions_enable_height))
+    return new ABCIParams(parseInt(data.vote_extensions_enable_height))
   }
 
   public toAmino(): ABCIParams.Amino {
@@ -26,7 +26,7 @@ export class ABCIParams extends JSONSerializable<
   }
 
   public static fromData(data: ABCIParams.Data): ABCIParams {
-    return new ABCIParams(Number.parseInt(data.vote_extensions_enable_height))
+    return new ABCIParams(parseInt(data.vote_extensions_enable_height))
   }
 
   public toData(): ABCIParams.Data {

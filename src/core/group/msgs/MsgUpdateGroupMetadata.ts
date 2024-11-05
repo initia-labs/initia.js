@@ -28,11 +28,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     const {
       value: { admin, group_id, metadata },
     } = data
-    return new MsgUpdateGroupMetadata(
-      admin,
-      Number.parseInt(group_id),
-      metadata
-    )
+    return new MsgUpdateGroupMetadata(admin, parseInt(group_id), metadata)
   }
 
   public toAmino(): MsgUpdateGroupMetadata.Amino {
@@ -51,11 +47,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     data: MsgUpdateGroupMetadata.Data
   ): MsgUpdateGroupMetadata {
     const { admin, group_id, metadata } = data
-    return new MsgUpdateGroupMetadata(
-      admin,
-      Number.parseInt(group_id),
-      metadata
-    )
+    return new MsgUpdateGroupMetadata(admin, parseInt(group_id), metadata)
   }
 
   public toData(): MsgUpdateGroupMetadata.Data {

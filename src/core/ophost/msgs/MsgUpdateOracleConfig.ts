@@ -31,7 +31,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
 
     return new MsgUpdateOracleConfig(
       authority,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       oracle_enabled
     )
   }
@@ -54,7 +54,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
     const { authority, bridge_id, oracle_enabled } = data
     return new MsgUpdateOracleConfig(
       authority,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       oracle_enabled
     )
   }

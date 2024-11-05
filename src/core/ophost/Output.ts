@@ -27,9 +27,9 @@ export class Output extends JSONSerializable<
       data
     return new Output(
       output_root,
-      Number.parseInt(l1_block_number),
+      parseInt(l1_block_number),
       new Date(l1_block_time),
-      Number.parseInt(l2_block_number)
+      parseInt(l2_block_number)
     )
   }
 
@@ -49,9 +49,9 @@ export class Output extends JSONSerializable<
       data
     return new Output(
       output_root,
-      Number.parseInt(l1_block_number),
+      parseInt(l1_block_number),
       new Date(l1_block_time),
-      Number.parseInt(l2_block_number)
+      parseInt(l2_block_number)
     )
   }
 

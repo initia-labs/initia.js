@@ -48,7 +48,7 @@ export class IdentifiedConnection extends JSONSerializable<
       versions.map(IbcVersion.fromAmino),
       stateFromJSON(state),
       counterparty ? ConnectionCounterparty.fromAmino(counterparty) : undefined,
-      Number.parseInt(delay_period)
+      parseInt(delay_period)
     )
   }
 
@@ -75,7 +75,7 @@ export class IdentifiedConnection extends JSONSerializable<
       versions.map(IbcVersion.fromData),
       stateFromJSON(state),
       counterparty ? ConnectionCounterparty.fromData(counterparty) : undefined,
-      Number.parseInt(delay_period)
+      parseInt(delay_period)
     )
   }
 

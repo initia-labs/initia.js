@@ -21,7 +21,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
 
   public static fromAmino(data: Plan.Amino): Plan {
     const { name, height, info } = data
-    return new Plan(name, Number.parseInt(height), info)
+    return new Plan(name, parseInt(height), info)
   }
 
   public toAmino(): Plan.Amino {
@@ -35,7 +35,7 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
 
   public static fromData(data: Plan.Data): Plan {
     const { name, height, info } = data
-    return new Plan(name, Number.parseInt(height), info)
+    return new Plan(name, parseInt(height), info)
   }
 
   public toData(): Plan.Data {

@@ -25,7 +25,7 @@ export class GroupMember extends JSONSerializable<
 
   public static fromAmino(data: GroupMember.Amino): GroupMember {
     const { group_id, member } = data
-    return new GroupMember(Number.parseInt(group_id), Member.fromAmino(member))
+    return new GroupMember(parseInt(group_id), Member.fromAmino(member))
   }
 
   public toAmino(): GroupMember.Amino {
@@ -38,7 +38,7 @@ export class GroupMember extends JSONSerializable<
 
   public static fromData(data: GroupMember.Data): GroupMember {
     const { group_id, member } = data
-    return new GroupMember(Number.parseInt(group_id), Member.fromData(member))
+    return new GroupMember(parseInt(group_id), Member.fromData(member))
   }
 
   public toData(): GroupMember.Data {

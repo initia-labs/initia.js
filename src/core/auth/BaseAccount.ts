@@ -64,8 +64,8 @@ export class BaseAccount extends JSONSerializable<
     return new BaseAccount(
       address ?? '',
       public_key ? PublicKey.fromAmino(public_key) : undefined,
-      Number.parseInt(account_number) ?? 0,
-      Number.parseInt(sequence) ?? 0
+      parseInt(account_number) ?? 0,
+      parseInt(sequence) ?? 0
     )
   }
 
@@ -75,8 +75,8 @@ export class BaseAccount extends JSONSerializable<
     return new BaseAccount(
       address ?? '',
       pub_key ? PublicKey.fromData(pub_key) : undefined,
-      Number.parseInt(account_number) ?? 0,
-      Number.parseInt(sequence) ?? 0
+      parseInt(account_number) ?? 0,
+      parseInt(sequence) ?? 0
     )
   }
 

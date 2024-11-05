@@ -19,7 +19,7 @@ export class SignatureV2 {
     return new SignatureV2(
       PublicKey.fromData(data.public_key),
       SignatureV2.Descriptor.fromData(data.data),
-      Number.parseInt(data.sequence)
+      parseInt(data.sequence)
     )
   }
 

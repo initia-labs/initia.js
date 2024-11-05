@@ -18,7 +18,7 @@ export class IbcConnectionParams extends JSONSerializable<
     data: IbcConnectionParams.Amino
   ): IbcConnectionParams {
     const { max_expected_time_per_block } = data
-    return new IbcConnectionParams(Number.parseInt(max_expected_time_per_block))
+    return new IbcConnectionParams(parseInt(max_expected_time_per_block))
   }
 
   public toAmino(): IbcConnectionParams.Amino {
@@ -30,7 +30,7 @@ export class IbcConnectionParams extends JSONSerializable<
 
   public static fromData(data: IbcConnectionParams.Data): IbcConnectionParams {
     const { max_expected_time_per_block } = data
-    return new IbcConnectionParams(Number.parseInt(max_expected_time_per_block))
+    return new IbcConnectionParams(parseInt(max_expected_time_per_block))
   }
 
   public toData(): IbcConnectionParams.Data {

@@ -35,7 +35,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     } = msgAmino
     return new MsgInitiateTokenDeposit(
       sender,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       to,
       Coin.fromAmino(amount),
       data
@@ -62,7 +62,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     const { sender, bridge_id, to, amount, data } = msgData
     return new MsgInitiateTokenDeposit(
       sender,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       to,
       Coin.fromData(amount),
       data

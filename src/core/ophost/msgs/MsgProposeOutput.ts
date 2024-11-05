@@ -38,9 +38,9 @@ export class MsgProposeOutput extends JSONSerializable<
     } = data
     return new MsgProposeOutput(
       proposer,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
-      Number.parseInt(l2_block_number),
+      parseInt(bridge_id),
+      parseInt(output_index),
+      parseInt(l2_block_number),
       output_root
     )
   }
@@ -65,9 +65,9 @@ export class MsgProposeOutput extends JSONSerializable<
       data
     return new MsgProposeOutput(
       proposer,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
-      Number.parseInt(l2_block_number),
+      parseInt(bridge_id),
+      parseInt(output_index),
+      parseInt(l2_block_number),
       output_root
     )
   }

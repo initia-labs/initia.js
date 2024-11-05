@@ -25,7 +25,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = data
     return new TokenfactoryParams(
       Coins.fromAmino(denom_creation_fee),
-      Number.parseInt(denom_creation_gas_consume)
+      parseInt(denom_creation_gas_consume)
     )
   }
 
@@ -41,7 +41,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = data
     return new TokenfactoryParams(
       Coins.fromData(denom_creation_fee),
-      Number.parseInt(denom_creation_gas_consume)
+      parseInt(denom_creation_gas_consume)
     )
   }
 

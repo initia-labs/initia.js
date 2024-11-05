@@ -37,7 +37,7 @@ export class Consensus extends JSONSerializable<
 
   public static fromData(data: Consensus.Data): Consensus {
     const { block, app } = data
-    return new Consensus(Number.parseInt(block), Number.parseInt(app))
+    return new Consensus(parseInt(block), parseInt(app))
   }
 
   public toData(): Consensus.Data {
@@ -99,7 +99,7 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
 
   public static fromData(data: App.Data): App {
     const { protocol, software } = data
-    return new App(Number.parseInt(protocol), software)
+    return new App(parseInt(protocol), software)
   }
 
   public toData(): App.Data {

@@ -37,11 +37,11 @@ export class SlashingParams extends JSONSerializable<
     } = data
 
     return new SlashingParams(
-      Number.parseInt(signed_blocks_window),
-      Number.parseInt(min_signed_per_window),
+      parseInt(signed_blocks_window),
+      parseInt(min_signed_per_window),
       Duration.fromAmino(downtime_jail_duration),
-      Number.parseInt(slash_fraction_double_sign),
-      Number.parseInt(slash_fraction_downtime)
+      parseInt(slash_fraction_double_sign),
+      parseInt(slash_fraction_downtime)
     )
   }
 
@@ -76,11 +76,11 @@ export class SlashingParams extends JSONSerializable<
     } = data
 
     return new SlashingParams(
-      Number.parseInt(signed_blocks_window),
-      Number.parseInt(min_signed_per_window),
+      parseInt(signed_blocks_window),
+      parseInt(min_signed_per_window),
       Duration.fromData(downtime_jail_duration),
-      Number.parseInt(slash_fraction_double_sign),
-      Number.parseInt(slash_fraction_downtime)
+      parseInt(slash_fraction_double_sign),
+      parseInt(slash_fraction_downtime)
     )
   }
 
@@ -106,10 +106,10 @@ export class SlashingParams extends JSONSerializable<
   public static fromProto(data: SlashingParams.Proto): SlashingParams {
     return new SlashingParams(
       data.signedBlocksWindow.toNumber(),
-      Number.parseFloat(data.minSignedPerWindow.toString()),
+      parseFloat(data.minSignedPerWindow.toString()),
       Duration.fromProto(data.downtimeJailDuration as Duration.Proto),
-      Number.parseFloat(data.slashFractionDoubleSign.toString()),
-      Number.parseFloat(data.slashFractionDowntime.toString())
+      parseFloat(data.slashFractionDoubleSign.toString()),
+      parseFloat(data.slashFractionDowntime.toString())
     )
   }
 

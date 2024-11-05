@@ -30,8 +30,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
     return new Blob(
       data.namespace_id,
       data.data,
-      Number.parseInt(data.share_version),
-      Number.parseInt(data.namespace_version)
+      parseInt(data.share_version),
+      parseInt(data.namespace_version)
     )
   }
 

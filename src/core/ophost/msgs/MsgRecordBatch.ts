@@ -26,11 +26,7 @@ export class MsgRecordBatch extends JSONSerializable<
     const {
       value: { submitter, bridge_id, batch_bytes },
     } = data
-    return new MsgRecordBatch(
-      submitter,
-      Number.parseInt(bridge_id),
-      batch_bytes
-    )
+    return new MsgRecordBatch(submitter, parseInt(bridge_id), batch_bytes)
   }
 
   public toAmino(): MsgRecordBatch.Amino {
@@ -47,11 +43,7 @@ export class MsgRecordBatch extends JSONSerializable<
 
   public static fromData(data: MsgRecordBatch.Data): MsgRecordBatch {
     const { submitter, bridge_id, batch_bytes } = data
-    return new MsgRecordBatch(
-      submitter,
-      Number.parseInt(bridge_id),
-      batch_bytes
-    )
+    return new MsgRecordBatch(submitter, parseInt(bridge_id), batch_bytes)
   }
 
   public toData(): MsgRecordBatch.Data {

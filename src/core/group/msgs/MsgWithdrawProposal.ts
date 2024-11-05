@@ -26,7 +26,7 @@ export class MsgWithdrawProposal extends JSONSerializable<
     const {
       value: { proposal_id, address },
     } = data
-    return new MsgWithdrawProposal(Number.parseInt(proposal_id), address)
+    return new MsgWithdrawProposal(parseInt(proposal_id), address)
   }
 
   public toAmino(): MsgWithdrawProposal.Amino {
@@ -42,7 +42,7 @@ export class MsgWithdrawProposal extends JSONSerializable<
 
   public static fromData(data: MsgWithdrawProposal.Data): MsgWithdrawProposal {
     const { proposal_id, address } = data
-    return new MsgWithdrawProposal(Number.parseInt(proposal_id), address)
+    return new MsgWithdrawProposal(parseInt(proposal_id), address)
   }
 
   public toData(): MsgWithdrawProposal.Data {

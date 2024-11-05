@@ -29,7 +29,7 @@ export class MsgCreate2 extends JSONSerializable<
       value: { sender, code, salt, value },
     } = data
 
-    return new MsgCreate2(sender, code, Number.parseInt(salt), value)
+    return new MsgCreate2(sender, code, parseInt(salt), value)
   }
 
   public toAmino(): MsgCreate2.Amino {
@@ -47,7 +47,7 @@ export class MsgCreate2 extends JSONSerializable<
 
   public static fromData(data: MsgCreate2.Data): MsgCreate2 {
     const { sender, code, salt, value } = data
-    return new MsgCreate2(sender, code, Number.parseInt(salt), value)
+    return new MsgCreate2(sender, code, parseInt(salt), value)
   }
 
   public toData(): MsgCreate2.Data {

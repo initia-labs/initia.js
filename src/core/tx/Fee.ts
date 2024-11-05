@@ -29,7 +29,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
 
   public static fromAmino(data: Fee.Amino): Fee {
     const { gas, amount } = data
-    return new Fee(Number.parseInt(gas), Coins.fromAmino(amount), '', '')
+    return new Fee(parseInt(gas), Coins.fromAmino(amount), '', '')
   }
 
   public toAmino(): Fee.Amino {
@@ -41,7 +41,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
 
   public static fromData(data: Fee.Data): Fee {
     return new Fee(
-      Number.parseInt(data.gas_limit),
+      parseInt(data.gas_limit),
       Coins.fromData(data.amount),
       data.payer,
       data.granter

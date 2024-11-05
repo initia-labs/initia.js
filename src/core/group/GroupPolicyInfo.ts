@@ -44,10 +44,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return new GroupPolicyInfo(
       address,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       admin,
       metadata,
-      Number.parseInt(version),
+      parseInt(version),
       DecisionPolicy.fromAmino(decision_policy),
       new Date(created_at)
     )
@@ -88,10 +88,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return new GroupPolicyInfo(
       address,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       admin,
       metadata,
-      Number.parseInt(version),
+      parseInt(version),
       DecisionPolicy.fromData(decision_policy),
       new Date(created_at)
     )

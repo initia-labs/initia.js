@@ -42,7 +42,7 @@ export class MsgGroupVote extends JSONSerializable<
     } = data
 
     return new MsgGroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -69,7 +69,7 @@ export class MsgGroupVote extends JSONSerializable<
     const { proposal_id, voter, option, metadata, exec } = data
 
     return new MsgGroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,

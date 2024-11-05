@@ -56,12 +56,12 @@ export class TxInfo {
 
   public static fromData(data: TxInfo.Data): TxInfo {
     return new TxInfo(
-      Number.parseInt(data.height),
+      parseInt(data.height),
       data.txhash,
       data.raw_log,
       data.logs.map((log) => TxLog.fromData(log)),
-      Number.parseInt(data.gas_wanted),
-      Number.parseInt(data.gas_used),
+      parseInt(data.gas_wanted),
+      parseInt(data.gas_used),
       Tx.fromData(data.tx),
       data.timestamp,
       data.events,

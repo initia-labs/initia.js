@@ -45,9 +45,9 @@ export class MsgPayForBlobs extends JSONSerializable<
     return new MsgPayForBlobs(
       signer,
       namespaces,
-      blob_sizes.map(Number.parseInt),
+      blob_sizes.map(parseInt),
       share_commitments,
-      share_versions.map(Number.parseInt)
+      share_versions.map(parseInt)
     )
   }
 

@@ -31,7 +31,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     } = data
     return new MsgUpdateInstantiateConfig(
       sender,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       AccessConfig.fromAmino(new_instantiate_permission)
     )
   }
@@ -54,7 +54,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     const { sender, code_id, new_instantiate_permission } = data
     return new MsgUpdateInstantiateConfig(
       sender,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       AccessConfig.fromData(new_instantiate_permission)
     )
   }

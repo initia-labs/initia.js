@@ -35,8 +35,8 @@ export class Ticker extends JSONSerializable<
     } = data
     return new Ticker(
       CurrencyPair.fromAmino(currency_pair),
-      Number.parseInt(decimals),
-      Number.parseInt(min_provider_count),
+      parseInt(decimals),
+      parseInt(min_provider_count),
       enabled,
       metadata_JSON
     )
@@ -69,8 +69,8 @@ export class Ticker extends JSONSerializable<
     } = data
     return new Ticker(
       CurrencyPair.fromData(currency_pair),
-      Number.parseInt(decimals),
-      Number.parseInt(min_provider_count),
+      parseInt(decimals),
+      parseInt(min_provider_count),
       enabled,
       metadata_JSON
     )

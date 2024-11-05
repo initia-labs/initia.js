@@ -29,12 +29,7 @@ export class MsgMigrateContract extends JSONSerializable<
       value: { sender, contract, code_id, msg },
     } = data
 
-    return new MsgMigrateContract(
-      sender,
-      contract,
-      Number.parseInt(code_id),
-      msg
-    )
+    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
   }
 
   public toAmino(): MsgMigrateContract.Amino {
@@ -52,12 +47,7 @@ export class MsgMigrateContract extends JSONSerializable<
 
   public static fromData(data: MsgMigrateContract.Data): MsgMigrateContract {
     const { sender, contract, code_id, msg } = data
-    return new MsgMigrateContract(
-      sender,
-      contract,
-      Number.parseInt(code_id),
-      msg
-    )
+    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
   }
 
   public toData(): MsgMigrateContract.Data {

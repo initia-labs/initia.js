@@ -24,13 +24,13 @@ The usage section of this document provides detailed explanations and code examp
 **REST**(previously LCD) class facilitates interaction with the Initia blockchain.
 
 ```typescript
-import { RESTClient } from '@initia/initia.js';
+import { RESTClient } from '@initia/initia.js'
 
 const rest = new RESTClient('https://rest.testnet.initia.xyz', {
     chainId: 'initiation-2',
     gasPrices: '0.15uinit', // default gas prices
     gasAdjustment: '1.75',  // default gas adjustment for fee estimation
-});
+})
 ```
 
 
@@ -42,14 +42,14 @@ const rest = new RESTClient('https://rest.testnet.initia.xyz', {
 An abstract key interface that enables transaction signing and provides Bech32 address and public key derivation from a public key.&#x20;
 
 ```typescript
-import { MnemonicKey } from '@initia/initia.js';
+import { MnemonicKey } from '@initia/initia.js'
 
 const key = new MnemonicKey({
     mnemonic: 'bird upset ...  evil cigar', // (optional) if null, generate a new Mnemonic key
     account: 0, // (optional) BIP44 account number. default = 0
     index: 0, // (optional) BIP44 index number. defualt = 0
     coinType: 118, // (optional) BIP44 coinType. default = 118
-});
+})
 ```
 
 ### BCS
@@ -57,33 +57,32 @@ const key = new MnemonicKey({
 **BCS**(Binary Canonical Serialization) is the binary encoding for Move resources and other non-module values published on-chain. &#x20;
 
 ```typescript
-import { bcs } from '@initia/initia.js';
+import { bcs } from '@initia/initia.js'
 
 // serialize, serialize value to BCS and encode it to base64
 const serializedU64 = bcs
     .u64() // type
     .serialize(1234) // value 
-    .toBase64();
+    .toBase64()
 
 // deserialize
 const deserializedU64 = bcs
     .u64() // type
-    .parse(Uint8Array.from(Buffer.from(serializedU64, 'base64')));
+    .parse(Uint8Array.from(Buffer.from(serializedU64, 'base64')))
 
 // vector
 const serializedVector = bcs
     .vector(bcs.u64())
     .serialize([123, 456, 789])
-    .toBase64();
+    .toBase64()
 
 // option
-const serializedSome = bcs.option(bcs.u64()).serialize(123);
-const serializedNone = bcs.option(bcs.u64()).serialize(null);
+const serializedSome = bcs.option(bcs.u64()).serialize(123)
+const serializedNone = bcs.option(bcs.u64()).serialize(null)
 ```
 
 **Support types for BCS**
 > \`u8\`, \`u16\`, \`u32\`, \`u64\`, \`u128\`, \`u256\`, \`bool\`, \`vector\`, \`address\`, \`string\`, \`option\`, \`fixed_point32\`, \`fixed_point64\`, \`decimal128\`, \`decimal256\`
-
 
 ### Msg&#x20;
 
@@ -94,13 +93,13 @@ Msgs are object whose end-goal is to trigger state-transitions. They are wrapped
 Send coins to others.
 
 ```typescript
-import { MsgSend } from '@initia/initia.js';
+import { MsgSend } from '@initia/initia.js'
 
 const msg = new MsgSend(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu',   // sender address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np',   // recipient address
     '1000uinit',                                     // send amount
-);
+)
 ```
 
 * `MsgDelegate()`
@@ -108,13 +107,13 @@ const msg = new MsgSend(
 Delegate governance coin to validators (staking).
 
 ```typescript
-import { MsgDelegate } from '@initia/initia.js';
+import { MsgDelegate } from '@initia/initia.js'
 
 const msg = new MsgDelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
     '100000uinit',                                 // delegate amount
-);
+)
 ```
 
 * `MsgUndelegate()`
@@ -122,13 +121,13 @@ const msg = new MsgDelegate(
 Undelegate governance coin from validators (unstaking).
 
 ```typescript
-import { MsgUndelegate } from '@initia/initia.js';
+import { MsgUndelegate } from '@initia/initia.js'
 
 const msg = new MsgUndelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
     '100000uinit',                                 // undelegate amount
-);
+)
 ```
 
 * `MsgExecute()`
@@ -136,7 +135,7 @@ const msg = new MsgUndelegate(
 Execute move contract function.
 
 ```typescript
-import { MsgExecute } from '@initia/initia.js';
+import { MsgExecute } from '@initia/initia.js'
 
 const msg = new MsgExecute(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // sender address
@@ -149,7 +148,7 @@ const msg = new MsgExecute(
         bcs.address().serialize('0x3').toBase64(), // arguments, BCS-encoded
         bcs.u64().serialize(10000).toBase64()      // arguments, BCS-encoded
     ]
-);
+)
 ```
 
 ### Tx broadcasting&#x20;
@@ -159,31 +158,31 @@ const msg = new MsgExecute(
 Create a wallet and sign transaction. &#x20;
 
 ```typescript
-import { Wallet, RESTClient, MnemonicKey } from '@initia/initia.js';
+import { Wallet, RESTClient, MnemonicKey } from '@initia/initia.js'
 
 const key = new MnemonicKey({
     mnemonic: 
         'moral wise tape glance grit gentle movie doll omit you pet soon enter year funny gauge digital supply cereal city ring egg repair coyote',
-});
+})
 
 const rest = new RESTClient('https://rest.testnet.initia.xyz', {
     chainId: 'initiation-2',
     gasPrices: '0.15uinit', // default gas prices
     gasAdjustment: '1.75',  // default gas adjustment for fee estimation
-});
+})
 
-const wallet = new Wallet(rest, key);
+const wallet = new Wallet(rest, key)
 
 const sendMsg = new MsgSend(
     'init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu',   // sender address
     'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np',   // recipient address
     '1000uinit',                                     // send amount
-);
+)
 
 const signedTx = await wallet.createAndSignTx({
     msgs: [sendMsg],
     memo: 'sample memo',
-});
+})
 ```
 
 When sending coins with `MsgSend`, sender address should be same with wallet address.
@@ -193,7 +192,7 @@ When sending coins with `MsgSend`, sender address should be same with wallet add
 `broadcast()` is the action that sends your transaction to the blockchain code.
 
 ```typescript
-const broadcastResult = await rest.tx.broadcast(signedTx);
+const broadcastResult = await rest.tx.broadcast(signedTx)
 ```
 
 ### Queries&#x20;
@@ -203,7 +202,7 @@ const broadcastResult = await rest.tx.broadcast(signedTx);
 Query the balance of the account.
 
 ```typescript
-const balances = await rest.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu');
+const balances = await rest.bank.balance('init14l3c2vxrdvu6y0sqykppey930s4kufsvt97aeu')
 ```
 
 * `viewfunction()`
@@ -221,5 +220,5 @@ const res = await rest.move.viewFunction(
         bcs.address().serialize('0x3').toBase64(), // arguments, BCS-encoded
         bcs.u64().serialize(10000).toBase64()      // arguments, BCS-encoded
     ]                           
-);
+)
 ```

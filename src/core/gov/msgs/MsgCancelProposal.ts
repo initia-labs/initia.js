@@ -24,7 +24,7 @@ export class MsgCancelProposal extends JSONSerializable<
     const {
       value: { proposal_id, proposer },
     } = data
-    return new MsgCancelProposal(Number.parseInt(proposal_id), proposer)
+    return new MsgCancelProposal(parseInt(proposal_id), proposer)
   }
 
   public toAmino(): MsgCancelProposal.Amino {
@@ -40,7 +40,7 @@ export class MsgCancelProposal extends JSONSerializable<
 
   public static fromData(data: MsgCancelProposal.Data): MsgCancelProposal {
     const { proposal_id, proposer } = data
-    return new MsgCancelProposal(Number.parseInt(proposal_id), proposer)
+    return new MsgCancelProposal(parseInt(proposal_id), proposer)
   }
 
   public toData(): MsgCancelProposal.Data {

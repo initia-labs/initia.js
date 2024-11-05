@@ -30,10 +30,10 @@ export class GroupInfo extends JSONSerializable<
   public static fromAmino(data: GroupInfo.Amino): GroupInfo {
     const { id, admin, metadata, version, total_weight, created_at } = data
     return new GroupInfo(
-      Number.parseInt(id),
+      parseInt(id),
       admin,
       metadata,
-      Number.parseInt(version),
+      parseInt(version),
       total_weight,
       new Date(created_at)
     )
@@ -54,10 +54,10 @@ export class GroupInfo extends JSONSerializable<
   public static fromData(data: GroupInfo.Data): GroupInfo {
     const { id, admin, metadata, version, total_weight, created_at } = data
     return new GroupInfo(
-      Number.parseInt(id),
+      parseInt(id),
       admin,
       metadata,
-      Number.parseInt(version),
+      parseInt(version),
       total_weight,
       new Date(created_at)
     )

@@ -32,12 +32,7 @@ export class MsgVote extends JSONSerializable<
     const {
       value: { proposal_id, voter, option, metadata },
     } = data
-    return new MsgVote(
-      Number.parseInt(proposal_id),
-      voter,
-      option,
-      metadata ?? ''
-    )
+    return new MsgVote(parseInt(proposal_id), voter, option, metadata ?? '')
   }
 
   public toAmino(): MsgVote.Amino {
@@ -55,7 +50,7 @@ export class MsgVote extends JSONSerializable<
 
   public static fromData(data: MsgVote.Data): MsgVote {
     const { proposal_id, voter, option, metadata } = data
-    return new MsgVote(Number.parseInt(proposal_id), voter, option, metadata)
+    return new MsgVote(parseInt(proposal_id), voter, option, metadata)
   }
 
   public toData(): MsgVote.Data {

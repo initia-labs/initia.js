@@ -145,7 +145,7 @@ export namespace UnbondingDelegation {
       return new Entry(
         Coins.fromAmino(initial_balance),
         Coins.fromAmino(balance),
-        Number.parseInt(creation_height),
+        parseInt(creation_height),
         new Date(completion_time)
       )
     }
@@ -165,7 +165,7 @@ export namespace UnbondingDelegation {
       return new Entry(
         Coins.fromData(initial_balance),
         Coins.fromData(balance),
-        Number.parseInt(creation_height),
+        parseInt(creation_height),
         new Date(completion_time)
       )
     }

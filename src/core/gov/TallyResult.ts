@@ -31,7 +31,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = data
     return new TallyResult(
-      Number.parseInt(tally_height),
+      parseInt(tally_height),
       total_staking_power,
       total_vesting_power,
       v1_tally_result
@@ -61,7 +61,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = data
     return new TallyResult(
-      Number.parseInt(tally_height),
+      parseInt(tally_height),
       total_staking_power,
       total_vesting_power,
       v1_tally_result

@@ -39,7 +39,7 @@ export class AuctionParams extends JSONSerializable<
     } = data
 
     return new AuctionParams(
-      Number.parseInt(max_bundle_size),
+      parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromAmino(reserve_fee),
       Coin.fromAmino(min_bid_increment),
@@ -82,7 +82,7 @@ export class AuctionParams extends JSONSerializable<
     } = data
 
     return new AuctionParams(
-      Number.parseInt(max_bundle_size),
+      parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromData(reserve_fee),
       Coin.fromData(min_bid_increment),

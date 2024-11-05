@@ -41,7 +41,7 @@ export class Tx {
       new TxBody(
         data.value.msg.map((m) => Msg.fromAmino(m)),
         data.value.memo,
-        Number.parseInt(data.value.timeout_height)
+        parseInt(data.value.timeout_height)
       ),
       new AuthInfo([], Fee.fromAmino(data.value.fee)),
       signatures.map((s) => s.data.single?.signature ?? '')
@@ -177,7 +177,7 @@ export class TxBody {
     return new TxBody(
       data.messages.map((m) => Msg.fromData(m)),
       data.memo,
-      Number.parseInt(data.timeout_height)
+      parseInt(data.timeout_height)
     )
   }
 
@@ -276,7 +276,7 @@ export class SignerInfo {
   public static fromData(data: SignerInfo.Data): SignerInfo {
     return new SignerInfo(
       PublicKey.fromData(data.public_key ?? new SimplePublicKey('').toData()),
-      Number.parseInt(data.sequence),
+      parseInt(data.sequence),
       ModeInfo.fromData(data.mode_info)
     )
   }

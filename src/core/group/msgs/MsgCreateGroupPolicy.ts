@@ -33,7 +33,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     } = data
     return new MsgCreateGroupPolicy(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       metadata,
       DecisionPolicy.fromAmino(decision_policy)
     )
@@ -58,7 +58,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     const { admin, group_id, metadata, decision_policy } = data
     return new MsgCreateGroupPolicy(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       metadata,
       DecisionPolicy.fromData(decision_policy)
     )

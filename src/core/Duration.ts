@@ -28,14 +28,12 @@ export class Duration {
       .toFixed(9)
       .split('.')
     this.seconds = Long.fromString(sec)
-    this.nanos = Number.parseInt(nano)
+    this.nanos = parseInt(nano)
   }
 
   public static fromString(str: string): Duration {
-    const [sec, nano] = Number.parseFloat(str.replace('s', ''))
-      .toFixed(9)
-      .split('.')
-    return new Duration(Number.parseInt(sec), Number.parseInt(nano))
+    const [sec, nano] = parseFloat(str.replace('s', '')).toFixed(9).split('.')
+    return new Duration(parseInt(sec), parseInt(nano))
   }
 
   public toString(): string {

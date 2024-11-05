@@ -31,7 +31,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       ValConsPublicKey.fromAmino(consensus_pubkey),
-      Number.parseInt(cons_power)
+      parseInt(cons_power)
     )
   }
 
@@ -51,7 +51,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       ValConsPublicKey.fromData(consensus_pubkey),
-      Number.parseInt(cons_power)
+      parseInt(cons_power)
     )
   }
 

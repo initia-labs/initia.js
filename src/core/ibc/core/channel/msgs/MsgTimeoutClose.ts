@@ -55,7 +55,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_close,
       proof_unreceived,
       proof_height ? Height.fromData(proof_height) : undefined,
-      Number.parseInt(next_sequence_recv),
+      parseInt(next_sequence_recv),
       signer
     )
   }

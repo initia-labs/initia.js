@@ -27,7 +27,7 @@ export class PacketId extends JSONSerializable<
 
   public static fromAmino(data: PacketId.Amino): PacketId {
     const { port_id, channel_id, sequence } = data
-    return new PacketId(port_id, channel_id, Number.parseInt(sequence))
+    return new PacketId(port_id, channel_id, parseInt(sequence))
   }
 
   public toAmino(): PacketId.Amino {
@@ -42,7 +42,7 @@ export class PacketId extends JSONSerializable<
 
   public static fromData(data: PacketId.Data): PacketId {
     const { port_id, channel_id, sequence } = data
-    return new PacketId(port_id, channel_id, Number.parseInt(sequence))
+    return new PacketId(port_id, channel_id, parseInt(sequence))
   }
 
   public toData(): PacketId.Data {

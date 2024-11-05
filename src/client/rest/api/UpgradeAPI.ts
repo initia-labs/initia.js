@@ -27,7 +27,7 @@ export class UpgradeAPI extends BaseAPI {
       .get<{
         height: string
       }>(`/cosmos/upgrade/v1beta1/applied_plan/${name}`, params)
-      .then((d) => Number.parseInt(d.height))
+      .then((d) => parseInt(d.height))
   }
 
   /**
@@ -51,7 +51,7 @@ export class UpgradeAPI extends BaseAPI {
       }>(`/cosmos/upgrade/v1beta1/module_versions`, params)
       .then((d) =>
         d.module_versions.map((mv) => {
-          return { name: mv.name, version: Number.parseInt(mv.version) }
+          return { name: mv.name, version: parseInt(mv.version) }
         })
       )
   }

@@ -25,7 +25,7 @@ export class QuotePrice extends JSONSerializable<
     return new QuotePrice(
       price,
       new Date(block_timestamp),
-      Number.parseInt(block_height)
+      parseInt(block_height)
     )
   }
 
@@ -43,7 +43,7 @@ export class QuotePrice extends JSONSerializable<
     return new QuotePrice(
       price,
       new Date(block_timestamp),
-      Number.parseInt(block_height)
+      parseInt(block_height)
     )
   }
 

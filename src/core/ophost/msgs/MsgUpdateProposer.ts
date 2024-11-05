@@ -27,11 +27,7 @@ export class MsgUpdateProposer extends JSONSerializable<
       value: { authority, bridge_id, new_proposer },
     } = data
 
-    return new MsgUpdateProposer(
-      authority,
-      Number.parseInt(bridge_id),
-      new_proposer
-    )
+    return new MsgUpdateProposer(authority, parseInt(bridge_id), new_proposer)
   }
 
   public toAmino(): MsgUpdateProposer.Amino {
@@ -48,11 +44,7 @@ export class MsgUpdateProposer extends JSONSerializable<
 
   public static fromData(data: MsgUpdateProposer.Data): MsgUpdateProposer {
     const { authority, bridge_id, new_proposer } = data
-    return new MsgUpdateProposer(
-      authority,
-      Number.parseInt(bridge_id),
-      new_proposer
-    )
+    return new MsgUpdateProposer(authority, parseInt(bridge_id), new_proposer)
   }
 
   public toData(): MsgUpdateProposer.Data {

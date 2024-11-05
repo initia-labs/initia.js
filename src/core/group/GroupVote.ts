@@ -33,7 +33,7 @@ export class GroupVote extends JSONSerializable<
   public static fromAmino(data: GroupVote.Amino): GroupVote {
     const { proposal_id, voter, option, metadata, submit_time } = data
     return new GroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -55,7 +55,7 @@ export class GroupVote extends JSONSerializable<
   public static fromData(data: GroupVote.Data): GroupVote {
     const { proposal_id, voter, option, metadata, submit_time } = data
     return new GroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,

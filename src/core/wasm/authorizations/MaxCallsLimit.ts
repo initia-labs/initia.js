@@ -13,7 +13,7 @@ export class MaxCallsLimit extends JSONSerializable<
   }
 
   public static fromAmino(data: MaxCallsLimit.Amino): MaxCallsLimit {
-    return new MaxCallsLimit(Number.parseInt(data.value.remaining))
+    return new MaxCallsLimit(parseInt(data.value.remaining))
   }
 
   public toAmino(): MaxCallsLimit.Amino {
@@ -24,7 +24,7 @@ export class MaxCallsLimit extends JSONSerializable<
   }
 
   public static fromData(data: MaxCallsLimit.Data): MaxCallsLimit {
-    return new MaxCallsLimit(Number.parseInt(data.remaining))
+    return new MaxCallsLimit(parseInt(data.remaining))
   }
 
   public toData(): MaxCallsLimit.Data {

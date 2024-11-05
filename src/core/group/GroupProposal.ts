@@ -78,13 +78,13 @@ export class GroupProposal extends JSONSerializable<
     } = data
 
     return new GroupProposal(
-      Number.parseInt(id),
+      parseInt(id),
       group_policy_address,
       metadata,
       proposers,
       new Date(submit_time),
-      Number.parseInt(group_version),
-      Number.parseInt(group_policy_version),
+      parseInt(group_version),
+      parseInt(group_policy_version),
       proposalStatusFromJSON(status),
       {
         yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),
@@ -164,13 +164,13 @@ export class GroupProposal extends JSONSerializable<
     } = data
 
     return new GroupProposal(
-      Number.parseInt(id),
+      parseInt(id),
       group_policy_address,
       metadata,
       proposers,
       new Date(submit_time),
-      Number.parseInt(group_version),
-      Number.parseInt(group_policy_version),
+      parseInt(group_version),
+      parseInt(group_policy_version),
       proposalStatusFromJSON(status),
       {
         yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),

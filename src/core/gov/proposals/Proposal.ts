@@ -89,7 +89,7 @@ export class Proposal extends JSONSerializable<
     } = data
 
     return new Proposal(
-      Number.parseInt(id),
+      parseInt(id),
       messages.map(Msg.fromAmino),
       proposalStatusFromJSON(status),
       TallyResult.fromAmino(final_tally_result),
@@ -177,7 +177,7 @@ export class Proposal extends JSONSerializable<
     } = data
 
     return new Proposal(
-      Number.parseInt(id),
+      parseInt(id),
       messages.map(Msg.fromData),
       proposalStatusFromJSON(status),
       TallyResult.fromData(final_tally_result),

@@ -51,7 +51,7 @@ export class MsgTimeout extends JSONSerializable<
       packet ? Packet.fromData(packet) : undefined,
       proof_unreceived,
       proof_height ? Height.fromData(proof_height) : undefined,
-      Number.parseInt(next_sequence_recv),
+      parseInt(next_sequence_recv),
       signer
     )
   }

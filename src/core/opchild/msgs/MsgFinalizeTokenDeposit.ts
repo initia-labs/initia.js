@@ -45,8 +45,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       from,
       to,
       Coin.fromAmino(amount),
-      Number.parseInt(sequence),
-      Number.parseInt(height),
+      parseInt(sequence),
+      parseInt(height),
       base_denom,
       data
     )
@@ -80,8 +80,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       from,
       to,
       Coin.fromData(amount),
-      Number.parseInt(sequence),
-      Number.parseInt(height),
+      parseInt(sequence),
+      parseInt(height),
       base_denom,
       data
     )

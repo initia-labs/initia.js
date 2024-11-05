@@ -24,7 +24,7 @@ export class MsgUnpinCodes extends JSONSerializable<
     const {
       value: { authority, code_ids },
     } = data
-    return new MsgUnpinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgUnpinCodes(authority, code_ids.map(parseInt))
   }
 
   public toAmino(): MsgUnpinCodes.Amino {
@@ -40,7 +40,7 @@ export class MsgUnpinCodes extends JSONSerializable<
 
   public static fromData(data: MsgUnpinCodes.Data): MsgUnpinCodes {
     const { authority, code_ids } = data
-    return new MsgUnpinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgUnpinCodes(authority, code_ids.map(parseInt))
   }
 
   public toData(): MsgUnpinCodes.Data {

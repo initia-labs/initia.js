@@ -24,7 +24,7 @@ export class MsgLeaveGroup extends JSONSerializable<
     const {
       value: { address, group_id },
     } = data
-    return new MsgLeaveGroup(address, Number.parseInt(group_id))
+    return new MsgLeaveGroup(address, parseInt(group_id))
   }
 
   public toAmino(): MsgLeaveGroup.Amino {
@@ -40,7 +40,7 @@ export class MsgLeaveGroup extends JSONSerializable<
 
   public static fromData(data: MsgLeaveGroup.Data): MsgLeaveGroup {
     const { address, group_id } = data
-    return new MsgLeaveGroup(address, Number.parseInt(group_id))
+    return new MsgLeaveGroup(address, parseInt(group_id))
   }
 
   public toData(): MsgLeaveGroup.Data {

@@ -25,7 +25,7 @@ export class MsgUpdateOracle extends JSONSerializable<
   public static fromAmino(data: MsgUpdateOracle.Amino): MsgUpdateOracle {
     return new MsgUpdateOracle(
       data.value.sender,
-      Number.parseInt(data.value.height),
+      parseInt(data.value.height),
       data.value.data
     )
   }
@@ -43,11 +43,7 @@ export class MsgUpdateOracle extends JSONSerializable<
   }
 
   public static fromData(data: MsgUpdateOracle.Data): MsgUpdateOracle {
-    return new MsgUpdateOracle(
-      data.sender,
-      Number.parseInt(data.height),
-      data.data
-    )
+    return new MsgUpdateOracle(data.sender, parseInt(data.height), data.data)
   }
 
   public toData(): MsgUpdateOracle.Data {

@@ -20,10 +20,7 @@ export class AbsoluteTxPosition extends JSONSerializable<
 
   public static fromAmino(data: AbsoluteTxPosition.Amino): AbsoluteTxPosition {
     const { block_height, tx_index } = data
-    return new AbsoluteTxPosition(
-      Number.parseInt(block_height),
-      Number.parseInt(tx_index)
-    )
+    return new AbsoluteTxPosition(parseInt(block_height), parseInt(tx_index))
   }
 
   public toAmino(): AbsoluteTxPosition.Amino {
@@ -36,10 +33,7 @@ export class AbsoluteTxPosition extends JSONSerializable<
 
   public static fromData(data: AbsoluteTxPosition.Data): AbsoluteTxPosition {
     const { block_height, tx_index } = data
-    return new AbsoluteTxPosition(
-      Number.parseInt(block_height),
-      Number.parseInt(tx_index)
-    )
+    return new AbsoluteTxPosition(parseInt(block_height), parseInt(tx_index))
   }
 
   public toData(): AbsoluteTxPosition.Data {

@@ -29,11 +29,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
       value: { authority, bridge_id, challenger },
     } = data
 
-    return new MsgUpdateChallenger(
-      authority,
-      Number.parseInt(bridge_id),
-      challenger
-    )
+    return new MsgUpdateChallenger(authority, parseInt(bridge_id), challenger)
   }
 
   public toAmino(): MsgUpdateChallenger.Amino {
@@ -50,11 +46,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
 
   public static fromData(data: MsgUpdateChallenger.Data): MsgUpdateChallenger {
     const { authority, bridge_id, challenger } = data
-    return new MsgUpdateChallenger(
-      authority,
-      Number.parseInt(bridge_id),
-      challenger
-    )
+    return new MsgUpdateChallenger(authority, parseInt(bridge_id), challenger)
   }
 
   public toData(): MsgUpdateChallenger.Data {

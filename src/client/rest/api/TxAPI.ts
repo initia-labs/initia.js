@@ -166,8 +166,8 @@ export class SimulateResponse {
   public static fromData(data: SimulateResponse.Data): SimulateResponse {
     return new SimulateResponse(
       {
-        gas_wanted: Number.parseInt(data.gas_info.gas_wanted),
-        gas_used: Number.parseInt(data.gas_info.gas_used),
+        gas_wanted: parseInt(data.gas_info.gas_wanted),
+        gas_used: parseInt(data.gas_info.gas_used),
       },
       data.result
     )
@@ -333,7 +333,7 @@ export class TxAPI extends BaseAPI {
       ? gasPricesCoins.mul(gas).toIntCeilCoins()
       : '0uinit'
 
-    return new Fee(Number.parseInt(gas), feeAmount, '', '')
+    return new Fee(parseInt(gas), feeAmount, '', '')
   }
 
   public async estimateGas(
@@ -423,7 +423,7 @@ export class TxAPI extends BaseAPI {
 
     if (txResponse.code != undefined && txResponse.code != 0) {
       const result: WaitTxBroadcastResult = {
-        height: Number.parseInt(txResponse.height),
+        height: parseInt(txResponse.height),
         txhash: txResponse.txhash,
         raw_log: txResponse.raw_log,
         code: txResponse.code,

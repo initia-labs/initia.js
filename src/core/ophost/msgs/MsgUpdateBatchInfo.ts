@@ -30,7 +30,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
 
     return new MsgUpdateBatchInfo(
       authority,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       BatchInfo.fromAmino(new_batch_info)
     )
   }
@@ -51,7 +51,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
     const { authority, bridge_id, new_batch_info } = data
     return new MsgUpdateBatchInfo(
       authority,
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       BatchInfo.fromData(new_batch_info)
     )
   }

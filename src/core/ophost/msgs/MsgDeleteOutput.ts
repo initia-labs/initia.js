@@ -28,8 +28,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     } = data
     return new MsgDeleteOutput(
       challenger,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index)
+      parseInt(bridge_id),
+      parseInt(output_index)
     )
   }
 
@@ -49,8 +49,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     const { challenger, bridge_id, output_index } = data
     return new MsgDeleteOutput(
       challenger,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index)
+      parseInt(bridge_id),
+      parseInt(output_index)
     )
   }
 
