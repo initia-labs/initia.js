@@ -40,11 +40,10 @@ export class Consensus extends JSONSerializable<
 
   public toData(): Consensus.Data {
     const { block, app } = this
-    const res: Consensus.Data = {
+    return {
       block: block.toFixed(),
       app: app.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Consensus.Proto): Consensus {
@@ -101,11 +100,10 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
 
   public toData(): App.Data {
     const { protocol, software } = this
-    const res: App.Data = {
+    return {
       protocol: protocol.toFixed(),
       software,
     }
-    return res
   }
 
   public static fromProto(proto: App.Proto): App {

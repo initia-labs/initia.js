@@ -106,7 +106,7 @@ export class MsgUpgradeClient extends JSONSerializable<
         proof_upgrade_consensus_state,
         'base64'
       ),
-      signer: signer,
+      signer,
     })
   }
 

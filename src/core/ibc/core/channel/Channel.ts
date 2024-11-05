@@ -53,14 +53,13 @@ export class Channel extends JSONSerializable<
 
   public toAmino(): Channel.Amino {
     const { state, ordering, counterparty, connection_hops, version } = this
-    const res: Channel.Amino = {
+    return {
       state,
       ordering,
       counterparty: counterparty?.toAmino(),
       connection_hops,
       version,
     }
-    return res
   }
 
   public static fromData(data: Channel.Data): Channel {
@@ -76,14 +75,13 @@ export class Channel extends JSONSerializable<
 
   public toData(): Channel.Data {
     const { state, ordering, counterparty, connection_hops, version } = this
-    const res: Channel.Data = {
+    return {
       state,
       ordering,
       counterparty: counterparty?.toData(),
       connection_hops,
       version,
     }
-    return res
   }
 
   public static fromProto(proto: Channel.Proto): Channel {

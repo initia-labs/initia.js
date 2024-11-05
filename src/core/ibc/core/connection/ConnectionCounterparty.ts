@@ -34,12 +34,11 @@ export class ConnectionCounterparty extends JSONSerializable<
 
   public toAmino(): ConnectionCounterparty.Amino {
     const { client_id, connection_id, prefix } = this
-    const res: ConnectionCounterparty.Amino = {
+    return {
       client_id,
       connection_id,
       prefix,
     }
-    return res
   }
 
   public static fromData(
@@ -55,12 +54,11 @@ export class ConnectionCounterparty extends JSONSerializable<
 
   public toData(): ConnectionCounterparty.Data {
     const { client_id, connection_id, prefix } = this
-    const res: ConnectionCounterparty.Data = {
+    return {
       client_id,
       connection_id,
       prefix: prefix?.toData(),
     }
-    return res
   }
 
   public static fromProto(

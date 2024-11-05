@@ -27,11 +27,10 @@ export class IbcVersion extends JSONSerializable<
 
   public toAmino(): IbcVersion.Amino {
     const { identifier, features } = this
-    const res: IbcVersion.Amino = {
+    return {
       identifier,
       features,
     }
-    return res
   }
 
   public static fromData(data: IbcVersion.Data): IbcVersion {
@@ -41,11 +40,10 @@ export class IbcVersion extends JSONSerializable<
 
   public toData(): IbcVersion.Data {
     const { identifier, features } = this
-    const res: IbcVersion.Data = {
+    return {
       identifier,
       features,
     }
-    return res
   }
 
   public static fromProto(proto: IbcVersion.Proto): IbcVersion {

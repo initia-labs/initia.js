@@ -133,7 +133,7 @@ export class Proposal extends JSONSerializable<
 
     return {
       id: id.toFixed(),
-      messages: messages.map((msg): Msg.Amino => msg.toAmino()),
+      messages: messages.map((msg) => msg.toAmino()),
       status: proposalStatusToJSON(status),
       final_tally_result: final_tally_result.toAmino(),
       submit_time: submit_time.toISOString(),

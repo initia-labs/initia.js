@@ -37,14 +37,13 @@ export class FungibleTokenPacketData extends JSONSerializable<
 
   public toAmino(): FungibleTokenPacketData.Amino {
     const { denom, amount, sender, receiver, memo } = this
-    const res: FungibleTokenPacketData.Amino = {
+    return {
       denom,
       amount,
       sender,
       receiver,
       memo,
     }
-    return res
   }
 
   public static fromData(
@@ -56,14 +55,13 @@ export class FungibleTokenPacketData extends JSONSerializable<
 
   public toData(): FungibleTokenPacketData.Data {
     const { denom, amount, sender, receiver, memo } = this
-    const res: FungibleTokenPacketData.Data = {
+    return {
       denom,
       amount,
       sender,
       receiver,
       memo,
     }
-    return res
   }
 
   public static fromProto(

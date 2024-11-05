@@ -20,10 +20,9 @@ export class IbcClientParams extends JSONSerializable<
 
   public toAmino(): IbcClientParams.Amino {
     const { allowed_clients } = this
-    const res: IbcClientParams.Amino = {
-      allowed_clients: allowed_clients,
+    return {
+      allowed_clients,
     }
-    return res
   }
 
   public static fromData(data: IbcClientParams.Data): IbcClientParams {
@@ -33,10 +32,9 @@ export class IbcClientParams extends JSONSerializable<
 
   public toData(): IbcClientParams.Data {
     const { allowed_clients } = this
-    const res: IbcClientParams.Data = {
+    return {
       allowed_clients,
     }
-    return res
   }
 
   public static fromProto(proto: IbcClientParams.Proto): IbcClientParams {

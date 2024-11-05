@@ -28,10 +28,7 @@ export class MerkleRoot extends JSONSerializable<
   }
 
   public toData(): MerkleRoot.Data {
-    const res: MerkleRoot.Data = {
-      hash: this.hash,
-    }
-    return res
+    return { hash: this.hash }
   }
 
   public static fromProto(proto: MerkleRoot.Proto): MerkleRoot {

@@ -39,13 +39,12 @@ export class Height extends JSONSerializable<
 
   public toAmino(): Height.Amino {
     const { revision_number, revision_height } = this
-    const res: Height.Amino = {
+    return {
       revision_number:
         revision_number > 0 ? revision_number.toFixed() : undefined,
       revision_height:
         revision_height > 0 ? revision_height.toFixed() : undefined,
     }
-    return res
   }
 
   public static fromData(data: Height.Data): Height {
@@ -55,11 +54,10 @@ export class Height extends JSONSerializable<
 
   public toData(): Height.Data {
     const { revision_number, revision_height } = this
-    const res: Height.Data = {
+    return {
       revision_number: revision_number.toFixed(),
       revision_height: revision_height.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Height.Proto): Height {

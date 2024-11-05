@@ -24,10 +24,9 @@ export class Params extends JSONSerializable<
 
   public toAmino(): Params.Amino {
     const { controller_enabled } = this
-    const res: Params.Amino = {
-      controller_enabled: controller_enabled,
+    return {
+      controller_enabled,
     }
-    return res
   }
 
   public static fromData(data: Params.Data): Params {
@@ -37,10 +36,9 @@ export class Params extends JSONSerializable<
 
   public toData(): Params.Data {
     const { controller_enabled } = this
-    const res: Params.Data = {
+    return {
       controller_enabled,
     }
-    return res
   }
 
   public static fromProto(proto: Params.Proto): Params {

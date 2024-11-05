@@ -70,7 +70,7 @@ export class Deposit extends JSONSerializable<
     const { proposal_id, depositor, amount } = this
     return Deposit_pb.fromPartial({
       proposalId: proposal_id,
-      depositor: depositor,
+      depositor,
       amount: amount.toProto(),
     })
   }

@@ -27,11 +27,10 @@ export class ChannelCounterparty extends JSONSerializable<
 
   public toAmino(): ChannelCounterparty.Amino {
     const { port_id, channel_id } = this
-    const res: ChannelCounterparty.Amino = {
+    return {
       port_id,
       channel_id,
     }
-    return res
   }
 
   public static fromData(data: ChannelCounterparty.Data): ChannelCounterparty {
@@ -41,11 +40,10 @@ export class ChannelCounterparty extends JSONSerializable<
 
   public toData(): ChannelCounterparty.Data {
     const { port_id, channel_id } = this
-    const res: ChannelCounterparty.Data = {
+    return {
       port_id,
       channel_id,
     }
-    return res
   }
 
   public static fromProto(

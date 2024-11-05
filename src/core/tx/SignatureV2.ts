@@ -117,9 +117,7 @@ export namespace SignatureV2 {
         }
 
         const multisigBytes = MultiSignature.encode(
-          MultiSignature.fromPartial({
-            signatures: signatures,
-          })
+          MultiSignature.fromPartial({ signatures })
         ).finish()
 
         return [

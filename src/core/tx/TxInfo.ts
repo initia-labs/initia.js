@@ -167,7 +167,7 @@ export class TxLog {
     const { msg_index, log, events } = this
     return ABCIMessageLog_pb.fromPartial({
       msgIndex: msg_index,
-      log: log,
+      log,
       events,
     })
   }

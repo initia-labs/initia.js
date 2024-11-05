@@ -59,7 +59,8 @@ export class Packet extends JSONSerializable<
       timeout_height,
       timeout_timestamp,
     } = this
-    const res: Packet.Amino = {
+
+    return {
       sequence,
       source_port,
       source_channel,
@@ -69,7 +70,6 @@ export class Packet extends JSONSerializable<
       timeout_height: timeout_height?.toAmino(),
       timeout_timestamp,
     }
-    return res
   }
 
   public static fromData(_data: Packet.Data): Packet {
@@ -106,7 +106,8 @@ export class Packet extends JSONSerializable<
       timeout_height,
       timeout_timestamp,
     } = this
-    const res: Packet.Data = {
+
+    return {
       sequence,
       source_port,
       source_channel,
@@ -114,9 +115,8 @@ export class Packet extends JSONSerializable<
       destination_channel,
       data,
       timeout_height: timeout_height?.toData(),
-      timeout_timestamp: timeout_timestamp,
+      timeout_timestamp,
     }
-    return res
   }
 
   public static fromProto(proto: Packet.Proto): Packet {

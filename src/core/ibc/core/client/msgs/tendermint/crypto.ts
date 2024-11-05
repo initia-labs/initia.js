@@ -33,13 +33,12 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
 
   public toData(): Proof.Data {
     const { total, index, leaf_hash, aunts } = this
-    const res: Proof.Data = {
+    return {
       total: total.toFixed(),
       index: index.toFixed(),
       leaf_hash,
       aunts,
     }
-    return res
   }
 
   public static fromProto(proto: Proof.Proto): Proof {
@@ -105,11 +104,10 @@ export class PublicKey extends JSONSerializable<
 
   public toData(): PublicKey.Data {
     const { ed25519, secp256k1 } = this
-    const res: PublicKey.Data = {
+    return {
       ed25519,
       secp256k1,
     }
-    return res
   }
 
   public static fromProto(proto: PublicKey.Proto): PublicKey {

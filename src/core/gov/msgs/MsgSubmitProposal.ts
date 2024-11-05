@@ -72,7 +72,7 @@ export class MsgSubmitProposal extends JSONSerializable<
     return {
       type: 'cosmos-sdk/v1/MsgSubmitProposal',
       value: {
-        messages: messages.map((msg): Msg.Amino => msg.toAmino()),
+        messages: messages.map((msg) => msg.toAmino()),
         initial_deposit: initial_deposit.toAmino(),
         proposer,
         metadata: metadata && metadata !== '' ? metadata : undefined,

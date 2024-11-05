@@ -43,12 +43,11 @@ export class IbcFee extends JSONSerializable<
 
   public toAmino(): IbcFee.Amino {
     const { recv_fee, ack_fee, timeout_fee } = this
-    const res: IbcFee.Amino = {
+    return {
       recv_fee: recv_fee.toAmino(),
       ack_fee: ack_fee.toAmino(),
       timeout_fee: timeout_fee.toAmino(),
     }
-    return res
   }
 
   public static fromData(data: IbcFee.Data): IbcFee {
@@ -62,12 +61,11 @@ export class IbcFee extends JSONSerializable<
 
   public toData(): IbcFee.Data {
     const { recv_fee, ack_fee, timeout_fee } = this
-    const res: IbcFee.Data = {
+    return {
       recv_fee: recv_fee.toData(),
       ack_fee: ack_fee.toData(),
       timeout_fee: timeout_fee.toData(),
     }
-    return res
   }
 
   public static fromProto(proto: IbcFee.Proto): IbcFee {

@@ -102,7 +102,8 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       evidence_hash,
       proposer_address,
     } = this
-    const res: Header.Data = {
+
+    return {
       version: version?.toData(),
       chain_id,
       height: height.toFixed(),
@@ -118,7 +119,6 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       evidence_hash,
       proposer_address,
     }
-    return res
   }
 
   public static fromProto(proto: Header.Proto): Header {
@@ -247,11 +247,10 @@ export class SignedHeader extends JSONSerializable<
 
   public toData(): SignedHeader.Data {
     const { header, commit } = this
-    const res: SignedHeader.Data = {
+    return {
       header: header?.toData(),
       commit: commit?.toData(),
     }
-    return res
   }
 
   public static fromProto(proto: SignedHeader.Proto): SignedHeader {
@@ -314,11 +313,10 @@ export class BlockID extends JSONSerializable<
 
   public toData(): BlockID.Data {
     const { hash, part_set_header } = this
-    const res: BlockID.Data = {
+    return {
       hash,
       part_set_header: part_set_header?.toData(),
     }
-    return res
   }
 
   public static fromProto(proto: BlockID.Proto): BlockID {
@@ -380,11 +378,10 @@ export class PartSetHeader extends JSONSerializable<
 
   public toData(): PartSetHeader.Data {
     const { total, hash } = this
-    const res: PartSetHeader.Data = {
+    return {
       total: total.toFixed(),
-      hash: hash,
+      hash,
     }
-    return res
   }
 
   public static fromProto(proto: PartSetHeader.Proto): PartSetHeader {
@@ -449,13 +446,12 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
 
   public toData(): Commit.Data {
     const { height, round, block_id, signatures } = this
-    const res: Commit.Data = {
+    return {
       height: height.toFixed(),
       round: round.toFixed(),
       block_id: block_id?.toData(),
       signatures: signatures.map((sig) => sig.toData()),
     }
-    return res
   }
 
   public static fromProto(proto: Commit.Proto): Commit {
@@ -531,13 +527,12 @@ export class CommitSig extends JSONSerializable<
 
   public toData(): CommitSig.Data {
     const { block_id_flag, validator_address, timestamp, signature } = this
-    const res: CommitSig.Data = {
+    return {
       block_id_flag: blockIDFlagToJSON(block_id_flag),
       validator_address: validator_address ?? '',
       timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
       signature: signature ?? '',
     }
-    return res
   }
 
   public static fromProto(proto: CommitSig.Proto): CommitSig {
@@ -611,12 +606,11 @@ export class ValidatorSet extends JSONSerializable<
 
   public toData(): ValidatorSet.Data {
     const { validators, proposer, total_voting_power } = this
-    const res: ValidatorSet.Data = {
+    return {
       validators: validators.map((val) => val.toData()),
       proposer: proposer?.toData(),
       total_voting_power: total_voting_power.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: ValidatorSet.Proto): ValidatorSet {
@@ -688,13 +682,12 @@ export class Validator extends JSONSerializable<
 
   public toData(): Validator.Data {
     const { address, pub_key, voting_power, proposer_priority } = this
-    const res: Validator.Data = {
+    return {
       address,
       pub_key: pub_key?.toData(),
       voting_power: voting_power.toFixed(),
       proposer_priority: proposer_priority.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Validator.Proto): Validator {

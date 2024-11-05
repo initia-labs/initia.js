@@ -55,7 +55,7 @@ export class SignDoc extends JSONSerializable<
           ? timeout_height.toFixed()
           : undefined,
       fee: fee.toAmino(),
-      msgs: messages.map((m): Msg.Amino => m.toAmino()),
+      msgs: messages.map((m) => m.toAmino()),
       memo: memo ?? '',
     }
   }

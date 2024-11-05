@@ -31,12 +31,11 @@ export class PacketId extends JSONSerializable<
 
   public toAmino(): PacketId.Amino {
     const { port_id, channel_id, sequence } = this
-    const res: PacketId.Amino = {
+    return {
       port_id,
       channel_id,
       sequence: sequence.toFixed(),
     }
-    return res
   }
 
   public static fromData(data: PacketId.Data): PacketId {
@@ -46,12 +45,11 @@ export class PacketId extends JSONSerializable<
 
   public toData(): PacketId.Data {
     const { port_id, channel_id, sequence } = this
-    const res: PacketId.Data = {
+    return {
       port_id,
       channel_id,
       sequence: sequence.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: PacketId.Proto): PacketId {

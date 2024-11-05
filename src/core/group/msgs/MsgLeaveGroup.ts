@@ -31,7 +31,7 @@ export class MsgLeaveGroup extends JSONSerializable<
     return {
       type: 'cosmos-sdk/group/MsgLeaveGroup',
       value: {
-        address: address,
+        address,
         group_id: group_id.toFixed(),
       },
     }
