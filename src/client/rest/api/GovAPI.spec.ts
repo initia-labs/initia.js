@@ -1,8 +1,8 @@
 import { APIRequester } from '../APIRequester'
 import { GovAPI } from './GovAPI'
-import { Coins, Duration } from '../../../core'
+import { Coins, Duration, Deposit, Proposal, TallyResult } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz')
 const gov = new GovAPI(c)
 
 describe('GovAPI', () => {
@@ -30,44 +30,28 @@ describe('GovAPI', () => {
     })
   })
 
-  // it('tally', async () => {
-  //   await expect(gov.tally(5333)).resolves.toMatchObject({
-  //     yes: expect.any(String),
-  //     abstain: expect.any(String),
-  //     no: expect.any(String),
-  //     no_with_veto: expect.any(String),
-  //   })
-  // })
+  it('tally', async () => {
+    const tally = await gov.tally(1)
+    expect(tally).toEqual(expect.any(TallyResult))
+  })
 
-  // it('proposals', async () => {
-  //   const proposals = await gov.proposals().then(v => v[0])
-  //   expect(proposals).toContainEqual(expect.any(Proposal))
-  // })
+  it('proposals', async () => {
+    const proposals = await gov.proposals().then(v => v[0])
+    expect(proposals).toContainEqual(expect.any(Proposal))
+  })
 
-  // it('proposal', async () => {
-  //   const proposalId = await gov.proposals().then(v => v[0][0].id)
-  //   const proposal = await gov.proposal(proposalId)
-  //   expect(proposal).toEqual(expect.any(Proposal))
-  // })
+  it('proposal', async () => {
+    const proposalId = await gov.proposals().then(v => v[0][0].id)
+    const proposal = await gov.proposal(proposalId)
+    expect(proposal).toEqual(expect.any(Proposal))
+  })
 
-  // it('proposer', async () => {
-  //   const proposalId = await gov.proposals().then(v => v[0][0].id)
-  //   const proposer = await gov.proposer(proposalId)
-  //   expect(proposer).toEqual(expect.any(String))
-  // })
-
-  // it('initialDeposit', async () => {
-  //   const proposalId = await gov.proposals().then(v => v[0][0].id)
-  //   const initialDeposit = await gov.initialDeposit(proposalId)
-  //   expect(initialDeposit).toEqual(expect.any(Coins))
-  // })
-
-  // it('deposits', async () => {
-  //   const proposals = await gov.proposals().then(v => v[0])
-  //   const proposalId = proposals[0].id
-  //   const deposits = await gov.deposits(proposalId).then(v => v[0][0])
-  //   if (deposits !== undefined) {
-  //     expect(deposits).toEqual(expect.any(Deposit))
-  //   }
-  // })
+  it('deposits', async () => {
+    const proposals = await gov.proposals().then(v => v[0])
+    const proposalId = proposals[0].id
+    const deposits = await gov.deposits(proposalId).then(v => v[0][0])
+    if (deposits !== undefined) {
+      expect(deposits).toEqual(expect.any(Deposit))
+    }
+  })
 })

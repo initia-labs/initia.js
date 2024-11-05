@@ -2,7 +2,7 @@ import { APIRequester } from '../APIRequester'
 import { DistributionAPI } from './DistributionAPI'
 import { Coins } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz')
 const distribution = new DistributionAPI(c)
 
 describe('DistributionAPI', () => {

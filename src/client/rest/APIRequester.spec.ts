@@ -13,7 +13,7 @@ describe('APIRequester', () => {
   it('accept a standard URL', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://rest.devnet.initia.xyz/')
+    const request = new APIRequester('https://rest.devnet.initia.xyz')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(

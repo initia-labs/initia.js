@@ -2,7 +2,7 @@ import { Duration } from '../../../core'
 import { APIRequester } from '../APIRequester'
 import { SlashingAPI } from './SlashingAPI'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz')
 const slashing = new SlashingAPI(c)
 
 describe('SlashingAPI', () => {
