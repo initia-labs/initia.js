@@ -72,7 +72,7 @@ export class PeriodicAllowance extends JSONSerializable<
         period: period.toAmino(),
         period_spend_limit: period_spend_limit.toAmino(),
         period_can_spend: period_can_spend.toAmino(),
-        period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
+        period_reset: period_reset.toISOString(),
       },
     }
   }
@@ -108,7 +108,7 @@ export class PeriodicAllowance extends JSONSerializable<
       period: period.toData(),
       period_spend_limit: period_spend_limit.toData(),
       period_can_spend: period_can_spend.toData(),
-      period_reset: period_reset.toISOString().replace(/\.000Z$/, 'Z'),
+      period_reset: period_reset.toISOString(),
     }
   }
 

@@ -13,11 +13,11 @@ describe('APIRequester', () => {
   it('accept a standard URL', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://rest.devnet.initia.xyz')
+    const request = new APIRequester('https://rest.testnet.initia.xyz')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://rest.devnet.initia.xyz/foo',
+      'https://rest.testnet.initia.xyz/foo',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
@@ -28,11 +28,11 @@ describe('APIRequester', () => {
   it('accept a deep URL', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://rest.devnet.initia.xyz/bar')
+    const request = new APIRequester('https://rest.testnet.initia.xyz/bar')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://rest.devnet.initia.xyz/bar/foo',
+      'https://rest.testnet.initia.xyz/bar/foo',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
@@ -43,11 +43,11 @@ describe('APIRequester', () => {
   it('accept an URL with search params', async () => {
     mockedAxios.get.mockResolvedValueOnce({ data: null })
 
-    const request = new APIRequester('https://rest.devnet.initia.xyz?key=123')
+    const request = new APIRequester('https://rest.testnet.initia.xyz?key=123')
     await request.get('/foo')
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://rest.devnet.initia.xyz/foo?key=123',
+      'https://rest.testnet.initia.xyz/foo?key=123',
       {
         headers: new axios.AxiosHeaders(),
         params: {},

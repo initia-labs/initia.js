@@ -33,6 +33,6 @@ export class RewardAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<RewardParams> {
     return this.c
       .get<{ params: RewardParams.Data }>(`/initia/reward/v1/params`, params)
-      .then(({ params: d }) => RewardParams.fromData(d))
+      .then((d) => RewardParams.fromData(d.params))
   }
 }

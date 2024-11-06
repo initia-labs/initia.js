@@ -1,28 +1,28 @@
 import { APIRequester } from '../APIRequester'
-import { Plan } from '../../../core'
 import { UpgradeAPI } from './UpgradeAPI'
+import { Plan } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
-const upgrade = new UpgradeAPI(c)
+const c = new APIRequester('https://rest.testnet.initia.xyz')
+const api = new UpgradeAPI(c)
 
 describe('UpgradeAPI', () => {
   describe('applied_plan', () => {
     it('0 for invalid name', async () => {
-      const height = await upgrade.appliedPlan('there_is_no_plan_like_this')
+      const height = await api.appliedPlan('there_is_no_plan_like_this')
       expect(height).toEqual(0)
     })
   })
 
   describe('current_plan', () => {
     it('null plan', async () => {
-      const plan = await upgrade.currentPlan()
+      const plan = await api.currentPlan()
       expect(plan == null || plan instanceof Plan)
     })
   })
 
   describe('node_versions', () => {
     it('module count', async () => {
-      expect(await upgrade.moduleVersions()).toHaveLength(34)
+      expect(await api.moduleVersions()).toHaveLength(34)
     })
   })
 })

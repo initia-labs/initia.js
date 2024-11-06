@@ -81,6 +81,6 @@ export class EvmAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<EvmParams> {
     return this.c
       .get<{ params: EvmParams.Data }>(`/minievm/evm/v1/params`, params)
-      .then(({ params: d }) => EvmParams.fromData(d))
+      .then((d) => EvmParams.fromData(d.params))
   }
 }

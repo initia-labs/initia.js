@@ -45,6 +45,6 @@ export class TokenfactoryAPI extends BaseAPI {
       .get<{
         params: TokenfactoryParams.Data
       }>(`/miniwasm/tokenfactory/v1/params`, params)
-      .then(({ params: d }) => TokenfactoryParams.fromData(d))
+      .then((d) => TokenfactoryParams.fromData(d.params))
   }
 }

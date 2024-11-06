@@ -58,7 +58,7 @@ export class BasicAllowance extends JSONSerializable<
       type: 'cosmos-sdk/BasicAllowance',
       value: {
         spend_limit: spend_limit?.toAmino(),
-        expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
+        expiration: expiration?.toISOString(),
       },
     }
   }
@@ -76,7 +76,7 @@ export class BasicAllowance extends JSONSerializable<
     return {
       '@type': '/cosmos.feegrant.v1beta1.BasicAllowance',
       spend_limit: spend_limit?.toData(),
-      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString(),
     }
   }
 

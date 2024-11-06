@@ -36,6 +36,6 @@ export class AuthAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<AuthParams> {
     return this.c
       .get<{ params: AuthParams.Data }>(`/cosmos/auth/v1beta1/params`, params)
-      .then(({ params: d }) => AuthParams.fromData(d))
+      .then((d) => AuthParams.fromData(d.params))
   }
 }

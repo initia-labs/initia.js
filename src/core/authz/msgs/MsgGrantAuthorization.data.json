@@ -13,7 +13,7 @@
                         }]
                     }
                 },
-                "expiration": "2022-06-29T08:18:15Z"
+                "expiration": "2022-06-29T08:18:15.000Z"
             }
         }
     },
@@ -29,7 +29,7 @@
                         "msg": "/cosmos.bank.v1beta1.MsgSend"
                     }
                 },
-                "expiration": "2022-06-29T08:18:15Z"
+                "expiration": "2022-06-29T08:18:15.000Z"
             }
         }
     }

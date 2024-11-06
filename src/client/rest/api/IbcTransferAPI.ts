@@ -1,18 +1,6 @@
 import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
-import { DenomTrace } from '../../../core'
-
-export interface IbcTransferParams {
-  send_enabled: boolean
-  receive_enabled: boolean
-}
-
-export namespace IbcTransferParams {
-  export interface Data {
-    send_enabled: boolean
-    receive_enabled: boolean
-  }
-}
+import { DenomTrace, IbcTransferParams } from '../../../core'
 
 export class IbcTransferAPI extends BaseAPI {
   /** Gets a denomTrace for the hash or denom */
@@ -51,10 +39,7 @@ export class IbcTransferAPI extends BaseAPI {
       .get<{
         params: IbcTransferParams.Data
       }>(`/ibc/apps/transfer/v1/params`, params)
-      .then(({ params: d }) => ({
-        send_enabled: d.send_enabled,
-        receive_enabled: d.receive_enabled,
-      }))
+      .then((d) => IbcTransferParams.fromData(d.params))
   }
 
   /** Gets the escrow address for a particular port and channel id */

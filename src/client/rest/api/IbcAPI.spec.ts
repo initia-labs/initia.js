@@ -1,50 +1,44 @@
 import { APIRequester } from '../APIRequester'
 import { IbcAPI } from './IbcAPI'
-import { Height } from '../../../core'
+import { Height, IbcClientParams } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
-const ibc = new IbcAPI(c)
+const c = new APIRequester('https://rest.testnet.initia.xyz')
+const api = new IbcAPI(c)
 
 describe('IbcClientAPI', () => {
-  it('params', async () => {
-    const param = await ibc.parameters()
-    expect(param.allowed_clients).not.toBeNull()
-    expect(param.allowed_clients).not.toBeUndefined()
-  })
-
   it('client_states', async () => {
-    const res = await ibc.clientStates()
+    const res = await api.clientStates()
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
   })
 
   it('client_state', async () => {
-    const res = await ibc.clientState('07-tendermint-0')
+    const res = await api.clientState('07-tendermint-0')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
   })
 
   it('client_status', async () => {
-    const res = await ibc.clientStatus('07-tendermint-0')
+    const res = await api.clientStatus('07-tendermint-0')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
   })
 
   it('consensus_states', async () => {
-    const res = await ibc.consensusStates('07-tendermint-0')
+    const res = await api.consensusStates('07-tendermint-0')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
   })
 
   it('channels', async () => {
-    const [res, _] = await ibc.channels()
+    const [res, _] = await api.channels()
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
     expect(res.length).toBeGreaterThan(0)
   })
 
   it('channels for a connection', async () => {
-    const [res, height, _] = await ibc.connectionChannels('connection-3')
+    const [res, height, _] = await api.connectionChannels('connection-3')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
     expect(height).not.toBeNull()
@@ -53,7 +47,7 @@ describe('IbcClientAPI', () => {
   })
 
   it('port', async () => {
-    const res = await ibc.port('channel-0', 'transfer')
+    const res = await api.port('channel-0', 'transfer')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
     expect(res).toHaveProperty('channel')
@@ -62,15 +56,20 @@ describe('IbcClientAPI', () => {
   })
 
   it('connections', async () => {
-    const [res, _] = await ibc.connections()
+    const [res, _] = await api.connections()
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
     expect(res.length).toBeGreaterThan(0)
   })
 
   it('a connection', async () => {
-    const res = await ibc.connection('connection-0')
+    const res = await api.connection('connection-0')
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
+  })
+
+  it('params', async () => {
+    const params = await api.parameters()
+    expect(params).toEqual(expect.any(IbcClientParams))
   })
 })

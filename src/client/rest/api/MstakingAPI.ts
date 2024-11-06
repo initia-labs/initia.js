@@ -47,8 +47,8 @@ export class MstakingAPI extends BaseAPI {
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}`,
           params
         )
-        .then(({ delegation_response: data }) => [
-          [Delegation.fromData(data)],
+        .then((d) => [
+          [Delegation.fromData(d.delegation_response)],
           { total: 1, next_key: '' },
         ])
     } else if (delegator !== undefined) {
@@ -110,8 +110,8 @@ export class MstakingAPI extends BaseAPI {
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
           params
         )
-        .then(({ unbond: data }) => [
-          [UnbondingDelegation.fromData(data)],
+        .then((d) => [
+          [UnbondingDelegation.fromData(d.unbond)],
           { next_key: '', total: 1 },
         ])
     } else if (delegator !== undefined) {
@@ -240,9 +240,9 @@ export class MstakingAPI extends BaseAPI {
   public async pool(params: APIParams = {}): Promise<MstakingPool> {
     return this.c
       .get<{ pool: MstakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
-      .then(({ pool: d }) => ({
-        bonded_tokens: Coins.fromData(d.bonded_tokens),
-        not_bonded_tokens: Coins.fromData(d.not_bonded_tokens),
+      .then((d) => ({
+        bonded_tokens: Coins.fromData(d.pool.bonded_tokens),
+        not_bonded_tokens: Coins.fromData(d.pool.not_bonded_tokens),
       }))
   }
 
@@ -254,6 +254,6 @@ export class MstakingAPI extends BaseAPI {
       .get<{
         params: MstakingParams.Data
       }>(`/initia/mstaking/v1/params`, params)
-      .then(({ params: d }) => MstakingParams.fromData(d))
+      .then((d) => MstakingParams.fromData(d.params))
   }
 }

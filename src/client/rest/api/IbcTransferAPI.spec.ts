@@ -1,13 +1,13 @@
 import { APIRequester } from '../APIRequester'
 import { IbcTransferAPI } from './IbcTransferAPI'
-import { DenomTrace } from '../../../core/ibc/applications/transfer/DenomTrace'
+import { DenomTrace, IbcTransferParams } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
-const ibctx = new IbcTransferAPI(c)
+const c = new APIRequester('https://rest.testnet.initia.xyz')
+const api = new IbcTransferAPI(c)
 
 describe('IbcTransferAPI', () => {
   it('denomTraces', async () => {
-    const denomTraces = await ibctx.denomTraces().then((v) => v[0])
+    const denomTraces = await api.denomTraces().then((v) => v[0])
     denomTraces.forEach(function (denomTrace: DenomTrace.Data) {
       expect(denomTrace.path).toMatch('transfer/channel-')
       expect(denomTrace.base_denom).not.toBeUndefined()
@@ -15,8 +15,7 @@ describe('IbcTransferAPI', () => {
   })
 
   it('params', async () => {
-    const param = await ibctx.parameters()
-    expect(param.send_enabled).toEqual(expect.any(Boolean))
-    expect(param.receive_enabled).toEqual(expect.any(Boolean))
+    const params = await api.parameters()
+    expect(params).toEqual(expect.any(IbcTransferParams))
   })
 })

@@ -183,7 +183,7 @@ export class OphostAPI extends BaseAPI {
 
   public async parameters(params: APIParams = {}): Promise<OphostParams> {
     return this.c
-      .get<{ params: OphostParams.Data }>(`/opinit/opchild/v1/params`, params)
+      .get<{ params: OphostParams.Data }>(`/opinit/ophost/v1/params`, params)
       .then((d) => OphostParams.fromData(d.params))
   }
 }

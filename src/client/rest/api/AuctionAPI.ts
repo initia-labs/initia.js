@@ -8,6 +8,6 @@ export class AuctionAPI extends BaseAPI {
       .get<{
         params: AuctionParams.Data
       }>(`/block-sdk/auction/v1/params`, params)
-      .then(({ params: d }) => AuctionParams.fromData(d))
+      .then((d) => AuctionParams.fromData(d.params))
   }
 }

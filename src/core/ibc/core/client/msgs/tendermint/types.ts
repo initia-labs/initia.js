@@ -107,7 +107,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
       version: version?.toData(),
       chain_id,
       height: height.toFixed(),
-      time: time?.toISOString().replace(/\.000Z$/, 'Z'),
+      time: time?.toISOString(),
       last_block_id: last_block_id?.toData(),
       last_commit_hash,
       data_hash,
@@ -530,7 +530,7 @@ export class CommitSig extends JSONSerializable<
     return {
       block_id_flag: blockIDFlagToJSON(block_id_flag),
       validator_address: validator_address ?? '',
-      timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
+      timestamp: timestamp?.toISOString(),
       signature: signature ?? '',
     }
   }

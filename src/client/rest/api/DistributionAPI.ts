@@ -181,6 +181,6 @@ export class DistributionAPI extends BaseAPI {
       .get<{
         params: DistributionParams.Data
       }>(`/initia/distribution/v1/params`, params)
-      .then(({ params: d }) => DistributionParams.fromData(d))
+      .then((d) => DistributionParams.fromData(d.params))
   }
 }

@@ -37,7 +37,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this
     return {
       authorization: authorization.toAmino(),
-      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString(),
     }
   }
 
@@ -53,7 +53,7 @@ export class AuthorizationGrant extends JSONSerializable<
     const { authorization, expiration } = this
     return {
       authorization: authorization.toData(),
-      expiration: expiration?.toISOString().replace(/\.000Z$/, 'Z'),
+      expiration: expiration?.toISOString(),
     }
   }
 

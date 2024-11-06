@@ -39,7 +39,7 @@ export class IbcNftAPI extends BaseAPI {
       .get<{
         params: IbcNftParams.Data
       }>(`/ibc/apps/nft_transfer/v1/params`, params)
-      .then(({ params: d }) => IbcNftParams.fromData(d))
+      .then((d) => IbcNftParams.fromData(d.params))
   }
 
   /** Gets the escrow address for a particular port and channel id */

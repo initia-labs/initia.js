@@ -1,15 +1,6 @@
 import { BaseAPI } from './BaseAPI'
-import { AccAddress, Denom, MoveParams } from '../../../core'
+import { AccAddress, Denom, Module, MoveParams } from '../../../core'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
-import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types'
-
-export interface Module {
-  address: AccAddress
-  module_name: string
-  abi: string
-  raw_bytes: string
-  upgrade_policy: UpgradePolicy
-}
 
 export interface Resource {
   address: AccAddress
@@ -60,19 +51,10 @@ export class MoveAPI extends BaseAPI {
   ): Promise<[Module[], Pagination]> {
     return this.c
       .get<{
-        modules: Module[]
+        modules: Module.Data[]
         pagination: Pagination
       }>(`/initia/move/v1/accounts/${address}/modules`, params)
-      .then((d) => [
-        d.modules.map((mod) => ({
-          address: mod.address,
-          module_name: mod.module_name,
-          abi: mod.abi,
-          raw_bytes: mod.raw_bytes,
-          upgrade_policy: mod.upgrade_policy,
-        })),
-        d.pagination,
-      ])
+      .then((d) => [d.modules.map(Module.fromData), d.pagination])
   }
 
   public async module(
@@ -82,15 +64,9 @@ export class MoveAPI extends BaseAPI {
   ): Promise<Module> {
     return this.c
       .get<{
-        module: Module
+        module: Module.Data
       }>(`/initia/move/v1/accounts/${address}/modules/${moduleName}`, params)
-      .then(({ module: d }) => ({
-        address: d.address,
-        module_name: d.module_name,
-        abi: d.abi,
-        raw_bytes: d.raw_bytes,
-        upgrade_policy: d.upgrade_policy,
-      }))
+      .then((d) => Module.fromData(d.module))
   }
 
   public async viewFunction<T>(
@@ -186,7 +162,7 @@ export class MoveAPI extends BaseAPI {
         ...params,
         struct_tag: structTag,
       })
-      .then(({ resource: d }) => JSON.parse(d.move_resource))
+      .then((d) => JSON.parse(d.resource.move_resource))
   }
 
   public async denom(metadata: string, params: APIParams = {}): Promise<Denom> {
@@ -207,7 +183,7 @@ export class MoveAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<MoveParams> {
     return this.c
       .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
-      .then(({ params: d }) => MoveParams.fromData(d))
+      .then((d) => MoveParams.fromData(d.params))
   }
 
   public async scriptABI(codeBytes: string): Promise<ABI> {

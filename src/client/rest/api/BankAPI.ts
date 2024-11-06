@@ -72,6 +72,6 @@ export class BankAPI extends BaseAPI {
   public async parameters(params: APIParams = {}): Promise<BankParams> {
     return this.c
       .get<{ params: BankParams.Data }>(`/cosmos/bank/v1beta1/params`, params)
-      .then(({ params: d }) => BankParams.fromData(d))
+      .then((d) => BankParams.fromData(d.params))
   }
 }
