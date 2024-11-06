@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { Coins } from '../../Coins'
 import { CombinedLimit as CombinedLimit_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class CombinedLimit extends JSONSerializable<
   CombinedLimit.Amino,
@@ -24,7 +23,7 @@ export class CombinedLimit extends JSONSerializable<
       value: { calls_remaining, amounts },
     } = data
     return new CombinedLimit(
-      Number.parseInt(calls_remaining),
+      parseInt(calls_remaining),
       Coins.fromAmino(amounts)
     )
   }
@@ -34,7 +33,7 @@ export class CombinedLimit extends JSONSerializable<
     return {
       type: 'wasm/CombinedLimit',
       value: {
-        calls_remaining: calls_remaining.toString(),
+        calls_remaining: calls_remaining.toFixed(),
         amounts: amounts.toAmino(),
       },
     }
@@ -42,17 +41,14 @@ export class CombinedLimit extends JSONSerializable<
 
   public static fromData(data: CombinedLimit.Data): CombinedLimit {
     const { calls_remaining, amounts } = data
-    return new CombinedLimit(
-      Number.parseInt(calls_remaining),
-      Coins.fromData(amounts)
-    )
+    return new CombinedLimit(parseInt(calls_remaining), Coins.fromData(amounts))
   }
 
   public toData(): CombinedLimit.Data {
     const { calls_remaining, amounts } = this
     return {
       '@type': '/cosmwasm.wasm.v1.CombinedLimit',
-      calls_remaining: calls_remaining.toString(),
+      calls_remaining: calls_remaining.toFixed(),
       amounts: amounts.toData(),
     }
   }
@@ -67,7 +63,7 @@ export class CombinedLimit extends JSONSerializable<
   public toProto(): CombinedLimit.Proto {
     const { calls_remaining, amounts } = this
     return CombinedLimit_pb.fromPartial({
-      callsRemaining: Long.fromNumber(calls_remaining),
+      callsRemaining: calls_remaining,
       amounts: amounts.toProto(),
     })
   }

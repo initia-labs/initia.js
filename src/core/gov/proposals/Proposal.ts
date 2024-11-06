@@ -9,7 +9,6 @@ import {
   proposalStatusToJSON,
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
 import { Proposal as Proposal_pb } from '@initia/initia.proto/initia/gov/v1/gov'
-import Long from 'long'
 
 /**
  * Defines the core field members of a governance proposal
@@ -89,7 +88,7 @@ export class Proposal extends JSONSerializable<
     } = data
 
     return new Proposal(
-      Number.parseInt(id),
+      parseInt(id),
       messages.map(Msg.fromAmino),
       proposalStatusFromJSON(status),
       TallyResult.fromAmino(final_tally_result),
@@ -133,8 +132,8 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
-      messages: messages.map((msg): Msg.Amino => msg.toAmino()),
+      id: id.toFixed(),
+      messages: messages.map((msg) => msg.toAmino()),
       status: proposalStatusToJSON(status),
       final_tally_result: final_tally_result.toAmino(),
       submit_time: submit_time.toISOString(),
@@ -177,7 +176,7 @@ export class Proposal extends JSONSerializable<
     } = data
 
     return new Proposal(
-      Number.parseInt(id),
+      parseInt(id),
       messages.map(Msg.fromData),
       proposalStatusFromJSON(status),
       TallyResult.fromData(final_tally_result),
@@ -221,7 +220,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       messages: messages.map((msg) => msg.toData()),
       status: proposalStatusToJSON(status),
       final_tally_result: final_tally_result.toData(),
@@ -288,7 +287,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return Proposal_pb.fromPartial({
-      id: Long.fromNumber(id),
+      id,
       messages: messages.map((msg) => msg.packAny()),
       status,
       finalTallyResult: final_tally_result.toProto(),

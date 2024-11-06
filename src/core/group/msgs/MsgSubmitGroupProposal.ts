@@ -78,7 +78,7 @@ export class MsgSubmitGroupProposal extends JSONSerializable<
         group_policy_address,
         proposers,
         metadata,
-        messages: messages.map((msg): Msg.Amino => msg.toAmino()),
+        messages: messages.map((msg) => msg.toAmino()),
         exec: execToJSON(exec),
         title,
         summary,

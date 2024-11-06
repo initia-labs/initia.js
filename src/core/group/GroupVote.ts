@@ -6,7 +6,6 @@ import {
   voteOptionFromJSON,
   voteOptionToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 export class GroupVote extends JSONSerializable<
   GroupVote.Amino,
@@ -33,7 +32,7 @@ export class GroupVote extends JSONSerializable<
   public static fromAmino(data: GroupVote.Amino): GroupVote {
     const { proposal_id, voter, option, metadata, submit_time } = data
     return new GroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -44,7 +43,7 @@ export class GroupVote extends JSONSerializable<
   public toAmino(): GroupVote.Amino {
     const { proposal_id, voter, option, metadata, submit_time } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       option: voteOptionToJSON(option),
       metadata,
@@ -55,7 +54,7 @@ export class GroupVote extends JSONSerializable<
   public static fromData(data: GroupVote.Data): GroupVote {
     const { proposal_id, voter, option, metadata, submit_time } = data
     return new GroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -66,7 +65,7 @@ export class GroupVote extends JSONSerializable<
   public toData(): GroupVote.Data {
     const { proposal_id, voter, option, metadata, submit_time } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       option: voteOptionToJSON(option),
       metadata,
@@ -87,7 +86,7 @@ export class GroupVote extends JSONSerializable<
   public toProto(): GroupVote.Proto {
     const { proposal_id, voter, option, metadata, submit_time } = this
     return Vote_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       option,
       metadata,

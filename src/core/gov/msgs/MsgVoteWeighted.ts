@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { WeightedVoteOption } from '../Vote'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVoteWeighted as MsgVoteWeighted_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
-import Long from 'long'
 
 /**
  * Defines a message to cast a vote
@@ -33,7 +32,7 @@ export class MsgVoteWeighted extends JSONSerializable<
       value: { proposal_id, voter, options, metadata },
     } = data
     return new MsgVoteWeighted(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       options.map((o) => WeightedVoteOption.fromAmino(o)),
       metadata ?? ''
@@ -56,7 +55,7 @@ export class MsgVoteWeighted extends JSONSerializable<
   public static fromData(data: MsgVoteWeighted.Data): MsgVoteWeighted {
     const { proposal_id, voter, options, metadata } = data
     return new MsgVoteWeighted(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       options.map((o) => WeightedVoteOption.fromData(o)),
       metadata
@@ -87,7 +86,7 @@ export class MsgVoteWeighted extends JSONSerializable<
     const { proposal_id, voter, options, metadata } = this
     return MsgVoteWeighted_pb.fromPartial({
       options: options.map((o) => o.toProto()),
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       metadata,
     })

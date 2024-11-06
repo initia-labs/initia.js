@@ -37,9 +37,9 @@ describe('Coins', () => {
     // input #4: string
     const coins4 = new Coins('2uinit,1uinit')
 
-    ;[coins1, coins2, coins3, coins4].forEach((cs) => {
-      expect(cs).toEqual(ref)
-    })
+    for (const coin of [coins1, coins2, coins3, coins4]) {
+      expect(coin).toEqual(ref)
+    }
   })
 
   it('fromString', () => {

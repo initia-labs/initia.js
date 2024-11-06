@@ -18,7 +18,6 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
   }
 
   public static fromAmino(_: any): Blob {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -30,8 +29,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
     return new Blob(
       data.namespace_id,
       data.data,
-      Number.parseInt(data.share_version),
-      Number.parseInt(data.namespace_version)
+      parseInt(data.share_version),
+      parseInt(data.namespace_version)
     )
   }
 
@@ -40,8 +39,8 @@ export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
     return {
       namespace_id,
       data,
-      share_version: share_version.toString(),
-      namespace_version: namespace_version.toString(),
+      share_version: share_version.toFixed(),
+      namespace_version: namespace_version.toFixed(),
     }
   }
 

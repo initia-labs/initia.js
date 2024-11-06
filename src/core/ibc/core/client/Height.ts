@@ -1,5 +1,4 @@
 import { Height as Height_pb } from '@initia/initia.proto/ibc/core/client/v1/client'
-import Long from 'long'
 import { JSONSerializable } from '../../../../util/json'
 
 /**
@@ -40,30 +39,25 @@ export class Height extends JSONSerializable<
 
   public toAmino(): Height.Amino {
     const { revision_number, revision_height } = this
-    const res: Height.Amino = {
+    return {
       revision_number:
         revision_number > 0 ? revision_number.toFixed() : undefined,
       revision_height:
         revision_height > 0 ? revision_height.toFixed() : undefined,
     }
-    return res
   }
 
   public static fromData(data: Height.Data): Height {
     const { revision_number, revision_height } = data
-    return new Height(
-      Number.parseInt(revision_number),
-      Number.parseInt(revision_height)
-    )
+    return new Height(parseInt(revision_number), parseInt(revision_height))
   }
 
   public toData(): Height.Data {
     const { revision_number, revision_height } = this
-    const res: Height.Data = {
+    return {
       revision_number: revision_number.toFixed(),
       revision_height: revision_height.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Height.Proto): Height {
@@ -76,8 +70,8 @@ export class Height extends JSONSerializable<
   public toProto(): Height.Proto {
     const { revision_number, revision_height } = this
     return Height_pb.fromPartial({
-      revisionNumber: Long.fromNumber(revision_number),
-      revisionHeight: Long.fromNumber(revision_height),
+      revisionNumber: revision_number,
+      revisionHeight: revision_height,
     })
   }
 }

@@ -56,17 +56,17 @@ export class MnemonicKey extends RawKey {
    * ### Providing a mnemonic
    *
    * ```ts
-   * import { MnemonicKey } from 'initia.js';
+   * import { MnemonicKey } from 'initia.js'
    *
-   * const mk = new MnemonicKey({ mnemonic: '...' });
-   * console.log(mk.accAddress);
+   * const mk = new MnemonicKey({ mnemonic: '...' })
+   * console.log(mk.accAddress)
    * ```
    *
    * ### Generating a random mnemonic
    *
    * ```ts
-   * const mk2 = new MnemonicKey();
-   * console.log(mk2.mnemonic);
+   * const mk2 = new MnemonicKey()
+   * console.log(mk2.mnemonic)
    * ```
    *
    * @param options

@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgMigrateContract as MsgMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
-import Long from 'long'
 
 export class MsgMigrateContract extends JSONSerializable<
   MsgMigrateContract.Amino,
@@ -29,12 +28,7 @@ export class MsgMigrateContract extends JSONSerializable<
       value: { sender, contract, code_id, msg },
     } = data
 
-    return new MsgMigrateContract(
-      sender,
-      contract,
-      Number.parseInt(code_id),
-      msg
-    )
+    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
   }
 
   public toAmino(): MsgMigrateContract.Amino {
@@ -44,7 +38,7 @@ export class MsgMigrateContract extends JSONSerializable<
       value: {
         sender,
         contract,
-        code_id: code_id.toString(),
+        code_id: code_id.toFixed(),
         msg,
       },
     }
@@ -52,12 +46,7 @@ export class MsgMigrateContract extends JSONSerializable<
 
   public static fromData(data: MsgMigrateContract.Data): MsgMigrateContract {
     const { sender, contract, code_id, msg } = data
-    return new MsgMigrateContract(
-      sender,
-      contract,
-      Number.parseInt(code_id),
-      msg
-    )
+    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
   }
 
   public toData(): MsgMigrateContract.Data {
@@ -66,7 +55,7 @@ export class MsgMigrateContract extends JSONSerializable<
       '@type': '/cosmwasm.wasm.v1.MsgMigrateContract',
       sender,
       contract,
-      code_id: code_id.toString(),
+      code_id: code_id.toFixed(),
       msg,
     }
   }
@@ -85,7 +74,7 @@ export class MsgMigrateContract extends JSONSerializable<
     return MsgMigrateContract_pb.fromPartial({
       sender,
       contract,
-      codeId: Long.fromNumber(code_id),
+      codeId: code_id,
       msg: Buffer.from(msg, 'base64'),
     })
   }

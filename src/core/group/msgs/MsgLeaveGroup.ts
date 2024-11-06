@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgLeaveGroup as MsgLeaveGroup_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgLeaveGroup extends JSONSerializable<
   MsgLeaveGroup.Amino,
@@ -24,7 +23,7 @@ export class MsgLeaveGroup extends JSONSerializable<
     const {
       value: { address, group_id },
     } = data
-    return new MsgLeaveGroup(address, Number.parseInt(group_id))
+    return new MsgLeaveGroup(address, parseInt(group_id))
   }
 
   public toAmino(): MsgLeaveGroup.Amino {
@@ -32,15 +31,15 @@ export class MsgLeaveGroup extends JSONSerializable<
     return {
       type: 'cosmos-sdk/group/MsgLeaveGroup',
       value: {
-        address: address,
-        group_id: group_id.toString(),
+        address,
+        group_id: group_id.toFixed(),
       },
     }
   }
 
   public static fromData(data: MsgLeaveGroup.Data): MsgLeaveGroup {
     const { address, group_id } = data
-    return new MsgLeaveGroup(address, Number.parseInt(group_id))
+    return new MsgLeaveGroup(address, parseInt(group_id))
   }
 
   public toData(): MsgLeaveGroup.Data {
@@ -48,7 +47,7 @@ export class MsgLeaveGroup extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgLeaveGroup',
       address,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
     }
   }
 
@@ -60,7 +59,7 @@ export class MsgLeaveGroup extends JSONSerializable<
     const { address, group_id } = this
     return MsgLeaveGroup_pb.fromPartial({
       address,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
     })
   }
 

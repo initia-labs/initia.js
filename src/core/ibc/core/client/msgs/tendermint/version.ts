@@ -3,7 +3,6 @@ import {
   Consensus as Consensus_pb,
   App as App_pb,
 } from '@initia/initia.proto/tendermint/version/types'
-import Long from 'long'
 
 /**
  * Consensus captures the consensus rules for processing a block in the blockchain,
@@ -27,7 +26,6 @@ export class Consensus extends JSONSerializable<
   }
 
   public static fromAmino(_: any): Consensus {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -37,16 +35,15 @@ export class Consensus extends JSONSerializable<
 
   public static fromData(data: Consensus.Data): Consensus {
     const { block, app } = data
-    return new Consensus(Number.parseInt(block), Number.parseInt(app))
+    return new Consensus(parseInt(block), parseInt(app))
   }
 
   public toData(): Consensus.Data {
     const { block, app } = this
-    const res: Consensus.Data = {
+    return {
       block: block.toFixed(),
       app: app.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Consensus.Proto): Consensus {
@@ -56,8 +53,8 @@ export class Consensus extends JSONSerializable<
   public toProto(): Consensus.Proto {
     const { block, app } = this
     return Consensus_pb.fromPartial({
-      block: Long.fromNumber(block),
-      app: Long.fromNumber(app),
+      block,
+      app,
     })
   }
 }
@@ -89,7 +86,6 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
   }
 
   public static fromAmino(_: any): App {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -99,16 +95,15 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
 
   public static fromData(data: App.Data): App {
     const { protocol, software } = data
-    return new App(Number.parseInt(protocol), software)
+    return new App(parseInt(protocol), software)
   }
 
   public toData(): App.Data {
     const { protocol, software } = this
-    const res: App.Data = {
+    return {
       protocol: protocol.toFixed(),
-      software: software,
+      software,
     }
-    return res
   }
 
   public static fromProto(proto: App.Proto): App {
@@ -118,8 +113,8 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
   public toProto(): App.Proto {
     const { protocol, software } = this
     return App_pb.fromPartial({
-      protocol: Long.fromNumber(protocol),
-      software: software,
+      protocol,
+      software,
     })
   }
 }

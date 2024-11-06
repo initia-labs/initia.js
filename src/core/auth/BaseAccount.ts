@@ -3,7 +3,6 @@ import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { BaseAccount as BaseAccount_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/auth'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 /**
  * Stores information about an account fetched from the blockchain.
@@ -64,8 +63,8 @@ export class BaseAccount extends JSONSerializable<
     return new BaseAccount(
       address ?? '',
       public_key ? PublicKey.fromAmino(public_key) : undefined,
-      Number.parseInt(account_number) ?? 0,
-      Number.parseInt(sequence) ?? 0
+      parseInt(account_number) ?? 0,
+      parseInt(sequence) ?? 0
     )
   }
 
@@ -75,8 +74,8 @@ export class BaseAccount extends JSONSerializable<
     return new BaseAccount(
       address ?? '',
       pub_key ? PublicKey.fromData(pub_key) : undefined,
-      Number.parseInt(account_number) ?? 0,
-      Number.parseInt(sequence) ?? 0
+      parseInt(account_number) ?? 0,
+      parseInt(sequence) ?? 0
     )
   }
 
@@ -96,8 +95,8 @@ export class BaseAccount extends JSONSerializable<
     return BaseAccount_pb.fromPartial({
       address,
       pubKey: public_key?.packAny(),
-      accountNumber: Long.fromNumber(account_number),
-      sequence: Long.fromNumber(sequence),
+      accountNumber: account_number,
+      sequence,
     })
   }
 

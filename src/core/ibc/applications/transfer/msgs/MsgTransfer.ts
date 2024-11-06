@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../../../../util/json'
 import { AccAddress } from '../../../../bech32'
 import { Coin } from '../../../../Coin'
-import Long from 'long'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgTransfer as MsgTransfer_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/tx'
 import { Height } from '../../../core/client/Height'
@@ -209,7 +208,7 @@ export class MsgTransfer extends JSONSerializable<
       sender,
       receiver,
       timeoutHeight: timeout_height?.toProto(),
-      timeoutTimestamp: Long.fromString(timeout_timestamp ?? '0'),
+      timeoutTimestamp: timeout_timestamp,
       memo,
     })
   }

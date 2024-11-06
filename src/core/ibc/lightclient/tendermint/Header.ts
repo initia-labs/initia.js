@@ -38,7 +38,6 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   }
 
   public static fromAmino(_: any): Header {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -12,7 +12,6 @@ import {
   proposalExecutorResultFromJSON,
   proposalExecutorResultToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 /**
  * A group proposal consists of a set of `sdk.Msg`s that will be executed if the proposal
@@ -78,21 +77,21 @@ export class GroupProposal extends JSONSerializable<
     } = data
 
     return new GroupProposal(
-      Number.parseInt(id),
+      parseInt(id),
       group_policy_address,
       metadata,
       proposers,
       new Date(submit_time),
-      Number.parseInt(group_version),
-      Number.parseInt(group_policy_version),
+      parseInt(group_version),
+      parseInt(group_policy_version),
       proposalStatusFromJSON(status),
       {
-        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),
-        no_count: num(final_tally_result.no_count ?? 0).toFixed(0),
-        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(0),
+        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(),
+        no_count: num(final_tally_result.no_count ?? 0).toFixed(),
+        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(),
         no_with_veto_count: num(
           final_tally_result.no_with_veto_count ?? 0
-        ).toFixed(0),
+        ).toFixed(),
       },
       new Date(voting_period_end),
       proposalExecutorResultFromJSON(executor_result),
@@ -121,13 +120,13 @@ export class GroupProposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       group_policy_address,
       metadata,
       proposers,
       submit_time: submit_time.toISOString(),
-      group_version: group_version.toString(),
-      group_policy_version: group_policy_version.toString(),
+      group_version: group_version.toFixed(),
+      group_policy_version: group_policy_version.toFixed(),
       status: proposalStatusToJSON(status),
       final_tally_result: {
         yes_count: num(final_tally_result.yes_count).toFixed(),
@@ -139,7 +138,7 @@ export class GroupProposal extends JSONSerializable<
       },
       voting_period_end: voting_period_end.toISOString(),
       executor_result: proposalExecutorResultToJSON(executor_result),
-      messages: messages.map((msg): Msg.Amino => msg.toAmino()),
+      messages: messages.map((msg) => msg.toAmino()),
       title,
       summary,
     }
@@ -164,21 +163,21 @@ export class GroupProposal extends JSONSerializable<
     } = data
 
     return new GroupProposal(
-      Number.parseInt(id),
+      parseInt(id),
       group_policy_address,
       metadata,
       proposers,
       new Date(submit_time),
-      Number.parseInt(group_version),
-      Number.parseInt(group_policy_version),
+      parseInt(group_version),
+      parseInt(group_policy_version),
       proposalStatusFromJSON(status),
       {
-        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(0),
-        no_count: num(final_tally_result.no_count ?? 0).toFixed(0),
-        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(0),
+        yes_count: num(final_tally_result.yes_count ?? 0).toFixed(),
+        no_count: num(final_tally_result.no_count ?? 0).toFixed(),
+        abstain_count: num(final_tally_result.abstain_count ?? 0).toFixed(),
         no_with_veto_count: num(
           final_tally_result.no_with_veto_count ?? 0
-        ).toFixed(0),
+        ).toFixed(),
       },
       new Date(voting_period_end),
       proposalExecutorResultFromJSON(executor_result),
@@ -207,13 +206,13 @@ export class GroupProposal extends JSONSerializable<
     } = this
 
     return {
-      id: id.toString(),
+      id: id.toFixed(),
       group_policy_address,
       metadata,
       proposers,
       submit_time: submit_time.toISOString(),
-      group_version: group_version.toString(),
-      group_policy_version: group_policy_version.toString(),
+      group_version: group_version.toFixed(),
+      group_policy_version: group_policy_version.toFixed(),
       status: proposalStatusToJSON(status),
       final_tally_result: {
         yes_count: num(final_tally_result.yes_count).toFixed(),
@@ -242,12 +241,12 @@ export class GroupProposal extends JSONSerializable<
       data.groupPolicyVersion.toNumber(),
       data.status,
       {
-        yes_count: num(data.finalTallyResult?.yesCount ?? 0).toFixed(0),
-        no_count: num(data.finalTallyResult?.noCount ?? 0).toFixed(0),
-        abstain_count: num(data.finalTallyResult?.abstainCount ?? 0).toFixed(0),
+        yes_count: num(data.finalTallyResult?.yesCount ?? 0).toFixed(),
+        no_count: num(data.finalTallyResult?.noCount ?? 0).toFixed(),
+        abstain_count: num(data.finalTallyResult?.abstainCount ?? 0).toFixed(),
         no_with_veto_count: num(
           data.finalTallyResult?.noWithVetoCount ?? 0
-        ).toFixed(0),
+        ).toFixed(),
       },
       data.votingPeriodEnd as Date,
       data.executorResult,
@@ -278,21 +277,21 @@ export class GroupProposal extends JSONSerializable<
     let ftr: TallyResult | undefined
     if (final_tally_result) {
       ftr = TallyResult.fromPartial({
-        yesCount: final_tally_result.yes_count.toString(),
-        noCount: final_tally_result.no_count.toString(),
-        abstainCount: final_tally_result.abstain_count.toString(),
-        noWithVetoCount: final_tally_result.no_with_veto_count.toString(),
+        yesCount: final_tally_result.yes_count,
+        noCount: final_tally_result.no_count,
+        abstainCount: final_tally_result.abstain_count,
+        noWithVetoCount: final_tally_result.no_with_veto_count,
       })
     }
 
     return Proposal_pb.fromPartial({
-      id: Long.fromNumber(id),
+      id,
       groupPolicyAddress: group_policy_address,
       metadata,
       proposers,
       submitTime: submit_time,
-      groupVersion: Long.fromNumber(group_version),
-      groupPolicyVersion: Long.fromNumber(group_policy_version),
+      groupVersion: group_version,
+      groupPolicyVersion: group_policy_version,
       status,
       finalTallyResult: ftr,
       votingPeriodEnd: voting_period_end,

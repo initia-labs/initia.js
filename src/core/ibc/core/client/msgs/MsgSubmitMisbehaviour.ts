@@ -25,7 +25,6 @@ export class MsgSubmitMisbehaviour extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgSubmitMisbehaviour {
-    _
     throw new Error('Amino not supported')
   }
 

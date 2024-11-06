@@ -35,11 +35,10 @@ export class ConsensusStateWithHeight extends JSONSerializable<
 
   public toAmino(): ConsensusStateWithHeight.Amino {
     const { height, consensus_state } = this
-    const res: ConsensusStateWithHeight.Amino = {
+    return {
       height: height?.toAmino(),
-      consensus_state: consensus_state,
+      consensus_state,
     }
-    return res
   }
 
   public static fromData(
@@ -54,11 +53,10 @@ export class ConsensusStateWithHeight extends JSONSerializable<
 
   public toData(): ConsensusStateWithHeight.Data {
     const { height, consensus_state } = this
-    const res: ConsensusStateWithHeight.Data = {
+    return {
       height: height?.toData(),
       consensus_state,
     }
-    return res
   }
 
   public static fromProto(

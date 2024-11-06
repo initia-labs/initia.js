@@ -35,12 +35,11 @@ export class PacketFee extends JSONSerializable<
 
   public toAmino(): PacketFee.Amino {
     const { fee, refund_address, relayers } = this
-    const res: PacketFee.Amino = {
+    return {
       fee: fee?.toAmino(),
       refund_address,
       relayers,
     }
-    return res
   }
 
   public static fromData(data: PacketFee.Data): PacketFee {
@@ -54,12 +53,11 @@ export class PacketFee extends JSONSerializable<
 
   public toData(): PacketFee.Data {
     const { fee, refund_address, relayers } = this
-    const res: PacketFee.Data = {
+    return {
       fee: fee?.toData(),
       refund_address,
       relayers,
     }
-    return res
   }
 
   public static fromProto(proto: PacketFee.Proto): PacketFee {
@@ -75,7 +73,7 @@ export class PacketFee extends JSONSerializable<
     return PacketFee_pb.fromPartial({
       fee: fee?.toProto(),
       refundAddress: refund_address,
-      relayers: relayers,
+      relayers,
     })
   }
 }

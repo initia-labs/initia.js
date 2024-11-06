@@ -39,7 +39,7 @@ export class AuctionParams extends JSONSerializable<
     } = data
 
     return new AuctionParams(
-      Number.parseInt(max_bundle_size),
+      parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromAmino(reserve_fee),
       Coin.fromAmino(min_bid_increment),
@@ -61,7 +61,7 @@ export class AuctionParams extends JSONSerializable<
     return {
       type: 'block-sdk/x/auction/Params',
       value: {
-        max_bundle_size: max_bundle_size.toString(),
+        max_bundle_size: max_bundle_size.toFixed(),
         escrow_account_address,
         reserve_fee: reserve_fee.toAmino(),
         min_bid_increment: min_bid_increment.toAmino(),
@@ -82,7 +82,7 @@ export class AuctionParams extends JSONSerializable<
     } = data
 
     return new AuctionParams(
-      Number.parseInt(max_bundle_size),
+      parseInt(max_bundle_size),
       escrow_account_address,
       Coin.fromData(reserve_fee),
       Coin.fromData(min_bid_increment),
@@ -103,7 +103,7 @@ export class AuctionParams extends JSONSerializable<
 
     return {
       '@type': '/sdk.auction.v1.Params',
-      max_bundle_size: max_bundle_size.toString(),
+      max_bundle_size: max_bundle_size.toFixed(),
       escrow_account_address,
       reserve_fee: reserve_fee.toData(),
       min_bid_increment: min_bid_increment.toData(),

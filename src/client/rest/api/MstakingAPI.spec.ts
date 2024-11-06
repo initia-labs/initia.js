@@ -2,7 +2,7 @@ import { APIRequester } from '../APIRequester'
 import { MstakingAPI } from './MstakingAPI'
 import { Coins, Duration, ValConsPublicKey } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz/')
+const c = new APIRequester('https://rest.devnet.initia.xyz')
 const mstaking = new MstakingAPI(c)
 
 describe('MstakingAPI', () => {

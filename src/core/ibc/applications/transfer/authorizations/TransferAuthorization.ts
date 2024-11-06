@@ -13,7 +13,6 @@ export class TransferAuthorization extends JSONSerializable<
   }
 
   public static fromAmino(_: any): TransferAuthorization {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateInstantiateConfig as MsgUpdateInstantiateConfig_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 import { AccessConfig } from '../AccessConfig'
-import Long from 'long'
 
 export class MsgUpdateInstantiateConfig extends JSONSerializable<
   MsgUpdateInstantiateConfig.Amino,
@@ -31,7 +30,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     } = data
     return new MsgUpdateInstantiateConfig(
       sender,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       AccessConfig.fromAmino(new_instantiate_permission)
     )
   }
@@ -42,7 +41,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
       type: 'wasm/MsgUpdateInstantiateConfig',
       value: {
         sender,
-        code_id: code_id.toString(),
+        code_id: code_id.toFixed(),
         new_instantiate_permission: new_instantiate_permission.toAmino(),
       },
     }
@@ -54,7 +53,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     const { sender, code_id, new_instantiate_permission } = data
     return new MsgUpdateInstantiateConfig(
       sender,
-      Number.parseInt(code_id),
+      parseInt(code_id),
       AccessConfig.fromData(new_instantiate_permission)
     )
   }
@@ -64,7 +63,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     return {
       '@type': '/cosmwasm.wasm.v1.MsgUpdateInstantiateConfig',
       sender,
-      code_id: code_id.toString(),
+      code_id: code_id.toFixed(),
       new_instantiate_permission: new_instantiate_permission.toData(),
     }
   }
@@ -85,7 +84,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     const { sender, code_id, new_instantiate_permission } = this
     return MsgUpdateInstantiateConfig_pb.fromPartial({
       sender,
-      codeId: Long.fromNumber(code_id),
+      codeId: code_id,
       newInstantiatePermission: new_instantiate_permission.toProto(),
     })
   }

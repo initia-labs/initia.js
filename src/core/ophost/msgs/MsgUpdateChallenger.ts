@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateChallenger as MsgUpdateChallenger_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgUpdateChallenger extends JSONSerializable<
   MsgUpdateChallenger.Amino,
@@ -29,11 +28,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
       value: { authority, bridge_id, challenger },
     } = data
 
-    return new MsgUpdateChallenger(
-      authority,
-      Number.parseInt(bridge_id),
-      challenger
-    )
+    return new MsgUpdateChallenger(authority, parseInt(bridge_id), challenger)
   }
 
   public toAmino(): MsgUpdateChallenger.Amino {
@@ -42,7 +37,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
       type: 'ophost/MsgUpdateChallenger',
       value: {
         authority,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         challenger,
       },
     }
@@ -50,11 +45,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
 
   public static fromData(data: MsgUpdateChallenger.Data): MsgUpdateChallenger {
     const { authority, bridge_id, challenger } = data
-    return new MsgUpdateChallenger(
-      authority,
-      Number.parseInt(bridge_id),
-      challenger
-    )
+    return new MsgUpdateChallenger(authority, parseInt(bridge_id), challenger)
   }
 
   public toData(): MsgUpdateChallenger.Data {
@@ -62,7 +53,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateChallenger',
       authority,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       challenger,
     }
   }
@@ -81,7 +72,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
     const { authority, bridge_id, challenger } = this
     return MsgUpdateChallenger_pb.fromPartial({
       authority,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       challenger,
     })
   }

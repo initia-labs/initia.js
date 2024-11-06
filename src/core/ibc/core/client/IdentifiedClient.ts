@@ -29,11 +29,10 @@ export class IdentifiedClientState extends JSONSerializable<
 
   public toAmino(): IdentifiedClientState.Amino {
     const { client_id, client_state } = this
-    const res: IdentifiedClientState.Amino = {
-      client_id: client_id,
-      client_state: client_state,
+    return {
+      client_id,
+      client_state,
     }
-    return res
   }
 
   public static fromData(
@@ -45,11 +44,10 @@ export class IdentifiedClientState extends JSONSerializable<
 
   public toData(): IdentifiedClientState.Data {
     const { client_id, client_state } = this
-    const res: IdentifiedClientState.Data = {
+    return {
       client_id,
       client_state,
     }
-    return res
   }
 
   public static fromProto(

@@ -87,7 +87,7 @@ export class WasmAPI extends BaseAPI {
         contract_info: ContractInfo.Data
       }>(`/cosmwasm/wasm/v1/contract/${address}`, params)
       .then((d) => ({
-        code_id: Number.parseInt(d.contract_info.code_id),
+        code_id: parseInt(d.contract_info.code_id),
         creator: d.contract_info.creator,
         admin: d.contract_info.admin,
         label: d.contract_info.label,
@@ -109,7 +109,7 @@ export class WasmAPI extends BaseAPI {
       .then((d) => [
         d.entries.map((entry) => ({
           operation: contractCodeHistoryOperationTypeFromJSON(entry.operation),
-          code_id: Number.parseInt(entry.code_id),
+          code_id: parseInt(entry.code_id),
           updated: AbsoluteTxPosition.fromData(entry.updated),
           msg: entry.msg,
         })),
@@ -175,7 +175,7 @@ export class WasmAPI extends BaseAPI {
       }>(`/cosmwasm/wasm/v1/code`, params)
       .then((d) => [
         d.code_infos.map((info) => ({
-          code_id: Number.parseInt(info.code_id),
+          code_id: parseInt(info.code_id),
           creator: info.creator,
           data_hash: info.data_hash,
           instantiate_permission: AccessConfig.fromData(
@@ -197,7 +197,7 @@ export class WasmAPI extends BaseAPI {
       }>(`/cosmwasm/wasm/v1/code/${codeId}`, params)
       .then((d) => ({
         code_info: {
-          code_id: Number.parseInt(d.code_info.code_id),
+          code_id: parseInt(d.code_info.code_id),
           creator: d.code_info.creator,
           data_hash: d.code_info.data_hash,
           instantiate_permission: AccessConfig.fromData(
@@ -216,7 +216,7 @@ export class WasmAPI extends BaseAPI {
         code_ids: string[]
         pagination: Pagination
       }>(`/cosmwasm/wasm/v1/codes/pinned`, params)
-      .then((d) => [d.code_ids.map((id) => Number.parseInt(id)), d.pagination])
+      .then((d) => [d.code_ids.map((id) => parseInt(id)), d.pagination])
   }
 
   public async parameters(params: APIParams = {}): Promise<WasmParams> {

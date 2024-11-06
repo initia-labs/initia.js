@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupMetadata as MsgUpdateGroupMetadata_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgUpdateGroupMetadata extends JSONSerializable<
   MsgUpdateGroupMetadata.Amino,
@@ -28,11 +27,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     const {
       value: { admin, group_id, metadata },
     } = data
-    return new MsgUpdateGroupMetadata(
-      admin,
-      Number.parseInt(group_id),
-      metadata
-    )
+    return new MsgUpdateGroupMetadata(admin, parseInt(group_id), metadata)
   }
 
   public toAmino(): MsgUpdateGroupMetadata.Amino {
@@ -41,7 +36,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
       type: 'cosmos-sdk/MsgUpdateGroupMetadata',
       value: {
         admin,
-        group_id: group_id.toString(),
+        group_id: group_id.toFixed(),
         metadata,
       },
     }
@@ -51,11 +46,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     data: MsgUpdateGroupMetadata.Data
   ): MsgUpdateGroupMetadata {
     const { admin, group_id, metadata } = data
-    return new MsgUpdateGroupMetadata(
-      admin,
-      Number.parseInt(group_id),
-      metadata
-    )
+    return new MsgUpdateGroupMetadata(admin, parseInt(group_id), metadata)
   }
 
   public toData(): MsgUpdateGroupMetadata.Data {
@@ -63,7 +54,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgUpdateGroupMetadata',
       admin,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       metadata,
     }
   }
@@ -82,7 +73,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     const { admin, group_id, metadata } = this
     return MsgUpdateGroupMetadata_pb.fromPartial({
       admin,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       metadata,
     })
   }

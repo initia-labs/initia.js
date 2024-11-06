@@ -29,7 +29,6 @@ export class MsgConnectionOpenConfirm extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgConnectionOpenConfirm {
-    _
     throw new Error('Amino not supported')
   }
 

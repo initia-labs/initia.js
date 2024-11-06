@@ -19,7 +19,7 @@ import {
  * Example:
  *
  * ```ts
- * import { MsgMultiSend } from "@initia/initia.js";
+ * import { MsgMultiSend } from "@initia/initia.js"
  *
  * const inputs: MsgMultiSend.Input[] = [
  *    new MsgMultiSend.Input(
@@ -31,7 +31,7 @@ import {
  *    new MsgMultiSend.Input('init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfad', [
  *      new Coin('uinit', 123123),
  *    ]),
- *  ];
+ *  ]
  *   const outputs: MsgMultiSend.Output[] = [
  *    new MsgMultiSend.Output(
  *      'init105rz2q5a4w7nv7239tl9c4px5cjy7axx3axfad',
@@ -44,8 +44,8 @@ import {
  *        uinit: 123123,
  *      }
  *    ),
- *  ];
- *  const multisend = new MsgMultiSend(inputs, outputs);
+ *  ]
+ *  const multisend = new MsgMultiSend(inputs, outputs)
  * ```
  */
 export class MsgMultiSend extends JSONSerializable<
@@ -158,14 +158,19 @@ export namespace MsgMultiSend {
 
     /**
      * @param address address
-     * @param coinsInput coins-compatible input
+     * @param coins_input coins-compatible input
      */
     constructor(
       public address: AccAddress,
-      coinsInput: Coins.Input
+      coins_input: Coins.Input
     ) {
       super()
-      this.coins = new Coins(coinsInput)
+      this.coins = new Coins(coins_input)
+    }
+
+    public static fromAmino(data: Input.Amino): Input {
+      const { address, coins } = data
+      return new Input(address, Coins.fromAmino(coins))
     }
 
     public toAmino(): Input.Amino {
@@ -176,9 +181,9 @@ export namespace MsgMultiSend {
       }
     }
 
-    public static fromAmino(data: Input.Amino): Input {
+    public static fromData(data: Input.Data): Input {
       const { address, coins } = data
-      return new Input(address, Coins.fromAmino(coins))
+      return new Input(address, Coins.fromData(coins))
     }
 
     public toData(): Input.Data {
@@ -189,9 +194,8 @@ export namespace MsgMultiSend {
       }
     }
 
-    public static fromData(data: Input.Data): Input {
-      const { address, coins } = data
-      return new Input(address, Coins.fromData(coins))
+    public static fromProto(proto: Input.Proto): Input {
+      return new Input(proto.address, Coins.fromProto(proto.coins))
     }
 
     public toProto(): Input.Proto {
@@ -200,10 +204,6 @@ export namespace MsgMultiSend {
         address,
         coins: coins.toProto(),
       })
-    }
-
-    public static fromProto(proto: Input.Proto): Input {
-      return new Input(proto.address, Coins.fromProto(proto.coins))
     }
   }
 
@@ -223,10 +223,15 @@ export namespace MsgMultiSend {
      */
     constructor(
       public address: AccAddress,
-      coinsInput: Coins.Input
+      coins_input: Coins.Input
     ) {
       super()
-      this.coins = new Coins(coinsInput)
+      this.coins = new Coins(coins_input)
+    }
+
+    public static fromAmino(data: Output.Amino): Output {
+      const { address, coins } = data
+      return new Output(address, Coins.fromAmino(coins))
     }
 
     public toAmino(): Output.Amino {
@@ -237,9 +242,9 @@ export namespace MsgMultiSend {
       }
     }
 
-    public static fromAmino(data: Output.Amino): Output {
+    public static fromData(data: Output.Data): Output {
       const { address, coins } = data
-      return new Output(address, Coins.fromAmino(coins))
+      return new Output(address, Coins.fromData(coins))
     }
 
     public toData(): Output.Data {
@@ -250,9 +255,8 @@ export namespace MsgMultiSend {
       }
     }
 
-    public static fromData(data: Output.Data): Output {
-      const { address, coins } = data
-      return new Output(address, Coins.fromData(coins))
+    public static fromProto(proto: Output.Proto): Output {
+      return new Output(proto.address, Coins.fromProto(proto.coins))
     }
 
     public toProto(): Output.Proto {
@@ -261,10 +265,6 @@ export namespace MsgMultiSend {
         address,
         coins: coins.toProto(),
       })
-    }
-
-    public static fromProto(proto: Output.Proto): Output {
-      return new Output(proto.address, Coins.fromProto(proto.coins))
     }
   }
 

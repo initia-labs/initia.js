@@ -36,11 +36,10 @@ export class DenomTrace extends JSONSerializable<
 
   public toAmino(): DenomTrace.Amino {
     const { path, base_denom } = this
-    const res: DenomTrace.Amino = {
+    return {
       path,
       base_denom,
     }
-    return res
   }
 
   public static fromData(data: DenomTrace.Data): DenomTrace {
@@ -50,11 +49,10 @@ export class DenomTrace extends JSONSerializable<
 
   public toData(): DenomTrace.Data {
     const { path, base_denom } = this
-    const res: DenomTrace.Data = {
+    return {
       path,
       base_denom,
     }
-    return res
   }
 
   public static fromProto(proto: DenomTrace.Proto): DenomTrace {

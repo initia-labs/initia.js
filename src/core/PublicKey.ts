@@ -22,7 +22,7 @@ const pubkeyAminoPrefixMultisigThreshold = Buffer.from(
 )
 
 const encodeUvarint = (value: number | string): number[] => {
-  const checked = Number.parseInt(value.toString())
+  const checked = parseInt(value.toString())
   if (checked > 127) {
     throw new Error(
       'Encoding numbers > 127 is not supported here. Please tell those lazy CosmJS maintainers to port the binary.PutUvarint implementation from the Go standard library and write some tests.'
@@ -213,7 +213,7 @@ export class LegacyAminoMultisigPublicKey extends JSONSerializable<
     data: LegacyAminoMultisigPublicKey.Amino
   ): LegacyAminoMultisigPublicKey {
     return new LegacyAminoMultisigPublicKey(
-      Number.parseInt(data.value.threshold),
+      parseInt(data.value.threshold),
       data.value.pubkeys.map((p) => SimplePublicKey.fromAmino(p))
     )
   }
@@ -232,7 +232,7 @@ export class LegacyAminoMultisigPublicKey extends JSONSerializable<
     data: LegacyAminoMultisigPublicKey.Data
   ): LegacyAminoMultisigPublicKey {
     return new LegacyAminoMultisigPublicKey(
-      Number.parseInt(data.threshold),
+      parseInt(data.threshold),
       data.public_keys.map((v) => SimplePublicKey.fromData(v))
     )
   }

@@ -49,6 +49,22 @@ export class MsgScript extends JSONSerializable<
     }
   }
 
+  public static fromData(data: MsgScript.Data): MsgScript {
+    const { sender, code_bytes, type_args, args } = data
+    return new MsgScript(sender, code_bytes, type_args, args)
+  }
+
+  public toData(): MsgScript.Data {
+    const { sender, code_bytes, type_args, args } = this
+    return {
+      '@type': '/initia.move.v1.MsgScript',
+      sender,
+      code_bytes,
+      type_args,
+      args,
+    }
+  }
+
   public static fromProto(data: MsgScript.Proto): MsgScript {
     return new MsgScript(
       data.sender,
@@ -77,22 +93,6 @@ export class MsgScript extends JSONSerializable<
 
   public static unpackAny(msgAny: Any): MsgScript {
     return MsgScript.fromProto(MsgScript_pb.decode(msgAny.value))
-  }
-
-  public static fromData(data: MsgScript.Data): MsgScript {
-    const { sender, code_bytes, type_args, args } = data
-    return new MsgScript(sender, code_bytes, type_args, args)
-  }
-
-  public toData(): MsgScript.Data {
-    const { sender, code_bytes, type_args, args } = this
-    return {
-      '@type': '/initia.move.v1.MsgScript',
-      sender,
-      code_bytes,
-      type_args,
-      args,
-    }
   }
 }
 

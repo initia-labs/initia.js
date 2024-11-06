@@ -21,7 +21,6 @@ import {
 import { CompactBitArray } from './CompactBitArray'
 import { Msg } from '../Msg'
 import { Fee } from './Fee'
-import Long from 'long'
 import { SignatureV2 } from './SignatureV2'
 import { SignerData } from '../../client'
 
@@ -41,7 +40,7 @@ export class Tx {
       new TxBody(
         data.value.msg.map((m) => Msg.fromAmino(m)),
         data.value.memo,
-        Number.parseInt(data.value.timeout_height)
+        parseInt(data.value.timeout_height)
       ),
       new AuthInfo([], Fee.fromAmino(data.value.fee)),
       signatures.map((s) => s.data.single?.signature ?? '')
@@ -177,7 +176,7 @@ export class TxBody {
     return new TxBody(
       data.messages.map((m) => Msg.fromData(m)),
       data.memo,
-      Number.parseInt(data.timeout_height)
+      parseInt(data.timeout_height)
     )
   }
 
@@ -201,7 +200,7 @@ export class TxBody {
     return TxBody_pb.fromPartial({
       memo: this.memo,
       messages: this.messages.map((m) => m.packAny()),
-      timeoutHeight: Long.fromNumber(this.timeout_height ?? 0),
+      timeoutHeight: this.timeout_height,
     })
   }
 
@@ -276,7 +275,7 @@ export class SignerInfo {
   public static fromData(data: SignerInfo.Data): SignerInfo {
     return new SignerInfo(
       PublicKey.fromData(data.public_key ?? new SimplePublicKey('').toData()),
-      Number.parseInt(data.sequence),
+      parseInt(data.sequence),
       ModeInfo.fromData(data.mode_info)
     )
   }
@@ -303,7 +302,7 @@ export class SignerInfo {
     return SignerInfo_pb.fromPartial({
       modeInfo: mode_info.toProto(),
       publicKey: public_key?.packAny(),
-      sequence: Long.fromNumber(sequence),
+      sequence,
     })
   }
 }

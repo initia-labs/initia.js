@@ -99,7 +99,7 @@ export async function getVersion(
       }
 
       return {
-        return_code: return_code,
+        return_code,
         error_message: errorCodeToString(return_code),
         // ///
         test_mode: response[0] !== 0,

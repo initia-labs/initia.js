@@ -7,7 +7,6 @@ import {
   stateToJSON,
 } from '@initia/initia.proto/ibc/core/connection/v1/connection'
 import { ConnectionCounterparty } from './ConnectionCounterparty'
-import Long from 'long'
 
 export { State, stateFromJSON, stateToJSON }
 
@@ -48,13 +47,13 @@ export class IdentifiedConnection extends JSONSerializable<
       versions.map(IbcVersion.fromAmino),
       stateFromJSON(state),
       counterparty ? ConnectionCounterparty.fromAmino(counterparty) : undefined,
-      Number.parseInt(delay_period)
+      parseInt(delay_period)
     )
   }
 
   public toAmino(): IdentifiedConnection.Amino {
     const { id, client_id, versions, state, counterparty, delay_period } = this
-    const res: IdentifiedConnection.Amino = {
+    return {
       id,
       client_id,
       versions: versions.map((version) => version.toAmino()),
@@ -62,7 +61,6 @@ export class IdentifiedConnection extends JSONSerializable<
       counterparty: counterparty?.toAmino(),
       delay_period: delay_period.toFixed(),
     }
-    return res
   }
 
   public static fromData(
@@ -75,13 +73,13 @@ export class IdentifiedConnection extends JSONSerializable<
       versions.map(IbcVersion.fromData),
       stateFromJSON(state),
       counterparty ? ConnectionCounterparty.fromData(counterparty) : undefined,
-      Number.parseInt(delay_period)
+      parseInt(delay_period)
     )
   }
 
   public toData(): IdentifiedConnection.Data {
     const { id, client_id, versions, state, counterparty, delay_period } = this
-    const res: IdentifiedConnection.Amino = {
+    return {
       id,
       client_id,
       versions: versions.map((version) => version.toData()),
@@ -89,7 +87,6 @@ export class IdentifiedConnection extends JSONSerializable<
       counterparty: counterparty?.toData(),
       delay_period: delay_period.toFixed(),
     }
-    return res
   }
 
   public static fromProto(
@@ -115,7 +112,7 @@ export class IdentifiedConnection extends JSONSerializable<
       versions: versions.map((v) => v.toProto()),
       state,
       counterparty: counterparty?.toProto(),
-      delayPeriod: Long.fromNumber(delay_period),
+      delayPeriod: delay_period,
     })
   }
 }

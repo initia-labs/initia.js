@@ -16,7 +16,6 @@ export class MerkleRoot extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MerkleRoot {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -29,10 +28,7 @@ export class MerkleRoot extends JSONSerializable<
   }
 
   public toData(): MerkleRoot.Data {
-    const res: MerkleRoot.Data = {
-      hash: this.hash,
-    }
-    return res
+    return { hash: this.hash }
   }
 
   public static fromProto(proto: MerkleRoot.Proto): MerkleRoot {

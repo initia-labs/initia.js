@@ -12,7 +12,6 @@ import {
   voteOptionFromJSON,
   voteOptionToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 export class MsgGroupVote extends JSONSerializable<
   MsgGroupVote.Amino,
@@ -42,7 +41,7 @@ export class MsgGroupVote extends JSONSerializable<
     } = data
 
     return new MsgGroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -56,7 +55,7 @@ export class MsgGroupVote extends JSONSerializable<
     return {
       type: 'cosmos-sdk/group/MsgVote',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         voter,
         option: voteOptionToJSON(option),
         metadata,
@@ -69,7 +68,7 @@ export class MsgGroupVote extends JSONSerializable<
     const { proposal_id, voter, option, metadata, exec } = data
 
     return new MsgGroupVote(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       voter,
       voteOptionFromJSON(option),
       metadata,
@@ -82,7 +81,7 @@ export class MsgGroupVote extends JSONSerializable<
 
     return {
       '@type': '/cosmos.group.v1.MsgVote',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       option: voteOptionToJSON(option),
       metadata,
@@ -104,7 +103,7 @@ export class MsgGroupVote extends JSONSerializable<
     const { proposal_id, voter, option, metadata, exec } = this
 
     return MsgVote_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       option,
       metadata,

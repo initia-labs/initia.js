@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../util/json'
 import { ValConsAddress } from '../bech32'
 import { Equivocation as Equivocation_pb } from '@initia/initia.proto/cosmos/evidence/v1beta1/evidence'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class Equivocation extends JSONSerializable<
   Equivocation.Amino,
@@ -30,9 +29,9 @@ export class Equivocation extends JSONSerializable<
     } = data
 
     return new Equivocation(
-      Number.parseInt(height),
+      parseInt(height),
       new Date(time),
-      Number.parseInt(power),
+      parseInt(power),
       consensus_address
     )
   }
@@ -43,9 +42,9 @@ export class Equivocation extends JSONSerializable<
     return {
       type: 'cosmos-sdk/Equivocation',
       value: {
-        height: height.toString(),
+        height: height.toFixed(),
         time: time.toISOString(),
-        power: power.toString(),
+        power: power.toFixed(),
         consensus_address,
       },
     }
@@ -55,9 +54,9 @@ export class Equivocation extends JSONSerializable<
     const { height, time, power, consensus_address } = data
 
     return new Equivocation(
-      Number.parseInt(height),
+      parseInt(height),
       new Date(time),
-      Number.parseInt(power),
+      parseInt(power),
       consensus_address
     )
   }
@@ -67,9 +66,9 @@ export class Equivocation extends JSONSerializable<
 
     return {
       '@type': '/cosmos.evidence.v1beta1.Equivocation',
-      height: height.toString(),
+      height: height.toFixed(),
       time: time.toISOString(),
-      power: power.toString(),
+      power: power.toFixed(),
       consensus_address,
     }
   }
@@ -87,9 +86,9 @@ export class Equivocation extends JSONSerializable<
     const { height, time, power, consensus_address } = this
 
     return Equivocation_pb.fromPartial({
-      height: Long.fromNumber(height),
+      height,
       time,
-      power: Long.fromNumber(power),
+      power,
       consensusAddress: consensus_address,
     })
   }

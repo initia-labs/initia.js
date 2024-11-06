@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../../util/json'
 import { MaxCallsLimit as MaxCallsLimit_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MaxCallsLimit extends JSONSerializable<
   MaxCallsLimit.Amino,
@@ -13,24 +12,24 @@ export class MaxCallsLimit extends JSONSerializable<
   }
 
   public static fromAmino(data: MaxCallsLimit.Amino): MaxCallsLimit {
-    return new MaxCallsLimit(Number.parseInt(data.value.remaining))
+    return new MaxCallsLimit(parseInt(data.value.remaining))
   }
 
   public toAmino(): MaxCallsLimit.Amino {
     return {
       type: 'wasm/MaxCallsLimit',
-      value: { remaining: this.remaining.toString() },
+      value: { remaining: this.remaining.toFixed() },
     }
   }
 
   public static fromData(data: MaxCallsLimit.Data): MaxCallsLimit {
-    return new MaxCallsLimit(Number.parseInt(data.remaining))
+    return new MaxCallsLimit(parseInt(data.remaining))
   }
 
   public toData(): MaxCallsLimit.Data {
     return {
       '@type': '/cosmwasm.wasm.v1.MaxCallsLimit',
-      remaining: this.remaining.toString(),
+      remaining: this.remaining.toFixed(),
     }
   }
 
@@ -40,7 +39,7 @@ export class MaxCallsLimit extends JSONSerializable<
 
   public toProto(): MaxCallsLimit.Proto {
     return MaxCallsLimit_pb.fromPartial({
-      remaining: Long.fromNumber(this.remaining),
+      remaining: this.remaining,
     })
   }
 

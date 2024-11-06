@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgDeleteOutput as MsgDeleteOutput_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgDeleteOutput extends JSONSerializable<
   MsgDeleteOutput.Amino,
@@ -28,8 +27,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     } = data
     return new MsgDeleteOutput(
       challenger,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index)
+      parseInt(bridge_id),
+      parseInt(output_index)
     )
   }
 
@@ -39,8 +38,8 @@ export class MsgDeleteOutput extends JSONSerializable<
       type: 'ophost/MsgDeleteOutput',
       value: {
         challenger,
-        bridge_id: bridge_id.toString(),
-        output_index: output_index.toString(),
+        bridge_id: bridge_id.toFixed(),
+        output_index: output_index.toFixed(),
       },
     }
   }
@@ -49,8 +48,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     const { challenger, bridge_id, output_index } = data
     return new MsgDeleteOutput(
       challenger,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index)
+      parseInt(bridge_id),
+      parseInt(output_index)
     )
   }
 
@@ -59,8 +58,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgDeleteOutput',
       challenger,
-      bridge_id: bridge_id.toString(),
-      output_index: output_index.toString(),
+      bridge_id: bridge_id.toFixed(),
+      output_index: output_index.toFixed(),
     }
   }
 
@@ -76,8 +75,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     const { challenger, bridge_id, output_index } = this
     return MsgDeleteOutput_pb.fromPartial({
       challenger,
-      bridgeId: Long.fromNumber(bridge_id),
-      outputIndex: Long.fromNumber(output_index),
+      bridgeId: bridge_id,
+      outputIndex: output_index,
     })
   }
 

@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { DecisionPolicy } from '../policies'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreateGroupPolicy as MsgCreateGroupPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgCreateGroupPolicy extends JSONSerializable<
   MsgCreateGroupPolicy.Amino,
@@ -33,7 +32,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     } = data
     return new MsgCreateGroupPolicy(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       metadata,
       DecisionPolicy.fromAmino(decision_policy)
     )
@@ -45,7 +44,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
       type: 'cosmos-sdk/MsgCreateGroupPolicy',
       value: {
         admin,
-        group_id: group_id.toString(),
+        group_id: group_id.toFixed(),
         metadata,
         decision_policy: decision_policy.toAmino(),
       },
@@ -58,7 +57,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     const { admin, group_id, metadata, decision_policy } = data
     return new MsgCreateGroupPolicy(
       admin,
-      Number.parseInt(group_id),
+      parseInt(group_id),
       metadata,
       DecisionPolicy.fromData(decision_policy)
     )
@@ -69,7 +68,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     return {
       '@type': '/cosmos.group.v1.MsgCreateGroupPolicy',
       admin,
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       metadata,
       decision_policy: decision_policy.toData(),
     }
@@ -90,7 +89,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     const { admin, group_id, metadata, decision_policy } = this
     return MsgCreateGroupPolicy_pb.fromPartial({
       admin,
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       metadata,
       decisionPolicy: decision_policy.packAny(),
     })

@@ -57,7 +57,8 @@ export class Metadata extends JSONSerializable<
       encoding,
       tx_type,
     } = this
-    const res: Metadata.Amino = {
+
+    return {
       version,
       controller_connection_id,
       host_connection_id,
@@ -65,7 +66,6 @@ export class Metadata extends JSONSerializable<
       encoding,
       tx_type,
     }
-    return res
   }
 
   public static fromData(data: Metadata.Data): Metadata {
@@ -96,7 +96,8 @@ export class Metadata extends JSONSerializable<
       encoding,
       tx_type,
     } = this
-    const res: Metadata.Data = {
+
+    return {
       version,
       controller_connection_id,
       host_connection_id,
@@ -104,7 +105,6 @@ export class Metadata extends JSONSerializable<
       encoding,
       tx_type,
     }
-    return res
   }
 
   public static fromProto(proto: Metadata.Proto): Metadata {
@@ -128,11 +128,11 @@ export class Metadata extends JSONSerializable<
       tx_type,
     } = this
     return Metadata_pb.fromPartial({
-      version: version,
+      version,
       controllerConnectionId: controller_connection_id,
       hostConnectionId: host_connection_id,
-      address: address,
-      encoding: encoding,
+      address,
+      encoding,
       txType: tx_type,
     })
   }

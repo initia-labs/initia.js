@@ -76,6 +76,45 @@ export class MsgExecute extends JSONSerializable<
     }
   }
 
+  public static fromData(data: MsgExecute.Data): MsgExecute {
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = data
+    return new MsgExecute(
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args
+    )
+  }
+
+  public toData(): MsgExecute.Data {
+    const {
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    } = this
+    return {
+      '@type': '/initia.move.v1.MsgExecute',
+      sender,
+      module_address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    }
+  }
+
   public static fromProto(data: MsgExecute.Proto): MsgExecute {
     return new MsgExecute(
       data.sender,
@@ -115,45 +154,6 @@ export class MsgExecute extends JSONSerializable<
 
   public static unpackAny(msgAny: Any): MsgExecute {
     return MsgExecute.fromProto(MsgExecute_pb.decode(msgAny.value))
-  }
-
-  public static fromData(data: MsgExecute.Data): MsgExecute {
-    const {
-      sender,
-      module_address,
-      module_name,
-      function_name,
-      type_args,
-      args,
-    } = data
-    return new MsgExecute(
-      sender,
-      module_address,
-      module_name,
-      function_name,
-      type_args,
-      args
-    )
-  }
-
-  public toData(): MsgExecute.Data {
-    const {
-      sender,
-      module_address,
-      module_name,
-      function_name,
-      type_args,
-      args,
-    } = this
-    return {
-      '@type': '/initia.move.v1.MsgExecute',
-      sender,
-      module_address,
-      module_name,
-      function_name,
-      type_args,
-      args,
-    }
   }
 }
 

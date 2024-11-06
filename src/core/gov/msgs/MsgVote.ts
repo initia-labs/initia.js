@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1/gov'
-import Long from 'long'
 
 /**
  * Defines a message to cast a vote
@@ -32,12 +31,7 @@ export class MsgVote extends JSONSerializable<
     const {
       value: { proposal_id, voter, option, metadata },
     } = data
-    return new MsgVote(
-      Number.parseInt(proposal_id),
-      voter,
-      option,
-      metadata ?? ''
-    )
+    return new MsgVote(parseInt(proposal_id), voter, option, metadata ?? '')
   }
 
   public toAmino(): MsgVote.Amino {
@@ -45,7 +39,7 @@ export class MsgVote extends JSONSerializable<
     return {
       type: 'cosmos-sdk/v1/MsgVote',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         voter,
         option,
         metadata: metadata && metadata !== '' ? metadata : undefined,
@@ -55,14 +49,14 @@ export class MsgVote extends JSONSerializable<
 
   public static fromData(data: MsgVote.Data): MsgVote {
     const { proposal_id, voter, option, metadata } = data
-    return new MsgVote(Number.parseInt(proposal_id), voter, option, metadata)
+    return new MsgVote(parseInt(proposal_id), voter, option, metadata)
   }
 
   public toData(): MsgVote.Data {
     const { proposal_id, voter, option, metadata } = this
     return {
       '@type': '/cosmos.gov.v1.MsgVote',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       voter,
       option,
       metadata,
@@ -81,7 +75,7 @@ export class MsgVote extends JSONSerializable<
   public toProto(): MsgVote.Proto {
     const { proposal_id, voter, option, metadata } = this
     return MsgVote_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       voter,
       option,
       metadata,

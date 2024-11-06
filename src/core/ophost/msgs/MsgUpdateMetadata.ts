@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateMetadata as MsgUpdateMetadata_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgUpdateMetadata extends JSONSerializable<
   MsgUpdateMetadata.Amino,
@@ -27,11 +26,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
       value: { authority, bridge_id, metadata },
     } = data
 
-    return new MsgUpdateMetadata(
-      authority,
-      Number.parseInt(bridge_id),
-      metadata
-    )
+    return new MsgUpdateMetadata(authority, parseInt(bridge_id), metadata)
   }
 
   public toAmino(): MsgUpdateMetadata.Amino {
@@ -40,7 +35,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
       type: 'ophost/MsgUpdateMetadata',
       value: {
         authority,
-        bridge_id: bridge_id.toString(),
+        bridge_id: bridge_id.toFixed(),
         metadata,
       },
     }
@@ -48,11 +43,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
 
   public static fromData(data: MsgUpdateMetadata.Data): MsgUpdateMetadata {
     const { authority, bridge_id, metadata } = data
-    return new MsgUpdateMetadata(
-      authority,
-      Number.parseInt(bridge_id),
-      metadata
-    )
+    return new MsgUpdateMetadata(authority, parseInt(bridge_id), metadata)
   }
 
   public toData(): MsgUpdateMetadata.Data {
@@ -60,7 +51,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgUpdateMetadata',
       authority,
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       metadata,
     }
   }
@@ -77,7 +68,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
     const { authority, bridge_id, metadata } = this
     return MsgUpdateMetadata_pb.fromPartial({
       authority,
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       metadata: Buffer.from(metadata, 'base64'),
     })
   }

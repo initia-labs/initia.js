@@ -3,7 +3,6 @@ import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgTimeoutOnClose as MsgTimeoutOnClose_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
 import { Packet, Height } from '../../../core'
-import Long from 'long'
 
 /**
  * MsgTimeoutOnClose timed-out packet upon counterparty channel closure.
@@ -33,7 +32,6 @@ export class MsgTimeoutOnClose extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgTimeoutOnClose {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -55,7 +53,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proof_close,
       proof_unreceived,
       proof_height ? Height.fromData(proof_height) : undefined,
-      Number.parseInt(next_sequence_recv),
+      parseInt(next_sequence_recv),
       signer
     )
   }
@@ -105,7 +103,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
       proofClose: Buffer.from(proof_close, 'base64'),
       proofHeight: proof_height?.toProto(),
-      nextSequenceRecv: Long.fromNumber(next_sequence_recv),
+      nextSequenceRecv: next_sequence_recv,
       signer,
     })
   }

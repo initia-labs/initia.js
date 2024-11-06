@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { EvidenceParams as EvidenceParams_pb } from '@initia/initia.proto/tendermint/types/params'
-import Long from 'long'
 
 export class EvidenceParams extends JSONSerializable<
   EvidenceParams.Amino,
@@ -24,36 +23,36 @@ export class EvidenceParams extends JSONSerializable<
   public static fromAmino(data: EvidenceParams.Amino): EvidenceParams {
     const { max_age_num_blocks, max_age_duration, max_bytes } = data
     return new EvidenceParams(
-      Number.parseInt(max_age_num_blocks),
+      parseInt(max_age_num_blocks),
       Duration.fromAmino(max_age_duration),
-      Number.parseInt(max_bytes)
+      parseInt(max_bytes)
     )
   }
 
   public toAmino(): EvidenceParams.Amino {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return {
-      max_age_num_blocks: max_age_num_blocks.toString(),
+      max_age_num_blocks: max_age_num_blocks.toFixed(),
       max_age_duration: max_age_duration.toAmino(),
-      max_bytes: max_bytes.toString(),
+      max_bytes: max_bytes.toFixed(),
     }
   }
 
   public static fromData(data: EvidenceParams.Data): EvidenceParams {
     const { max_age_num_blocks, max_age_duration, max_bytes } = data
     return new EvidenceParams(
-      Number.parseInt(max_age_num_blocks),
+      parseInt(max_age_num_blocks),
       Duration.fromData(max_age_duration),
-      Number.parseInt(max_bytes)
+      parseInt(max_bytes)
     )
   }
 
   public toData(): EvidenceParams.Data {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return {
-      max_age_num_blocks: max_age_num_blocks.toString(),
+      max_age_num_blocks: max_age_num_blocks.toFixed(),
       max_age_duration: max_age_duration.toData(),
-      max_bytes: max_bytes.toString(),
+      max_bytes: max_bytes.toFixed(),
     }
   }
 
@@ -68,9 +67,9 @@ export class EvidenceParams extends JSONSerializable<
   public toProto(): EvidenceParams.Proto {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return EvidenceParams_pb.fromPartial({
-      maxAgeNumBlocks: Long.fromNumber(max_age_num_blocks),
+      maxAgeNumBlocks: max_age_num_blocks,
       maxAgeDuration: max_age_duration.toProto(),
-      maxBytes: Long.fromNumber(max_bytes),
+      maxBytes: max_bytes,
     })
   }
 }

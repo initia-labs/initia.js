@@ -34,7 +34,6 @@ export class MsgChannelOpenAck extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgChannelOpenAck {
-    _
     throw new Error('Amino not supported')
   }
 

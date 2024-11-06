@@ -25,10 +25,7 @@ export class MerklePrefix extends JSONSerializable<
 
   public toAmino(): MerklePrefix.Amino {
     const { key_prefix } = this
-    const res: MerklePrefix.Amino = {
-      key_prefix,
-    }
-    return res
+    return { key_prefix }
   }
 
   public static fromData(data: MerklePrefix.Data): MerklePrefix {
@@ -38,10 +35,7 @@ export class MerklePrefix extends JSONSerializable<
 
   public toData(): MerklePrefix.Data {
     const { key_prefix } = this
-    const res: MerklePrefix.Data = {
-      key_prefix,
-    }
-    return res
+    return { key_prefix }
   }
 
   public static fromProto(proto: MerklePrefix.Proto): MerklePrefix {

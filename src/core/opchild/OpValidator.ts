@@ -3,7 +3,6 @@ import { ValAddress } from '../bech32'
 import { ValConsPublicKey } from '../PublicKey'
 import { Validator as Validator_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class OpValidator extends JSONSerializable<
   OpValidator.Amino,
@@ -31,7 +30,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       ValConsPublicKey.fromAmino(consensus_pubkey),
-      Number.parseInt(cons_power)
+      parseInt(cons_power)
     )
   }
 
@@ -41,7 +40,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       consensus_pubkey: consensus_pubkey.toAmino(),
-      cons_power: cons_power.toString(),
+      cons_power: cons_power.toFixed(),
     }
   }
 
@@ -51,7 +50,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       ValConsPublicKey.fromData(consensus_pubkey),
-      Number.parseInt(cons_power)
+      parseInt(cons_power)
     )
   }
 
@@ -61,7 +60,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operator_address,
       consensus_pubkey: consensus_pubkey.toData(),
-      cons_power: cons_power.toString(),
+      cons_power: cons_power.toFixed(),
     }
   }
 
@@ -80,7 +79,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operatorAddress: operator_address,
       consensusPubkey: consensus_pubkey.packAny(),
-      consPower: Long.fromNumber(cons_power),
+      consPower: cons_power,
     })
   }
 }

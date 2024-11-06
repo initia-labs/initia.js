@@ -12,11 +12,12 @@ export class RawKey extends Key {
    * Raw private key, in bytes.
    */
   public privateKey: Buffer
+  /**
+   * Whether to use eth pubkey
+   */
+  public eth: boolean
 
-  constructor(
-    privateKey: Buffer,
-    public eth = false
-  ) {
+  constructor(privateKey: Buffer, eth = false) {
     const publicKey = secp256k1.publicKeyCreate(
       new Uint8Array(privateKey),
       true
@@ -29,6 +30,7 @@ export class RawKey extends Key {
     }
 
     this.privateKey = privateKey
+    this.eth = eth
   }
 
   public static fromHex(key: string): RawKey {

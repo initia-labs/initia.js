@@ -26,7 +26,6 @@ export class MsgPayForBlobs extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgPayForBlobs {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -45,9 +44,9 @@ export class MsgPayForBlobs extends JSONSerializable<
     return new MsgPayForBlobs(
       signer,
       namespaces,
-      blob_sizes.map(Number.parseInt),
+      blob_sizes.map(parseInt),
       share_commitments,
-      share_versions.map(Number.parseInt)
+      share_versions.map(parseInt)
     )
   }
 
@@ -63,9 +62,9 @@ export class MsgPayForBlobs extends JSONSerializable<
       '@type': '/celestia.blob.v1.MsgPayForBlobs',
       signer,
       namespaces,
-      blob_sizes: blob_sizes.map((size) => size.toString()),
+      blob_sizes: blob_sizes.map((size) => size.toFixed()),
       share_commitments,
-      share_versions: share_versions.map((version) => version.toString()),
+      share_versions: share_versions.map((version) => version.toFixed()),
     }
   }
 

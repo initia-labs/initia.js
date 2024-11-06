@@ -5,7 +5,6 @@ import {
   Member as Member_pb,
   MemberRequest as MemberRequest_pb,
 } from '@initia/initia.proto/cosmos/group/v1/types'
-import Long from 'long'
 
 export class GroupMember extends JSONSerializable<
   GroupMember.Amino,
@@ -25,26 +24,26 @@ export class GroupMember extends JSONSerializable<
 
   public static fromAmino(data: GroupMember.Amino): GroupMember {
     const { group_id, member } = data
-    return new GroupMember(Number.parseInt(group_id), Member.fromAmino(member))
+    return new GroupMember(parseInt(group_id), Member.fromAmino(member))
   }
 
   public toAmino(): GroupMember.Amino {
     const { group_id, member } = this
     return {
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       member: member.toAmino(),
     }
   }
 
   public static fromData(data: GroupMember.Data): GroupMember {
     const { group_id, member } = data
-    return new GroupMember(Number.parseInt(group_id), Member.fromData(member))
+    return new GroupMember(parseInt(group_id), Member.fromData(member))
   }
 
   public toData(): GroupMember.Data {
     const { group_id, member } = this
     return {
-      group_id: group_id.toString(),
+      group_id: group_id.toFixed(),
       member: member.toData(),
     }
   }
@@ -59,7 +58,7 @@ export class GroupMember extends JSONSerializable<
   public toProto(): GroupMember.Proto {
     const { group_id, member } = this
     return GroupMember_pb.fromPartial({
-      groupId: Long.fromNumber(group_id),
+      groupId: group_id,
       member: member.toProto(),
     })
   }

@@ -2,7 +2,6 @@ import { Coins } from '../Coins'
 import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { Deposit as Deposit_pb } from '@initia/initia.proto/cosmos/gov/v1/gov'
-import Long from 'long'
 
 /**
  * Defines an amount deposited by an account address to an active proposal
@@ -30,7 +29,7 @@ export class Deposit extends JSONSerializable<
   public static fromAmino(data: Deposit.Amino): Deposit {
     const { proposal_id, depositor, amount } = data
     return new Deposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromAmino(amount)
     )
@@ -39,7 +38,7 @@ export class Deposit extends JSONSerializable<
   public toAmino(): Deposit.Amino {
     const { proposal_id, depositor, amount } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       depositor,
       amount: amount.toAmino(),
     }
@@ -47,17 +46,13 @@ export class Deposit extends JSONSerializable<
 
   public static fromData(data: Deposit.Data): Deposit {
     const { proposal_id, depositor, amount } = data
-    return new Deposit(
-      Number.parseInt(proposal_id),
-      depositor,
-      Coins.fromData(amount)
-    )
+    return new Deposit(parseInt(proposal_id), depositor, Coins.fromData(amount))
   }
 
   public toData(): Deposit.Data {
     const { proposal_id, depositor, amount } = this
     return {
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       depositor,
       amount: amount.toData(),
     }
@@ -74,8 +69,8 @@ export class Deposit extends JSONSerializable<
   public toProto(): Deposit.Proto {
     const { proposal_id, depositor, amount } = this
     return Deposit_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
-      depositor: depositor,
+      proposalId: proposal_id,
+      depositor,
       amount: amount.toProto(),
     })
   }

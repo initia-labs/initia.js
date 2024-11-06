@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Coins } from '../Coins'
 import { Params as Params_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/params'
-import Long from 'long'
 
 export class TokenfactoryParams extends JSONSerializable<
   TokenfactoryParams.Amino,
@@ -25,7 +24,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = data
     return new TokenfactoryParams(
       Coins.fromAmino(denom_creation_fee),
-      Number.parseInt(denom_creation_gas_consume)
+      parseInt(denom_creation_gas_consume)
     )
   }
 
@@ -33,7 +32,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = this
     return {
       denom_creation_fee: denom_creation_fee.toAmino(),
-      denom_creation_gas_consume: denom_creation_gas_consume.toString(),
+      denom_creation_gas_consume: denom_creation_gas_consume.toFixed(),
     }
   }
 
@@ -41,7 +40,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = data
     return new TokenfactoryParams(
       Coins.fromData(denom_creation_fee),
-      Number.parseInt(denom_creation_gas_consume)
+      parseInt(denom_creation_gas_consume)
     )
   }
 
@@ -49,7 +48,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = this
     return {
       denom_creation_fee: denom_creation_fee.toData(),
-      denom_creation_gas_consume: denom_creation_gas_consume.toString(),
+      denom_creation_gas_consume: denom_creation_gas_consume.toFixed(),
     }
   }
 
@@ -64,7 +63,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = this
     return Params_pb.fromPartial({
       denomCreationFee: denom_creation_fee.toProto(),
-      denomCreationGasConsume: Long.fromNumber(denom_creation_gas_consume),
+      denomCreationGasConsume: denom_creation_gas_consume,
     })
   }
 }

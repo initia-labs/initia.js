@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { MsgUpdateOracle as MsgUpdateOracle_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgUpdateOracle extends JSONSerializable<
   MsgUpdateOracle.Amino,
@@ -25,7 +24,7 @@ export class MsgUpdateOracle extends JSONSerializable<
   public static fromAmino(data: MsgUpdateOracle.Amino): MsgUpdateOracle {
     return new MsgUpdateOracle(
       data.value.sender,
-      Number.parseInt(data.value.height),
+      parseInt(data.value.height),
       data.value.data
     )
   }
@@ -36,18 +35,14 @@ export class MsgUpdateOracle extends JSONSerializable<
       type: 'opchild/MsgUpdateOracle',
       value: {
         sender,
-        height: height.toString(),
+        height: height.toFixed(),
         data,
       },
     }
   }
 
   public static fromData(data: MsgUpdateOracle.Data): MsgUpdateOracle {
-    return new MsgUpdateOracle(
-      data.sender,
-      Number.parseInt(data.height),
-      data.data
-    )
+    return new MsgUpdateOracle(data.sender, parseInt(data.height), data.data)
   }
 
   public toData(): MsgUpdateOracle.Data {
@@ -55,7 +50,7 @@ export class MsgUpdateOracle extends JSONSerializable<
     return {
       '@type': '/opinit.opchild.v1.MsgUpdateOracle',
       sender,
-      height: height.toString(),
+      height: height.toFixed(),
       data,
     }
   }
@@ -72,7 +67,7 @@ export class MsgUpdateOracle extends JSONSerializable<
     const { sender, height, data } = this
     return MsgUpdateOracle_pb.fromPartial({
       sender,
-      height: Long.fromNumber(height),
+      height,
       data: Buffer.from(data, 'base64'),
     })
   }

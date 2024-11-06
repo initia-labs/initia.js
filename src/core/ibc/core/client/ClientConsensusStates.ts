@@ -33,11 +33,10 @@ export class ClientConsensusStates extends JSONSerializable<
 
   public toAmino(): ClientConsensusStates.Amino {
     const { client_id, consensus_states } = this
-    const res: ClientConsensusStates.Amino = {
-      client_id: client_id,
+    return {
+      client_id,
       consensus_states: consensus_states.map((state) => state.toAmino()),
     }
-    return res
   }
 
   public static fromData(
@@ -52,11 +51,10 @@ export class ClientConsensusStates extends JSONSerializable<
 
   public toData(): ClientConsensusStates.Data {
     const { client_id, consensus_states } = this
-    const res: ClientConsensusStates.Data = {
+    return {
       client_id,
       consensus_states: consensus_states.map((state) => state.toData()),
     }
-    return res
   }
 
   public static fromProto(

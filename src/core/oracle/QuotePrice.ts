@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/connect/oracle/v2/genesis'
-import Long from 'long'
 
 export class QuotePrice extends JSONSerializable<
   QuotePrice.Amino,
@@ -25,7 +24,7 @@ export class QuotePrice extends JSONSerializable<
     return new QuotePrice(
       price,
       new Date(block_timestamp),
-      Number.parseInt(block_height)
+      parseInt(block_height)
     )
   }
 
@@ -34,7 +33,7 @@ export class QuotePrice extends JSONSerializable<
     return {
       price,
       block_timestamp: block_timestamp.toISOString(),
-      block_height: block_height.toString(),
+      block_height: block_height.toFixed(),
     }
   }
 
@@ -43,7 +42,7 @@ export class QuotePrice extends JSONSerializable<
     return new QuotePrice(
       price,
       new Date(block_timestamp),
-      Number.parseInt(block_height)
+      parseInt(block_height)
     )
   }
 
@@ -52,7 +51,7 @@ export class QuotePrice extends JSONSerializable<
     return {
       price,
       block_timestamp: block_timestamp.toISOString(),
-      block_height: block_height.toString(),
+      block_height: block_height.toFixed(),
     }
   }
 
@@ -69,7 +68,7 @@ export class QuotePrice extends JSONSerializable<
     return QuotePrice_pb.fromPartial({
       price,
       blockTimestamp: block_timestamp,
-      blockHeight: Long.fromNumber(block_height),
+      blockHeight: block_height,
     })
   }
 }

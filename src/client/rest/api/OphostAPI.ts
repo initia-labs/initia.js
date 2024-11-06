@@ -99,7 +99,7 @@ export class OphostAPI extends BaseAPI {
         params
       )
       .then((d) => ({
-        output_index: Number.parseInt(d.output_index),
+        output_index: parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
       }))
   }
@@ -115,8 +115,8 @@ export class OphostAPI extends BaseAPI {
       }>(`/opinit/ophost/v1/bridges/${bridgeId}/outputs`, params)
       .then((d) => [
         d.output_proposals.map((info) => ({
-          bridge_id: Number.parseInt(info.bridge_id ?? `${bridgeId}`),
-          output_index: Number.parseInt(info.output_index),
+          bridge_id: parseInt(info.bridge_id ?? `${bridgeId}`),
+          output_index: parseInt(info.output_index),
           output_proposal: Output.fromData(info.output_proposal),
         })),
         d.pagination,
@@ -134,8 +134,8 @@ export class OphostAPI extends BaseAPI {
         params
       )
       .then((d) => ({
-        bridge_id: Number.parseInt(d.bridge_id ?? `${bridgeId}`),
-        output_index: Number.parseInt(d.output_index),
+        bridge_id: parseInt(d.bridge_id ?? `${bridgeId}`),
+        output_index: parseInt(d.output_index),
         output_proposal: Output.fromData(d.output_proposal),
       }))
   }

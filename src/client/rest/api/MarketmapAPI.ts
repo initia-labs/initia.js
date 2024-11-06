@@ -45,7 +45,7 @@ export class MarketmapAPI extends BaseAPI {
       .get<{
         last_updated: string
       }>(`/connect/marketmap/v2/last_updated`, params)
-      .then((d) => Number.parseInt(d.last_updated))
+      .then((d) => parseInt(d.last_updated))
   }
 
   public async parameters(params: APIParams = {}): Promise<MarketmapParams> {

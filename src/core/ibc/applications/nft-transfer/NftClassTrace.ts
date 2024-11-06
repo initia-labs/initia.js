@@ -24,11 +24,10 @@ export class NftClassTrace extends JSONSerializable<
 
   public toAmino(): NftClassTrace.Amino {
     const { path, base_class_id } = this
-    const res: NftClassTrace.Amino = {
+    return {
       path,
       base_class_id,
     }
-    return res
   }
 
   public static fromData(data: NftClassTrace.Data): NftClassTrace {
@@ -38,11 +37,10 @@ export class NftClassTrace extends JSONSerializable<
 
   public toData(): NftClassTrace.Data {
     const { path, base_class_id } = this
-    const res: NftClassTrace.Data = {
+    return {
       path,
       base_class_id,
     }
-    return res
   }
 
   public static fromProto(proto: NftClassTrace.Proto): NftClassTrace {

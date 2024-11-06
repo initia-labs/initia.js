@@ -7,7 +7,6 @@ import {
   RedelegationEntry as RedelegationEntry_pb,
   RedelegationEntryResponse as RedelegationEntryResponse_pb,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 
 /**
  * A redelegation is when a delegator decides to stop mstaking with one validator and
@@ -192,18 +191,6 @@ export namespace Redelegation {
       this.shares_dst = new Coins(shares_dst)
     }
 
-    public toAmino(): Entry.Amino {
-      return {
-        redelegation_entry: {
-          initial_balance: this.initial_balance.toAmino(),
-          shares_dst: this.shares_dst.toAmino(),
-          creation_height: this.creation_height,
-          completion_time: this.completion_time.toISOString(),
-        },
-        balance: this.balance.toAmino(),
-      }
-    }
-
     public static fromAmino(data: Entry.Amino): Entry {
       const {
         redelegation_entry: {
@@ -223,15 +210,15 @@ export namespace Redelegation {
       )
     }
 
-    public toData(): Entry.Data {
+    public toAmino(): Entry.Amino {
       return {
         redelegation_entry: {
-          initial_balance: this.initial_balance.toData(),
-          shares_dst: this.shares_dst.toData(),
+          initial_balance: this.initial_balance.toAmino(),
+          shares_dst: this.shares_dst.toAmino(),
           creation_height: this.creation_height,
           completion_time: this.completion_time.toISOString(),
         },
-        balance: this.balance.toData(),
+        balance: this.balance.toAmino(),
       }
     }
 
@@ -254,24 +241,16 @@ export namespace Redelegation {
       )
     }
 
-    public toProto(): Entry.Proto {
-      const {
-        initial_balance,
-        balance,
-        shares_dst,
-        creation_height,
-        completion_time,
-      } = this
-
-      return RedelegationEntryResponse_pb.fromPartial({
-        balance: balance.toProto(),
-        redelegationEntry: RedelegationEntry_pb.fromPartial({
-          completionTime: completion_time,
-          creationHeight: Long.fromNumber(creation_height),
-          initialBalance: initial_balance.toProto(),
-          sharesDst: shares_dst.toProto(),
-        }),
-      })
+    public toData(): Entry.Data {
+      return {
+        redelegation_entry: {
+          initial_balance: this.initial_balance.toData(),
+          shares_dst: this.shares_dst.toData(),
+          creation_height: this.creation_height,
+          completion_time: this.completion_time.toISOString(),
+        },
+        balance: this.balance.toData(),
+      }
     }
 
     public static fromProto(proto: Entry.Proto): Entry {
@@ -285,6 +264,26 @@ export namespace Redelegation {
         redelegationEntryProto.creationHeight.toNumber(),
         redelegationEntryProto.completionTime as Date
       )
+    }
+
+    public toProto(): Entry.Proto {
+      const {
+        initial_balance,
+        balance,
+        shares_dst,
+        creation_height,
+        completion_time,
+      } = this
+
+      return RedelegationEntryResponse_pb.fromPartial({
+        balance: balance.toProto(),
+        redelegationEntry: RedelegationEntry_pb.fromPartial({
+          completionTime: completion_time,
+          creationHeight: creation_height,
+          initialBalance: initial_balance.toProto(),
+          sharesDst: shares_dst.toProto(),
+        }),
+      })
     }
   }
 

@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreate2 as MsgCreate2_pb } from '@initia/initia.proto/minievm/evm/v1/tx'
-import Long from 'long'
 
 export class MsgCreate2 extends JSONSerializable<
   MsgCreate2.Amino,
@@ -29,7 +28,7 @@ export class MsgCreate2 extends JSONSerializable<
       value: { sender, code, salt, value },
     } = data
 
-    return new MsgCreate2(sender, code, Number.parseInt(salt), value)
+    return new MsgCreate2(sender, code, parseInt(salt), value)
   }
 
   public toAmino(): MsgCreate2.Amino {
@@ -39,7 +38,7 @@ export class MsgCreate2 extends JSONSerializable<
       value: {
         sender,
         code,
-        salt: salt.toString(),
+        salt: salt.toFixed(),
         value,
       },
     }
@@ -47,7 +46,7 @@ export class MsgCreate2 extends JSONSerializable<
 
   public static fromData(data: MsgCreate2.Data): MsgCreate2 {
     const { sender, code, salt, value } = data
-    return new MsgCreate2(sender, code, Number.parseInt(salt), value)
+    return new MsgCreate2(sender, code, parseInt(salt), value)
   }
 
   public toData(): MsgCreate2.Data {
@@ -56,7 +55,7 @@ export class MsgCreate2 extends JSONSerializable<
       '@type': '/minievm.evm.v1.MsgCreate2',
       sender,
       code,
-      salt: salt.toString(),
+      salt: salt.toFixed(),
       value,
     }
   }
@@ -75,7 +74,7 @@ export class MsgCreate2 extends JSONSerializable<
     return MsgCreate2_pb.fromPartial({
       sender,
       code,
-      salt: Long.fromNumber(salt),
+      salt,
       value,
     })
   }

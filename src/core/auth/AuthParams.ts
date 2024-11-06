@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/auth'
-import Long from 'long'
 
 export class AuthParams extends JSONSerializable<
   AuthParams.Amino,
@@ -36,11 +35,11 @@ export class AuthParams extends JSONSerializable<
     } = data
 
     return new AuthParams(
-      Number.parseInt(max_memo_characters),
-      Number.parseInt(tx_sig_limit),
-      Number.parseInt(tx_size_cost_per_byte),
-      Number.parseInt(sig_verify_cost_ed25519),
-      Number.parseInt(sig_verify_cost_secp256k1)
+      parseInt(max_memo_characters),
+      parseInt(tx_sig_limit),
+      parseInt(tx_size_cost_per_byte),
+      parseInt(sig_verify_cost_ed25519),
+      parseInt(sig_verify_cost_secp256k1)
     )
   }
 
@@ -56,11 +55,11 @@ export class AuthParams extends JSONSerializable<
     return {
       type: 'cosmos-sdk/x/auth/Params',
       value: {
-        max_memo_characters: max_memo_characters.toString(),
-        tx_sig_limit: tx_sig_limit.toString(),
-        tx_size_cost_per_byte: tx_size_cost_per_byte.toString(),
-        sig_verify_cost_ed25519: sig_verify_cost_ed25519.toString(),
-        sig_verify_cost_secp256k1: sig_verify_cost_secp256k1.toString(),
+        max_memo_characters: max_memo_characters.toFixed(),
+        tx_sig_limit: tx_sig_limit.toFixed(),
+        tx_size_cost_per_byte: tx_size_cost_per_byte.toFixed(),
+        sig_verify_cost_ed25519: sig_verify_cost_ed25519.toFixed(),
+        sig_verify_cost_secp256k1: sig_verify_cost_secp256k1.toFixed(),
       },
     }
   }
@@ -75,11 +74,11 @@ export class AuthParams extends JSONSerializable<
     } = data
 
     return new AuthParams(
-      Number.parseInt(max_memo_characters),
-      Number.parseInt(tx_sig_limit),
-      Number.parseInt(tx_size_cost_per_byte),
-      Number.parseInt(sig_verify_cost_ed25519),
-      Number.parseInt(sig_verify_cost_secp256k1)
+      parseInt(max_memo_characters),
+      parseInt(tx_sig_limit),
+      parseInt(tx_size_cost_per_byte),
+      parseInt(sig_verify_cost_ed25519),
+      parseInt(sig_verify_cost_secp256k1)
     )
   }
 
@@ -94,11 +93,11 @@ export class AuthParams extends JSONSerializable<
 
     return {
       '@type': '/cosmos.auth.v1beta1.Params',
-      max_memo_characters: max_memo_characters.toString(),
-      tx_sig_limit: tx_sig_limit.toString(),
-      tx_size_cost_per_byte: tx_size_cost_per_byte.toString(),
-      sig_verify_cost_ed25519: sig_verify_cost_ed25519.toString(),
-      sig_verify_cost_secp256k1: sig_verify_cost_secp256k1.toString(),
+      max_memo_characters: max_memo_characters.toFixed(),
+      tx_sig_limit: tx_sig_limit.toFixed(),
+      tx_size_cost_per_byte: tx_size_cost_per_byte.toFixed(),
+      sig_verify_cost_ed25519: sig_verify_cost_ed25519.toFixed(),
+      sig_verify_cost_secp256k1: sig_verify_cost_secp256k1.toFixed(),
     }
   }
 
@@ -122,11 +121,11 @@ export class AuthParams extends JSONSerializable<
     } = this
 
     return Params_pb.fromPartial({
-      maxMemoCharacters: Long.fromNumber(max_memo_characters),
-      txSigLimit: Long.fromNumber(tx_sig_limit),
-      txSizeCostPerByte: Long.fromNumber(tx_size_cost_per_byte),
-      sigVerifyCostEd25519: Long.fromNumber(sig_verify_cost_ed25519),
-      sigVerifyCostSecp256k1: Long.fromNumber(sig_verify_cost_secp256k1),
+      maxMemoCharacters: max_memo_characters,
+      txSigLimit: tx_sig_limit,
+      txSizeCostPerByte: tx_size_cost_per_byte,
+      sigVerifyCostEd25519: sig_verify_cost_ed25519,
+      sigVerifyCostSecp256k1: sig_verify_cost_secp256k1,
     })
   }
 }

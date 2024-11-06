@@ -31,7 +31,6 @@ export class MsgUpgradeClient extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgUpgradeClient {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -107,7 +106,7 @@ export class MsgUpgradeClient extends JSONSerializable<
         proof_upgrade_consensus_state,
         'base64'
       ),
-      signer: signer,
+      signer,
     })
   }
 

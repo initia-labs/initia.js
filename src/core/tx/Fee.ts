@@ -3,7 +3,6 @@ import { Coins } from '../Coins'
 import { num } from '../num'
 import { AccAddress } from '../bech32'
 import { Fee as Fee_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx'
-import Long from 'long'
 
 /**
  * A transaction must include a fee, otherwise it will be rejected.
@@ -29,19 +28,19 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
 
   public static fromAmino(data: Fee.Amino): Fee {
     const { gas, amount } = data
-    return new Fee(Number.parseInt(gas), Coins.fromAmino(amount), '', '')
+    return new Fee(parseInt(gas), Coins.fromAmino(amount), '', '')
   }
 
   public toAmino(): Fee.Amino {
     return {
-      gas: num(this.gas_limit).toFixed(0),
+      gas: num(this.gas_limit).toFixed(),
       amount: this.amount.toAmino(),
     }
   }
 
   public static fromData(data: Fee.Data): Fee {
     return new Fee(
-      Number.parseInt(data.gas_limit),
+      parseInt(data.gas_limit),
       Coins.fromData(data.amount),
       data.payer,
       data.granter
@@ -71,7 +70,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
     const { amount, gas_limit, payer, granter } = this
     return Fee_pb.fromPartial({
       amount: amount.toProto(),
-      gasLimit: Long.fromNumber(gas_limit),
+      gasLimit: gas_limit,
       granter,
       payer,
     })

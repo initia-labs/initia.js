@@ -31,11 +31,10 @@ export class InterchainAccount extends JSONSerializable<
 
   public toAmino(): InterchainAccount.Amino {
     const { base_account, account_owner } = this
-    const res: InterchainAccount.Amino = {
+    return {
       base_account: base_account?.toAmino(),
       account_owner,
     }
-    return res
   }
 
   public static fromData(data: InterchainAccount.Data): InterchainAccount {
@@ -48,11 +47,10 @@ export class InterchainAccount extends JSONSerializable<
 
   public toData(): InterchainAccount.Data {
     const { base_account, account_owner } = this
-    const res: InterchainAccount.Data = {
+    return {
       base_account: base_account?.toData(),
       account_owner,
     }
-    return res
   }
 
   public static fromProto(proto: InterchainAccount.Proto): InterchainAccount {

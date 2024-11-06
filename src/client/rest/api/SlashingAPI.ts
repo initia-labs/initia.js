@@ -44,11 +44,11 @@ export class SlashingAPI extends BaseAPI {
       }>(`/cosmos/slashing/v1beta1/signing_infos/${valConsAddress}`, params)
       .then(({ val_signing_info: d }) => ({
         address: d.address,
-        start_height: Number.parseInt(d.start_height),
-        index_offset: Number.parseInt(d.index_offset),
+        start_height: parseInt(d.start_height),
+        index_offset: parseInt(d.index_offset),
         jailed_until: new Date(d.jailed_until),
         tombstoned: d.tombstoned,
-        missed_blocks_counter: Number.parseInt(d.missed_blocks_counter),
+        missed_blocks_counter: parseInt(d.missed_blocks_counter),
       }))
   }
 
@@ -61,11 +61,11 @@ export class SlashingAPI extends BaseAPI {
       .then((d) =>
         d.info.map((x) => ({
           address: x.address,
-          start_height: Number.parseInt(x.start_height),
-          index_offset: Number.parseInt(x.index_offset),
+          start_height: parseInt(x.start_height),
+          index_offset: parseInt(x.index_offset),
           jailed_until: new Date(x.jailed_until),
           tombstoned: x.tombstoned,
-          missed_blocks_counter: Number.parseInt(x.missed_blocks_counter),
+          missed_blocks_counter: parseInt(x.missed_blocks_counter),
         }))
       )
   }

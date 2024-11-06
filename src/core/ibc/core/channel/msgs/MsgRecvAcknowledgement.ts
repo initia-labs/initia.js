@@ -30,7 +30,6 @@ export class MsgAcknowledgement extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgAcknowledgement {
-    _
     throw new Error('Amino not supported')
   }
 

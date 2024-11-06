@@ -53,6 +53,25 @@ export class MsgDelegate extends JSONSerializable<
     }
   }
 
+  public static fromData(data: MsgDelegate.Data): MsgDelegate {
+    const { delegator_address, validator_address, amount } = data
+    return new MsgDelegate(
+      delegator_address,
+      validator_address,
+      Coins.fromData(amount)
+    )
+  }
+
+  public toData(): MsgDelegate.Data {
+    const { delegator_address, validator_address, amount } = this
+    return {
+      '@type': '/initia.mstaking.v1.MsgDelegate',
+      delegator_address,
+      validator_address,
+      amount: amount.toData(),
+    }
+  }
+
   public static fromProto(proto: MsgDelegate.Proto): MsgDelegate {
     return new MsgDelegate(
       proto.delegatorAddress,
@@ -79,25 +98,6 @@ export class MsgDelegate extends JSONSerializable<
 
   public static unpackAny(msgAny: Any): MsgDelegate {
     return MsgDelegate.fromProto(MsgDelegate_pb.decode(msgAny.value))
-  }
-
-  public static fromData(data: MsgDelegate.Data): MsgDelegate {
-    const { delegator_address, validator_address, amount } = data
-    return new MsgDelegate(
-      delegator_address,
-      validator_address,
-      Coins.fromData(amount)
-    )
-  }
-
-  public toData(): MsgDelegate.Data {
-    const { delegator_address, validator_address, amount } = this
-    return {
-      '@type': '/initia.mstaking.v1.MsgDelegate',
-      delegator_address,
-      validator_address,
-      amount: amount.toData(),
-    }
   }
 }
 

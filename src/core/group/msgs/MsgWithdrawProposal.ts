@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWithdrawProposal as MsgWithdrawProposal_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
-import Long from 'long'
 
 export class MsgWithdrawProposal extends JSONSerializable<
   MsgWithdrawProposal.Amino,
@@ -26,7 +25,7 @@ export class MsgWithdrawProposal extends JSONSerializable<
     const {
       value: { proposal_id, address },
     } = data
-    return new MsgWithdrawProposal(Number.parseInt(proposal_id), address)
+    return new MsgWithdrawProposal(parseInt(proposal_id), address)
   }
 
   public toAmino(): MsgWithdrawProposal.Amino {
@@ -34,7 +33,7 @@ export class MsgWithdrawProposal extends JSONSerializable<
     return {
       type: 'cosmos-sdk/group/MsgWithdrawProposal',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         address,
       },
     }
@@ -42,14 +41,14 @@ export class MsgWithdrawProposal extends JSONSerializable<
 
   public static fromData(data: MsgWithdrawProposal.Data): MsgWithdrawProposal {
     const { proposal_id, address } = data
-    return new MsgWithdrawProposal(Number.parseInt(proposal_id), address)
+    return new MsgWithdrawProposal(parseInt(proposal_id), address)
   }
 
   public toData(): MsgWithdrawProposal.Data {
     const { proposal_id, address } = this
     return {
       '@type': '/cosmos.group.v1.MsgWithdrawProposal',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       address,
     }
   }
@@ -63,7 +62,7 @@ export class MsgWithdrawProposal extends JSONSerializable<
   public toProto(): MsgWithdrawProposal.Proto {
     const { proposal_id, address } = this
     return MsgWithdrawProposal_pb.fromPartial({
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
       address,
     })
   }

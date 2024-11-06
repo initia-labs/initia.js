@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPinCodes as MsgPinCodes_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
-import Long from 'long'
 
 export class MsgPinCodes extends JSONSerializable<
   MsgPinCodes.Amino,
@@ -24,7 +23,7 @@ export class MsgPinCodes extends JSONSerializable<
     const {
       value: { authority, code_ids },
     } = data
-    return new MsgPinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgPinCodes(authority, code_ids.map(parseInt))
   }
 
   public toAmino(): MsgPinCodes.Amino {
@@ -33,14 +32,14 @@ export class MsgPinCodes extends JSONSerializable<
       type: 'wasm/MsgPinCodes',
       value: {
         authority,
-        code_ids: code_ids.map((id) => id.toString()),
+        code_ids: code_ids.map((id) => id.toFixed()),
       },
     }
   }
 
   public static fromData(data: MsgPinCodes.Data): MsgPinCodes {
     const { authority, code_ids } = data
-    return new MsgPinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgPinCodes(authority, code_ids.map(parseInt))
   }
 
   public toData(): MsgPinCodes.Data {
@@ -48,7 +47,7 @@ export class MsgPinCodes extends JSONSerializable<
     return {
       '@type': '/cosmwasm.wasm.v1.MsgPinCodes',
       authority,
-      code_ids: code_ids.map((id) => id.toString()),
+      code_ids: code_ids.map((id) => id.toFixed()),
     }
   }
 
@@ -63,7 +62,7 @@ export class MsgPinCodes extends JSONSerializable<
     const { authority, code_ids } = this
     return MsgPinCodes_pb.fromPartial({
       authority,
-      codeIds: code_ids.map((id) => Long.fromNumber(id)),
+      codeIds: code_ids,
     })
   }
 

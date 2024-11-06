@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing'
-import Long from 'long'
 
 export class SlashingParams extends JSONSerializable<
   SlashingParams.Amino,
@@ -17,10 +16,10 @@ export class SlashingParams extends JSONSerializable<
    */
   constructor(
     public signed_blocks_window: number,
-    public min_signed_per_window: number,
+    public min_signed_per_window: string,
     public downtime_jail_duration: Duration,
-    public slash_fraction_double_sign: number,
-    public slash_fraction_downtime: number
+    public slash_fraction_double_sign: string,
+    public slash_fraction_downtime: string
   ) {
     super()
   }
@@ -37,11 +36,11 @@ export class SlashingParams extends JSONSerializable<
     } = data
 
     return new SlashingParams(
-      Number.parseInt(signed_blocks_window),
-      Number.parseInt(min_signed_per_window),
+      parseInt(signed_blocks_window),
+      min_signed_per_window,
       Duration.fromAmino(downtime_jail_duration),
-      Number.parseInt(slash_fraction_double_sign),
-      Number.parseInt(slash_fraction_downtime)
+      slash_fraction_double_sign,
+      slash_fraction_downtime
     )
   }
 
@@ -57,11 +56,11 @@ export class SlashingParams extends JSONSerializable<
     return {
       type: 'cosmos-sdk/x/slashing/Params',
       value: {
-        signed_blocks_window: signed_blocks_window.toString(),
-        min_signed_per_window: min_signed_per_window.toString(),
+        signed_blocks_window: signed_blocks_window.toFixed(),
+        min_signed_per_window,
         downtime_jail_duration: downtime_jail_duration.toAmino(),
-        slash_fraction_double_sign: slash_fraction_double_sign.toString(),
-        slash_fraction_downtime: slash_fraction_downtime.toString(),
+        slash_fraction_double_sign,
+        slash_fraction_downtime,
       },
     }
   }
@@ -76,11 +75,11 @@ export class SlashingParams extends JSONSerializable<
     } = data
 
     return new SlashingParams(
-      Number.parseInt(signed_blocks_window),
-      Number.parseInt(min_signed_per_window),
+      parseInt(signed_blocks_window),
+      min_signed_per_window,
       Duration.fromData(downtime_jail_duration),
-      Number.parseInt(slash_fraction_double_sign),
-      Number.parseInt(slash_fraction_downtime)
+      slash_fraction_double_sign,
+      slash_fraction_downtime
     )
   }
 
@@ -95,21 +94,21 @@ export class SlashingParams extends JSONSerializable<
 
     return {
       '@type': '/cosmos.slashing.v1beta1.Params',
-      signed_blocks_window: signed_blocks_window.toString(),
-      min_signed_per_window: min_signed_per_window.toString(),
+      signed_blocks_window: signed_blocks_window.toFixed(),
+      min_signed_per_window,
       downtime_jail_duration: downtime_jail_duration.toData(),
-      slash_fraction_double_sign: slash_fraction_double_sign.toString(),
-      slash_fraction_downtime: slash_fraction_downtime.toString(),
+      slash_fraction_double_sign,
+      slash_fraction_downtime,
     }
   }
 
   public static fromProto(data: SlashingParams.Proto): SlashingParams {
     return new SlashingParams(
       data.signedBlocksWindow.toNumber(),
-      Number.parseFloat(data.minSignedPerWindow.toString()),
+      data.minSignedPerWindow.toString(),
       Duration.fromProto(data.downtimeJailDuration as Duration.Proto),
-      Number.parseFloat(data.slashFractionDoubleSign.toString()),
-      Number.parseFloat(data.slashFractionDowntime.toString())
+      data.slashFractionDoubleSign.toString(),
+      data.slashFractionDowntime.toString()
     )
   }
 
@@ -123,13 +122,11 @@ export class SlashingParams extends JSONSerializable<
     } = this
 
     return Params_pb.fromPartial({
-      signedBlocksWindow: Long.fromNumber(signed_blocks_window),
-      minSignedPerWindow: Buffer.from(min_signed_per_window.toString()),
+      signedBlocksWindow: signed_blocks_window,
+      minSignedPerWindow: Buffer.from(min_signed_per_window),
       downtimeJailDuration: downtime_jail_duration.toProto(),
-      slashFractionDoubleSign: Buffer.from(
-        slash_fraction_double_sign.toString()
-      ),
-      slashFractionDowntime: Buffer.from(slash_fraction_downtime.toString()),
+      slashFractionDoubleSign: Buffer.from(slash_fraction_double_sign),
+      slashFractionDowntime: Buffer.from(slash_fraction_downtime),
     })
   }
 }

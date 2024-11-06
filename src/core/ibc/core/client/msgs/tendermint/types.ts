@@ -16,7 +16,6 @@ import {
 } from '@initia/initia.proto/tendermint/types/validator'
 import { Consensus } from './version'
 import { PublicKey } from './crypto'
-import Long from 'long'
 
 /** Header defines the structure of a Tendermint block header. */
 export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
@@ -26,25 +25,24 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
    */
   constructor(
     public version: Consensus | undefined,
-    public chainId: string,
-    public height: string,
+    public chain_id: string,
+    public height: number,
     public time: Date | undefined,
-    public lastBlockId: BlockID | undefined,
-    public lastCommitHash: string,
-    public dataHash: string,
-    public validatorsHash: string,
-    public nextValidatorsHash: string,
-    public consensusHash: string,
-    public appHash: string,
-    public lastResultsHash: string,
-    public evidenceHash: string,
-    public proposerAddress: string
+    public last_block_id: BlockID | undefined,
+    public last_commit_hash: string,
+    public data_hash: string,
+    public validators_hash: string,
+    public next_validators_hash: string,
+    public consensus_hash: string,
+    public app_hash: string,
+    public last_results_hash: string,
+    public evidence_hash: string,
+    public proposer_address: string
   ) {
     super()
   }
 
   public static fromAmino(_: any): Header {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -55,72 +53,72 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   public static fromData(data: Header.Data): Header {
     const {
       version,
-      chain_id: chainId,
+      chain_id,
       height,
       time,
-      last_block_id: lastBlockId,
-      last_commit_hash: lastCommitHash,
-      data_hash: dataHash,
-      validators_hash: validatorsHash,
-      next_validators_hash: nextValidatorsHash,
-      consensus_hash: consensusHash,
-      app_hash: appHash,
-      last_results_hash: lastResultsHash,
-      evidence_hash: evidenceHash,
-      proposer_address: proposerAddress,
+      last_block_id,
+      last_commit_hash,
+      data_hash,
+      validators_hash,
+      next_validators_hash,
+      consensus_hash,
+      app_hash,
+      last_results_hash,
+      evidence_hash,
+      proposer_address,
     } = data
     return new Header(
       version ? Consensus.fromData(version) : undefined,
-      chainId,
-      height,
+      chain_id,
+      parseInt(height),
       time ? new Date(time) : undefined,
-      lastBlockId ? BlockID.fromData(lastBlockId) : undefined,
-      lastCommitHash,
-      dataHash,
-      validatorsHash,
-      nextValidatorsHash,
-      consensusHash,
-      appHash,
-      lastResultsHash,
-      evidenceHash,
-      proposerAddress
+      last_block_id ? BlockID.fromData(last_block_id) : undefined,
+      last_commit_hash,
+      data_hash,
+      validators_hash,
+      next_validators_hash,
+      consensus_hash,
+      app_hash,
+      last_results_hash,
+      evidence_hash,
+      proposer_address
     )
   }
 
   public toData(): Header.Data {
     const {
       version,
-      chainId,
+      chain_id,
       height,
       time,
-      lastBlockId,
-      lastCommitHash,
-      dataHash,
-      validatorsHash,
-      nextValidatorsHash,
-      consensusHash,
-      appHash,
-      lastResultsHash,
-      evidenceHash,
-      proposerAddress,
+      last_block_id,
+      last_commit_hash,
+      data_hash,
+      validators_hash,
+      next_validators_hash,
+      consensus_hash,
+      app_hash,
+      last_results_hash,
+      evidence_hash,
+      proposer_address,
     } = this
-    const res: Header.Data = {
+
+    return {
       version: version?.toData(),
-      chain_id: chainId,
-      height,
+      chain_id,
+      height: height.toFixed(),
       time: time?.toISOString().replace(/\.000Z$/, 'Z'),
-      last_block_id: lastBlockId?.toData(),
-      last_commit_hash: lastCommitHash,
-      data_hash: dataHash,
-      validators_hash: validatorsHash,
-      next_validators_hash: nextValidatorsHash,
-      consensus_hash: consensusHash,
-      app_hash: appHash,
-      last_results_hash: lastResultsHash,
-      evidence_hash: evidenceHash,
-      proposer_address: proposerAddress,
+      last_block_id: last_block_id?.toData(),
+      last_commit_hash,
+      data_hash,
+      validators_hash,
+      next_validators_hash,
+      consensus_hash,
+      app_hash,
+      last_results_hash,
+      evidence_hash,
+      proposer_address,
     }
-    return res
   }
 
   public static fromProto(proto: Header.Proto): Header {
@@ -143,7 +141,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return new Header(
       version ? Consensus.fromProto(version) : undefined,
       chainId,
-      height.toString(),
+      height.toNumber(),
       time,
       lastBlockId ? BlockID.fromProto(lastBlockId) : undefined,
       Buffer.from(lastCommitHash).toString('base64'),
@@ -161,35 +159,35 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   public toProto(): Header.Proto {
     const {
       version,
-      chainId,
+      chain_id,
       height,
       time,
-      lastBlockId,
-      lastCommitHash,
-      dataHash,
-      validatorsHash,
-      nextValidatorsHash,
-      consensusHash,
-      appHash,
-      lastResultsHash,
-      evidenceHash,
-      proposerAddress,
+      last_block_id,
+      last_commit_hash,
+      data_hash,
+      validators_hash,
+      next_validators_hash,
+      consensus_hash,
+      app_hash,
+      last_results_hash,
+      evidence_hash,
+      proposer_address,
     } = this
     return Header_pb.fromPartial({
       version: version?.toProto(),
-      chainId,
-      height: Long.fromString(height),
+      chainId: chain_id,
+      height,
       time,
-      lastBlockId: lastBlockId?.toProto(),
-      lastCommitHash: Buffer.from(lastCommitHash, 'base64'),
-      dataHash: Buffer.from(dataHash, 'base64'),
-      validatorsHash: Buffer.from(validatorsHash, 'base64'),
-      nextValidatorsHash: Buffer.from(nextValidatorsHash, 'base64'),
-      consensusHash: Buffer.from(consensusHash, 'base64'),
-      appHash: Buffer.from(appHash, 'base64'),
-      lastResultsHash: Buffer.from(lastResultsHash, 'base64'),
-      evidenceHash: Buffer.from(evidenceHash, 'base64'),
-      proposerAddress: Buffer.from(proposerAddress, 'base64'),
+      lastBlockId: last_block_id?.toProto(),
+      lastCommitHash: Buffer.from(last_commit_hash, 'base64'),
+      dataHash: Buffer.from(data_hash, 'base64'),
+      validatorsHash: Buffer.from(validators_hash, 'base64'),
+      nextValidatorsHash: Buffer.from(next_validators_hash, 'base64'),
+      consensusHash: Buffer.from(consensus_hash, 'base64'),
+      appHash: Buffer.from(app_hash, 'base64'),
+      lastResultsHash: Buffer.from(last_results_hash, 'base64'),
+      evidenceHash: Buffer.from(evidence_hash, 'base64'),
+      proposerAddress: Buffer.from(proposer_address, 'base64'),
     })
   }
 }
@@ -232,7 +230,6 @@ export class SignedHeader extends JSONSerializable<
   }
 
   public static fromAmino(_: any): SignedHeader {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -250,11 +247,10 @@ export class SignedHeader extends JSONSerializable<
 
   public toData(): SignedHeader.Data {
     const { header, commit } = this
-    const res: SignedHeader.Data = {
+    return {
       header: header?.toData(),
       commit: commit?.toData(),
     }
-    return res
   }
 
   public static fromProto(proto: SignedHeader.Proto): SignedHeader {
@@ -290,17 +286,16 @@ export class BlockID extends JSONSerializable<
 > {
   /**
    * @param hash
-   * @param partSetHeader
+   * @param part_set_header
    */
   constructor(
     public hash: string,
-    public partSetHeader?: PartSetHeader
+    public part_set_header?: PartSetHeader
   ) {
     super()
   }
 
   public static fromAmino(_: any): BlockID {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -309,20 +304,19 @@ export class BlockID extends JSONSerializable<
   }
 
   public static fromData(data: BlockID.Data): BlockID {
-    const { hash, part_set_header: partSetHeader } = data
+    const { hash, part_set_header } = data
     return new BlockID(
       hash,
-      partSetHeader ? PartSetHeader.fromData(partSetHeader) : undefined
+      part_set_header ? PartSetHeader.fromData(part_set_header) : undefined
     )
   }
 
   public toData(): BlockID.Data {
-    const { hash, partSetHeader } = this
-    const res: BlockID.Data = {
+    const { hash, part_set_header } = this
+    return {
       hash,
-      part_set_header: partSetHeader?.toData(),
+      part_set_header: part_set_header?.toData(),
     }
-    return res
   }
 
   public static fromProto(proto: BlockID.Proto): BlockID {
@@ -335,10 +329,10 @@ export class BlockID extends JSONSerializable<
   }
 
   public toProto(): BlockID.Proto {
-    const { hash, partSetHeader } = this
+    const { hash, part_set_header } = this
     return BlockID_pb.fromPartial({
       hash: Buffer.from(hash, 'base64'),
-      partSetHeader: partSetHeader?.toProto(),
+      partSetHeader: part_set_header?.toProto(),
     })
   }
 }
@@ -370,7 +364,6 @@ export class PartSetHeader extends JSONSerializable<
   }
 
   public static fromAmino(_: any): PartSetHeader {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -385,11 +378,10 @@ export class PartSetHeader extends JSONSerializable<
 
   public toData(): PartSetHeader.Data {
     const { total, hash } = this
-    const res: PartSetHeader.Data = {
+    return {
       total: total.toFixed(),
-      hash: hash,
+      hash,
     }
-    return res
   }
 
   public static fromProto(proto: PartSetHeader.Proto): PartSetHeader {
@@ -402,7 +394,7 @@ export class PartSetHeader extends JSONSerializable<
   public toProto(): PartSetHeader.Proto {
     const { total, hash } = this
     return PartSetHeader_pb.fromPartial({
-      total: total,
+      total,
       hash: Buffer.from(hash, 'base64'),
     })
   }
@@ -422,20 +414,19 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   /**
    * @param height
    * @param round
-   * @param blockId
+   * @param block_id
    * @param signatures
    */
   constructor(
-    public height: Long,
+    public height: number,
     public round: number,
-    public blockId: BlockID | undefined,
+    public block_id: BlockID | undefined,
     public signatures: CommitSig[]
   ) {
     super()
   }
 
   public static fromAmino(_: any): Commit {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -444,30 +435,29 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   }
 
   public static fromData(data: Commit.Data): Commit {
-    const { height, round, block_id: blockId, signatures } = data
+    const { height, round, block_id, signatures } = data
     return new Commit(
-      Long.fromString(height),
-      Number.parseInt(round),
-      blockId ? BlockID.fromData(blockId) : undefined,
+      parseInt(height),
+      parseInt(round),
+      block_id ? BlockID.fromData(block_id) : undefined,
       signatures.map((sig) => CommitSig.fromData(sig))
     )
   }
 
   public toData(): Commit.Data {
-    const { height, round, blockId, signatures } = this
-    const res: Commit.Data = {
-      height: height.toString(),
+    const { height, round, block_id, signatures } = this
+    return {
+      height: height.toFixed(),
       round: round.toFixed(),
-      block_id: blockId?.toData(),
+      block_id: block_id?.toData(),
       signatures: signatures.map((sig) => sig.toData()),
     }
-    return res
   }
 
   public static fromProto(proto: Commit.Proto): Commit {
     const { height, round, blockId, signatures } = proto
     return new Commit(
-      height,
+      height.toNumber(),
       round,
       blockId ? BlockID.fromProto(blockId) : undefined,
       signatures.map((sig) => CommitSig.fromProto(sig))
@@ -475,11 +465,11 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   }
 
   public toProto(): Commit.Proto {
-    const { height, round, blockId, signatures } = this
+    const { height, round, block_id, signatures } = this
     return Commit_pb.fromPartial({
       height,
       round,
-      blockId: blockId?.toProto(),
+      blockId: block_id?.toProto(),
       signatures: signatures.map((sig) => sig.toProto()),
     })
   }
@@ -503,14 +493,14 @@ export class CommitSig extends JSONSerializable<
   CommitSig.Proto
 > {
   /**
-   * @param blockIdFlag
-   * @param validatorAddress
+   * @param block_id_flag
+   * @param validator_address
    * @param timestamp
    * @param signature
    */
   constructor(
-    public blockIdFlag: BlockIDFlag,
-    public validatorAddress?: string,
+    public block_id_flag: BlockIDFlag,
+    public validator_address?: string,
     public timestamp?: Date,
     public signature?: string
   ) {
@@ -518,7 +508,6 @@ export class CommitSig extends JSONSerializable<
   }
 
   public static fromAmino(_: any): CommitSig {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -537,14 +526,13 @@ export class CommitSig extends JSONSerializable<
   }
 
   public toData(): CommitSig.Data {
-    const { blockIdFlag, validatorAddress, timestamp, signature } = this
-    const res: CommitSig.Data = {
-      block_id_flag: blockIDFlagToJSON(blockIdFlag),
-      validator_address: validatorAddress ?? '',
+    const { block_id_flag, validator_address, timestamp, signature } = this
+    return {
+      block_id_flag: blockIDFlagToJSON(block_id_flag),
+      validator_address: validator_address ?? '',
       timestamp: timestamp?.toISOString().replace(/\.000Z$/, 'Z'),
       signature: signature ?? '',
     }
-    return res
   }
 
   public static fromProto(proto: CommitSig.Proto): CommitSig {
@@ -558,11 +546,11 @@ export class CommitSig extends JSONSerializable<
   }
 
   public toProto(): CommitSig.Proto {
-    const { blockIdFlag, validatorAddress, timestamp, signature } = this
+    const { block_id_flag, validator_address, timestamp, signature } = this
     return CommitSig_pb.fromPartial({
-      blockIdFlag,
-      validatorAddress: validatorAddress
-        ? Buffer.from(validatorAddress, 'base64')
+      blockIdFlag: block_id_flag,
+      validatorAddress: validator_address
+        ? Buffer.from(validator_address, 'base64')
         : undefined,
       timestamp,
       signature: signature ? Buffer.from(signature, 'base64') : undefined,
@@ -589,18 +577,17 @@ export class ValidatorSet extends JSONSerializable<
   /**
    * @param validators
    * @param proposer
-   * @param totalVotingPower
+   * @param total_voting_power
    */
   constructor(
     public validators: Validator[],
     public proposer: Validator | undefined,
-    public totalVotingPower: Long
+    public total_voting_power: number
   ) {
     super()
   }
 
   public static fromAmino(_: any): ValidatorSet {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -613,18 +600,17 @@ export class ValidatorSet extends JSONSerializable<
     return new ValidatorSet(
       validators.map((val) => Validator.fromData(val)),
       proposer ? Validator.fromData(proposer) : undefined,
-      Long.fromString(total_voting_power)
+      parseInt(total_voting_power)
     )
   }
 
   public toData(): ValidatorSet.Data {
-    const { validators, proposer, totalVotingPower } = this
-    const res: ValidatorSet.Data = {
+    const { validators, proposer, total_voting_power } = this
+    return {
       validators: validators.map((val) => val.toData()),
       proposer: proposer?.toData(),
-      total_voting_power: totalVotingPower.toString(),
+      total_voting_power: total_voting_power.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: ValidatorSet.Proto): ValidatorSet {
@@ -632,16 +618,16 @@ export class ValidatorSet extends JSONSerializable<
     return new ValidatorSet(
       validators.map((val) => Validator.fromProto(val)),
       proposer ? Validator.fromProto(proposer) : undefined,
-      totalVotingPower
+      totalVotingPower.toNumber()
     )
   }
 
   public toProto(): ValidatorSet.Proto {
-    const { validators, proposer, totalVotingPower } = this
+    const { validators, proposer, total_voting_power } = this
     return ValidatorSet_pb.fromPartial({
       validators: validators.map((val) => val.toProto()),
       proposer: proposer?.toProto(),
-      totalVotingPower,
+      totalVotingPower: total_voting_power,
     })
   }
 }
@@ -663,21 +649,20 @@ export class Validator extends JSONSerializable<
 > {
   /**
    * @param address
-   * @param pubKey
-   * @param votingPower
-   * @param proposerPriority
+   * @param pub_key
+   * @param voting_power
+   * @param proposer_priority
    */
   constructor(
     public address: string, // not AccAddress in case of opposite chain is not cosmos-sdk based
-    public pubKey: PublicKey | undefined,
-    public votingPower: Long,
-    public proposerPriority: Long
+    public pub_key: PublicKey | undefined,
+    public voting_power: number,
+    public proposer_priority: number
   ) {
     super()
   }
 
   public static fromAmino(_: any): Validator {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -686,29 +671,23 @@ export class Validator extends JSONSerializable<
   }
 
   public static fromData(data: Validator.Data): Validator {
-    const {
-      address,
-      pub_key: pubKey,
-      voting_power: votingPower,
-      proposer_priority: proposerPriority,
-    } = data
+    const { address, pub_key, voting_power, proposer_priority } = data
     return new Validator(
       address,
-      pubKey ? PublicKey.fromData(pubKey) : undefined,
-      Long.fromString(votingPower),
-      Long.fromString(proposerPriority)
+      pub_key ? PublicKey.fromData(pub_key) : undefined,
+      parseInt(voting_power),
+      parseInt(proposer_priority)
     )
   }
 
   public toData(): Validator.Data {
-    const { address, pubKey, votingPower, proposerPriority } = this
-    const res: Validator.Data = {
+    const { address, pub_key, voting_power, proposer_priority } = this
+    return {
       address,
-      pub_key: pubKey?.toData(),
-      voting_power: votingPower.toString(),
-      proposer_priority: proposerPriority.toString(),
+      pub_key: pub_key?.toData(),
+      voting_power: voting_power.toFixed(),
+      proposer_priority: proposer_priority.toFixed(),
     }
-    return res
   }
 
   public static fromProto(proto: Validator.Proto): Validator {
@@ -716,18 +695,18 @@ export class Validator extends JSONSerializable<
     return new Validator(
       Buffer.from(address).toString('base64'),
       pubKey ? PublicKey.fromProto(pubKey) : undefined,
-      votingPower,
-      proposerPriority
+      votingPower.toNumber(),
+      proposerPriority.toNumber()
     )
   }
 
   public toProto(): Validator.Proto {
-    const { address, pubKey, votingPower, proposerPriority } = this
+    const { address, pub_key, voting_power, proposer_priority } = this
     return Validator_pb.fromPartial({
       address: Buffer.from(address, 'base64'),
-      pubKey: pubKey?.toProto(),
-      votingPower,
-      proposerPriority,
+      pubKey: pub_key?.toProto(),
+      votingPower: voting_power,
+      proposerPriority: proposer_priority,
     })
   }
 }

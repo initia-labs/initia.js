@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUnpinCodes as MsgUnpinCodes_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
-import Long from 'long'
 
 export class MsgUnpinCodes extends JSONSerializable<
   MsgUnpinCodes.Amino,
@@ -24,7 +23,7 @@ export class MsgUnpinCodes extends JSONSerializable<
     const {
       value: { authority, code_ids },
     } = data
-    return new MsgUnpinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgUnpinCodes(authority, code_ids.map(parseInt))
   }
 
   public toAmino(): MsgUnpinCodes.Amino {
@@ -33,14 +32,14 @@ export class MsgUnpinCodes extends JSONSerializable<
       type: 'wasm/MsgUnpinCodes',
       value: {
         authority,
-        code_ids: code_ids.map((id) => id.toString()),
+        code_ids: code_ids.map((id) => id.toFixed()),
       },
     }
   }
 
   public static fromData(data: MsgUnpinCodes.Data): MsgUnpinCodes {
     const { authority, code_ids } = data
-    return new MsgUnpinCodes(authority, code_ids.map(Number.parseInt))
+    return new MsgUnpinCodes(authority, code_ids.map(parseInt))
   }
 
   public toData(): MsgUnpinCodes.Data {
@@ -48,7 +47,7 @@ export class MsgUnpinCodes extends JSONSerializable<
     return {
       '@type': '/cosmwasm.wasm.v1.MsgUnpinCodes',
       authority,
-      code_ids: code_ids.map((id) => id.toString()),
+      code_ids: code_ids.map((id) => id.toFixed()),
     }
   }
 
@@ -63,7 +62,7 @@ export class MsgUnpinCodes extends JSONSerializable<
     const { authority, code_ids } = this
     return MsgUnpinCodes_pb.fromPartial({
       authority,
-      codeIds: code_ids.map((id) => Long.fromNumber(id)),
+      codeIds: code_ids,
     })
   }
 

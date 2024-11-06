@@ -4,7 +4,6 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgConnectionOpenInit as MsgConnectionOpenInit_pb } from '@initia/initia.proto/ibc/core/connection/v1/tx'
 import { ConnectionCounterparty } from '../ConnectionCounterparty'
 import { IbcVersion } from '../IbcVersion'
-import Long from 'long'
 
 /**
  * MsgConnectionOpenInit defines the msg sent by an account on Chain A to initialize a connection with Chain B.
@@ -32,7 +31,6 @@ export class MsgConnectionOpenInit extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgConnectionOpenInit {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -48,7 +46,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       client_id,
       ConnectionCounterparty.fromData(counterparty),
       version ? IbcVersion.fromData(version) : undefined,
-      Number.parseInt(delay_period),
+      parseInt(delay_period),
       signer
     )
   }
@@ -85,7 +83,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       clientId: client_id,
       counterparty: counterparty.toProto(),
       version: version?.toProto(),
-      delayPeriod: Long.fromNumber(delay_period),
+      delayPeriod: delay_period,
       signer,
     })
   }

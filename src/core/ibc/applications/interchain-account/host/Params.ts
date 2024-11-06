@@ -27,11 +27,10 @@ export class Params extends JSONSerializable<
 
   public toAmino(): Params.Amino {
     const { host_enabled, allowed_messages } = this
-    const res: Params.Amino = {
-      host_enabled: host_enabled,
-      allowed_messages: allowed_messages,
+    return {
+      host_enabled,
+      allowed_messages,
     }
-    return res
   }
 
   public static fromData(data: Params.Data): Params {
@@ -41,11 +40,10 @@ export class Params extends JSONSerializable<
 
   public toData(): Params.Data {
     const { host_enabled, allowed_messages } = this
-    const res: Params.Data = {
+    return {
       host_enabled,
       allowed_messages,
     }
-    return res
   }
 
   public static fromProto(proto: Params.Proto): Params {

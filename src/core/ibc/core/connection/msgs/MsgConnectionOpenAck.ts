@@ -41,7 +41,6 @@ export class MsgConnectionOpenAck extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgConnectionOpenAck {
-    _
     throw new Error('Amino not supported')
   }
 

@@ -3,7 +3,6 @@ import { AccAddress } from '../../bech32'
 import { Coin } from '../../Coin'
 import { MsgFinalizeTokenWithdrawal as MsgFinalizeTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import Long from 'long'
 
 export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
   MsgFinalizeTokenWithdrawal.Amino,
@@ -60,12 +59,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return new MsgFinalizeTokenWithdrawal(
       sender,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
+      parseInt(bridge_id),
+      parseInt(output_index),
       withdrawal_proofs,
       from,
       to,
-      Number.parseInt(sequence),
+      parseInt(sequence),
       Coin.fromAmino(amount),
       version,
       storage_root,
@@ -92,12 +91,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
       type: 'ophost/MsgFinalizeTokenWithdrawal',
       value: {
         sender,
-        bridge_id: bridge_id.toString(),
-        output_index: output_index.toString(),
+        bridge_id: bridge_id.toFixed(),
+        output_index: output_index.toFixed(),
         withdrawal_proofs,
         from,
         to,
-        sequence: sequence.toString(),
+        sequence: sequence.toFixed(),
         amount: amount.toAmino(),
         version,
         storage_root,
@@ -125,12 +124,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return new MsgFinalizeTokenWithdrawal(
       sender,
-      Number.parseInt(bridge_id),
-      Number.parseInt(output_index),
+      parseInt(bridge_id),
+      parseInt(output_index),
       withdrawal_proofs,
       from,
       to,
-      Number.parseInt(sequence),
+      parseInt(sequence),
       Coin.fromData(amount),
       version,
       storage_root,
@@ -156,12 +155,12 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
     return {
       '@type': '/opinit.ophost.v1.MsgFinalizeTokenWithdrawal',
       sender,
-      bridge_id: bridge_id.toString(),
-      output_index: output_index.toString(),
+      bridge_id: bridge_id.toFixed(),
+      output_index: output_index.toFixed(),
       withdrawal_proofs,
       from,
       to,
-      sequence: sequence.toString(),
+      sequence: sequence.toFixed(),
       amount: amount.toData(),
       version,
       storage_root,
@@ -206,14 +205,14 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return MsgFinalizeTokenWithdrawal_pb.fromPartial({
       sender,
-      bridgeId: Long.fromNumber(bridge_id),
-      outputIndex: Long.fromNumber(output_index),
+      bridgeId: bridge_id,
+      outputIndex: output_index,
       withdrawalProofs: withdrawal_proofs.map((proof) =>
         Buffer.from(proof, 'base64')
       ),
       from,
       to,
-      sequence: Long.fromNumber(sequence),
+      sequence,
       amount: amount.toProto(),
       version: Buffer.from(version, 'base64'),
       storageRoot: Buffer.from(storage_root, 'base64'),

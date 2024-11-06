@@ -15,22 +15,6 @@ export class SignatureV2 {
     public sequence: number
   ) {}
 
-  public static fromData(data: SignatureV2.Data): SignatureV2 {
-    return new SignatureV2(
-      PublicKey.fromData(data.public_key),
-      SignatureV2.Descriptor.fromData(data.data),
-      Number.parseInt(data.sequence)
-    )
-  }
-
-  public toData(): SignatureV2.Data {
-    return {
-      public_key: this.public_key.toData(),
-      data: this.data.toData(),
-      sequence: this.sequence.toFixed(),
-    }
-  }
-
   public static fromAmino(data: SignatureV2.Amino): SignatureV2 {
     return new SignatureV2(
       PublicKey.fromAmino(data.pub_key),
@@ -42,6 +26,22 @@ export class SignatureV2 {
       ),
       0
     )
+  }
+
+  public static fromData(data: SignatureV2.Data): SignatureV2 {
+    return new SignatureV2(
+      PublicKey.fromData(data.public_key),
+      SignatureV2.Descriptor.fromData(data.data),
+      parseInt(data.sequence)
+    )
+  }
+
+  public toData(): SignatureV2.Data {
+    return {
+      public_key: this.public_key.toData(),
+      data: this.data.toData(),
+      sequence: this.sequence.toFixed(),
+    }
   }
 }
 
@@ -117,9 +117,7 @@ export namespace SignatureV2 {
         }
 
         const multisigBytes = MultiSignature.encode(
-          MultiSignature.fromPartial({
-            signatures: signatures,
-          })
+          MultiSignature.fromPartial({ signatures })
         ).finish()
 
         return [

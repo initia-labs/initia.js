@@ -98,15 +98,15 @@ function makeQueryParams(query: TendermintQuery): string {
  * ### Example
  *
  * ```ts
- * import { WebSocketClient } from '@initia/initia.js';
+ * import { WebSocketClient } from '@initia/initia.js'
  *
- * const wsclient = new WebSocketClient("ws://localhost:26657/websocket");
+ * const wsclient = new WebSocketClient("ws://localhost:26657/websocket")
  *
  * wsclient.subscribe('NewBlock', {}, (data) => {
- *    console.log(data.value);
+ *    console.log(data.value)
  *
  *    // close after receiving one block.
- *    wsclient.destroy();
+ *    wsclient.destroy()
  * })
  *
  * wsclient.subscribe(
@@ -116,13 +116,13 @@ function makeQueryParams(query: TendermintQuery): string {
  *    'message.sender': ['CONTAINS', 'init1...'],
  *  },
  *  (data) => {
- *    console.log(data.value);
+ *    console.log(data.value)
  *
  *   // close after receiving one send Tx
- *   wsclient.destroy();
- * });
+ *   wsclient.destroy()
+ * })
  *
- * wsclient.start();
+ * wsclient.start()
  * ```
  */
 export class WebSocketClient extends EventEmitter {
@@ -205,7 +205,7 @@ export class WebSocketClient extends EventEmitter {
         parsedData.result && // eslint-disable-line @typescript-eslint/no-unsafe-member-access
         parsedData.result.query === this.queryParams // eslint-disable-line @typescript-eslint/no-unsafe-member-access
       ) {
-        // this.emit('message', parsedData.result.data);
+        // this.emit('message', parsedData.result.data)
         this.callback(parsedData.result.data) // eslint-disable-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
       }
     } catch (err) {

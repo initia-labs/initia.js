@@ -28,7 +28,6 @@ export class MsgRecvPacket extends JSONSerializable<
   }
 
   public static fromAmino(_: any): MsgRecvPacket {
-    _
     throw new Error('Amino not supported')
   }
 

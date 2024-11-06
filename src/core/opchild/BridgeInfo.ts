@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { BridgeInfo as BridgeInfo_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 import { BridgeConfig } from '../ophost'
-import Long from 'long'
 
 export class BridgeInfo extends JSONSerializable<
   BridgeInfo.Amino,
@@ -29,7 +28,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       data
     return new BridgeInfo(
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       bridge_addr,
       l1_chain_id,
       l1_client_id,
@@ -41,7 +40,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       this
     return {
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       bridge_addr,
       l1_chain_id,
       l1_client_id,
@@ -53,7 +52,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       data
     return new BridgeInfo(
-      Number.parseInt(bridge_id),
+      parseInt(bridge_id),
       bridge_addr,
       l1_chain_id,
       l1_client_id,
@@ -65,7 +64,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       this
     return {
-      bridge_id: bridge_id.toString(),
+      bridge_id: bridge_id.toFixed(),
       bridge_addr,
       l1_chain_id,
       l1_client_id,
@@ -87,7 +86,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       this
     return BridgeInfo_pb.fromPartial({
-      bridgeId: Long.fromNumber(bridge_id),
+      bridgeId: bridge_id,
       bridgeAddr: bridge_addr,
       l1ChainId: l1_chain_id,
       l1ClientId: l1_client_id,

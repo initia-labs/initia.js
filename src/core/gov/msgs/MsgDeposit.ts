@@ -3,7 +3,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDeposit as MsgDeposit_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
-import Long from 'long'
 
 /**
  * Defines a message to submit a deposit to an existing proposal
@@ -33,7 +32,7 @@ export class MsgDeposit extends JSONSerializable<
       value: { proposal_id, depositor, amount },
     } = data
     return new MsgDeposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromAmino(amount)
     )
@@ -44,7 +43,7 @@ export class MsgDeposit extends JSONSerializable<
     return {
       type: 'cosmos-sdk/v1/MsgDeposit',
       value: {
-        proposal_id: proposal_id.toString(),
+        proposal_id: proposal_id.toFixed(),
         depositor,
         amount: amount.toAmino(),
       },
@@ -54,7 +53,7 @@ export class MsgDeposit extends JSONSerializable<
   public static fromData(data: MsgDeposit.Data): MsgDeposit {
     const { proposal_id, depositor, amount } = data
     return new MsgDeposit(
-      Number.parseInt(proposal_id),
+      parseInt(proposal_id),
       depositor,
       Coins.fromData(amount)
     )
@@ -64,7 +63,7 @@ export class MsgDeposit extends JSONSerializable<
     const { proposal_id, depositor, amount } = this
     return {
       '@type': '/cosmos.gov.v1.MsgDeposit',
-      proposal_id: proposal_id.toString(),
+      proposal_id: proposal_id.toFixed(),
       depositor,
       amount: amount.toData(),
     }
@@ -83,7 +82,7 @@ export class MsgDeposit extends JSONSerializable<
     return MsgDeposit_pb.fromPartial({
       amount: amount.toProto(),
       depositor,
-      proposalId: Long.fromNumber(proposal_id),
+      proposalId: proposal_id,
     })
   }
 

@@ -1,7 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { CurrencyPair } from '../oracle'
 import { Ticker as Ticker_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
-import Long from 'long'
 
 export class Ticker extends JSONSerializable<
   Ticker.Amino,
@@ -35,8 +34,8 @@ export class Ticker extends JSONSerializable<
     } = data
     return new Ticker(
       CurrencyPair.fromAmino(currency_pair),
-      Number.parseInt(decimals),
-      Number.parseInt(min_provider_count),
+      parseInt(decimals),
+      parseInt(min_provider_count),
       enabled,
       metadata_JSON
     )
@@ -52,8 +51,8 @@ export class Ticker extends JSONSerializable<
     } = this
     return {
       currency_pair: currency_pair.toAmino(),
-      decimals: decimals.toString(),
-      min_provider_count: min_provider_count.toString(),
+      decimals: decimals.toFixed(),
+      min_provider_count: min_provider_count.toFixed(),
       enabled,
       metadata_JSON,
     }
@@ -69,8 +68,8 @@ export class Ticker extends JSONSerializable<
     } = data
     return new Ticker(
       CurrencyPair.fromData(currency_pair),
-      Number.parseInt(decimals),
-      Number.parseInt(min_provider_count),
+      parseInt(decimals),
+      parseInt(min_provider_count),
       enabled,
       metadata_JSON
     )
@@ -86,8 +85,8 @@ export class Ticker extends JSONSerializable<
     } = this
     return {
       currency_pair: currency_pair.toData(),
-      decimals: decimals.toString(),
-      min_provider_count: min_provider_count.toString(),
+      decimals: decimals.toFixed(),
+      min_provider_count: min_provider_count.toFixed(),
       enabled,
       metadata_JSON,
     }
@@ -113,8 +112,8 @@ export class Ticker extends JSONSerializable<
     } = this
     return Ticker_pb.fromPartial({
       currencyPair: currency_pair,
-      decimals: Long.fromNumber(decimals),
-      minProviderCount: Long.fromNumber(min_provider_count),
+      decimals,
+      minProviderCount: min_provider_count,
       enabled,
       metadataJSON: metadata_JSON,
     })

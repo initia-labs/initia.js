@@ -1,5 +1,4 @@
 import { Packet as Packet_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
-import Long from 'long'
 import { JSONSerializable } from '../../../../util/json'
 import { Height } from '../client/Height'
 
@@ -60,7 +59,8 @@ export class Packet extends JSONSerializable<
       timeout_height,
       timeout_timestamp,
     } = this
-    const res: Packet.Amino = {
+
+    return {
       sequence,
       source_port,
       source_channel,
@@ -70,7 +70,6 @@ export class Packet extends JSONSerializable<
       timeout_height: timeout_height?.toAmino(),
       timeout_timestamp,
     }
-    return res
   }
 
   public static fromData(_data: Packet.Data): Packet {
@@ -107,7 +106,8 @@ export class Packet extends JSONSerializable<
       timeout_height,
       timeout_timestamp,
     } = this
-    const res: Packet.Data = {
+
+    return {
       sequence,
       source_port,
       source_channel,
@@ -115,9 +115,8 @@ export class Packet extends JSONSerializable<
       destination_channel,
       data,
       timeout_height: timeout_height?.toData(),
-      timeout_timestamp: timeout_timestamp,
+      timeout_timestamp,
     }
-    return res
   }
 
   public static fromProto(proto: Packet.Proto): Packet {
@@ -145,14 +144,14 @@ export class Packet extends JSONSerializable<
       timeout_timestamp,
     } = this
     return Packet_pb.fromPartial({
-      sequence: Long.fromNumber(sequence),
+      sequence,
       sourcePort: source_port,
       sourceChannel: source_channel,
       destinationPort: destination_port,
       destinationChannel: destination_channel,
       data: Buffer.from(data, 'base64'),
       timeoutHeight: timeout_height?.toProto(),
-      timeoutTimestamp: Long.fromString(timeout_timestamp),
+      timeoutTimestamp: timeout_timestamp,
     })
   }
 }

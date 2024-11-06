@@ -28,11 +28,10 @@ export class Metadata extends JSONSerializable<
 
   public toAmino(): Metadata.Amino {
     const { fee_version, app_version } = this
-    const res: Metadata.Amino = {
+    return {
       fee_version,
       app_version,
     }
-    return res
   }
 
   public static fromData(data: Metadata.Data): Metadata {
@@ -42,11 +41,10 @@ export class Metadata extends JSONSerializable<
 
   public toData(): Metadata.Data {
     const { fee_version, app_version } = this
-    const res: Metadata.Data = {
+    return {
       fee_version,
       app_version,
     }
-    return res
   }
 
   public static fromProto(proto: Metadata.Proto): Metadata {

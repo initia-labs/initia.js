@@ -48,6 +48,21 @@ export class MsgPublish extends JSONSerializable<
     }
   }
 
+  public static fromData(data: MsgPublish.Data): MsgPublish {
+    const { sender, code_bytes, upgrade_policy } = data
+    return new MsgPublish(sender, code_bytes, upgrade_policy)
+  }
+
+  public toData(): MsgPublish.Data {
+    const { sender, code_bytes, upgrade_policy } = this
+    return {
+      '@type': '/initia.move.v1.MsgPublish',
+      sender,
+      code_bytes,
+      upgrade_policy,
+    }
+  }
+
   public static fromProto(proto: MsgPublish.Proto): MsgPublish {
     return new MsgPublish(
       proto.sender,
@@ -74,21 +89,6 @@ export class MsgPublish extends JSONSerializable<
 
   public static unpackAny(msgAny: Any): MsgPublish {
     return MsgPublish.fromProto(MsgPublish_pb.decode(msgAny.value))
-  }
-
-  public static fromData(data: MsgPublish.Data): MsgPublish {
-    const { sender, code_bytes, upgrade_policy } = data
-    return new MsgPublish(sender, code_bytes, upgrade_policy)
-  }
-
-  public toData(): MsgPublish.Data {
-    const { sender, code_bytes, upgrade_policy } = this
-    return {
-      '@type': '/initia.move.v1.MsgPublish',
-      sender,
-      code_bytes,
-      upgrade_policy,
-    }
   }
 }
 

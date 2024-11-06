@@ -1,26 +1,24 @@
 import { JSONSerializable } from '../../../../../../util/json'
 import { Proof as Proof_pb } from '@initia/initia.proto/tendermint/crypto/proof'
 import { PublicKey as PublicKey_pb } from '@initia/initia.proto/tendermint/crypto/keys'
-import Long from 'long'
 
 export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   /**
    * @param total
    * @param index
-   * @param leafHash
+   * @param leaf_hash
    * @param aunts
    */
   constructor(
     public total: number,
     public index: number,
-    public leafHash: string,
+    public leaf_hash: string,
     public aunts: string[]
   ) {
     super()
   }
 
   public static fromAmino(_: any): Proof {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -29,24 +27,18 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   }
 
   public static fromData(data: Proof.Data): Proof {
-    const { total, index, leaf_hash: leafHash, aunts } = data
-    return new Proof(
-      Number.parseInt(total),
-      Number.parseInt(index),
-      leafHash,
-      aunts
-    )
+    const { total, index, leaf_hash, aunts } = data
+    return new Proof(parseInt(total), parseInt(index), leaf_hash, aunts)
   }
 
   public toData(): Proof.Data {
-    const { total, index, leafHash, aunts } = this
-    const res: Proof.Data = {
+    const { total, index, leaf_hash, aunts } = this
+    return {
       total: total.toFixed(),
       index: index.toFixed(),
-      leaf_hash: leafHash,
+      leaf_hash,
       aunts,
     }
-    return res
   }
 
   public static fromProto(proto: Proof.Proto): Proof {
@@ -59,11 +51,11 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   }
 
   public toProto(): Proof.Proto {
-    const { total, index, leafHash, aunts } = this
+    const { total, index, leaf_hash, aunts } = this
     return Proof_pb.fromPartial({
-      total: Long.fromNumber(total),
-      index: Long.fromNumber(index),
-      leafHash: Buffer.from(leafHash, 'base64'),
+      total,
+      index,
+      leafHash: Buffer.from(leaf_hash, 'base64'),
       aunts: aunts.map((aunt) => Buffer.from(aunt, 'base64')),
     })
   }
@@ -98,7 +90,6 @@ export class PublicKey extends JSONSerializable<
   }
 
   public static fromAmino(_: any): PublicKey {
-    _
     throw new Error('Amino not supported')
   }
 
@@ -113,11 +104,10 @@ export class PublicKey extends JSONSerializable<
 
   public toData(): PublicKey.Data {
     const { ed25519, secp256k1 } = this
-    const res: PublicKey.Data = {
+    return {
       ed25519,
       secp256k1,
     }
-    return res
   }
 
   public static fromProto(proto: PublicKey.Proto): PublicKey {

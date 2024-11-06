@@ -22,28 +22,28 @@ export class DenomUnit extends JSONSerializable<
 
   public static fromAmino(data: DenomUnit.Amino): DenomUnit {
     const { denom, exponent, aliases } = data
-    return new DenomUnit(denom, Number.parseInt(exponent), aliases)
+    return new DenomUnit(denom, parseInt(exponent), aliases)
   }
 
   public toAmino(): DenomUnit.Amino {
     const { denom, exponent, aliases } = this
     return {
       denom,
-      exponent: exponent.toString(),
+      exponent: exponent.toFixed(),
       aliases,
     }
   }
 
   public static fromData(data: DenomUnit.Data): DenomUnit {
     const { denom, exponent, aliases } = data
-    return new DenomUnit(denom, Number.parseInt(exponent), aliases)
+    return new DenomUnit(denom, parseInt(exponent), aliases)
   }
 
   public toData(): DenomUnit.Data {
     const { denom, exponent, aliases } = this
     return {
       denom,
-      exponent: exponent.toString(),
+      exponent: exponent.toFixed(),
       aliases,
     }
   }

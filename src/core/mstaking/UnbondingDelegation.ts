@@ -5,7 +5,6 @@ import {
   UnbondingDelegation as UnbondingDelegation_pb,
   UnbondingDelegationEntry as UnbondingDelegationEntry_pb,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
-import Long from 'long'
 
 /**
  * When a delegator decides to take out their funds from the mstaking pool, they must
@@ -130,6 +129,17 @@ export namespace UnbondingDelegation {
       this.balance = new Coins(balance)
     }
 
+    public static fromAmino(data: Entry.Amino): Entry {
+      const { initial_balance, balance, creation_height, completion_time } =
+        data
+      return new Entry(
+        Coins.fromAmino(initial_balance),
+        Coins.fromAmino(balance),
+        parseInt(creation_height),
+        new Date(completion_time)
+      )
+    }
+
     public toAmino(): Entry.Amino {
       return {
         initial_balance: this.initial_balance.toAmino(),
@@ -139,13 +149,13 @@ export namespace UnbondingDelegation {
       }
     }
 
-    public static fromAmino(data: Entry.Amino): Entry {
+    public static fromData(data: Entry.Data): Entry {
       const { initial_balance, balance, creation_height, completion_time } =
         data
       return new Entry(
-        Coins.fromAmino(initial_balance),
-        Coins.fromAmino(balance),
-        Number.parseInt(creation_height),
+        Coins.fromData(initial_balance),
+        Coins.fromData(balance),
+        parseInt(creation_height),
         new Date(completion_time)
       )
     }
@@ -159,14 +169,12 @@ export namespace UnbondingDelegation {
       }
     }
 
-    public static fromData(data: Entry.Data): Entry {
-      const { initial_balance, balance, creation_height, completion_time } =
-        data
+    public static fromProto(proto: Entry.Proto): Entry {
       return new Entry(
-        Coins.fromData(initial_balance),
-        Coins.fromData(balance),
-        Number.parseInt(creation_height),
-        new Date(completion_time)
+        Coins.fromProto(proto.initialBalance),
+        Coins.fromProto(proto.balance),
+        proto.creationHeight.toNumber(),
+        proto.completionTime as Date
       )
     }
 
@@ -176,18 +184,9 @@ export namespace UnbondingDelegation {
       return UnbondingDelegationEntry_pb.fromPartial({
         balance: balance.toProto(),
         completionTime: completion_time,
-        creationHeight: Long.fromNumber(creation_height),
+        creationHeight: creation_height,
         initialBalance: initial_balance.toProto(),
       })
-    }
-
-    public static fromProto(proto: Entry.Proto): Entry {
-      return new Entry(
-        Coins.fromProto(proto.initialBalance),
-        Coins.fromProto(proto.balance),
-        proto.creationHeight.toNumber(),
-        proto.completionTime as Date
-      )
     }
   }
 
