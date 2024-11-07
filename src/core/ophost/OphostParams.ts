@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Coins } from '../Coins'
 import { Params as Params_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
 
+/**
+ * OphostParams defines the set of ophost parameters.
+ */
 export class OphostParams extends JSONSerializable<
   OphostParams.Amino,
   OphostParams.Data,

@@ -3,6 +3,9 @@ import { AccAddress, ValAddress } from '../../bech32'
 import { MsgRemoveValidator as MsgRemoveValidator_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgRemoveValidator is a message to remove a validator from designated list.
+ */
 export class MsgRemoveValidator extends JSONSerializable<
   MsgRemoveValidator.Amino,
   MsgRemoveValidator.Data,

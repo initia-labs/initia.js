@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateMetadata as MsgUpdateMetadata_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgUpdateMetadata is a message to change metadata.
+ */
 export class MsgUpdateMetadata extends JSONSerializable<
   MsgUpdateMetadata.Amino,
   MsgUpdateMetadata.Data,

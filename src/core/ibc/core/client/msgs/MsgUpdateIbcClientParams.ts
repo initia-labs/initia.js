@@ -11,7 +11,7 @@ export class MsgUpdateIbcClientParams extends JSONSerializable<
 > {
   /**
    * @param signer signer address
-   * @param params params defines the client parameters to update
+   * @param params the client parameters to update
    */
   constructor(
     public signer: AccAddress,

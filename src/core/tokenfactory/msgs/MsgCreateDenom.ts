@@ -3,6 +3,16 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreateDenom as MsgCreateDenom_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgCreateDenom allows an account to create a new denom. It requires a sender
+ * address and a sub denomination. The (sender_address, sub_denomination) tuple
+ * must be unique and cannot be re-used.
+ *
+ * The resulting denom created is defined as
+ * <factory/{creatorAddress}/{subdenom}>. The resulting denom's admin is
+ * originally set to be the creator, but this can be changed later. The token
+ * denom does not indicate the current admin.
+ */
 export class MsgCreateDenom extends JSONSerializable<
   MsgCreateDenom.Amino,
   MsgCreateDenom.Data,

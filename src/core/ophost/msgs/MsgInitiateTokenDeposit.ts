@@ -4,6 +4,9 @@ import { Coin } from '../../Coin'
 import { MsgInitiateTokenDeposit as MsgInitiateTokenDeposit_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgInitiateTokenDeposit is a message to deposit a new token from L1 to L2.
+ */
 export class MsgInitiateTokenDeposit extends JSONSerializable<
   MsgInitiateTokenDeposit.Amino,
   MsgInitiateTokenDeposit.Data,

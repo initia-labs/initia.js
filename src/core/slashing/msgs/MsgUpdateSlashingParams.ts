@@ -11,7 +11,7 @@ export class MsgUpdateSlashingParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/slashing parameters to update
+   * @param params the slashing parameters to update
    */
   constructor(
     public authority: AccAddress,

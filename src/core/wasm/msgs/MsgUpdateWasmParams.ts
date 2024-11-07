@@ -11,7 +11,7 @@ export class MsgUpdateWasmParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/move parameters to update
+   * @param params the move parameters to update
    */
   constructor(
     public authority: AccAddress,

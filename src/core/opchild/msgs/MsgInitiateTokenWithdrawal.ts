@@ -4,6 +4,9 @@ import { Coin } from '../../Coin'
 import { MsgInitiateTokenWithdrawal as MsgInitiateTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgInitiateTokenWithdrawal is a message to withdraw a new token from L2 to L1.
+ */
 export class MsgInitiateTokenWithdrawal extends JSONSerializable<
   MsgInitiateTokenWithdrawal.Amino,
   MsgInitiateTokenWithdrawal.Data,

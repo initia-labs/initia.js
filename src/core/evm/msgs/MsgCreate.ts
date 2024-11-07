@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreate as MsgCreate_pb } from '@initia/initia.proto/minievm/evm/v1/tx'
 
+/**
+ * MsgCreate defines a method calling create of EVM.
+ */
 export class MsgCreate extends JSONSerializable<
   MsgCreate.Amino,
   MsgCreate.Data,

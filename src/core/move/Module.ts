@@ -7,6 +7,9 @@ import {
   upgradePolicyToJSON,
 } from '@initia/initia.proto/initia/move/v1/types'
 
+/**
+ * Module is the data for the uploaded contract move code.
+ */
 export class Module extends JSONSerializable<
   Module.Amino,
   Module.Data,

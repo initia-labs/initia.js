@@ -4,6 +4,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgBurn as MsgBurn_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgBurn allows an admin account to burn a token.
+ * Only the admin of the token factory denom has permission to burn unless
+ * the denom does not have any admin.
+ */
 export class MsgBurn extends JSONSerializable<
   MsgBurn.Amino,
   MsgBurn.Data,

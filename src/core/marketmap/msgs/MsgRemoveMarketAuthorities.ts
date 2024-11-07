@@ -10,7 +10,7 @@ export class MsgRemoveMarketAuthorities extends JSONSerializable<
 > {
   /**
    * @param remove_addresses the list of addresses to remove
-   * @param admin the authority that is the x/marketmap Admin account
+   * @param admin the marketmap admin account
    */
   constructor(
     public remove_addresses: AccAddress[],

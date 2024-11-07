@@ -4,6 +4,9 @@ import { DenomMetadata } from '../../bank/DenomMetadata'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetDenomMetadata as MsgSetDenomMetadata_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgSetDenomMetadataWasm allows an admin account to set the denom's bank metadata.
+ */
 export class MsgSetDenomMetadataWasm extends JSONSerializable<
   MsgSetDenomMetadataWasm.Amino,
   MsgSetDenomMetadataWasm.Data,

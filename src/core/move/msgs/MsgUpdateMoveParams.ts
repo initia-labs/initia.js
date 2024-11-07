@@ -4,6 +4,9 @@ import { MoveParams } from '../MoveParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgUpdateMoveParams defines an operation for updating the move module parameters.
+ */
 export class MsgUpdateMoveParams extends JSONSerializable<
   MsgUpdateMoveParams.Amino,
   MsgUpdateMoveParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateMoveParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/move parameters to update
+   * @param params the move parameters to update
    */
   constructor(
     public authority: AccAddress,

@@ -3,6 +3,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovExecute as MsgGovExecute_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * @deprecated Use `MsgGovExecuteJSON` instead.
+ *
+ * MsgGovExecute runs a entry function with the given message via gov proposal.
+ */
 export class MsgGovExecute extends JSONSerializable<
   MsgGovExecute.Amino,
   MsgGovExecute.Data,

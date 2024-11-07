@@ -4,6 +4,9 @@ import { ValConsPublicKey } from '../../PublicKey'
 import { MsgAddValidator as MsgAddValidator_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgAddValidator defines a SDK message for adding a new validator.
+ */
 export class MsgAddValidator extends JSONSerializable<
   MsgAddValidator.Amino,
   MsgAddValidator.Data,

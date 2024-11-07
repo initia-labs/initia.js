@@ -3,6 +3,9 @@ import { Coins } from '../Coins'
 import { AccAddress } from '../bech32'
 import { Params as Params_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 
+/**
+ * OpchildParams defines the set of opchild parameters.
+ */
 export class OpchildParams extends JSONSerializable<
   OpchildParams.Amino,
   OpchildParams.Data,

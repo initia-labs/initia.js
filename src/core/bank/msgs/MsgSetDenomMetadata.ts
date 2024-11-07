@@ -11,7 +11,7 @@ export class MsgSetDenomMetadata extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param metadata the x/bank denom metadata to update
+   * @param metadata the bank denom metadata to update
    */
   constructor(
     public authority: AccAddress,

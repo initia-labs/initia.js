@@ -4,6 +4,9 @@ import { EvmParams } from '../EvmParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/minievm/evm/v1/tx'
 
+/**
+ * MsgUpdateEvmParams defines an operation for updating the evm module parameters.
+ */
 export class MsgUpdateEvmParams extends JSONSerializable<
   MsgUpdateEvmParams.Amino,
   MsgUpdateEvmParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateEvmParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/evm parameters to update
+   * @param params the evm parameters to update
    */
   constructor(
     public authority: AccAddress,

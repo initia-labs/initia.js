@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPublish as MsgPublish_pb } from '@initia/initia.proto/initia/move/v1/tx'
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types'
 
+/**
+ * MsgPublish stores the compiled Move module.
+ */
 export class MsgPublish extends JSONSerializable<
   MsgPublish.Amino,
   MsgPublish.Data,

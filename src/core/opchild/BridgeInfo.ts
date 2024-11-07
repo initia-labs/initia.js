@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { BridgeInfo as BridgeInfo_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 import { BridgeConfig } from '../ophost'
 
+/**
+ * BridgeInfo defines the information of the bridge.
+ */
 export class BridgeInfo extends JSONSerializable<
   BridgeInfo.Amino,
   BridgeInfo.Data,

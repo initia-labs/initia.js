@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovPublish as MsgGovPublish_pb } from '@initia/initia.proto/initia/move/v1/tx'
 import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types'
 
+/**
+ * MsgGovPublish stores compiled Move module via gov proposal.
+ */
 export class MsgGovPublish extends JSONSerializable<
   MsgGovPublish.Amino,
   MsgGovPublish.Data,

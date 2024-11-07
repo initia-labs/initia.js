@@ -11,7 +11,7 @@ export class MsgUpdateAuthParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/auth parameters to update
+   * @param params the auth parameters to update
    */
   constructor(
     public authority: AccAddress,

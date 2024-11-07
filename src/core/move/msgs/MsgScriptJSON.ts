@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgScriptJSON as MsgScriptJSON_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgScriptJSON runs a script with the given message.
+ */
 export class MsgScriptJSON extends JSONSerializable<
   MsgScriptJSON.Amino,
   MsgScriptJSON.Data,

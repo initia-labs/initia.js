@@ -4,6 +4,16 @@ import { ValConsPublicKey } from '../PublicKey'
 import { Validator as Validator_pb } from '@initia/opinit.proto/opinit/opchild/v1/types'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * OpValidator defines a validator, together with the total amount of the
+ * OpValidator's bond shares and their exchange rate to coins. Slashing results in
+ * a decrease in the exchange rate, allowing correct calculation of future
+ * undelegations without iterating over delegators. When coins are delegated to
+ * this validator, the validator is credited with a delegation whose number of
+ * bond shares is based on the amount of coins delegated divided by the current
+ * exchange rate. Voting power can be calculated as total bonded shares
+ * multiplied by exchange rate.
+ */
 export class OpValidator extends JSONSerializable<
   OpValidator.Amino,
   OpValidator.Data,

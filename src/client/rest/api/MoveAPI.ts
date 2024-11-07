@@ -169,13 +169,14 @@ export class MoveAPI extends BaseAPI {
   }
 
   /**
+   * @deprecated Use `viewJSON` instead.
+   *
    * Execute view function and return the view result.
    * @param address the owner address of the module to query
    * @param module_name the module name of the entry function to query
    * @param function_name the name of a function to query
    * @param type_args the type arguments of a function to execute
    * @param args the arguments of a function to execute
-   * @deprecated Use `viewJSON` instead
    */
   public async viewFunction<T>(
     address: AccAddress,
@@ -196,13 +197,14 @@ export class MoveAPI extends BaseAPI {
   }
 
   /**
+   * @deprecated Use `viewJSON` instead.
+   *
    * Execute view function and return the view result.
    * @param address the owner address of the module to query
    * @param module_name the module name of the entry function to query
    * @param function_name the name of a function to query
    * @param type_args the type arguments of a function to execute
    * @param args the arguments of a function to execute
-   * @deprecated Use `viewJSON` instead
    */
   public async view(
     address: AccAddress,
@@ -221,9 +223,10 @@ export class MoveAPI extends BaseAPI {
   }
 
   /**
+   * @deprecated Use `viewBatchJSON` instead.
+   *
    * Execute multiple view functions and return the view results.
    * @param requests list of requests to execute view functions
-   * @deprecated Use `viewBatchJSON` instead
    */
   public async viewBatch(requests: ViewRequest[]): Promise<ViewResponse[]> {
     return this.c

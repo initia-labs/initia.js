@@ -4,6 +4,9 @@ import { TokenfactoryParams } from '../TokenfactoryParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgUpdateTokenfactoryParams defines an operation for updating the tokenfactory module parameters.
+ */
 export class MsgUpdateTokenfactoryParams extends JSONSerializable<
   MsgUpdateTokenfactoryParams.Amino,
   MsgUpdateTokenfactoryParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateTokenfactoryParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/tokenfactory parameters to update
+   * @param params the tokenfactory parameters to update
    */
   constructor(
     public authority: AccAddress,

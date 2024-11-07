@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateProposer as MsgUpdateProposer_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgUpdateProposer is a message to change a proposer.
+ */
 export class MsgUpdateProposer extends JSONSerializable<
   MsgUpdateProposer.Amino,
   MsgUpdateProposer.Data,

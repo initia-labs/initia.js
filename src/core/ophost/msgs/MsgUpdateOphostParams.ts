@@ -4,6 +4,9 @@ import { OphostParams } from '../OphostParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 
+/**
+ * MsgUpdateOphostParams defines an operation for updating the ophost module parameters.
+ */
 export class MsgUpdateOphostParams extends JSONSerializable<
   MsgUpdateOphostParams.Amino,
   MsgUpdateOphostParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateOphostParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/move parameters to update
+   * @param params the move parameters to update
    */
   constructor(
     public authority: AccAddress,

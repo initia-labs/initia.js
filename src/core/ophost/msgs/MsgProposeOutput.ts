@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgProposeOutput as MsgProposeOutput_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgProposeOutput is a message to submit l2 block proposal.
+ */
 export class MsgProposeOutput extends JSONSerializable<
   MsgProposeOutput.Amino,
   MsgProposeOutput.Data,
