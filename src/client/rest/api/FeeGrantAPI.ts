@@ -3,6 +3,10 @@ import { BaseAPI } from './BaseAPI'
 import { Pagination, PaginationOptions } from '../APIRequester'
 
 export class FeeGrantAPI extends BaseAPI {
+  /**
+   * Query all the grants for the given grantee address.
+   * @param grantee grantee address to look up
+   */
   public async allowances(
     grantee: AccAddress,
     params: Partial<PaginationOptions> = {}
@@ -33,6 +37,11 @@ export class FeeGrantAPI extends BaseAPI {
       }))
   }
 
+  /**
+   * Query the granted allowance to the grantee by the granter.
+   * @param granter granter address to look up
+   * @param grantee grantee address to look up
+   */
   public async allowance(
     granter: AccAddress,
     grantee: AccAddress
@@ -48,6 +57,10 @@ export class FeeGrantAPI extends BaseAPI {
       .then((d) => Allowance.fromData(d.allowance.allowance))
   }
 
+  /**
+   * Query all the grants given by an address.
+   * @param granter granter address to look up
+   */
   public async allowancesByGranter(
     granter: AccAddress,
     params: Partial<PaginationOptions> = {}

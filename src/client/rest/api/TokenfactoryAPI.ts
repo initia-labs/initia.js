@@ -7,6 +7,10 @@ export interface AuthorityMetadata {
 }
 
 export class TokenfactoryAPI extends BaseAPI {
+  /**
+   * Query the authority metadata for a specific denom.
+   * @param denom denom to query
+   */
   public async authorityMetadata(
     denom: string,
     params: APIParams = {}
@@ -18,6 +22,10 @@ export class TokenfactoryAPI extends BaseAPI {
       .then((d) => d.authority_metadata)
   }
 
+  /**
+   * Query the address registered for the before send hook.
+   * @param denom denom to query
+   */
   public async beforeSendHookAddr(
     denom: string,
     params: APIParams = {}
@@ -29,6 +37,10 @@ export class TokenfactoryAPI extends BaseAPI {
       .then((d) => d.cosmwasm_address)
   }
 
+  /**
+   * Query all the denominations created by a specific admin/creator.
+   * @param creator creator address
+   */
   public async denomsFromCreator(
     creator: string,
     params: APIParams = {}
@@ -40,6 +52,9 @@ export class TokenfactoryAPI extends BaseAPI {
       .then((d) => d.denoms)
   }
 
+  /**
+   * Query the parameters of the tokenfactory module.
+   */
   public async parameters(params: APIParams = {}): Promise<TokenfactoryParams> {
     return this.c
       .get<{

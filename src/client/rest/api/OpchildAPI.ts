@@ -8,6 +8,9 @@ import {
 } from '../../../core'
 
 export class OpchildAPI extends BaseAPI {
+  /**
+   * Query all validators.
+   */
   public async validators(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[OpValidator[], Pagination]> {
@@ -19,17 +22,24 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => [d.validators.map(OpValidator.fromData), d.pagination])
   }
 
+  /**
+   * Query the validator info for given validator address.
+   * @param validator_addr the validator address to query for
+   */
   public async validator(
-    validatorAddr: ValAddress,
+    validator_addr: ValAddress,
     params: APIParams = {}
   ): Promise<OpValidator> {
     return this.c
       .get<{
         validator: OpValidator.Data
-      }>(`/opinit/opchild/v1/validator/${validatorAddr}`, params)
+      }>(`/opinit/opchild/v1/validator/${validator_addr}`, params)
       .then((d) => OpValidator.fromData(d.validator))
   }
 
+  /**
+   * Query the bridge information.
+   */
   public async bridgeInfo(params: APIParams = {}): Promise<BridgeInfo> {
     return this.c
       .get<{
@@ -38,6 +48,9 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => BridgeInfo.fromData(d.bridge_info))
   }
 
+  /**
+   * Query the next l1 sequence number.
+   */
   public async nextL1Sequence(params: APIParams = {}): Promise<number> {
     return this.c
       .get<{
@@ -46,6 +59,9 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => parseInt(d.next_l1_sequence))
   }
 
+  /**
+   * Query the next l2 sequence number.
+   */
   public async nextL2Sequence(params: APIParams = {}): Promise<number> {
     return this.c
       .get<{
@@ -54,6 +70,10 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => parseInt(d.next_l2_sequence))
   }
 
+  /**
+   * Query the base denom of the given denom.
+   * @param denom denom to query
+   */
   public async baseDenom(
     denom: string,
     params: APIParams = {}
@@ -65,6 +85,9 @@ export class OpchildAPI extends BaseAPI {
       .then((d) => d.base_denom)
   }
 
+  /**
+   * Query the parameters of the opchild module.
+   */
   public async parameters(params: APIParams = {}): Promise<OpchildParams> {
     return this.c
       .get<{ params: OpchildParams.Data }>(`/opinit/opchild/v1/params`, params)

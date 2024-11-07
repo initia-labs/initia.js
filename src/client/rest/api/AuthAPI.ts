@@ -10,6 +10,7 @@ import { APIParams } from '../APIRequester'
 
 export class AuthAPI extends BaseAPI {
   /**
+   * Query the account info.
    * @param address address of account to look up
    */
   public async accountInfo(
@@ -22,6 +23,10 @@ export class AuthAPI extends BaseAPI {
     return Account.fromData(account)
   }
 
+  /**
+   * Query the module account info.
+   * @param address name of module account to look up
+   */
   public async moduleAccount(
     name: string,
     params: APIParams = {}
@@ -33,6 +38,9 @@ export class AuthAPI extends BaseAPI {
     return ModuleAccount.fromData(account)
   }
 
+  /**
+   * Query the parameters of the auth module.
+   */
   public async parameters(params: APIParams = {}): Promise<AuthParams> {
     return this.c
       .get<{ params: AuthParams.Data }>(`/cosmos/auth/v1beta1/params`, params)

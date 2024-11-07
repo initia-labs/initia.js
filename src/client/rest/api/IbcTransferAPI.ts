@@ -3,7 +3,10 @@ import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { DenomTrace, IbcTransferParams } from '../../../core'
 
 export class IbcTransferAPI extends BaseAPI {
-  /** Gets a denomTrace for the hash or denom */
+  /**
+   * Query a denomination trace information.
+   * @param hash hash (in hex format) or denom (full denom with ibc prefix) of the denomination trace information
+   */
   public async denomTrace(hash: string): Promise<DenomTrace> {
     return this.c
       .get<{
@@ -12,7 +15,9 @@ export class IbcTransferAPI extends BaseAPI {
       .then((d) => DenomTrace.fromData(d.denom_trace))
   }
 
-  /** Gets a list of denomTraces */
+  /**
+   * Query all denomination traces.
+   */
   public async denomTraces(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[DenomTrace[], Pagination]> {
@@ -24,7 +29,10 @@ export class IbcTransferAPI extends BaseAPI {
       .then((d) => [d.denom_traces.map(DenomTrace.fromData), d.pagination])
   }
 
-  /** Gets a denomination hash information */
+  /**
+   * Query a denomination hash information.
+   * @param trace the denomination trace ([port_id]/[channel_id])+/[denom]
+   */
   public async denomHash(trace: string): Promise<string> {
     return await this.c
       .get<{ hash: string }>(`/ibc/apps/transfer/v1/denom_hashes/${trace}`)
@@ -32,7 +40,7 @@ export class IbcTransferAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current transfer application parameters.
+   * Query the parameters of the ibc transfer module.
    */
   public async parameters(params: APIParams = {}): Promise<IbcTransferParams> {
     return this.c
@@ -42,7 +50,11 @@ export class IbcTransferAPI extends BaseAPI {
       .then((d) => IbcTransferParams.fromData(d.params))
   }
 
-  /** Gets the escrow address for a particular port and channel id */
+  /**
+   * Query the escrow address for a particular port and channel id.
+   * @param channel_id unique channel identifier
+   * @param port_id unique port identifier
+   */
   public async escrowAddress(
     channel_id: string,
     port_id: string,

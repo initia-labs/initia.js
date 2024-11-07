@@ -39,7 +39,7 @@ export namespace Port {
 
 export class IbcAPI extends BaseAPI {
   /**
-   * query all the IBC channels of a chain
+   * Query all the IBC channels of a chain.
    */
   public async channels(
     params: APIParams = {}
@@ -53,7 +53,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query the information of the port at given channel
+   * Query the information of the port at given channel.
    * @param channel_id channel identifier
    * @param port_id port name
    */
@@ -78,7 +78,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   *  query all the IBC connections of a chain
+   * Query all the IBC connections of a chain.
    */
   public async connections(
     params: APIParams = {}
@@ -95,7 +95,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query an IBC connection end
+   * Query an IBC connection end.
    * @param connection_id connection unique identifier
    */
   public async connection(
@@ -110,7 +110,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query all the channels associated with a connection end
+   * Query all the channels associated with a connection end.
    * @param connection_id connection unique identifier
    */
   public async connectionChannels(
@@ -131,7 +131,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current transfer application parameters.
+   * Query the parameters of the ibc module.
    */
   public async parameters(params: APIParams = {}): Promise<IbcClientParams> {
     return this.c
@@ -142,7 +142,7 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query all the IBC light clients of a chain
+   * Query all the IBC light clients of a chain.
    */
   public async clientStates(
     params: Partial<PaginationOptions & APIParams> = {}
@@ -159,9 +159,8 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query an IBC light client
+   * Query an IBC light client.
    * @param client_id client state unique identifier
-   * @returns
    */
   public async clientState(
     client_id: string,
@@ -180,9 +179,8 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query the status of an IBC light client
-   * @param client_id client state unique identifier
-   * @returns
+   * Query the status of an IBC light client
+   * @param client_id client state unique ident.ifier
    */
   public async clientStatus(
     client_id: string,
@@ -196,9 +194,8 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query all the consensus state associated with a given client
+   * Query all the consensus state associated with a given client.
    * @param client_id client identifier
-   * @returns
    */
   public async consensusStates(
     client_id: string,
@@ -213,9 +210,8 @@ export class IbcAPI extends BaseAPI {
   }
 
   /**
-   * query the height of every consensus states associated with a given client
+   * Query the height of every consensus states associated with a given client.
    * @param client_id client identifier
-   * @returns
    */
   public async consensusStateHeights(
     client_id: string,
@@ -232,28 +228,40 @@ export class IbcAPI extends BaseAPI {
       ])
   }
 
+  /**
+   * Query all the unreceived IBC packets associated with a channel and sequences.
+   * @param port_id port unique identifier
+   * @param channel_id channel unique identifier
+   * @param sequences list of packet sequences
+   */
   public async unreceivedPackets(
-    portId: string,
-    channelId: string,
+    port_id: string,
+    channel_id: string,
     sequences: number[],
     params: APIParams = {}
   ): Promise<{ sequences: string[]; height: Height }> {
     return this.c.get<{ sequences: string[]; height: Height }>(
-      `/ibc/core/channel/v1/channels/${channelId}/ports/${portId}/packet_commitments/${sequences.join(
+      `/ibc/core/channel/v1/channels/${channel_id}/ports/${port_id}/packet_commitments/${sequences.join(
         ','
       )}/unreceived_packets`,
       params
     )
   }
 
+  /**
+   * Query all the unreceived IBC acknowledgements associated with a channel and sequences.
+   * @param port_id port unique identifier
+   * @param channel_id channel unique identifier
+   * @param sequences list of packet sequences
+   */
   public async unreceivedAcks(
-    portId: string,
-    channelId: string,
+    port_id: string,
+    channel_id: string,
     sequences: number[],
     params: APIParams = {}
   ): Promise<{ sequences: string[]; height: Height }> {
     return this.c.get<{ sequences: string[]; height: Height }>(
-      `/ibc/core/channel/v1/channels/${channelId}/ports/${portId}/packet_commitments/${sequences.join(
+      `/ibc/core/channel/v1/channels/${channel_id}/ports/${port_id}/packet_commitments/${sequences.join(
         ','
       )}/unreceived_acks`,
       params

@@ -11,14 +11,14 @@ export interface DelegateValidator {
 
 export class TendermintAPI extends BaseAPI {
   /**
-   * Gets the node's information.
+   * Query the node's information.
    */
   public async nodeInfo(params: APIParams = {}): Promise<object> {
     return this.c.getRaw(`/cosmos/base/tendermint/v1beta1/node_info`, params)
   }
 
   /**
-   * Gets the node's chain id.
+   * Query the node's chain id.
    */
   public async chainId(params: APIParams = {}): Promise<string> {
     return this.c
@@ -29,7 +29,7 @@ export class TendermintAPI extends BaseAPI {
   }
 
   /**
-   * Gets whether the node is currently in syncing mode to catch up with blocks.
+   * Query whether the node is currently in syncing mode to catch up with blocks.
    */
   public async syncing(params: APIParams = {}): Promise<boolean> {
     return this.c
@@ -40,7 +40,7 @@ export class TendermintAPI extends BaseAPI {
   }
 
   /**
-   * Gets the validator (delegates) set at the specific height. If no height is given, the current set is returned.
+   * Query the validator (delegates) set at the specific height. If no height is given, the current set is returned.
    * @param height block height
    */
   public async validatorSet(
@@ -61,8 +61,8 @@ export class TendermintAPI extends BaseAPI {
   }
 
   /**
-   * Gets the block information at the specified height. If no height is given, the latest block is returned.
-   * @param height block height.
+   * Query the block information at the specified height. If no height is given, the latest block is returned.
+   * @param height block height
    */
   public async blockInfo(
     height?: number,

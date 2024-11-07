@@ -4,8 +4,8 @@ import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
 export class BankAPI extends BaseAPI {
   /**
-   * Look up the balance of an account by its address.
-   * @param address address of account to look up.
+   * Query the balance of an account by its address.
+   * @param address address of account to look up
    */
   public async balance(
     address: AccAddress,
@@ -20,8 +20,8 @@ export class BankAPI extends BaseAPI {
   }
 
   /**
-   * Look up the balance of an account by its address and denom.
-   * @param address address of account to look up.
+   * Query the balance of an account by its address and denom.
+   * @param address address of account to look up
    * @param denom coin denom to look up
    */
   public async balanceByDenom(
@@ -40,7 +40,7 @@ export class BankAPI extends BaseAPI {
   }
 
   /**
-   * Get the total supply of tokens in circulation for all denominations.
+   * Query the total supply of tokens in circulation for all denominations.
    */
   public async total(
     params: Partial<PaginationOptions & APIParams> = {}
@@ -54,8 +54,8 @@ export class BankAPI extends BaseAPI {
   }
 
   /**
-   * Lqueries the spenable balance of all coins for a single account.
-   * @param address address of account to look up.
+   * Query the spenable balance of all coins for a single account.
+   * @param address address of account to look up
    */
   public async spendableBalances(
     address: AccAddress,
@@ -69,6 +69,9 @@ export class BankAPI extends BaseAPI {
       .then((d) => [Coins.fromData(d.balances), d.pagination])
   }
 
+  /**
+   * Query the parameters of the bank module.
+   */
   public async parameters(params: APIParams = {}): Promise<BankParams> {
     return this.c
       .get<{ params: BankParams.Data }>(`/cosmos/bank/v1beta1/params`, params)

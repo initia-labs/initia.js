@@ -13,6 +13,9 @@ export namespace MarketMap {
 }
 
 export class MarketmapAPI extends BaseAPI {
+  /**
+   * Query the full market map stored in the marketmap module.
+   */
   public async marketMap(params: APIParams = {}): Promise<MarketMap> {
     return this.c
       .get<{
@@ -27,6 +30,10 @@ export class MarketmapAPI extends BaseAPI {
       })
   }
 
+  /**
+   * Query the market stored in the marketmap module.
+   * @param pair the currency pair associated with the market being requested
+   */
   public async market(
     pair: CurrencyPair,
     params: APIParams = {}
@@ -40,6 +47,9 @@ export class MarketmapAPI extends BaseAPI {
       .then((d) => Market.fromData(d.market))
   }
 
+  /**
+   * Query the last height the market map was updated at.
+   */
   public async lastUpdated(params: APIParams = {}): Promise<number> {
     return this.c
       .get<{
@@ -48,6 +58,9 @@ export class MarketmapAPI extends BaseAPI {
       .then((d) => parseInt(d.last_updated))
   }
 
+  /**
+   * Query the parameters of the marketmap module.
+   */
   public async parameters(params: APIParams = {}): Promise<MarketmapParams> {
     return this.c
       .get<{

@@ -4,12 +4,15 @@ import { APIParams, Pagination } from '../APIRequester'
 
 export class AuthzAPI extends BaseAPI {
   /**
-   * Get the message authorization grants for a specific granter and grantee
+   * Query the message authorization grants for a specific granter and grantee.
+   * @param granter address of granter
+   * @param grantee address of grantee
+   * @param msg_type_url type url of msg
    */
   public async grants(
     granter: AccAddress,
     grantee: AccAddress,
-    msgTypeUrl?: string,
+    msg_type_url?: string,
     params: APIParams = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
@@ -19,7 +22,7 @@ export class AuthzAPI extends BaseAPI {
           {
             granter,
             grantee,
-            msg_type_url: msgTypeUrl,
+            msg_type_url,
           },
           params
         )
@@ -28,7 +31,8 @@ export class AuthzAPI extends BaseAPI {
   }
 
   /**
-   * get list of `GrantAuthorization`, granted by granter.
+   * Query the list of `AuthorizationGrant`, granted by granter.
+   * @param granter address of granter
    */
   public async granter(
     granter: AccAddress,
@@ -46,7 +50,8 @@ export class AuthzAPI extends BaseAPI {
   }
 
   /**
-   * get list of `GrantAuthorization`, by grantee.
+   * Query the list of `AuthorizationGrant`, by grantee.
+   * @param grantee address of grantee
    */
   public async grantee(
     grantee: AccAddress,

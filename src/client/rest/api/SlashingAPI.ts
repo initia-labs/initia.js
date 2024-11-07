@@ -7,17 +7,9 @@ import {
 import { APIParams, Pagination } from '../APIRequester'
 
 export class SlashingAPI extends BaseAPI {
-  public async signingInfo(
-    valConsAddress: ValConsAddress,
-    params: APIParams = {}
-  ): Promise<ValidatorSigningInfo> {
-    return this.c
-      .get<{
-        val_signing_info: ValidatorSigningInfo.Data
-      }>(`/cosmos/slashing/v1beta1/signing_infos/${valConsAddress}`, params)
-      .then((d) => ValidatorSigningInfo.fromData(d.val_signing_info))
-  }
-
+  /**
+   * Query the signing infos of all validators.
+   */
   public async signingInfos(
     params: APIParams = {}
   ): Promise<[ValidatorSigningInfo[], Pagination]> {
@@ -30,7 +22,22 @@ export class SlashingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current Slashing module's parameters.
+   * Query the signing info of given cons address.
+   * @param val_cons_address the address to query signing info of
+   */
+  public async signingInfo(
+    val_cons_address: ValConsAddress,
+    params: APIParams = {}
+  ): Promise<ValidatorSigningInfo> {
+    return this.c
+      .get<{
+        val_signing_info: ValidatorSigningInfo.Data
+      }>(`/cosmos/slashing/v1beta1/signing_infos/${val_cons_address}`, params)
+      .then((d) => ValidatorSigningInfo.fromData(d.val_signing_info))
+  }
+
+  /**
+   * Query the parameters of the slashing module.
    */
   public async parameters(params: APIParams = {}): Promise<SlashingParams> {
     return this.c

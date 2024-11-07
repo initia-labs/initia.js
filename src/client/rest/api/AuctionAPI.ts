@@ -3,6 +3,9 @@ import { APIParams } from '../APIRequester'
 import { BaseAPI } from './BaseAPI'
 
 export class AuctionAPI extends BaseAPI {
+  /**
+   * Query the parameters of the auction module.
+   */
   public async parameters(params: APIParams = {}): Promise<AuctionParams> {
     return this.c
       .get<{

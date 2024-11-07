@@ -3,6 +3,9 @@ import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { Evidence } from '../../../core'
 
 export class EvidenceAPI extends BaseAPI {
+  /**
+   * Query evidences of misbehavior (e.g. equivocation).
+   */
   public async evidences(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Evidence[], Pagination]> {
@@ -14,6 +17,10 @@ export class EvidenceAPI extends BaseAPI {
       .then((d) => [d.evidence.map(Evidence.fromData), d.pagination])
   }
 
+  /**
+   * Query evidence of a given hash.
+   * @param hash hash to look up
+   */
   public async evidence(
     hash: string,
     params: APIParams = {}
