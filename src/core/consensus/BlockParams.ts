@@ -7,8 +7,8 @@ export class BlockParams extends JSONSerializable<
   BlockParams.Proto
 > {
   /**
-   * @param max_bytes Max block size in bytes, must be greater than 0
-   * @param max_gas Max gas per block, must be greater or equal to -1
+   * @param max_bytes max block size in bytes, must be greater than 0
+   * @param max_gas max gas per block, must be greater or equal to -1
    */
   constructor(
     public max_bytes: number,

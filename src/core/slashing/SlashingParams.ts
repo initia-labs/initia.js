@@ -8,11 +8,11 @@ export class SlashingParams extends JSONSerializable<
   SlashingParams.Proto
 > {
   /**
-   * @param signed_blocks_window Number of blocks over which missed blocks are tallied for downtime
-   * @param min_signed_per_window If a validator misses more than this number, they will be penalized and jailed for downtime
-   * @param downtime_jail_duration Amount of time in seconds after which a jailed validator can be unjailed
-   * @param slash_fraction_double_sign Ratio of funds slashed for a double-sign infraction
-   * @param slash_fraction_downtime Ratio of funds slashed for a downtime infraction
+   * @param signed_blocks_window number of blocks over which missed blocks are tallied for downtime
+   * @param min_signed_per_window if a validator misses more than this number, they will be penalized and jailed for downtime
+   * @param downtime_jail_duration amount of time in seconds after which a jailed validator can be unjailed
+   * @param slash_fraction_double_sign ratio of funds slashed for a double-sign infraction
+   * @param slash_fraction_downtime ratio of funds slashed for a downtime infraction
    */
   constructor(
     public signed_blocks_window: number,

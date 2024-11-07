@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDelist as MsgDelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgDelist unregisters a dex pair from the whitelist.
+ */
 export class MsgDelist extends JSONSerializable<
   MsgDelist.Amino,
   MsgDelist.Data,
@@ -10,7 +13,7 @@ export class MsgDelist extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param metadata_lp Dex coin LP metadata address
+   * @param metadata_lp dex coin LP metadata address
    */
   constructor(
     public authority: AccAddress,

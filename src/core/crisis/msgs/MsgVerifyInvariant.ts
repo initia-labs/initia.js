@@ -12,23 +12,27 @@ export class MsgVerifyInvariant extends JSONSerializable<
   MsgVerifyInvariant.Proto
 > {
   /**
-   * @param sender sender's address
-   * @param invariantModuleName module name to verify invariant
-   * @param invariantRoute route to verify
+   * @param sender the account address of private key to send coins to fee collector account
+   * @param invariant_module_name name of the invariant module
+   * @param invariantRoute the msg's invariant route
    */
   constructor(
     public sender: AccAddress,
-    public invariantModuleName: string,
-    public invariantRoute: string
+    public invariant_module_name: string,
+    public invariant_route: string
   ) {
     super()
   }
 
   public static fromAmino(data: MsgVerifyInvariant.Amino): MsgVerifyInvariant {
     const {
-      value: { sender, invariantModuleName, invariantRoute },
+      value: { sender, invariant_module_name, invariant_route },
     } = data
-    return new MsgVerifyInvariant(sender, invariantModuleName, invariantRoute)
+    return new MsgVerifyInvariant(
+      sender,
+      invariant_module_name,
+      invariant_route
+    )
   }
 
   public toAmino(): MsgVerifyInvariant.Amino {
@@ -36,18 +40,22 @@ export class MsgVerifyInvariant extends JSONSerializable<
   }
 
   public static fromData(data: MsgVerifyInvariant.Data): MsgVerifyInvariant {
-    const { sender, invariantModuleName, invariantRoute } = data
+    const { sender, invariant_module_name, invariant_route } = data
 
-    return new MsgVerifyInvariant(sender, invariantModuleName, invariantRoute)
+    return new MsgVerifyInvariant(
+      sender,
+      invariant_module_name,
+      invariant_route
+    )
   }
 
   public toData(): MsgVerifyInvariant.Data {
-    const { sender, invariantModuleName, invariantRoute } = this
+    const { sender, invariant_module_name, invariant_route } = this
     return {
       '@type': '/cosmos.crisis.v1beta1.MsgVerifyInvariant',
       sender,
-      invariantModuleName,
-      invariantRoute,
+      invariant_module_name,
+      invariant_route,
     }
   }
 
@@ -82,16 +90,16 @@ export namespace MsgVerifyInvariant {
     type: 'cosmos-sdk/MsgVerifyInvariant'
     value: {
       sender: AccAddress
-      invariantModuleName: string
-      invariantRoute: string
+      invariant_module_name: string
+      invariant_route: string
     }
   }
 
   export interface Data {
     '@type': '/cosmos.crisis.v1beta1.MsgVerifyInvariant'
     sender: AccAddress
-    invariantModuleName: string
-    invariantRoute: string
+    invariant_module_name: string
+    invariant_route: string
   }
 
   export type Proto = MsgVerifyInvariant_pb

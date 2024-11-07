@@ -19,13 +19,12 @@ export class SignDoc extends JSONSerializable<
    *
    * @param chain_id ID of blockchain to submit transaction to
    * @param account_number account number on blockchain
-   * @param sequence Sequence number (nonce), number of signed previous transactions by
-   *    account included on the blockchain at time of broadcast.
+   * @param sequence sequence number (nonce), number of signed previous transactions by account included on the blockchain at time of broadcast
    * @param fee transaction fee
    * @param msgs list of messages to include
    * @param memo optional note
    * @param timeout_height optional transaction timeout height, does not support amino
-   * @param public_key Signer's public key, only used at direct sign mode
+   * @param public_key signer's public key, only used at direct sign mode
    */
   constructor(
     public chain_id: string,

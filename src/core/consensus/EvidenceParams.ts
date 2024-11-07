@@ -8,9 +8,9 @@ export class EvidenceParams extends JSONSerializable<
   EvidenceParams.Proto
 > {
   /**
-   * @param max_age_num_blocks Max age of evidence in blocks, MaxAgeDuration / average block time
-   * @param max_age_duration Max age of evidence in time
-   * @param max_bytes the maximum size of total evidence in bytes that can be committed in a single block
+   * @param max_age_num_blocks max age of evidence in blocks, MaxAgeDuration / average block time
+   * @param max_age_duration max age of evidence in time
+   * @param max_bytes max size of total evidence in bytes that can be committed in a single block
    */
   constructor(
     public max_age_num_blocks: number,

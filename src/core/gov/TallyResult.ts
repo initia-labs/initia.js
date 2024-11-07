@@ -11,7 +11,7 @@ export class TallyResult extends JSONSerializable<
    * @param tally_height
    * @param total_staking_power
    * @param total_vesting_power
-   * @param v1_tally_result // the original TallyResult from cosmos-sdk which contains both staking and vesting power
+   * @param v1_tally_result the original tally result from cosmos-sdk which contains both staking and vesting power
    */
   constructor(
     public tally_height: number,

@@ -10,7 +10,7 @@ export class MsgWhitelist extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param metadata_lp Dex coin LP metadata address
+   * @param metadata_lp dex coin LP metadata address
    * @param reward_weight registered to distribution's Params
    */
   constructor(

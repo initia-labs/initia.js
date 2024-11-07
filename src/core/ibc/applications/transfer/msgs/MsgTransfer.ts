@@ -27,8 +27,8 @@ export class MsgTransfer extends JSONSerializable<
    * @param token the tokens to be transferred
    * @param sender the sender address
    * @param receiver the recipient address on the destination chain
-   * @param timeout_height Timeout height relative to the current block height. (0 to disable)
-   * @param timeout_timestamp Timeout timestamp (in nanoseconds) relative to the current block timestamp. (0 to disable)
+   * @param timeout_height timeout height relative to the current block height. (0 to disable)
+   * @param timeout_timestamp timeout timestamp (in nanoseconds) relative to the current block timestamp. (0 to disable)
    * @param memo optional memo
    */
   constructor(

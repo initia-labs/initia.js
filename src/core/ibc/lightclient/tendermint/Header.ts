@@ -23,16 +23,16 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
  */
 export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   /**
-   * @param signedHeader
-   * @param validatorSet
-   * @param trustedHeight
-   * @param trustedValidators
+   * @param signed_header
+   * @param validator_set
+   * @param trusted_height
+   * @param trusted_validators
    */
   constructor(
-    public signedHeader?: SignedHeader,
-    public validatorSet?: ValidatorSet,
-    public trustedHeight?: Height,
-    public trustedValidators?: ValidatorSet
+    public signed_header?: SignedHeader,
+    public validator_set?: ValidatorSet,
+    public trusted_height?: Height,
+    public trusted_validators?: ValidatorSet
   ) {
     super()
   }
@@ -46,28 +46,24 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   }
 
   public static fromData(data: Header.Data): Header {
-    const {
-      signed_header: signedHeader,
-      validator_set: validatorSet,
-      trusted_height: trustedHeight,
-      trusted_validators: trustedValidators,
-    } = data
+    const { signed_header, validator_set, trusted_height, trusted_validators } =
+      data
     return new Header(
-      signedHeader ? SignedHeader.fromData(signedHeader) : undefined,
-      validatorSet ? ValidatorSet.fromData(validatorSet) : undefined,
-      trustedHeight ? Height.fromData(trustedHeight) : undefined,
-      trustedValidators ? ValidatorSet.fromData(trustedValidators) : undefined
+      signed_header ? SignedHeader.fromData(signed_header) : undefined,
+      validator_set ? ValidatorSet.fromData(validator_set) : undefined,
+      trusted_height ? Height.fromData(trusted_height) : undefined,
+      trusted_validators ? ValidatorSet.fromData(trusted_validators) : undefined
     )
   }
 
   public toData(): Header.Data {
-    const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
+    const { signed_header, validator_set, trusted_height, trusted_validators } =
       this
     return {
-      signed_header: signedHeader?.toData(),
-      validator_set: validatorSet?.toData(),
-      trusted_height: trustedHeight?.toData(),
-      trusted_validators: trustedValidators?.toData(),
+      signed_header: signed_header?.toData(),
+      validator_set: validator_set?.toData(),
+      trusted_height: trusted_height?.toData(),
+      trusted_validators: trusted_validators?.toData(),
     }
   }
 
@@ -83,13 +79,13 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   }
 
   public toProto(): Header.Proto {
-    const { signedHeader, validatorSet, trustedHeight, trustedValidators } =
+    const { signed_header, validator_set, trusted_height, trusted_validators } =
       this
     return Header_pb.fromPartial({
-      signedHeader: signedHeader?.toProto(),
-      validatorSet: validatorSet?.toProto(),
-      trustedHeight: trustedHeight?.toProto(),
-      trustedValidators: trustedValidators?.toProto(),
+      signedHeader: signed_header?.toProto(),
+      validatorSet: validator_set?.toProto(),
+      trustedHeight: trusted_height?.toProto(),
+      trustedValidators: trusted_validators?.toProto(),
     })
   }
 
