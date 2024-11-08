@@ -56,23 +56,24 @@
     "vite-plugin-dts": "^4.2.3"
   },
   "dependencies": {
+    "@bitcoinerlab/secp256k1": "^1.1.1",
     "@initia/initia.proto": "^0.2.3",
     "@initia/opinit.proto": "^0.0.10",
-    "@ledgerhq/hw-transport": "^6.27.12",
-    "@ledgerhq/hw-transport-webhid": "^6.27.12",
-    "@ledgerhq/hw-transport-webusb": "^6.27.12",
-    "@mysten/bcs": "^1.0.2",
-    "axios": "^1.7.4",
+    "@ledgerhq/hw-transport": "^6.31.4",
+    "@ledgerhq/hw-transport-webhid": "^6.29.4",
+    "@ledgerhq/hw-transport-webusb": "^6.29.4",
+    "@mysten/bcs": "^1.1.0",
+    "axios": "^1.7.7",
     "bech32": "^2.0.0",
-    "bignumber.js": "^9.1.0",
-    "bip32": "^2.0.6",
-    "bip39": "^3.0.4",
+    "bignumber.js": "^9.1.2",
+    "bip32": "^5.0.0-rc.0",
+    "bip39": "^3.1.0",
     "jscrypto": "^1.0.3",
     "keccak256": "^1.0.6",
     "ripemd160": "^2.0.2",
-    "secp256k1": "^5.0.0",
+    "secp256k1": "^5.0.1",
     "semver": "^7.6.3",
-    "ws": "^7.5.10"
+    "ws": "^8.18.0"
   },
   "lint-staged": {
     "src/**/*.{mjs|ts}": [
