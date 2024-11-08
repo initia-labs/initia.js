@@ -41,12 +41,13 @@ export class APIRequester {
   }
 
   private validateEndpoint(endpoint: string) {
-    if (endpoint.includes('../')) {
+    const traversalPatterns = ['../', '..\\', '%2E%2E%2F', '%2E%2E%5C']
+    if (traversalPatterns.some((pattern) => endpoint.includes(pattern))) {
       throw new Error('Relative path not allowed')
     }
 
     if (endpoint.includes('?')) {
-      throw new Error('Query param not allowed')
+      throw new Error('Query param should be passed via the params argument')
     }
   }
 
