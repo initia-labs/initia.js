@@ -1,33 +1,21 @@
 import { APIRequester } from '../APIRequester'
 import { MstakingAPI } from './MstakingAPI'
-import { Coins, Duration, ValConsPublicKey } from '../../../core'
+import { Coins, MstakingParams, ValConsPublicKey } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
-const mstaking = new MstakingAPI(c)
+const c = new APIRequester('https://rest.testnet.initia.xyz')
+const api = new MstakingAPI(c)
 
 describe('MstakingAPI', () => {
-  it('parameters', async () => {
-    await expect(mstaking.parameters()).resolves.toMatchObject({
-      unbonding_time: expect.any(Duration),
-      max_validators: expect.any(Number),
-      max_entries: expect.any(Number),
-      historical_entries: expect.any(Number),
-      bond_denoms: expect.any(Array<string>),
-      min_voting_power: expect.any(Number),
-      min_commission_rate: expect.any(String),
-    })
-  })
-
   it('delegations without parameter should throw an error', async () => {
-    await expect(mstaking.delegations()).rejects.toThrowError()
+    await expect(api.delegations()).rejects.toThrowError()
   })
 
   it('unbondingDelegations without parameter should throw an error', async () => {
-    await expect(mstaking.unbondingDelegations()).rejects.toThrowError()
+    await expect(api.unbondingDelegations()).rejects.toThrowError()
   })
 
   it('validators', async () => {
-    const validators = await mstaking.validators().then((v) => v[0])
+    const validators = await api.validators().then((v) => v[0])
 
     expect(validators).toContainEqual({
       operator_address: expect.any(String),
@@ -59,9 +47,14 @@ describe('MstakingAPI', () => {
   })
 
   it('pool', async () => {
-    await expect(mstaking.pool()).resolves.toMatchObject({
+    await expect(api.pool()).resolves.toMatchObject({
       bonded_tokens: expect.any(Coins),
       not_bonded_tokens: expect.any(Coins),
     })
+  })
+
+  it('params', async () => {
+    const params = await api.parameters()
+    expect(params).toEqual(expect.any(MstakingParams))
   })
 })

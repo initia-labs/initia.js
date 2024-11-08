@@ -4,6 +4,9 @@ import { Msg } from '../../Msg'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgExecuteMessages as MsgExecuteMessages_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 
+/**
+ * MsgExecuteMessages is a message to execute the given authority messages with validator permission.
+ */
 export class MsgExecuteMessages extends JSONSerializable<
   MsgExecuteMessages.Amino,
   MsgExecuteMessages.Data,

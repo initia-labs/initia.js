@@ -7,6 +7,9 @@ import {
   batchInfo_ChainTypeToJSON as chainTypeToJSON,
 } from '@initia/opinit.proto/opinit/ophost/v1/types'
 
+/**
+ * BatchInfo defines the set of batch information.
+ */
 export class BatchInfo extends JSONSerializable<
   BatchInfo.Amino,
   BatchInfo.Data,

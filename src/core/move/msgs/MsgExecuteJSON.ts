@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgExecuteJSON as MsgExecuteJSON_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgExecuteJSON runs a entry function with the given message.
+ */
 export class MsgExecuteJSON extends JSONSerializable<
   MsgExecuteJSON.Amino,
   MsgExecuteJSON.Data,

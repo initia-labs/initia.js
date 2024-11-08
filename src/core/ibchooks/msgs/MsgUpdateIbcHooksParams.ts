@@ -11,7 +11,7 @@ export class MsgUpdateIbcHooksParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/hook parameters to update
+   * @param params the ibc hooks parameters to update
    */
   constructor(
     public authority: AccAddress,

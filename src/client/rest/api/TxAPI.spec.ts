@@ -1,15 +1,15 @@
 import { RESTClient } from '../RESTClient'
 import { APIRequester } from '../APIRequester'
+import { isTxError } from './TxAPI'
 import { MsgSend } from '../../../core'
 import { MnemonicKey } from '../../../key'
-import { isTxError } from './TxAPI'
 
 const mk = new MnemonicKey({
   mnemonic:
     'sound hour era feature bacon code drift deal raw toward soldier nation winter consider tissue jewel script result mean faculty water exist lunch betray',
 })
 const initia = new RESTClient('https://rest.devnet.initia.xyz', {
-  chainId: 'stone-3',
+  chainId: 'initiation-2',
 })
 const wallet = initia.wallet(mk)
 

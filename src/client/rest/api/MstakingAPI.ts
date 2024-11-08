@@ -28,8 +28,7 @@ export namespace MstakingPool {
 
 export class MstakingAPI extends BaseAPI {
   /**
-   * Queries all delegations, filtering by delegator, validator, or both.
-   *
+   * Query all delegations, filtered by delegator, validator, or both.
    * At least one of the parameters must be defined.
    * @param delegator delegator's account address
    * @param validator validator's operator address
@@ -47,8 +46,8 @@ export class MstakingAPI extends BaseAPI {
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}`,
           params
         )
-        .then(({ delegation_response: data }) => [
-          [Delegation.fromData(data)],
+        .then((d) => [
+          [Delegation.fromData(d.delegation_response)],
           { total: 1, next_key: '' },
         ])
     } else if (delegator !== undefined) {
@@ -79,7 +78,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the delegation between a delegator and validator, if it exists.
+   * Query the delegation between a delegator and validator, if it exists.
    * @param delegator delegator's account address
    * @param validator validator's operator address
    */
@@ -91,8 +90,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Queries all unbonding delegations, filtering by delegator, validator, or both.
-   *
+   * Query all unbonding delegations, filtering by delegator, validator, or both.
    * At least one of the parameters must be defined.
    * @param delegator delegator's account address
    * @param validator validator's operator address
@@ -110,8 +108,8 @@ export class MstakingAPI extends BaseAPI {
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
           params
         )
-        .then(({ unbond: data }) => [
-          [UnbondingDelegation.fromData(data)],
+        .then((d) => [
+          [UnbondingDelegation.fromData(d.unbond)],
           { next_key: '', total: 1 },
         ])
     } else if (delegator !== undefined) {
@@ -148,7 +146,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the unbonding delegation between a delegator and validator, if it exists.
+   * Query the unbonding delegation between a delegator and validator, if it exists.
    * @param delegator delegator's account address
    * @param validator validator's operator address
    */
@@ -162,27 +160,26 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Queries all redelegations, filterable by delegator, source validator, and target validator.
+   * Query all redelegations, filterable by delegator, source validator, and target validator.
    * @param delegator delegator's account address
-   * @param validatorSrc source validator's operator address (from).
-   * @param validatorDst destination validator's operator address (to).
+   * @param src_validator_addr source validator's operator address (from)
+   * @param dst_validator_addr destination validator's operator address (to)
    */
   public async redelegations(
     delegator: AccAddress,
-    validatorSrc?: ValAddress,
-    validatorDst?: ValAddress,
-    _params: Partial<PaginationOptions & APIParams> = {}
+    src_validator_addr?: ValAddress,
+    dst_validator_addr?: ValAddress,
+    params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Redelegation[], Pagination]> {
-    const params = {
-      ..._params,
-      src_validator_addr: validatorSrc,
-      dst_validator_addr: validatorDst,
-    }
     return this.c
       .get<{
         redelegation_responses: Redelegation.Data[]
         pagination: Pagination
-      }>(`/initia/mstaking/v1/delegators/${delegator}/redelegations`, params)
+      }>(`/initia/mstaking/v1/delegators/${delegator}/redelegations`, {
+        ...params,
+        src_validator_addr,
+        dst_validator_addr,
+      })
       .then((d) => [
         d.redelegation_responses.map(Redelegation.fromData),
         d.pagination,
@@ -190,7 +187,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets all bonded validators for a delegator given its address.
+   * Query all bonded validators for a delegator given its address.
    * @param delegator delegator's account address
    */
   public async bondedValidators(
@@ -206,7 +203,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Get all current registered validators, including validators that are not currently in the validating set.
+   * Query all current registered validators, including validators that are not currently in the validating set.
    */
   public async validators(
     params: Partial<PaginationOptions & APIParams> = {}
@@ -220,7 +217,7 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the validator information for a specific validator.
+   * Query the validator information for a specific validator.
    * @param validator validator's operator address
    */
   public async validator(
@@ -235,25 +232,25 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current mstaking pool.
+   * Query the current mstaking pool.
    */
   public async pool(params: APIParams = {}): Promise<MstakingPool> {
     return this.c
       .get<{ pool: MstakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
-      .then(({ pool: d }) => ({
-        bonded_tokens: Coins.fromData(d.bonded_tokens),
-        not_bonded_tokens: Coins.fromData(d.not_bonded_tokens),
+      .then((d) => ({
+        bonded_tokens: Coins.fromData(d.pool.bonded_tokens),
+        not_bonded_tokens: Coins.fromData(d.pool.not_bonded_tokens),
       }))
   }
 
   /**
-   * Gets the current Mstaking module's parameters.
+   * Query the parameters of the mstaking module.
    */
   public async parameters(params: APIParams = {}): Promise<MstakingParams> {
     return this.c
       .get<{
         params: MstakingParams.Data
       }>(`/initia/mstaking/v1/params`, params)
-      .then(({ params: d }) => MstakingParams.fromData(d))
+      .then((d) => MstakingParams.fromData(d.params))
   }
 }

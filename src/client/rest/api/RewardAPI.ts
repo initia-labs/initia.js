@@ -4,7 +4,7 @@ import { BaseAPI } from './BaseAPI'
 
 export class RewardAPI extends BaseAPI {
   /**
-   * Gets the last release rate dilution timestamp
+   * Query the last release rate dilution timestamp.
    */
   public async last_dilution_timestamp(
     params: APIParams = {}
@@ -17,7 +17,7 @@ export class RewardAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current annual provisions value
+   * Query the current annual provisions value.
    */
   public async annualProvisions(params: APIParams = {}): Promise<string> {
     return this.c
@@ -28,11 +28,11 @@ export class RewardAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current reward module's parameters.
+   * Query the parameters of the reward module.
    */
   public async parameters(params: APIParams = {}): Promise<RewardParams> {
     return this.c
       .get<{ params: RewardParams.Data }>(`/initia/reward/v1/params`, params)
-      .then(({ params: d }) => RewardParams.fromData(d))
+      .then((d) => RewardParams.fromData(d.params))
   }
 }

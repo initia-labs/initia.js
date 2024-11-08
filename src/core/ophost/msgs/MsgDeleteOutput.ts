@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgDeleteOutput as MsgDeleteOutput_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgDeleteOutput is a message to delete unfinalized l2 output proposals.
+ */
 export class MsgDeleteOutput extends JSONSerializable<
   MsgDeleteOutput.Amino,
   MsgDeleteOutput.Data,

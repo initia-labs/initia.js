@@ -9,6 +9,9 @@ export interface ChannelState {
 }
 
 export class IbcPermAPI extends BaseAPI {
+  /**
+   * Query all the channel states.
+   */
   public async channelStates(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[ChannelState[], Pagination]> {
@@ -20,14 +23,19 @@ export class IbcPermAPI extends BaseAPI {
       .then((d) => [d.channel_states, d.pagination])
   }
 
+  /**
+   * Query the channel state for the specific port-id:channel-id pair.
+   * @param channel_id unique channel identifier
+   * @param port_id unique port identifier
+   */
   public async channelState(
-    channelId: string,
-    portId: string
+    channel_id: string,
+    port_id: string
   ): Promise<ChannelState> {
     return this.c
       .get<{
         channel_state: ChannelState
-      }>(`/ibc/apps/perm/v1/channel_states/${channelId}/${portId}`)
+      }>(`/ibc/apps/perm/v1/channel_states/${channel_id}/${port_id}`)
       .then((d) => d.channel_state)
   }
 }

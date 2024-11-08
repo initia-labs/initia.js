@@ -77,6 +77,10 @@ export namespace CodeInfo {
 }
 
 export class WasmAPI extends BaseAPI {
+  /**
+   * Query the contract metadata.
+   * @param address the address of the contract to query
+   */
   public async contractInfo(
     address: AccAddress,
     params: APIParams = {}
@@ -97,6 +101,10 @@ export class WasmAPI extends BaseAPI {
       }))
   }
 
+  /**
+   * Query the contract code history.
+   * @param address the address of the contract to query
+   */
   public async contractHistory(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
@@ -117,18 +125,26 @@ export class WasmAPI extends BaseAPI {
       ])
   }
 
+  /**
+   * Query the list of all smart contracts for a code id.
+   * @param code_id unique code identifier
+   */
   public async contractsByCode(
-    codeId: number,
+    code_id: number,
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[string[], Pagination]> {
     return this.c
       .get<{
         contracts: string[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/code/${codeId}/contracts`, params)
+      }>(`/cosmwasm/wasm/v1/code/${code_id}/contracts`, params)
       .then((d) => [d.contracts, d.pagination])
   }
 
+  /**
+   * Query all the raw store data for a single contract.
+   * @param address the address of the contract
+   */
   public async allContractState(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
@@ -141,30 +157,43 @@ export class WasmAPI extends BaseAPI {
       .then((d) => [d.models, d.pagination])
   }
 
+  /**
+   * Query the single key from the raw store data of a contract.
+   * @param address the address of the contract
+   * @param query_data the query data passed to the contract
+   */
   public async rawContractState(
     address: AccAddress,
-    queryData: string,
+    query_data: string,
     params: APIParams = {}
   ): Promise<string> {
     return this.c
       .get<{
         data: string
-      }>(`/cosmwasm/wasm/v1/contract/${address}/raw/${queryData}`, params)
+      }>(`/cosmwasm/wasm/v1/contract/${address}/raw/${query_data}`, params)
       .then((d) => d.data)
   }
 
+  /**
+   * Query the smart query result from the contract.
+   * @param address the address of the contract
+   * @param query_data the query data passed to the contract
+   */
   public async smartContractState<T>(
     address: AccAddress,
-    queryData: string,
+    query_data: string,
     params: APIParams = {}
   ): Promise<T> {
     return this.c
       .get<{
         data: T
-      }>(`/cosmwasm/wasm/v1/contract/${address}/smart/${queryData}`, params)
+      }>(`/cosmwasm/wasm/v1/contract/${address}/smart/${query_data}`, params)
       .then((res) => res.data)
   }
 
+  /**
+   * Query the metadatas for all stored wasm codes.
+   */
   public async codeInfos(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[CodeInfo[], Pagination]> {
@@ -186,15 +215,19 @@ export class WasmAPI extends BaseAPI {
       ])
   }
 
+  /**
+   * Query the binary code and metadata for a singe wasm code.
+   * @param code_id unique code identifier
+   */
   public async codeInfo(
-    codeId: number,
+    code_id: number,
     params: APIParams = {}
   ): Promise<{ code_info: CodeInfo; data: string }> {
     return this.c
       .get<{
         code_info: CodeInfo.Data
         data: string
-      }>(`/cosmwasm/wasm/v1/code/${codeId}`, params)
+      }>(`/cosmwasm/wasm/v1/code/${code_id}`, params)
       .then((d) => ({
         code_info: {
           code_id: parseInt(d.code_info.code_id),
@@ -208,6 +241,9 @@ export class WasmAPI extends BaseAPI {
       }))
   }
 
+  /**
+   * Query the pinned code ids.
+   */
   public async pinnedCodes(
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[number[], Pagination]> {
@@ -219,6 +255,9 @@ export class WasmAPI extends BaseAPI {
       .then((d) => [d.code_ids.map((id) => parseInt(id)), d.pagination])
   }
 
+  /**
+   * Query the parameters of the wasm module.
+   */
   public async parameters(params: APIParams = {}): Promise<WasmParams> {
     return this.c
       .get<{
@@ -227,6 +266,10 @@ export class WasmAPI extends BaseAPI {
       .then((d) => WasmParams.fromData(d.params))
   }
 
+  /**
+   * Query the contracts by creator.
+   * @param creator the address of contract creator
+   */
   public async contractsByCreator(
     creator: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}

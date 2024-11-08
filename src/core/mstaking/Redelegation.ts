@@ -175,7 +175,7 @@ export namespace Redelegation {
      *
      * @param initial_balance balance of delegation prior to initiating redelegation
      * @param shares_dst
-     * @param creation_height 	height of blockchain when entry was created
+     * @param creation_height height of blockchain when entry was created
      * @param completion_time time when redelegation entry will be removed
      */
     constructor(

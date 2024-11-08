@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgRecordBatch as MsgRecordBatch_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgRecordBatch is no_op message, which is only for tx indexing.
+ */
 export class MsgRecordBatch extends JSONSerializable<
   MsgRecordBatch.Amino,
   MsgRecordBatch.Data,

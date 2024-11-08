@@ -17,18 +17,41 @@ export namespace ForwardingStats {
 }
 
 export class ForwardingAPI extends BaseAPI {
+  /**
+   * Query all the denoms that are allowed to be forwarded.
+   */
+  public async denoms(params: APIParams = {}): Promise<string[]> {
+    return this.c
+      .get<{ allowed_denoms: string[] }>(`/noble/forwarding/v1/denoms`, params)
+      .then((d) => d.allowed_denoms)
+  }
+
+  /**
+   * Query the forwarding address by channel and recipient.
+   * @param channel
+   * @param recipient
+   * @param fallback
+   */
   public async address(
     channel: string,
     recipient: string,
+    fallback: string,
     params: APIParams = {}
   ): Promise<AccAddress> {
     return this.c
       .get<{
         address: AccAddress
-      }>(`/noble/forwarding/v1/address/${channel}/${recipient}`, params)
+      }>(
+        `/noble/forwarding/v1/address/${channel}/${recipient}/${fallback}`,
+        params
+      )
       .then((d) => d.address)
   }
 
+  /**
+   * Query the forwarding stats by channel.
+   * @param channel
+   */
   public async stats(
     channel: string,
     params: APIParams = {}

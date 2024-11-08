@@ -4,6 +4,9 @@ import { Coins } from '../../Coins'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSpendFeePool as MsgSpendFeePool_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 
+/**
+ * MsgSpendFeePool is a message to withdraw collected fees from the module account to the recipient address.
+ */
 export class MsgSpendFeePool extends JSONSerializable<
   MsgSpendFeePool.Amino,
   MsgSpendFeePool.Data,

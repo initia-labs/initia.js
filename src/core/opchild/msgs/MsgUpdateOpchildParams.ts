@@ -4,6 +4,9 @@ import { OpchildParams } from '../OpchildParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 
+/**
+ * MsgUpdateOpchildParams defines an operation for updating the opchild module parameters.
+ */
 export class MsgUpdateOpchildParams extends JSONSerializable<
   MsgUpdateOpchildParams.Amino,
   MsgUpdateOpchildParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateOpchildParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/move parameters to update
+   * @param params the opchild parameters to update
    */
   constructor(
     public authority: AccAddress,

@@ -4,6 +4,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgMint as MsgMint_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgMint allows an admin account to mint more of a token.
+ * Only the admin of the token factory denom has permission to mint unless
+ * the denom does not have any admin.
+ */
 export class MsgMint extends JSONSerializable<
   MsgMint.Amino,
   MsgMint.Data,

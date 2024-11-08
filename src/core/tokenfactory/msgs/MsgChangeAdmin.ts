@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgChangeAdmin as MsgChangeAdmin_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgChangeAdmin allows an admin account to reassign adminship of a denom to a new account.
+ */
 export class MsgChangeAdmin extends JSONSerializable<
   MsgChangeAdmin.Amino,
   MsgChangeAdmin.Data,

@@ -11,7 +11,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the parameters to update
+   * @param params the parameters to update
    */
   constructor(
     public authority: AccAddress,

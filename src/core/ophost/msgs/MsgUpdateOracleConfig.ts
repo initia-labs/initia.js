@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateOracleConfig as MsgUpdateOracleConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgUpdateOracleConfig is a message to change oracle config.
+ */
 export class MsgUpdateOracleConfig extends JSONSerializable<
   MsgUpdateOracleConfig.Amino,
   MsgUpdateOracleConfig.Data,

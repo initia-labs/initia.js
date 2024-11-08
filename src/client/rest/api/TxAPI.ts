@@ -205,12 +205,15 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Looks up a transaction on the blockchain, addressed by its hash
-   * @param txHash transaction's hash
+   * Query a transaction on the blockchain, addressed by its hash.
+   * @param tx_hash transaction's hash
    */
-  public async txInfo(txHash: string, params: APIParams = {}): Promise<TxInfo> {
+  public async txInfo(
+    tx_hash: string,
+    params: APIParams = {}
+  ): Promise<TxInfo> {
     return this.c
-      .getRaw<TxResult.Data>(`/cosmos/tx/v1beta1/txs/${txHash}`, params)
+      .getRaw<TxResult.Data>(`/cosmos/tx/v1beta1/txs/${tx_hash}`, params)
       .then((v) => TxInfo.fromData(v.tx_response))
   }
 
@@ -220,7 +223,6 @@ export class TxAPI extends BaseAPI {
    * the resultant [[StdSignMsg]]. If no fee is provided, fee will be automatically
    * estimated using the parameters, simulated using a "dummy fee" with sourceAddress's
    * nonzero denominations in its balance.
-   *
    * @param sourceAddress account address of signer
    * @param options TX generation options
    */
@@ -265,8 +267,8 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Looks up transactions on the blockchain for the block height. If height is undefined,
-   * gets the transactions for the latest block.
+   * Query transactions on the blockchain for the block height.
+   * If height is undefined, gets the transactions for the latest block.
    * @param height block height
    */
   public async txInfosByHeight(height: number | undefined): Promise<TxInfo[]> {
@@ -287,9 +289,8 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Estimates the transaction's fee by simulating it within the node
-   * @param sourceAddress address that will pay the bill
-   * @param msgs standard messages
+   * Estimate the transaction's fee by simulating it within the node.
+   * @param signers signer data
    * @param options options for fee estimation
    */
   public async estimateFee(
@@ -369,7 +370,7 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Encode a transaction to base64-encoded protobuf
+   * Encode a transaction to base64-encoded protobuf.
    * @param tx transaction to encode
    */
   public static encode(tx: Tx): string {
@@ -377,15 +378,15 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * Decode a transaction from base64-encoded protobuf
+   * Decode a transaction from base64-encoded protobuf.
    * @param tx transaction string to decode
    */
-  public static decode(encodedTx: string): Tx {
-    return Tx.fromBuffer(Buffer.from(encodedTx, 'base64'))
+  public static decode(encoded_tx: string): Tx {
+    return Tx.fromBuffer(Buffer.from(encoded_tx, 'base64'))
   }
 
   /**
-   * Get the transaction's hash
+   * Query the transaction's hash.
    * @param tx transaction to hash
    */
   public static hash(tx: Tx): string {
@@ -406,10 +407,8 @@ export class TxAPI extends BaseAPI {
 
   /**
    * Broadcast the transaction using "sync" mode, then wait for its inclusion in a block.
-   *
    * This method polls txInfo using the txHash to confirm the transaction's execution.
-   *
-   * @param tx      transaction to broadcast
+   * @param tx transaction to broadcast
    * @param timeout time in milliseconds to wait for transaction to be included in a block. defaults to 30000
    */
   public async broadcast(
@@ -441,7 +440,7 @@ export class TxAPI extends BaseAPI {
       try {
         txInfo = await this.txInfo(txResponse.txhash)
       } catch (error) {
-        // Errors when transaction is not found.
+        // Errors when transaction is not found
       }
 
       if (txInfo) {
@@ -471,8 +470,8 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
-   * NOTE: This is not a synchronous function and is unconventionally named. This function
-   * can be await as it returns a `Promise`.
+   * NOTE: This is not a synchronous function and is unconventionally named.
+   * This function can be awaited as it returns a `Promise`.
    *
    * Broadcast the transaction using the "sync" mode, returning after CheckTx() is performed.
    * @param tx transaction to broadcast
@@ -518,7 +517,7 @@ export class TxAPI extends BaseAPI {
 
   /**
    * Search for transactions based on event attributes.
-   * @param options
+   * @param options tx search options
    */
   public async search(
     options: Partial<TxSearchOptions>
@@ -554,25 +553,32 @@ export class TxAPI extends BaseAPI {
       })
   }
 
+  /**
+   * Search for events based on module address, module name and start/end heights
+   * @param module_addr module address
+   * @param module_name module name
+   * @param start_height minimum height to search events
+   * @param end_height maximum height to search events
+   */
   public async searchEvents(
-    moduleAddr: string,
-    moduleName: string,
-    startHeight: number,
-    endHeight: number
+    module_addr: string,
+    module_name: string,
+    start_height: number,
+    end_height: number
   ): Promise<Event[]> {
-    if (endHeight < startHeight) {
+    if (end_height < start_height) {
       throw new Error(`Start height cannot be greater than end height`)
     }
 
-    if (endHeight - startHeight > 100) {
+    if (end_height - start_height > 100) {
       throw new Error(`Query height range cannot be greater than 100`)
     }
 
     const targetEvents: Event[] = []
-    const targetTag = `${moduleAddr}::${moduleName}`
+    const targetTag = `${module_addr}::${module_name}`
     const query: TxSearchQuery[] = [
-      { key: 'tx.height', value: startHeight.toString(), op: '>=' },
-      { key: 'tx.height', value: endHeight.toString(), op: '<=' },
+      { key: 'tx.height', value: start_height.toString(), op: '>=' },
+      { key: 'tx.height', value: end_height.toString(), op: '<=' },
       { key: 'move.type_tag', value: targetTag, op: 'CONTAINS' },
     ]
     const filterEvents = (tx: TxInfo) => {

@@ -18,9 +18,9 @@ export class Delegation extends JSONSerializable<
   public balance: Coins
 
   /**
-   * @param delegator_address 	delegator's account address
-   * @param validator_address 	validator's operator address
-   * @param shares 	delegator's shares
+   * @param delegator_address delegator's account address
+   * @param validator_address validator's operator address
+   * @param shares delegator's shares
    * @param balance balance of the delegation
    */
   constructor(

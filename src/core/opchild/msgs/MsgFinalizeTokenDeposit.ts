@@ -5,6 +5,9 @@ import { Denom } from '../../Denom'
 import { MsgFinalizeTokenDeposit as MsgFinalizeTokenDeposit_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgFinalizeTokenDeposit is a message to submit deposit funds from upper layer.
+ */
 export class MsgFinalizeTokenDeposit extends JSONSerializable<
   MsgFinalizeTokenDeposit.Amino,
   MsgFinalizeTokenDeposit.Data,

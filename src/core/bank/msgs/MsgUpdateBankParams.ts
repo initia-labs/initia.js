@@ -11,7 +11,7 @@ export class MsgUpdateBankParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/bank parameters to update
+   * @param params the bank parameters to update
    */
   constructor(
     public authority: AccAddress,

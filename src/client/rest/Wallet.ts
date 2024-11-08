@@ -7,7 +7,7 @@ import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing
 export class Wallet {
   private accAddress: string
   /**
-   * @deprecated Use rest instead.
+   * @deprecated Use `rest` instead.
    */
   public lcd: RESTClient
 

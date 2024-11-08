@@ -3,6 +3,12 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgWhitelist registers a dex pair to whitelist of various features.
+ * - whitelist from coin register operation
+ * - allow counter party denom can be used as gas fee
+ * - register lp denom as staking denom
+ */
 export class MsgWhitelist extends JSONSerializable<
   MsgWhitelist.Amino,
   MsgWhitelist.Data,
@@ -10,7 +16,7 @@ export class MsgWhitelist extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param metadata_lp Dex coin LP metadata address
+   * @param metadata_lp dex coin LP metadata address
    * @param reward_weight registered to distribution's Params
    */
   constructor(

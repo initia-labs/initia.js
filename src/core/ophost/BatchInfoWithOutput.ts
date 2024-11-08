@@ -3,6 +3,9 @@ import { BatchInfoWithOutput as BatchInfoWithOutput_pb } from '@initia/opinit.pr
 import { BatchInfo } from './BatchInfo'
 import { Output } from './Output'
 
+/**
+ * BatchInfoWithOutput defines the batch information with output.
+ */
 export class BatchInfoWithOutput extends JSONSerializable<
   BatchInfoWithOutput.Amino,
   BatchInfoWithOutput.Data,

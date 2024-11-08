@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCall as MsgCall_pb } from '@initia/initia.proto/minievm/evm/v1/tx'
 
+/**
+ * MsgCall defines a method submitting Ethereum transactions.
+ */
 export class MsgCall extends JSONSerializable<
   MsgCall.Amino,
   MsgCall.Data,

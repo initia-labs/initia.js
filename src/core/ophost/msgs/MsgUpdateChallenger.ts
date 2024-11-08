@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateChallenger as MsgUpdateChallenger_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgUpdateChallenger is a message to change a challenger.
+ */
 export class MsgUpdateChallenger extends JSONSerializable<
   MsgUpdateChallenger.Amino,
   MsgUpdateChallenger.Data,

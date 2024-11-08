@@ -11,7 +11,7 @@ export class MsgUpdateRewardParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/reward parameters to update
+   * @param params the reward parameters to update
    */
   constructor(
     public authority: AccAddress,

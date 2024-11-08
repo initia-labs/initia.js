@@ -20,7 +20,7 @@ export namespace Pool {
 }
 
 /**
- * Holds the response of delegator rewards query
+ * Holds the response of delegator rewards query.
  */
 export interface Rewards {
   /**
@@ -46,7 +46,7 @@ export namespace Rewards {
 
 export class DistributionAPI extends BaseAPI {
   /**
-   * Gets a delegator's rewards.
+   * Query a delegator's rewards.
    * @param delegator delegator's account address
    */
   public async rewards(
@@ -75,7 +75,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets a delegator's rewards by validator.
+   * Query a delegator's rewards by validator.
    * @param delegator delegator's account address
    * @param validator validator's account address
    */
@@ -100,7 +100,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets a validator's rewards.
+   * Query a validator's rewards.
    * @param validator validator's account address
    */
   public async validatorRewards(
@@ -123,7 +123,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets a validator's commissions.
+   * Query a validator's commissions.
    * @param validator validator's operator address
    */
   public async validatorCommission(
@@ -145,8 +145,8 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets the withdraw address of a delegator, the address to which rewards are withdrawn.
-   * @param delegator
+   * Query the withdraw address of a delegator, the address to which rewards are withdrawn.
+   * @param delegator delegator's account address
    */
   public async withdrawAddress(
     delegator: AccAddress,
@@ -163,7 +163,7 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current value of the community pool.
+   * Query the current value of the community pool.
    */
   public async communityPool(params: APIParams = {}): Promise<Coins> {
     return this.c
@@ -174,13 +174,13 @@ export class DistributionAPI extends BaseAPI {
   }
 
   /**
-   * Gets the current distribution parameters.
+   * Query the parameters of the distribution module.
    */
   public async parameters(params: APIParams = {}): Promise<DistributionParams> {
     return this.c
       .get<{
         params: DistributionParams.Data
       }>(`/initia/distribution/v1/params`, params)
-      .then(({ params: d }) => DistributionParams.fromData(d))
+      .then((d) => DistributionParams.fromData(d.params))
   }
 }

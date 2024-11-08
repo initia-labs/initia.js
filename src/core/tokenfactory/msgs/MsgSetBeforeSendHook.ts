@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetBeforeSendHook as MsgSetBeforeSendHook_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgSetBeforeSendHook allows an admin account to assign a CosmWasm contract to call with a BeforeSend hook.
+ */
 export class MsgSetBeforeSendHook extends JSONSerializable<
   MsgSetBeforeSendHook.Amino,
   MsgSetBeforeSendHook.Data,

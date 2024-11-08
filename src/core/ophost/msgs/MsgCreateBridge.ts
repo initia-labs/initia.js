@@ -4,6 +4,9 @@ import { BridgeConfig } from '../BridgeConfig'
 import { MsgCreateBridge as MsgCreateBridge_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgCreateBridge is a message to register a new bridge with new bridge id.
+ */
 export class MsgCreateBridge extends JSONSerializable<
   MsgCreateBridge.Amino,
   MsgCreateBridge.Data,

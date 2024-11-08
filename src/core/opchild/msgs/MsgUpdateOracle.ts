@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { MsgUpdateOracle as MsgUpdateOracle_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgUpdateOracle is a message to update oracle prices which contains L1 extended commits for oracle.
+ */
 export class MsgUpdateOracle extends JSONSerializable<
   MsgUpdateOracle.Amino,
   MsgUpdateOracle.Data,

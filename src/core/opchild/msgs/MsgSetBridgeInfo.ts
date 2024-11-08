@@ -4,6 +4,9 @@ import { BridgeInfo } from '../BridgeInfo'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetBridgeInfo as MsgSetBridgeInfo_pb } from '@initia/opinit.proto/opinit/opchild/v1/tx'
 
+/**
+ * MsgSetBridgeInfo is a message to set the registered bridge information.
+ */
 export class MsgSetBridgeInfo extends JSONSerializable<
   MsgSetBridgeInfo.Amino,
   MsgSetBridgeInfo.Data,

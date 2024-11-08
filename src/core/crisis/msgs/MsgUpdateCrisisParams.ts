@@ -11,7 +11,7 @@ export class MsgUpdateCrisisParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param constant_fee constant_fee defines the x/crisis parameters to update
+   * @param constant_fee the crisis parameters to update
    */
   constructor(
     public authority: AccAddress,

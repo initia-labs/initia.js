@@ -11,7 +11,7 @@ export class MsgUpdateDistrParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params params defines the x/distribution parameters to update
+   * @param params the distribution parameters to update
    */
   constructor(
     public authority: AccAddress,

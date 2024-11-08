@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Output as Output_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
 
+/**
+ * Output is a l2 block submitted by proposer.
+ */
 export class Output extends JSONSerializable<
   Output.Amino,
   Output.Data,

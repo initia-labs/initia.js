@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/minievm/evm/v1/types'
 
+/**
+ * EvmParams defines the set of evm parameters.
+ */
 export class EvmParams extends JSONSerializable<
   EvmParams.Amino,
   EvmParams.Data,

@@ -16,8 +16,9 @@ export namespace ModuleVersion {
 
 export class UpgradeAPI extends BaseAPI {
   /**
-   * queries a previously applied upgrade plan by its name.
-   * it returns the height of the plan. if there's no plan with given name, it returns 0.
+   * Query a previously applied upgrade plan by its name.
+   * It returns the height of the plan. If there's no plan with given name, it returns 0.
+   * @param name the name of the applied plan to query for
    */
   public async appliedPlan(
     name: string,
@@ -31,7 +32,7 @@ export class UpgradeAPI extends BaseAPI {
   }
 
   /**
-   * Look up the current plan
+   * Query the current plan.
    */
   public async currentPlan(params: APIParams = {}): Promise<Plan | undefined> {
     return this.c
@@ -40,7 +41,7 @@ export class UpgradeAPI extends BaseAPI {
   }
 
   /**
-   * Look up the versions of the modules
+   * Query the versions of the modules.
    */
   public async moduleVersions(
     params: APIParams = {}

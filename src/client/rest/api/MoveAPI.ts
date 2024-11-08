@@ -1,15 +1,6 @@
 import { BaseAPI } from './BaseAPI'
-import { AccAddress, Denom, MoveParams } from '../../../core'
+import { AccAddress, Denom, Module, MoveParams } from '../../../core'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
-import { UpgradePolicy } from '@initia/initia.proto/initia/move/v1/types'
-
-export interface Module {
-  address: AccAddress
-  module_name: string
-  abi: string
-  raw_bytes: string
-  upgrade_policy: UpgradePolicy
-}
 
 export interface Resource {
   address: AccAddress
@@ -54,111 +45,43 @@ export interface VMEvent {
 }
 
 export class MoveAPI extends BaseAPI {
+  /**
+   * Query the module infos.
+   * @param address the owner address of the modules to query
+   */
   public async modules(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
   ): Promise<[Module[], Pagination]> {
     return this.c
       .get<{
-        modules: Module[]
+        modules: Module.Data[]
         pagination: Pagination
       }>(`/initia/move/v1/accounts/${address}/modules`, params)
-      .then((d) => [
-        d.modules.map((mod) => ({
-          address: mod.address,
-          module_name: mod.module_name,
-          abi: mod.abi,
-          raw_bytes: mod.raw_bytes,
-          upgrade_policy: mod.upgrade_policy,
-        })),
-        d.pagination,
-      ])
+      .then((d) => [d.modules.map(Module.fromData), d.pagination])
   }
 
+  /**
+   * Query the module info.
+   * @param address the owner address of the module to query
+   * @param module_name the module name to query
+   */
   public async module(
     address: AccAddress,
-    moduleName: string,
+    module_name: string,
     params: APIParams = {}
   ): Promise<Module> {
     return this.c
       .get<{
-        module: Module
-      }>(`/initia/move/v1/accounts/${address}/modules/${moduleName}`, params)
-      .then(({ module: d }) => ({
-        address: d.address,
-        module_name: d.module_name,
-        abi: d.abi,
-        raw_bytes: d.raw_bytes,
-        upgrade_policy: d.upgrade_policy,
-      }))
+        module: Module.Data
+      }>(`/initia/move/v1/accounts/${address}/modules/${module_name}`, params)
+      .then((d) => Module.fromData(d.module))
   }
 
-  public async viewFunction<T>(
-    address: AccAddress,
-    moduleName: string,
-    functionName: string,
-    typeArgs: string[] = [],
-    args: string[] = []
-  ): Promise<T> {
-    return this.c
-      .post<{ data: string }>(
-        `/initia/move/v1/accounts/${address}/modules/${moduleName}/view_functions/${functionName}`,
-        {
-          type_args: typeArgs,
-          args,
-        }
-      )
-      .then((res) => JSON.parse(res.data) as T)
-  }
-
-  public async view(
-    address: AccAddress,
-    moduleName: string,
-    functionName: string,
-    typeArgs: string[] = [],
-    args: string[] = []
-  ): Promise<ViewResponse> {
-    return this.c.post<ViewResponse>(`/initia/move/v1/view`, {
-      address,
-      module_name: moduleName,
-      function_name: functionName,
-      type_args: typeArgs,
-      args,
-    })
-  }
-
-  public async viewBatch(requests: ViewRequest[]): Promise<ViewResponse[]> {
-    return this.c
-      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/batch`, {
-        requests,
-      })
-      .then((d) => d.responses)
-  }
-
-  public async viewJSON(
-    address: AccAddress,
-    moduleName: string,
-    functionName: string,
-    typeArgs: string[] = [],
-    args: string[] = []
-  ): Promise<ViewResponse> {
-    return this.c.post<ViewResponse>(`/initia/move/v1/view/json`, {
-      address,
-      module_name: moduleName,
-      function_name: functionName,
-      type_args: typeArgs,
-      args,
-    })
-  }
-
-  public async viewBatchJSON(requests: ViewRequest[]): Promise<ViewResponse[]> {
-    return this.c
-      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/json/batch`, {
-        requests,
-      })
-      .then((d) => d.responses)
-  }
-
+  /**
+   * Query the resource infos.
+   * @param address the owner address of the resources to query
+   */
   public async resources(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
@@ -174,9 +97,14 @@ export class MoveAPI extends BaseAPI {
       ])
   }
 
+  /**
+   * Query the resource info.
+   * @param address the owner address of the resource to query
+   * @param struct_tag the unique identifier of the resource to query
+   */
   public async resource<T>(
     address: AccAddress,
-    structTag: string,
+    struct_tag: string,
     params: APIParams = {}
   ): Promise<{ type: string; data: T }> {
     return this.c
@@ -184,38 +112,15 @@ export class MoveAPI extends BaseAPI {
         resource: Resource
       }>(`/initia/move/v1/accounts/${address}/resources/by_struct_tag`, {
         ...params,
-        struct_tag: structTag,
+        struct_tag,
       })
-      .then(({ resource: d }) => JSON.parse(d.move_resource))
+      .then((d) => JSON.parse(d.resource.move_resource))
   }
 
-  public async denom(metadata: string, params: APIParams = {}): Promise<Denom> {
-    return this.c
-      .get<{ denom: Denom }>(`/initia/move/v1/denom`, { ...params, metadata })
-      .then((d) => d.denom)
-  }
-
-  public async metadata(denom: Denom, params: APIParams = {}): Promise<string> {
-    return this.c
-      .get<{ metadata: string }>(`/initia/move/v1/metadata`, {
-        ...params,
-        denom,
-      })
-      .then((d) => d.metadata)
-  }
-
-  public async parameters(params: APIParams = {}): Promise<MoveParams> {
-    return this.c
-      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
-      .then(({ params: d }) => MoveParams.fromData(d))
-  }
-
-  public async scriptABI(codeBytes: string): Promise<ABI> {
-    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
-      code_bytes: codeBytes,
-    })
-  }
-
+  /**
+   * Query the table info of the given address.
+   * @param address the table handle
+   */
   public async tableInfo(
     address: AccAddress,
     params: APIParams = {}
@@ -227,6 +132,10 @@ export class MoveAPI extends BaseAPI {
       .then((d) => d.table_info)
   }
 
+  /**
+   * Query the table entries of the given address.
+   * @param address the table handle
+   */
   public async tableEntries(
     address: AccAddress,
     params: Partial<PaginationOptions & APIParams> = {}
@@ -239,9 +148,14 @@ export class MoveAPI extends BaseAPI {
       .then((d) => [d.table_entries, d.pagination])
   }
 
+  /**
+   * Query the table entry of the given key.
+   * @param address the table handle
+   * @param key_bytes the key of the table entry
+   */
   public async tableEntry(
     address: AccAddress,
-    keyBytes: string,
+    key_bytes: string,
     params: APIParams = {}
   ): Promise<TableEntry> {
     return this.c
@@ -249,8 +163,154 @@ export class MoveAPI extends BaseAPI {
         table_entry: TableEntry
       }>(`/initia/move/v1/tables/${address}/entries/by_key_bytes`, {
         ...params,
-        key_bytes: keyBytes,
+        key_bytes,
       })
       .then((d) => d.table_entry)
+  }
+
+  /**
+   * @deprecated Use `viewJSON` instead.
+   *
+   * Execute view function and return the view result.
+   * @param address the owner address of the module to query
+   * @param module_name the module name of the entry function to query
+   * @param function_name the name of a function to query
+   * @param type_args the type arguments of a function to execute
+   * @param args the arguments of a function to execute
+   */
+  public async viewFunction<T>(
+    address: AccAddress,
+    module_name: string,
+    function_name: string,
+    type_args: string[] = [],
+    args: string[] = []
+  ): Promise<T> {
+    return this.c
+      .post<{ data: string }>(
+        `/initia/move/v1/accounts/${address}/modules/${module_name}/view_functions/${function_name}`,
+        {
+          type_args,
+          args,
+        }
+      )
+      .then((res) => JSON.parse(res.data) as T)
+  }
+
+  /**
+   * @deprecated Use `viewJSON` instead.
+   *
+   * Execute view function and return the view result.
+   * @param address the owner address of the module to query
+   * @param module_name the module name of the entry function to query
+   * @param function_name the name of a function to query
+   * @param type_args the type arguments of a function to execute
+   * @param args the arguments of a function to execute
+   */
+  public async view(
+    address: AccAddress,
+    module_name: string,
+    function_name: string,
+    type_args: string[] = [],
+    args: string[] = []
+  ): Promise<ViewResponse> {
+    return this.c.post<ViewResponse>(`/initia/move/v1/view`, {
+      address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    })
+  }
+
+  /**
+   * @deprecated Use `viewBatchJSON` instead.
+   *
+   * Execute multiple view functions and return the view results.
+   * @param requests list of requests to execute view functions
+   */
+  public async viewBatch(requests: ViewRequest[]): Promise<ViewResponse[]> {
+    return this.c
+      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/batch`, {
+        requests,
+      })
+      .then((d) => d.responses)
+  }
+
+  /**
+   * Execute view function with json arguments and return the view result.
+   * @param address the owner address of the module to query
+   * @param module_name the module name of the entry function to query
+   * @param function_name the name of a function to query
+   * @param type_args the type arguments of a function to execute
+   * @param args the arguments of a function to execute
+   */
+  public async viewJSON(
+    address: AccAddress,
+    module_name: string,
+    function_name: string,
+    type_args: string[] = [],
+    args: string[] = []
+  ): Promise<ViewResponse> {
+    return this.c.post<ViewResponse>(`/initia/move/v1/view/json`, {
+      address,
+      module_name,
+      function_name,
+      type_args,
+      args,
+    })
+  }
+
+  /**
+   * Execute multiple view functions with json arguments and return the view results
+   * @param requests list of requests to execute view functions
+   */
+  public async viewBatchJSON(requests: ViewRequest[]): Promise<ViewResponse[]> {
+    return this.c
+      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/json/batch`, {
+        requests,
+      })
+      .then((d) => d.responses)
+  }
+
+  /**
+   * Decode script bytes into ABI.
+   * @param code_bytes the script code for query operation
+   */
+  public async scriptABI(code_bytes: string): Promise<ABI> {
+    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
+      code_bytes,
+    })
+  }
+
+  /**
+   * Query denom which is converted from the given metadata.
+   * @param metadata metadata to convert
+   */
+  public async denom(metadata: string, params: APIParams = {}): Promise<Denom> {
+    return this.c
+      .get<{ denom: Denom }>(`/initia/move/v1/denom`, { ...params, metadata })
+      .then((d) => d.denom)
+  }
+
+  /**
+   * Query metadata which is converted from the given denom.
+   * @param denom denom to convert
+   */
+  public async metadata(denom: Denom, params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{ metadata: string }>(`/initia/move/v1/metadata`, {
+        ...params,
+        denom,
+      })
+      .then((d) => d.metadata)
+  }
+
+  /**
+   * Query the parameters of the move module.
+   */
+  public async parameters(params: APIParams = {}): Promise<MoveParams> {
+    return this.c
+      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
+      .then((d) => MoveParams.fromData(d.params))
   }
 }

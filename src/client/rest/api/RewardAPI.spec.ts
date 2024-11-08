@@ -1,8 +1,8 @@
-import { Duration } from '../../../core'
 import { APIRequester } from '../APIRequester'
 import { RewardAPI } from './RewardAPI'
+import { RewardParams } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
+const c = new APIRequester('https://rest.testnet.initia.xyz')
 const api = new RewardAPI(c)
 
 describe('RewardAPI', () => {
@@ -16,13 +16,8 @@ describe('RewardAPI', () => {
     await expect(api.annualProvisions()).resolves.toEqual(expect.any(String))
   })
 
-  it('parameters', async () => {
-    await expect(api.parameters()).resolves.toMatchObject({
-      reward_denom: expect.any(String),
-      dilution_period: expect.any(Duration),
-      release_rate: expect.any(String),
-      dilution_rate: expect.any(String),
-      release_enabled: expect.any(Boolean),
-    })
+  it('params', async () => {
+    const params = await api.parameters()
+    expect(params).toEqual(expect.any(RewardParams))
   })
 })

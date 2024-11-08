@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Coins } from '../Coins'
 import { Params as Params_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/params'
 
+/**
+ * TokenfactoryParams defines the set of tokenfactory parameters.
+ */
 export class TokenfactoryParams extends JSONSerializable<
   TokenfactoryParams.Amino,
   TokenfactoryParams.Data,

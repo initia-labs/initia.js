@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgGovScriptJSON as MsgGovScriptJSON_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
+/**
+ * MsgGovScriptJSON runs a script with the given message via gov proposal.
+ */
 export class MsgGovScriptJSON extends JSONSerializable<
   MsgGovScriptJSON.Amino,
   MsgGovScriptJSON.Data,

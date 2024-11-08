@@ -4,6 +4,9 @@ import { Duration } from '../Duration'
 import { BridgeConfig as BridgeConfig_pb } from '@initia/opinit.proto/opinit/ophost/v1/types'
 import { BatchInfo } from './BatchInfo'
 
+/**
+ * BridgeConfig defines the set of bridge config.
+ */
 export class BridgeConfig extends JSONSerializable<
   BridgeConfig.Amino,
   BridgeConfig.Data,

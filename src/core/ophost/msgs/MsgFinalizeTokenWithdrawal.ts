@@ -4,6 +4,9 @@ import { Coin } from '../../Coin'
 import { MsgFinalizeTokenWithdrawal as MsgFinalizeTokenWithdrawal_pb } from '@initia/opinit.proto/opinit/ophost/v1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgFinalizeTokenWithdrawal is a message finalizing funds withdrawal from L2.
+ */
 export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
   MsgFinalizeTokenWithdrawal.Amino,
   MsgFinalizeTokenWithdrawal.Data,

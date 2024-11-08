@@ -4,6 +4,9 @@ import { MsgUpdateBatchInfo as MsgUpdateBatchInfo_pb } from '@initia/opinit.prot
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { BatchInfo } from '../BatchInfo'
 
+/**
+ * MsgUpdateBatchInfo is a message to change a batch info.
+ */
 export class MsgUpdateBatchInfo extends JSONSerializable<
   MsgUpdateBatchInfo.Amino,
   MsgUpdateBatchInfo.Data,

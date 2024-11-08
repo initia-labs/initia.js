@@ -4,6 +4,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgForceTransfer as MsgForceTransfer_pb } from '@initia/initia.proto/miniwasm/tokenfactory/v1/tx'
 
+/**
+ * MsgForceTransfer allows an admin account to transfer a token from one account to another.
+ */
 export class MsgForceTransfer extends JSONSerializable<
   MsgForceTransfer.Amino,
   MsgForceTransfer.Data,

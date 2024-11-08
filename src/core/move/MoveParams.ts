@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/initia/move/v1/types'
 
+/**
+ * MoveParams defines the set of move parameters.
+ */
 export class MoveParams extends JSONSerializable<
   MoveParams.Amino,
   MoveParams.Data,

@@ -32,7 +32,7 @@ export class Validator extends JSONSerializable<
    * @param consensus_pubkey validator's consensus public key
    * @param jailed whether the current validator is jailed
    * @param status unbonded `0`, unbonding `1`, bonded `2`
-   * @param tokens total Initia from all delegations (including self)
+   * @param tokens total INIT from all delegations (including self)
    * @param delegator_shares total shares of all delegators
    * @param description validator's delegate description
    * @param unbonding_height if unbonding, height at which this validator began unbonding

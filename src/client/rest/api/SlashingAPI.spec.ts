@@ -1,18 +1,20 @@
-import { Duration } from '../../../core'
 import { APIRequester } from '../APIRequester'
 import { SlashingAPI } from './SlashingAPI'
+import { SlashingParams, ValidatorSigningInfo } from '../../../core'
 
-const c = new APIRequester('https://rest.devnet.initia.xyz')
-const slashing = new SlashingAPI(c)
+const c = new APIRequester('https://rest.testnet.initia.xyz')
+const api = new SlashingAPI(c)
 
 describe('SlashingAPI', () => {
-  it('parameters', async () => {
-    await expect(slashing.parameters()).resolves.toMatchObject({
-      signed_blocks_window: expect.any(Number),
-      min_signed_per_window: expect.any(String),
-      downtime_jail_duration: expect.any(Duration),
-      slash_fraction_double_sign: expect.any(String),
-      slash_fraction_downtime: expect.any(String),
-    })
+  it('signing infos', async () => {
+    const infos = await api.signingInfos()
+    for (const info of infos[0]) {
+      expect(info).toEqual(expect.any(ValidatorSigningInfo))
+    }
+  })
+
+  it('params', async () => {
+    const params = await api.parameters()
+    expect(params).toEqual(expect.any(SlashingParams))
   })
 })
