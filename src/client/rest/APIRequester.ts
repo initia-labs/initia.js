@@ -40,6 +40,17 @@ export class APIRequester {
     })
   }
 
+  private validateEndpoint(endpoint: string) {
+    const traversalPatterns = ['../', '..\\', '%2E%2E%2F', '%2E%2E%5C']
+    if (traversalPatterns.some((pattern) => endpoint.includes(pattern))) {
+      throw new Error('Relative path not allowed')
+    }
+
+    if (endpoint.includes('?')) {
+      throw new Error('Query param should be passed via the params argument')
+    }
+  }
+
   private computeEndpoint(endpoint: string) {
     const url = new URL(this.baseURL)
 
@@ -54,6 +65,7 @@ export class APIRequester {
     endpoint: string,
     params: URLSearchParams | APIParams = {}
   ): Promise<T> {
+    this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
     return this.axios.get(url, { params }).then((d) => d.data)
   }
@@ -63,11 +75,13 @@ export class APIRequester {
     params: URLSearchParams | APIParams = {},
     headers: AxiosHeaders = new AxiosHeaders()
   ): Promise<T> {
+    this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
     return this.axios.get(url, { params, headers }).then((d) => d.data)
   }
 
   public async post<T>(endpoint: string, data?: any): Promise<T> {
+    this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
     return this.axios.post(url, data).then((d) => d.data)
   }

@@ -1,7 +1,9 @@
-import * as bip32 from 'bip32'
-import * as bip39 from 'bip39'
+import ecc from '@bitcoinerlab/secp256k1'
+import { BIP32Factory } from 'bip32'
+import { generateMnemonic, mnemonicToSeedSync } from 'bip39'
 import { RawKey } from './RawKey'
 
+const bip32 = BIP32Factory(ecc)
 export const INIT_COIN_TYPE = 118
 
 interface MnemonicKeyOptions {
@@ -78,9 +80,9 @@ export class MnemonicKey extends RawKey {
     }
     let { mnemonic } = options
     if (mnemonic === undefined) {
-      mnemonic = bip39.generateMnemonic(256)
+      mnemonic = generateMnemonic(256)
     }
-    const seed: Buffer = bip39.mnemonicToSeedSync(mnemonic)
+    const seed: Buffer = mnemonicToSeedSync(mnemonic)
     const masterKey = bip32.fromSeed(seed)
     const hdPathInitia = `m/44'/${coinType}'/${account}'/0/${index}`
     const initiaHD = masterKey.derivePath(hdPathInitia)
@@ -90,7 +92,7 @@ export class MnemonicKey extends RawKey {
       throw new Error('Failed to derive key pair')
     }
 
-    super(privateKey, eth)
+    super(Buffer.from(privateKey), eth)
     this.mnemonic = mnemonic
   }
 }
