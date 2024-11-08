@@ -4,6 +4,9 @@ import { BankParams } from '../BankParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/tx'
 
+/**
+ * MsgUpdateBankParams defines an operation for updating the bank module parameters.
+ */
 export class MsgUpdateBankParams extends JSONSerializable<
   MsgUpdateBankParams.Amino,
   MsgUpdateBankParams.Data,

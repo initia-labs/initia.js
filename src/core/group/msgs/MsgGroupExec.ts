@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgExec as MsgExec_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgGroupExec executes a group proposal.
+ */
 export class MsgGroupExec extends JSONSerializable<
   MsgGroupExec.Amino,
   MsgGroupExec.Data,

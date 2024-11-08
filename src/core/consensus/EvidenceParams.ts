@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { EvidenceParams as EvidenceParams_pb } from '@initia/initia.proto/tendermint/types/params'
 
+/**
+ * EvidenceParams defines the set of evidence parameters.
+ */
 export class EvidenceParams extends JSONSerializable<
   EvidenceParams.Amino,
   EvidenceParams.Data,

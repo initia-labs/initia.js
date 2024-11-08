@@ -4,6 +4,9 @@ import { AuthParams } from '../AuthParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/tx'
 
+/**
+ * MsgUpdateAuthParams defines an operation for updating the auth module parameters.
+ */
 export class MsgUpdateAuthParams extends JSONSerializable<
   MsgUpdateAuthParams.Amino,
   MsgUpdateAuthParams.Data,

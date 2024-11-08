@@ -4,6 +4,9 @@ import { IbcHooksParams } from '../IbcHooksParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/ibchooks/v1/tx'
 
+/**
+ * MsgUpdateIbcHooksParams defines an operation for updating the ibc hooks module parameters.
+ */
 export class MsgUpdateIbcHooksParams extends JSONSerializable<
   MsgUpdateIbcHooksParams.Amino,
   MsgUpdateIbcHooksParams.Data,

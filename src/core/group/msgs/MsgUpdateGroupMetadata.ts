@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupMetadata as MsgUpdateGroupMetadata_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupMetadata updates the group metadata with given group id and admin address.
+ */
 export class MsgUpdateGroupMetadata extends JSONSerializable<
   MsgUpdateGroupMetadata.Amino,
   MsgUpdateGroupMetadata.Data,

@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateACL as MsgUpdateACL_pb } from '@initia/initia.proto/initia/ibchooks/v1/tx'
 
+/**
+ * MsgUpdateACL is the message to update ACL of an address.
+ */
 export class MsgUpdateACL extends JSONSerializable<
   MsgUpdateACL.Amino,
   MsgUpdateACL.Data,

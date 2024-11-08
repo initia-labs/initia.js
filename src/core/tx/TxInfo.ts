@@ -6,12 +6,11 @@ import {
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
- * A TxInfo data structure is used to capture information from a transaction lookup for
+ * TxInfo is used to capture information from a transaction lookup for
  * a transaction already included in a block
  */
 export class TxInfo {
   /**
-   *
    * @param height height of the block in which the transaction was included.
    * @param txhash transaction's hash.
    * @param raw_log raw log information, as a string.

@@ -3,6 +3,10 @@ import { AccAddress } from '../../bech32'
 import { MsgRevoke as MsgRevoke_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgRevokeAuthorization revokes any authorization corresponding to the provided method name on the
+ * granter's account that has been granted to the grantee.
+ */
 export class MsgRevokeAuthorization extends JSONSerializable<
   MsgRevokeAuthorization.Amino,
   MsgRevokeAuthorization.Data,

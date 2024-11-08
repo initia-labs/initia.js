@@ -1,6 +1,11 @@
 import { JSONSerializable } from '../../util/json'
 import { Blob as Blob_pb } from '@initia/initia.proto/celestia/blob/v1/blob'
 
+/**
+ * Blob (named after binary large object) is a chunk of data submitted by a user
+ * to be published to the Celestia blockchain. The data of a Blob is published
+ * to a namespace and is encoded into shares based on the format specified by share_version.
+ */
 export class Blob extends JSONSerializable<any, Blob.Data, Blob.Proto> {
   /**
    * @param namespace_id

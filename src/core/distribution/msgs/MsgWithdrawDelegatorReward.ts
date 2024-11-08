@@ -4,10 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWithdrawDelegatorReward as MsgWithdrawDelegatorReward_pb } from '@initia/initia.proto/cosmos/distribution/v1beta1/tx'
 
 /**
- * A delegator can withdraw currently outstanding rewards accrued from their delegation
- * toward a validator by submitting the following message.
- *
- * The rewards will be deposited to their Withdraw Address.
+ * MsgWithdrawDelegatorReward defines a method to withdraw rewards of delegator from a single validator.
  */
 export class MsgWithdrawDelegatorReward extends JSONSerializable<
   MsgWithdrawDelegatorReward.Amino,
@@ -15,7 +12,6 @@ export class MsgWithdrawDelegatorReward extends JSONSerializable<
   MsgWithdrawDelegatorReward.Proto
 > {
   /**
-   *
    * @param delegator_address delegator's account address
    * @param validator_address validator's operator address
    */

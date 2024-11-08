@@ -5,7 +5,6 @@ import { Denom } from './Denom'
 /**
  * Analogous to `sdk.Coins` and `sdk.DecCoins` from Cosmos-SDK, and represents a collection
  * of [[Coin]] objects.
- *
  */
 export class Coins
   extends JSONSerializable<Coins.Amino, Coins.Data, Coins.Proto>
@@ -41,7 +40,6 @@ export class Coins
    * Converts a comma-separated list of coins to a Coins object
    *
    * Eg. `1500uinit,12302uini`
-   *
    * @param str comma-separated list of coins
    */
   public static fromString(str: string): Coins {

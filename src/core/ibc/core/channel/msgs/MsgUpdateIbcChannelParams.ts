@@ -4,6 +4,9 @@ import { IbcChannelParams } from '../IbcChannelParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
 
+/**
+ * MsgUpdateIbcChannelParams defines an operation for updating the ibc channel module parameters.
+ */
 export class MsgUpdateIbcChannelParams extends JSONSerializable<
   any,
   MsgUpdateIbcChannelParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateIbcChannelParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params the channel parameters to update
+   * @param params the ibc channel parameters to update
    */
   constructor(
     public authority: AccAddress,

@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateMarkets as MsgUpdateMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 import { Market } from '../Market'
 
+/**
+ * MsgUpdateMarkets updates markets from the given message.
+ */
 export class MsgUpdateMarkets extends JSONSerializable<
   MsgUpdateMarkets.Amino,
   MsgUpdateMarkets.Data,

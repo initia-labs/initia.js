@@ -4,6 +4,9 @@ import { Coins } from '../../Coins'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgFundCommunityPool as MsgFundCommunityPool_pb } from '@initia/initia.proto/cosmos/distribution/v1beta1/tx'
 
+/**
+ * MsgFundCommunityPool defines a method to allow an account to directly fund the community pool.
+ */
 export class MsgFundCommunityPool extends JSONSerializable<
   MsgFundCommunityPool.Amino,
   MsgFundCommunityPool.Data,

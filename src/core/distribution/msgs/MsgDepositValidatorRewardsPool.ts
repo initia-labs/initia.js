@@ -5,6 +5,9 @@ import { Denom } from '../../Denom'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDepositValidatorRewardsPool as MsgDepositValidatorRewardsPool_pb } from '@initia/initia.proto/initia/distribution/v1/tx'
 
+/**
+ * MsgDepositValidatorRewardsPool defines a method to provide additional rewards to delegators to a specific validator.
+ */
 export class MsgDepositValidatorRewardsPool extends JSONSerializable<
   MsgDepositValidatorRewardsPool.Amino,
   MsgDepositValidatorRewardsPool.Data,

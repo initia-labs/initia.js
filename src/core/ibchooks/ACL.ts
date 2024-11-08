@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { ACL as ACL_pb } from '@initia/initia.proto/initia/ibchooks/v1/types'
 
+/**
+ * ACL defines the ACL entry of an address.
+ */
 export class ACL extends JSONSerializable<ACL.Amino, ACL.Data, ACL.Proto> {
   /**
    * @param address

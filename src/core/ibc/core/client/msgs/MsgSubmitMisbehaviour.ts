@@ -4,7 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSubmitMisbehaviour as MsgSubmitMisbehaviour_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
- *  MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for light client misbehaviour.
+ * MsgSubmitMisbehaviour defines an sdk.Msg type that submits Evidence for light client misbehaviour.
  */
 export class MsgSubmitMisbehaviour extends JSONSerializable<
   any,

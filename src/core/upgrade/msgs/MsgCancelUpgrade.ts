@@ -12,7 +12,6 @@ export class MsgCancelUpgrade extends JSONSerializable<
   MsgCancelUpgrade.Proto
 > {
   /**
-   *
    * @param authority the address that controls the module
    */
   constructor(public authority: AccAddress) {

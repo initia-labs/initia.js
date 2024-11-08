@@ -4,6 +4,11 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpsertMarkets as MsgUpsertMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 import { Market } from '../Market'
 
+/**
+ * MsgUpsertMarkets wraps both Create / Update markets into a single message.
+ * Specifically if a market does not exist it will be created, otherwise it
+ * will be updated. The response will be a map between ticker -> updated.
+ */
 export class MsgUpsertMarkets extends JSONSerializable<
   MsgUpsertMarkets.Amino,
   MsgUpsertMarkets.Data,

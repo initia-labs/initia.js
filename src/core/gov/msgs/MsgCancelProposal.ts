@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCancelProposal as MsgCancelProposal_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 
+/**
+ * MsgCancelProposal defines a method to cancel governance proposal.
+ */
 export class MsgCancelProposal extends JSONSerializable<
   MsgCancelProposal.Amino,
   MsgCancelProposal.Data,

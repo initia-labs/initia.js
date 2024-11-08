@@ -4,6 +4,11 @@ import { Msg } from '../../Msg'
 import { MsgExec as MsgExec_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/tx'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MsgExecAuthorized attempts to execute the provided messages using
+ * authorizations granted to the grantee. Each message should have only
+ * one signer corresponding to the granter of the authorization.
+ */
 export class MsgExecAuthorized extends JSONSerializable<
   MsgExecAuthorized.Amino,
   MsgExecAuthorized.Data,

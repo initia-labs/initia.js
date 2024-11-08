@@ -4,6 +4,9 @@ import { RewardParams } from '../RewardParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/reward/v1/tx'
 
+/**
+ * MsgUpdateRewardParams defines an operation for updating the reward module parameters.
+ */
 export class MsgUpdateRewardParams extends JSONSerializable<
   MsgUpdateRewardParams.Amino,
   MsgUpdateRewardParams.Data,

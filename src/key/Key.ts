@@ -23,7 +23,6 @@ export abstract class Key {
   /**
    * You will need to supply `sign`, which produces a signature for an arbitrary bytes payload
    * with the ECDSA curve secp256pk1.
-   *
    * @param payload the data to be signed
    */
   public abstract sign(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
@@ -31,7 +30,6 @@ export abstract class Key {
   /**
    * You will need to supply `signWithKeccak256`, which produces a signature for an arbitrary bytes payload
    * with the ECDSA curve secp256pk1 after keccak256.
-   *
    * @param payload the data to be signed
    */
   public abstract signWithKeccak256(payload: Buffer): Promise<Buffer> // needs to be async for ledger key signing
@@ -64,7 +62,6 @@ export abstract class Key {
   /**
    * Called to derive the relevant account and validator addresses and public keys from
    * the raw compressed public key in bytes.
-   *
    * @param publicKey raw compressed bytes public key
    */
   constructor(public publicKey?: PublicKey) {}
@@ -72,7 +69,6 @@ export abstract class Key {
   /**
    * Signs a [[StdSignMsg]] with the method supplied by the child class.
    * only used Amino sign
-   *
    * @param tx sign-message of the transaction to sign
    */
   public async createSignatureAmino(tx: SignDoc): Promise<SignatureV2> {
@@ -96,7 +92,6 @@ export abstract class Key {
 
   /**
    * Signs a [[SignDoc]] with the method supplied by the child class.
-   *
    * @param tx sign-message of the transaction to sign
    */
   public async createSignature(signDoc: SignDoc): Promise<SignatureV2> {
@@ -135,7 +130,6 @@ export abstract class Key {
   /**
    * Signs a [[StdSignMsg]] with the method supplied by the child class.
    * only used EIP191 sign
-   *
    * @param tx sign-message of the transaction to sign
    */
   public async createSignatureEIP191(tx: SignDoc): Promise<SignatureV2> {

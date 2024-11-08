@@ -5,6 +5,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MemberRequest } from '../GroupMember'
 import { MsgCreateGroupWithPolicy as MsgCreateGroupWithPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgCreateGroupWithPolicy creates a new group with policy.
+ */
 export class MsgCreateGroupWithPolicy extends JSONSerializable<
   MsgCreateGroupWithPolicy.Amino,
   MsgCreateGroupWithPolicy.Data,

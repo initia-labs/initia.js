@@ -4,6 +4,10 @@ import { AccAddress, ValAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCancelUnbondingDelegation as MsgCancelUnbondingDelegation_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
+/**
+ * MsgCancelUnbondingDelegation defines a method for performing canceling the unbonding delegation
+ * and delegate back to previous validator.
+ */
 export class MsgCancelUnbondingDelegation extends JSONSerializable<
   MsgCancelUnbondingDelegation.Amino,
   MsgCancelUnbondingDelegation.Data,

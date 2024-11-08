@@ -6,7 +6,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSubmitProposal as MsgSubmitProposal_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
 
 /**
- * Submit a proposal alongside an initial deposit.
+ * MsgSubmitProposalLegacy submits a proposal alongside an initial deposit.
  */
 export class MsgSubmitProposalLegacy extends JSONSerializable<
   MsgSubmitProposalLegacy.Amino,

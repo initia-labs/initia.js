@@ -5,7 +5,7 @@ import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1/gov'
 
 /**
- * Defines a message to cast a vote
+ * MsgVote defines a message to cast a vote.
  */
 export class MsgVote extends JSONSerializable<
   MsgVote.Amino,

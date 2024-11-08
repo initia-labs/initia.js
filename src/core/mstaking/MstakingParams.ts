@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/initia/mstaking/v1/staking'
 
+/**
+ * MstakingParams defines the set of mstaking parameters.
+ */
 export class MstakingParams extends JSONSerializable<
   MstakingParams.Amino,
   MstakingParams.Data,

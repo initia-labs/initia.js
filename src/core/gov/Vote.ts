@@ -7,7 +7,7 @@ import {
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
 
 /**
- * Defines a vote on a governance proposal
+ * Vote defines a vote on a governance proposal.
  */
 export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
   /**

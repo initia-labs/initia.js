@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/noble/forwarding/v1/tx'
 
+/**
+ * MsgRegisterForwardingAccount registers a forwarding account for a channel and recipient.
+ */
 export class MsgRegisterForwardingAccount extends JSONSerializable<
   MsgRegisterForwardingAccount.Amino,
   MsgRegisterForwardingAccount.Data,

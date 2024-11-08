@@ -4,7 +4,7 @@ import { PacketFee } from './PacketFee'
 import { PacketId } from '../../core/channel/PacketId'
 
 /**
- *  IdentifiedPacketFees contains a list of type PacketFee and associated PacketId
+ * IdentifiedPacketFees contains a list of type PacketFee and associated PacketId
  */
 export class IdentifiedPacketFees extends JSONSerializable<
   IdentifiedPacketFees.Amino,

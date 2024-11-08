@@ -5,8 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDelegate as MsgDelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
- * A delegator can submit this message to send more Initia to be staked through a
- * validator delegate.
+ * MsgDelegate defines a method for performing a delegation of coins from a delegator to a validator.
  */
 export class MsgDelegate extends JSONSerializable<
   MsgDelegate.Amino,
@@ -16,7 +15,6 @@ export class MsgDelegate extends JSONSerializable<
   public amount: Coins
 
   /**
-   *
    * @param delegator_address delegator's account address
    * @param validator_address validator's operator address
    * @param amount amount of INIT to be sent for delegation

@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/initia/ibchooks/v1/types'
 
+/**
+ * IbcHooksParams defines the set of ibc hooks parameters.
+ */
 export class IbcHooksParams extends JSONSerializable<
   IbcHooksParams.Amino,
   IbcHooksParams.Data,

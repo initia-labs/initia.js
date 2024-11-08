@@ -115,8 +115,6 @@ export class RESTClient {
   public wasm: WasmAPI
 
   /**
-   * Creates a new REST client with the specified configuration.
-   *
    * @param config REST configuration
    */
   constructor(

@@ -70,7 +70,6 @@ export class MnemonicKey extends RawKey {
    * const mk2 = new MnemonicKey()
    * console.log(mk2.mnemonic)
    * ```
-   *
    * @param options
    */
   constructor(options: MnemonicKeyOptions = {}) {

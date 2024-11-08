@@ -5,6 +5,12 @@ import { SendEnabled } from '../SendEnabled'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetSendEnabled as MsgSetSendEnabled_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/tx'
 
+/**
+ * MsgSetSendEnabled is a governance operation for setting the SendEnabled flag
+ * on any number of Denoms. Only the entries to add or update should be
+ * included. Entries that already exist in the store, but that aren't
+ * included in this message, will be left unchanged.
+ */
 export class MsgSetSendEnabled extends JSONSerializable<
   MsgSetSendEnabled.Amino,
   MsgSetSendEnabled.Data,

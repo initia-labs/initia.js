@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { ValidatorParams as ValidatorParams_pb } from '@initia/initia.proto/tendermint/types/params'
 
+/**
+ * ValidatorParams defines the set of validator parameters.
+ */
 export class ValidatorParams extends JSONSerializable<
   ValidatorParams.Amino,
   ValidatorParams.Data,

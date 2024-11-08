@@ -3,9 +3,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { TextProposal as TextProposal_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
 
 /**
- * Basic proposal which describes the candidate proposition that must be put into effect
- * manually if passed. Used as a general-purpose way of discovering community's
- * sentiment / interest for an arbitrary change.
+ * TextProposal defines a basic proposal which describes the candidate proposition
+ * that must be put into effect manually if passed. Used as a general-purpose way of
+ * discovering community's sentiment / interest for an arbitrary change.
  */
 export class TextProposal extends JSONSerializable<
   TextProposal.Amino,

@@ -15,7 +15,6 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
   /**
    * Creates a new coin. Depending on the type of amount, it will be converted to an
    * integer coin or decimal coin.
-   *
    * @param denom denomination
    * @param amount coin's amount
    */
@@ -77,7 +76,6 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
 
   /**
    * Creates a new Coin adding to the current value.
-   *
    * @param other
    */
   public add(other: number | string | Coin): Coin {

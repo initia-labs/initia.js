@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreateMarkets as MsgCreateMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 import { Market } from '../Market'
 
+/**
+ * MsgCreateMarkets creates markets from the given message.
+ */
 export class MsgCreateMarkets extends JSONSerializable<
   MsgCreateMarkets.Amino,
   MsgCreateMarkets.Data,

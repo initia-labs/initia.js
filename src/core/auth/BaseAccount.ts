@@ -13,8 +13,6 @@ export class BaseAccount extends JSONSerializable<
   BaseAccount.Proto
 > {
   /**
-   * Creates a new Account object, holding information about a basic account.
-   *
    * @param address account address
    * @param coins account's balance
    * @param public_key account's public key information

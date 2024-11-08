@@ -13,7 +13,6 @@ export class MsgSoftwareUpgrade extends JSONSerializable<
   MsgSoftwareUpgrade.Proto
 > {
   /**
-   *
    * @param authority the address that controls the module
    * @param plan the upgrade plan
    */

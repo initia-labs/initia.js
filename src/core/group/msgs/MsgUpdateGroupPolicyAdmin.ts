@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupPolicyAdmin as MsgUpdateGroupPolicyAdmin_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupPolicyAdmin updates a group policy admin.
+ */
 export class MsgUpdateGroupPolicyAdmin extends JSONSerializable<
   MsgUpdateGroupPolicyAdmin.Amino,
   MsgUpdateGroupPolicyAdmin.Data,

@@ -5,7 +5,7 @@ import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/t
 import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
 
 /**
- * Vote for a proposal
+ * MsgVoteLegacy votes for a proposal.
  */
 export class MsgVoteLegacy extends JSONSerializable<
   MsgVoteLegacy.Amino,

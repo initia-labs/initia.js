@@ -7,7 +7,7 @@ import { IbcVersion } from '../IbcVersion'
 import { Height } from '../../client'
 
 /**
- *  MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a connection on Chain B.
+ * MsgConnectionOpenTry defines a msg sent by a Relayer to try to open a connection on Chain B.
  */
 export class MsgConnectionOpenTry extends JSONSerializable<
   any,

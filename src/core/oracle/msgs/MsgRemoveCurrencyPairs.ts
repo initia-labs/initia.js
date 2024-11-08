@@ -3,6 +3,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRemoveCurrencyPairs as MsgRemoveCurrencyPairs_pb } from '@initia/initia.proto/connect/oracle/v2/tx'
 
+/**
+ * MsgRemoveCurrencyPairs will be used explicitly by governance to remove the
+ * given set of currency-pairs from the module's state. Thus these
+ * CurrencyPairs will no longer have price-data available from this module.
+ */
 export class MsgRemoveCurrencyPairs extends JSONSerializable<
   MsgRemoveCurrencyPairs.Amino,
   MsgRemoveCurrencyPairs.Data,

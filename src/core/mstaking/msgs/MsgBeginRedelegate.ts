@@ -5,9 +5,8 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgBeginRedelegate as MsgBeginRedelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
- * A delegator can choose to redelegate their bonded Initia and transfer a delegation
- * amount from one validator to another. Unlike undelegating, redelegations do not incur
- * a 21-day unbonding period and happen immediately.
+ * MsgBeginRedelegate defines a method for performing a redelegation
+ * of coins from a delegator and source validator to a destination validator.
  */
 export class MsgBeginRedelegate extends JSONSerializable<
   MsgBeginRedelegate.Amino,
@@ -17,7 +16,6 @@ export class MsgBeginRedelegate extends JSONSerializable<
   public amount: Coins
 
   /**
-   *
    * @param delegator_address delegator's account address
    * @param validator_src_address validator to undelegate from
    * @param validator_dst_address validator to delegate to

@@ -7,6 +7,9 @@ import {
   voteOptionToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * GroupVote represents a vote for a group proposal.
+ */
 export class GroupVote extends JSONSerializable<
   GroupVote.Amino,
   GroupVote.Data,

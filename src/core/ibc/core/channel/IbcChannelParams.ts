@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { Timeout } from './Timeout'
 
+/**
+ * IbcChannelParams defines the set of ibc channel parameters.
+ */
 export class IbcChannelParams extends JSONSerializable<
   IbcChannelParams.Amino,
   IbcChannelParams.Data,

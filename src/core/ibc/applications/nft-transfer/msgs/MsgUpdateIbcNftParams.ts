@@ -4,6 +4,9 @@ import { IbcNftParams } from '../IbcNftParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/tx'
 
+/**
+ * MsgUpdateIbcNftParams defines an operation for updating the ibc nft module parameters.
+ */
 export class MsgUpdateIbcNftParams extends JSONSerializable<
   MsgUpdateIbcNftParams.Amino,
   MsgUpdateIbcNftParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateIbcNftParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params the parameters to update
+   * @param params the ibc nft parameters to update
    */
   constructor(
     public authority: AccAddress,

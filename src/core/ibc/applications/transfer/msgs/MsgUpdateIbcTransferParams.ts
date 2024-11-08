@@ -4,6 +4,9 @@ import { IbcTransferParams } from '../IbcTransferParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/tx'
 
+/**
+ * MsgUpdateIbcTransferParams defines an operation for updating the ibc transfer module parameters.
+ */
 export class MsgUpdateIbcTransferParams extends JSONSerializable<
   any,
   MsgUpdateIbcTransferParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateIbcTransferParams extends JSONSerializable<
 > {
   /**
    * @param signer the address that controls the module
-   * @param params the parameters to update
+   * @param params the ibc transfer parameters to update
    */
   constructor(
     public signer: AccAddress,

@@ -2,11 +2,17 @@ import { JSONSerializable } from '../../../util/json'
 import { PublishAuthorization as PublishAuthorization_pb } from '@initia/initia.proto/initia/move/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * PublishAuthorization defines authorization for publish a move module.
+ */
 export class PublishAuthorization extends JSONSerializable<
   PublishAuthorization.Amino,
   PublishAuthorization.Data,
   PublishAuthorization.Proto
 > {
+  /**
+   * @param module_names
+   */
   constructor(public module_names: string[]) {
     super()
   }

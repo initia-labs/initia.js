@@ -4,6 +4,9 @@ import { Coin } from '../../Coin'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/crisis/v1beta1/tx'
 
+/**
+ * MsgUpdateCrisisParams defines an operation for updating the crisis module parameters.
+ */
 export class MsgUpdateCrisisParams extends JSONSerializable<
   MsgUpdateCrisisParams.Amino,
   MsgUpdateCrisisParams.Data,

@@ -4,6 +4,9 @@ import { DecisionPolicy } from '../policies'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreateGroupPolicy as MsgCreateGroupPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgCreateGroupPolicy creates a new group policy using given DecisionPolicy.
+ */
 export class MsgCreateGroupPolicy extends JSONSerializable<
   MsgCreateGroupPolicy.Amino,
   MsgCreateGroupPolicy.Data,

@@ -3,6 +3,10 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRemoveMarketAuthorities as MsgRemoveMarketAuthorities_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 
+/**
+ * MsgRemoveMarketAuthorities defines a method for removing market authorities
+ * from the marketmap module. The signer must be the admin.
+ */
 export class MsgRemoveMarketAuthorities extends JSONSerializable<
   MsgRemoveMarketAuthorities.Amino,
   MsgRemoveMarketAuthorities.Data,

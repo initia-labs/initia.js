@@ -31,7 +31,6 @@ function checkPrefixAndLength(
 export namespace AccAddress {
   /**
    * Checks if a string is a valid Initia account address.
-   *
    * @param data string to check
    */
   export function validate(data: string): boolean {
@@ -43,7 +42,6 @@ export namespace AccAddress {
 
   /**
    * Converts a validator address into an account address
-   *
    * @param address validator address
    */
   export function fromValAddress(address: ValAddress): AccAddress {
@@ -52,8 +50,7 @@ export namespace AccAddress {
   }
 
   /**
-   * Converts a account address into a hex address
-   *
+   * Converts an account address into a hex address
    * @param address account address
    */
   export function toHex(address: AccAddress): string {
@@ -63,7 +60,6 @@ export namespace AccAddress {
 
   /**
    * Converts a hex address into an account address
-   *
    * @param hexAddress hex address
    */
   export function fromHex(hexAddress: string): AccAddress {
@@ -82,6 +78,10 @@ export namespace AccAddress {
     }
   }
 
+  /**
+   * Converts an account address into a Buffer
+   * @param address account address
+   */
   export function toBuffer(address: AccAddress): Buffer {
     const vals = bech32.decode(address)
     return Buffer.from(bech32.fromWords(vals.words))
@@ -111,7 +111,6 @@ export namespace AccPubKey {
 export namespace ValAddress {
   /**
    * Checks if a string is a Initia validator address.
-   *
    * @param data string to check
    */
   export function validate(data: string): boolean {

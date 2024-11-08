@@ -13,7 +13,6 @@ export class ModuleAccount extends JSONSerializable<
   ModuleAccount.Proto
 > {
   /**
-   *
    * @param base_account account information
    * @param name account's name
    * @param permissions account's permissions

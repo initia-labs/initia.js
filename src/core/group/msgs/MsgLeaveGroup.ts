@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgLeaveGroup as MsgLeaveGroup_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgLeaveGroup allows a group member to leave the group.
+ */
 export class MsgLeaveGroup extends JSONSerializable<
   MsgLeaveGroup.Amino,
   MsgLeaveGroup.Data,

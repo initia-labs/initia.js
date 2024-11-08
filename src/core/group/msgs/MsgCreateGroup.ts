@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MemberRequest } from '../GroupMember'
 import { MsgCreateGroup as MsgCreateGroup_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgCreateGroup creates a new group with an admin account address, a list of members and some optional metadata.
+ */
 export class MsgCreateGroup extends JSONSerializable<
   MsgCreateGroup.Amino,
   MsgCreateGroup.Data,

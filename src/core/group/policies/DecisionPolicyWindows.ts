@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../../util/json'
 import { Duration } from '../../Duration'
 import { DecisionPolicyWindows as DecisionPolicyWindows_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * DecisionPolicyWindows defines the different windows for voting and execution.
+ */
 export class DecisionPolicyWindows extends JSONSerializable<
   DecisionPolicyWindows.Amino,
   DecisionPolicyWindows.Data,

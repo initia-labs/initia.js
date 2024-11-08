@@ -4,6 +4,9 @@ import { SlashingParams } from '../SlashingParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/tx'
 
+/**
+ * MsgUpdateSlashingParams defines an operation for updating the slashing module parameters.
+ */
 export class MsgUpdateSlashingParams extends JSONSerializable<
   MsgUpdateSlashingParams.Amino,
   MsgUpdateSlashingParams.Data,

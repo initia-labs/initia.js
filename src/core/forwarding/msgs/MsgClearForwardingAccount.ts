@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgClearAccount as MsgClearAccount_pb } from '@initia/initia.proto/noble/forwarding/v1/tx'
 
+/**
+ * MsgClearForwardingAccount manually clears funds inside forwarding account.
+ */
 export class MsgClearForwardingAccount extends JSONSerializable<
   MsgClearForwardingAccount.Amino,
   MsgClearForwardingAccount.Data,

@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MemberRequest } from '../GroupMember'
 import { MsgUpdateGroupMembers as MsgUpdateGroupMembers_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupMembers updates the group members with given group id and admin address.
+ */
 export class MsgUpdateGroupMembers extends JSONSerializable<
   MsgUpdateGroupMembers.Amino,
   MsgUpdateGroupMembers.Data,

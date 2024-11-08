@@ -4,6 +4,9 @@ import { MstakingParams } from '../MstakingParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
+/**
+ * MsgUpdateMstakingParams defines an operation for updating the mstaking module parameters.
+ */
 export class MsgUpdateMstakingParams extends JSONSerializable<
   MsgUpdateMstakingParams.Amino,
   MsgUpdateMstakingParams.Data,

@@ -3,11 +3,17 @@ import { ExecuteAuthorization as ExecuteAuthorization_pb } from '@initia/initia.
 import { ExecuteAuthorizationItem as ExecuteAuthorizationItem_pb } from '@initia/initia.proto/initia/move/v1/types'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * ExecuteAuthorization defines authorization for execute a move function.
+ */
 export class ExecuteAuthorization extends JSONSerializable<
   ExecuteAuthorization.Amino,
   ExecuteAuthorization.Data,
   ExecuteAuthorization.Proto
 > {
+  /**
+   * @param items
+   */
   constructor(public items: ExecuteAuthorizationItem[]) {
     super()
   }

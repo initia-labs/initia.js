@@ -5,7 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDeposit as MsgDeposit_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 
 /**
- * Defines a message to submit a deposit to an existing proposal
+ * MsgDeposit defines a message to submit a deposit to an existing proposal.
  */
 export class MsgDeposit extends JSONSerializable<
   MsgDeposit.Amino,

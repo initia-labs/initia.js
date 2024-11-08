@@ -14,7 +14,7 @@ export class MsgUpdateOphostParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params the move parameters to update
+   * @param params the ophost parameters to update
    */
   constructor(
     public authority: AccAddress,

@@ -5,7 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVoteWeighted as MsgVoteWeighted_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
 
 /**
- * Weighted vote for a proposal
+ * MsgVoteWeightedLegacy defines weighted vote for a proposal.
  */
 export class MsgVoteWeightedLegacy extends JSONSerializable<
   MsgVoteWeightedLegacy.Amino,

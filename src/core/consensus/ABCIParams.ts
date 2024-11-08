@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { ABCIParams as ABCIParams_pb } from '@initia/initia.proto/tendermint/types/params'
 
+/**
+ * ABCIParams defines the set of abci parameters.
+ */
 export class ABCIParams extends JSONSerializable<
   ABCIParams.Amino,
   ABCIParams.Data,

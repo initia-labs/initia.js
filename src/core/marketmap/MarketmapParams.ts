@@ -2,6 +2,9 @@ import { AccAddress } from '../bech32'
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/connect/marketmap/v2/params'
 
+/**
+ * MarketmapParams defines the set of marketmap parameters.
+ */
 export class MarketmapParams extends JSONSerializable<
   MarketmapParams.Amino,
   MarketmapParams.Data,

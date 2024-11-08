@@ -5,9 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUndelegate as MsgUndelegate_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
- * A delegator can undelegate an amount of bonded Initia, and will begin the unbonding
- * process for those funds. The unbonding process takes 21 days to complete, during
- * which the Initia cannot be transacted or swapped.
+ * MsgUndelegate defines a method for performing an undelegation from a delegate and a validator.
  */
 export class MsgUndelegate extends JSONSerializable<
   MsgUndelegate.Amino,

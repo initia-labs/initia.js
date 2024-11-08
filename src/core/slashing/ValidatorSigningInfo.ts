@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { ValConsAddress } from '../bech32'
 import { ValidatorSigningInfo as ValidatorSigningInfo_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing'
 
+/**
+ * ValidatorSigningInfo defines a validator's signing info for monitoring their liveness activity.
+ */
 export class ValidatorSigningInfo extends JSONSerializable<
   ValidatorSigningInfo.Amino,
   ValidatorSigningInfo.Data,

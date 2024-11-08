@@ -7,8 +7,7 @@ import { MsgCreateValidator as MsgCreateValidator_pb } from '@initia/initia.prot
 import { ValConsPublicKey, PublicKey } from '../../PublicKey'
 
 /**
- * For new validators, this message registers a validator address to be a delegate on
- * the blockchain.
+ * MsgCreateValidator defines a method for creating a new validator.
  */
 export class MsgCreateValidator extends JSONSerializable<
   MsgCreateValidator.Amino,
@@ -18,7 +17,6 @@ export class MsgCreateValidator extends JSONSerializable<
   public amount: Coins
 
   /**
-   *
    * @param description validator's delegate information
    * @param commission validator's commission policy
    * @param validator_address validator's operator address

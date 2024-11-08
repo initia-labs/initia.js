@@ -14,7 +14,7 @@ import {
 } from '@initia/initia.proto/cosmos/group/v1/types'
 
 /**
- * A group proposal consists of a set of `sdk.Msg`s that will be executed if the proposal
+ * GroupProposal consists of a set of `sdk.Msg`s that will be executed if the proposal
  * passes as well as some optional metadata associated with the proposal
  */
 export class GroupProposal extends JSONSerializable<
@@ -23,7 +23,6 @@ export class GroupProposal extends JSONSerializable<
   GroupProposal.Proto
 > {
   /**
-   *
    * @param id the unique id of the proposal
    * @param group_policy_address the account address of group policy
    * @param metadata any arbitrary metadata attached to the proposal

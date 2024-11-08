@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/slashing'
 
+/**
+ * SlashingParams defines the set of slashing parameters.
+ */
 export class SlashingParams extends JSONSerializable<
   SlashingParams.Amino,
   SlashingParams.Data,

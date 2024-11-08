@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { SendEnabled } from './SendEnabled'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
+/**
+ * Bank defines the set of bank parameters.
+ */
 export class BankParams extends JSONSerializable<
   BankParams.Amino,
   BankParams.Data,

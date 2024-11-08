@@ -10,6 +10,9 @@ import {
 } from '@initia/initia.proto/initia/mstaking/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * StakeAuthorization defines authorization for delegate/undelegate/redelegate.
+ */
 export class StakeAuthorization extends JSONSerializable<
   StakeAuthorization.Amino,
   StakeAuthorization.Data,
@@ -17,6 +20,12 @@ export class StakeAuthorization extends JSONSerializable<
 > {
   public max_tokens: Coins
 
+  /**
+   * @param max_tokensthe maximum amount of tokens can be delegate to a validator
+   * @param allow_list list of validator addresses to whom grantee can delegate tokens on behalf of granter's account
+   * @param deny_list list of validator addresses to whom grantee can not delegate tokens
+   * @param authorization_type
+   */
   constructor(
     max_tokens: Coins.Input,
     public allow_list: StakeAuthorizationValidators,

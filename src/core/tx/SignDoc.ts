@@ -16,7 +16,6 @@ export class SignDoc extends JSONSerializable<
   SignDoc.Proto
 > {
   /**
-   *
    * @param chain_id ID of blockchain to submit transaction to
    * @param account_number account number on blockchain
    * @param sequence sequence number (nonce), number of signed previous transactions by account included on the blockchain at time of broadcast

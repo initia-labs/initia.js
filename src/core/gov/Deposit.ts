@@ -4,7 +4,7 @@ import { AccAddress } from '../bech32'
 import { Deposit as Deposit_pb } from '@initia/initia.proto/cosmos/gov/v1/gov'
 
 /**
- * Defines an amount deposited by an account address to an active proposal
+ * Deposit defines an amount deposited by an account address to an active proposal.
  */
 export class Deposit extends JSONSerializable<
   Deposit.Amino,

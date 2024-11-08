@@ -6,6 +6,9 @@ import {
 } from '@initia/initia.proto/cosmwasm/wasm/v1/types'
 import { AccessConfig } from './AccessConfig'
 
+/**
+ * WasmParams defines the set of wasm parameters.
+ */
 export class WasmParams extends JSONSerializable<
   WasmParams.Amino,
   WasmParams.Data,

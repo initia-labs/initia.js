@@ -2,6 +2,11 @@ import { JSONSerializable } from '../../util/json'
 import { CurrencyPair } from '../oracle'
 import { Ticker as Ticker_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
 
+/**
+ * Ticker represents a price feed for a given asset pair i.e. BTC/USD. The price
+ * feed is scaled to a number of decimal places and has a minimum number of
+ * providers required to consider the ticker valid.
+ */
 export class Ticker extends JSONSerializable<
   Ticker.Amino,
   Ticker.Data,

@@ -5,12 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
 
 /**
- * A validator can edit its delegate information, such as moniker, website, commission
- * rate, etc.
- *
- * You must use special or sentinel values to inform that you want to leave the current
- * field untouched. For `Description`,` you should start with [[MsgEditValidator.DESC_DO_NOT_MODIFY]] and
- * change each field you wish to modify individually.
+ * MsgEditValidator defines a method for editing an existing validator.
  */
 export class MsgEditValidator extends JSONSerializable<
   MsgEditValidator.Amino,

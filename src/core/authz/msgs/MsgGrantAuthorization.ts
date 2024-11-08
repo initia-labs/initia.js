@@ -5,6 +5,11 @@ import { MsgGrant as MsgGrant_pb } from '@initia/initia.proto/cosmos/authz/v1bet
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz'
 
+/**
+ * MsgGrantAuthorization grants the provided authorization to the grantee on the granter's
+ * account with the provided expiration time. If there is already a grant for the given
+ * (granter, grantee, Authorization) triple, then the grant will be overwritten.
+ */
 export class MsgGrantAuthorization extends JSONSerializable<
   MsgGrantAuthorization.Amino,
   MsgGrantAuthorization.Data,

@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Denom } from '../Denom'
 import { DenomUnit as DenomUnit_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
+/**
+ * DenomUnit represents a struct that describes a given denomination unit of the basic token.
+ */
 export class DenomUnit extends JSONSerializable<
   DenomUnit.Amino,
   DenomUnit.Data,

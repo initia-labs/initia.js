@@ -11,7 +11,7 @@ import {
 import { Proposal as Proposal_pb } from '@initia/initia.proto/initia/gov/v1/gov'
 
 /**
- * Defines the core field members of a governance proposal
+ * Proposal defines the core field members of a governance proposal.
  */
 export class Proposal extends JSONSerializable<
   Proposal.Amino,
@@ -21,7 +21,6 @@ export class Proposal extends JSONSerializable<
   public total_deposit: Coins
 
   /**
-   *
    * @param id the unique id of the proposal
    * @param messages the arbitrary messages to be executed if the proposal passes
    * @param status the proposal status

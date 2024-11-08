@@ -4,6 +4,9 @@ import { DecisionPolicy } from '../policies'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupPolicyDecisionPolicy as MsgUpdateGroupPolicyDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupDecisionPolicy allows a group policy's decision policy to be updated.
+ */
 export class MsgUpdateGroupDecisionPolicy extends JSONSerializable<
   MsgUpdateGroupDecisionPolicy.Amino,
   MsgUpdateGroupDecisionPolicy.Data,

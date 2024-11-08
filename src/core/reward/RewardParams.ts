@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
 import { Params as Params_pb } from '@initia/initia.proto/initia/reward/v1/types'
 
+/**
+ * RewardParams defines the set of reward parameters.
+ */
 export class RewardParams extends JSONSerializable<
   RewardParams.Amino,
   RewardParams.Data,

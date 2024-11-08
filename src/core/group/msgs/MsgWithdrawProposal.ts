@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWithdrawProposal as MsgWithdrawProposal_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgWithdrawProposal withdraws a group proposal.
+ */
 export class MsgWithdrawProposal extends JSONSerializable<
   MsgWithdrawProposal.Amino,
   MsgWithdrawProposal.Data,

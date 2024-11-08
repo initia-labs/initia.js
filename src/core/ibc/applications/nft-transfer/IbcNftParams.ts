@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/types'
 
+/**
+ * IbcNftParams defines the set of ibc nft parameters.
+ */
 export class IbcNftParams extends JSONSerializable<
   IbcNftParams.Amino,
   IbcNftParams.Data,

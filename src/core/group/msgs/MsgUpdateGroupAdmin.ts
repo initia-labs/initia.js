@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupAdmin as MsgUpdateGroupAdmin_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupAdmin updates the group admin with given group id and previous admin address.
+ */
 export class MsgUpdateGroupAdmin extends JSONSerializable<
   MsgUpdateGroupAdmin.Amino,
   MsgUpdateGroupAdmin.Data,

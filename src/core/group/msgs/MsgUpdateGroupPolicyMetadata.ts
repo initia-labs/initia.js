@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateGroupPolicyMetadata as MsgUpdateGroupPolicyMetadata_pb } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgUpdateGroupPolicyMetadata updates a group policy metadata.
+ */
 export class MsgUpdateGroupPolicyMetadata extends JSONSerializable<
   MsgUpdateGroupPolicyMetadata.Amino,
   MsgUpdateGroupPolicyMetadata.Data,

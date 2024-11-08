@@ -4,6 +4,9 @@ import { AuctionParams } from '../AuctionParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/sdk/auction/v1/tx'
 
+/**
+ * MsgUpdateAuctionParams defines an operation for updating the auction module parameters.
+ */
 export class MsgUpdateAuctionParams extends JSONSerializable<
   MsgUpdateAuctionParams.Amino,
   MsgUpdateAuctionParams.Data,

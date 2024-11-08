@@ -12,7 +12,6 @@ export class MsgRevokeAllowance extends JSONSerializable<
   MsgRevokeAllowance.Proto
 > {
   /**
-   *
    * @param granter granter's account address
    * @param grantee grantee's account address
    */

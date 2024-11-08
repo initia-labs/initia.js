@@ -4,6 +4,9 @@ import { WasmParams } from '../WasmParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgUpdateWasmParams defines an operation for updating the wasm module parameters.
+ */
 export class MsgUpdateWasmParams extends JSONSerializable<
   MsgUpdateWasmParams.Amino,
   MsgUpdateWasmParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateWasmParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params the move parameters to update
+   * @param params the wasm parameters to update
    */
   constructor(
     public authority: AccAddress,

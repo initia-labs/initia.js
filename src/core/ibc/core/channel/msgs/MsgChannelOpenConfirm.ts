@@ -5,7 +5,7 @@ import { MsgChannelOpenConfirm as MsgChannelOpenConfirm_pb } from '@initia/initi
 import { Height } from '../../client'
 
 /**
- *  MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to acknowledge the change of channel state to OPEN on Chain A.
+ * MsgChannelOpenConfirm defines a msg sent by a Relayer to Chain B to acknowledge the change of channel state to OPEN on Chain A.
  */
 export class MsgChannelOpenConfirm extends JSONSerializable<
   any,

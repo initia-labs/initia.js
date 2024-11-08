@@ -41,6 +41,9 @@ export namespace ParamChanges {
   export type Proto = ParamChange.Proto[]
 }
 
+/**
+ * ParamChange defines an individual parameter change, for use in ParameterChangeProposal.
+ */
 export class ParamChange extends JSONSerializable<
   ParamChange.Amino,
   ParamChange.Data,

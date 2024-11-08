@@ -3,6 +3,11 @@ import { Tx } from '../tx/Tx'
 import { Blob } from './Blob'
 import { BlobTx as BlobTx_pb } from '@initia/initia.proto/celestia/blob/v1/blob'
 
+/**
+ * BlobTx wraps an encoded sdk.Tx with a second field to contain blobs of data.
+ * The raw bytes of the blobs are not signed over, instead we verify each blob
+ * using the relevant MsgPayForBlobs that is signed over in the encoded sdk.Tx.
+ */
 export class BlobTx extends JSONSerializable<any, BlobTx.Data, BlobTx.Proto> {
   /**
    * @param tx

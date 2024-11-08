@@ -7,7 +7,7 @@ import {
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
 
 /**
- * Stores information about the status of a delegation between a delegator and validator, fetched from the blockchain.
+ * Delegation stores information about the status of a delegation between a delegator and validator, fetched from the blockchain.
  */
 export class Delegation extends JSONSerializable<
   Delegation.Amino,

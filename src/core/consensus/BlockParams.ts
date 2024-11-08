@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { BlockParams as BlockParams_pb } from '@initia/initia.proto/tendermint/types/params'
 
+/**
+ * BlockParams defines the set of block parameters.
+ */
 export class BlockParams extends JSONSerializable<
   BlockParams.Amino,
   BlockParams.Data,

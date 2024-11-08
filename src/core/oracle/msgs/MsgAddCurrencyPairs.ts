@@ -4,6 +4,11 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgAddCurrencyPairs as MsgAddCurrencyPairs_pb } from '@initia/initia.proto/connect/oracle/v2/tx'
 import { CurrencyPair } from '../CurrencyPair'
 
+/**
+ * MsgAddCurrencyPairs will be used only by governance to update the set of
+ * available CurrencyPairs. Given a set of CurrencyPair objects, update
+ * the available currency pairs in the module.
+ */
 export class MsgAddCurrencyPairs extends JSONSerializable<
   MsgAddCurrencyPairs.Amino,
   MsgAddCurrencyPairs.Data,

@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/cosmos/auth/v1beta1/auth'
 
+/**
+ * AuthParams defines the set of auth parameters.
+ */
 export class AuthParams extends JSONSerializable<
   AuthParams.Amino,
   AuthParams.Data,

@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/transfer'
 
+/**
+ * IbcTransferParams defines the set of ibc transfer parameters.
+ */
 export class IbcTransferParams extends JSONSerializable<
   IbcTransferParams.Amino,
   IbcTransferParams.Data,

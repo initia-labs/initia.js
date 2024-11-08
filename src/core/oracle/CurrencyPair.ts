@@ -1,6 +1,10 @@
 import { JSONSerializable } from '../../util/json'
 import { CurrencyPair as CurrencyPair_pb } from '@initia/initia.proto/connect/types/v2/currency_pair'
 
+/**
+ * CurrencyPair is the standard representation of a pair of assets, where one
+ * (Base) is priced in terms of the other (Quote).
+ */
 export class CurrencyPair extends JSONSerializable<
   CurrencyPair.Amino,
   CurrencyPair.Data,

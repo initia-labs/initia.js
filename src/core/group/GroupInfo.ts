@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { AccAddress } from '../bech32'
 import { GroupInfo as GroupInfo_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * GroupInfo represents the high-level on-chain information for a group.
+ */
 export class GroupInfo extends JSONSerializable<
   GroupInfo.Amino,
   GroupInfo.Data,

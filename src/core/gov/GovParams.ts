@@ -5,6 +5,9 @@ import { Duration } from '../Duration'
 import { Vesting } from './Vesting'
 import { Params as Params_pb } from '@initia/initia.proto/initia/gov/v1/gov'
 
+/**
+ * GovParams defines the set of gov parameters.
+ */
 export class GovParams extends JSONSerializable<
   GovParams.Amino,
   GovParams.Data,

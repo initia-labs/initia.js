@@ -5,7 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCommunityPoolSpend as MsgCommunityPoolSpend_pb } from '@initia/initia.proto/cosmos/distribution/v1beta1/tx'
 
 /**
- * defines a message for sending tokens from the community pool to another account
+ * MsgCommunityPoolSpend defines a message for sending tokens from the community pool to another account.
  */
 export class MsgCommunityPoolSpend extends JSONSerializable<
   MsgCommunityPoolSpend.Amino,

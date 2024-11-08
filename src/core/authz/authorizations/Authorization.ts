@@ -13,11 +13,19 @@ import { TransferAuthorization } from '../../ibc/applications/transfer'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz'
 
+/**
+ * AuthorizationGrant gives permissions to execute the provide method with expiration time.
+ */
 export class AuthorizationGrant extends JSONSerializable<
   AuthorizationGrant.Amino,
   AuthorizationGrant.Data,
   AuthorizationGrant.Proto
 > {
+  /**
+   * @param authorization
+   * @param expiration time when the grant will expire and will be pruned. If null, then the grant
+   * doesn't have a time expiration
+   */
   constructor(
     public authorization: Authorization,
     public expiration?: Date

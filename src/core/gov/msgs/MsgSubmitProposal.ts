@@ -5,6 +5,9 @@ import { Coins } from '../../Coins'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSubmitProposal as MsgSubmitProposal_pb } from '@initia/initia.proto/cosmos/gov/v1/tx'
 
+/**
+ * MsgSubmitProposal defines a method to create new proposal given the messages.
+ */
 export class MsgSubmitProposal extends JSONSerializable<
   MsgSubmitProposal.Amino,
   MsgSubmitProposal.Data,

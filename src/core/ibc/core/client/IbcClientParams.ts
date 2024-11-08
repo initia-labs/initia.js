@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/ibc/core/client/v1/client'
 
+/**
+ * IbcClientParams defines the set of ibc client parameters.
+ */
 export class IbcClientParams extends JSONSerializable<
   IbcClientParams.Amino,
   IbcClientParams.Data,

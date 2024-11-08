@@ -9,6 +9,9 @@ import {
   execToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/tx'
 
+/**
+ * MsgSubmitGroupProposal submits a new group proposal.
+ */
 export class MsgSubmitGroupProposal extends JSONSerializable<
   MsgSubmitGroupProposal.Amino,
   MsgSubmitGroupProposal.Data,

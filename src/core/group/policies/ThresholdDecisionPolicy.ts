@@ -3,6 +3,12 @@ import { DecisionPolicyWindows } from './DecisionPolicyWindows'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { ThresholdDecisionPolicy as ThresholdDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * ThresholdDecisionPolicy is a decision policy where a proposal passes when it
+ * satisfies the two following conditions:
+ * 1. The sum of all `YES` voter's weights is greater or equal than the defined `threshold`.
+ * 2. The voting and execution periods of the proposal respect the parameters given by `windows`.
+ */
 export class ThresholdDecisionPolicy extends JSONSerializable<
   ThresholdDecisionPolicy.Amino,
   ThresholdDecisionPolicy.Data,

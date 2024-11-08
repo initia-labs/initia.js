@@ -5,7 +5,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDeposit as MsgDeposit_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
 
 /**
- * Add a deposit for a proposal
+ * MsgDepositLegacy adds a deposit for a proposal.
  */
 export class MsgDepositLegacy extends JSONSerializable<
   MsgDepositLegacy.Amino,

@@ -4,6 +4,9 @@ import { Coin } from '../../Coin'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgAuctionBid as MsgAuctionBid_pb } from '@initia/initia.proto/sdk/auction/v1/tx'
 
+/**
+ * MsgAuctionBid defines a method for sending bids to the auction module.
+ */
 export class MsgAuctionBid extends JSONSerializable<
   MsgAuctionBid.Amino,
   MsgAuctionBid.Data,

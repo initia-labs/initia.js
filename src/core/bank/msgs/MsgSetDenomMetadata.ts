@@ -4,6 +4,10 @@ import { DenomMetadata } from '../DenomMetadata'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetDenomMetadata as MsgSetDenomMetadata_pb } from '@initia/initia.proto/initia/bank/v1/tx'
 
+/**
+ * MsgSetDenomMetadata defines a governance operation for updating the bank
+ * denom metadata. The authority is defined in the keeper.
+ */
 export class MsgSetDenomMetadata extends JSONSerializable<
   MsgSetDenomMetadata.Amino,
   MsgSetDenomMetadata.Data,

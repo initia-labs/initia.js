@@ -13,6 +13,9 @@ import {
   voteOptionToJSON,
 } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * MsgGroupVote allows a voter to vote on a group proposal.
+ */
 export class MsgGroupVote extends JSONSerializable<
   MsgGroupVote.Amino,
   MsgGroupVote.Data,

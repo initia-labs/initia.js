@@ -3,6 +3,14 @@ import { DecisionPolicyWindows } from './DecisionPolicyWindows'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { PercentageDecisionPolicy as PercentageDecisionPolicy_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * PercentageDecisionPolicy is a decision policy where a proposal passes when
+ * it satisfies the two following conditions:
+ * 1. The percentage of all `YES` voters' weights out of the total group weight
+ * is greater or equal than the given `percentage`.
+ * 2. The voting and execution periods of the proposal respect the parameters
+ * given by `windows`.
+ */
 export class PercentageDecisionPolicy extends JSONSerializable<
   PercentageDecisionPolicy.Amino,
   PercentageDecisionPolicy.Data,

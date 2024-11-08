@@ -3,6 +3,9 @@ import { ValConsAddress } from '../bech32'
 import { Equivocation as Equivocation_pb } from '@initia/initia.proto/cosmos/evidence/v1beta1/evidence'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * Equivocation implements the Evidence interface and defines evidence of double signing misbehavior.
+ */
 export class Equivocation extends JSONSerializable<
   Equivocation.Amino,
   Equivocation.Data,

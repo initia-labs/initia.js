@@ -4,9 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWithdrawValidatorCommission as MsgWithdrawValidatorCommission_pb } from '@initia/initia.proto/cosmos/distribution/v1beta1/tx'
 
 /**
- * A validator can withdraw their outstanding commission rewards accrued from all
- * delegations (not including its self-delegation) into their associated account's
- * withdraw address.
+ * MsgWithdrawValidatorCommission defines a method to withdraw the full commission to the validator address.
  */
 export class MsgWithdrawValidatorCommission extends JSONSerializable<
   MsgWithdrawValidatorCommission.Amino,

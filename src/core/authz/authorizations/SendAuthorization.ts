@@ -4,12 +4,20 @@ import { Coins } from '../../Coins'
 import { SendAuthorization as SendAuthorization_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * SendAuthorization allows the grantee to spend up to spend_limit coins from the granter's account.
+ */
 export class SendAuthorization extends JSONSerializable<
   SendAuthorization.Amino,
   SendAuthorization.Data,
   SendAuthorization.Proto
 > {
   public spend_limit: Coins
+
+  /**
+   * @param spend_limit
+   * @param allow_list an optional list of addresses to whom the grantee can send tokens on behalf of the granter
+   */
   constructor(
     spend_limit: Coins.Input,
     public allow_list: AccAddress[]

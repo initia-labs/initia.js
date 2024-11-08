@@ -4,9 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSetWithdrawAddress as MsgSetWithdrawAddress_pb } from '@initia/initia.proto/cosmos/distribution/v1beta1/tx'
 
 /**
- * A validator can withdraw their outstanding commission rewards accrued from all
- * delegations (not including its self-delegation) into their associated account's
- * withdraw address.
+ * MsgSetWithdrawAddress defines a method to change the withdraw address for a delegator (or validator self-delegation).
  */
 export class MsgSetWithdrawAddress extends JSONSerializable<
   MsgSetWithdrawAddress.Amino,

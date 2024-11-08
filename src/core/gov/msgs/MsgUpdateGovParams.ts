@@ -4,6 +4,9 @@ import { GovParams } from '../GovParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/gov/v1/tx'
 
+/**
+ * MsgUpdateGovParams defines an operation for updating the gov module parameters.
+ */
 export class MsgUpdateGovParams extends JSONSerializable<
   MsgUpdateGovParams.Amino,
   MsgUpdateGovParams.Data,

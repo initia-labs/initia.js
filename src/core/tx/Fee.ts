@@ -12,7 +12,6 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
   public readonly amount: Coins
 
   /**
-   * Creates a new Fee object.
    * @param gas gas limit
    * @param amount amount to be paid to validator
    */

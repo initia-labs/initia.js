@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Denom } from '../Denom'
 import { SendEnabled as SendEnabled_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
+/**
+ * SendEnabled maps coin denom to a send_enabled status (whether a denom is sendable).
+ */
 export class SendEnabled extends JSONSerializable<
   SendEnabled.Amino,
   SendEnabled.Data,

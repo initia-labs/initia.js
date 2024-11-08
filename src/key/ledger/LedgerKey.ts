@@ -41,7 +41,6 @@ export class LedgerKey extends Key {
   private path: number[] = [44, INIT_COIN_TYPE, 0, 0, 0]
 
   /**
-   *
    * @param transport transporter for LedgerKey
    */
   constructor(private transport?: Transport) {

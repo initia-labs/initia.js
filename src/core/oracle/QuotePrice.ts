@@ -1,6 +1,10 @@
 import { JSONSerializable } from '../../util/json'
 import { QuotePrice as QuotePrice_pb } from '@initia/initia.proto/connect/oracle/v2/genesis'
 
+/**
+ * QuotePrice is the representation of the aggregated prices for a CurrencyPair,
+ * where price represents the price of Base in terms of Quote.
+ */
 export class QuotePrice extends JSONSerializable<
   QuotePrice.Amino,
   QuotePrice.Data,

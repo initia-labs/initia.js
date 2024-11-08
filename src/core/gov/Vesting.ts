@@ -3,7 +3,7 @@ import { AccAddress } from '../bech32'
 import { Vesting as Vesting_pb } from '@initia/initia.proto/initia/gov/v1/gov'
 
 /**
- * Defines an amount Vestinged by an account address to an active proposal
+ * Vesting defines an amount vested by an account address to an active proposal.
  */
 export class Vesting extends JSONSerializable<
   Vesting.Amino,

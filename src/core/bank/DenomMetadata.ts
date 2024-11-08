@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { DenomUnit } from './DenomUnit'
 import { Metadata as Metadata_pb } from '@initia/initia.proto/cosmos/bank/v1beta1/bank'
 
+/**
+ * DenomMetadata represents a struct that describes a basic token.
+ */
 export class DenomMetadata extends JSONSerializable<
   DenomMetadata.Amino,
   DenomMetadata.Data,

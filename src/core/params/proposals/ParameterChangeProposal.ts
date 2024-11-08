@@ -4,27 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { ParameterChangeProposal as ParameterChangeProposal_pb } from '@initia/initia.proto/cosmos/params/v1beta1/params'
 
 /**
- * Describes a proposal for directly altering the value of the module parameters.
- * If you want to select a couple parameters to change for your proposal, you'll first
- * include the subspace (module it belongs to, such as "distribution"), and
- * then just the specific keys that you want to include in your changes as items in a
- * JavaScript object.
- *
- * ```ts
- * import {
- *    Dec,
- *    MsgSubmitProposal,
- *    ParameterChangeProposal
- * } from "@initia/initia.js"
- *
- * const proposal = new ParameterChangeProposal("title", "description", {
- *    mstaking: {
- *      UnbondingTime: 15000000
- *    }
- * })
- *
- * const msg = new MsgSubmitProposal()
- * ```
+ * ParameterChangeProposal defines a proposal to change one or more parameters.
  */
 export class ParameterChangeProposal extends JSONSerializable<
   ParameterChangeProposal.Amino,

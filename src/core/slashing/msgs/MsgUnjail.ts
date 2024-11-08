@@ -4,12 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUnjail as MsgUnjail_pb } from '@initia/initia.proto/cosmos/slashing/v1beta1/tx'
 
 /**
- * A validator can be jailed by the blockchain if misbehavior is detected, such as
- * double-signing or having missed too many vote periods in the Oracle ballot.
- *
- * This is done to protect delegators' funds from getting slashed further, until the
- * validator's issues have been addressed. A jailed validator cannot participate in
- * block rewards, and must be manually unjailed by submitting this message.
+ * MsgUnjail defines a method for unjailing a jailed validator, thus returning
+ * them into the bonded validator set, so they can begin receiving provisions
+ * and rewards again.
  */
 export class MsgUnjail extends JSONSerializable<
   MsgUnjail.Amino,

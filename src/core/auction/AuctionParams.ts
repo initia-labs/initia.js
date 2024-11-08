@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Coin } from '../Coin'
 import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis'
 
+/**
+ * AuctionParams defines the set of auction parameters.
+ */
 export class AuctionParams extends JSONSerializable<
   AuctionParams.Amino,
   AuctionParams.Data,

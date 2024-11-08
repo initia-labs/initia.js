@@ -3,6 +3,9 @@ import { ProviderConfig } from './ProviderConfig'
 import { Ticker } from './Ticker'
 import { Market as Market_pb } from '@initia/initia.proto/connect/marketmap/v2/market'
 
+/**
+ * Market encapsulates a Ticker and its provider-specific configuration.
+ */
 export class Market extends JSONSerializable<
   Market.Amino,
   Market.Data,

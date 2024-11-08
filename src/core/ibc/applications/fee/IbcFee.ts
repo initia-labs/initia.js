@@ -3,7 +3,7 @@ import { Coins } from '../../../Coins'
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- *  Fee defines the ICS29 receive, acknowledgement and timeout fees
+ * Fee defines the ICS29 receive, acknowledgement and timeout fees
  */
 export class IbcFee extends JSONSerializable<
   IbcFee.Amino,

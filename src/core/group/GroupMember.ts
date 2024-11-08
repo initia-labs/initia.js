@@ -6,6 +6,9 @@ import {
   MemberRequest as MemberRequest_pb,
 } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * GroupMember represents the relationship between a group and a member.
+ */
 export class GroupMember extends JSONSerializable<
   GroupMember.Amino,
   GroupMember.Data,
@@ -78,6 +81,9 @@ export namespace GroupMember {
   export type Proto = GroupMember_pb
 }
 
+/**
+ * Member represents a group member with an account address, non-zero weight, metadata and added_at timestamp.
+ */
 export class Member extends JSONSerializable<
   Member.Amino,
   Member.Data,
@@ -166,6 +172,11 @@ export namespace Member {
   export type Proto = Member_pb
 }
 
+/**
+ * MemberRequest represents a group member to be used in Msg server requests.
+ * Contrary to `Member`, it doesn't have any `added_at` field
+ * since this field cannot be set as part of requests.
+ */
 export class MemberRequest extends JSONSerializable<
   MemberRequest.Amino,
   MemberRequest.Data,

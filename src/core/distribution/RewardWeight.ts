@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { Denom } from '../Denom'
 import { RewardWeight as RewardWeight_pb } from '@initia/initia.proto/initia/distribution/v1/distribution'
 
+/**
+ * RewardWeight represents reward allocation ratio between pools.
+ */
 export class RewardWeight extends JSONSerializable<
   RewardWeight.Amino,
   RewardWeight.Data,

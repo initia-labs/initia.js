@@ -7,6 +7,9 @@ import { ABCIParams } from '../ABCIParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/cosmos/consensus/v1/tx'
 
+/**
+ * MsgUpdateConsensusParams defines an operation for updating the consensus module parameters.
+ */
 export class MsgUpdateConsensusParams extends JSONSerializable<
   MsgUpdateConsensusParams.Amino,
   MsgUpdateConsensusParams.Data,

@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSubmitEvidence as MsgSubmitEvidence_pb } from '@initia/initia.proto/cosmos/evidence/v1beta1/tx'
 import { Evidence } from '../Evidence'
 
+/**
+ * MsgSubmitEvidence submits an arbitrary Evidence of misbehavior such as equivocation or counterfactual signing.
+ */
 export class MsgSubmitEvidence extends JSONSerializable<
   MsgSubmitEvidence.Amino,
   MsgSubmitEvidence.Data,

@@ -4,6 +4,9 @@ import { DistributionParams } from '../DistributionParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateParams as MsgUpdateParams_pb } from '@initia/initia.proto/initia/distribution/v1/tx'
 
+/**
+ * MsgUpdateDistrParams defines an operation for updating the distribution module parameters.
+ */
 export class MsgUpdateDistrParams extends JSONSerializable<
   MsgUpdateDistrParams.Amino,
   MsgUpdateDistrParams.Data,

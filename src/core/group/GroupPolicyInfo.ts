@@ -4,6 +4,9 @@ import { DecisionPolicy } from './policies'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { GroupPolicyInfo as GroupPolicyInfo_pb } from '@initia/initia.proto/cosmos/group/v1/types'
 
+/**
+ * GroupPolicyInfo represents the high-level on-chain information for a group policy.
+ */
 export class GroupPolicyInfo extends JSONSerializable<
   GroupPolicyInfo.Amino,
   GroupPolicyInfo.Data,

@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../util/json'
 import { RewardWeight } from './RewardWeight'
 import { Params as Params_pb } from '@initia/initia.proto/initia/distribution/v1/distribution'
 
+/**
+ * DistributionParams defines the set of distribution parameters.
+ */
 export class DistributionParams extends JSONSerializable<
   DistributionParams.Amino,
   DistributionParams.Data,

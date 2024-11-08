@@ -14,7 +14,6 @@ export class MsgGrantAllowance extends JSONSerializable<
   MsgGrantAllowance.Proto
 > {
   /**
-   *
    * @param granter granter's account address
    * @param grantee grantee's account address
    * @param allowance allowance willing to grant

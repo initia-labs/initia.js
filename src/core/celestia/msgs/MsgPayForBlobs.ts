@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPayForBlobs as MsgPayForBlobs_pb } from '@initia/initia.proto/celestia/blob/v1/tx'
 
+/**
+ * MsgPayForBlobs pays for the inclusion of a blob in the block.
+ */
 export class MsgPayForBlobs extends JSONSerializable<
   any,
   MsgPayForBlobs.Data,

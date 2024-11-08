@@ -4,6 +4,9 @@ import { MarketmapParams } from '../MarketmapParams'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgParams as MsgParams_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
 
+/**
+ * MsgUpdateMarketmapParams defines an operation for updating the marketmap module parameters.
+ */
 export class MsgUpdateMarketmapParams extends JSONSerializable<
   MsgUpdateMarketmapParams.Amino,
   MsgUpdateMarketmapParams.Data,
@@ -11,7 +14,7 @@ export class MsgUpdateMarketmapParams extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param params the hook parameters to update
+   * @param params the marketmap parameters to update
    */
   constructor(
     public authority: AccAddress,
