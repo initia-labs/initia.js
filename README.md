@@ -47,7 +47,7 @@ import { MnemonicKey } from '@initia/initia.js'
 const key = new MnemonicKey({
     mnemonic: 'bird upset ...  evil cigar', // (optional) if null, generate a new Mnemonic key
     account: 0, // (optional) BIP44 account number. default = 0
-    index: 0, // (optional) BIP44 index number. defualt = 0
+    index: 0, // (optional) BIP44 index number. default = 0
     coinType: 118, // (optional) BIP44 coinType. default = 118
 })
 ```
@@ -111,7 +111,7 @@ import { MsgDelegate } from '@initia/initia.js'
 
 const msg = new MsgDelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
-    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator address
     '100000uinit',                                 // delegate amount
 )
 ```
@@ -125,7 +125,7 @@ import { MsgUndelegate } from '@initia/initia.js'
 
 const msg = new MsgUndelegate(
     'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
-    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator addres
+    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator address
     '100000uinit',                                 // undelegate amount
 )
 ```
