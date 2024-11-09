@@ -53,7 +53,7 @@ export class LedgerKey extends Key {
    */
   public get accAddress(): AccAddress {
     if (!this.publicKey) {
-      throw new Error('Ledger is unintialized. Initialize it first.')
+      throw new Error('Ledger is uninitialized. Initialize it first.')
     }
 
     return this.publicKey.address()
