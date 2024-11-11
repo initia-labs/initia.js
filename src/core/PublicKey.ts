@@ -8,14 +8,20 @@ import { PubKey as ValConsPubKey_pb } from '@initia/initia.proto/cosmos/crypto/e
 import { PubKey as EthPubKey_pb } from '@initia/initia.proto/initia/crypto/v1beta1/ethsecp256k1/keys'
 import { bech32 } from 'bech32'
 
-// As discussed in https://github.com/binance-chain/javascript-sdk/issues/163
-// Prefixes listed here: https://github.com/tendermint/tendermint/blob/d419fffe18531317c28c29a292ad7d253f6cafdf/docs/spec/blockchain/encoding.md#public-key-cryptography
-// Last bytes is varint-encoded length prefix
+/**
+ * As discussed in https://github.com/binance-chain/javascript-sdk/issues/163
+ *
+ * Prefixes listed here: https://github.com/tendermint/tendermint/blob/d419fffe18531317c28c29a292ad7d253f6cafdf/docs/spec/blockchain/encoding.md#public-key-cryptography
+ *
+ * Last bytes is varint-encoded length prefix.
+ */
 const pubkeyAminoPrefixSecp256k1 = Buffer.from(
   'eb5ae987' + '21' /* fixed length */,
   'hex'
 )
-/** See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740 */
+/**
+ * See https://github.com/tendermint/tendermint/commit/38b401657e4ad7a7eeb3c30a3cbf512037df3740
+ */
 const pubkeyAminoPrefixMultisigThreshold = Buffer.from(
   '22c1f7e2' /* variable length not included */,
   'hex'
@@ -92,6 +98,13 @@ export namespace PublicKey {
   }
 }
 
+/**
+ * SimplePublicKey defines a secp256k1 public key.
+ * Key is the compressed form of the pubkey. The first byte depends is a 0x02 byte
+ * if the y-coordinate is the lexicographically largest of the two associated with
+ * the x-coordinate. Otherwise the first byte is a 0x03.
+ * This prefix is followed with the x-coordinate.
+ */
 export class SimplePublicKey extends JSONSerializable<
   SimplePublicKey.Amino,
   SimplePublicKey.Data,
@@ -175,6 +188,11 @@ export namespace SimplePublicKey {
   export type Proto = PubKey_pb
 }
 
+/**
+ * LegacyAminoMultisigPublicKey specifies a public key type
+ * which nests multiple public keys and a threshold.
+ * It uses legacy amino address rules.
+ */
 export class LegacyAminoMultisigPublicKey extends JSONSerializable<
   LegacyAminoMultisigPublicKey.Amino,
   LegacyAminoMultisigPublicKey.Data,
@@ -293,6 +311,13 @@ export namespace LegacyAminoMultisigPublicKey {
   export type Proto = LegacyAminoPubKey_pb
 }
 
+/**
+ * ValConsPublicKey is an ed25519 public key for handling Tendermint keys in SDK.
+ * It's needed for Any serialization and SDK compatibility.
+ * It must not be used in a non Tendermint key context because it doesn't implement
+ * ADR-28. Nevertheless, you will like to use ed25519 in app user level
+ * then you must create a new proto message and follow ADR-28 for Address construction.
+ */
 export class ValConsPublicKey extends JSONSerializable<
   ValConsPublicKey.Amino,
   ValConsPublicKey.Data,
@@ -371,6 +396,10 @@ export namespace ValConsPublicKey {
   export type Proto = ValConsPubKey_pb
 }
 
+/**
+ * EthPublicKey defines a type alias for an ecdsa.PublicKey that implements Tendermint's PubKey interface.
+ * It represents the 33-byte compressed public key format.
+ */
 export class EthPublicKey extends JSONSerializable<
   EthPublicKey.Amino,
   EthPublicKey.Data,

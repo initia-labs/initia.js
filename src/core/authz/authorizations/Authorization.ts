@@ -23,8 +23,7 @@ export class AuthorizationGrant extends JSONSerializable<
 > {
   /**
    * @param authorization
-   * @param expiration time when the grant will expire and will be pruned. If null, then the grant
-   * doesn't have a time expiration
+   * @param expiration time when the grant will expire and will be pruned (null to disable)
    */
   constructor(
     public authorization: Authorization,

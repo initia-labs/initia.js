@@ -1,7 +1,7 @@
 import { JSONSerializable } from '../../util/json'
 import { Plan as Plan_pb } from '@initia/initia.proto/cosmos/upgrade/v1beta1/upgrade'
 
-/*
+/**
  * Plan specifies information about a planned upgrade and when it should occur.
  */
 export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {

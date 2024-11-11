@@ -4,7 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCreateClient as MsgCreateClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
- * MsgCreateClient defines a message to create an IBC client
+ * MsgCreateClient defines a message to create an IBC client.
  */
 export class MsgCreateClient extends JSONSerializable<
   any,

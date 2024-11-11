@@ -148,7 +148,7 @@ export namespace ValPubKey {
 
 export namespace ValConsAddress {
   /**
-   * Checks if a string is a Initia validator consensus address
+   * Checks if a string is a Initia validator consensus address.
    * @param data string to check
    */
 

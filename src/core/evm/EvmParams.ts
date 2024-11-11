@@ -10,7 +10,7 @@ export class EvmParams extends JSONSerializable<
   EvmParams.Proto
 > {
   /**
-   * @param extra_eips the additional EIPs for the vm.Config
+   * @param extra_eips the additional EIPs for the config
    * @param allowed_publishers list of addresses with permission to distribute contracts
    * @param allow_custom_erc20 whether the chain allows custom erc20 tokens to be registered on cosmos bank interface
    * @param allowed_custom_erc20s

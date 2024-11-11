@@ -210,7 +210,7 @@ export class Coins
   }
 
   /**
-   * Filters out the Coin objects that don't match the predicate
+   * Filters out the Coin objects that don't match the predicate.
    * @param fn predicate
    */
   public filter(fn: (c: Coin) => boolean): Coins {

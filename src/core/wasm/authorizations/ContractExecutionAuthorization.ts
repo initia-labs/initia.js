@@ -3,11 +3,17 @@ import { ContractExecutionAuthorization as ContractExecutionAuthorization_pb } f
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { ContractGrant } from './ContractGrant'
 
+/**
+ * ContractExecutionAuthorization defines authorization for wasm execute.
+ */
 export class ContractExecutionAuthorization extends JSONSerializable<
   ContractExecutionAuthorization.Amino,
   ContractExecutionAuthorization.Data,
   ContractExecutionAuthorization.Proto
 > {
+  /**
+   * @param grants grants for contract executions
+   */
   constructor(public grants: ContractGrant[]) {
     super()
   }

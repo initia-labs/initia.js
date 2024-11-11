@@ -4,7 +4,7 @@ import { IbcFee } from './IbcFee'
 import { AccAddress } from '../../../..'
 
 /**
- * PacketFee contains ICS29 relayer fees, refund address and optional list of permitted relayers
+ * PacketFee contains ICS29 relayer fees, refund address and optional list of permitted relayers.
  */
 export class PacketFee extends JSONSerializable<
   PacketFee.Amino,

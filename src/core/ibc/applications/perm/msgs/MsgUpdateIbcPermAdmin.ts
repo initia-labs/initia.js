@@ -3,6 +3,9 @@ import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateAdmin as MsgUpdateAdmin_pb } from '@initia/initia.proto/ibc/applications/perm/v1/tx'
 
+/**
+ * MsgUpdateIbcPermAdmin transfers a ownership of a channel to a new admin.
+ */
 export class MsgUpdateIbcPermAdmin extends JSONSerializable<
   MsgUpdateIbcPermAdmin.Amino,
   MsgUpdateIbcPermAdmin.Data,

@@ -1,7 +1,7 @@
 import { MerklePrefix as MerklePrefix_pb } from '@initia/initia.proto/ibc/core/commitment/v1/commitment'
 import { JSONSerializable } from '../../../../util/json'
 
-/*
+/**
  * MerklePrefix is merkle path prefixed to the key.
  * The constructed key from the Path and the key will be append(Path.KeyPath,
  * append(Path.KeyPrefix, key...))

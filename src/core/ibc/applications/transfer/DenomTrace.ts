@@ -2,16 +2,8 @@ import { DenomTrace as DenomTrace_pb } from '@initia/initia.proto/ibc/applicatio
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * DenomTrace is a monotonically increasing data type
- * that can be compared against another DenomTrace for the purposes of updating and
- * freezing clients
- *
- * Normally the RevisionDenomTrace is incremented at each height while keeping
- * RevisionNumber the same. However some consensus algorithms may choose to
- * reset the height in certain conditions e.g. hard forks, state-machine
- * breaking changes In these cases, the RevisionNumber is incremented so that
- * height continues to be monitonically increasing even as the RevisionDenomTrace
- * gets reset
+ * DenomTrace contains the base denomination for ICS20 fungible tokens and the
+ * source tracing information path.
  */
 export class DenomTrace extends JSONSerializable<
   DenomTrace.Amino,

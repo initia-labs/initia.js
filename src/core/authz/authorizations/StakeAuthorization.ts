@@ -121,6 +121,9 @@ export class StakeAuthorization extends JSONSerializable<
   }
 }
 
+/**
+ * StakeAuthorizationValidators defines list of validator addresses.
+ */
 export class StakeAuthorizationValidators extends JSONSerializable<
   StakeAuthorizationValidators.Amino,
   StakeAuthorizationValidators.Data,

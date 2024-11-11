@@ -4,6 +4,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgInstantiateContract as MsgInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgInstantiateContract creates a new smart contract instance for the given code id.
+ */
 export class MsgInstantiateContract extends JSONSerializable<
   MsgInstantiateContract.Amino,
   MsgInstantiateContract.Data,

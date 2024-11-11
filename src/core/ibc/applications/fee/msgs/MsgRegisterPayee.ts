@@ -3,7 +3,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRegisterPayee as MsgRegisterPayee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx'
 
 /**
- * MsgRegisterPayee defines the request type for the RegisterPayee rpc
+ * MsgRegisterPayee is called by the relayer on each channelEnd and allows them to set an optional
+ * payee to which reverse and timeout relayer packet fees will be paid out. The payee should be registered on
+ * the source chain from which packets originate as this is where fee distribution takes place. This function may be
+ * called more than once by a relayer, in which case, the latest payee is always used.
  */
 export class MsgRegisterPayee extends JSONSerializable<
   any,

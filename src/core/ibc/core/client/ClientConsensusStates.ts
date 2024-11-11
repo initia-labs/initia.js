@@ -3,7 +3,7 @@ import { JSONSerializable } from '../../../../util/json'
 import { ConsensusStateWithHeight } from './ConsensusStateWithHeight'
 
 /**
- * ClientConsensusStates defines all the stored consensus states for a given client/
+ * ClientConsensusStates defines all the stored consensus states for a given client.
  */
 export class ClientConsensusStates extends JSONSerializable<
   ClientConsensusStates.Amino,

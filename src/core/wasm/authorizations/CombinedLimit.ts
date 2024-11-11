@@ -3,6 +3,10 @@ import { Coins } from '../../Coins'
 import { CombinedLimit as CombinedLimit_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * CombinedLimit defines the maximal amounts that can be sent to a contract and
+ * the maximal number of calls executable. Both need to remain >0 to be valid.
+ */
 export class CombinedLimit extends JSONSerializable<
   CombinedLimit.Amino,
   CombinedLimit.Data,
@@ -10,6 +14,10 @@ export class CombinedLimit extends JSONSerializable<
 > {
   public amounts: Coins
 
+  /**
+   * @param calls_remaining number that is decremented on each execution
+   * @param amounts the maximal amount of tokens transferable to the contract
+   */
   constructor(
     public calls_remaining: number,
     amounts: Coins.Input

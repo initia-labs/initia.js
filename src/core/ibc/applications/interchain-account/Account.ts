@@ -3,7 +3,7 @@ import { BaseAccount } from '../../../..'
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain
+ * An InterchainAccount is defined as a BaseAccount & the address of the account owner on the controller chain.
  */
 export class InterchainAccount extends JSONSerializable<
   InterchainAccount.Amino,

@@ -2,11 +2,17 @@ import { JSONSerializable } from '../../../util/json'
 import { AcceptedMessageKeysFilter as AcceptedMessageKeysFilter_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * AcceptedMessageKeysFilter accepts only the specific contract message keys in the json object to be executed.
+ */
 export class AcceptedMessageKeysFilter extends JSONSerializable<
   AcceptedMessageKeysFilter.Amino,
   AcceptedMessageKeysFilter.Data,
   AcceptedMessageKeysFilter.Proto
 > {
+  /**
+   * @param keys the list of unique keys
+   */
   constructor(public keys: string[]) {
     super()
   }

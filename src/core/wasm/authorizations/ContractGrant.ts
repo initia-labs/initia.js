@@ -5,6 +5,9 @@ import { ContractFilter } from './ContractFilter'
 import { ContractGrant as ContractGrant_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * ContractGrant is a granted permission for a single contract.
+ */
 export class ContractGrant extends JSONSerializable<
   ContractGrant.Amino,
   ContractGrant.Data,

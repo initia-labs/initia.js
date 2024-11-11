@@ -409,7 +409,7 @@ export class TxAPI extends BaseAPI {
    * Broadcast the transaction using "sync" mode, then wait for its inclusion in a block.
    * This method polls txInfo using the txHash to confirm the transaction's execution.
    * @param tx transaction to broadcast
-   * @param timeout time in milliseconds to wait for transaction to be included in a block. defaults to 30000
+   * @param timeout time in milliseconds to wait for transaction to be included in a block (default: 30000)
    */
   public async broadcast(
     tx: Tx | string,

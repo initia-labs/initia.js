@@ -5,7 +5,7 @@ import { EthPublicKey, SimplePublicKey } from '../core'
 import keccak256 from 'keccak256'
 
 /**
- * An implementation of the Key interfaces that uses a raw private key.
+ * RawKey is an implementation of the Key interfaces that uses a raw private key.
  */
 export class RawKey extends Key {
   /**

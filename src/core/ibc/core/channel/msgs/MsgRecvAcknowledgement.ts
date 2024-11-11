@@ -5,7 +5,7 @@ import { MsgAcknowledgement as MsgAcknowledgement_pb } from '@initia/initia.prot
 import { Packet, Height } from '../../../core'
 
 /**
- * MsgAcknowledgement receives incoming IBC acknowledgement
+ * MsgAcknowledgement receives incoming IBC acknowledgement.
  */
 export class MsgAcknowledgement extends JSONSerializable<
   any,

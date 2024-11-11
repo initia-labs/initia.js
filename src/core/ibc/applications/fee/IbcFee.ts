@@ -3,19 +3,17 @@ import { Coins } from '../../../Coins'
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * Fee defines the ICS29 receive, acknowledgement and timeout fees
+ * Fee defines the ICS29 receive, acknowledgement and timeout fees.
  */
 export class IbcFee extends JSONSerializable<
   IbcFee.Amino,
   IbcFee.Data,
   IbcFee.Proto
 > {
-  /** the packet receive fee */
   public recv_fee: Coins
-  /** the packet acknowledgement fee */
   public ack_fee: Coins
-  /** the packet timeout fee */
   public timeout_fee: Coins
+
   /**
    * @param recv_fee the packet receive fee
    * @param ack_fee the packet acknowledgement fee

@@ -13,8 +13,8 @@ export class AllowedMsgAllowance extends JSONSerializable<
   AllowedMsgAllowance.Proto
 > {
   /**
-   * @param allowance any of basic and periodic fee allowance.
-   * @param allowed_messages the messages for which the grantee has the access.
+   * @param allowance any of basic and periodic fee allowance
+   * @param allowed_messages the messages for which the grantee has the access
    */
   constructor(
     public allowance: BasicAllowance | PeriodicAllowance,

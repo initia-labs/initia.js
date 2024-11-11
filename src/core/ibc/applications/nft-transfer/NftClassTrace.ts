@@ -1,6 +1,9 @@
 import { ClassTrace as NftClassTrace_pb } from '@initia/initia.proto/ibc/applications/nft_transfer/v1/types'
 import { JSONSerializable } from '../../../../util/json'
 
+/**
+ * NftClassTrace contains the base class id for ICS721 non fungible tokens and the source tracing information path.
+ */
 export class NftClassTrace extends JSONSerializable<
   NftClassTrace.Amino,
   NftClassTrace.Data,

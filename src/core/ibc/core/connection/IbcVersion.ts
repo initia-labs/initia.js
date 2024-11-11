@@ -1,7 +1,7 @@
 import { Version as Version_pb } from '@initia/initia.proto/ibc/core/connection/v1/connection'
 import { JSONSerializable } from '../../../../util/json'
 
-/*
+/**
  * IbcVersion defines the versioning scheme used to negotiate the IBC version in the connection handshake.
  */
 export class IbcVersion extends JSONSerializable<

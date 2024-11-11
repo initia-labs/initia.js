@@ -1,14 +1,16 @@
 import { JSONSerializable } from '../../../../util/json'
 import { Counterparty as Counterparty_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 
-/** ChannelCounterparty defines a channel end ChannelCounterparty */
+/**
+ * ChannelCounterparty defines a channel end ChannelCounterparty.
+ */
 export class ChannelCounterparty extends JSONSerializable<
   ChannelCounterparty.Amino,
   ChannelCounterparty.Data,
   ChannelCounterparty.Proto
 > {
   /**
-   * @param port_id port on the ChannelCounterparty chain which owns the other end of the channel.
+   * @param port_id port on the ChannelCounterparty chain which owns the other end of the channel
    * @param channel_id channel end on the ChannelCounterparty chain
    */
   constructor(

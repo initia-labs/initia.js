@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgClearAdmin as MsgClearAdmin_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgClearAdmin removes any admin stored for a smart contract.
+ */
 export class MsgClearAdmin extends JSONSerializable<
   MsgClearAdmin.Amino,
   MsgClearAdmin.Data,

@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../../../../util/json'
 import { Coins } from '../../../../Coins'
 import { Allocation as Allocation_pb } from '@initia/initia.proto/ibc/applications/transfer/v1/authz'
 
+/**
+ * Allocation defines the spend limit for a particular port and channel.
+ */
 export class Allocation extends JSONSerializable<
   Allocation.Amino,
   Allocation.Data,

@@ -3,6 +3,10 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgPinCodes as MsgPinCodes_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgPinCodes defines a governance operation for pinning a set of
+ * code ids in the wasmvm cache. The authority is defined in the keeper.
+ */
 export class MsgPinCodes extends JSONSerializable<
   MsgPinCodes.Amino,
   MsgPinCodes.Data,

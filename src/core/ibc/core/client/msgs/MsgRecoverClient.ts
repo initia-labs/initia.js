@@ -4,7 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRecoverClient as MsgRecoverClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
- * MsgRecoverClient defines the message used to recover a frozen or expired client
+ * MsgRecoverClient defines the message used to recover a frozen or expired client.
  */
 export class MsgRecoverClient extends JSONSerializable<
   any,

@@ -17,7 +17,9 @@ import {
 import { Consensus } from './version'
 import { PublicKey } from './crypto'
 
-/** Header defines the structure of a Tendermint block header. */
+/**
+ * Header defines the structure of a Tendermint block header.
+ */
 export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
   /**
    * @param total
@@ -278,7 +280,6 @@ export namespace SignedHeader {
   export type Proto = SignedHeader_pb
 }
 
-/** BlockID */
 export class BlockID extends JSONSerializable<
   any,
   BlockID.Data,
@@ -346,7 +347,6 @@ export namespace BlockID {
   export type Proto = BlockID_pb
 }
 
-/** PartsetHeader */
 export class PartSetHeader extends JSONSerializable<
   any,
   PartSetHeader.Data,
@@ -409,7 +409,9 @@ export namespace PartSetHeader {
   export type Proto = PartSetHeader_pb
 }
 
-/** Commit contains the evidence that a block was committed by a set of validators. */
+/**
+ * Commit contains the evidence that a block was committed by a set of validators.
+ */
 export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   /**
    * @param height
@@ -486,7 +488,9 @@ export namespace Commit {
   export type Proto = Commit_pb
 }
 
-/** CommitSig is a part of the Vote included in a Commit. */
+/**
+ * CommitSig is a part of the Vote included in a Commit.
+ */
 export class CommitSig extends JSONSerializable<
   any,
   CommitSig.Data,

@@ -19,21 +19,21 @@ export class GovParams extends JSONSerializable<
 
   /**
    * @param min_deposit min deposit for a proposal to enter voting period
-   * @param max_deposit_period max period for holders to deposit on a proposal. Initial value: 2 months
+   * @param max_deposit_period max period for holders to deposit on a proposal (initial value: 2 months)
    * @param voting_period duration of the voting period
    * @param quorum min percentage of total stake needed to vote for a result to be considered valid
-   * @param threshold min proportion of Yes votes for proposal to pass. Default value: 0.5
-   * @param veto_threshold min value of Veto votes to Total votes ratio for proposal to be vetoed. Default value: 1/3
+   * @param threshold min proportion of Yes votes for proposal to pass (default: 0.5)
+   * @param veto_threshold min value of Veto votes to Total votes ratio for proposal to be vetoed (default: 1/3)
    * @param min_initial_deposit_ratio the ratio representing the proportion of the deposit value that must be paid at proposal submission
    * @param proposal_cancel_ratio the cancel ratio which will not be returned back to the depositors when a proposal is cancelled
    * @param proposal_cancel_dest the address which will receive (proposal_cancel_ratio * deposit) proposal deposits; If empty, the proposal deposits will be burned
    * @param expedited_voting_period duration of the voting period of an expedited proposal
-   * @param expedited_threshold min proportion of Yes votes for proposal to pass. Default value: 0.67
+   * @param expedited_threshold min proportion of Yes votes for proposal to pass (default: 0.67)
    * @param expedited_min_deposit min expedited deposit for a proposal to enter voting period
    * @param burn_vote_quorum burn deposits if a proposal does not meet quorum
    * @param burn_proposal_deposit_prevote burn deposits if the proposal does not enter voting period
    * @param burn_vote_veto burn deposits if quorum with vote type no_veto is met
-   * @param min_deposit_ratio the proportion of the deposit value minimum that must be met when making a deposit. Default value: 0.01
+   * @param min_deposit_ratio the proportion of the deposit value minimum that must be met when making a deposit (default: 0.01)
    * @param emergency_min_deposit min deposit for a emergency proposal to enter voting period
    * @param emergency_tally_interval tally interval for emergency proposal
    * @param low_threshold_functions low threshold functions for emergency and expedited proposal

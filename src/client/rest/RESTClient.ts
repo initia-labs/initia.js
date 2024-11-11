@@ -165,7 +165,9 @@ export class RESTClient {
     this.wasm = new WasmAPI(this.apiRequester)
   }
 
-  /** Creates a new wallet with the Key. */
+  /**
+   * Creates a new wallet with the Key.
+   */
   public wallet(key: Key): Wallet {
     return new Wallet(this, key)
   }

@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateAdmin as MsgUpdateAdmin_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgUpdateAdmin sets a new admin for a smart contract.
+ */
 export class MsgUpdateAdmin extends JSONSerializable<
   MsgUpdateAdmin.Amino,
   MsgUpdateAdmin.Data,

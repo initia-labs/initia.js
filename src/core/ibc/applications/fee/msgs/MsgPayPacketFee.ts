@@ -4,8 +4,10 @@ import { MsgPayPacketFee as MsgPayPacketFee_pb } from '@initia/initia.proto/ibc/
 import { IbcFee } from '../IbcFee'
 
 /**
- * MsgPayPacketFee defines the request type for the PayPacketFee rpc
- * This Msg can be used to pay for a packet at the next sequence send & should be combined with the Msg that will be paid for
+ * MsgPayPacketFee is an open callback that may be called by any module/user that wishes to escrow funds in order to
+ * incentivize the relaying of the packet at the next sequence.
+ * NOTE: This method is intended to be used within a multi msg transaction, where the subsequent msg that follows
+ * initiates the lifecycle of the incentivized packet.
  */
 export class MsgPayPacketFee extends JSONSerializable<
   any,

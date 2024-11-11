@@ -11,7 +11,7 @@ export class Params extends JSONSerializable<
   Params.Proto
 > {
   /**
-   * @param host_enabled host_enabled enables or disables the host submodule.
+   * @param host_enabled host_enabled enables or disables the host submodule
    */
   constructor(
     public host_enabled: boolean,

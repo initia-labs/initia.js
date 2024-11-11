@@ -5,7 +5,7 @@ import { MsgIBCSoftwareUpgrade as MsgIBCSoftwareUpgrade_pb } from '@initia/initi
 import { Plan } from '../../../../upgrade'
 
 /**
- * MsgIBCSoftwareUpgrade defines the message used to schedule an upgrade of an IBC client using a v1 governance proposal
+ * MsgIBCSoftwareUpgrade defines the message used to schedule an upgrade of an IBC client using a v1 governance proposal.
  */
 export class MsgIBCSoftwareUpgrade extends JSONSerializable<
   any,

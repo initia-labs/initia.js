@@ -2,6 +2,9 @@ import { JSONSerializable } from '../../../util/json'
 import { AllowAllMessagesFilter as AllowAllMessagesFilter_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * AllowAllMessagesFilter is a wildcard to allow any type of contract payload message.
+ */
 export class AllowAllMessagesFilter extends JSONSerializable<
   AllowAllMessagesFilter.Amino,
   AllowAllMessagesFilter.Data,

@@ -3,6 +3,9 @@ import { Coins } from '../../Coins'
 import { MaxFundsLimit as MaxFundsLimit_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MaxFundsLimit defines the maximal amounts that can be sent to the contract.
+ */
 export class MaxFundsLimit extends JSONSerializable<
   MaxFundsLimit.Amino,
   MaxFundsLimit.Data,
@@ -10,6 +13,9 @@ export class MaxFundsLimit extends JSONSerializable<
 > {
   public amounts: Coins
 
+  /**
+   * @param amounts the maximal amount of tokens transferable to the contract
+   */
   constructor(amounts: Coins.Input) {
     super()
     this.amounts = new Coins(amounts)

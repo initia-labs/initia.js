@@ -2,11 +2,17 @@ import { JSONSerializable } from '../../../util/json'
 import { AcceptedMessagesFilter as AcceptedMessagesFilter_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * AcceptedMessagesFilter accepts only the specific raw contract messages to be executed.
+ */
 export class AcceptedMessagesFilter extends JSONSerializable<
   AcceptedMessagesFilter.Amino,
   AcceptedMessagesFilter.Data,
   AcceptedMessagesFilter.Proto
 > {
+  /**
+   * @param keys the list of raw contract messages
+   */
   constructor(public messages: string[]) {
     super()
   }

@@ -19,7 +19,7 @@ export class MsgSetSendEnabled extends JSONSerializable<
   /**
    * @param authority
    * @param send_enabled the list of entries to add or update
-   * @param use_default_for a list of denoms that should use the params.default_send_enabled value
+   * @param use_default_for a list of denoms that should use the default_send_enabled value
    */
   constructor(
     public authority: AccAddress,

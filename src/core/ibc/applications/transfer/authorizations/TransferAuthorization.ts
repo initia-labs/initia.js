@@ -3,11 +3,18 @@ import { TransferAuthorization as TransferAuthorization_pb } from '@initia/initi
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { Allocation } from './Allocation'
 
+/**
+ * TransferAuthorization allows the grantee to spend up to spend_limit coins from
+ * the granter's account for ibc transfer on a specific channel.
+ */
 export class TransferAuthorization extends JSONSerializable<
   any,
   TransferAuthorization.Data,
   TransferAuthorization.Proto
 > {
+  /**
+   * @param allocations port and channel amounts
+   */
   constructor(public allocations: Allocation[]) {
     super()
   }

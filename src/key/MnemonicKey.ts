@@ -41,7 +41,7 @@ const DEFAULT_OPTIONS = {
 }
 
 /**
- * Implements a BIP39 mnemonic wallet with standard key derivation from a word list. Note
+ * MnemonicKey implements a BIP39 mnemonic wallet with standard key derivation from a word list. Note
  * that this implementation exposes the private key in memory, so it is not advised to use
  * for applications requiring high security.
  */

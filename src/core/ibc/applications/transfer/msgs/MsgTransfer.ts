@@ -6,7 +6,9 @@ import { MsgTransfer as MsgTransfer_pb } from '@initia/initia.proto/ibc/applicat
 import { Height } from '../../../core/client/Height'
 
 /**
- * A basic message for transfer [[Coin]] via IBC.
+ * MsgTransfer defines a msg to transfer fungible tokens (i.e Coins) between
+ * ICS20 enabled chains. See ICS Spec here:
+ * https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures
  */
 export class MsgTransfer extends JSONSerializable<
   MsgTransfer.Amino,
@@ -17,18 +19,18 @@ export class MsgTransfer extends JSONSerializable<
   public source_channel: string
   public token?: Coin
   public sender: AccAddress
-  public receiver: string // destination chain can be non-cosmos-based
-  public timeout_height?: Height // 0 to disable
-  public timeout_timestamp?: string // 0 to disable
+  public receiver: string
+  public timeout_height?: Height
+  public timeout_timestamp?: string
   public memo?: string
   /**
    * @param source_port the port on which the packet will be sent
    * @param source_channel  the channel by which the packet will be sent
    * @param token the tokens to be transferred
    * @param sender the sender address
-   * @param receiver the recipient address on the destination chain
-   * @param timeout_height timeout height relative to the current block height. (0 to disable)
-   * @param timeout_timestamp timeout timestamp (in nanoseconds) relative to the current block timestamp. (0 to disable)
+   * @param receiver the recipient address on the destination chain (can be non-cosmos-based)
+   * @param timeout_height timeout height relative to the current block height (0 to disable)
+   * @param timeout_timestamp timeout timestamp (in nanoseconds) relative to the current block timestamp (0 to disable)
    * @param memo optional memo
    */
   constructor(

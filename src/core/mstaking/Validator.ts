@@ -221,7 +221,7 @@ export namespace Validator {
     Description.Proto
   > {
     /**
-     * @param moniker Identifying name, e.g. "Hashed"
+     * @param moniker identifying name, e.g. "Hashed"
      * @param identity time at which commission was last updated
      * @param website validator's website
      * @param details long description

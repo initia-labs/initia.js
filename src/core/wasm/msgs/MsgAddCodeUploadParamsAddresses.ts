@@ -3,6 +3,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgAddCodeUploadParamsAddresses as MsgAddCodeUploadParamsAddresses_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgAddCodeUploadParamsAddresses defines a governance operation for
+ * adding addresses to code upload params.
+ * The authority is defined in the keeper.
+ */
 export class MsgAddCodeUploadParamsAddresses extends JSONSerializable<
   MsgAddCodeUploadParamsAddresses.Amino,
   MsgAddCodeUploadParamsAddresses.Data,

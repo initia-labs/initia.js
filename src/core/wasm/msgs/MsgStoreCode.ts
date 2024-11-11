@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgStoreCode as MsgStoreCode_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 import { AccessConfig } from '../AccessConfig'
 
+/**
+ * MsgStoreCode defines a message to submit Wasm code to the system.
+ */
 export class MsgStoreCode extends JSONSerializable<
   MsgStoreCode.Amino,
   MsgStoreCode.Data,

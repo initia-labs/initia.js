@@ -11,9 +11,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
  */
 export class TxInfo {
   /**
-   * @param height height of the block in which the transaction was included.
-   * @param txhash transaction's hash.
-   * @param raw_log raw log information, as a string.
+   * @param height height of the block in which the transaction was included
+   * @param txhash transaction's hash
+   * @param raw_log raw log information, as a string
    * @param logs log information
    * @param gas_wanted gas limited submitted in fee
    * @param gas_used actual gas consumption

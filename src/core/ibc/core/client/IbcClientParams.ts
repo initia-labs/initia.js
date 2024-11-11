@@ -10,7 +10,7 @@ export class IbcClientParams extends JSONSerializable<
   IbcClientParams.Proto
 > {
   /**
-   * @param allowed_clients the list of allowed client state types.
+   * @param allowed_clients the list of allowed client state types
    */
   constructor(public allowed_clients: string[]) {
     super()

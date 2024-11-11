@@ -2,14 +2,16 @@ import { Packet as Packet_pb } from '@initia/initia.proto/ibc/core/channel/v1/ch
 import { JSONSerializable } from '../../../../util/json'
 import { Height } from '../client/Height'
 
-/** Packet defines a type that carries data across different chains through IBC */
+/**
+ * Packet defines a type that carries data across different chains through IBC.
+ */
 export class Packet extends JSONSerializable<
   Packet.Amino,
   Packet.Data,
   Packet.Proto
 > {
   /**
-   * @param port_id port on the counterparty chain which owns the other end of the channel.
+   * @param port_id port on the counterparty chain which owns the other end of the channel
    * @param channel_id channel end on the counterparty chain
    */
   constructor(

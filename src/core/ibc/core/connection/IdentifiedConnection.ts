@@ -11,7 +11,7 @@ import { ConnectionCounterparty } from './ConnectionCounterparty'
 export { State, stateFromJSON, stateToJSON }
 
 /**
- * IdentifiedConnection defines a connection with additional connection identifier field
+ * IdentifiedConnection defines a connection with additional connection identifier field.
  */
 export class IdentifiedConnection extends JSONSerializable<
   IdentifiedConnection.Amino,
@@ -20,7 +20,7 @@ export class IdentifiedConnection extends JSONSerializable<
 > {
   /**
    * @param id connection identifier
-   * @param client_id client associated with this connection.
+   * @param client_id client associated with this connection
    * @param versions IBC version which can be utilised to determine encodings or protocols for channels or packets utilising this connection
    * @param state current state of the connection end
    * @param counterparty counterparty chain associated with this connection

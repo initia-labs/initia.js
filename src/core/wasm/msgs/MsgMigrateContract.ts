@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgMigrateContract as MsgMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgMigrateContract runs a code upgrade/ downgrade for a smart contract.
+ */
 export class MsgMigrateContract extends JSONSerializable<
   MsgMigrateContract.Amino,
   MsgMigrateContract.Data,

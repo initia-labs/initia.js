@@ -5,7 +5,7 @@ import { MsgTimeout as MsgTimeout_pb } from '@initia/initia.proto/ibc/core/chann
 import { Packet, Height } from '../../../core'
 
 /**
- * MsgTimeout receives timed-out packet
+ * MsgTimeout receives timed-out packet.
  */
 export class MsgTimeout extends JSONSerializable<
   any,

@@ -2,16 +2,18 @@ import { JSONSerializable } from '../../../../util/json'
 import { Counterparty as Counterparty_pb } from '@initia/initia.proto/ibc/core/connection/v1/connection'
 import { MerklePrefix } from '../commitment/MerklePrefix'
 
-/** ConnectionCounterparty defines the ConnectionCounterparty chain associated with a connection end */
+/**
+ * ConnectionCounterparty defines the ConnectionCounterparty chain associated with a connection end.
+ */
 export class ConnectionCounterparty extends JSONSerializable<
   ConnectionCounterparty.Amino,
   ConnectionCounterparty.Data,
   ConnectionCounterparty.Proto
 > {
   /**
-   * @param client_id identifies the client on the ConnectionCounterparty chain associated with a given connection.
-   * @param connection_id identifies the connection end on the ConnectionCounterparty chain associated with a given connection.
-   * @param prefix commitment merkle prefix of the ConnectionCounterparty chain.
+   * @param client_id identifies the client on the ConnectionCounterparty chain associated with a given connection
+   * @param connection_id identifies the connection end on the ConnectionCounterparty chain associated with a given connection
+   * @param prefix commitment merkle prefix of the ConnectionCounterparty chain
    */
   constructor(
     public client_id: string,

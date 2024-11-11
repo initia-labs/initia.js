@@ -5,7 +5,9 @@ import { MsgTransfer as MsgTransfer_pb } from '@initia/initia.proto/ibc/applicat
 import { Height } from '../../../core/client/Height'
 
 /**
- * A basic message for NFT transfer via IBC.
+ * MsgNftTransfer defines a msg to transfer non-fungible tokens (i.e NFTs) between
+ * ics721-1 enabled chains. See ICS Spec here:
+ * https://github.com/cosmos/ibc/tree/main/spec/app/ics-721-nft-transfer
  */
 export class MsgNftTransfer extends JSONSerializable<
   MsgNftTransfer.Amino,
@@ -17,9 +19,9 @@ export class MsgNftTransfer extends JSONSerializable<
   public class_id: string
   public token_ids: string[]
   public sender: AccAddress
-  public receiver: string // destination chain can be non-cosmos-based
-  public timeout_height?: Height // 0 to disable
-  public timeout_timestamp?: string // 0 to disable
+  public receiver: string
+  public timeout_height?: Height
+  public timeout_timestamp?: string
   public memo?: string
   /**
    * @param source_port the port on which the packet will be sent
@@ -27,9 +29,9 @@ export class MsgNftTransfer extends JSONSerializable<
    * @param class_id the struct tag of the extension
    * @param token_ids the token ids of the NFT
    * @param sender the sender address
-   * @param receiver the recipient address on the destination chain
-   * @param timeout_height Timeout height relative to the current block height. (0 to disable)
-   * @param timeout_timestamp Timeout timestamp (in nanoseconds) relative to the current block timestamp. (0 to disable)
+   * @param receiver the recipient address on the destination chain (can be non-cosmos-based)
+   * @param timeout_height Timeout height relative to the current block height (0 to disable)
+   * @param timeout_timestamp Timeout timestamp (in nanoseconds) relative to the current block timestamp (0 to disable)
    * @param memo optional memo
    */
   constructor(

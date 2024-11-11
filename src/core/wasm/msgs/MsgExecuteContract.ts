@@ -4,6 +4,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgExecuteContract as MsgExecuteContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgExecuteContract submits the given message data to a smart contract.
+ */
 export class MsgExecuteContract extends JSONSerializable<
   MsgExecuteContract.Amino,
   MsgExecuteContract.Data,

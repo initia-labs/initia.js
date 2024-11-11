@@ -5,7 +5,7 @@ import { MsgChannelOpenTry as MsgChannelOpenTry_pb } from '@initia/initia.proto/
 import { Channel, Height } from '../../../core'
 
 /**
- * MsgChannelOpenTry defines a msg sent by a Relayer to try to open a channel on Chain B
+ * MsgChannelOpenTry defines a msg sent by a Relayer to try to open a channel on Chain B.
  */
 export class MsgChannelOpenTry extends JSONSerializable<
   any,

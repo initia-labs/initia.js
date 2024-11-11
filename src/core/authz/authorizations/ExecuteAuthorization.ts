@@ -78,6 +78,9 @@ export class ExecuteAuthorization extends JSONSerializable<
   }
 }
 
+/**
+ * ExecuteAuthorizationItem is the information for granting module execution.
+ */
 export class ExecuteAuthorizationItem extends JSONSerializable<
   any,
   ExecuteAuthorizationItem.Data,

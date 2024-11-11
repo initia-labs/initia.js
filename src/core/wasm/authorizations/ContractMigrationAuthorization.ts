@@ -3,11 +3,17 @@ import { ContractMigrationAuthorization as ContractMigrationAuthorization_pb } f
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { ContractGrant } from './ContractGrant'
 
+/**
+ * ContractMigrationAuthorization defines authorization for wasm contract migration.
+ */
 export class ContractMigrationAuthorization extends JSONSerializable<
   ContractMigrationAuthorization.Amino,
   ContractMigrationAuthorization.Data,
   ContractMigrationAuthorization.Proto
 > {
+  /**
+   * @param grants grants for contract migrations
+   */
   constructor(public grants: ContractGrant[]) {
     super()
   }

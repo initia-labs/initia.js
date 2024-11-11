@@ -4,6 +4,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgInstantiateContract2 as MsgInstantiateContract2_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgInstantiateContractV2 creates a new smart contract instance for the given code id with a predictable address.
+ */
 export class MsgInstantiateContractV2 extends JSONSerializable<
   MsgInstantiateContractV2.Amino,
   MsgInstantiateContractV2.Data,

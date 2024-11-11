@@ -24,7 +24,15 @@ import { Fee } from './Fee'
 import { SignatureV2 } from './SignatureV2'
 import { SignerData } from '../../client'
 
+/**
+ * Tx is the standard type used for broadcasting transactions.
+ */
 export class Tx {
+  /**
+   * @param body the processable content of the transaction
+   * @param auth_info the authorization related content of the transaction (signers, signer modes, fee)
+   * @param signatures list of signatures that matches the length and order of signer_infos
+   */
   constructor(
     public body: TxBody,
     public auth_info: AuthInfo,
@@ -165,7 +173,15 @@ export namespace Tx {
   export type Proto = Tx_pb
 }
 
+/**
+ * TxBody is the body of a transaction that all signers sign over.
+ */
 export class TxBody {
+  /**
+   * @param messages list of messages to be executed
+   * @param memo any arbitrary note/comment to be added to the transaction
+   * @param timeout_height the block height after which this transaction will not be processed by the chain
+   */
   constructor(
     public messages: Msg[],
     public memo?: string,
@@ -218,7 +234,14 @@ export namespace TxBody {
   export type Proto = TxBody_pb
 }
 
+/**
+ * AuthInfo describes the fee and signer modes that are used to sign a transaction.
+ */
 export class AuthInfo {
+  /**
+   * @param signer_infos the signing modes for the required signers
+   * @param fee the fee and gas limit for the transaction
+   */
   constructor(
     public signer_infos: SignerInfo[],
     public fee: Fee
@@ -265,7 +288,15 @@ export namespace AuthInfo {
   export type Proto = AuthInfo_pb
 }
 
+/**
+ * SignerInfo describes the public key and signing mode of a single top-level signer.
+ */
 export class SignerInfo {
+  /**
+   * @param public_key the public key of the signer
+   * @param sequence the number of committed transactions signed by a given address
+   * @param mode_info the signing mode of the signer
+   */
   constructor(
     public public_key: PublicKey,
     public sequence: number,
@@ -317,9 +348,16 @@ export namespace SignerInfo {
   export type Proto = SignerInfo_pb
 }
 
+/**
+ * ModeInfo describes the signing mode of a single or nested multisig signer.
+ */
 export class ModeInfo {
   public single?: ModeInfo.Single
   public multi?: ModeInfo.Multi
+
+  /**
+   * @param mode_info the oneof that specifies whether this represents a single or nested multisig signer
+   */
   constructor(mode_info: ModeInfo.Single | ModeInfo.Multi) {
     if (mode_info instanceof ModeInfo.Single) {
       this.single = mode_info

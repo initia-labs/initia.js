@@ -2,11 +2,18 @@ import { JSONSerializable } from '../../../util/json'
 import { CodeGrant as CodeGrant_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { AccessConfig } from '../AccessConfig'
 
+/**
+ * CodeGrant is a granted permission for a single code.
+ */
 export class CodeGrant extends JSONSerializable<
   CodeGrant.Amino,
   CodeGrant.Data,
   CodeGrant.Proto
 > {
+  /**
+   * @param code_hash the unique identifier created by wasmvm (wildcard "*" is used to specify any kind of grant)
+   * @param instantiate_permission the superset access control to apply on contract creation (optional)
+   */
   constructor(
     public code_hash: string,
     public instantiate_permission?: AccessConfig

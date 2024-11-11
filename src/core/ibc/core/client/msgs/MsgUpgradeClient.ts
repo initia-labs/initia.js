@@ -4,7 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpgradeClient as MsgUpgradeClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
- * MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client state
+ * MsgUpgradeClient defines an sdk.Msg to upgrade an IBC client to a new client state.
  */
 export class MsgUpgradeClient extends JSONSerializable<
   any,

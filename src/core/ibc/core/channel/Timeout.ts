@@ -2,6 +2,11 @@ import { JSONSerializable } from '../../../../util/json'
 import { Timeout as Timeout_pb } from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { Height } from '../client'
 
+/**
+ * Timeout defines an execution deadline structure for 04-channel handlers.
+ * This includes packet lifecycle handlers as well as the upgrade handshake handlers.
+ * A valid Timeout contains either one or both of a timestamp and block height (sequence).
+ */
 export class Timeout extends JSONSerializable<
   Timeout.Amino,
   Timeout.Data,

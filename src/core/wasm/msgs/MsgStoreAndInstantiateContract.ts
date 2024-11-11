@@ -5,6 +5,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgStoreAndInstantiateContract as MsgStoreAndInstantiateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 import { AccessConfig } from '../AccessConfig'
 
+/**
+ * MsgStoreAndInstantiateContract defines a governance operation for storing
+ * and instantiating the contract. The authority is defined in the keeper.
+ */
 export class MsgStoreAndInstantiateContract extends JSONSerializable<
   MsgStoreAndInstantiateContract.Amino,
   MsgStoreAndInstantiateContract.Data,

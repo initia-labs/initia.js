@@ -106,6 +106,9 @@ export namespace Vote {
   export type Proto = Vote_pb
 }
 
+/**
+ * WeightedVoteOption defines a unit of vote for vote split.
+ */
 export class WeightedVoteOption extends JSONSerializable<
   WeightedVoteOption.Amino,
   WeightedVoteOption.Data,

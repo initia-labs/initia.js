@@ -180,7 +180,7 @@ export class IbcAPI extends BaseAPI {
 
   /**
    * Query the status of an IBC light client
-   * @param client_id client state unique ident.ifier
+   * @param client_id client state unique identifier
    */
   public async clientStatus(
     client_id: string,

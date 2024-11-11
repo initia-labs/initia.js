@@ -5,7 +5,7 @@ import { MsgRecvPacket as MsgRecvPacket_pb } from '@initia/initia.proto/ibc/core
 import { Packet, Height } from '../../../core'
 
 /**
- * MsgRecvPacket receives incoming IBC packet
+ * MsgRecvPacket receives incoming IBC packet.
  */
 export class MsgRecvPacket extends JSONSerializable<
   any,

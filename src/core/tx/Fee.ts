@@ -8,7 +8,6 @@ import { Fee as Fee_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/tx'
  * A transaction must include a fee, otherwise it will be rejected.
  */
 export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
-  /** Fee amount to be paid */
   public readonly amount: Coins
 
   /**

@@ -2,7 +2,7 @@ import { IdentifiedClientState as IdentifiedClientState_pb } from '@initia/initi
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * IdentifiedClientState defines a client state with an additional client identifier field
+ * IdentifiedClientState defines a client state with an additional client identifier field.
  */
 export class IdentifiedClientState extends JSONSerializable<
   IdentifiedClientState.Amino,

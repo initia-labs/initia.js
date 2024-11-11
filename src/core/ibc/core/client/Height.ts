@@ -4,14 +4,14 @@ import { JSONSerializable } from '../../../../util/json'
 /**
  * Height is a monotonically increasing data type
  * that can be compared against another Height for the purposes of updating and
- * freezing clients
+ * freezing clients.
  *
  * Normally the RevisionHeight is incremented at each height while keeping
  * RevisionNumber the same. However some consensus algorithms may choose to
  * reset the height in certain conditions e.g. hard forks, state-machine
  * breaking changes In these cases, the RevisionNumber is incremented so that
  * height continues to be monitonically increasing even as the RevisionHeight
- * gets reset
+ * gets reset.
  */
 export class Height extends JSONSerializable<
   Height.Amino,

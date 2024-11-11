@@ -2,7 +2,7 @@ import { Metadata as Metadata_pb } from '@initia/initia.proto/ibc/applications/i
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring
+ * Metadata defines a set of protocol specific data encoded into the ICS27 channel version bytestring.
  * See ICS004: https://github.com/cosmos/ibc/tree/master/spec/core/ics-004-channel-and-packet-semantics#Versioning
  */
 export class Metadata extends JSONSerializable<

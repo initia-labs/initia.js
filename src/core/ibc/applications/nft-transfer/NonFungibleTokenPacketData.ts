@@ -2,7 +2,7 @@ import { NonFungibleTokenPacketData as NonFungibleTokenPacketData_pb } from '@in
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * NonFungibleTokenPacketData defines a struct for the packet payload
+ * NonFungibleTokenPacketData defines a struct for the packet payload.
  * See NonFungibleTokenPacketData spec:
  * https://github.com/cosmos/ibc/tree/main/spec/app/ics-721-nft-transfer
  */

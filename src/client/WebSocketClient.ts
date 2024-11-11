@@ -136,7 +136,7 @@ export class WebSocketClient extends EventEmitter {
 
   /**
    * WebSocketClient constructor
-   * @param URL the websocket endpoint URL on the Tendermint RPC server.
+   * @param URL the websocket endpoint URL on the Tendermint RPC server
    *            Ex: ws://localhost:26657/websocket
    * @param reconnectCount 0 for not to attempt reconnect, -1 for infinite, > 0 for number of times to attempt
    * @param reconnectInterval retry interval in milliseconds

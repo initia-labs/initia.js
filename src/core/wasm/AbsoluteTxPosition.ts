@@ -1,6 +1,9 @@
 import { JSONSerializable } from '../../util/json'
 import { AbsoluteTxPosition as AbsoluteTxPosition_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/types'
 
+/**
+ * AbsoluteTxPosition is a unique transaction position that allows for global ordering of transactions.
+ */
 export class AbsoluteTxPosition extends JSONSerializable<
   AbsoluteTxPosition.Amino,
   AbsoluteTxPosition.Data,

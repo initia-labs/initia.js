@@ -2,7 +2,7 @@ import { FungibleTokenPacketData as FungibleTokenPacketData_pb } from '@initia/i
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * FungibleTokenPacketData defines a struct for the packet payload
+ * FungibleTokenPacketData defines a struct for the packet payload.
  * See FungibleTokenPacketData spec:
  * https://github.com/cosmos/ibc/tree/master/spec/app/ics-020-fungible-token-transfer#data-structures
  */

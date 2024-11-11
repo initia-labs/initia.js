@@ -3,6 +3,9 @@ import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdatePermissionedRelayers as MsgUpdatePermissionedRelayers_pb } from '@initia/initia.proto/ibc/applications/perm/v1/tx'
 
+/**
+ * MsgUpdatePermissionedRelayers defines msg to set permissioned relyer for the specific ibc channel.
+ */
 export class MsgUpdatePermissionedRelayers extends JSONSerializable<
   MsgUpdatePermissionedRelayers.Amino,
   MsgUpdatePermissionedRelayers.Data,

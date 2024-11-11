@@ -7,6 +7,9 @@ import {
   accessTypeToJSON,
 } from '@initia/initia.proto/cosmwasm/wasm/v1/types'
 
+/**
+ * AccessConfig defines access control type.
+ */
 export class AccessConfig extends JSONSerializable<
   AccessConfig.Amino,
   AccessConfig.Data,

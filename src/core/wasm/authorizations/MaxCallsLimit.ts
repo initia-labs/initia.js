@@ -2,11 +2,17 @@ import { JSONSerializable } from '../../../util/json'
 import { MaxCallsLimit as MaxCallsLimit_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/authz'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
+/**
+ * MaxCallsLimit is limited number of calls to the contract. No funds transferable.
+ */
 export class MaxCallsLimit extends JSONSerializable<
   MaxCallsLimit.Amino,
   MaxCallsLimit.Data,
   MaxCallsLimit.Proto
 > {
+  /**
+   * @param remaining remaining number that is decremented on each execution
+   */
   constructor(public remaining: number) {
     super()
   }

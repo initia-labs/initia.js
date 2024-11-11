@@ -3,7 +3,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRegisterCounterpartyPayee as MsgRegisterCounterpartyPayee_pb } from '@initia/initia.proto/ibc/applications/fee/v1/tx'
 
 /**
- * MsgRegisterCounterpartyPayee defines the request type for the RegisterCounterpartyPayee rpc
+ * MsgRegisterCounterpartyPayee is called by the relayer on each channelEnd and allows them to specify the counterparty
+ * payee address before relaying. This ensures they will be properly compensated for forward relaying since
+ * the destination chain must include the registered counterparty payee address in the acknowledgement. This function
+ * may be called more than once by a relayer, in which case, the latest counterparty payee address is always used.
  */
 export class MsgRegisterCounterpartyPayee extends JSONSerializable<
   any,

@@ -13,7 +13,7 @@ import {
 import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing'
 
 /**
- * Abstract key interface that provides transaction signing features and Bech32 address
+ * Key is an abstract key interface that provides transaction signing features and Bech32 address
  * and public key derivation from a public key. This allows you to create custom key
  * solutions, such as for various hardware wallets, by implementing signing and calling
  * `super` with the raw public key from within your subclass. See [[MnemonicKey]] for

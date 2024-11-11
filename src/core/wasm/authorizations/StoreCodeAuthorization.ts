@@ -3,11 +3,17 @@ import { StoreCodeAuthorization as StoreCodeAuthorization_pb } from '@initia/ini
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { CodeGrant } from './CodeGrant'
 
+/**
+ * StoreCodeAuthorization defines authorization for wasm code upload.
+ */
 export class StoreCodeAuthorization extends JSONSerializable<
   StoreCodeAuthorization.Amino,
   StoreCodeAuthorization.Data,
   StoreCodeAuthorization.Proto
 > {
+  /**
+   * @param grants grants for code upload
+   */
   constructor(public grants: CodeGrant[]) {
     super()
   }

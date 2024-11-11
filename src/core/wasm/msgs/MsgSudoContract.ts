@@ -3,6 +3,10 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgSudoContract as MsgSudoContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgSudoContract defines a governance operation for calling sudo
+ * on a contract. The authority is defined in the keeper.
+ */
 export class MsgSudoContract extends JSONSerializable<
   MsgSudoContract.Amino,
   MsgSudoContract.Data,

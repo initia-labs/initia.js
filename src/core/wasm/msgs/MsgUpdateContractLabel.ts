@@ -3,6 +3,9 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateContractLabel as MsgUpdateContractLabel_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgUpdateContractLabel sets a new label for a smart contract.
+ */
 export class MsgUpdateContractLabel extends JSONSerializable<
   MsgUpdateContractLabel.Amino,
   MsgUpdateContractLabel.Data,

@@ -3,6 +3,10 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUnpinCodes as MsgUnpinCodes_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgUnpinCodes defines a governance operation for unpinning a set of
+ * code ids in the wasmvm cache. The authority is defined in the keeper.
+ */
 export class MsgUnpinCodes extends JSONSerializable<
   MsgUnpinCodes.Amino,
   MsgUnpinCodes.Data,

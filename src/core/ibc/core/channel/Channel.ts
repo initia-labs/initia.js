@@ -7,16 +7,9 @@ import { JSONSerializable } from '../../../../util/json'
 import { ChannelCounterparty } from './ChannelCounterparty'
 
 /**
- * Channel is a monotonically increasing data type
- * that can be compared against another Channel for the purposes of updating and
- * freezing clients
- *
- * Normally the RevisionChannel is incremented at each height while keeping
- * RevisionNumber the same. However some consensus algorithms may choose to
- * reset the height in certain conditions e.g. hard forks, state-machine
- * breaking changes In these cases, the RevisionNumber is incremented so that
- * height continues to be monitonically increasing even as the RevisionChannel
- * gets reset
+ * Channel defines pipeline for exactly-once packet delivery between specific
+ * modules on separate blockchains, which has at least one end capable of
+ * sending packets and one end capable of receiving packets.
  */
 export class Channel extends JSONSerializable<
   Channel.Amino,

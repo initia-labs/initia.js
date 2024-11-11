@@ -2,9 +2,9 @@ import { PacketId as PacketId_pb } from '@initia/initia.proto/ibc/core/channel/v
 import { JSONSerializable } from '../../../../util/json'
 
 /**
- * PacketId is an identifer for a unique Packet
- * Source chains refer to packets by source port/channel
- * Destination chains refer to packets by destination port/channel
+ * PacketId is an identifer for a unique Packet.
+ * Source chains refer to packets by source port/channel.
+ * Destination chains refer to packets by destination port/channel.
  */
 export class PacketId extends JSONSerializable<
   PacketId.Amino,
@@ -12,7 +12,7 @@ export class PacketId extends JSONSerializable<
   PacketId.Proto
 > {
   /**
-   * @param port_id  channel port identifier
+   * @param port_id channel port identifier
    * @param channel_id channel unique identifier
    * @param sequence packet sequence
    */

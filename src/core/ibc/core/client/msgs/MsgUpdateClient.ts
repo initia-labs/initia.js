@@ -4,7 +4,7 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateClient as MsgUpdateClient_pb } from '@initia/initia.proto/ibc/core/client/v1/tx'
 
 /**
- * MsgUpdateClient defines an sdk.Msg to update a IBC client state using the given client message
+ * MsgUpdateClient defines an sdk.Msg to update a IBC client state using the given client message.
  */
 export class MsgUpdateClient extends JSONSerializable<
   any,

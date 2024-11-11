@@ -5,8 +5,8 @@ import { PacketId } from '../../../core/channel/PacketId'
 import { PacketFee } from '../PacketFee'
 
 /**
- * MsgPayPacketFeeAsync defines the request type for the PayPacketFeeAsync rpc
- * This Msg can be used to pay for a packet at a specified sequence (instead of the next sequence send)
+ * MsgPayPacketFeeAsync is an open callback that may be called by any module/user that wishes to escrow funds in order to
+ * incentivize the relaying of a known packet (i.e. at a particular sequence).
  */
 export class MsgPayPacketFeeAsync extends JSONSerializable<
   any,

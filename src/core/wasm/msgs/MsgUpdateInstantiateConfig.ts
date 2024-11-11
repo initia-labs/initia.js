@@ -4,6 +4,9 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgUpdateInstantiateConfig as MsgUpdateInstantiateConfig_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 import { AccessConfig } from '../AccessConfig'
 
+/**
+ * MsgUpdateInstantiateConfig updates instantiate config for a smart contract.
+ */
 export class MsgUpdateInstantiateConfig extends JSONSerializable<
   MsgUpdateInstantiateConfig.Amino,
   MsgUpdateInstantiateConfig.Data,

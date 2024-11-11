@@ -1,8 +1,10 @@
 import { MerkleRoot as MerkleRoot_pb } from '@initia/initia.proto/ibc/core/commitment/v1/commitment'
 import { JSONSerializable } from '../../../../util/json'
 
-// MerkleRoot defines a merkle root hash.
-// In the Cosmos SDK, the AppHash of a block header becomes the root.
+/**
+ * MerkleRoot defines a merkle root hash.
+ * In the Cosmos SDK, the AppHash of a block header becomes the root.
+ */
 export class MerkleRoot extends JSONSerializable<
   MerkleRoot.Amino,
   MerkleRoot.Data,

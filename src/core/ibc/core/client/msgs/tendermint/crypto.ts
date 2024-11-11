@@ -72,7 +72,9 @@ export namespace Proof {
   export type Proto = Proof_pb
 }
 
-/** PublicKey defines the keys available for use with Tendermint Validators */
+/**
+ * PublicKey defines the keys available for use with Tendermint Validators.
+ */
 export class PublicKey extends JSONSerializable<
   any,
   PublicKey.Data,

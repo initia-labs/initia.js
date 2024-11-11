@@ -3,6 +3,11 @@ import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRemoveCodeUploadParamsAddresses as MsgRemoveCodeUploadParamsAddresses_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 
+/**
+ * MsgRemoveCodeUploadParamsAddresses defines a governance operation for
+ * removing addresses from code upload params.
+ * The authority is defined in the keeper.
+ */
 export class MsgRemoveCodeUploadParamsAddresses extends JSONSerializable<
   MsgRemoveCodeUploadParamsAddresses.Amino,
   MsgRemoveCodeUploadParamsAddresses.Data,

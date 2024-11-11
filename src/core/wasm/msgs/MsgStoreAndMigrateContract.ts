@@ -4,6 +4,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgStoreAndMigrateContract as MsgStoreAndMigrateContract_pb } from '@initia/initia.proto/cosmwasm/wasm/v1/tx'
 import { AccessConfig } from '../AccessConfig'
 
+/**
+ * MsgStoreAndMigrateContract defines a governance operation for storing
+ * and migrating the contract. The authority is defined in the keeper.
+ */
 export class MsgStoreAndMigrateContract extends JSONSerializable<
   MsgStoreAndMigrateContract.Amino,
   MsgStoreAndMigrateContract.Data,
