@@ -62,16 +62,16 @@ export class Height extends JSONSerializable<
 
   public static fromProto(proto: Height.Proto): Height {
     return new Height(
-      proto.revisionNumber.toNumber(),
-      proto.revisionHeight.toNumber()
+      Number(proto.revisionNumber),
+      Number(proto.revisionHeight)
     )
   }
 
   public toProto(): Height.Proto {
     const { revision_number, revision_height } = this
     return Height_pb.fromPartial({
-      revisionNumber: revision_number,
-      revisionHeight: revision_height,
+      revisionNumber: BigInt(revision_number),
+      revisionHeight: BigInt(revision_height),
     })
   }
 }

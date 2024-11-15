@@ -107,7 +107,7 @@ export class SlashingParams extends JSONSerializable<
 
   public static fromProto(data: SlashingParams.Proto): SlashingParams {
     return new SlashingParams(
-      data.signedBlocksWindow.toNumber(),
+      Number(data.signedBlocksWindow),
       data.minSignedPerWindow.toString(),
       Duration.fromProto(data.downtimeJailDuration as Duration.Proto),
       data.slashFractionDoubleSign.toString(),
@@ -125,7 +125,7 @@ export class SlashingParams extends JSONSerializable<
     } = this
 
     return Params_pb.fromPartial({
-      signedBlocksWindow: signed_blocks_window,
+      signedBlocksWindow: BigInt(signed_blocks_window),
       minSignedPerWindow: Buffer.from(min_signed_per_window),
       downtimeJailDuration: downtime_jail_duration.toProto(),
       slashFractionDoubleSign: Buffer.from(slash_fraction_double_sign),

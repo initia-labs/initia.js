@@ -60,7 +60,7 @@ export class Deposit extends JSONSerializable<
 
   public static fromProto(data: Deposit.Proto): Deposit {
     return new Deposit(
-      data.proposalId.toNumber(),
+      Number(data.proposalId),
       data.depositor,
       Coins.fromProto(data.amount)
     )
@@ -69,7 +69,7 @@ export class Deposit extends JSONSerializable<
   public toProto(): Deposit.Proto {
     const { proposal_id, depositor, amount } = this
     return Deposit_pb.fromPartial({
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       depositor,
       amount: amount.toProto(),
     })

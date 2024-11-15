@@ -71,7 +71,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
   public static fromProto(data: MsgUpdateBatchInfo.Proto): MsgUpdateBatchInfo {
     return new MsgUpdateBatchInfo(
       data.authority,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       BatchInfo.fromProto(data.newBatchInfo as BatchInfo.Proto)
     )
   }
@@ -80,7 +80,7 @@ export class MsgUpdateBatchInfo extends JSONSerializable<
     const { authority, bridge_id, new_batch_info } = this
     return MsgUpdateBatchInfo_pb.fromPartial({
       authority,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       newBatchInfo: new_batch_info.toProto(),
     })
   }

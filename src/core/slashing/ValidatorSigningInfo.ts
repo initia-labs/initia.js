@@ -118,11 +118,11 @@ export class ValidatorSigningInfo extends JSONSerializable<
   ): ValidatorSigningInfo {
     return new ValidatorSigningInfo(
       data.address,
-      data.startHeight.toNumber(),
-      data.indexOffset.toNumber(),
+      Number(data.startHeight),
+      Number(data.indexOffset),
       data.jailedUntil as Date,
       data.tombstoned,
-      data.missedBlocksCounter.toNumber()
+      Number(data.missedBlocksCounter)
     )
   }
 
@@ -138,11 +138,11 @@ export class ValidatorSigningInfo extends JSONSerializable<
 
     return ValidatorSigningInfo_pb.fromPartial({
       address,
-      startHeight: start_height,
-      indexOffset: index_offset,
+      startHeight: BigInt(start_height),
+      indexOffset: BigInt(index_offset),
       jailedUntil: jailed_until,
       tombstoned,
-      missedBlocksCounter: missed_blocks_counter,
+      missedBlocksCounter: BigInt(missed_blocks_counter),
     })
   }
 }

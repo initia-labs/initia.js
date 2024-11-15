@@ -90,7 +90,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       proto.delegatorAddress,
       proto.validatorAddress,
       Coins.fromProto(proto.amount as Coins.Proto),
-      proto.creationHeight.toNumber()
+      Number(proto.creationHeight)
     )
   }
 
@@ -101,7 +101,7 @@ export class MsgCancelUnbondingDelegation extends JSONSerializable<
       amount: amount.toProto(),
       delegatorAddress: delegator_address,
       validatorAddress: validator_address,
-      creationHeight: creation_height,
+      creationHeight: BigInt(creation_height),
     })
   }
 

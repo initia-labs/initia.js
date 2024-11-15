@@ -79,7 +79,7 @@ export class OpValidator extends JSONSerializable<
       data.moniker,
       data.operatorAddress,
       ValConsPublicKey.unpackAny(data.consensusPubkey as Any),
-      data.consPower.toNumber()
+      Number(data.consPower)
     )
   }
 
@@ -89,7 +89,7 @@ export class OpValidator extends JSONSerializable<
       moniker,
       operatorAddress: operator_address,
       consensusPubkey: consensus_pubkey.packAny(),
-      consPower: cons_power,
+      consPower: BigInt(cons_power),
     })
   }
 }

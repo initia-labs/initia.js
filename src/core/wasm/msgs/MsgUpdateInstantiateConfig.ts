@@ -76,7 +76,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
   ): MsgUpdateInstantiateConfig {
     return new MsgUpdateInstantiateConfig(
       data.sender,
-      data.codeId.toNumber(),
+      Number(data.codeId),
       AccessConfig.fromProto(
         data.newInstantiatePermission as AccessConfig.Proto
       )
@@ -87,7 +87,7 @@ export class MsgUpdateInstantiateConfig extends JSONSerializable<
     const { sender, code_id, new_instantiate_permission } = this
     return MsgUpdateInstantiateConfig_pb.fromPartial({
       sender,
-      codeId: code_id,
+      codeId: BigInt(code_id),
       newInstantiatePermission: new_instantiate_permission.toProto(),
     })
   }

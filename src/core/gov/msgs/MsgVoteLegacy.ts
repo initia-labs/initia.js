@@ -61,7 +61,7 @@ export class MsgVoteLegacy extends JSONSerializable<
 
   public static fromProto(proto: MsgVoteLegacy.Proto): MsgVoteLegacy {
     return new MsgVoteLegacy(
-      proto.proposalId.toNumber(),
+      Number(proto.proposalId),
       proto.voter,
       proto.option
     )
@@ -71,7 +71,7 @@ export class MsgVoteLegacy extends JSONSerializable<
     const { proposal_id, voter, option } = this
     return MsgVote_pb.fromPartial({
       option,
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       voter,
     })
   }

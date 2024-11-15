@@ -138,7 +138,7 @@ export class BridgeConfig extends JSONSerializable<
       BatchInfo.fromProto(data.batchInfo as BatchInfo.Proto),
       Duration.fromProto(data.submissionInterval as Duration.Proto),
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
-      data.submissionStartHeight.toNumber(),
+      Number(data.submissionStartHeight),
       data.oracleEnabled,
       Buffer.from(data.metadata).toString('base64')
     )
@@ -162,7 +162,7 @@ export class BridgeConfig extends JSONSerializable<
       batchInfo: batch_info.toProto(),
       submissionInterval: submission_interval.toProto(),
       finalizationPeriod: finalization_period.toProto(),
-      submissionStartHeight: submission_start_height,
+      submissionStartHeight: BigInt(submission_start_height),
       oracleEnabled: oracle_enabled,
       metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
     })

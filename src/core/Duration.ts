@@ -56,12 +56,12 @@ export class Duration {
   }
 
   public static fromProto(proto: Duration.Proto): Duration {
-    return new Duration(proto.seconds.toNumber(), proto.nanos)
+    return new Duration(Number(proto.seconds), proto.nanos)
   }
 
   public toProto(): Duration.Proto {
     return Duration_pb.fromPartial({
-      seconds: this.seconds,
+      seconds: BigInt(this.seconds),
       nanos: this.nanos,
     })
   }

@@ -251,7 +251,7 @@ export namespace Redelegation {
         Coins.fromProto(redelegationEntryProto.initialBalance),
         Coins.fromProto(proto.balance),
         Coins.fromProto(redelegationEntryProto.sharesDst),
-        redelegationEntryProto.creationHeight.toNumber(),
+        Number(redelegationEntryProto.creationHeight),
         redelegationEntryProto.completionTime as Date
       )
     }
@@ -269,7 +269,7 @@ export namespace Redelegation {
         balance: balance.toProto(),
         redelegationEntry: RedelegationEntry_pb.fromPartial({
           completionTime: completion_time,
-          creationHeight: creation_height,
+          creationHeight: BigInt(creation_height),
           initialBalance: initial_balance.toProto(),
           sharesDst: shares_dst.toProto(),
         }),

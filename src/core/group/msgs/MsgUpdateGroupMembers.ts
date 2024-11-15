@@ -76,7 +76,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
   ): MsgUpdateGroupMembers {
     return new MsgUpdateGroupMembers(
       data.admin,
-      data.groupId.toNumber(),
+      Number(data.groupId),
       data.memberUpdates.map(MemberRequest.fromProto)
     )
   }
@@ -85,7 +85,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     const { admin, group_id, member_updates } = this
     return MsgUpdateGroupMembers_pb.fromPartial({
       admin,
-      groupId: group_id,
+      groupId: BigInt(group_id),
       memberUpdates: member_updates.map((d) => d.toProto()),
     })
   }

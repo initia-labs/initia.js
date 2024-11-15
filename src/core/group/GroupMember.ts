@@ -53,7 +53,7 @@ export class GroupMember extends JSONSerializable<
 
   public static fromProto(data: GroupMember.Proto): GroupMember {
     return new GroupMember(
-      data.groupId.toNumber(),
+      Number(data.groupId),
       Member.fromProto(data.member as Member)
     )
   }
@@ -61,7 +61,7 @@ export class GroupMember extends JSONSerializable<
   public toProto(): GroupMember.Proto {
     const { group_id, member } = this
     return GroupMember_pb.fromPartial({
-      groupId: group_id,
+      groupId: BigInt(group_id),
       member: member.toProto(),
     })
   }

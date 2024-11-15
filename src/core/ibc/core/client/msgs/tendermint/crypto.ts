@@ -43,8 +43,8 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
 
   public static fromProto(proto: Proof.Proto): Proof {
     return new Proof(
-      proto.total.toNumber(),
-      proto.index.toNumber(),
+      Number(proto.total),
+      Number(proto.index),
       Buffer.from(proto.leafHash).toString('base64'),
       proto.aunts.map((aunt) => Buffer.from(aunt).toString('base64'))
     )
@@ -53,8 +53,8 @@ export class Proof extends JSONSerializable<any, Proof.Data, Proof.Proto> {
   public toProto(): Proof.Proto {
     const { total, index, leaf_hash, aunts } = this
     return Proof_pb.fromPartial({
-      total,
-      index,
+      total: BigInt(total),
+      index: BigInt(index),
       leafHash: Buffer.from(leaf_hash, 'base64'),
       aunts: aunts.map((aunt) => Buffer.from(aunt, 'base64')),
     })

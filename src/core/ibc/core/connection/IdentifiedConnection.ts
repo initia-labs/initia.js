@@ -100,7 +100,7 @@ export class IdentifiedConnection extends JSONSerializable<
       proto.counterparty
         ? ConnectionCounterparty.fromProto(proto.counterparty)
         : undefined,
-      proto.delayPeriod.toNumber()
+      Number(proto.delayPeriod)
     )
   }
 
@@ -112,7 +112,7 @@ export class IdentifiedConnection extends JSONSerializable<
       versions: versions.map((v) => v.toProto()),
       state,
       counterparty: counterparty?.toProto(),
-      delayPeriod: delay_period,
+      delayPeriod: BigInt(delay_period),
     })
   }
 }

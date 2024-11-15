@@ -71,9 +71,9 @@ export class Output extends JSONSerializable<
   public static fromProto(data: Output.Proto): Output {
     return new Output(
       Buffer.from(data.outputRoot).toString('base64'),
-      data.l1BlockNumber.toNumber(),
+      Number(data.l1BlockNumber),
       data.l1BlockTime as Date,
-      data.l2BlockNumber.toNumber()
+      Number(data.l2BlockNumber)
     )
   }
 
@@ -82,9 +82,9 @@ export class Output extends JSONSerializable<
       this
     return Output_pb.fromPartial({
       outputRoot: Buffer.from(output_root, 'base64'),
-      l1BlockNumber: l1_block_number,
+      l1BlockNumber: BigInt(l1_block_number),
       l1BlockTime: l1_block_time,
-      l2BlockNumber: l2_block_number,
+      l2BlockNumber: BigInt(l2_block_number),
     })
   }
 }

@@ -47,14 +47,14 @@ export class Consensus extends JSONSerializable<
   }
 
   public static fromProto(proto: Consensus.Proto): Consensus {
-    return new Consensus(proto.block.toNumber(), proto.app.toNumber())
+    return new Consensus(Number(proto.block), Number(proto.app))
   }
 
   public toProto(): Consensus.Proto {
     const { block, app } = this
     return Consensus_pb.fromPartial({
-      block,
-      app,
+      block: BigInt(block),
+      app: BigInt(app),
     })
   }
 }
@@ -107,13 +107,13 @@ export class App extends JSONSerializable<any, App.Data, App.Proto> {
   }
 
   public static fromProto(proto: App.Proto): App {
-    return new App(proto.protocol.toNumber(), proto.software)
+    return new App(Number(proto.protocol), proto.software)
   }
 
   public toProto(): App.Proto {
     const { protocol, software } = this
     return App_pb.fromPartial({
-      protocol,
+      protocol: BigInt(protocol),
       software,
     })
   }

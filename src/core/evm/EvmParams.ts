@@ -96,7 +96,7 @@ export class EvmParams extends JSONSerializable<
 
   public static fromProto(proto: EvmParams.Proto): EvmParams {
     return new EvmParams(
-      proto.extraEips.map((eip) => eip.toNumber()),
+      proto.extraEips.map((eip) => Number(eip)),
       proto.allowedPublishers,
       proto.allowCustomErc20,
       proto.allowedCustomErc20s,
@@ -113,7 +113,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
     } = this
     return Params_pb.fromPartial({
-      extraEips: extra_eips,
+      extraEips: extra_eips.map((eip) => BigInt(eip)),
       allowedPublishers: allowed_publishers,
       allowCustomErc20: allow_custom_erc20,
       allowedCustomErc20s: allowed_custom_erc20s,

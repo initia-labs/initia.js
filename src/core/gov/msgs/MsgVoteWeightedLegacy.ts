@@ -75,7 +75,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     proto: MsgVoteWeightedLegacy.Proto
   ): MsgVoteWeightedLegacy {
     return new MsgVoteWeightedLegacy(
-      proto.proposalId.toNumber(),
+      Number(proto.proposalId),
       proto.voter,
       proto.options.map((o) => WeightedVoteOption.fromProto(o))
     )
@@ -85,7 +85,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     const { proposal_id, voter, options } = this
     return MsgVoteWeighted_pb.fromPartial({
       options: options.map((o) => o.toProto()),
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       voter,
     })
   }

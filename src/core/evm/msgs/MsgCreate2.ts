@@ -64,12 +64,7 @@ export class MsgCreate2 extends JSONSerializable<
   }
 
   public static fromProto(data: MsgCreate2.Proto): MsgCreate2 {
-    return new MsgCreate2(
-      data.sender,
-      data.code,
-      data.salt.toNumber(),
-      data.value
-    )
+    return new MsgCreate2(data.sender, data.code, Number(data.salt), data.value)
   }
 
   public toProto(): MsgCreate2.Proto {
@@ -77,7 +72,7 @@ export class MsgCreate2 extends JSONSerializable<
     return MsgCreate2_pb.fromPartial({
       sender,
       code,
-      salt,
+      salt: BigInt(salt),
       value,
     })
   }

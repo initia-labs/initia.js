@@ -63,7 +63,7 @@ export class CombinedLimit extends JSONSerializable<
 
   public static fromProto(data: CombinedLimit.Proto): CombinedLimit {
     return new CombinedLimit(
-      data.callsRemaining.toNumber(),
+      Number(data.callsRemaining),
       Coins.fromProto(data.amounts)
     )
   }
@@ -71,7 +71,7 @@ export class CombinedLimit extends JSONSerializable<
   public toProto(): CombinedLimit.Proto {
     const { calls_remaining, amounts } = this
     return CombinedLimit_pb.fromPartial({
-      callsRemaining: calls_remaining,
+      callsRemaining: BigInt(calls_remaining),
       amounts: amounts.toProto(),
     })
   }

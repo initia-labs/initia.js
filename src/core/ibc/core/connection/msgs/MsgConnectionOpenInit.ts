@@ -72,7 +72,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
         proto.counterparty as ConnectionCounterparty.Proto
       ),
       proto.version ? IbcVersion.fromProto(proto.version) : undefined,
-      proto.delayPeriod.toNumber(),
+      Number(proto.delayPeriod),
       proto.signer
     )
   }
@@ -83,7 +83,7 @@ export class MsgConnectionOpenInit extends JSONSerializable<
       clientId: client_id,
       counterparty: counterparty.toProto(),
       version: version?.toProto(),
-      delayPeriod: delay_period,
+      delayPeriod: BigInt(delay_period),
       signer,
     })
   }

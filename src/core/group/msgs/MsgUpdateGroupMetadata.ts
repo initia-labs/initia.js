@@ -67,7 +67,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
   ): MsgUpdateGroupMetadata {
     return new MsgUpdateGroupMetadata(
       data.admin,
-      data.groupId.toNumber(),
+      Number(data.groupId),
       data.metadata
     )
   }
@@ -76,7 +76,7 @@ export class MsgUpdateGroupMetadata extends JSONSerializable<
     const { admin, group_id, metadata } = this
     return MsgUpdateGroupMetadata_pb.fromPartial({
       admin,
-      groupId: group_id,
+      groupId: BigInt(group_id),
       metadata,
     })
   }

@@ -76,7 +76,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
   ): MsgUpdateOracleConfig {
     return new MsgUpdateOracleConfig(
       data.authority,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       data.oracleEnabled
     )
   }
@@ -85,7 +85,7 @@ export class MsgUpdateOracleConfig extends JSONSerializable<
     const { authority, bridge_id, oracle_enabled } = this
     return MsgUpdateOracleConfig_pb.fromPartial({
       authority,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       oracleEnabled: oracle_enabled,
     })
   }

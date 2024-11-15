@@ -77,7 +77,7 @@ export class BridgeInfo extends JSONSerializable<
 
   public static fromProto(data: BridgeInfo.Proto): BridgeInfo {
     return new BridgeInfo(
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       data.bridgeAddr,
       data.l1ChainId,
       data.l1ClientId,
@@ -89,7 +89,7 @@ export class BridgeInfo extends JSONSerializable<
     const { bridge_id, bridge_addr, l1_chain_id, l1_client_id, bridge_config } =
       this
     return BridgeInfo_pb.fromPartial({
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       bridgeAddr: bridge_addr,
       l1ChainId: l1_chain_id,
       l1ClientId: l1_client_id,

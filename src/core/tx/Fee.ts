@@ -57,7 +57,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
 
   public static fromProto(proto: Fee.Proto): Fee {
     return new Fee(
-      proto.gasLimit.toNumber(),
+      Number(proto.gasLimit),
       Coins.fromProto(proto.amount),
       proto.payer,
       proto.granter
@@ -68,7 +68,7 @@ export class Fee extends JSONSerializable<Fee.Amino, Fee.Data, Fee.Proto> {
     const { amount, gas_limit, payer, granter } = this
     return Fee_pb.fromPartial({
       amount: amount.toProto(),
-      gasLimit: gas_limit,
+      gasLimit: BigInt(gas_limit),
       granter,
       payer,
     })

@@ -110,7 +110,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
     return new MsgInstantiateContractV2(
       data.sender,
       data.admin,
-      data.codeId.toNumber(),
+      Number(data.codeId),
       data.label,
       Buffer.from(data.msg).toString('base64'),
       Coins.fromProto(data.funds),
@@ -124,7 +124,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
     return MsgInstantiateContract2_pb.fromPartial({
       sender,
       admin,
-      codeId: code_id,
+      codeId: BigInt(code_id),
       label,
       msg: Buffer.from(msg, 'base64'),
       funds: funds.toProto(),

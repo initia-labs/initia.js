@@ -78,9 +78,9 @@ export class Equivocation extends JSONSerializable<
 
   public static fromProto(data: Equivocation.Proto): Equivocation {
     return new Equivocation(
-      data.height.toNumber(),
+      Number(data.height),
       data.time as Date,
-      data.power.toNumber(),
+      Number(data.power),
       data.consensusAddress
     )
   }
@@ -89,9 +89,9 @@ export class Equivocation extends JSONSerializable<
     const { height, time, power, consensus_address } = this
 
     return Equivocation_pb.fromPartial({
-      height,
+      height: BigInt(height),
       time,
-      power,
+      power: BigInt(power),
       consensusAddress: consensus_address,
     })
   }

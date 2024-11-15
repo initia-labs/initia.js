@@ -47,14 +47,14 @@ export class Plan extends JSONSerializable<Plan.Amino, Plan.Data, Plan.Proto> {
   }
 
   public static fromProto(proto: Plan.Proto): Plan {
-    return new Plan(proto.name, proto.height.toNumber(), proto.info)
+    return new Plan(proto.name, Number(proto.height), proto.info)
   }
 
   public toProto(): Plan.Proto {
     const { name, height, info } = this
     return Plan_pb.fromPartial({
       name,
-      height,
+      height: BigInt(height),
       info,
     })
   }

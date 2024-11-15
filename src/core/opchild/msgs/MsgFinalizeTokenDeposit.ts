@@ -113,8 +113,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       msgProto.from,
       msgProto.to,
       Coin.fromProto(msgProto.amount as Coin),
-      msgProto.sequence.toNumber(),
-      msgProto.height.toNumber(),
+      Number(msgProto.sequence),
+      Number(msgProto.height),
       msgProto.baseDenom,
       msgProto.data.length
         ? Buffer.from(msgProto.data).toString('base64')
@@ -130,8 +130,8 @@ export class MsgFinalizeTokenDeposit extends JSONSerializable<
       from,
       to,
       amount: amount.toProto(),
-      sequence,
-      height,
+      sequence: BigInt(sequence),
+      height: BigInt(height),
       baseDenom: base_denom,
       data: data ? Buffer.from(data, 'base64') : undefined,
     })

@@ -106,11 +106,11 @@ export class AuthParams extends JSONSerializable<
 
   public static fromProto(data: AuthParams.Proto): AuthParams {
     return new AuthParams(
-      data.maxMemoCharacters.toNumber(),
-      data.txSigLimit.toNumber(),
-      data.txSizeCostPerByte.toNumber(),
-      data.sigVerifyCostEd25519.toNumber(),
-      data.sigVerifyCostSecp256k1.toNumber()
+      Number(data.maxMemoCharacters),
+      Number(data.txSigLimit),
+      Number(data.txSizeCostPerByte),
+      Number(data.sigVerifyCostEd25519),
+      Number(data.sigVerifyCostSecp256k1)
     )
   }
 
@@ -124,11 +124,11 @@ export class AuthParams extends JSONSerializable<
     } = this
 
     return Params_pb.fromPartial({
-      maxMemoCharacters: max_memo_characters,
-      txSigLimit: tx_sig_limit,
-      txSizeCostPerByte: tx_size_cost_per_byte,
-      sigVerifyCostEd25519: sig_verify_cost_ed25519,
-      sigVerifyCostSecp256k1: sig_verify_cost_secp256k1,
+      maxMemoCharacters: BigInt(max_memo_characters),
+      txSigLimit: BigInt(tx_sig_limit),
+      txSizeCostPerByte: BigInt(tx_size_cost_per_byte),
+      sigVerifyCostEd25519: BigInt(sig_verify_cost_ed25519),
+      sigVerifyCostSecp256k1: BigInt(sig_verify_cost_secp256k1),
     })
   }
 }

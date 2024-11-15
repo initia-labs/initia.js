@@ -231,13 +231,13 @@ export class GroupProposal extends JSONSerializable<
 
   public static fromProto(data: GroupProposal.Proto): GroupProposal {
     return new GroupProposal(
-      data.id.toNumber(),
+      Number(data.id),
       data.groupPolicyAddress,
       data.metadata,
       data.proposers,
       data.submitTime as Date,
-      data.groupVersion.toNumber(),
-      data.groupPolicyVersion.toNumber(),
+      Number(data.groupVersion),
+      Number(data.groupPolicyVersion),
       data.status,
       {
         yes_count: num(data.finalTallyResult?.yesCount ?? 0).toFixed(),
@@ -284,13 +284,13 @@ export class GroupProposal extends JSONSerializable<
     }
 
     return Proposal_pb.fromPartial({
-      id,
+      id: BigInt(id),
       groupPolicyAddress: group_policy_address,
       metadata,
       proposers,
       submitTime: submit_time,
-      groupVersion: group_version,
-      groupPolicyVersion: group_policy_version,
+      groupVersion: BigInt(group_version),
+      groupPolicyVersion: BigInt(group_policy_version),
       status,
       finalTallyResult: ftr,
       votingPeriodEnd: voting_period_end,

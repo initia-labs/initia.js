@@ -84,7 +84,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       Buffer.from(proto.proofUnreceived).toString('base64'),
       Buffer.from(proto.proofClose).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
-      proto.nextSequenceRecv.toNumber(),
+      Number(proto.nextSequenceRecv),
       proto.signer
     )
   }
@@ -103,7 +103,7 @@ export class MsgTimeoutOnClose extends JSONSerializable<
       proofUnreceived: Buffer.from(proof_unreceived, 'base64'),
       proofClose: Buffer.from(proof_close, 'base64'),
       proofHeight: proof_height?.toProto(),
-      nextSequenceRecv: next_sequence_recv,
+      nextSequenceRecv: BigInt(next_sequence_recv),
       signer,
     })
   }

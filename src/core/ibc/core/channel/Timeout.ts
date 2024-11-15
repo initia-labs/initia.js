@@ -52,7 +52,7 @@ export class Timeout extends JSONSerializable<
   public static fromProto(proto: Timeout.Proto): Timeout {
     return new Timeout(
       Height.fromProto(proto.height as Height.Proto),
-      proto.timestamp.toNumber()
+      Number(proto.timestamp)
     )
   }
 
@@ -60,7 +60,7 @@ export class Timeout extends JSONSerializable<
     const { height, timestamp } = this
     return Timeout_pb.fromPartial({
       height: height.toProto(),
-      timestamp,
+      timestamp: BigInt(timestamp),
     })
   }
 }

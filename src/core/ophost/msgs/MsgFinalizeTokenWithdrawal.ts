@@ -176,14 +176,14 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
   ): MsgFinalizeTokenWithdrawal {
     return new MsgFinalizeTokenWithdrawal(
       data.sender,
-      data.bridgeId.toNumber(),
-      data.outputIndex.toNumber(),
+      Number(data.bridgeId),
+      Number(data.outputIndex),
       data.withdrawalProofs.map((proof) =>
         Buffer.from(proof).toString('base64')
       ),
       data.from,
       data.to,
-      data.sequence.toNumber(),
+      Number(data.sequence),
       Coin.fromProto(data.amount as Coin),
       Buffer.from(data.version).toString('base64'),
       Buffer.from(data.storageRoot).toString('base64'),
@@ -208,14 +208,14 @@ export class MsgFinalizeTokenWithdrawal extends JSONSerializable<
 
     return MsgFinalizeTokenWithdrawal_pb.fromPartial({
       sender,
-      bridgeId: bridge_id,
-      outputIndex: output_index,
+      bridgeId: BigInt(bridge_id),
+      outputIndex: BigInt(output_index),
       withdrawalProofs: withdrawal_proofs.map((proof) =>
         Buffer.from(proof, 'base64')
       ),
       from,
       to,
-      sequence,
+      sequence: BigInt(sequence),
       amount: amount.toProto(),
       version: Buffer.from(version, 'base64'),
       storageRoot: Buffer.from(storage_root, 'base64'),

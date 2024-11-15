@@ -242,7 +242,7 @@ export class Proposal extends JSONSerializable<
 
   public static fromProto(data: Proposal.Proto): Proposal {
     return new Proposal(
-      data.id.toNumber(),
+      Number(data.id),
       data.messages.map(Msg.fromProto),
       data.status,
       TallyResult.fromProto(data.finalTallyResult as TallyResult.Proto),
@@ -286,7 +286,7 @@ export class Proposal extends JSONSerializable<
     } = this
 
     return Proposal_pb.fromPartial({
-      id,
+      id: BigInt(id),
       messages: messages.map((msg) => msg.packAny()),
       status,
       finalTallyResult: final_tally_result.toProto(),
