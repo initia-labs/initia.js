@@ -143,7 +143,7 @@ export const bcs = {
   ...initiaBcs,
 }
 
-function toLittleEndian(bigint: bigint): Uint8Array {
+export function toLittleEndian(bigint: bigint): Uint8Array {
   const result = []
   while (bigint > 0) {
     result.push(Number(bigint % BigInt(256)))
@@ -152,7 +152,7 @@ function toLittleEndian(bigint: bigint): Uint8Array {
   return new Uint8Array(result)
 }
 
-function fromLittleEndian(bytes: number[]): bigint {
+export function fromLittleEndian(bytes: number[]): bigint {
   let result = 0n
   while (bytes.length > 0) {
     result = result * 256n + BigInt(bytes.pop() as number)
