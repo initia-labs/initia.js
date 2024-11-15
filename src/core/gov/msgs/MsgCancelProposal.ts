@@ -55,13 +55,13 @@ export class MsgCancelProposal extends JSONSerializable<
   }
 
   public static fromProto(proto: MsgCancelProposal.Proto): MsgCancelProposal {
-    return new MsgCancelProposal(proto.proposalId.toNumber(), proto.proposer)
+    return new MsgCancelProposal(Number(proto.proposalId), proto.proposer)
   }
 
   public toProto(): MsgCancelProposal.Proto {
     const { proposal_id, proposer } = this
     return MsgCancelProposal_pb.fromPartial({
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       proposer,
     })
   }

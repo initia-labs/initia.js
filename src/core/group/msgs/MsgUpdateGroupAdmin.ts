@@ -65,7 +65,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
   ): MsgUpdateGroupAdmin {
     return new MsgUpdateGroupAdmin(
       data.admin,
-      data.groupId.toNumber(),
+      Number(data.groupId),
       data.newAdmin
     )
   }
@@ -74,7 +74,7 @@ export class MsgUpdateGroupAdmin extends JSONSerializable<
     const { admin, group_id, new_admin } = this
     return MsgUpdateGroupAdmin_pb.fromPartial({
       admin,
-      groupId: group_id,
+      groupId: BigInt(group_id),
       newAdmin: new_admin,
     })
   }

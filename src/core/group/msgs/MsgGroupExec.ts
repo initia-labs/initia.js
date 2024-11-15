@@ -55,13 +55,13 @@ export class MsgGroupExec extends JSONSerializable<
   }
 
   public static fromProto(data: MsgGroupExec.Proto): MsgGroupExec {
-    return new MsgGroupExec(data.proposalId.toNumber(), data.executor)
+    return new MsgGroupExec(Number(data.proposalId), data.executor)
   }
 
   public toProto(): MsgGroupExec.Proto {
     const { proposal_id, executor } = this
     return MsgExec_pb.fromPartial({
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       executor,
     })
   }

@@ -39,12 +39,12 @@ export class ABCIParams extends JSONSerializable<
   }
 
   public static fromProto(data: ABCIParams.Proto): ABCIParams {
-    return new ABCIParams(data.voteExtensionsEnableHeight.toNumber())
+    return new ABCIParams(Number(data.voteExtensionsEnableHeight))
   }
 
   public toProto(): ABCIParams.Proto {
     return ABCIParams_pb.fromPartial({
-      voteExtensionsEnableHeight: this.vote_extensions_enable_height,
+      voteExtensionsEnableHeight: BigInt(this.vote_extensions_enable_height),
     })
   }
 }

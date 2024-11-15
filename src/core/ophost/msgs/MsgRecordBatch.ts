@@ -61,7 +61,7 @@ export class MsgRecordBatch extends JSONSerializable<
   public static fromProto(data: MsgRecordBatch.Proto): MsgRecordBatch {
     return new MsgRecordBatch(
       data.submitter,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       Buffer.from(data.batchBytes).toString('base64')
     )
   }
@@ -70,7 +70,7 @@ export class MsgRecordBatch extends JSONSerializable<
     const { submitter, bridge_id, batch_bytes } = this
     return MsgRecordBatch_pb.fromPartial({
       submitter,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       batchBytes: batch_bytes ? Buffer.from(batch_bytes, 'base64') : undefined,
     })
   }

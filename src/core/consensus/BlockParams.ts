@@ -47,14 +47,14 @@ export class BlockParams extends JSONSerializable<
   }
 
   public static fromProto(data: BlockParams.Proto): BlockParams {
-    return new BlockParams(data.maxBytes.toNumber(), data.maxGas.toNumber())
+    return new BlockParams(Number(data.maxBytes), Number(data.maxGas))
   }
 
   public toProto(): BlockParams.Proto {
     const { max_bytes, max_gas } = this
     return BlockParams_pb.fromPartial({
-      maxBytes: max_bytes,
-      maxGas: max_gas,
+      maxBytes: BigInt(max_bytes),
+      maxGas: BigInt(max_gas),
     })
   }
 }

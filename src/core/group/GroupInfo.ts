@@ -79,10 +79,10 @@ export class GroupInfo extends JSONSerializable<
 
   public static fromProto(data: GroupInfo.Proto): GroupInfo {
     return new GroupInfo(
-      data.id.toNumber(),
+      Number(data.id),
       data.admin,
       data.metadata,
-      data.version.toNumber(),
+      Number(data.version),
       data.totalWeight,
       data.createdAt as Date
     )
@@ -91,10 +91,10 @@ export class GroupInfo extends JSONSerializable<
   public toProto(): GroupInfo.Proto {
     const { id, admin, metadata, version, total_weight, created_at } = this
     return GroupInfo_pb.fromPartial({
-      id,
+      id: BigInt(id),
       admin,
       metadata,
-      version,
+      version: BigInt(version),
       totalWeight: total_weight,
       createdAt: created_at,
     })

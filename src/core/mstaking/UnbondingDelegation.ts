@@ -166,7 +166,7 @@ export namespace UnbondingDelegation {
       return new Entry(
         Coins.fromProto(proto.initialBalance),
         Coins.fromProto(proto.balance),
-        proto.creationHeight.toNumber(),
+        Number(proto.creationHeight),
         proto.completionTime as Date
       )
     }
@@ -177,7 +177,7 @@ export namespace UnbondingDelegation {
       return UnbondingDelegationEntry_pb.fromPartial({
         balance: balance.toProto(),
         completionTime: completion_time,
-        creationHeight: creation_height,
+        creationHeight: BigInt(creation_height),
         initialBalance: initial_balance.toProto(),
       })
     }

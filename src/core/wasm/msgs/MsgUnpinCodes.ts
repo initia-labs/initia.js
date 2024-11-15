@@ -58,7 +58,7 @@ export class MsgUnpinCodes extends JSONSerializable<
   public static fromProto(data: MsgUnpinCodes.Proto): MsgUnpinCodes {
     return new MsgUnpinCodes(
       data.authority,
-      data.codeIds.map((id) => id.toNumber())
+      data.codeIds.map((id) => Number(id))
     )
   }
 
@@ -66,7 +66,7 @@ export class MsgUnpinCodes extends JSONSerializable<
     const { authority, code_ids } = this
     return MsgUnpinCodes_pb.fromPartial({
       authority,
-      codeIds: code_ids,
+      codeIds: code_ids.map((id) => BigInt(id)),
     })
   }
 

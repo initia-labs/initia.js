@@ -53,11 +53,7 @@ export class PacketId extends JSONSerializable<
   }
 
   public static fromProto(proto: PacketId.Proto): PacketId {
-    return new PacketId(
-      proto.portId,
-      proto.channelId,
-      proto.sequence.toNumber()
-    )
+    return new PacketId(proto.portId, proto.channelId, Number(proto.sequence))
   }
 
   public toProto(): PacketId.Proto {
@@ -65,7 +61,7 @@ export class PacketId extends JSONSerializable<
     return PacketId_pb.fromPartial({
       portId: port_id,
       channelId: channel_id,
-      sequence,
+      sequence: BigInt(sequence),
     })
   }
 }

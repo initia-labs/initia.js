@@ -66,7 +66,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
   ): MsgUpdateChallenger {
     return new MsgUpdateChallenger(
       data.authority,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       data.challenger
     )
   }
@@ -75,7 +75,7 @@ export class MsgUpdateChallenger extends JSONSerializable<
     const { authority, bridge_id, challenger } = this
     return MsgUpdateChallenger_pb.fromPartial({
       authority,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       challenger,
     })
   }

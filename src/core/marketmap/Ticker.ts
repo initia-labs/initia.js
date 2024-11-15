@@ -100,8 +100,8 @@ export class Ticker extends JSONSerializable<
   public static fromProto(proto: Ticker.Proto): Ticker {
     return new Ticker(
       CurrencyPair.fromProto(proto.currencyPair as CurrencyPair.Proto),
-      proto.decimals.toNumber(),
-      proto.minProviderCount.toNumber(),
+      Number(proto.decimals),
+      Number(proto.minProviderCount),
       proto.enabled,
       proto.metadataJSON
     )
@@ -117,8 +117,8 @@ export class Ticker extends JSONSerializable<
     } = this
     return Ticker_pb.fromPartial({
       currencyPair: currency_pair,
-      decimals,
-      minProviderCount: min_provider_count,
+      decimals: BigInt(decimals),
+      minProviderCount: BigInt(min_provider_count),
       enabled,
       metadataJSON: metadata_JSON,
     })

@@ -84,7 +84,7 @@ export class TallyResult extends JSONSerializable<
 
   public static fromProto(data: TallyResult.Proto): TallyResult {
     return new TallyResult(
-      data.tallyHeight.toNumber(),
+      Number(data.tallyHeight),
       data.totalStakingPower,
       data.totalVestingPower,
       {
@@ -104,7 +104,7 @@ export class TallyResult extends JSONSerializable<
       v1_tally_result,
     } = this
     return TallyResult_pb.fromPartial({
-      tallyHeight: tally_height,
+      tallyHeight: BigInt(tally_height),
       totalStakingPower: total_staking_power,
       totalVestingPower: total_vesting_power,
       v1TallyResult: V1TallyResult_pb.fromPartial({

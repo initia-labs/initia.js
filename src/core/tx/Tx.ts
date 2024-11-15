@@ -208,7 +208,7 @@ export class TxBody {
     return new TxBody(
       proto.messages.map((m) => Msg.fromProto(m)),
       proto.memo,
-      proto.timeoutHeight.toNumber()
+      Number(proto.timeoutHeight)
     )
   }
 
@@ -216,7 +216,9 @@ export class TxBody {
     return TxBody_pb.fromPartial({
       memo: this.memo,
       messages: this.messages.map((m) => m.packAny()),
-      timeoutHeight: this.timeout_height,
+      timeoutHeight: this.timeout_height
+        ? BigInt(this.timeout_height)
+        : undefined,
     })
   }
 
@@ -323,7 +325,7 @@ export class SignerInfo {
   public static fromProto(proto: SignerInfo.Proto): SignerInfo {
     return new SignerInfo(
       PublicKey.fromProto(proto.publicKey ?? new SimplePublicKey('').packAny()),
-      proto.sequence.toNumber(),
+      Number(proto.sequence),
       ModeInfo.fromProto(proto.modeInfo as ModeInfo_pb)
     )
   }
@@ -333,7 +335,7 @@ export class SignerInfo {
     return SignerInfo_pb.fromPartial({
       modeInfo: mode_info.toProto(),
       publicKey: public_key?.packAny(),
-      sequence,
+      sequence: BigInt(sequence),
     })
   }
 }

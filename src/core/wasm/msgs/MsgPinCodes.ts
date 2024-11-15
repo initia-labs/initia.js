@@ -58,7 +58,7 @@ export class MsgPinCodes extends JSONSerializable<
   public static fromProto(data: MsgPinCodes.Proto): MsgPinCodes {
     return new MsgPinCodes(
       data.authority,
-      data.codeIds.map((id) => id.toNumber())
+      data.codeIds.map((id) => Number(id))
     )
   }
 
@@ -66,7 +66,7 @@ export class MsgPinCodes extends JSONSerializable<
     const { authority, code_ids } = this
     return MsgPinCodes_pb.fromPartial({
       authority,
-      codeIds: code_ids,
+      codeIds: code_ids.map((id) => BigInt(id)),
     })
   }
 

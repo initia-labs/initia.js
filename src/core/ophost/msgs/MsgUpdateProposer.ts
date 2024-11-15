@@ -62,7 +62,7 @@ export class MsgUpdateProposer extends JSONSerializable<
   public static fromProto(data: MsgUpdateProposer.Proto): MsgUpdateProposer {
     return new MsgUpdateProposer(
       data.authority,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       data.newProposer
     )
   }
@@ -71,7 +71,7 @@ export class MsgUpdateProposer extends JSONSerializable<
     const { authority, bridge_id, new_proposer } = this
     return MsgUpdateProposer_pb.fromPartial({
       authority,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       newProposer: new_proposer,
     })
   }

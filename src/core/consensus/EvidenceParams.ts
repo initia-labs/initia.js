@@ -61,18 +61,18 @@ export class EvidenceParams extends JSONSerializable<
 
   public static fromProto(data: EvidenceParams.Proto): EvidenceParams {
     return new EvidenceParams(
-      data.maxAgeNumBlocks.toNumber(),
+      Number(data.maxAgeNumBlocks),
       Duration.fromProto(data.maxAgeDuration as Duration.Proto),
-      data.maxBytes.toNumber()
+      Number(data.maxBytes)
     )
   }
 
   public toProto(): EvidenceParams.Proto {
     const { max_age_num_blocks, max_age_duration, max_bytes } = this
     return EvidenceParams_pb.fromPartial({
-      maxAgeNumBlocks: max_age_num_blocks,
+      maxAgeNumBlocks: BigInt(max_age_num_blocks),
       maxAgeDuration: max_age_duration.toProto(),
-      maxBytes: max_bytes,
+      maxBytes: BigInt(max_bytes),
     })
   }
 }

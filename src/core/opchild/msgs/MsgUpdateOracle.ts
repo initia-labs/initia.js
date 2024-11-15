@@ -61,7 +61,7 @@ export class MsgUpdateOracle extends JSONSerializable<
   public static fromProto(data: MsgUpdateOracle.Proto): MsgUpdateOracle {
     return new MsgUpdateOracle(
       data.sender,
-      data.height.toNumber(),
+      Number(data.height),
       Buffer.from(data.data).toString('base64')
     )
   }
@@ -70,7 +70,7 @@ export class MsgUpdateOracle extends JSONSerializable<
     const { sender, height, data } = this
     return MsgUpdateOracle_pb.fromPartial({
       sender,
-      height,
+      height: BigInt(height),
       data: Buffer.from(data, 'base64'),
     })
   }

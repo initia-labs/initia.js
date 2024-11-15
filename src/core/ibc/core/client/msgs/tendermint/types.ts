@@ -143,7 +143,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return new Header(
       version ? Consensus.fromProto(version) : undefined,
       chainId,
-      height.toNumber(),
+      Number(height),
       time,
       lastBlockId ? BlockID.fromProto(lastBlockId) : undefined,
       Buffer.from(lastCommitHash).toString('base64'),
@@ -178,7 +178,7 @@ export class Header extends JSONSerializable<any, Header.Data, Header.Proto> {
     return Header_pb.fromPartial({
       version: version?.toProto(),
       chainId: chain_id,
-      height,
+      height: BigInt(height),
       time,
       lastBlockId: last_block_id?.toProto(),
       lastCommitHash: Buffer.from(last_commit_hash, 'base64'),
@@ -459,7 +459,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   public static fromProto(proto: Commit.Proto): Commit {
     const { height, round, blockId, signatures } = proto
     return new Commit(
-      height.toNumber(),
+      Number(height),
       round,
       blockId ? BlockID.fromProto(blockId) : undefined,
       signatures.map((sig) => CommitSig.fromProto(sig))
@@ -469,7 +469,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
   public toProto(): Commit.Proto {
     const { height, round, block_id, signatures } = this
     return Commit_pb.fromPartial({
-      height,
+      height: BigInt(height),
       round,
       blockId: block_id?.toProto(),
       signatures: signatures.map((sig) => sig.toProto()),
@@ -622,7 +622,7 @@ export class ValidatorSet extends JSONSerializable<
     return new ValidatorSet(
       validators.map((val) => Validator.fromProto(val)),
       proposer ? Validator.fromProto(proposer) : undefined,
-      totalVotingPower.toNumber()
+      Number(totalVotingPower)
     )
   }
 
@@ -631,7 +631,7 @@ export class ValidatorSet extends JSONSerializable<
     return ValidatorSet_pb.fromPartial({
       validators: validators.map((val) => val.toProto()),
       proposer: proposer?.toProto(),
-      totalVotingPower: total_voting_power,
+      totalVotingPower: BigInt(total_voting_power),
     })
   }
 }
@@ -699,8 +699,8 @@ export class Validator extends JSONSerializable<
     return new Validator(
       Buffer.from(address).toString('base64'),
       pubKey ? PublicKey.fromProto(pubKey) : undefined,
-      votingPower.toNumber(),
-      proposerPriority.toNumber()
+      Number(votingPower),
+      Number(proposerPriority)
     )
   }
 
@@ -709,8 +709,8 @@ export class Validator extends JSONSerializable<
     return Validator_pb.fromPartial({
       address: Buffer.from(address, 'base64'),
       pubKey: pub_key?.toProto(),
-      votingPower: voting_power,
-      proposerPriority: proposer_priority,
+      votingPower: BigInt(voting_power),
+      proposerPriority: BigInt(proposer_priority),
     })
   }
 }

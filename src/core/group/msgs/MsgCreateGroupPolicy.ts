@@ -82,7 +82,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
   ): MsgCreateGroupPolicy {
     return new MsgCreateGroupPolicy(
       data.admin,
-      data.groupId.toNumber(),
+      Number(data.groupId),
       data.metadata,
       DecisionPolicy.fromProto(data.decisionPolicy as DecisionPolicy.Proto)
     )
@@ -92,7 +92,7 @@ export class MsgCreateGroupPolicy extends JSONSerializable<
     const { admin, group_id, metadata, decision_policy } = this
     return MsgCreateGroupPolicy_pb.fromPartial({
       admin,
-      groupId: group_id,
+      groupId: BigInt(group_id),
       metadata,
       decisionPolicy: decision_policy.packAny(),
     })

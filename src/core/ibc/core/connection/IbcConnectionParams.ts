@@ -45,13 +45,13 @@ export class IbcConnectionParams extends JSONSerializable<
   public static fromProto(
     proto: IbcConnectionParams.Proto
   ): IbcConnectionParams {
-    return new IbcConnectionParams(proto.maxExpectedTimePerBlock.toNumber())
+    return new IbcConnectionParams(Number(proto.maxExpectedTimePerBlock))
   }
 
   public toProto(): IbcConnectionParams.Proto {
     const { max_expected_time_per_block } = this
     return Params_pb.fromPartial({
-      maxExpectedTimePerBlock: max_expected_time_per_block,
+      maxExpectedTimePerBlock: BigInt(max_expected_time_per_block),
     })
   }
 }

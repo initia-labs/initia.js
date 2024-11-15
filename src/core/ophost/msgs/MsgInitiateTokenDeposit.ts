@@ -88,7 +88,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
   ): MsgInitiateTokenDeposit {
     return new MsgInitiateTokenDeposit(
       msgProto.sender,
-      msgProto.bridgeId.toNumber(),
+      Number(msgProto.bridgeId),
       msgProto.to,
       Coin.fromProto(msgProto.amount as Coin),
       msgProto.data.length
@@ -101,7 +101,7 @@ export class MsgInitiateTokenDeposit extends JSONSerializable<
     const { sender, bridge_id, to, amount, data } = this
     return MsgInitiateTokenDeposit_pb.fromPartial({
       sender,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       to,
       amount: amount.toProto(),
       data: data ? Buffer.from(data, 'base64') : undefined,

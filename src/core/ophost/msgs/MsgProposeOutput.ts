@@ -90,9 +90,9 @@ export class MsgProposeOutput extends JSONSerializable<
   public static fromProto(data: MsgProposeOutput.Proto): MsgProposeOutput {
     return new MsgProposeOutput(
       data.proposer,
-      data.bridgeId.toNumber(),
-      data.outputIndex.toNumber(),
-      data.l2BlockNumber.toNumber(),
+      Number(data.bridgeId),
+      Number(data.outputIndex),
+      Number(data.l2BlockNumber),
       Buffer.from(data.outputRoot).toString('base64')
     )
   }
@@ -102,9 +102,9 @@ export class MsgProposeOutput extends JSONSerializable<
       this
     return MsgProposeOutput_pb.fromPartial({
       proposer,
-      bridgeId: bridge_id,
-      outputIndex: output_index,
-      l2BlockNumber: l2_block_number,
+      bridgeId: BigInt(bridge_id),
+      outputIndex: BigInt(output_index),
+      l2BlockNumber: BigInt(l2_block_number),
       outputRoot: output_root ? Buffer.from(output_root, 'base64') : undefined,
     })
   }

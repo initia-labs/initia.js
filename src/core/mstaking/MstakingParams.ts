@@ -128,7 +128,7 @@ export class MstakingParams extends JSONSerializable<
       data.maxEntries,
       data.historicalEntries,
       data.bondDenoms,
-      data.minVotingPower.toNumber(),
+      Number(data.minVotingPower),
       data.minCommissionRate
     )
   }
@@ -149,7 +149,7 @@ export class MstakingParams extends JSONSerializable<
       maxEntries: max_entries,
       historicalEntries: historical_entries,
       bondDenoms: bond_denoms,
-      minVotingPower: min_voting_power,
+      minVotingPower: BigInt(min_voting_power),
       minCommissionRate: min_commission_rate,
     })
   }

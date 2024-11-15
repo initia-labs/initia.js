@@ -40,12 +40,12 @@ export class MaxCallsLimit extends JSONSerializable<
   }
 
   public static fromProto(data: MaxCallsLimit.Proto): MaxCallsLimit {
-    return new MaxCallsLimit(data.remaining.toNumber())
+    return new MaxCallsLimit(Number(data.remaining))
   }
 
   public toProto(): MaxCallsLimit.Proto {
     return MaxCallsLimit_pb.fromPartial({
-      remaining: this.remaining,
+      remaining: BigInt(this.remaining),
     })
   }
 

@@ -39,12 +39,12 @@ export class TxInfo {
 
   public static fromProto(proto: TxInfo.Proto): TxInfo {
     return new TxInfo(
-      proto.height.toNumber(),
+      Number(proto.height),
       proto.txhash,
       proto.rawLog,
       proto.logs.map((log) => TxLog.fromProto(log)),
-      proto.gasWanted.toNumber(),
-      proto.gasUsed.toNumber(),
+      Number(proto.gasWanted),
+      Number(proto.gasUsed),
       Tx.unpackAny(proto.tx as Any),
       proto.timestamp,
       proto.events,

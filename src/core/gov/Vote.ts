@@ -67,7 +67,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
 
   public static fromProto(proto: Vote.Proto): Vote {
     return new Vote(
-      proto.proposalId.toNumber(),
+      Number(proto.proposalId),
       proto.voter,
       proto.options.map((o) => WeightedVoteOption.fromProto(o)),
       proto.metadata
@@ -78,7 +78,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
     const { proposal_id, voter, options, metadata } = this
     return Vote_pb.fromPartial({
       options: options.map((o) => o.toProto()),
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       voter,
       metadata,
     })

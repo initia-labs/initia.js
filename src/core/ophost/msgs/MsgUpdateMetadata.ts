@@ -62,7 +62,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
   public static fromProto(data: MsgUpdateMetadata.Proto): MsgUpdateMetadata {
     return new MsgUpdateMetadata(
       data.authority,
-      data.bridgeId.toNumber(),
+      Number(data.bridgeId),
       Buffer.from(data.metadata).toString('base64')
     )
   }
@@ -71,7 +71,7 @@ export class MsgUpdateMetadata extends JSONSerializable<
     const { authority, bridge_id, metadata } = this
     return MsgUpdateMetadata_pb.fromPartial({
       authority,
-      bridgeId: bridge_id,
+      bridgeId: BigInt(bridge_id),
       metadata: Buffer.from(metadata, 'base64'),
     })
   }

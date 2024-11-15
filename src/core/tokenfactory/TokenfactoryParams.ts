@@ -58,7 +58,7 @@ export class TokenfactoryParams extends JSONSerializable<
   public static fromProto(data: TokenfactoryParams.Proto): TokenfactoryParams {
     return new TokenfactoryParams(
       Coins.fromProto(data.denomCreationFee),
-      data.denomCreationGasConsume.toNumber()
+      Number(data.denomCreationGasConsume)
     )
   }
 
@@ -66,7 +66,7 @@ export class TokenfactoryParams extends JSONSerializable<
     const { denom_creation_fee, denom_creation_gas_consume } = this
     return Params_pb.fromPartial({
       denomCreationFee: denom_creation_fee.toProto(),
-      denomCreationGasConsume: denom_creation_gas_consume,
+      denomCreationGasConsume: BigInt(denom_creation_gas_consume),
     })
   }
 }

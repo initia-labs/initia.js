@@ -94,7 +94,7 @@ export class MsgGroupVote extends JSONSerializable<
 
   public static fromProto(data: MsgGroupVote.Proto): MsgGroupVote {
     return new MsgGroupVote(
-      data.proposalId.toNumber(),
+      Number(data.proposalId),
       data.voter,
       data.option,
       data.metadata,
@@ -106,7 +106,7 @@ export class MsgGroupVote extends JSONSerializable<
     const { proposal_id, voter, option, metadata, exec } = this
 
     return MsgVote_pb.fromPartial({
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
       voter,
       option,
       metadata,

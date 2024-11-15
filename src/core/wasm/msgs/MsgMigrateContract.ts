@@ -67,7 +67,7 @@ export class MsgMigrateContract extends JSONSerializable<
     return new MsgMigrateContract(
       data.sender,
       data.contract,
-      data.codeId.toNumber(),
+      Number(data.codeId),
       Buffer.from(data.msg).toString('base64')
     )
   }
@@ -77,7 +77,7 @@ export class MsgMigrateContract extends JSONSerializable<
     return MsgMigrateContract_pb.fromPartial({
       sender,
       contract,
-      codeId: code_id,
+      codeId: BigInt(code_id),
       msg: Buffer.from(msg, 'base64'),
     })
   }

@@ -124,10 +124,10 @@ export class GroupPolicyInfo extends JSONSerializable<
   public static fromProto(data: GroupPolicyInfo.Proto): GroupPolicyInfo {
     return new GroupPolicyInfo(
       data.address,
-      data.groupId.toNumber(),
+      Number(data.groupId),
       data.admin,
       data.metadata,
-      data.version.toNumber(),
+      Number(data.version),
       DecisionPolicy.fromProto(data.decisionPolicy as Any),
       data.createdAt as Date
     )
@@ -146,10 +146,10 @@ export class GroupPolicyInfo extends JSONSerializable<
 
     return GroupPolicyInfo_pb.fromPartial({
       address,
-      groupId: group_id,
+      groupId: BigInt(group_id),
       admin,
       metadata,
-      version,
+      version: BigInt(version),
       decisionPolicy: decision_policy.packAny(),
       createdAt: created_at,
     })

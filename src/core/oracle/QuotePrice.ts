@@ -63,7 +63,7 @@ export class QuotePrice extends JSONSerializable<
     return new QuotePrice(
       proto.price,
       proto.blockTimestamp as Date,
-      proto.blockHeight.toNumber()
+      Number(proto.blockHeight)
     )
   }
 
@@ -72,7 +72,7 @@ export class QuotePrice extends JSONSerializable<
     return QuotePrice_pb.fromPartial({
       price,
       blockTimestamp: block_timestamp,
-      blockHeight: block_height,
+      blockHeight: BigInt(block_height),
     })
   }
 }

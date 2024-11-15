@@ -69,8 +69,8 @@ export class MsgDeleteOutput extends JSONSerializable<
   public static fromProto(data: MsgDeleteOutput.Proto): MsgDeleteOutput {
     return new MsgDeleteOutput(
       data.challenger,
-      data.bridgeId.toNumber(),
-      data.outputIndex.toNumber()
+      Number(data.bridgeId),
+      Number(data.outputIndex)
     )
   }
 
@@ -78,8 +78,8 @@ export class MsgDeleteOutput extends JSONSerializable<
     const { challenger, bridge_id, output_index } = this
     return MsgDeleteOutput_pb.fromPartial({
       challenger,
-      bridgeId: bridge_id,
-      outputIndex: output_index,
+      bridgeId: BigInt(bridge_id),
+      outputIndex: BigInt(output_index),
     })
   }
 

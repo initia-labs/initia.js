@@ -55,14 +55,14 @@ export class MsgLeaveGroup extends JSONSerializable<
   }
 
   public static fromProto(data: MsgLeaveGroup.Proto): MsgLeaveGroup {
-    return new MsgLeaveGroup(data.address, data.groupId.toNumber())
+    return new MsgLeaveGroup(data.address, Number(data.groupId))
   }
 
   public toProto(): MsgLeaveGroup.Proto {
     const { address, group_id } = this
     return MsgLeaveGroup_pb.fromPartial({
       address,
-      groupId: group_id,
+      groupId: BigInt(group_id),
     })
   }
 

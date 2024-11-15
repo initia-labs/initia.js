@@ -48,16 +48,16 @@ export class AbsoluteTxPosition extends JSONSerializable<
 
   public static fromProto(data: AbsoluteTxPosition.Proto): AbsoluteTxPosition {
     return new AbsoluteTxPosition(
-      data.blockHeight.toNumber(),
-      data.txIndex.toNumber()
+      Number(data.blockHeight),
+      Number(data.txIndex)
     )
   }
 
   public toProto(): AbsoluteTxPosition.Proto {
     const { block_height, tx_index } = this
     return AbsoluteTxPosition_pb.fromPartial({
-      blockHeight: block_height,
-      txIndex: tx_index,
+      blockHeight: BigInt(block_height),
+      txIndex: BigInt(tx_index),
     })
   }
 }

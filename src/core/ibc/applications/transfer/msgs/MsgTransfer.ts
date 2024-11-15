@@ -176,7 +176,7 @@ export class MsgTransfer extends JSONSerializable<
   }
 
   public static fromProto(proto: MsgTransfer.Proto): MsgTransfer {
-    if (!proto.timeoutHeight && proto.timeoutTimestamp.toNumber() == 0) {
+    if (!proto.timeoutHeight && Number(proto.timeoutTimestamp) == 0) {
       throw new Error('both of timeout_height and timeout_timestamp are empty')
     }
 
@@ -210,7 +210,9 @@ export class MsgTransfer extends JSONSerializable<
       sender,
       receiver,
       timeoutHeight: timeout_height?.toProto(),
-      timeoutTimestamp: timeout_timestamp,
+      timeoutTimestamp: timeout_timestamp
+        ? BigInt(timeout_timestamp)
+        : undefined,
       memo,
     })
   }

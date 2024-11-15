@@ -123,7 +123,7 @@ export class Packet extends JSONSerializable<
 
   public static fromProto(proto: Packet.Proto): Packet {
     return new Packet(
-      proto.sequence.toNumber(),
+      Number(proto.sequence),
       proto.sourcePort,
       proto.sourceChannel,
       proto.destinationPort,
@@ -146,14 +146,14 @@ export class Packet extends JSONSerializable<
       timeout_timestamp,
     } = this
     return Packet_pb.fromPartial({
-      sequence,
+      sequence: BigInt(sequence),
       sourcePort: source_port,
       sourceChannel: source_channel,
       destinationPort: destination_port,
       destinationChannel: destination_channel,
       data: Buffer.from(data, 'base64'),
       timeoutHeight: timeout_height?.toProto(),
-      timeoutTimestamp: timeout_timestamp,
+      timeoutTimestamp: BigInt(timeout_timestamp),
     })
   }
 }

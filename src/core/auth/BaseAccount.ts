@@ -40,19 +40,6 @@ export class BaseAccount extends JSONSerializable<
     return this.public_key
   }
 
-  public toAmino(): BaseAccount.Amino {
-    const { address, public_key, account_number, sequence } = this
-    return {
-      type: 'cosmos-sdk/BaseAccount',
-      value: {
-        address,
-        public_key: public_key?.toAmino(),
-        account_number: account_number.toFixed(),
-        sequence: sequence.toFixed(),
-      },
-    }
-  }
-
   public static fromAmino(data: BaseAccount.Amino): BaseAccount {
     const {
       value: { address, public_key, account_number, sequence },
@@ -64,6 +51,19 @@ export class BaseAccount extends JSONSerializable<
       parseInt(account_number) ?? 0,
       parseInt(sequence) ?? 0
     )
+  }
+
+  public toAmino(): BaseAccount.Amino {
+    const { address, public_key, account_number, sequence } = this
+    return {
+      type: 'cosmos-sdk/BaseAccount',
+      value: {
+        address,
+        public_key: public_key?.toAmino(),
+        account_number: account_number.toFixed(),
+        sequence: sequence.toFixed(),
+      },
+    }
   }
 
   public static fromData(data: BaseAccount.Data): BaseAccount {
@@ -88,24 +88,24 @@ export class BaseAccount extends JSONSerializable<
     }
   }
 
-  public toProto(): BaseAccount.Proto {
-    const { address, public_key, account_number, sequence } = this
-    return BaseAccount_pb.fromPartial({
-      address,
-      pubKey: public_key?.packAny(),
-      accountNumber: account_number,
-      sequence,
-    })
-  }
-
   public static fromProto(baseAccountProto: BaseAccount.Proto): BaseAccount {
     const pubkey = baseAccountProto.pubKey
     return new BaseAccount(
       baseAccountProto.address,
       pubkey ? PublicKey.fromProto(pubkey) : undefined,
-      baseAccountProto.accountNumber.toNumber(),
-      baseAccountProto.sequence.toNumber()
+      Number(baseAccountProto.accountNumber),
+      Number(baseAccountProto.sequence)
     )
+  }
+
+  public toProto(): BaseAccount.Proto {
+    const { address, public_key, account_number, sequence } = this
+    return BaseAccount_pb.fromPartial({
+      address,
+      pubKey: public_key?.packAny(),
+      accountNumber: BigInt(account_number),
+      sequence: BigInt(sequence),
+    })
   }
 
   public packAny(): Any {

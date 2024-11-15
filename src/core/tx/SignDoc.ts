@@ -73,7 +73,7 @@ export class SignDoc extends JSONSerializable<
     return SignDoc_pb.fromPartial({
       bodyBytes: tx_body.toBytes(),
       authInfoBytes: auth_info.toBytes(),
-      accountNumber: account_number,
+      accountNumber: BigInt(account_number),
       chainId: chain_id,
     })
   }

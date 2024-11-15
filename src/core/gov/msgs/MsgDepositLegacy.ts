@@ -71,7 +71,7 @@ export class MsgDepositLegacy extends JSONSerializable<
 
   public static fromProto(proto: MsgDepositLegacy.Proto): MsgDepositLegacy {
     return new MsgDepositLegacy(
-      proto.proposalId.toNumber(),
+      Number(proto.proposalId),
       proto.depositor,
       Coins.fromProto(proto.amount)
     )
@@ -82,7 +82,7 @@ export class MsgDepositLegacy extends JSONSerializable<
     return MsgDeposit_pb.fromPartial({
       amount: amount.toProto(),
       depositor,
-      proposalId: proposal_id,
+      proposalId: BigInt(proposal_id),
     })
   }
 

@@ -138,7 +138,7 @@ export class Validator extends JSONSerializable<
       Validator.Description.fromProto(
         data.description as Validator.Description.Proto
       ),
-      data.unbondingHeight.toNumber(),
+      Number(data.unbondingHeight),
       data.unbondingTime as Date,
       Validator.Commission.fromProto(
         data.commission as Validator.Commission.Proto
@@ -171,7 +171,7 @@ export class Validator extends JSONSerializable<
       tokens: tokens.toProto(),
       delegatorShares: delegator_shares.toProto(),
       description: description.toProto(),
-      unbondingHeight: unbonding_height,
+      unbondingHeight: BigInt(unbonding_height),
       unbondingTime: unbonding_time,
       commission: commission.toProto(),
       votingPowers: voting_powers.toProto(),
