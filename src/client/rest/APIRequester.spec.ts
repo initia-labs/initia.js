@@ -62,7 +62,7 @@ describe('APIRequester', () => {
     await request.get('foo');
 
     expect(mockedAxios.get).toHaveBeenCalledWith(
-      'https://rest.testnet.initia.xyz/foo',
+      'https://rest.testnet.initia.xyz/bar/foo',
       {
         headers: new axios.AxiosHeaders(),
         params: {},
