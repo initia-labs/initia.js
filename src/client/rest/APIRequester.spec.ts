@@ -54,4 +54,19 @@ describe('APIRequester', () => {
       }
     )
   })
+  
+  it('handles baseURL with path and endpoint without leading slash', async () => {
+    mockedAxios.get.mockResolvedValueOnce({ data: null });
+
+    const request = new APIRequester('https://rest.testnet.initia.xyz/bar');
+    await request.get('foo');
+
+    expect(mockedAxios.get).toHaveBeenCalledWith(
+      'https://rest.testnet.initia.xyz/foo',
+      {
+        headers: new axios.AxiosHeaders(),
+        params: {},
+      }
+    );
+  });
 })
