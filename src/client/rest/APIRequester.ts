@@ -52,13 +52,15 @@ export class APIRequester {
   }
 
   private computeEndpoint(endpoint: string) {
-    const url = new URL(this.baseURL)
+    const relativeEndpoint = endpoint.replace(/^\/+/, '');
+    const baseURLObject = new URL(this.baseURL);
 
-    url.pathname === '/'
-      ? (url.pathname = endpoint)
-      : (url.pathname += endpoint)
+    if (!baseURLObject.pathname.endsWith('/')) {
+      baseURLObject.pathname += '/';
+    }
+    baseURLObject.pathname += relativeEndpoint;
 
-    return url.toString()
+    return baseURLObject.toString();
   }
 
   public async getRaw<T>(
