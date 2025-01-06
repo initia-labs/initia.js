@@ -112,7 +112,7 @@ export class MsgTransfer extends JSONSerializable<
         token: token?.toAmino(),
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() ?? {},
+        timeout_height: timeout_height?.toAmino(),
         timeout_timestamp,
         memo,
       },
@@ -238,11 +238,12 @@ export namespace MsgTransfer {
       token?: Coin.Amino
       sender: AccAddress
       receiver: string
-      timeout_height: Height.Amino
+      timeout_height?: Height.Amino
       timeout_timestamp?: string
       memo?: string
     }
   }
+
   export interface Data {
     '@type': '/ibc.applications.transfer.v1.MsgTransfer'
     source_port: string
@@ -254,5 +255,6 @@ export namespace MsgTransfer {
     timeout_timestamp: string
     memo?: string
   }
+
   export type Proto = MsgTransfer_pb
 }

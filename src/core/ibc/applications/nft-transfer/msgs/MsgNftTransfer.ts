@@ -119,7 +119,7 @@ export class MsgNftTransfer extends JSONSerializable<
         token_ids,
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino() ?? {},
+        timeout_height: timeout_height?.toAmino(),
         timeout_timestamp,
         memo,
       },
@@ -253,7 +253,7 @@ export namespace MsgNftTransfer {
       token_ids: string[]
       sender: AccAddress
       receiver: string
-      timeout_height: Height.Amino
+      timeout_height?: Height.Amino
       timeout_timestamp?: string
       memo?: string
     }
