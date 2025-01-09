@@ -56,6 +56,17 @@ export class EvmAPI extends BaseAPI {
   }
 
   /**
+   * Query the ERC20Wrapper contract address.
+   */
+  public async erc20Wrapper(params: APIParams = {}): Promise<string> {
+    return this.c
+      .get<{
+        address: string
+      }>(`/minievm/evm/v1/contracts/erc20_wrapper`, params)
+      .then((d) => d.address)
+  }
+
+  /**
    * Query the contract address by denom.
    * @param denom denom to look up
    */

@@ -11,6 +11,8 @@ import {
   num,
   TxLog,
   Event,
+  Denom,
+  Coin,
 } from '../../../core'
 import { hashToHex } from '../../../util'
 import { RESTClient } from '../RESTClient'
@@ -608,5 +610,25 @@ export class TxAPI extends BaseAPI {
     }
 
     return targetEvents
+  }
+
+  /**
+   * Query the gas prices for the network.
+   */
+  public async gasPrices(params: APIParams = {}): Promise<Coins> {
+    return this.c
+      .get<{ gas_prices: Coins.Data }>(`/initia/tx/v1/gas_prices`, params)
+      .then((d) => Coins.fromData(d.gas_prices))
+  }
+
+  /**
+   * Query the gas price of a denom for the network.
+   */
+  public async gasPrice(denom: Denom, params: APIParams = {}): Promise<Coin> {
+    return this.c
+      .get<{
+        gas_price: Coin.Data
+      }>(`/initia/tx/v1/gas_prices/${denom}`, params)
+      .then((d) => Coin.fromData(d.gas_price))
   }
 }
