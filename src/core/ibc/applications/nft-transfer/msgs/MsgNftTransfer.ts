@@ -92,7 +92,7 @@ export class MsgNftTransfer extends JSONSerializable<
       token_ids,
       sender,
       receiver,
-      timeout_height ? Height.fromAmino(timeout_height) : undefined,
+      Height.fromAmino(timeout_height),
       timeout_timestamp,
       memo
     )
@@ -119,9 +119,9 @@ export class MsgNftTransfer extends JSONSerializable<
         token_ids,
         sender,
         receiver,
-        timeout_height: timeout_height?.toAmino(),
+        timeout_height: timeout_height?.toAmino() ?? {},
         timeout_timestamp,
-        memo,
+        memo: memo === '' ? undefined : memo,
       },
     }
   }
@@ -253,7 +253,7 @@ export namespace MsgNftTransfer {
       token_ids: string[]
       sender: AccAddress
       receiver: string
-      timeout_height?: Height.Amino
+      timeout_height: Height.Amino
       timeout_timestamp?: string
       memo?: string
     }

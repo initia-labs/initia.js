@@ -73,7 +73,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       unpin_code,
       admin,
       label,
-      msg,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
       Coins.fromAmino(funds),
       source,
       builder,
@@ -105,7 +105,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
         unpin_code,
         admin,
         label,
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
         funds: funds.toAmino(),
         source,
         builder,
@@ -140,7 +140,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       unpin_code,
       admin,
       label,
-      msg,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
       Coins.fromData(funds),
       source,
       builder,
@@ -171,7 +171,7 @@ export class MsgStoreAndInstantiateContract extends JSONSerializable<
       unpin_code,
       admin,
       label,
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       funds: funds.toData(),
       source,
       builder,
@@ -253,7 +253,7 @@ export namespace MsgStoreAndInstantiateContract {
       unpin_code?: boolean
       admin?: AccAddress
       label?: string
-      msg: string
+      msg: JSON
       funds: Coins.Amino
       source: string
       builder: string
@@ -269,7 +269,7 @@ export namespace MsgStoreAndInstantiateContract {
     unpin_code?: boolean
     admin?: AccAddress
     label?: string
-    msg: string
+    msg: JSON
     funds: Coins.Amino
     source: string
     builder: string

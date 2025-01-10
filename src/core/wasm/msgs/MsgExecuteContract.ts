@@ -34,7 +34,12 @@ export class MsgExecuteContract extends JSONSerializable<
       value: { sender, contract, msg, funds },
     } = data
 
-    return new MsgExecuteContract(sender, contract, msg, Coins.fromAmino(funds))
+    return new MsgExecuteContract(
+      sender,
+      contract,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
+      Coins.fromAmino(funds)
+    )
   }
 
   public toAmino(): MsgExecuteContract.Amino {
@@ -44,7 +49,7 @@ export class MsgExecuteContract extends JSONSerializable<
       value: {
         sender,
         contract,
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
         funds: funds.toAmino(),
       },
     }
@@ -52,7 +57,13 @@ export class MsgExecuteContract extends JSONSerializable<
 
   public static fromData(data: MsgExecuteContract.Data): MsgExecuteContract {
     const { sender, contract, msg, funds } = data
-    return new MsgExecuteContract(sender, contract, msg, Coins.fromData(funds))
+
+    return new MsgExecuteContract(
+      sender,
+      contract,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
+      Coins.fromData(funds)
+    )
   }
 
   public toData(): MsgExecuteContract.Data {
@@ -61,7 +72,7 @@ export class MsgExecuteContract extends JSONSerializable<
       '@type': '/cosmwasm.wasm.v1.MsgExecuteContract',
       sender,
       contract,
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       funds: funds.toData(),
     }
   }
@@ -105,7 +116,7 @@ export namespace MsgExecuteContract {
     value: {
       sender: AccAddress
       contract: AccAddress
-      msg: string
+      msg: JSON
       funds: Coins.Amino
     }
   }
@@ -114,7 +125,7 @@ export namespace MsgExecuteContract {
     '@type': '/cosmwasm.wasm.v1.MsgExecuteContract'
     sender: AccAddress
     contract: AccAddress
-    msg: string
+    msg: JSON
     funds: Coins.Data
   }
 

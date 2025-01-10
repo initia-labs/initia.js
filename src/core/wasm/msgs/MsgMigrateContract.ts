@@ -31,7 +31,12 @@ export class MsgMigrateContract extends JSONSerializable<
       value: { sender, contract, code_id, msg },
     } = data
 
-    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
+    return new MsgMigrateContract(
+      sender,
+      contract,
+      parseInt(code_id),
+      Buffer.from(JSON.stringify(msg)).toString('base64')
+    )
   }
 
   public toAmino(): MsgMigrateContract.Amino {
@@ -42,14 +47,20 @@ export class MsgMigrateContract extends JSONSerializable<
         sender,
         contract,
         code_id: code_id.toFixed(),
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       },
     }
   }
 
   public static fromData(data: MsgMigrateContract.Data): MsgMigrateContract {
     const { sender, contract, code_id, msg } = data
-    return new MsgMigrateContract(sender, contract, parseInt(code_id), msg)
+
+    return new MsgMigrateContract(
+      sender,
+      contract,
+      parseInt(code_id),
+      Buffer.from(JSON.stringify(msg)).toString('base64')
+    )
   }
 
   public toData(): MsgMigrateContract.Data {
@@ -59,7 +70,7 @@ export class MsgMigrateContract extends JSONSerializable<
       sender,
       contract,
       code_id: code_id.toFixed(),
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
     }
   }
 
@@ -103,7 +114,7 @@ export namespace MsgMigrateContract {
       sender: AccAddress
       contract: AccAddress
       code_id: string
-      msg: string
+      msg: JSON
     }
   }
 
@@ -112,7 +123,7 @@ export namespace MsgMigrateContract {
     sender: AccAddress
     contract: AccAddress
     code_id: string
-    msg: string
+    msg: JSON
   }
 
   export type Proto = MsgMigrateContract_pb

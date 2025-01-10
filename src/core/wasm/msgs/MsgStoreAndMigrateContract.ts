@@ -50,7 +50,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         ? AccessConfig.fromAmino(instantiate_permission)
         : undefined,
       contract,
-      msg
+      Buffer.from(JSON.stringify(msg)).toString('base64')
     )
   }
 
@@ -65,7 +65,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         wasm_byte_code,
         instantiate_permission: instantiate_permission?.toAmino(),
         contract,
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       },
     }
   }
@@ -83,7 +83,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
         ? AccessConfig.fromData(instantiate_permission)
         : undefined,
       contract,
-      msg
+      Buffer.from(JSON.stringify(msg)).toString('base64')
     )
   }
 
@@ -97,7 +97,7 @@ export class MsgStoreAndMigrateContract extends JSONSerializable<
       wasm_byte_code,
       instantiate_permission: instantiate_permission?.toData(),
       contract,
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
     }
   }
 
@@ -150,7 +150,7 @@ export namespace MsgStoreAndMigrateContract {
       wasm_byte_code: string
       instantiate_permission?: AccessConfig.Amino
       contract: AccAddress
-      msg: string
+      msg: JSON
     }
   }
 
@@ -160,7 +160,7 @@ export namespace MsgStoreAndMigrateContract {
     wasm_byte_code: string
     instantiate_permission?: AccessConfig.Data
     contract: AccAddress
-    msg: string
+    msg: JSON
   }
 
   export type Proto = MsgStoreAndMigrateContract_pb
