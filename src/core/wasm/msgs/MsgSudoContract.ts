@@ -29,7 +29,11 @@ export class MsgSudoContract extends JSONSerializable<
     const {
       value: { authority, contract, msg },
     } = data
-    return new MsgSudoContract(authority, contract, msg)
+    return new MsgSudoContract(
+      authority,
+      contract,
+      Buffer.from(JSON.stringify(msg)).toString('base64')
+    )
   }
 
   public toAmino(): MsgSudoContract.Amino {
@@ -39,14 +43,18 @@ export class MsgSudoContract extends JSONSerializable<
       value: {
         authority,
         contract,
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       },
     }
   }
 
   public static fromData(data: MsgSudoContract.Data): MsgSudoContract {
     const { authority, contract, msg } = data
-    return new MsgSudoContract(authority, contract, msg)
+    return new MsgSudoContract(
+      authority,
+      contract,
+      Buffer.from(JSON.stringify(msg)).toString('base64')
+    )
   }
 
   public toData(): MsgSudoContract.Data {
@@ -55,7 +63,7 @@ export class MsgSudoContract extends JSONSerializable<
       '@type': '/cosmwasm.wasm.v1.MsgSudoContract',
       authority,
       contract,
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
     }
   }
 
@@ -94,7 +102,7 @@ export namespace MsgSudoContract {
     value: {
       authority: AccAddress
       contract: AccAddress
-      msg: string
+      msg: JSON
     }
   }
 
@@ -102,7 +110,7 @@ export namespace MsgSudoContract {
     '@type': '/cosmwasm.wasm.v1.MsgSudoContract'
     authority: AccAddress
     contract: AccAddress
-    msg: string
+    msg: JSON
   }
 
   export type Proto = MsgSudoContract_pb

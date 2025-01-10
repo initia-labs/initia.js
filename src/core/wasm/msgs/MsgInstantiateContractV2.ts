@@ -49,7 +49,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       admin,
       parseInt(code_id),
       label,
-      msg,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
       Coins.fromAmino(funds),
       salt,
       fix_msg
@@ -65,7 +65,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
         admin,
         code_id: code_id.toFixed(),
         label,
-        msg,
+        msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
         funds: funds.toAmino(),
         salt,
         fix_msg,
@@ -82,7 +82,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       admin,
       parseInt(code_id),
       label,
-      msg,
+      Buffer.from(JSON.stringify(msg)).toString('base64'),
       Coins.fromData(funds),
       salt,
       fix_msg
@@ -97,7 +97,7 @@ export class MsgInstantiateContractV2 extends JSONSerializable<
       admin,
       code_id: code_id.toFixed(),
       label,
-      msg,
+      msg: JSON.parse(Buffer.from(msg, 'base64').toString()),
       funds: funds.toData(),
       salt,
       fix_msg,
@@ -155,7 +155,7 @@ export namespace MsgInstantiateContractV2 {
       admin?: AccAddress
       code_id: string
       label?: string
-      msg: string
+      msg: JSON
       funds: Coins.Amino
       salt: string
       fix_msg: boolean
@@ -168,7 +168,7 @@ export namespace MsgInstantiateContractV2 {
     admin?: AccAddress
     code_id: string
     label?: string
-    msg: string
+    msg: JSON
     funds: Coins.Data
     salt: string
     fix_msg: boolean
