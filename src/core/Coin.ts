@@ -1,6 +1,6 @@
 import { JSONSerializable } from '../util/json'
 import { Denom } from './Denom'
-import { num, checkDecimal } from './num'
+import { num, checkDecimal, BigNumber } from './num'
 import { Coin as Coin_pb } from '@initia/initia.proto/cosmos/base/v1beta1/coin'
 
 /**
@@ -23,7 +23,7 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
     amount: number | string
   ) {
     super()
-    this.amount = num(amount).toString()
+    this.amount = num(amount).toFixed()
     this.isDecimal = checkDecimal(amount)
   }
 
@@ -31,14 +31,14 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * Turns the Coin into an Integer coin.
    */
   public toIntCoin(): Coin {
-    return new Coin(this.denom, num(this.amount).toFixed())
+    return new Coin(this.denom, num(this.amount).toFixed(0))
   }
 
   /**
    * Turns the Coin into an Integer coin with ceiling the amount.
    */
   public toIntCeilCoin(): Coin {
-    return new Coin(this.denom, num(this.amount).toFixed(0, 2))
+    return new Coin(this.denom, num(this.amount).toFixed(0, BigNumber.ROUND_CEIL))
   }
 
   /**
