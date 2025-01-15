@@ -64,7 +64,7 @@ export namespace AccAddress {
    */
   export function fromHex(hexAddress: string): AccAddress {
     const hex = hexAddress.replace(/^0x0+|^0x|^0+(?!x)/, '')
-    // That moudule address reach here is nearly impossible
+    // That module address reach here is nearly impossible
     if (hex.length <= 40) {
       return bech32.encode(
         'init',
