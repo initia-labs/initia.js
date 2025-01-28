@@ -20,6 +20,7 @@ export class OpchildParams extends JSONSerializable<
    * @param bridge_executors the account addresses of bridge executor who can execute permissioned bridge messages
    * @param admin the account address of admin who can execute permissioned cosmos messages
    * @param fee_whitelist the list of addresses that are allowed to pay zero fee
+   * @param hook_max_gas max gas for hook execution of `MsgFinalizeTokenDeposit`
    */
   constructor(
     public max_validators: number,
@@ -27,7 +28,8 @@ export class OpchildParams extends JSONSerializable<
     min_gas_prices: Coins.Input,
     public bridge_executors: AccAddress[],
     public admin: AccAddress,
-    public fee_whitelist: string[]
+    public fee_whitelist: string[],
+    public hook_max_gas: number
   ) {
     super()
     this.min_gas_prices = new Coins(min_gas_prices)
@@ -42,6 +44,7 @@ export class OpchildParams extends JSONSerializable<
         bridge_executors,
         admin,
         fee_whitelist,
+        hook_max_gas,
       },
     } = data
 
@@ -51,7 +54,8 @@ export class OpchildParams extends JSONSerializable<
       Coins.fromAmino(min_gas_prices),
       bridge_executors,
       admin,
-      fee_whitelist
+      fee_whitelist,
+      parseInt(hook_max_gas)
     )
   }
 
@@ -63,6 +67,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executors,
       admin,
       fee_whitelist,
+      hook_max_gas,
     } = this
 
     return {
@@ -74,6 +79,7 @@ export class OpchildParams extends JSONSerializable<
         bridge_executors,
         admin,
         fee_whitelist,
+        hook_max_gas: hook_max_gas.toFixed(),
       },
     }
   }
@@ -86,6 +92,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executors,
       admin,
       fee_whitelist,
+      hook_max_gas,
     } = data
 
     return new OpchildParams(
@@ -94,7 +101,8 @@ export class OpchildParams extends JSONSerializable<
       Coins.fromData(min_gas_prices),
       bridge_executors,
       admin,
-      fee_whitelist
+      fee_whitelist,
+      parseInt(hook_max_gas)
     )
   }
 
@@ -106,6 +114,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executors,
       admin,
       fee_whitelist,
+      hook_max_gas,
     } = this
 
     return {
@@ -116,6 +125,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executors,
       admin,
       fee_whitelist,
+      hook_max_gas: hook_max_gas.toFixed(),
     }
   }
 
@@ -126,7 +136,8 @@ export class OpchildParams extends JSONSerializable<
       Coins.fromProto(data.minGasPrices),
       data.bridgeExecutors,
       data.admin,
-      data.feeWhitelist
+      data.feeWhitelist,
+      Number(data.hookMaxGas)
     )
   }
 
@@ -138,6 +149,7 @@ export class OpchildParams extends JSONSerializable<
       bridge_executors,
       admin,
       fee_whitelist,
+      hook_max_gas,
     } = this
 
     return Params_pb.fromPartial({
@@ -147,6 +159,7 @@ export class OpchildParams extends JSONSerializable<
       bridgeExecutors: bridge_executors,
       admin,
       feeWhitelist: fee_whitelist,
+      hookMaxGas: BigInt(hook_max_gas),
     })
   }
 }
@@ -161,6 +174,7 @@ export namespace OpchildParams {
       bridge_executors: AccAddress[]
       admin: AccAddress
       fee_whitelist: string[]
+      hook_max_gas: string
     }
   }
 
@@ -172,6 +186,7 @@ export namespace OpchildParams {
     bridge_executors: AccAddress[]
     admin: AccAddress
     fee_whitelist: string[]
+    hook_max_gas: string
   }
 
   export type Proto = Params_pb

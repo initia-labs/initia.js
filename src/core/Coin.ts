@@ -38,7 +38,10 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
    * Turns the Coin into an Integer coin with ceiling the amount.
    */
   public toIntCeilCoin(): Coin {
-    return new Coin(this.denom, num(this.amount).toFixed(0, BigNumber.ROUND_CEIL))
+    return new Coin(
+      this.denom,
+      num(this.amount).toFixed(0, BigNumber.ROUND_CEIL)
+    )
   }
 
   /**
