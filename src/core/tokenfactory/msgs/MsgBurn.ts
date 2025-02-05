@@ -17,65 +17,59 @@ export class MsgBurn extends JSONSerializable<
   /**
    * @param sender
    * @param amount
-   * @param burn_from_address
    */
   constructor(
     public sender: AccAddress,
     public amount: Coin,
-    public burn_from_address: AccAddress
   ) {
     super()
   }
 
   public static fromAmino(data: MsgBurn.Amino): MsgBurn {
     const {
-      value: { sender, amount, burn_from_address },
+      value: { sender, amount },
     } = data
 
-    return new MsgBurn(sender, Coin.fromAmino(amount), burn_from_address)
+    return new MsgBurn(sender, Coin.fromAmino(amount))
   }
 
   public toAmino(): MsgBurn.Amino {
-    const { sender, amount, burn_from_address } = this
+    const { sender, amount } = this
     return {
       type: 'tokenfactory/MsgBurn',
       value: {
         sender,
         amount: amount.toAmino(),
-        burn_from_address,
       },
     }
   }
 
   public static fromData(data: MsgBurn.Data): MsgBurn {
-    const { sender, amount, burn_from_address } = data
-    return new MsgBurn(sender, Coin.fromData(amount), burn_from_address)
+    const { sender, amount } = data
+    return new MsgBurn(sender, Coin.fromData(amount))
   }
 
   public toData(): MsgBurn.Data {
-    const { sender, amount, burn_from_address } = this
+    const { sender, amount } = this
     return {
       '@type': '/miniwasm.tokenfactory.v1.MsgBurn',
       sender,
       amount: amount.toData(),
-      burn_from_address,
     }
   }
 
   public static fromProto(data: MsgBurn.Proto): MsgBurn {
     return new MsgBurn(
       data.sender,
-      Coin.fromProto(data.amount as Coin.Proto),
-      data.burnFromAddress
+      Coin.fromProto(data.amount as Coin.Proto)
     )
   }
 
   public toProto(): MsgBurn.Proto {
-    const { sender, amount, burn_from_address } = this
+    const { sender, amount } = this
     return MsgBurn_pb.fromPartial({
       sender,
       amount: amount.toProto(),
-      burnFromAddress: burn_from_address,
     })
   }
 
@@ -97,7 +91,6 @@ export namespace MsgBurn {
     value: {
       sender: AccAddress
       amount: Coin.Amino
-      burn_from_address: AccAddress
     }
   }
 
@@ -105,7 +98,6 @@ export namespace MsgBurn {
     '@type': '/miniwasm.tokenfactory.v1.MsgBurn'
     sender: AccAddress
     amount: Coin.Data
-    burn_from_address: AccAddress
   }
 
   export type Proto = MsgBurn_pb

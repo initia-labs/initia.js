@@ -4,7 +4,6 @@ import { MsgBurn } from './MsgBurn'
 import { MsgChangeAdmin } from './MsgChangeAdmin'
 import { MsgSetDenomMetadataWasm } from './MsgSetDenomMetadataWasm'
 import { MsgSetBeforeSendHook } from './MsgSetBeforeSendHook'
-import { MsgForceTransfer } from './MsgForceTransfer'
 import { MsgUpdateTokenfactoryParams } from './MsgUpdateTokenfactoryParams'
 
 export * from './MsgCreateDenom'
@@ -13,7 +12,6 @@ export * from './MsgBurn'
 export * from './MsgChangeAdmin'
 export * from './MsgSetDenomMetadataWasm'
 export * from './MsgSetBeforeSendHook'
-export * from './MsgForceTransfer'
 export * from './MsgUpdateTokenfactoryParams'
 
 export type TokenfactoryMsg =
@@ -23,7 +21,6 @@ export type TokenfactoryMsg =
   | MsgChangeAdmin
   | MsgSetDenomMetadataWasm
   | MsgSetBeforeSendHook
-  | MsgForceTransfer
   | MsgUpdateTokenfactoryParams
 
 export namespace TokenfactoryMsg {
@@ -34,7 +31,6 @@ export namespace TokenfactoryMsg {
     | MsgChangeAdmin.Amino
     | MsgSetDenomMetadataWasm.Amino
     | MsgSetBeforeSendHook.Amino
-    | MsgForceTransfer.Amino
     | MsgUpdateTokenfactoryParams.Amino
 
   export type Data =
@@ -44,7 +40,6 @@ export namespace TokenfactoryMsg {
     | MsgChangeAdmin.Data
     | MsgSetDenomMetadataWasm.Data
     | MsgSetBeforeSendHook.Data
-    | MsgForceTransfer.Data
     | MsgUpdateTokenfactoryParams.Data
 
   export type Proto =
@@ -54,6 +49,5 @@ export namespace TokenfactoryMsg {
     | MsgChangeAdmin.Proto
     | MsgSetDenomMetadataWasm.Proto
     | MsgSetBeforeSendHook.Proto
-    | MsgForceTransfer.Proto
     | MsgUpdateTokenfactoryParams.Proto
 }

@@ -31,6 +31,15 @@ export class MarketmapAPI extends BaseAPI {
   }
 
   /**
+   * Query all stored markets in the marketmap module as a sorted list.
+   */
+  public async markets(params: APIParams = {}): Promise<Market[]> {
+    return this.c
+      .get<{ markets: Market.Data[] }>(`/connect/marketmap/v2/markets`, params)
+      .then((d) => d.markets.map(Market.fromData))
+  }
+
+  /**
    * Query the market stored in the marketmap module.
    * @param pair the currency pair associated with the market being requested
    */

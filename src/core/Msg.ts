@@ -131,6 +131,7 @@ import {
   MsgCreateMarkets,
   MsgUpdateMarkets,
   MsgUpsertMarkets,
+  MsgRemoveMarkets,
   MsgRemoveMarketAuthorities,
   MsgUpdateMarketmapParams,
 } from './marketmap/msgs'
@@ -202,7 +203,6 @@ import {
   MsgChangeAdmin,
   MsgSetDenomMetadataWasm,
   MsgSetBeforeSendHook,
-  MsgForceTransfer,
   MsgUpdateTokenfactoryParams,
 } from './tokenfactory'
 import { UpgradeMsg, MsgSoftwareUpgrade, MsgCancelUpgrade } from './upgrade'
@@ -537,6 +537,8 @@ export namespace Msg {
         return MsgUpdateMarkets.fromAmino(data)
       case 'connect/x/marketmap/MsgUpsertMarkets':
         return MsgUpsertMarkets.fromAmino(data)
+      case 'connect/x/marketmap/MsgRemoveMarkets':
+        return MsgRemoveMarkets.fromAmino(data)
       case 'connect/x/marketmap/MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.fromAmino(data)
       case 'connect/x/marketmap/MsgParams':
@@ -661,8 +663,6 @@ export namespace Msg {
         return MsgSetDenomMetadataWasm.fromAmino(data)
       case 'tokenfactory/MsgSetBeforeSendHook':
         return MsgSetBeforeSendHook.fromAmino(data)
-      case 'tokenfactory/MsgForceTransfer':
-        return MsgForceTransfer.fromAmino(data)
       case 'tokenfactory/MsgUpdateParams':
         return MsgUpdateTokenfactoryParams.fromAmino(data)
 
@@ -947,6 +947,8 @@ export namespace Msg {
         return MsgUpdateMarkets.fromData(data)
       case '/connect.marketmap.v2.MsgUpsertMarkets':
         return MsgUpsertMarkets.fromData(data)
+      case '/connect.marketmap.v2.MsgRemoveMarkets':
+        return MsgRemoveMarkets.fromData(data)
       case '/connect.marketmap.v2.MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.fromData(data)
       case '/connect.marketmap.v2.MsgParams':
@@ -1071,8 +1073,6 @@ export namespace Msg {
         return MsgSetDenomMetadataWasm.fromData(data)
       case '/miniwasm.tokenfactory.v1.MsgSetBeforeSendHook':
         return MsgSetBeforeSendHook.fromData(data)
-      case '/miniwasm.tokenfactory.v1.MsgForceTransfer':
-        return MsgForceTransfer.fromData(data)
       case '/miniwasm.tokenfactory.v1.MsgUpdateParams':
         return MsgUpdateTokenfactoryParams.fromData(data)
 
@@ -1357,6 +1357,8 @@ export namespace Msg {
         return MsgUpdateMarkets.unpackAny(proto)
       case '/connect.marketmap.v2.MsgUpsertMarkets':
         return MsgUpsertMarkets.unpackAny(proto)
+      case '/connect.marketmap.v2.MsgRemoveMarkets':
+        return MsgRemoveMarkets.unpackAny(proto)
       case '/connect.marketmap.v2.MsgRemoveMarketAuthorities':
         return MsgRemoveMarketAuthorities.unpackAny(proto)
       case '/connect.marketmap.v2.MsgParams':
@@ -1481,8 +1483,6 @@ export namespace Msg {
         return MsgSetDenomMetadataWasm.unpackAny(proto)
       case '/miniwasm.tokenfactory.v1.MsgSetBeforeSendHook':
         return MsgSetBeforeSendHook.unpackAny(proto)
-      case '/miniwasm.tokenfactory.v1.MsgForceTransfer':
-        return MsgForceTransfer.unpackAny(proto)
       case '/miniwasm.tokenfactory.v1.MsgUpdateParams':
         return MsgUpdateTokenfactoryParams.unpackAny(proto)
 
