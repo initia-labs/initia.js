@@ -16,7 +16,7 @@ export default defineConfig({
         new RegExp('^jscrypto.*'),
         '@ledgerhq/hw-transport',
         '@mysten/bcs',
-        'axios',
+        'xior',
         'bech32',
         'bignumber.js',
         'bip32',

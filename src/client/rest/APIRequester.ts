@@ -1,4 +1,7 @@
-import Axios, { AxiosInstance, AxiosHeaders, CreateAxiosDefaults } from 'axios'
+import Axios, {
+  XiorInstance as AxiosInstance,
+  XiorRequestConfig as CreateAxiosDefaults,
+} from 'xior'
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
 export type APIParams = Record<string, string | number | null | undefined>
@@ -75,7 +78,7 @@ export class APIRequester {
   public async get<T>(
     endpoint: string,
     params: URLSearchParams | APIParams = {},
-    headers: AxiosHeaders = new AxiosHeaders()
+    headers: Record<string, string> = {}
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
