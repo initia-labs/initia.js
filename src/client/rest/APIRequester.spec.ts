@@ -1,72 +1,77 @@
-import axios from 'axios'
 import { APIRequester } from './APIRequester'
 
-jest.mock('axios')
-const mockedAxios = jest.mocked(axios)
-
 describe('APIRequester', () => {
-  beforeAll(() => {
-    // @ts-expect-error
-    axios.create.mockReturnThis()
+  let fetchSpy: jest.SpyInstance
+
+  beforeEach(() => {
+    fetchSpy = jest.spyOn(global, 'fetch').mockImplementation(async () => 
+      new Response(JSON.stringify(null), {
+        headers: { 'Content-Type': 'application/json' }
+      })
+    )
+  })
+
+  afterEach(() => {
+    fetchSpy.mockRestore()
   })
 
   it('accept a standard URL', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: null })
-
     const request = new APIRequester('https://rest.testnet.initia.xyz')
     await request.get('/foo')
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
       'https://rest.testnet.initia.xyz/foo',
-      {
-        headers: new axios.AxiosHeaders(),
-        params: {},
-      }
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'accept': 'application/json'
+        })
+      })
     )
   })
 
   it('accept a deep URL', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: null })
-
     const request = new APIRequester('https://rest.testnet.initia.xyz/bar')
     await request.get('/foo')
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
       'https://rest.testnet.initia.xyz/bar/foo',
-      {
-        headers: new axios.AxiosHeaders(),
-        params: {},
-      }
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'accept': 'application/json'
+        })
+      })
     )
   })
 
   it('accept an URL with search params', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: null })
-
     const request = new APIRequester('https://rest.testnet.initia.xyz?key=123')
     await request.get('/foo')
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
       'https://rest.testnet.initia.xyz/foo?key=123',
-      {
-        headers: new axios.AxiosHeaders(),
-        params: {},
-      }
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'accept': 'application/json'
+        })
+      })
     )
   })
   
   it('handles baseURL with path and endpoint without leading slash', async () => {
-    mockedAxios.get.mockResolvedValueOnce({ data: null })
-
     const request = new APIRequester('https://rest.testnet.initia.xyz/bar')
     await request.get('foo')
 
-    expect(mockedAxios.get).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledWith(
       'https://rest.testnet.initia.xyz/bar/foo',
-      {
-        headers: new axios.AxiosHeaders(),
-        params: {},
-      }
+      expect.objectContaining({
+        method: 'GET',
+        headers: expect.objectContaining({
+          'accept': 'application/json'
+        })
+      })
     )
   })
 })

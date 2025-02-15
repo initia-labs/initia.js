@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosHeaders, CreateAxiosDefaults } from 'axios'
+import ky, { Options as KyOptions, SearchParamsOption } from 'ky'
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
 export type APIParams = Record<string, string | number | null | undefined>
@@ -21,19 +21,20 @@ export interface PaginationOptions {
 }
 
 export class APIRequester {
-  private axios: AxiosInstance
+  private readonly ky: typeof ky
   private readonly baseURL: string
 
-  constructor(baseURL: string, config?: CreateAxiosDefaults<any> | undefined) {
+  constructor(baseURL: string, config?: KyOptions) {
     this.baseURL = baseURL
-    const defaultConfig: CreateAxiosDefaults<any> = {
+    const defaultConfig: KyOptions = {
       headers: {
         Accept: 'application/json',
       },
       timeout: 30000,
+      prefixUrl: baseURL,
     }
 
-    this.axios = Axios.create({
+    this.ky = ky.create({
       ...defaultConfig,
       ...config,
       headers: { ...defaultConfig.headers, ...config?.headers },
@@ -52,15 +53,7 @@ export class APIRequester {
   }
 
   private computeEndpoint(endpoint: string) {
-    const relativeEndpoint = endpoint.replace(/^\/+/, '')
-    const baseURLObject = new URL(this.baseURL)
-
-    if (!baseURLObject.pathname.endsWith('/')) {
-      baseURLObject.pathname += '/'
-    }
-    baseURLObject.pathname += relativeEndpoint
-
-    return baseURLObject.toString()
+    return endpoint.replace(/^\/+/, '')
   }
 
   public async getRaw<T>(
@@ -69,22 +62,27 @@ export class APIRequester {
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.get(url, { params }).then((d) => d.data)
+    return this.ky.get(url, { searchParams: params }).json<T>()
   }
 
   public async get<T>(
     endpoint: string,
     params: URLSearchParams | APIParams = {},
-    headers: AxiosHeaders = new AxiosHeaders()
+    headers: Record<string, string> = {}
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.get(url, { params, headers }).then((d) => d.data)
+    return this.ky.get(url, { 
+      searchParams: params,
+      headers 
+    }).json<T>()
   }
 
   public async post<T>(endpoint: string, data?: any): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.post(url, data).then((d) => d.data)
+    return this.ky.post(url, {
+      json: data
+    }).json<T>()
   }
 }
