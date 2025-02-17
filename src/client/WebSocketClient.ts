@@ -86,7 +86,7 @@ function makeQueryParams(query: TendermintQuery): string {
 }
 
 /**
- * An object repesenting a connection to a Initia node's WebSocket RPC endpoint.
+ * An object representing a connection to a Initia node's WebSocket RPC endpoint.
  * This allows for subscribing to Tendermint events through WebSocket.
  *
  * ### Events
