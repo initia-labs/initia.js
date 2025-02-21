@@ -20,7 +20,7 @@ export class MsgBurn extends JSONSerializable<
    */
   constructor(
     public sender: AccAddress,
-    public amount: Coin,
+    public amount: Coin
   ) {
     super()
   }
@@ -59,10 +59,7 @@ export class MsgBurn extends JSONSerializable<
   }
 
   public static fromProto(data: MsgBurn.Proto): MsgBurn {
-    return new MsgBurn(
-      data.sender,
-      Coin.fromProto(data.amount as Coin.Proto)
-    )
+    return new MsgBurn(data.sender, Coin.fromProto(data.amount as Coin.Proto))
   }
 
   public toProto(): MsgBurn.Proto {

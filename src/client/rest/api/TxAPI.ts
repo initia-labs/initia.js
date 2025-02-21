@@ -372,6 +372,25 @@ export class TxAPI extends BaseAPI {
   }
 
   /**
+   * Query the tx simulation result.
+   * @param options tx options with sequence
+   */
+  public async simulate(
+    options: CreateTxOptions & { sequence: number }
+  ): Promise<SimulateResponse> {
+    const txBody = new TxBody(options.msgs, options.memo ?? '')
+    const authInfo = new AuthInfo([], new Fee(0, new Coins()))
+    const tx = new Tx(txBody, authInfo, [])
+    tx.appendEmptySignatures([{ sequenceNumber: options.sequence }])
+
+    return this.c
+      .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
+        tx_bytes: TxAPI.encode(tx),
+      })
+      .then((d) => SimulateResponse.fromData(d))
+  }
+
+  /**
    * Encode a transaction to base64-encoded protobuf.
    * @param tx transaction to encode
    */
