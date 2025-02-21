@@ -216,7 +216,7 @@ export class WasmAPI extends BaseAPI {
   }
 
   /**
-   * Query the binary code and metadata for a singe wasm code.
+   * Query the binary code and metadata for a single wasm code.
    * @param code_id unique code identifier
    */
   public async codeInfo(

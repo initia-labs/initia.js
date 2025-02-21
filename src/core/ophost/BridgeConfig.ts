@@ -17,7 +17,7 @@ export class BridgeConfig extends JSONSerializable<
    * @param proposer the address of the proposer
    * @param batch_info the information about batch submission
    * @param submission_interval the time interval at which checkpoints must be submitted
-   * @param finalization_period the minium time duration that must elapse before a withdrawal can be finalized
+   * @param finalization_period the minimum time duration that must elapse before a withdrawal can be finalized
    * @param submission_start_height the first l2 block will be recorded on l1
    * @param oracle_enabled flag to enable oracle
    * @param metadata normally IBC channelID for permissioned IBC relayer
