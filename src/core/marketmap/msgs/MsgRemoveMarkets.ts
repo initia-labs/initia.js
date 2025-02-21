@@ -2,7 +2,6 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgRemoveMarkets as MsgRemoveMarkets_pb } from '@initia/initia.proto/connect/marketmap/v2/tx'
-import { Market } from '../Market'
 
 /**
  * MsgRemoveMarkets removes the given markets from the marketmap if they exist in the map and if they are disabled.
@@ -56,10 +55,7 @@ export class MsgRemoveMarkets extends JSONSerializable<
   }
 
   public static fromProto(data: MsgRemoveMarkets.Proto): MsgRemoveMarkets {
-    return new MsgRemoveMarkets(
-      data.authority,
-      data.markets
-    )
+    return new MsgRemoveMarkets(data.authority, data.markets)
   }
 
   public toProto(): MsgRemoveMarkets.Proto {
