@@ -7,14 +7,15 @@ export default defineConfig({
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
-      fileName: (format) => `index.${format}.js`,
+      fileName: (format) => (format === 'es' ? 'index.js' : 'index.cjs'),
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
       external: [
         new RegExp('^@initia/.*'),
+        new RegExp('^@ledgerhq/.*'),
         new RegExp('^jscrypto.*'),
-        '@ledgerhq/hw-transport',
+        '@bitcoinerlab/secp256k1',
         '@mysten/bcs',
         'axios',
         'bech32',
