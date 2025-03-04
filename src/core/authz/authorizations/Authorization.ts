@@ -142,7 +142,7 @@ export namespace Authorization {
         return SendAuthorization.fromAmino(data)
       case 'cosmos-sdk/GenericAuthorization':
         return GenericAuthorization.fromAmino(data)
-      case 'mstake/StakeAuthorization':
+      case 'mstaking/StakeAuthorization':
         return StakeAuthorization.fromAmino(data)
       case 'move/ExecuteAuthorization':
         return ExecuteAuthorization.fromAmino(data)

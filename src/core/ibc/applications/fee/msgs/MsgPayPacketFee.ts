@@ -17,7 +17,7 @@ export class MsgPayPacketFee extends JSONSerializable<
   /**
    * @param fee encapsulates the recv, ack and timeout fees associated with an IBC packet
    * @param source_port_id the source port unique identifier
-   * @param source_channel_id the source channel unique identifer
+   * @param source_channel_id the source channel unique identifier
    * @param signer account address to refund fee if necessary
    * @param relayers optional list of relayers permitted to the receive packet fees
    */

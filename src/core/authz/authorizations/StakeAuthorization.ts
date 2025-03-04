@@ -52,7 +52,7 @@ export class StakeAuthorization extends JSONSerializable<
   public toAmino(): StakeAuthorization.Amino {
     const { max_tokens, allow_list, deny_list, authorization_type } = this
     return {
-      type: 'mstake/StakeAuthorization',
+      type: 'mstaking/StakeAuthorization',
       value: {
         max_tokens: max_tokens.toAmino(),
         allow_list: allow_list.toAmino(),
@@ -185,7 +185,7 @@ export namespace StakeAuthorization {
   export const Type = AuthorizationType
 
   export interface Amino {
-    type: 'mstake/StakeAuthorization'
+    type: 'mstaking/StakeAuthorization'
     value: {
       max_tokens: Coins.Amino
       allow_list: StakeAuthorizationValidators.Amino

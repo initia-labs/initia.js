@@ -203,6 +203,23 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
+   * Query sum of all the delegations' balance of a delegator.
+   */
+  public async totalDelegationBalance(
+    delegator: AccAddress,
+    params: APIParams = {}
+  ): Promise<Coins> {
+    return this.c
+      .get<{
+        balance: Coins.Data
+      }>(
+        `/initia/mstaking/v1/delegators/${delegator}/total_delegation_balance`,
+        params
+      )
+      .then((d) => Coins.fromData(d.balance))
+  }
+
+  /**
    * Query all current registered validators, including validators that are not currently in the validating set.
    */
   public async validators(

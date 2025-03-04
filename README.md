@@ -86,7 +86,7 @@ const serializedNone = bcs.option(bcs.u64()).serialize(null)
 
 ### Msg&#x20;
 
-Msgs are object whose end-goal is to trigger state-transitions. They are wrapped in transactions, which may contain one or more of them.
+Msgs are objects whose end-goal is to trigger state-transitions. They are wrapped in transactions, which may contain one or more of them.
 
 * `MsgSend()`&#x20;
 
@@ -185,7 +185,7 @@ const signedTx = await wallet.createAndSignTx({
 })
 ```
 
-When sending coins with `MsgSend`, sender address should be same with wallet address.
+When sending coins with `MsgSend`, sender address should be the same as wallet address.
 
 * `broadcast()`
 

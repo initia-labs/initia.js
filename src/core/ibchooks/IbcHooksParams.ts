@@ -22,7 +22,7 @@ export class IbcHooksParams extends JSONSerializable<
 
   public toAmino(): IbcHooksParams.Amino {
     return {
-      type: 'ibc-hooks/Params',
+      type: 'ibchooks/Params',
       value: { default_allowed: this.default_allowed },
     }
   }
@@ -51,7 +51,7 @@ export class IbcHooksParams extends JSONSerializable<
 
 export namespace IbcHooksParams {
   export interface Amino {
-    type: 'ibc-hooks/Params'
+    type: 'ibchooks/Params'
     value: {
       default_allowed: boolean
     }
