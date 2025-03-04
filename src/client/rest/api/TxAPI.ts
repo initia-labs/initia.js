@@ -299,6 +299,10 @@ export class TxAPI extends BaseAPI {
     signers: SignerData[],
     options: CreateTxOptions
   ): Promise<Fee> {
+    if (!this.rest.config.gasPrices) {
+      this.rest.config.gasPrices = await this.rest.gasPrices()
+    }
+
     const gasPrices = options.gasPrices ?? this.rest.config.gasPrices
     const gasAdjustment =
       options.gasAdjustment ?? this.rest.config.gasAdjustment
