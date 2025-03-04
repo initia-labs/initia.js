@@ -166,7 +166,7 @@ export class RESTClient {
   public async gasPrices(): Promise<Coins.Input | undefined> {
     try {
       const opchildParams = await this.opchild.parameters()
-      return opchildParams.min_gas_prices.toString() || '0uinit'
+      return opchildParams.min_gas_prices.toArray()[0]?.toString() ?? '0uinit'
     } catch {
       try {
         const moveParams = await this.move.parameters()
