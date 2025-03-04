@@ -32,7 +32,7 @@ import {
   WasmAPI,
 } from './api'
 import { Wallet } from './Wallet'
-import { Coins } from '../../core'
+import { Coin, Coins } from '../../core'
 import { Key } from '../../key'
 
 export interface RESTClientConfig {
@@ -54,12 +54,6 @@ export interface RESTClientConfig {
 
 const DEFAULT_REST_OPTIONS: Partial<RESTClientConfig> = {
   gasAdjustment: '1.75',
-}
-
-const DEFAULT_GAS_PRICES_BY_CHAIN_ID: Record<string, Coins.Input> = {
-  default: {
-    uinit: 0.15,
-  },
 }
 
 /**
@@ -125,9 +119,6 @@ export class RESTClient {
     this.URL = URL
     this.config = {
       ...DEFAULT_REST_OPTIONS,
-      gasPrices:
-        (config?.chainId && DEFAULT_GAS_PRICES_BY_CHAIN_ID[config.chainId]) ??
-        DEFAULT_GAS_PRICES_BY_CHAIN_ID['default'],
       ...config,
     }
     this.apiRequester = apiRequester ?? new APIRequester(this.URL)
@@ -170,6 +161,23 @@ export class RESTClient {
    */
   public wallet(key: Key): Wallet {
     return new Wallet(this, key)
+  }
+
+  public async gasPrices(): Promise<Coins.Input | undefined> {
+    try {
+      const opchildParams = await this.opchild.parameters()
+      return opchildParams.min_gas_prices.toArray()[0]?.toString() ?? '0uinit'
+    } catch {
+      try {
+        const moveParams = await this.move.parameters()
+        return new Coin(
+          moveParams.base_denom,
+          moveParams.base_min_gas_price
+        ).toString()
+      } catch {
+        return undefined
+      }
+    }
   }
 }
 
