@@ -2,7 +2,7 @@
   "include": ["src", "types"],
   "exclude": ["/node_modules/", "./src/**/*.spec.ts"],
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
