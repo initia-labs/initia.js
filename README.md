@@ -48,7 +48,7 @@ const key = new MnemonicKey({
     mnemonic: 'bird upset ...  evil cigar', // (optional) if null, generate a new Mnemonic key
     account: 0, // (optional) BIP44 account number. default = 0
     index: 0, // (optional) BIP44 index number. default = 0
-    coinType: 118, // (optional) BIP44 coinType. default = 118
+    coinType: 60, // (optional) BIP44 coinType. default = 60
 })
 ```
 
