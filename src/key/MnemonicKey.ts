@@ -4,7 +4,7 @@ import { generateMnemonic, mnemonicToSeedSync } from 'bip39'
 import { RawKey } from './RawKey'
 
 const bip32 = BIP32Factory(ecc)
-export const INIT_COIN_TYPE = 118
+export const INIT_COIN_TYPE = 60
 
 interface MnemonicKeyOptions {
   /**
@@ -23,7 +23,7 @@ interface MnemonicKeyOptions {
   index?: number
 
   /**
-   * Coin type. Default is INIT, 118.
+   * Coin type. Default is INIT, 60.
    */
   coinType?: number
 
@@ -37,7 +37,7 @@ const DEFAULT_OPTIONS = {
   account: 0,
   index: 0,
   coinType: INIT_COIN_TYPE,
-  eth: false,
+  eth: true,
 }
 
 /**
