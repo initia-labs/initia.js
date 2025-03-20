@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { CompactBitArray } from './CompactBitArray'
 import { SimplePublicKey } from '../PublicKey'
 import { SignatureV2 } from './SignatureV2'

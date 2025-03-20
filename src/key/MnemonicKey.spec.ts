@@ -7,7 +7,7 @@ import {
   AuthInfo,
   TxBody,
   SignDoc,
-  SimplePublicKey,
+  EthPublicKey,
 } from '../core'
 
 describe('MnemonicKey', () => {
@@ -16,22 +16,22 @@ describe('MnemonicKey', () => {
       {
         mnemonic:
           'wonder caution square unveil april art add hover spend smile proud admit modify old copper throw crew happy nature luggage reopen exhibit ordinary napkin',
-        publicKey: new SimplePublicKey(
-          'Az7m8AhXzoEh/OZ3DlZjhxPSNz3Ft0La35EDFkwiuRmi'
+        publicKey: new EthPublicKey(
+          'AhmSaN5Hkxu8LhEbG8t6wfUoO+CpNwRv8Scf8QI8eakW'
         ),
       },
       {
         mnemonic:
           'speak scatter present rice cattle sight amateur novel dizzy wheel cannon mango model sunset smooth appear impose want lunar tattoo theme zero misery flower',
-        publicKey: new SimplePublicKey(
-          'Awrtf/xWWRXXB8aeyrFr4XpCQOWR7e8zMa778/DnCmOr'
+        publicKey: new EthPublicKey(
+          'AsrivfpnswaZkju+9LhSR1yZmZ6rKBLFKntUVRnSSfnz'
         ),
       },
       {
         mnemonic:
           'pool december kitchen crouch robot relax oppose system virtual spread pistol obtain vicious bless salmon drive repeat when frost summer render shed bone limb',
-        publicKey: new SimplePublicKey(
-          'AtBxnfDCovu59noUv6GOh7eXkumkzja6bbp8uPhm12Op'
+        publicKey: new EthPublicKey(
+          'AuD71IRai0CDC6ASghEwQlk4flc5wefBf87mqqgVD3aI'
         ),
       },
     ]
@@ -74,7 +74,7 @@ describe('MnemonicKey', () => {
       data: { single },
     } = await mk.createSignatureAmino(signDoc)
     expect((single as any).signature).toEqual(
-      '1Ilhp30yhTh0ehXYA1cenO+Vmg5X+7/EPTs56jSTq71stuUS+UyqcCUV3Li6LLMMsWQz0of4UaggtNcB0ghsDg=='
+      'b4eRF/9nmpihcl8hwWQ+0I/L519QNPNWVe7gV68biappw0lasDuB25gDqbh50T0xPK1Dv+NJXCGhf0BZkioL/w=='
     )
   })
 
@@ -88,21 +88,21 @@ describe('MnemonicKey', () => {
         'swamp increase solar renew twelve easily possible pig ostrich harvest more indicate lion denial kind target small dumb mercy under proud arrive gentle field',
     })
     expect(a1Key.accAddress).toEqual(
-      'init1gknfqc7lr2djyf0ttzp6mmdvq3wp5gf0rd2h6s'
+      'init126h57kfhtrgymw2s453eezyfdzyememwq4ygqm'
     )
     const a2Key = new MnemonicKey({
       mnemonic:
         'service frozen keen unveil luggage initial surge name conduct mesh soup escape weather gas clown brand holiday result protect chat plug false pitch little',
     })
     expect(a2Key.accAddress).toEqual(
-      'init1cz7urn9f27kelsam6m4tlsegfcapp2hwhtjmqe'
+      'init1p2ge96yslydqumw0hhuajt5476z6hk629zlyex'
     )
     const a3Key = new MnemonicKey({
       mnemonic:
         'corn peasant blue sight spy three stove confirm night brother vote dish reduce sick observe outside vacant arena laugh devote exotic wasp supply rally',
     })
     expect(a3Key.accAddress).toEqual(
-      'init1hkehyn7dlvwssrhf3kwxf9azwm3pn8wjqhfpld'
+      'init15a6gp278kgfk0zuah7pp5clrd6pe5tvnu72594'
     )
 
     const msgSend = new MsgSend(
@@ -121,17 +121,17 @@ describe('MnemonicKey', () => {
 
     const a1Signature = await a1Key.createSignatureAmino(signDoc)
     expect((a1Signature.data.single as any).signature).toEqual(
-      'pM+jWKC0Ks4OaHkk/czkpndbw0C1GkbqYuCLBjBa+3ZtdSa3ydwjPMHCSbBn3seXLJde00xN+O0l++jZRiuelg=='
+      'da3tqVQl5pZjmlXFMa654wT0vItzlFOVYtsW6oy8ndJLfQnvedYIsPFksKSxSFlVnbUDc9n6E2g0Yx+/JsyQbQ=='
     )
 
     const a2Signature = await a2Key.createSignatureAmino(signDoc)
     expect((a2Signature.data.single as any).signature).toEqual(
-      'FHkESKoEjtoEKLT6/GvU5bSorJiWrcNC+rvvTnuJizdSz0Vukp1PmFSzbqNNga7pjfT5bUI1yYKJVavocsk9bA=='
+      'uQmiznkolN8/7Xd5rOKMyaMI3loaJ0VgzU9fc5xic4QS6WtWdwbTiCDp/6njoilSAGv9s0JZSaqADk5EgZv0cw=='
     )
 
     const a3Signature = await a3Key.createSignatureAmino(signDoc)
     expect((a3Signature.data.single as any).signature).toEqual(
-      'a4DpYLsiAjiQO67bqgy0QW858u4B6b8mG/e0CG7AjD1g90qestY9k8223AJ2KbGEeif4svZXCfIUnDMf+0qU3w=='
+      'h2SQ0v2GrGrw2IJseSAHnJgCGgDChvyTIqjSfcQiqq5q8LFrb4kOYBszhpX0cQxrEqAZIIOzQAz9qOfXVQKOzw=='
     )
   })
 
@@ -176,7 +176,7 @@ describe('MnemonicKey', () => {
 
     const signature = await key.createSignatureAmino(signDoc)
     expect((signature.data.single as any).signature).toEqual(
-      'co8B8a2H4JLWfSrn7+rKmV4sMG/xmKxkEBe66xpDFgceZoyt9wWWPkQKfN1hg4tssz+p0+4rQgfqjBEJUxDAfA=='
+      'mIaRgwBJiInACuTuIqQtPhYmJXaJrzVSTmvcTI/U7BYac3MDstjNglY18kVMYXjpkl7NTO34x82Egqa69GjMzA=='
     )
   })
 })

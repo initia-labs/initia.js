@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgWithdrawDelegatorReward } from './MsgWithdrawDelegatorReward'
 const MsgWithdrawDelegatorRewardAmino = require('./MsgWithdrawDelegatorReward.data.json')
 

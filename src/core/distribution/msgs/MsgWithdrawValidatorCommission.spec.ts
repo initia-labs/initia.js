@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgWithdrawValidatorCommission } from './MsgWithdrawValidatorCommission'
 const MsgWithdrawValidatorCommissionAmino = require('./MsgWithdrawValidatorCommission.data.json')
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { MstakingAPI } from './MstakingAPI'
 import { Coins, MstakingParams, ValConsPublicKey } from '../../../core'
