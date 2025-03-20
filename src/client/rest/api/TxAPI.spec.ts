@@ -1,3 +1,4 @@
+import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest'
 import { RESTClient } from '../RESTClient'
 import { APIRequester } from '../APIRequester'
 import { isTxError } from './TxAPI'
@@ -17,7 +18,7 @@ describe('TxAPI', () => {
   describe('broadcast', () => {
     beforeEach(() => {
       // Need to respond to requests made by createAndSignTx.
-      jest.spyOn(APIRequester.prototype, 'get').mockImplementation((route) => {
+      vi.spyOn(APIRequester.prototype, 'get').mockImplementation((route) => {
         if (route.includes('/cosmos/auth/v1beta1/accounts')) {
           return Promise.resolve({
             account: {
@@ -32,7 +33,7 @@ describe('TxAPI', () => {
         return Promise.resolve()
       })
 
-      jest.spyOn(APIRequester.prototype, 'post').mockImplementation((route) => {
+      vi.spyOn(APIRequester.prototype, 'post').mockImplementation((route) => {
         if (route.includes('/cosmos/tx/v1beta1/simulate')) {
           return Promise.resolve({
             gas_info: {
@@ -58,11 +59,11 @@ describe('TxAPI', () => {
     })
 
     afterEach(() => {
-      jest.clearAllMocks()
+      vi.clearAllMocks()
     })
 
     it('broadcast fetches and returns txInfo', async () => {
-      jest
+      vi
         .spyOn(APIRequester.prototype, 'getRaw')
         .mockImplementation((route) => {
           if (route.includes('/cosmos/tx/v1beta1/txs/')) {
@@ -111,7 +112,7 @@ describe('TxAPI', () => {
     })
 
     it('broadcast timesout if txInfo not found in time', async () => {
-      jest
+      vi
         .spyOn(APIRequester.prototype, 'getRaw')
         .mockImplementation((route) => {
           if (route.includes('/cosmos/tx/v1beta1/txs/')) {

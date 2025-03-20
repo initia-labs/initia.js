@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { RewardAPI } from './RewardAPI'
 import { RewardParams } from '../../../core'

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { GroupAPI } from './GroupAPI'
 import { GroupInfo } from '../../../core'

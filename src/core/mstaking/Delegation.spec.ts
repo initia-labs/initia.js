@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 const delgsAmino = require('./Delegation.data.json')
 import { Delegation } from './Delegation'
 

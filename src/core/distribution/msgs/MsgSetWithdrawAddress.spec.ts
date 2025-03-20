@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgSetWithdrawAddress } from './MsgSetWithdrawAddress'
 const MsgSetWithdrawAddressAmino = require('./MsgSetWithdrawAddress.data.json')
 

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { IbcNftAPI } from './IbcNftAPI'
 import { IbcNftParams, NftClassTrace } from '../../../core'

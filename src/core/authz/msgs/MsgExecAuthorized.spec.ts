@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgExecAuthorized } from './MsgExecAuthorized'
 const examples = require('./MsgExecAuthorized.data.json')
 
