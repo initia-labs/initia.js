@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { SlashingAPI } from './SlashingAPI'
 import { SlashingParams, ValidatorSigningInfo } from '../../../core'

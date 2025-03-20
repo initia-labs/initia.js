@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgUnjail } from './MsgUnjail'
 const MsgUnjailAmino = require('./MsgUnjail.data.json')
 

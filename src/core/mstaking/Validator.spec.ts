@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { Validator } from './Validator'
 import { ValConsPublicKey } from '../PublicKey'
 import { Coins } from '../Coins'

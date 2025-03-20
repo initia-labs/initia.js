@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { OphostAPI } from './OphostAPI'
 import { BridgeInfo, OphostParams } from '../../../core'

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgRevokeAuthorization } from './MsgRevokeAuthorization'
 const examples = require('./MsgRevokeAuthorization.data.json')
 

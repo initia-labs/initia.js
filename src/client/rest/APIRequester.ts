@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosHeaders, CreateAxiosDefaults } from 'axios'
+import ky, { Options as KyOptions } from 'ky'
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
 export type APIParams = Record<string, string | number | null | undefined>
@@ -21,19 +21,20 @@ export interface PaginationOptions {
 }
 
 export class APIRequester {
-  private axios: AxiosInstance
+  private kyInstance: typeof ky
   private readonly baseURL: string
 
-  constructor(baseURL: string, config?: CreateAxiosDefaults<any> | undefined) {
+  constructor(baseURL: string, config?: KyOptions) {
     this.baseURL = baseURL
-    const defaultConfig: CreateAxiosDefaults<any> = {
+
+    const defaultConfig: KyOptions = {
       headers: {
         Accept: 'application/json',
       },
       timeout: 30000,
     }
 
-    this.axios = Axios.create({
+    this.kyInstance = ky.create({
       ...defaultConfig,
       ...config,
       headers: { ...defaultConfig.headers, ...config?.headers },
@@ -63,28 +64,45 @@ export class APIRequester {
     return baseURLObject.toString()
   }
 
+  private toURLSearchParams(
+    params: URLSearchParams | APIParams = {}
+  ): URLSearchParams {
+    if (params instanceof URLSearchParams) return params
+
+    const usp = new URLSearchParams()
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined) {
+        usp.set(key, String(value))
+      }
+    }
+
+    return usp
+  }
+
   public async getRaw<T>(
     endpoint: string,
     params: URLSearchParams | APIParams = {}
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.get(url, { params }).then((d) => d.data)
+    const searchParams = this.toURLSearchParams(params)
+    return this.kyInstance.get(url, { searchParams }).json<T>()
   }
 
   public async get<T>(
     endpoint: string,
     params: URLSearchParams | APIParams = {},
-    headers: AxiosHeaders = new AxiosHeaders()
+    headers: HeadersInit = {}
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.get(url, { params, headers }).then((d) => d.data)
+    const searchParams = this.toURLSearchParams(params)
+    return this.kyInstance.get(url, { searchParams, headers }).json<T>()
   }
 
   public async post<T>(endpoint: string, data?: any): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.post(url, data).then((d) => d.data)
+    return this.kyInstance.post(url, { json: data }).json<T>()
   }
 }

@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { ParameterChangeProposal } from './ParameterChangeProposal'
 
 const aminoJson: ParameterChangeProposal.Amino = {

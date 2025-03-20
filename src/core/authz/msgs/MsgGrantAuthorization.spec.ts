@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgGrantAuthorization } from './MsgGrantAuthorization'
 const examples = require('./MsgGrantAuthorization.data.json')
 

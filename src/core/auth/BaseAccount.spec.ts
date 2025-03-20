@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { BaseAccount } from './BaseAccount'
 import { SimplePublicKey } from '../PublicKey'
 

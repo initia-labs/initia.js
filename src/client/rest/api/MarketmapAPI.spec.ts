@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { MarketmapAPI } from './MarketmapAPI'
 import { Market, MarketmapParams } from '../../../core'

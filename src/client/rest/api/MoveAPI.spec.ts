@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { MoveAPI } from './MoveAPI'
 import { Module, MoveParams } from '../../../core'

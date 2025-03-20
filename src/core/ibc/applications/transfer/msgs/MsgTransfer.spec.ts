@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgTransfer } from './MsgTransfer'
 import { Coin } from '../../../../Coin'
 import { Height } from '../../../core/client/Height'

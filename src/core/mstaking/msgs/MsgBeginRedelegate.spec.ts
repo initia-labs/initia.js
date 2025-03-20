@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgBeginRedelegate } from './MsgBeginRedelegate'
 const MsgBeginRedelegateAmino = require('./MsgBeginRedelegate.data.json')
 

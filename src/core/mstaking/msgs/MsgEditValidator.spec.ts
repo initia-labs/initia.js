@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { MsgEditValidator } from './MsgEditValidator'
 const MsgEditValidatorAmino = require('./MsgEditValidator.data.json')
 
