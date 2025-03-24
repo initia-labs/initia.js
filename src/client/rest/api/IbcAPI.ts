@@ -7,6 +7,7 @@ import {
   IdentifiedConnection,
   Height,
   IbcClientParams,
+  IdentifiedChannel,
 } from '../../../core'
 
 export interface ClientState {
@@ -43,13 +44,18 @@ export class IbcAPI extends BaseAPI {
    */
   public async channels(
     params: APIParams = {}
-  ): Promise<[Channel[], Pagination]> {
+  ): Promise<[IdentifiedChannel[], Height, Pagination]> {
     return this.c
       .get<{
-        channels: Channel.Data[]
+        channels: IdentifiedChannel.Data[]
         pagination: Pagination
+        height: Height.Data
       }>(`/ibc/core/channel/v1/channels`, params)
-      .then((d) => [d.channels.map(Channel.fromData), d.pagination])
+      .then((d) => [
+        d.channels.map(IdentifiedChannel.fromData),
+        Height.fromData(d.height),
+        d.pagination,
+      ])
   }
 
   /**
@@ -116,15 +122,15 @@ export class IbcAPI extends BaseAPI {
   public async connectionChannels(
     connection_id: string,
     params: APIParams = {}
-  ): Promise<[Channel[], Height, Pagination]> {
+  ): Promise<[IdentifiedChannel[], Height, Pagination]> {
     return this.c
       .get<{
-        channels: Channel.Data[]
+        channels: IdentifiedChannel.Data[]
         pagination: Pagination
         height: Height.Data
       }>(`/ibc/core/channel/v1/connections/${connection_id}/channels`, params)
       .then((d) => [
-        d.channels.map(Channel.fromData),
+        d.channels.map(IdentifiedChannel.fromData),
         Height.fromData(d.height),
         d.pagination,
       ])
