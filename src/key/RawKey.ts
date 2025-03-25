@@ -12,10 +12,6 @@ export class RawKey extends Key {
    * Raw private key, in bytes.
    */
   public privateKey: Buffer
-  /**
-   * Whether to use eth pubkey
-   */
-  public eth: boolean
 
   constructor(privateKey: Buffer, eth = true) {
     const publicKey = secp256k1.publicKeyCreate(

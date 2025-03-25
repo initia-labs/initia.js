@@ -21,6 +21,11 @@ import { SignMode } from '@initia/initia.proto/cosmos/tx/signing/v1beta1/signing
  */
 export abstract class Key {
   /**
+   * Whether to use eth pubkey, default true
+   */
+  public eth = true
+
+  /**
    * You will need to supply `sign`, which produces a signature for an arbitrary bytes payload
    * with the ECDSA curve secp256pk1.
    * @param payload the data to be signed
@@ -78,12 +83,14 @@ export abstract class Key {
       )
     }
 
+    const sigBytes = await this.sign(this.getAminoPayload(tx, this.eth))
+
     return new SignatureV2(
       this.publicKey,
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
-          (await this.sign(Buffer.from(tx.toAminoJSON()))).toString('base64')
+          sigBytes.toString('base64')
         )
       ),
       tx.sequence
@@ -94,7 +101,7 @@ export abstract class Key {
    * Signs a [[SignDoc]] with the method supplied by the child class.
    * @param tx sign-message of the transaction to sign
    */
-  public async createSignature(signDoc: SignDoc): Promise<SignatureV2> {
+  public async createSignature(tx: SignDoc): Promise<SignatureV2> {
     if (!this.publicKey) {
       throw new Error(
         'Signature could not be created: Key instance missing publicKey'
@@ -102,28 +109,29 @@ export abstract class Key {
     }
 
     // backup for restore
-    const signerInfos = signDoc.auth_info.signer_infos
-    signDoc.auth_info.signer_infos = [
+    const signerInfos = tx.auth_info.signer_infos
+    tx.auth_info.signer_infos = [
       new SignerInfo(
         this.publicKey,
-        signDoc.sequence,
+        tx.sequence,
         new ModeInfo(new ModeInfo.Single(SignMode.SIGN_MODE_DIRECT))
       ),
     ]
 
-    const sigBytes = (await this.sign(Buffer.from(signDoc.toBytes()))).toString(
-      'base64'
-    )
+    const sigBytes = await this.sign(Buffer.from(tx.toBytes()))
 
     // restore signDoc to origin
-    signDoc.auth_info.signer_infos = signerInfos
+    tx.auth_info.signer_infos = signerInfos
 
     return new SignatureV2(
       this.publicKey,
       new SignatureV2.Descriptor(
-        new SignatureV2.Descriptor.Single(SignMode.SIGN_MODE_DIRECT, sigBytes)
+        new SignatureV2.Descriptor.Single(
+          SignMode.SIGN_MODE_DIRECT,
+          sigBytes.toString('base64')
+        )
       ),
-      signDoc.sequence
+      tx.sequence
     )
   }
 
@@ -139,24 +147,30 @@ export abstract class Key {
       )
     }
 
-    const message = Buffer.from(tx.toAminoJSON())
-    const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n'
-    const signBytes = Buffer.concat([
-      Buffer.from(EIP191MessagePrefix),
-      Buffer.from(message.length.toString()),
-      message,
-    ])
+    const sigBytes = await this.signWithKeccak256(this.getAminoPayload(tx))
 
     return new SignatureV2(
       this.publicKey,
       new SignatureV2.Descriptor(
         new SignatureV2.Descriptor.Single(
           SignMode.SIGN_MODE_EIP_191,
-          (await this.signWithKeccak256(signBytes)).toString('base64')
+          sigBytes.toString('base64')
         )
       ),
       tx.sequence
     )
+  }
+
+  public getAminoPayload(tx: SignDoc, eth = true): Buffer {
+    const message = Buffer.from(tx.toAminoJSON())
+    if (!eth) return message
+
+    const EIP191MessagePrefix = '\x19Ethereum Signed Message:\n'
+    return Buffer.concat([
+      Buffer.from(EIP191MessagePrefix),
+      Buffer.from(message.length.toString()),
+      message,
+    ])
   }
 
   /**
