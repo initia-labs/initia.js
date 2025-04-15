@@ -34,7 +34,7 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
     return new MsgUpdateGroupMembers(
       admin,
       parseInt(group_id),
-      member_updates.map(MemberRequest.fromAmino)
+      member_updates?.map(MemberRequest.fromAmino) ?? []
     )
   }
 
@@ -45,7 +45,10 @@ export class MsgUpdateGroupMembers extends JSONSerializable<
       value: {
         admin,
         group_id: group_id.toFixed(),
-        member_updates: member_updates.map((d) => d.toAmino()),
+        member_updates:
+          member_updates.length > 0
+            ? member_updates.map((d) => d.toAmino())
+            : null,
       },
     }
   }
@@ -110,7 +113,7 @@ export namespace MsgUpdateGroupMembers {
     value: {
       admin: AccAddress
       group_id: string
-      member_updates: MemberRequest.Amino[]
+      member_updates: MemberRequest.Amino[] | null
     }
   }
 

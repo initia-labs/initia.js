@@ -40,7 +40,7 @@ export class MoveParams extends JSONSerializable<
       base_min_gas_price,
       contract_shared_revenue_ratio,
       script_enabled,
-      allowed_publishers
+      allowed_publishers ?? []
     )
   }
 
@@ -59,7 +59,8 @@ export class MoveParams extends JSONSerializable<
         base_min_gas_price,
         contract_shared_revenue_ratio,
         script_enabled,
-        allowed_publishers,
+        allowed_publishers:
+          allowed_publishers.length > 0 ? allowed_publishers : null,
       },
     }
   }
@@ -135,7 +136,7 @@ export namespace MoveParams {
       base_min_gas_price: string
       contract_shared_revenue_ratio: string
       script_enabled: boolean
-      allowed_publishers: string[]
+      allowed_publishers: string[] | null
     }
   }
 

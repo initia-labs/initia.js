@@ -27,7 +27,7 @@ export class ClientConsensusStates extends JSONSerializable<
     const { client_id, consensus_states } = data
     return new ClientConsensusStates(
       client_id,
-      consensus_states.map((state) => ConsensusStateWithHeight.fromAmino(state))
+      consensus_states.map(ConsensusStateWithHeight.fromAmino)
     )
   }
 
@@ -45,7 +45,7 @@ export class ClientConsensusStates extends JSONSerializable<
     const { client_id, consensus_states } = data
     return new ClientConsensusStates(
       client_id,
-      consensus_states.map((state) => ConsensusStateWithHeight.fromData(state))
+      consensus_states.map(ConsensusStateWithHeight.fromData)
     )
   }
 
@@ -62,9 +62,7 @@ export class ClientConsensusStates extends JSONSerializable<
   ): ClientConsensusStates {
     return new ClientConsensusStates(
       proto.clientId,
-      proto.consensusStates.map((state) =>
-        ConsensusStateWithHeight.fromProto(state)
-      )
+      proto.consensusStates.map(ConsensusStateWithHeight.fromProto)
     )
   }
 

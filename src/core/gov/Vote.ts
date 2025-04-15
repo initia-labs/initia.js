@@ -30,7 +30,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
     return new Vote(
       parseInt(proposal_id),
       voter,
-      options.map((v) => WeightedVoteOption.fromAmino(v)),
+      options.map(WeightedVoteOption.fromAmino),
       metadata
     )
   }
@@ -50,7 +50,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
     return new Vote(
       parseInt(proposal_id),
       voter,
-      options.map((v) => WeightedVoteOption.fromData(v)),
+      options.map(WeightedVoteOption.fromData),
       metadata
     )
   }
@@ -69,7 +69,7 @@ export class Vote extends JSONSerializable<Vote.Amino, Vote.Data, Vote.Proto> {
     return new Vote(
       Number(proto.proposalId),
       proto.voter,
-      proto.options.map((o) => WeightedVoteOption.fromProto(o)),
+      proto.options.map(WeightedVoteOption.fromProto),
       proto.metadata
     )
   }

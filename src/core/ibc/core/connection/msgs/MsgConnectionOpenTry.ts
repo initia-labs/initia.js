@@ -72,7 +72,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
       client_state,
       counterparty ? ConnectionCounterparty.fromData(counterparty) : undefined,
       parseInt(delay_period),
-      counterparty_versions.map((cv) => IbcVersion.fromData(cv)),
+      counterparty_versions.map(IbcVersion.fromData),
       proof_height ? Height.fromData(proof_height) : undefined,
       Buffer.from(proof_init).toString('base64'),
       Buffer.from(proof_client).toString('base64'),
@@ -122,7 +122,7 @@ export class MsgConnectionOpenTry extends JSONSerializable<
         ? ConnectionCounterparty.fromProto(proto.counterparty)
         : undefined,
       Number(proto.delayPeriod),
-      proto.counterpartyVersions.map((cv) => IbcVersion.fromProto(cv)),
+      proto.counterpartyVersions.map(IbcVersion.fromProto),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       Buffer.from(proto.proofInit).toString('base64'),
       Buffer.from(proto.proofClient).toString('base64'),

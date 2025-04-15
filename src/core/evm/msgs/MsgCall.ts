@@ -39,7 +39,7 @@ export class MsgCall extends JSONSerializable<
       contract_addr,
       input,
       value,
-      access_list.map(AccessTuple.fromAmino)
+      access_list?.map(AccessTuple.fromAmino) ?? []
     )
   }
 
@@ -52,7 +52,10 @@ export class MsgCall extends JSONSerializable<
         contract_addr,
         input,
         value,
-        access_list: access_list.map((acc) => acc.toAmino()),
+        access_list:
+          access_list.length > 0
+            ? access_list.map((acc) => acc.toAmino())
+            : null,
       },
     }
   }
@@ -121,7 +124,7 @@ export namespace MsgCall {
       contract_addr: AccAddress
       input: string
       value: string
-      access_list: AccessTuple.Amino[]
+      access_list: AccessTuple.Amino[] | null
     }
   }
 

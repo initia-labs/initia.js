@@ -34,7 +34,7 @@ export class MsgDeposit extends JSONSerializable<
     return new MsgDeposit(
       parseInt(proposal_id),
       depositor,
-      Coins.fromAmino(amount)
+      amount ? Coins.fromAmino(amount) : new Coins()
     )
   }
 
@@ -45,7 +45,7 @@ export class MsgDeposit extends JSONSerializable<
       value: {
         proposal_id: proposal_id.toFixed(),
         depositor,
-        amount: amount.toAmino(),
+        amount: amount.toArray().length > 0 ? amount.toAmino() : null,
       },
     }
   }
@@ -104,7 +104,7 @@ export namespace MsgDeposit {
     value: {
       proposal_id: string
       depositor: AccAddress
-      amount: Coins.Amino
+      amount: Coins.Amino | null
     }
   }
 

@@ -40,13 +40,11 @@ export class Tx {
   ) {}
 
   public static fromAmino(data: Tx.Amino): Tx {
-    const signatures = data.value.signatures.map((s) =>
-      SignatureV2.fromAmino(s)
-    )
+    const signatures = data.value.signatures.map(SignatureV2.fromAmino)
 
     return new Tx(
       new TxBody(
-        data.value.msg.map((m) => Msg.fromAmino(m)),
+        data.value.msg.map(Msg.fromAmino),
         data.value.memo,
         parseInt(data.value.timeout_height)
       ),
@@ -190,7 +188,7 @@ export class TxBody {
 
   public static fromData(data: TxBody.Data): TxBody {
     return new TxBody(
-      data.messages.map((m) => Msg.fromData(m)),
+      data.messages.map(Msg.fromData),
       data.memo,
       parseInt(data.timeout_height)
     )
@@ -206,7 +204,7 @@ export class TxBody {
 
   public static fromProto(proto: TxBody.Proto): TxBody {
     return new TxBody(
-      proto.messages.map((m) => Msg.fromProto(m)),
+      proto.messages.map(Msg.fromProto),
       proto.memo,
       Number(proto.timeoutHeight)
     )
@@ -251,7 +249,7 @@ export class AuthInfo {
 
   public static fromData(data: AuthInfo.Data): AuthInfo {
     return new AuthInfo(
-      data.signer_infos.map((s) => SignerInfo.fromData(s)),
+      data.signer_infos.map(SignerInfo.fromData),
       Fee.fromData(data.fee)
     )
   }
@@ -265,7 +263,7 @@ export class AuthInfo {
 
   public static fromProto(proto: AuthInfo.Proto): AuthInfo {
     return new AuthInfo(
-      proto.signerInfos.map((s) => SignerInfo.fromProto(s)),
+      proto.signerInfos.map(SignerInfo.fromProto),
       Fee.fromProto(proto.fee as Fee.Proto)
     )
   }
@@ -456,7 +454,7 @@ export namespace ModeInfo {
     public static fromData(proto: Multi.Data): Multi {
       return new Multi(
         CompactBitArray.fromData(proto.bitarray),
-        proto.mode_infos.map((m) => ModeInfo.fromData(m))
+        proto.mode_infos.map(ModeInfo.fromData)
       )
     }
 
@@ -470,7 +468,7 @@ export namespace ModeInfo {
     public static fromProto(proto: Multi.Proto): Multi {
       return new Multi(
         CompactBitArray.fromProto(proto.bitarray as CompactBitArray.Proto),
-        proto.modeInfos.map((m) => ModeInfo.fromProto(m))
+        proto.modeInfos.map(ModeInfo.fromProto)
       )
     }
 

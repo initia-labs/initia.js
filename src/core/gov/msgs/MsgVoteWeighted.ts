@@ -34,7 +34,7 @@ export class MsgVoteWeighted extends JSONSerializable<
     return new MsgVoteWeighted(
       parseInt(proposal_id),
       voter,
-      options.map((o) => WeightedVoteOption.fromAmino(o)),
+      options.map(WeightedVoteOption.fromAmino),
       metadata ?? ''
     )
   }
@@ -57,7 +57,7 @@ export class MsgVoteWeighted extends JSONSerializable<
     return new MsgVoteWeighted(
       parseInt(proposal_id),
       voter,
-      options.map((o) => WeightedVoteOption.fromData(o)),
+      options.map(WeightedVoteOption.fromData),
       metadata
     )
   }
@@ -77,7 +77,7 @@ export class MsgVoteWeighted extends JSONSerializable<
     return new MsgVoteWeighted(
       Number(proto.proposalId),
       proto.voter,
-      proto.options.map((o) => WeightedVoteOption.fromProto(o)),
+      proto.options.map(WeightedVoteOption.fromProto),
       proto.metadata
     )
   }

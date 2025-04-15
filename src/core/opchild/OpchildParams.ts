@@ -52,9 +52,9 @@ export class OpchildParams extends JSONSerializable<
       max_validators,
       historical_entries,
       Coins.fromAmino(min_gas_prices),
-      bridge_executors,
+      bridge_executors ?? [],
       admin,
-      fee_whitelist,
+      fee_whitelist ?? [],
       parseInt(hook_max_gas)
     )
   }
@@ -76,9 +76,9 @@ export class OpchildParams extends JSONSerializable<
         max_validators,
         historical_entries,
         min_gas_prices: min_gas_prices.toAmino(),
-        bridge_executors,
+        bridge_executors: bridge_executors.length > 0 ? bridge_executors : null,
         admin,
-        fee_whitelist,
+        fee_whitelist: fee_whitelist.length > 0 ? fee_whitelist : null,
         hook_max_gas: hook_max_gas.toFixed(),
       },
     }
@@ -171,9 +171,9 @@ export namespace OpchildParams {
       max_validators: number
       historical_entries: number
       min_gas_prices: Coins.Amino
-      bridge_executors: AccAddress[]
+      bridge_executors: AccAddress[] | null
       admin: AccAddress
-      fee_whitelist: string[]
+      fee_whitelist: string[] | null
       hook_max_gas: string
     }
   }
