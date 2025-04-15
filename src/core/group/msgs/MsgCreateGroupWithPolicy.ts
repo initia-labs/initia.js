@@ -48,7 +48,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
 
     return new MsgCreateGroupWithPolicy(
       admin,
-      members.map(MemberRequest.fromAmino),
+      members?.map(MemberRequest.fromAmino) ?? [],
       group_metadata,
       group_policy_metadata,
       group_policy_as_admin,
@@ -70,7 +70,7 @@ export class MsgCreateGroupWithPolicy extends JSONSerializable<
       type: 'cosmos-sdk/MsgCreateGroupWithPolicy',
       value: {
         admin,
-        members: members.map((d) => d.toAmino()),
+        members: members.length > 0 ? members.map((d) => d.toAmino()) : null,
         group_metadata,
         group_policy_metadata,
         group_policy_as_admin,
@@ -174,7 +174,7 @@ export namespace MsgCreateGroupWithPolicy {
     type: 'cosmos-sdk/MsgCreateGroupWithPolicy'
     value: {
       admin: AccAddress
-      members: MemberRequest.Amino[]
+      members: MemberRequest.Amino[] | null
       group_metadata: string
       group_policy_metadata: string
       group_policy_as_admin: boolean

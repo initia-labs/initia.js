@@ -22,14 +22,19 @@ export class ContractMigrationAuthorization extends JSONSerializable<
     data: ContractMigrationAuthorization.Amino
   ): ContractMigrationAuthorization {
     return new ContractMigrationAuthorization(
-      data.value.grants.map(ContractGrant.fromAmino)
+      data.value.grants?.map(ContractGrant.fromAmino) ?? []
     )
   }
 
   public toAmino(): ContractMigrationAuthorization.Amino {
     return {
       type: 'wasm/ContractMigrationAuthorization',
-      value: { grants: this.grants.map((grant) => grant.toAmino()) },
+      value: {
+        grants:
+          this.grants.length > 0
+            ? this.grants.map((grant) => grant.toAmino())
+            : null,
+      },
     }
   }
 
@@ -80,7 +85,7 @@ export namespace ContractMigrationAuthorization {
   export interface Amino {
     type: 'wasm/ContractMigrationAuthorization'
     value: {
-      grants: ContractGrant.Amino[]
+      grants: ContractGrant.Amino[] | null
     }
   }
 

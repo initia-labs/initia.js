@@ -31,7 +31,7 @@ export class MsgCreateGroup extends JSONSerializable<
     } = data
     return new MsgCreateGroup(
       admin,
-      members.map(MemberRequest.fromAmino),
+      members?.map(MemberRequest.fromAmino) ?? [],
       metadata
     )
   }
@@ -42,7 +42,7 @@ export class MsgCreateGroup extends JSONSerializable<
       type: 'cosmos-sdk/MsgCreateGroup',
       value: {
         admin,
-        members: members.map((d) => d.toAmino()),
+        members: members.length > 0 ? members.map((d) => d.toAmino()) : null,
         metadata,
       },
     }
@@ -101,7 +101,7 @@ export namespace MsgCreateGroup {
     type: 'cosmos-sdk/MsgCreateGroup'
     value: {
       admin: AccAddress
-      members: MemberRequest.Amino[]
+      members: MemberRequest.Amino[] | null
       metadata: string
     }
   }

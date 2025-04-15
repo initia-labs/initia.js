@@ -21,14 +21,21 @@ export class OphostParams extends JSONSerializable<
   }
 
   public static fromAmino(data: OphostParams.Amino): OphostParams {
-    return new OphostParams(Coins.fromAmino(data.value.registration_fee))
+    return new OphostParams(
+      data.value.registration_fee
+        ? Coins.fromAmino(data.value.registration_fee)
+        : new Coins()
+    )
   }
 
   public toAmino(): OphostParams.Amino {
     return {
       type: 'ophost/Params',
       value: {
-        registration_fee: this.registration_fee.toAmino(),
+        registration_fee:
+          this.registration_fee.toArray().length > 0
+            ? this.registration_fee.toAmino()
+            : null,
       },
     }
   }
@@ -59,7 +66,7 @@ export namespace OphostParams {
   export interface Amino {
     type: 'ophost/Params'
     value: {
-      registration_fee: Coins.Amino
+      registration_fee: Coins.Amino | null
     }
   }
 

@@ -92,7 +92,7 @@ export class GovParams extends JSONSerializable<
     } = data
 
     return new GovParams(
-      Coins.fromAmino(min_deposit),
+      min_deposit ? Coins.fromAmino(min_deposit) : new Coins(),
       Duration.fromAmino(max_deposit_period),
       Duration.fromAmino(voting_period),
       quorum,
@@ -103,12 +103,16 @@ export class GovParams extends JSONSerializable<
       proposal_cancel_dest,
       Duration.fromAmino(expedited_voting_period),
       expedited_threshold,
-      Coins.fromAmino(expedited_min_deposit),
+      expedited_min_deposit
+        ? Coins.fromAmino(expedited_min_deposit)
+        : new Coins(),
       burn_vote_quorum,
       burn_proposal_deposit_prevote,
       burn_vote_veto,
       min_deposit_ratio,
-      Coins.fromAmino(emergency_min_deposit),
+      emergency_min_deposit
+        ? Coins.fromAmino(emergency_min_deposit)
+        : new Coins(),
       Duration.fromAmino(emergency_tally_interval),
       low_threshold_functions,
       vesting ? Vesting.fromAmino(vesting) : undefined
@@ -140,7 +144,8 @@ export class GovParams extends JSONSerializable<
     } = this
 
     return {
-      min_deposit: min_deposit.toAmino(),
+      min_deposit:
+        min_deposit.toArray().length > 0 ? min_deposit.toAmino() : null,
       max_deposit_period: max_deposit_period.toAmino(),
       voting_period: voting_period.toAmino(),
       quorum,
@@ -151,12 +156,18 @@ export class GovParams extends JSONSerializable<
       proposal_cancel_dest,
       expedited_voting_period: expedited_voting_period.toAmino(),
       expedited_threshold,
-      expedited_min_deposit: expedited_min_deposit.toAmino(),
+      expedited_min_deposit:
+        expedited_min_deposit.toArray().length > 0
+          ? expedited_min_deposit.toAmino()
+          : null,
       burn_vote_quorum,
       burn_proposal_deposit_prevote,
       burn_vote_veto,
       min_deposit_ratio,
-      emergency_min_deposit: emergency_min_deposit.toAmino(),
+      emergency_min_deposit:
+        emergency_min_deposit.toArray().length > 0
+          ? emergency_min_deposit.toAmino()
+          : null,
       emergency_tally_interval: emergency_tally_interval.toAmino(),
       low_threshold_functions,
       vesting: vesting?.toAmino(),
@@ -335,7 +346,7 @@ export class GovParams extends JSONSerializable<
 
 export namespace GovParams {
   export interface Amino {
-    min_deposit: Coins.Amino
+    min_deposit: Coins.Amino | null
     max_deposit_period: Duration.Amino
     voting_period: Duration.Amino
     quorum: string
@@ -346,12 +357,12 @@ export namespace GovParams {
     proposal_cancel_dest: AccAddress
     expedited_voting_period: Duration.Amino
     expedited_threshold: string
-    expedited_min_deposit: Coins.Amino
+    expedited_min_deposit: Coins.Amino | null
     burn_vote_quorum: boolean
     burn_proposal_deposit_prevote: boolean
     burn_vote_veto: boolean
     min_deposit_ratio: string
-    emergency_min_deposit: Coins.Amino
+    emergency_min_deposit: Coins.Amino | null
     emergency_tally_interval: Duration.Amino
     low_threshold_functions: string[]
     vesting?: Vesting.Amino

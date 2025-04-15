@@ -43,7 +43,7 @@ export class MsgCreateValidator extends JSONSerializable<
       Validator.CommissionRates.fromAmino(commission),
       validator_address,
       ValConsPublicKey.fromAmino(pubkey),
-      Coins.fromAmino(amount)
+      amount ? Coins.fromAmino(amount) : new Coins()
     )
   }
 
@@ -56,7 +56,7 @@ export class MsgCreateValidator extends JSONSerializable<
         commission: commission.toAmino(),
         validator_address,
         pubkey: pubkey.toAmino(),
-        amount: amount.toAmino(),
+        amount: amount.toArray().length > 0 ? amount.toAmino() : null,
       },
     }
   }
@@ -131,7 +131,7 @@ export namespace MsgCreateValidator {
       commission: Validator.CommissionRates.Amino
       validator_address: ValAddress
       pubkey: ValConsPublicKey.Amino
-      amount: Coins.Amino
+      amount: Coins.Amino | null
     }
   }
 

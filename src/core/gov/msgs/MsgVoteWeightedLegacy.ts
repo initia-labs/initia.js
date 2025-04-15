@@ -34,7 +34,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     return new MsgVoteWeightedLegacy(
       parseInt(proposal_id),
       voter,
-      options.map((o) => WeightedVoteOption.fromAmino(o))
+      options?.map(WeightedVoteOption.fromAmino) ?? []
     )
   }
 
@@ -45,7 +45,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
       value: {
         proposal_id: proposal_id.toFixed(),
         voter,
-        options: options.map((o) => o.toAmino()),
+        options: options.length > 0 ? options.map((o) => o.toAmino()) : null,
       },
     }
   }
@@ -57,7 +57,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     return new MsgVoteWeightedLegacy(
       parseInt(proposal_id),
       voter,
-      options.map((o) => WeightedVoteOption.fromData(o))
+      options.map(WeightedVoteOption.fromData)
     )
   }
 
@@ -77,7 +77,7 @@ export class MsgVoteWeightedLegacy extends JSONSerializable<
     return new MsgVoteWeightedLegacy(
       Number(proto.proposalId),
       proto.voter,
-      proto.options.map((o) => WeightedVoteOption.fromProto(o))
+      proto.options.map(WeightedVoteOption.fromProto)
     )
   }
 
@@ -110,7 +110,7 @@ export namespace MsgVoteWeightedLegacy {
     value: {
       proposal_id: string
       voter: AccAddress
-      options: WeightedVoteOption.Amino[]
+      options: WeightedVoteOption.Amino[] | null
     }
   }
 

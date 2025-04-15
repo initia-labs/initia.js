@@ -69,8 +69,8 @@ export class MsgMultiSend extends JSONSerializable<
       value: { inputs, outputs },
     } = data
     return new MsgMultiSend(
-      inputs.map((i) => MsgMultiSend.Input.fromAmino(i)),
-      outputs.map((o) => MsgMultiSend.Output.fromAmino(o))
+      inputs?.map(MsgMultiSend.Input.fromAmino) ?? [],
+      outputs?.map(MsgMultiSend.Output.fromAmino) ?? []
     )
   }
 
@@ -79,8 +79,8 @@ export class MsgMultiSend extends JSONSerializable<
     return {
       type: 'cosmos-sdk/MsgMultiSend',
       value: {
-        inputs: inputs.map((i) => i.toAmino()),
-        outputs: outputs.map((o) => o.toAmino()),
+        inputs: inputs.length > 0 ? inputs.map((i) => i.toAmino()) : null,
+        outputs: outputs.length > 0 ? outputs.map((o) => o.toAmino()) : null,
       },
     }
   }
@@ -133,8 +133,8 @@ export namespace MsgMultiSend {
   export interface Amino {
     readonly type: 'cosmos-sdk/MsgMultiSend'
     value: {
-      inputs: Input.Amino[]
-      outputs: Output.Amino[]
+      inputs: Input.Amino[] | null
+      outputs: Output.Amino[] | null
     }
   }
 

@@ -22,7 +22,7 @@ export class ExecuteAuthorization extends JSONSerializable<
     data: ExecuteAuthorization.Amino
   ): ExecuteAuthorization {
     return new ExecuteAuthorization(
-      data.value.items.map(ExecuteAuthorizationItem.fromAmino)
+      data.value.items?.map(ExecuteAuthorizationItem.fromAmino) ?? []
     )
   }
 
@@ -30,7 +30,8 @@ export class ExecuteAuthorization extends JSONSerializable<
     return {
       type: 'move/ExecuteAuthorization',
       value: {
-        items: this.items.map((d) => d.toAmino()),
+        items:
+          this.items.length > 0 ? this.items.map((d) => d.toAmino()) : null,
       },
     }
   }
@@ -173,7 +174,7 @@ export namespace ExecuteAuthorization {
   export interface Amino {
     type: 'move/ExecuteAuthorization'
     value: {
-      items: ExecuteAuthorizationItem.Amino[]
+      items: ExecuteAuthorizationItem.Amino[] | null
     }
   }
 
