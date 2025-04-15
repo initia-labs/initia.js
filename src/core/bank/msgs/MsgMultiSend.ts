@@ -88,8 +88,8 @@ export class MsgMultiSend extends JSONSerializable<
   public static fromData(data: MsgMultiSend.Data): MsgMultiSend {
     const { inputs, outputs } = data
     return new MsgMultiSend(
-      inputs.map((i) => MsgMultiSend.Input.fromData(i)),
-      outputs.map((o) => MsgMultiSend.Output.fromData(o))
+      inputs.map(MsgMultiSend.Input.fromData),
+      outputs.map(MsgMultiSend.Output.fromData)
     )
   }
 
@@ -104,8 +104,8 @@ export class MsgMultiSend extends JSONSerializable<
 
   public static fromProto(proto: MsgMultiSend.Proto): MsgMultiSend {
     return new MsgMultiSend(
-      proto.inputs.map((i) => MsgMultiSend.Input.fromProto(i)),
-      proto.outputs.map((o) => MsgMultiSend.Output.fromProto(o))
+      proto.inputs.map(MsgMultiSend.Input.fromProto),
+      proto.outputs.map(MsgMultiSend.Output.fromProto)
     )
   }
 

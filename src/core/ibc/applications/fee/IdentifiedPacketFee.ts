@@ -28,7 +28,7 @@ export class IdentifiedPacketFees extends JSONSerializable<
     const { packet_id, packet_fees } = data
     return new IdentifiedPacketFees(
       packet_id ? PacketId.fromAmino(packet_id) : undefined,
-      packet_fees.map((fee) => PacketFee.fromAmino(fee))
+      packet_fees.map(PacketFee.fromAmino)
     )
   }
 
@@ -46,7 +46,7 @@ export class IdentifiedPacketFees extends JSONSerializable<
     const { packet_id, packet_fees } = data
     return new IdentifiedPacketFees(
       packet_id ? PacketId.fromData(packet_id) : undefined,
-      packet_fees.map((fee) => PacketFee.fromData(fee))
+      packet_fees.map(PacketFee.fromData)
     )
   }
 
@@ -63,7 +63,7 @@ export class IdentifiedPacketFees extends JSONSerializable<
   ): IdentifiedPacketFees {
     return new IdentifiedPacketFees(
       proto.packetId ? PacketId.fromProto(proto.packetId) : undefined,
-      proto.packetFees.map((fee) => PacketFee.fromProto(fee))
+      proto.packetFees.map(PacketFee.fromProto)
     )
   }
 

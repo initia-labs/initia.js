@@ -29,10 +29,7 @@ export class MsgExecAuthorized extends JSONSerializable<
     const {
       value: { grantee, msgs },
     } = data
-    return new MsgExecAuthorized(
-      grantee,
-      msgs.map((x) => Msg.fromAmino(x))
-    )
+    return new MsgExecAuthorized(grantee, msgs.map(Msg.fromAmino))
   }
 
   public toAmino(): MsgExecAuthorized.Amino {
@@ -48,10 +45,7 @@ export class MsgExecAuthorized extends JSONSerializable<
 
   public static fromData(proto: MsgExecAuthorized.Data): MsgExecAuthorized {
     const { grantee, msgs } = proto
-    return new MsgExecAuthorized(
-      grantee,
-      msgs.map((x) => Msg.fromData(x))
-    )
+    return new MsgExecAuthorized(grantee, msgs.map(Msg.fromData))
   }
 
   public toData(): MsgExecAuthorized.Data {
@@ -64,10 +58,7 @@ export class MsgExecAuthorized extends JSONSerializable<
   }
 
   public static fromProto(proto: MsgExecAuthorized.Proto): MsgExecAuthorized {
-    return new MsgExecAuthorized(
-      proto.grantee,
-      proto.msgs.map((x) => Msg.fromProto(x))
-    )
+    return new MsgExecAuthorized(proto.grantee, proto.msgs.map(Msg.fromProto))
   }
 
   public toProto(): MsgExecAuthorized.Proto {

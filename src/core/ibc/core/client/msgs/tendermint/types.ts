@@ -442,7 +442,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
       parseInt(height),
       parseInt(round),
       block_id ? BlockID.fromData(block_id) : undefined,
-      signatures.map((sig) => CommitSig.fromData(sig))
+      signatures.map(CommitSig.fromData)
     )
   }
 
@@ -462,7 +462,7 @@ export class Commit extends JSONSerializable<any, Commit.Data, Commit.Proto> {
       Number(height),
       round,
       blockId ? BlockID.fromProto(blockId) : undefined,
-      signatures.map((sig) => CommitSig.fromProto(sig))
+      signatures.map(CommitSig.fromProto)
     )
   }
 
@@ -602,7 +602,7 @@ export class ValidatorSet extends JSONSerializable<
   public static fromData(data: ValidatorSet.Data): ValidatorSet {
     const { validators, proposer, total_voting_power } = data
     return new ValidatorSet(
-      validators.map((val) => Validator.fromData(val)),
+      validators.map(Validator.fromData),
       proposer ? Validator.fromData(proposer) : undefined,
       parseInt(total_voting_power)
     )
@@ -620,7 +620,7 @@ export class ValidatorSet extends JSONSerializable<
   public static fromProto(proto: ValidatorSet.Proto): ValidatorSet {
     const { validators, proposer, totalVotingPower } = proto
     return new ValidatorSet(
-      validators.map((val) => Validator.fromProto(val)),
+      validators.map(Validator.fromProto),
       proposer ? Validator.fromProto(proposer) : undefined,
       Number(totalVotingPower)
     )
