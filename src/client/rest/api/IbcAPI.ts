@@ -237,7 +237,10 @@ export class IbcAPI extends BaseAPI {
         consensus_states: ClientConsensusStates.Data
         pagination: Pagination
       }>(`/ibc/core/client/v1/consensus_states/${client_id}`, params, headers)
-      .then()
+      .then((d) => [
+        ClientConsensusStates.fromData(d.consensus_states),
+        d.pagination,
+      ])
   }
 
   /**
