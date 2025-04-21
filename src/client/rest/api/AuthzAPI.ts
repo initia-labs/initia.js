@@ -13,7 +13,8 @@ export class AuthzAPI extends BaseAPI {
     granter: AccAddress,
     grantee: AccAddress,
     msg_type_url?: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
       .get<{ grants: AuthorizationGrant.Data[]; pagination: Pagination }>(
@@ -24,7 +25,8 @@ export class AuthzAPI extends BaseAPI {
             grantee,
             msg_type_url,
           },
-          params
+          params,
+          headers
         )
       )
       .then((d) => [d.grants.map(AuthorizationGrant.fromData), d.pagination])
@@ -36,13 +38,14 @@ export class AuthzAPI extends BaseAPI {
    */
   public async granter(
     granter: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
       .get<{
         grants: AuthorizationGrant.Data[]
         pagination: Pagination
-      }>(`/cosmos/authz/v1beta1/grants/granter/${granter}`, params)
+      }>(`/cosmos/authz/v1beta1/grants/granter/${granter}`, params, headers)
       .then((d) => [
         d.grants.map((g) => AuthorizationGrant.fromData(g)),
         d.pagination,
@@ -55,13 +58,14 @@ export class AuthzAPI extends BaseAPI {
    */
   public async grantee(
     grantee: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<[AuthorizationGrant[], Pagination]> {
     return this.c
       .get<{
         grants: AuthorizationGrant.Data[]
         pagination: Pagination
-      }>(`/cosmos/authz/v1beta1/grants/grantee/${grantee}`, params)
+      }>(`/cosmos/authz/v1beta1/grants/grantee/${grantee}`, params, headers)
       .then((d) => [
         d.grants.map((g) => AuthorizationGrant.fromData(g)),
         d.pagination,

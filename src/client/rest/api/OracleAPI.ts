@@ -6,11 +6,14 @@ export class OracleAPI extends BaseAPI {
   /**
    * Query all the currency pairs the oracle module is tracking price-data for.
    */
-  public async currencyPairs(params: APIParams = {}): Promise<CurrencyPair[]> {
+  public async currencyPairs(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<CurrencyPair[]> {
     return this.c
       .get<{
         currency_pairs: CurrencyPair.Data[]
-      }>(`/connect/oracle/v2/get_all_tickers`, params)
+      }>(`/connect/oracle/v2/get_all_tickers`, params, headers)
       .then((d) => d.currency_pairs.map(CurrencyPair.fromData))
   }
 
@@ -20,13 +23,18 @@ export class OracleAPI extends BaseAPI {
    */
   public async price(
     pair: CurrencyPair,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<QuotePrice> {
     return this.c
-      .get<{ price: QuotePrice.Data }>(`/connect/oracle/v2/get_price`, {
-        ...params,
-        currency_pair: pair.toString(),
-      })
+      .get<{ price: QuotePrice.Data }>(
+        `/connect/oracle/v2/get_price`,
+        {
+          ...params,
+          currency_pair: pair.toString(),
+        },
+        headers
+      )
       .then((d) => QuotePrice.fromData(d.price))
   }
 }

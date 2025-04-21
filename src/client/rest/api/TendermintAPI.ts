@@ -13,29 +13,42 @@ export class TendermintAPI extends BaseAPI {
   /**
    * Query the node's information.
    */
-  public async nodeInfo(params: APIParams = {}): Promise<object> {
-    return this.c.getRaw(`/cosmos/base/tendermint/v1beta1/node_info`, params)
+  public async nodeInfo(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<object> {
+    return this.c.getRaw(
+      `/cosmos/base/tendermint/v1beta1/node_info`,
+      params,
+      headers
+    )
   }
 
   /**
    * Query the node's chain id.
    */
-  public async chainId(params: APIParams = {}): Promise<string> {
+  public async chainId(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
     return this.c
       .get<{
         default_node_info: { network: string }
-      }>(`/cosmos/base/tendermint/v1beta1/node_info`, params)
+      }>(`/cosmos/base/tendermint/v1beta1/node_info`, params, headers)
       .then((res) => res?.default_node_info?.network)
   }
 
   /**
    * Query whether the node is currently in syncing mode to catch up with blocks.
    */
-  public async syncing(params: APIParams = {}): Promise<boolean> {
+  public async syncing(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<boolean> {
     return this.c
       .getRaw<{
         syncing: boolean
-      }>(`/cosmos/base/tendermint/v1beta1/syncing`, params)
+      }>(`/cosmos/base/tendermint/v1beta1/syncing`, params, headers)
       .then((d) => d.syncing)
   }
 
@@ -45,7 +58,8 @@ export class TendermintAPI extends BaseAPI {
    */
   public async validatorSet(
     height?: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<[DelegateValidator[], Pagination]> {
     const url =
       height !== undefined
@@ -56,7 +70,7 @@ export class TendermintAPI extends BaseAPI {
         block_height: string
         validators: DelegateValidator[]
         pagination: Pagination
-      }>(url, params)
+      }>(url, params, headers)
       .then((d) => [d.validators, d.pagination])
   }
 
@@ -66,12 +80,13 @@ export class TendermintAPI extends BaseAPI {
    */
   public async blockInfo(
     height?: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<BlockInfo> {
     const url =
       height !== undefined
         ? `/cosmos/base/tendermint/v1beta1/blocks/${height}`
         : `/cosmos/base/tendermint/v1beta1/blocks/latest`
-    return this.c.getRaw<BlockInfo>(url, params)
+    return this.c.getRaw<BlockInfo>(url, params, headers)
   }
 }

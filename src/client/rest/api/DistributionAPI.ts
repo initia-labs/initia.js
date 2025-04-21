@@ -51,11 +51,13 @@ export class DistributionAPI extends BaseAPI {
    */
   public async rewards(
     delegator: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Rewards> {
     const rewardsData = await this.c.get<Rewards.Data>(
       `/initia/distribution/v1/delegators/${delegator}/rewards`,
-      params
+      params,
+      headers
     )
 
     const rewards: Rewards['rewards'] = {}
@@ -82,14 +84,16 @@ export class DistributionAPI extends BaseAPI {
   public async rewardsByValidator(
     delegator: AccAddress,
     validator: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Pool[]> {
     return this.c
       .get<{
         rewards: Pool.Data[]
       }>(
         `/initia/distribution/v1/delegators/${delegator}/rewards/${validator}`,
-        params
+        params,
+        headers
       )
       .then((d) =>
         d.rewards.map((pool) => ({
@@ -105,14 +109,16 @@ export class DistributionAPI extends BaseAPI {
    */
   public async validatorRewards(
     validator: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Pool[]> {
     return this.c
       .get<{
         rewards: { rewards: Pool.Data[] }
       }>(
         `/initia/distribution/v1/validators/${validator}/outstanding_rewards`,
-        params
+        params,
+        headers
       )
       .then((d) =>
         d.rewards.rewards.map((pool) => ({
@@ -128,14 +134,19 @@ export class DistributionAPI extends BaseAPI {
    */
   public async validatorCommission(
     validator: ValAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Pool[]> {
     return this.c
       .get<{
         commission: {
           commissions: Pool.Data[]
         }
-      }>(`/initia/distribution/v1/validators/${validator}/commission`, params)
+      }>(
+        `/initia/distribution/v1/validators/${validator}/commission`,
+        params,
+        headers
+      )
       .then((d) =>
         d.commission.commissions.map((pool) => ({
           denom: pool.denom,
@@ -150,14 +161,16 @@ export class DistributionAPI extends BaseAPI {
    */
   public async withdrawAddress(
     delegator: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<AccAddress> {
     return this.c
       .get<{
         withdraw_address: AccAddress
       }>(
         `/cosmos/distribution/v1beta1/delegators/${delegator}/withdraw_address`,
-        params
+        params,
+        headers
       )
       .then((d) => d.withdraw_address)
   }
@@ -165,22 +178,28 @@ export class DistributionAPI extends BaseAPI {
   /**
    * Query the current value of the community pool.
    */
-  public async communityPool(params: APIParams = {}): Promise<Coins> {
+  public async communityPool(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Coins> {
     return this.c
       .get<{
         pool: Coins.Data
-      }>(`/cosmos/distribution/v1beta1/community_pool`, params)
+      }>(`/cosmos/distribution/v1beta1/community_pool`, params, headers)
       .then((d) => Coins.fromData(d.pool))
   }
 
   /**
    * Query the parameters of the distribution module.
    */
-  public async parameters(params: APIParams = {}): Promise<DistributionParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<DistributionParams> {
     return this.c
       .get<{
         params: DistributionParams.Data
-      }>(`/initia/distribution/v1/params`, params)
+      }>(`/initia/distribution/v1/params`, params, headers)
       .then((d) => DistributionParams.fromData(d.params))
   }
 }

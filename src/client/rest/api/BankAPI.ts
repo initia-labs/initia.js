@@ -9,13 +9,14 @@ export class BankAPI extends BaseAPI {
    */
   public async balance(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Coins, Pagination]> {
     return this.c
       .get<{
         balances: Coins.Data
         pagination: Pagination
-      }>(`/cosmos/bank/v1beta1/balances/${address}`, params)
+      }>(`/cosmos/bank/v1beta1/balances/${address}`, params, headers)
       .then((d) => [Coins.fromData(d.balances), d.pagination])
   }
 
@@ -27,15 +28,20 @@ export class BankAPI extends BaseAPI {
   public async balanceByDenom(
     address: AccAddress,
     denom: Denom,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Coin> {
     return this.c
       .get<{
         balance: Coin.Data
-      }>(`/cosmos/bank/v1beta1/balances/${address}/by_denom`, {
-        ...params,
-        denom,
-      })
+      }>(
+        `/cosmos/bank/v1beta1/balances/${address}/by_denom`,
+        {
+          ...params,
+          denom,
+        },
+        headers
+      )
       .then((d) => Coin.fromData(d.balance))
   }
 
@@ -43,13 +49,14 @@ export class BankAPI extends BaseAPI {
    * Query the total supply of tokens in circulation for all denominations.
    */
   public async total(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Coins, Pagination]> {
     return this.c
       .get<{
         supply: Coins.Data
         pagination: Pagination
-      }>(`/cosmos/bank/v1beta1/supply`, params)
+      }>(`/cosmos/bank/v1beta1/supply`, params, headers)
       .then((d) => [Coins.fromData(d.supply), d.pagination])
   }
 
@@ -59,22 +66,28 @@ export class BankAPI extends BaseAPI {
    */
   public async spendableBalances(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Coins, Pagination]> {
     return this.c
       .get<{
         balances: Coins.Data
         pagination: Pagination
-      }>(`/cosmos/bank/v1beta1/spendable_balances/${address}`, params)
+      }>(`/cosmos/bank/v1beta1/spendable_balances/${address}`, params, headers)
       .then((d) => [Coins.fromData(d.balances), d.pagination])
   }
 
   /**
    * Query the parameters of the bank module.
    */
-  public async parameters(params: APIParams = {}): Promise<BankParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<BankParams> {
     return this.c
-      .get<{ params: BankParams.Data }>(`/cosmos/bank/v1beta1/params`, params)
+      .get<{
+        params: BankParams.Data
+      }>(`/cosmos/bank/v1beta1/params`, params, headers)
       .then((d) => BankParams.fromData(d.params))
   }
 }

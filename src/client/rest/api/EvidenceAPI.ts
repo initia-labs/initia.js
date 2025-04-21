@@ -7,13 +7,14 @@ export class EvidenceAPI extends BaseAPI {
    * Query evidences of misbehavior (e.g. equivocation).
    */
   public async evidences(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Evidence[], Pagination]> {
     return this.c
       .get<{
         evidence: Evidence.Data[]
         pagination: Pagination
-      }>(`/cosmos/evidence/v1beta1/evidence`, params)
+      }>(`/cosmos/evidence/v1beta1/evidence`, params, headers)
       .then((d) => [d.evidence.map(Evidence.fromData), d.pagination])
   }
 
@@ -23,12 +24,13 @@ export class EvidenceAPI extends BaseAPI {
    */
   public async evidence(
     hash: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Evidence> {
     return this.c
       .get<{
         evidence: Evidence.Data
-      }>(`/cosmos/evidence/v1beta1/evidence/${hash}`, params)
+      }>(`/cosmos/evidence/v1beta1/evidence/${hash}`, params, headers)
       .then((d) => Evidence.fromData(d.evidence))
   }
 }

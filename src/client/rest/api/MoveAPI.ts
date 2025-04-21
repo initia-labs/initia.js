@@ -51,13 +51,14 @@ export class MoveAPI extends BaseAPI {
    */
   public async modules(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Module[], Pagination]> {
     return this.c
       .get<{
         modules: Module.Data[]
         pagination: Pagination
-      }>(`/initia/move/v1/accounts/${address}/modules`, params)
+      }>(`/initia/move/v1/accounts/${address}/modules`, params, headers)
       .then((d) => [d.modules.map(Module.fromData), d.pagination])
   }
 
@@ -69,12 +70,17 @@ export class MoveAPI extends BaseAPI {
   public async module(
     address: AccAddress,
     module_name: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Module> {
     return this.c
       .get<{
         module: Module.Data
-      }>(`/initia/move/v1/accounts/${address}/modules/${module_name}`, params)
+      }>(
+        `/initia/move/v1/accounts/${address}/modules/${module_name}`,
+        params,
+        headers
+      )
       .then((d) => Module.fromData(d.module))
   }
 
@@ -84,13 +90,14 @@ export class MoveAPI extends BaseAPI {
    */
   public async resources(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[{ type: string; data: any }[], Pagination]> {
     return this.c
       .get<{
         resources: Resource[]
         pagination: Pagination
-      }>(`/initia/move/v1/accounts/${address}/resources`, params)
+      }>(`/initia/move/v1/accounts/${address}/resources`, params, headers)
       .then((d) => [
         d.resources.map((res) => JSON.parse(res.move_resource)),
         d.pagination,
@@ -105,15 +112,20 @@ export class MoveAPI extends BaseAPI {
   public async resource<T>(
     address: AccAddress,
     struct_tag: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<{ type: string; data: T }> {
     return this.c
       .get<{
         resource: Resource
-      }>(`/initia/move/v1/accounts/${address}/resources/by_struct_tag`, {
-        ...params,
-        struct_tag,
-      })
+      }>(
+        `/initia/move/v1/accounts/${address}/resources/by_struct_tag`,
+        {
+          ...params,
+          struct_tag,
+        },
+        headers
+      )
       .then((d) => JSON.parse(d.resource.move_resource))
   }
 
@@ -123,12 +135,13 @@ export class MoveAPI extends BaseAPI {
    */
   public async tableInfo(
     address: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<TableInfo> {
     return this.c
       .get<{
         table_info: TableInfo
-      }>(`/initia/move/v1/tables/${address}`, params)
+      }>(`/initia/move/v1/tables/${address}`, params, headers)
       .then((d) => d.table_info)
   }
 
@@ -138,13 +151,14 @@ export class MoveAPI extends BaseAPI {
    */
   public async tableEntries(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[TableEntry[], Pagination]> {
     return this.c
       .get<{
         table_entries: TableEntry[]
         pagination: Pagination
-      }>(`/initia/move/v1/tables/${address}/entries`, params)
+      }>(`/initia/move/v1/tables/${address}/entries`, params, headers)
       .then((d) => [d.table_entries, d.pagination])
   }
 
@@ -156,15 +170,20 @@ export class MoveAPI extends BaseAPI {
   public async tableEntry(
     address: AccAddress,
     key_bytes: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<TableEntry> {
     return this.c
       .get<{
         table_entry: TableEntry
-      }>(`/initia/move/v1/tables/${address}/entries/by_key_bytes`, {
-        ...params,
-        key_bytes,
-      })
+      }>(
+        `/initia/move/v1/tables/${address}/entries/by_key_bytes`,
+        {
+          ...params,
+          key_bytes,
+        },
+        headers
+      )
       .then((d) => d.table_entry)
   }
 
@@ -183,7 +202,8 @@ export class MoveAPI extends BaseAPI {
     module_name: string,
     function_name: string,
     type_args: string[] = [],
-    args: string[] = []
+    args: string[] = [],
+    headers: Record<string, string> = {}
   ): Promise<T> {
     return this.c
       .post<{ data: string }>(
@@ -191,7 +211,8 @@ export class MoveAPI extends BaseAPI {
         {
           type_args,
           args,
-        }
+        },
+        headers
       )
       .then((res) => JSON.parse(res.data) as T)
   }
@@ -211,15 +232,20 @@ export class MoveAPI extends BaseAPI {
     module_name: string,
     function_name: string,
     type_args: string[] = [],
-    args: string[] = []
+    args: string[] = [],
+    headers: Record<string, string> = {}
   ): Promise<ViewResponse> {
-    return this.c.post<ViewResponse>(`/initia/move/v1/view`, {
-      address,
-      module_name,
-      function_name,
-      type_args,
-      args,
-    })
+    return this.c.post<ViewResponse>(
+      `/initia/move/v1/view`,
+      {
+        address,
+        module_name,
+        function_name,
+        type_args,
+        args,
+      },
+      headers
+    )
   }
 
   /**
@@ -228,11 +254,18 @@ export class MoveAPI extends BaseAPI {
    * Execute multiple view functions and return the view results.
    * @param requests list of requests to execute view functions
    */
-  public async viewBatch(requests: ViewRequest[]): Promise<ViewResponse[]> {
+  public async viewBatch(
+    requests: ViewRequest[],
+    headers: Record<string, string> = {}
+  ): Promise<ViewResponse[]> {
     return this.c
-      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/batch`, {
-        requests,
-      })
+      .post<{ responses: ViewResponse[] }>(
+        `/initia/move/v1/view/batch`,
+        {
+          requests,
+        },
+        headers
+      )
       .then((d) => d.responses)
   }
 
@@ -249,26 +282,38 @@ export class MoveAPI extends BaseAPI {
     module_name: string,
     function_name: string,
     type_args: string[] = [],
-    args: string[] = []
+    args: string[] = [],
+    headers: Record<string, string> = {}
   ): Promise<ViewResponse> {
-    return this.c.post<ViewResponse>(`/initia/move/v1/view/json`, {
-      address,
-      module_name,
-      function_name,
-      type_args,
-      args,
-    })
+    return this.c.post<ViewResponse>(
+      `/initia/move/v1/view/json`,
+      {
+        address,
+        module_name,
+        function_name,
+        type_args,
+        args,
+      },
+      headers
+    )
   }
 
   /**
    * Execute multiple view functions with json arguments and return the view results
    * @param requests list of requests to execute view functions
    */
-  public async viewBatchJSON(requests: ViewRequest[]): Promise<ViewResponse[]> {
+  public async viewBatchJSON(
+    requests: ViewRequest[],
+    headers: Record<string, string> = {}
+  ): Promise<ViewResponse[]> {
     return this.c
-      .post<{ responses: ViewResponse[] }>(`/initia/move/v1/view/json/batch`, {
-        requests,
-      })
+      .post<{ responses: ViewResponse[] }>(
+        `/initia/move/v1/view/json/batch`,
+        {
+          requests,
+        },
+        headers
+      )
       .then((d) => d.responses)
   }
 
@@ -276,19 +321,32 @@ export class MoveAPI extends BaseAPI {
    * Decode script bytes into ABI.
    * @param code_bytes the script code for query operation
    */
-  public async scriptABI(code_bytes: string): Promise<ABI> {
-    return this.c.post<ABI>(`/initia/move/v1/script/abi`, {
-      code_bytes,
-    })
+  public async scriptABI(
+    code_bytes: string,
+    headers: Record<string, string> = {}
+  ): Promise<ABI> {
+    return this.c.post<ABI>(
+      `/initia/move/v1/script/abi`,
+      {
+        code_bytes,
+      },
+      headers
+    )
   }
 
   /**
    * Query denom which is converted from the given metadata.
    * @param metadata metadata to convert
    */
-  public async denom(metadata: string, params: APIParams = {}): Promise<Denom> {
+  public async denom(
+    metadata: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Denom> {
     return this.c
-      .get<{ denom: Denom }>(`/initia/move/v1/denom`, { ...params, metadata })
+      .get<{
+        denom: Denom
+      }>(`/initia/move/v1/denom`, { ...params, metadata }, headers)
       .then((d) => d.denom)
   }
 
@@ -296,21 +354,34 @@ export class MoveAPI extends BaseAPI {
    * Query metadata which is converted from the given denom.
    * @param denom denom to convert
    */
-  public async metadata(denom: Denom, params: APIParams = {}): Promise<string> {
+  public async metadata(
+    denom: Denom,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
     return this.c
-      .get<{ metadata: string }>(`/initia/move/v1/metadata`, {
-        ...params,
-        denom,
-      })
+      .get<{ metadata: string }>(
+        `/initia/move/v1/metadata`,
+        {
+          ...params,
+          denom,
+        },
+        headers
+      )
       .then((d) => d.metadata)
   }
 
   /**
    * Query the parameters of the move module.
    */
-  public async parameters(params: APIParams = {}): Promise<MoveParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<MoveParams> {
     return this.c
-      .get<{ params: MoveParams.Data }>(`/initia/move/v1/params`, params)
+      .get<{
+        params: MoveParams.Data
+      }>(`/initia/move/v1/params`, params, headers)
       .then((d) => MoveParams.fromData(d.params))
   }
 }

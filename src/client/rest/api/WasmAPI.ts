@@ -83,13 +83,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async contractInfo(
     address: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<ContractInfo> {
     return this.c
       .get<{
         address: AccAddress
         contract_info: ContractInfo.Data
-      }>(`/cosmwasm/wasm/v1/contract/${address}`, params)
+      }>(`/cosmwasm/wasm/v1/contract/${address}`, params, headers)
       .then((d) => ({
         code_id: parseInt(d.contract_info.code_id),
         creator: d.contract_info.creator,
@@ -107,13 +108,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async contractHistory(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[ContractCodeHistoryEntry[], Pagination]> {
     return this.c
       .get<{
         entries: ContractCodeHistoryEntry.Data[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/contract/${address}/history`, params)
+      }>(`/cosmwasm/wasm/v1/contract/${address}/history`, params, headers)
       .then((d) => [
         d.entries.map((entry) => ({
           operation: contractCodeHistoryOperationTypeFromJSON(entry.operation),
@@ -131,13 +133,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async contractsByCode(
     code_id: number,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[string[], Pagination]> {
     return this.c
       .get<{
         contracts: string[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/code/${code_id}/contracts`, params)
+      }>(`/cosmwasm/wasm/v1/code/${code_id}/contracts`, params, headers)
       .then((d) => [d.contracts, d.pagination])
   }
 
@@ -147,13 +150,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async allContractState(
     address: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Model[], Pagination]> {
     return this.c
       .get<{
         models: Model[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/contract/${address}/state`, params)
+      }>(`/cosmwasm/wasm/v1/contract/${address}/state`, params, headers)
       .then((d) => [d.models, d.pagination])
   }
 
@@ -165,12 +169,17 @@ export class WasmAPI extends BaseAPI {
   public async rawContractState(
     address: AccAddress,
     query_data: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<string> {
     return this.c
       .get<{
         data: string
-      }>(`/cosmwasm/wasm/v1/contract/${address}/raw/${query_data}`, params)
+      }>(
+        `/cosmwasm/wasm/v1/contract/${address}/raw/${query_data}`,
+        params,
+        headers
+      )
       .then((d) => d.data)
   }
 
@@ -182,12 +191,17 @@ export class WasmAPI extends BaseAPI {
   public async smartContractState<T>(
     address: AccAddress,
     query_data: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<T> {
     return this.c
       .get<{
         data: T
-      }>(`/cosmwasm/wasm/v1/contract/${address}/smart/${query_data}`, params)
+      }>(
+        `/cosmwasm/wasm/v1/contract/${address}/smart/${query_data}`,
+        params,
+        headers
+      )
       .then((res) => res.data)
   }
 
@@ -195,13 +209,14 @@ export class WasmAPI extends BaseAPI {
    * Query the metadatas for all stored wasm codes.
    */
   public async codeInfos(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[CodeInfo[], Pagination]> {
     return this.c
       .get<{
         code_infos: CodeInfo.Data[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/code`, params)
+      }>(`/cosmwasm/wasm/v1/code`, params, headers)
       .then((d) => [
         d.code_infos.map((info) => ({
           code_id: parseInt(info.code_id),
@@ -221,13 +236,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async codeInfo(
     code_id: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<{ code_info: CodeInfo; data: string }> {
     return this.c
       .get<{
         code_info: CodeInfo.Data
         data: string
-      }>(`/cosmwasm/wasm/v1/code/${code_id}`, params)
+      }>(`/cosmwasm/wasm/v1/code/${code_id}`, params, headers)
       .then((d) => ({
         code_info: {
           code_id: parseInt(d.code_info.code_id),
@@ -245,24 +261,28 @@ export class WasmAPI extends BaseAPI {
    * Query the pinned code ids.
    */
   public async pinnedCodes(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[number[], Pagination]> {
     return this.c
       .get<{
         code_ids: string[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/codes/pinned`, params)
+      }>(`/cosmwasm/wasm/v1/codes/pinned`, params, headers)
       .then((d) => [d.code_ids.map((id) => parseInt(id)), d.pagination])
   }
 
   /**
    * Query the parameters of the wasm module.
    */
-  public async parameters(params: APIParams = {}): Promise<WasmParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<WasmParams> {
     return this.c
       .get<{
         params: WasmParams.Data
-      }>(`/cosmwasm/wasm/v1/codes/params`, params)
+      }>(`/cosmwasm/wasm/v1/codes/params`, params, headers)
       .then((d) => WasmParams.fromData(d.params))
   }
 
@@ -272,13 +292,14 @@ export class WasmAPI extends BaseAPI {
    */
   public async contractsByCreator(
     creator: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[string[], Pagination]> {
     return this.c
       .get<{
         contract_addresses: string[]
         pagination: Pagination
-      }>(`/cosmwasm/wasm/v1/contracts/creator/${creator}`, params)
+      }>(`/cosmwasm/wasm/v1/contracts/creator/${creator}`, params, headers)
       .then((d) => [d.contract_addresses, d.pagination])
   }
 }
