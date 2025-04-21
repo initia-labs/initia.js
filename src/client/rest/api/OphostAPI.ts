@@ -31,13 +31,14 @@ export class OphostAPI extends BaseAPI {
    * Query all bridge infos.
    */
   public async bridgeInfos(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[BridgeInfo[], Pagination]> {
     return this.c
       .get<{
         bridges: BridgeInfo.Data[]
         pagination: Pagination
-      }>(`/opinit/ophost/v1/bridges`, params)
+      }>(`/opinit/ophost/v1/bridges`, params, headers)
       .then((d) => [d.bridges.map(BridgeInfo.fromData), d.pagination])
   }
 
@@ -47,10 +48,15 @@ export class OphostAPI extends BaseAPI {
    */
   public async bridgeInfo(
     bridge_id: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<BridgeInfo> {
     return this.c
-      .get<BridgeInfo.Data>(`/opinit/ophost/v1/bridges/${bridge_id}`, params)
+      .get<BridgeInfo.Data>(
+        `/opinit/ophost/v1/bridges/${bridge_id}`,
+        params,
+        headers
+      )
       .then((d) => BridgeInfo.fromData(d))
   }
 
@@ -60,13 +66,14 @@ export class OphostAPI extends BaseAPI {
    */
   public async tokenPairs(
     bridge_id: number,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[TokenPair[], Pagination]> {
     return this.c
       .get<{
         token_pairs: TokenPair[]
         pagination: Pagination
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/token_pairs`, params)
+      }>(`/opinit/ophost/v1/bridges/${bridge_id}/token_pairs`, params, headers)
       .then((d) => [d.token_pairs, d.pagination])
   }
 
@@ -78,15 +85,20 @@ export class OphostAPI extends BaseAPI {
   public async tokenPairByL1Denom(
     bridge_id: number,
     l1_denom: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<TokenPair> {
     return this.c
       .get<{
         token_pair: TokenPair
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/token_pairs/by_l1_denom`, {
-        ...params,
-        l1_denom,
-      })
+      }>(
+        `/opinit/ophost/v1/bridges/${bridge_id}/token_pairs/by_l1_denom`,
+        {
+          ...params,
+          l1_denom,
+        },
+        headers
+      )
       .then((d) => d.token_pair)
   }
 
@@ -98,15 +110,20 @@ export class OphostAPI extends BaseAPI {
   public async tokenPairByL2Denom(
     bridge_id: number,
     l2_denom: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<TokenPair> {
     return this.c
       .get<{
         token_pair: TokenPair
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/token_pairs/by_l2_denom`, {
-        ...params,
-        l2_denom,
-      })
+      }>(
+        `/opinit/ophost/v1/bridges/${bridge_id}/token_pairs/by_l2_denom`,
+        {
+          ...params,
+          l2_denom,
+        },
+        headers
+      )
       .then((d) => d.token_pair)
   }
 
@@ -116,12 +133,14 @@ export class OphostAPI extends BaseAPI {
    */
   public async lastFinalizedOutput(
     bridge_id: number,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<OutputInfo> {
     return this.c
       .get<OutputInfo.Data>(
         `/opinit/ophost/v1/bridges/${bridge_id}/last_finalized_output`,
-        params
+        params,
+        headers
       )
       .then((d) => ({
         output_index: parseInt(d.output_index),
@@ -135,13 +154,14 @@ export class OphostAPI extends BaseAPI {
    */
   public async outputInfos(
     bridge_id: number,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[OutputInfo[], Pagination]> {
     return this.c
       .get<{
         output_proposals: OutputInfo.Data[]
         pagination: Pagination
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/outputs`, params)
+      }>(`/opinit/ophost/v1/bridges/${bridge_id}/outputs`, params, headers)
       .then((d) => [
         d.output_proposals.map((info) => ({
           bridge_id: parseInt(info.bridge_id ?? `${bridge_id}`),
@@ -160,12 +180,14 @@ export class OphostAPI extends BaseAPI {
   public async outputInfo(
     bridge_id: number,
     output_index: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<OutputInfo> {
     return this.c
       .get<OutputInfo.Data>(
         `/opinit/ophost/v1/bridges/${bridge_id}/outputs/${output_index}`,
-        params
+        params,
+        headers
       )
       .then((d) => ({
         bridge_id: parseInt(d.bridge_id ?? `${bridge_id}`),
@@ -182,15 +204,22 @@ export class OphostAPI extends BaseAPI {
   public async withdrawalClaimed(
     bridge_id: number,
     withdrawal_hash: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<boolean> {
     return this.c
       .get<{
         claimed: boolean
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/withdrawals/claimed/by_hash`, {
-        ...params,
-        withdrawal_hash: Buffer.from(withdrawal_hash, 'hex').toString('base64'),
-      })
+      }>(
+        `/opinit/ophost/v1/bridges/${bridge_id}/withdrawals/claimed/by_hash`,
+        {
+          ...params,
+          withdrawal_hash: Buffer.from(withdrawal_hash, 'hex').toString(
+            'base64'
+          ),
+        },
+        headers
+      )
       .then((d) => d.claimed)
   }
 
@@ -200,12 +229,17 @@ export class OphostAPI extends BaseAPI {
    */
   public async nextL1Sequence(
     bridge_id: number,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<number> {
     return this.c
       .get<{
         next_l1_sequence: string
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/next_l1_sequence`, params)
+      }>(
+        `/opinit/ophost/v1/bridges/${bridge_id}/next_l1_sequence`,
+        params,
+        headers
+      )
       .then((d) => parseInt(d.next_l1_sequence))
   }
 
@@ -215,13 +249,14 @@ export class OphostAPI extends BaseAPI {
    */
   public async batchInfos(
     bridge_id: number,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[BatchInfoWithOutput[], Pagination]> {
     return this.c
       .get<{
         batch_infos: BatchInfoWithOutput.Data[]
         pagination: Pagination
-      }>(`/opinit/ophost/v1/bridges/${bridge_id}/batch_infos`, params)
+      }>(`/opinit/ophost/v1/bridges/${bridge_id}/batch_infos`, params, headers)
       .then((d) => [
         d.batch_infos.map((info) => BatchInfoWithOutput.fromData(info)),
         d.pagination,
@@ -231,9 +266,14 @@ export class OphostAPI extends BaseAPI {
   /**
    * Query the parameters of the ophost module.
    */
-  public async parameters(params: APIParams = {}): Promise<OphostParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<OphostParams> {
     return this.c
-      .get<{ params: OphostParams.Data }>(`/opinit/ophost/v1/params`, params)
+      .get<{
+        params: OphostParams.Data
+      }>(`/opinit/ophost/v1/params`, params, headers)
       .then((d) => OphostParams.fromData(d.params))
   }
 }

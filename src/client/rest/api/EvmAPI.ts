@@ -20,10 +20,13 @@ export class EvmAPI extends BaseAPI {
    */
   public async code(
     contract_addr: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<string> {
     return this.c
-      .get<{ code: string }>(`/minievm/evm/v1/codes/${contract_addr}`, params)
+      .get<{
+        code: string
+      }>(`/minievm/evm/v1/codes/${contract_addr}`, params, headers)
       .then((d) => d.code)
   }
 
@@ -35,34 +38,41 @@ export class EvmAPI extends BaseAPI {
   public async state(
     contract_addr: AccAddress,
     key: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<string> {
     return this.c
       .get<{
         value: string
-      }>(`/minievm/evm/v1/states/${contract_addr}/${key}`, params)
+      }>(`/minievm/evm/v1/states/${contract_addr}/${key}`, params, headers)
       .then((d) => d.value)
   }
 
   /**
    * Query the ERC20Factory contract address.
    */
-  public async erc20Factory(params: APIParams = {}): Promise<string> {
+  public async erc20Factory(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
     return this.c
       .get<{
         address: string
-      }>(`/minievm/evm/v1/contracts/erc20_factory`, params)
+      }>(`/minievm/evm/v1/contracts/erc20_factory`, params, headers)
       .then((d) => d.address)
   }
 
   /**
    * Query the ERC20Wrapper contract address.
    */
-  public async erc20Wrapper(params: APIParams = {}): Promise<string> {
+  public async erc20Wrapper(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
     return this.c
       .get<{
         address: string
-      }>(`/minievm/evm/v1/contracts/erc20_wrapper`, params)
+      }>(`/minievm/evm/v1/contracts/erc20_wrapper`, params, headers)
       .then((d) => d.address)
   }
 
@@ -72,13 +82,18 @@ export class EvmAPI extends BaseAPI {
    */
   public async contractAddrByDenom(
     denom: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<AccAddress> {
     return this.c
-      .get<{ address: AccAddress }>(`/minievm/evm/v1/contracts/by_denom`, {
-        ...params,
-        denom,
-      })
+      .get<{ address: AccAddress }>(
+        `/minievm/evm/v1/contracts/by_denom`,
+        {
+          ...params,
+          denom,
+        },
+        headers
+      )
       .then((d) => d.address)
   }
 
@@ -88,10 +103,13 @@ export class EvmAPI extends BaseAPI {
    */
   public async denom(
     contract_addr: AccAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<string> {
     return this.c
-      .get<{ denom: string }>(`/minievm/evm/v1/denoms/${contract_addr}`, params)
+      .get<{
+        denom: string
+      }>(`/minievm/evm/v1/denoms/${contract_addr}`, params, headers)
       .then((d) => d.denom)
   }
 
@@ -106,22 +124,32 @@ export class EvmAPI extends BaseAPI {
     sender: AccAddress,
     contract_addr: AccAddress,
     input: string,
-    with_trace: boolean
+    with_trace: boolean,
+    headers: Record<string, string> = {}
   ): Promise<CallResponse> {
-    return this.c.post<CallResponse>(`/minievm/evm/v1/call`, {
-      sender,
-      contract_addr,
-      input,
-      with_trace,
-    })
+    return this.c.post<CallResponse>(
+      `/minievm/evm/v1/call`,
+      {
+        sender,
+        contract_addr,
+        input,
+        with_trace,
+      },
+      headers
+    )
   }
 
   /**
    * Query the parameters of the evm module.
    */
-  public async parameters(params: APIParams = {}): Promise<EvmParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<EvmParams> {
     return this.c
-      .get<{ params: EvmParams.Data }>(`/minievm/evm/v1/params`, params)
+      .get<{
+        params: EvmParams.Data
+      }>(`/minievm/evm/v1/params`, params, headers)
       .then((d) => EvmParams.fromData(d.params))
   }
 }

@@ -212,10 +212,15 @@ export class TxAPI extends BaseAPI {
    */
   public async txInfo(
     tx_hash: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<TxInfo> {
     return this.c
-      .getRaw<TxResult.Data>(`/cosmos/tx/v1beta1/txs/${tx_hash}`, params)
+      .getRaw<TxResult.Data>(
+        `/cosmos/tx/v1beta1/txs/${tx_hash}`,
+        params,
+        headers
+      )
       .then((v) => TxInfo.fromData(v.tx_response))
   }
 
@@ -348,7 +353,8 @@ export class TxAPI extends BaseAPI {
     options?: {
       gasAdjustment?: number | string
       signers?: SignerData[]
-    }
+    },
+    headers: Record<string, string> = {}
   ): Promise<string> {
     const gasAdjustment =
       options?.gasAdjustment ?? this.rest.config.gasAdjustment
@@ -365,9 +371,13 @@ export class TxAPI extends BaseAPI {
     }
 
     const simulateRes = await this.c
-      .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
-        tx_bytes: TxAPI.encode(simTx),
-      })
+      .post<SimulateResponse.Data>(
+        `/cosmos/tx/v1beta1/simulate`,
+        {
+          tx_bytes: TxAPI.encode(simTx),
+        },
+        headers
+      )
       .then((d) => SimulateResponse.fromData(d))
 
     return num(gasAdjustment ?? 0)
@@ -380,7 +390,8 @@ export class TxAPI extends BaseAPI {
    * @param options tx options with sequence
    */
   public async simulate(
-    options: CreateTxOptions & { sequence: number }
+    options: CreateTxOptions & { sequence: number },
+    headers: Record<string, string> = {}
   ): Promise<SimulateResponse> {
     const txBody = new TxBody(options.msgs, options.memo ?? '')
     const authInfo = new AuthInfo([], new Fee(0, new Coins()))
@@ -388,9 +399,13 @@ export class TxAPI extends BaseAPI {
     tx.appendEmptySignatures([{ sequenceNumber: options.sequence }])
 
     return this.c
-      .post<SimulateResponse.Data>(`/cosmos/tx/v1beta1/simulate`, {
-        tx_bytes: TxAPI.encode(tx),
-      })
+      .post<SimulateResponse.Data>(
+        `/cosmos/tx/v1beta1/simulate`,
+        {
+          tx_bytes: TxAPI.encode(tx),
+        },
+        headers
+      )
       .then((d) => SimulateResponse.fromData(d))
   }
 
@@ -421,13 +436,17 @@ export class TxAPI extends BaseAPI {
 
   private async _broadcast<T>(
     tx: Tx | string,
-    mode: keyof typeof BroadcastMode
+    mode: keyof typeof BroadcastMode,
+    headers: Record<string, string> = {}
   ): Promise<T> {
-    const txBytes = tx instanceof Tx ? TxAPI.encode(tx) : tx
-    return await this.c.post<any>(`/cosmos/tx/v1beta1/txs`, {
-      tx_bytes: txBytes,
-      mode,
-    })
+    return this.c.post<any>(
+      `/cosmos/tx/v1beta1/txs`,
+      {
+        tx_bytes: tx instanceof Tx ? TxAPI.encode(tx) : tx,
+        mode,
+      },
+      headers
+    )
   }
 
   /**
@@ -438,12 +457,13 @@ export class TxAPI extends BaseAPI {
    */
   public async broadcast(
     tx: Tx | string,
-    timeout = 30000
+    timeout = 30000,
+    headers: Record<string, string> = {}
   ): Promise<WaitTxBroadcastResult> {
     const POLL_INTERVAL = 500
     const { tx_response: txResponse } = await this._broadcast<{
       tx_response: SyncTxBroadcastResult.Data
-    }>(tx, 'BROADCAST_MODE_SYNC')
+    }>(tx, 'BROADCAST_MODE_SYNC', headers)
 
     if (txResponse.code != undefined && txResponse.code != 0) {
       const result: WaitTxBroadcastResult = {
@@ -463,7 +483,7 @@ export class TxAPI extends BaseAPI {
     let txInfo: undefined | TxInfo
     for (let i = 0; i <= timeout / POLL_INTERVAL; i++) {
       try {
-        txInfo = await this.txInfo(txResponse.txhash)
+        txInfo = await this.txInfo(txResponse.txhash, {}, headers)
       } catch (error) {
         // Errors when transaction is not found
       }
@@ -501,10 +521,14 @@ export class TxAPI extends BaseAPI {
    * Broadcast the transaction using the "sync" mode, returning after CheckTx() is performed.
    * @param tx transaction to broadcast
    */
-  public async broadcastSync(tx: Tx | string): Promise<SyncTxBroadcastResult> {
+  public async broadcastSync(
+    tx: Tx | string,
+    headers: Record<string, string> = {}
+  ): Promise<SyncTxBroadcastResult> {
     return this._broadcast<{ tx_response: SyncTxBroadcastResult.Data }>(
       tx,
-      'BROADCAST_MODE_SYNC'
+      'BROADCAST_MODE_SYNC',
+      headers
     ).then(({ tx_response: d }) => {
       const blockResult: any = {
         height: +d.height,
@@ -529,11 +553,13 @@ export class TxAPI extends BaseAPI {
    * @param tx transaction to broadcast
    */
   public async broadcastAsync(
-    tx: Tx | string
+    tx: Tx | string,
+    headers: Record<string, string> = {}
   ): Promise<AsyncTxBroadcastResult> {
     return this._broadcast<{ tx_response: AsyncTxBroadcastResult.Data }>(
       tx,
-      'BROADCAST_MODE_ASYNC'
+      'BROADCAST_MODE_ASYNC',
+      headers
     ).then(({ tx_response: d }) => ({
       height: +d.height,
       txhash: d.txhash,
@@ -545,7 +571,8 @@ export class TxAPI extends BaseAPI {
    * @param options tx search options
    */
   public async search(
-    options: Partial<TxSearchOptions>
+    options: Partial<TxSearchOptions>,
+    headers: Record<string, string> = {}
   ): Promise<TxSearchResult> {
     const params = new URLSearchParams()
 
@@ -566,7 +593,7 @@ export class TxAPI extends BaseAPI {
     })
 
     return this.c
-      .getRaw<TxSearchResult.Data>(`/cosmos/tx/v1beta1/txs`, params)
+      .getRaw<TxSearchResult.Data>(`/cosmos/tx/v1beta1/txs`, params, headers)
       .then((d) => {
         return {
           txs: d.tx_responses.map((tx_response) =>
@@ -589,7 +616,8 @@ export class TxAPI extends BaseAPI {
     module_addr: string,
     module_name: string,
     start_height: number,
-    end_height: number
+    end_height: number,
+    headers: Record<string, string> = {}
   ): Promise<Event[]> {
     if (end_height < start_height) {
       throw new Error(`Start height cannot be greater than end height`)
@@ -614,7 +642,7 @@ export class TxAPI extends BaseAPI {
       })
     }
 
-    const { txs, total } = await this.search({ query })
+    const { txs, total } = await this.search({ query }, headers)
     const events = txs.flatMap((tx) => filterEvents(tx))
     targetEvents.push(...events)
 
@@ -638,20 +666,29 @@ export class TxAPI extends BaseAPI {
   /**
    * Query the gas prices for the network.
    */
-  public async gasPrices(params: APIParams = {}): Promise<Coins> {
+  public async gasPrices(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Coins> {
     return this.c
-      .get<{ gas_prices: Coins.Data }>(`/initia/tx/v1/gas_prices`, params)
+      .get<{
+        gas_prices: Coins.Data
+      }>(`/initia/tx/v1/gas_prices`, params, headers)
       .then((d) => Coins.fromData(d.gas_prices))
   }
 
   /**
    * Query the gas price of a denom for the network.
    */
-  public async gasPrice(denom: Denom, params: APIParams = {}): Promise<Coin> {
+  public async gasPrice(
+    denom: Denom,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Coin> {
     return this.c
       .get<{
         gas_price: Coin.Data
-      }>(`/initia/tx/v1/gas_prices/${denom}`, params)
+      }>(`/initia/tx/v1/gas_prices/${denom}`, params, headers)
       .then((d) => Coin.fromData(d.gas_price))
   }
 }
