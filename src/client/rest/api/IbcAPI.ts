@@ -2,12 +2,12 @@ import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import {
   IdentifiedClientState,
-  ClientConsensusStates,
   Channel,
   IdentifiedConnection,
   Height,
   IbcClientParams,
   IdentifiedChannel,
+  ConsensusStateWithHeight,
 } from '../../../core'
 
 export interface ClientState {
@@ -231,14 +231,14 @@ export class IbcAPI extends BaseAPI {
     client_id: string,
     params: Partial<PaginationOptions & APIParams> = {},
     headers: Record<string, string> = {}
-  ): Promise<[ClientConsensusStates, Pagination]> {
+  ): Promise<[ConsensusStateWithHeight[], Pagination]> {
     return this.c
       .get<{
-        consensus_states: ClientConsensusStates.Data
+        consensus_states: ConsensusStateWithHeight.Data[]
         pagination: Pagination
       }>(`/ibc/core/client/v1/consensus_states/${client_id}`, params, headers)
       .then((d) => [
-        ClientConsensusStates.fromData(d.consensus_states),
+        d.consensus_states.map(ConsensusStateWithHeight.fromData),
         d.pagination,
       ])
   }
