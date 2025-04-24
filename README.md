@@ -110,9 +110,9 @@ Delegate governance coin to validators (staking).
 import { MsgDelegate } from '@initia/initia.js'
 
 const msg = new MsgDelegate(
-    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
-    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator address
-    '100000uinit',                                 // delegate amount
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu',             // delegator address
+    'initvaloper14qekdkj2nmmwea4ufg9n002a3pud23y8l3ep5z',      // validator's operator (valoper) address
+    '100000uinit',                                             // delegate amount
 )
 ```
 
@@ -124,9 +124,9 @@ Undelegate governance coin from validators (unstaking).
 import { MsgUndelegate } from '@initia/initia.js'
 
 const msg = new MsgUndelegate(
-    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu', // delegator address
-    'init18sj3x80fdjc6gzfvwl7lf8sxcvuvqjpvcmp6np', // validator's operator address
-    '100000uinit',                                 // undelegate amount
+    'init1kdwzpz3wzvpdj90gtga4fw5zm9tk4cyrgnjauu',             // delegator address
+    'initvaloper14qekdkj2nmmwea4ufg9n002a3pud23y8l3ep5z',      // validator's operator (valoper) address
+    '100000uinit',                                             // undelegate amount
 )
 ```
 
