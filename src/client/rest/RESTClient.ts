@@ -177,8 +177,3 @@ export class RESTClient {
     }
   }
 }
-
-/**
- * @deprecated Use `RESTClient` instead. `LCDClient` will be removed in future releases.
- */
-export class LCDClient extends RESTClient {}
