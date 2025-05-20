@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -58,8 +58,8 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
-    "@initia/initia.proto": "^0.2.6",
-    "@initia/opinit.proto": "^0.0.11",
+    "@initia/initia.proto": "^1.0.1",
+    "@initia/opinit.proto": "^1.0.1",
     "@ledgerhq/hw-transport": "^6.31.4",
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",

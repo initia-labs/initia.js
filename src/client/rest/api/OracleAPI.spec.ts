@@ -17,6 +17,6 @@ describe('OracleAPI', () => {
   it('price', async () => {
     const pairs = await api.currencyPairs()
     const price = await api.price(pairs[0])
-    expect(price).toEqual(expect.any(QuotePrice))
+    expect(price.price).toEqual(expect.any(QuotePrice))
   })
 })

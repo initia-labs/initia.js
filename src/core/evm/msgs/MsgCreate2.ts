@@ -22,7 +22,7 @@ export class MsgCreate2 extends JSONSerializable<
   constructor(
     public sender: AccAddress,
     public code: string,
-    public salt: number,
+    public salt: string,
     public value: string,
     public access_list: AccessTuple[]
   ) {
@@ -37,7 +37,7 @@ export class MsgCreate2 extends JSONSerializable<
     return new MsgCreate2(
       sender,
       code,
-      parseInt(salt),
+      salt,
       value,
       access_list?.map(AccessTuple.fromAmino) ?? []
     )
@@ -50,7 +50,7 @@ export class MsgCreate2 extends JSONSerializable<
       value: {
         sender,
         code,
-        salt: salt.toFixed(),
+        salt,
         value,
         access_list:
           access_list.length > 0
@@ -65,7 +65,7 @@ export class MsgCreate2 extends JSONSerializable<
     return new MsgCreate2(
       sender,
       code,
-      parseInt(salt),
+      salt,
       value,
       access_list.map(AccessTuple.fromData)
     )
@@ -77,7 +77,7 @@ export class MsgCreate2 extends JSONSerializable<
       '@type': '/minievm.evm.v1.MsgCreate2',
       sender,
       code,
-      salt: salt.toFixed(),
+      salt,
       value,
       access_list: access_list.map((acc) => acc.toData()),
     }
@@ -87,7 +87,7 @@ export class MsgCreate2 extends JSONSerializable<
     return new MsgCreate2(
       data.sender,
       data.code,
-      Number(data.salt),
+      data.salt,
       data.value,
       data.accessList.map(AccessTuple.fromProto)
     )
@@ -98,7 +98,7 @@ export class MsgCreate2 extends JSONSerializable<
     return MsgCreate2_pb.fromPartial({
       sender,
       code,
-      salt: BigInt(salt),
+      salt,
       value,
       accessList: access_list.map((acc) => acc.toProto()),
     })
