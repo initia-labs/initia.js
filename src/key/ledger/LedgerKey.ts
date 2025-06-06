@@ -1,17 +1,15 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/require-await */
 import * as semver from 'semver'
 import Transport from '@ledgerhq/hw-transport'
-import InitiaApp from './app'
-import { AccAddress, SimplePublicKey, SignatureV2, SignDoc } from '../..'
+import Eth from '@ledgerhq/hw-app-eth'
+import ledgerService from "@ledgerhq/hw-app-eth"///lib/services/ledger"
+import { AccAddress, SignatureV2, SignDoc, EthPublicKey } from '../..'
 import { Key } from '../Key'
 import { INIT_COIN_TYPE } from '../MnemonicKey'
 import { signatureImport } from 'secp256k1'
-import {
-  AppInfoResponse,
-  CommonResponse,
-  DeviceInfoResponse,
-  PublicKeyResponse,
-  VersionResponse,
-} from './types'
+import { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types'
 
 const INTERACTION_TIMEOUT = 120
 const REQUIRED_APP_VERSION = '1.0.0'
@@ -37,18 +35,21 @@ export class LedgerError extends Error {
  * in Ledger device
  */
 export class LedgerKey extends Key {
-  private app: InitiaApp
+  private transport: Transport
+  private app: Eth
   private path: number[] = [44, INIT_COIN_TYPE, 0, 0, 0]
 
   /**
    * @param transport transporter for LedgerKey
    */
-  constructor(private transport?: Transport) {
+  constructor(transport: Transport) {
     super()
-    this.app = new InitiaApp(this.transport)
+    this.transport = transport
+    this.app = new Eth.default(transport)
   }
 
   /**
+   * 
    * Initia account address. `init-` prefixed.
    */
   public get accAddress(): AccAddress {
@@ -76,11 +77,12 @@ export class LedgerKey extends Key {
       key.path[4] = index
     }
 
-    if (transport && typeof transport.on === 'function') {
-      transport.on('disconnect', () => {
-        key.transport = undefined
-      })
-    }
+    // TODO: remove this.. why is it needed?
+    // if (transport && typeof transport.on === 'function') {
+    //   transport.on('disconnect', () => {
+    //     key.transport = undefined
+    //   })
+    // }
 
     await key.initialize().catch(handleConnectError)
     return key
@@ -91,51 +93,66 @@ export class LedgerKey extends Key {
    * it loads accAddress and publicKey from connected Ledger
    */
   private async initialize() {
-    const res = await this.app.initialize()
-
-    const { app_name: appName } = this.app.getInfo()
-    if (appName !== 'Initia') {
-      throw new LedgerError('Open the Initia app in the Ledger')
-    }
-
-    const { major, minor, patch } = this.app.getVersion()
-    const version = `${major}.${minor}.${patch}`
-    if (appName === 'Initia' && semver.lt(version, REQUIRED_APP_VERSION)) {
+    const { version } = await this.app.getAppConfiguration()
+    if (semver.lt(version, REQUIRED_APP_VERSION)) {
       throw new LedgerError(
-        'Outdated version: Update Ledger Initia App to the latest version'
+        'Outdated version: Update Ledger Ethereum App to the latest version'
       )
     }
-    checkLedgerErrors(res)
     await this.loadAccountDetails()
+  }
+
+  /**
+   * Set Load Config for Ledger app.
+   * This is used to configure how the Ledger app loads transactions.
+   * @param loadConfig - LoadConfig object to set
+   * @throws {LedgerError} if the Ledger app is not initialized
+   */
+  public setLoadConfig(loadConfig: LoadConfig): void {
+    if (!this.app) {
+      throw new LedgerError('Ledger app is not initialized')
+    }
+    this.app.setLoadConfig(loadConfig)
+  }
+
+  /**
+   * Returns the BIP44 path for the LedgerKey as a string.
+   * @returns Path for LedgerKey in BIP44 format.
+   */
+  public getPath(): string {
+    //    * eth.getAddress("44'/60'/0'/0/0").then(o => o.address)
+    return `${this.path[0]}'/${this.path[1]}'/${this.path[2]}'/${this.path[3]}/${this.path[4]}`
   }
 
   /**
    * get Address and Pubkey from Ledger
    */
   public async loadAccountDetails(): Promise<LedgerKey> {
-    const res = await this.app.getAddressAndPubKey(this.path, 'init')
-    checkLedgerErrors(res)
+    const { publicKey } = await this.app.getAddress(this.getPath(), false)
 
-    this.publicKey = new SimplePublicKey(
-      Buffer.from(res.compressed_pk.data).toString('base64')
+    this.publicKey = new EthPublicKey(
+      Buffer.from(publicKey, 'hex').toString('base64')
     )
+
     return this
   }
 
+  /** Signs a message with the LedgerKey. This method is identical to `signWithKeccak256`, but it is used for legacy compatibility. */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(message: Buffer): Promise<Buffer> {
-    if (!this.publicKey) {
-      await this.loadAccountDetails()
-    }
-    const res = await this.app.sign(this.path, message)
-    checkLedgerErrors(res)
-
-    return Buffer.from(signatureImport(Buffer.from(res.signature as any))) // eslint-disable-line @typescript-eslint/no-unsafe-argument
+    return await this.signWithKeccak256(message)
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async signWithKeccak256(): Promise<Buffer> {
-    throw new Error('LedgerKey does not support signWithKeccak256()')
+  public async signWithKeccak256(message: Buffer): Promise<Buffer> {
+    if (!this.publicKey) {
+      await this.loadAccountDetails()
+    }
+
+    const resolution = await ledgerService.resolveTransaction(message.toString(), this.app.loadConfig, {})
+    const { s, r } = await this.app.signTransaction(this.getPath(), message.toString('hex'), resolution)
+
+    return Buffer.from(r+s, 'hex')
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
@@ -143,28 +160,39 @@ export class LedgerKey extends Key {
     throw new Error('direct sign mode is not supported')
   }
 
-  public async getAppAddressAndPubKey(): Promise<PublicKeyResponse> {
-    return this.app.getAddressAndPubKey(this.path, 'init')
+  /**
+   * 
+   * @returns Ledger app instance.
+   */
+  public getApp(): Eth {
+    if (!this.app) {
+      throw new LedgerError('Ledger app is not initialized')
+    }
+    return this.app
   }
 
-  public getAppInfo(): AppInfoResponse {
-    return this.app.getInfo()
+  /**
+   * Get ledger app configuration
+   * @returns arbitraryDataEnabled, erc20ProvisioningNecessary, starkEnabled, starkv2Supported, version
+   * @throws {LedgerError} if the Ledger app is not initialized or if there is an error retrieving the configuration.
+   */
+  public async getAppConfiguration(): Promise<{
+    arbitraryDataEnabled: number
+    erc20ProvisioningNecessary: number
+    starkEnabled: number
+    starkv2Supported: number
+    version: string
+  }> {
+    return await this.app.getAppConfiguration()
   }
 
-  public async getAppDeviceInfo(): Promise<DeviceInfoResponse> {
-    return this.app.getDeviceInfo()
-  }
-
-  public async getAppPublicKey(): Promise<PublicKeyResponse> {
-    return this.app.getPublicKey(this.path)
-  }
-
-  public getAppVersion(): VersionResponse {
-    return this.app.getVersion()
-  }
-
-  public async showAddressAndPubKey(): Promise<PublicKeyResponse> {
-    return this.app.showAddressAndPubKey(this.path, 'init')
+  /**
+   * Show address and public key in Ledger device.
+   * This method will prompt the user to confirm the address and public key on the Ledger device.
+   * It is useful for verifying that the correct account is being used before signing transactions.
+   */
+  public async showAddressAndPubKey() {
+    await this.app.getAddress(this.getPath(), true)
   }
 }
 

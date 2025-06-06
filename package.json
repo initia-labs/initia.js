@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/initia-labs/initia.js"
   },
+  "type": "module",
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -27,6 +28,7 @@
   "scripts": {
     "build": "vite build",
     "test": "vitest",
+    "test:ledger": "ts-node integration-tests/ledger.ts",
     "lint": "npx eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "rm -rf ./dist && npm run build"
@@ -60,7 +62,9 @@
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@initia/initia.proto": "^1.0.1",
     "@initia/opinit.proto": "^1.0.1",
-    "@ledgerhq/hw-transport": "^6.31.4",
+    "@ledgerhq/hw-app-eth": "^6.45.5",
+    "@ledgerhq/hw-transport": "^6.31.5",
+    "@ledgerhq/hw-transport-node-hid": "^6.29.6",
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
     "@mysten/bcs": "^1.1.0",
