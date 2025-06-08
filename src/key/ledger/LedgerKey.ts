@@ -133,15 +133,12 @@ export class LedgerKey extends Key {
 
     let buf: Uint8Array
     switch (publicKeyStr.length) {
-      case 64: // compress but no 02/03 prefix so convert to 02/03 and fallthrough to construct EthPublicKey
-        // eslint-disable-next-line no-case-declarations
+      case 66: // publicKey is already compressed
         buf = secp256k1.publicKeyConvert(Buffer.from(publicKeyStr, 'hex'), true)
         publicKeyStr = Buffer.from(buf).toString('base64')
-      // eslint-disable-next-line no-fallthrough
-      case 66: // publicKey is already compressed
         this.publicKey = new EthPublicKey(publicKeyStr)
         break
-      case 128: // uncompressed case without 04 prefix so fallthrough to construct EthPublicKey
+      case 128: // uncompressed case without 04 prefix: fallthrough to construct EthPublicKey after attaching prefix
         publicKeyStr = '04' + publicKeyStr
       // eslint-disable-next-line no-fallthrough
       case 130:
@@ -177,19 +174,10 @@ export class LedgerKey extends Key {
     }
     // Extract the JSON object from the payload
     payload = payload.subarray(loc)
-    //console.log('LedgerKey signWithKeccak256 payload:', payload.toString())
 
-    /*
-    const resolution = await ledgerService.default.resolveTransaction(
-      payload.toString(),
-      this.app.loadConfig,
-      {}
-    )
-    */
     const { s, r } = await this.app.signPersonalMessage(
       this.getPath(),
       payload.toString('hex')
-      //resolution
     )
 
     return Buffer.from(r + s, 'hex')
