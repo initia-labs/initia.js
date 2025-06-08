@@ -1,14 +1,12 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/require-await */
 import * as semver from 'semver'
 import Transport from '@ledgerhq/hw-transport'
 import Eth from '@ledgerhq/hw-app-eth'
-import ledgerService from "@ledgerhq/hw-app-eth"///lib/services/ledger"
+import ledgerService from '@ledgerhq/hw-app-eth/lib/services/ledger/index.js'
 import { AccAddress, SignatureV2, SignDoc, EthPublicKey } from '../..'
 import { Key } from '../Key'
 import { INIT_COIN_TYPE } from '../MnemonicKey'
-import { signatureImport } from 'secp256k1'
+import * as secp256k1 from 'secp256k1'
 import { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types'
 
 const INTERACTION_TIMEOUT = 120
@@ -49,7 +47,7 @@ export class LedgerKey extends Key {
   }
 
   /**
-   * 
+   *
    * Initia account address. `init-` prefixed.
    */
   public get accAddress(): AccAddress {
@@ -128,31 +126,75 @@ export class LedgerKey extends Key {
    * get Address and Pubkey from Ledger
    */
   public async loadAccountDetails(): Promise<LedgerKey> {
-    const { publicKey } = await this.app.getAddress(this.getPath(), false)
-
-    this.publicKey = new EthPublicKey(
-      Buffer.from(publicKey, 'hex').toString('base64')
+    let { publicKey: publicKeyStr } = await this.app.getAddress(
+      this.getPath(),
+      false
     )
+
+    console.log(`${publicKeyStr.length}: ${publicKeyStr}`)
+
+    let buf: Uint8Array
+    switch (publicKeyStr.length) {
+      case 64: // compress but no 02/03 prefix so convert to 02/03 and fallthrough to construct EthPublicKey
+        // eslint-disable-next-line no-case-declarations
+        buf = secp256k1.publicKeyConvert(Buffer.from(publicKeyStr, 'hex'), true)
+        publicKeyStr = Buffer.from(buf).toString('base64')
+      // eslint-disable-next-line no-fallthrough
+      case 66: // publicKey is already compressed
+        this.publicKey = new EthPublicKey(publicKeyStr)
+        break
+      case 128: // uncompressed case without 04 prefix so fallthrough to construct EthPublicKey
+        publicKeyStr = '04' + publicKeyStr
+      // eslint-disable-next-line no-fallthrough
+      case 130:
+        buf = secp256k1.publicKeyConvert(Buffer.from(publicKeyStr, 'hex'), true)
+        publicKeyStr = Buffer.from(buf).toString('base64')
+        this.publicKey = new EthPublicKey(publicKeyStr)
+        break
+      default:
+        throw new Error('Invalid public key length')
+    }
 
     return this
   }
 
   /** Signs a message with the LedgerKey. This method is identical to `signWithKeccak256`, but it is used for legacy compatibility. */
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async sign(message: Buffer): Promise<Buffer> {
-    return await this.signWithKeccak256(message)
+  public async sign(payload: Buffer): Promise<Buffer> {
+    return await this.signWithKeccak256(payload)
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await
-  public async signWithKeccak256(message: Buffer): Promise<Buffer> {
+  public async signWithKeccak256(payload: Buffer): Promise<Buffer> {
+    /* no need to check if publicKey is set here, as it is checked in the signTransaction method 
     if (!this.publicKey) {
       await this.loadAccountDetails()
     }
+    */
 
-    const resolution = await ledgerService.resolveTransaction(message.toString(), this.app.loadConfig, {})
-    const { s, r } = await this.app.signTransaction(this.getPath(), message.toString('hex'), resolution)
+    // remove EIP191 prefix
+    const loc = payload.indexOf('{')
+    if (loc === -1) {
+      throw new LedgerError('Invalid payload: no JSON object found')
+    }
+    // Extract the JSON object from the payload
+    payload = payload.subarray(loc)
+    //console.log('LedgerKey signWithKeccak256 payload:', payload.toString())
 
-    return Buffer.from(r+s, 'hex')
+    /*
+    const resolution = await ledgerService.default.resolveTransaction(
+      payload.toString(),
+      this.app.loadConfig,
+      {}
+    )
+    */
+    const { s, r } = await this.app.signPersonalMessage(
+      this.getPath(),
+      payload.toString('hex')
+      //resolution
+    )
+
+    return Buffer.from(r + s, 'hex')
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
@@ -160,8 +202,26 @@ export class LedgerKey extends Key {
     throw new Error('direct sign mode is not supported')
   }
 
+  public async signText(payload: string | Buffer): Promise<Buffer> {
+    /* no need/
+    if (!this.publicKey) {
+      await this.loadAccountDetails()
+    }
+    */
+    const message = Buffer.isBuffer(payload)
+      ? payload
+      : Buffer.from(payload, 'utf-8')
+
+    const { s, r } = await this.app.signPersonalMessage(
+      this.getPath(),
+      message.toString('hex')
+    )
+
+    return Buffer.from(r + s, 'hex')
+  }
+
   /**
-   * 
+   *
    * @returns Ledger app instance.
    */
   public getApp(): Eth {
