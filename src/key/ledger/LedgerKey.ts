@@ -131,8 +131,6 @@ export class LedgerKey extends Key {
       false
     )
 
-    console.log(`${publicKeyStr.length}: ${publicKeyStr}`)
-
     let buf: Uint8Array
     switch (publicKeyStr.length) {
       case 64: // compress but no 02/03 prefix so convert to 02/03 and fallthrough to construct EthPublicKey
