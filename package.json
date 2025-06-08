@@ -28,7 +28,6 @@
   "scripts": {
     "build": "vite build",
     "test": "vitest",
-    "test:ledger": "ts-node integration-tests/ledger.ts",
     "lint": "npx eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "rm -rf ./dist && npm run build"
