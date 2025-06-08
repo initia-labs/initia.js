@@ -21,6 +21,12 @@ declare global {
   }
 }
 
+export interface CommonResponse {
+  return_code: number
+  error_message: string
+  device_locked?: boolean
+}
+
 export class LedgerError extends Error {
   constructor(message: string) {
     super(message)
