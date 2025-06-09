@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as semver from 'semver'
 import Transport from '@ledgerhq/hw-transport'
 import Eth from '@ledgerhq/hw-app-eth'
-import ledgerService from '@ledgerhq/hw-app-eth/lib/services/ledger/index.js'
 import { AccAddress, SignatureV2, SignDoc, EthPublicKey } from '../..'
 import { Key } from '../Key'
 import { INIT_COIN_TYPE } from '../MnemonicKey'
@@ -19,12 +17,6 @@ declare global {
   interface Navigator {
     hid: any
   }
-}
-
-export interface CommonResponse {
-  return_code: number
-  error_message: string
-  device_locked?: boolean
 }
 
 export class LedgerError extends Error {
@@ -302,54 +294,6 @@ const handleConnectError = (err: Error) => {
 
   // throw unknown error
   throw err
-}
-
-const checkLedgerErrors = (response?: CommonResponse) => {
-  if (!response) {
-    return
-  }
-
-  const { error_message, device_locked } = response
-
-  if (device_locked) {
-    throw new LedgerError("Ledger's screensaver mode is on")
-  }
-
-  if (error_message.startsWith('TransportRaceCondition')) {
-    throw new LedgerError('Finish previous action in Ledger')
-  } else if (error_message.startsWith('DisconnectedDeviceDuringOperation')) {
-    throw new LedgerError('Open the Initia app in the Ledger')
-  }
-
-  switch (error_message) {
-    case 'U2F: Timeout':
-      throw new LedgerError(
-        "Couldn't find a connected and unlocked Ledger device"
-      )
-
-    case 'App does not seem to be open':
-      throw new LedgerError('Open the Initia app in the Ledger')
-
-    case 'Command not allowed':
-      throw new LedgerError('Transaction rejected')
-
-    case 'Transaction rejected':
-      throw new LedgerError('User rejected the transaction')
-
-    case 'Unknown Status Code: 26628':
-      throw new LedgerError("Ledger's screensaver mode is on")
-
-    case 'Instruction not supported':
-      throw new LedgerError(
-        'Check the Ledger is running latest version of Initia'
-      )
-
-    case 'No errors':
-      break
-
-    default:
-      throw new LedgerError(error_message)
-  }
 }
 
 const isWindows = (platform: string) => platform.indexOf('Win') > -1
