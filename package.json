@@ -66,7 +66,7 @@
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
     "@mysten/bcs": "^1.1.0",
-    "axios": "^1.7.7",
+    "axios": "^1.9.0",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.2",
     "bip32": "^5.0.0-rc.0",
