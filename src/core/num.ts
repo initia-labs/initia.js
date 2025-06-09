@@ -9,5 +9,3 @@ export function checkDecimal(amount: number | string): boolean {
     ? amount.includes('.')
     : !num(amount).isInteger()
 }
-
-export * from 'bignumber.js'

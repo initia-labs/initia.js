@@ -1,5 +1,6 @@
+import { BigNumber } from 'bignumber.js'
 import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs'
-import { AccAddress, BigNumber, num } from '../core'
+import { AccAddress, num } from '../core'
 
 const initiaAddress = (
   options?: BcsTypeOptions<Uint8Array, Iterable<number>>
