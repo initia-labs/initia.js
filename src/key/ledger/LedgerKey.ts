@@ -144,10 +144,11 @@ export class LedgerKey extends Key {
         publicKeyStr = Buffer.from(buf).toString('base64')
         this.publicKey = new EthPublicKey(publicKeyStr)
         break
-      case 128: // uncompressed case without 04 prefix: fallthrough to construct EthPublicKey after attaching prefix
-        publicKeyStr = '04' + publicKeyStr
-      // eslint-disable-next-line no-fallthrough
-      case 130:
+      case 128:
+      case 130: // uncompressed case with or without 04 prefix
+        if (publicKeyStr.length === 128) {
+          publicKeyStr = '04' + publicKeyStr
+        }
         buf = secp256k1.publicKeyConvert(Buffer.from(publicKeyStr, 'hex'), true)
         publicKeyStr = Buffer.from(buf).toString('base64')
         this.publicKey = new EthPublicKey(publicKeyStr)
