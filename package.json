@@ -60,11 +60,13 @@
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@initia/initia.proto": "^1.0.1",
     "@initia/opinit.proto": "^1.0.1",
-    "@ledgerhq/hw-transport": "^6.31.4",
+    "@ledgerhq/hw-app-eth": "^6.45.5",
+    "@ledgerhq/hw-transport": "^6.31.5",
+    "@ledgerhq/hw-transport-node-hid": "^6.29.6",
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
     "@mysten/bcs": "^1.1.0",
-    "axios": "^1.7.7",
+    "axios": "^1.9.0",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.2",
     "bip32": "^5.0.0-rc.0",
@@ -75,6 +77,9 @@
     "secp256k1": "^5.0.1",
     "semver": "^7.6.3",
     "ws": "^8.18.0"
+  },
+  "overrides": {
+    "axios": "^1.9.0"
   },
   "lint-staged": {
     "src/**/*.{mjs|ts}": [
