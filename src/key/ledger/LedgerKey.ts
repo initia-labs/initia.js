@@ -49,7 +49,7 @@ export class LedgerKey extends Key {
   constructor(transport: Transport) {
     super()
     this.transport = transport
-    this.app = new Eth.default(transport)
+    this.app = new Eth(transport)
   }
 
   /**
