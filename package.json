@@ -78,6 +78,9 @@
     "semver": "^7.6.3",
     "ws": "^8.18.0"
   },
+  "overrides": {
+    "axios": "^1.9.0"
+  },
   "lint-staged": {
     "src/**/*.{mjs|ts}": [
       "npx eslint . --fix"
