@@ -19,20 +19,37 @@ declare global {
   }
 }
 
+/**
+ * Enum representing the type of Ledger application
+ */
 export enum Kind {
+  /** Ethereum application */
   Ethereum = 'Ethereum',
+  /** Cosmos application */
   Cosmos = 'Cosmos',
 }
 
 /**
- * Key implementation that uses Ledger to sign transactions. Keys should be registered
- * in Ledger device
+ * Key implementation that uses Ledger hardware wallet for transaction signing.
+ * This class extends the base Key class and provides Ledger-specific functionality.
+ * 
+ * Features:
+ * - Supports both Ethereum and Cosmos applications
+ * - Handles BIP44 derivation paths
+ * - Manages device connection and initialization
+ * - Provides methods for transaction signing and address verification
  */
 export class LedgerKey extends Key {
   private readonly path: number[]
   private app: LedgerApp
   private appKind
 
+  /**
+   * Creates a new LedgerKey instance
+   * @param transport - Ledger transport instance
+   * @param index - Account index for BIP44 derivation path
+   * @param appKind - Type of Ledger application (Ethereum or Cosmos)
+   */
   constructor(transport: Transport, index = 0, appKind = Kind.Ethereum) {
     super()
     this.appKind = appKind
@@ -52,8 +69,9 @@ export class LedgerKey extends Key {
   }
 
   /**
-   *
-   * Initia account address. return bech32 address with `init' as hrp
+   * Gets the Initia account address
+   * @returns Bech32 encoded address with 'init' as human-readable part
+   * @throws Error if Ledger is not initialized
    */
   public get accAddress(): AccAddress {
     if (!this.publicKey) {
@@ -64,7 +82,11 @@ export class LedgerKey extends Key {
   }
 
   /**
-   * create and return initialized ledger key
+   * Creates and initializes a new LedgerKey instance
+   * @param transport - Optional Ledger transport instance
+   * @param index - Account index for BIP44 derivation path
+   * @param appKind - Type of Ledger application (Ethereum or Cosmos)
+   * @returns Promise resolving to initialized LedgerKey instance
    */
   public static async create(
     transport?: Transport,
@@ -76,21 +98,13 @@ export class LedgerKey extends Key {
     }
 
     const key = new LedgerKey(transport, index, appKind)
-
-    // TODO: remove this.. why is it needed?
-    // if (transport && typeof transport.on === 'function') {
-    //   transport.on('disconnect', () => {
-    //     key.transport = undefined
-    //   })
-    // }
-
     await key.initialize().catch(handleConnectError)
     return key
   }
 
   /**
-   * initialize LedgerKey.
-   * it loads accAddress and publicKey from connected Ledger
+   * Initializes the LedgerKey by checking version and loading account details
+   * @throws LedgerError if the Ledger app version is outdated
    */
   private async initialize() {
     const version = await this.app.getVersion()
@@ -102,19 +116,26 @@ export class LedgerKey extends Key {
     await this.loadAccountDetails()
   }
 
+  /**
+   * Gets the type of Ledger application
+   * @returns Kind enum value indicating the application type
+   */
   public getApplicationKind(): Kind {
     return this.appKind
   }
 
+  /**
+   * Gets the Ledger application instance
+   * @returns LedgerApp instance
+   */
   public getApplication(): LedgerApp {
     return this.app
   }
 
   /**
-   * Set Load Config for Ledger app.
-   * This is used to configure how the Ledger app loads transactions.
+   * Sets the load configuration for the Ledger application
    * @param loadConfig - LoadConfig object to set
-   * @throws {LedgerError} if the Ledger app is not initialized
+   * @throws LedgerError if the Ledger app is not initialized
    */
   public setLoadConfig(loadConfig: LoadConfig): void {
     if (!this.app) {
@@ -124,8 +145,9 @@ export class LedgerKey extends Key {
   }
 
   /**
-   * Returns the BIP44 path for the LedgerKey as a string.
-   * @returns Path for LedgerKey in BIP44 format.
+   * Gets the BIP44 derivation path as a string
+   * @returns Path string in BIP44 format
+   * @throws LedgerError if the application kind is invalid
    */
   public getPath(): string {
     switch (this.appKind) {
@@ -139,7 +161,8 @@ export class LedgerKey extends Key {
   }
 
   /**
-   * get Address and Pubkey from Ledger
+   * Loads account details (address and public key) from the Ledger device
+   * @returns Promise resolving to this LedgerKey instance
    */
   public async loadAccountDetails(): Promise<LedgerKey> {
     this.publicKey = await this.app.getPublicKey(this.getPath(), false)
@@ -147,39 +170,42 @@ export class LedgerKey extends Key {
   }
 
   /** Signs a message with the LedgerKey. This method is identical to `signWithKeccak256`, but it is used for legacy compatibility. */
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(payload: Buffer): Promise<Buffer> {
     return await this.app.sign(this.getPath(), payload)
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
+  /**
+   * Signs a message using Keccak256 hash
+   * @param payload - Message to sign
+   * @returns Promise resolving to signature buffer
+   */
   public async signWithKeccak256(payload: Buffer): Promise<Buffer> {
-    /* no need to check if publicKey is set here, as it is checked in the signTransaction method 
-    if (!this.publicKey) {
-      await this.loadAccountDetails()
-    }
-    */
     return await this.app.signWithKeccak256(this.getPath(), payload)
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/require-await
+  /**
+   * Creates a signature for a transaction
+   * @param _tx - SignDoc to sign
+   * @throws Error as direct sign mode is not supported
+   */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async createSignature(_tx: SignDoc): Promise<SignatureV2> {
     throw new Error('direct sign mode is not supported')
   }
 
+  /**
+   * Signs a text message
+   * @param payload - Text or buffer to sign
+   * @returns Promise resolving to signature buffer
+   */
   public async signText(payload: string | Buffer): Promise<Buffer> {
-    /* no need/
-    if (!this.publicKey) {
-      await this.loadAccountDetails()
-    }
-    */
-
     return this.app.signText(this.getPath(), payload)
   }
 
   /**
-   *
-   * @returns Ledger app instance.
+   * Gets the Ledger application instance
+   * @returns LedgerApp instance
+   * @throws LedgerError if the Ledger app is not initialized
    */
   public getApp(): LedgerApp {
     if (!this.app) {
@@ -189,27 +215,36 @@ export class LedgerKey extends Key {
   }
 
   /**
-   * Get ledger app configuration
-   * @returns arbitraryDataEnabled, erc20ProvisioningNecessary, starkEnabled, starkv2Supported, version
-   * @throws {LedgerError} if the Ledger app is not initialized or if there is an error retrieving the configuration.
+   * Gets the Ledger application configuration
+   * @returns Promise resolving to app configuration object
+   * @throws LedgerError if the Ledger app is not initialized
    */
   public async getAppConfiguration(): Promise<any> {
     return await this.app.getAppConfiguration()
   }
 
   /**
-   * Show address and public key in Ledger device.
-   * This method will prompt the user to confirm the address and public key on the Ledger device.
-   * It is useful for verifying that the correct account is being used before signing transactions.
+   * Shows address and public key on the Ledger device for verification
+   * This will prompt the user to confirm the address on the device
    */
   public async showAddressAndPubKey() {
     await this.app.getAddress(this.getPath(), true)
   }
 
+  /**
+   * Gets the Ledger transport instance
+   * @returns Transport instance
+   */
   getTransport(): Transport {
     return this.app.transport
   }
 
+  /**
+   * Creates a new LedgerKey instance for Ethereum application
+   * @param transport - Optional Ledger transport instance
+   * @param index - Account index for BIP44 derivation path
+   * @returns Promise resolving to initialized LedgerKey instance
+   */
   static async createEthereumApp(
     transport?: Transport,
     index = 0
@@ -217,6 +252,12 @@ export class LedgerKey extends Key {
     return await LedgerKey.create(transport, index, Kind.Ethereum)
   }
 
+  /**
+   * Creates a new LedgerKey instance for Cosmos application
+   * @param transport - Optional Ledger transport instance
+   * @param index - Account index for BIP44 derivation path
+   * @returns Promise resolving to initialized LedgerKey instance
+   */
   static async createCosmosApp(
     transport?: Transport,
     index = 0
@@ -225,12 +266,17 @@ export class LedgerKey extends Key {
   }
 }
 
+/**
+ * Handles connection errors from Ledger device
+ * @param err - Error object
+ * @throws LedgerError with appropriate error message
+ */
 const handleConnectError = (err: Error) => {
   const message = err.message.trim()
 
   if (message.startsWith('The device is already open')) {
     // ignore this error
-    return //transport
+    return
   }
 
   if (err.name === 'TransportOpenUserCancelled') {
@@ -293,6 +339,10 @@ const checkBrowser = (userAgent: string): string => {
   return isChrome ? 'chrome' : 'brave'
 }
 
+/**
+ * Creates a new Ledger transport instance
+ * @returns Promise resolving to Transport instance
+ */
 async function createTransport(): Promise<Transport> {
   let transport: Transport
 
