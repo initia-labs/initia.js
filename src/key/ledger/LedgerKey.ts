@@ -8,7 +8,6 @@ import { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types'
 import { LedgerApp, EthereumApp, CosmosApp } from './app'
 
 const INTERACTION_TIMEOUT = 120
-const REQUIRED_APP_VERSION = '1.0.0'
 const COSMOS_COIN_TYPE = 118
 
 declare global {
@@ -95,7 +94,7 @@ export class LedgerKey extends Key {
    */
   private async initialize() {
     const version = await this.app.getVersion()
-    if (semver.lt(version, REQUIRED_APP_VERSION)) {
+    if (semver.lt(version, this.app.getMininumRequiredVersion())) {
       throw new LedgerError(
         `Outdated version: Update Ledger ${this.appKind === Kind.Ethereum ? 'Ethereum' : 'Cosmos'} App to the latest version`
       )
@@ -243,7 +242,7 @@ const handleConnectError = (err: Error) => {
   /* istanbul ignore next: specific error rewrite */
   if (message.startsWith('No WebUSB interface found for the Ledger device')) {
     throw new LedgerError(
-      `Couldn't connect to a Ledger device. Use Ledger Live to upgrade the Ledger firmware to version ${REQUIRED_APP_VERSION} or later.`
+      "Couldn't connect to a Ledger device. Use Ledger Live to upgrade the Ledger firmware to version to latest."
     )
   }
 

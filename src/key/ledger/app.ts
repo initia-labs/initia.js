@@ -26,6 +26,7 @@ export abstract class LedgerApp {
 
   abstract getAppConfiguration(): Promise<any> // return value may vary
   abstract getVersion(): Promise<string>
+  abstract getMininumRequiredVersion(): string
 
   abstract setLoadConfig(config: any): void // Ethereum-only
 
@@ -117,12 +118,7 @@ export class EthereumApp extends LedgerApp {
     const trimmedR = trimBuffer(rValue)
     const trimmedS = trimBuffer(sValue)
 
-    console.log(`r:${trimmedR.length} ${JSON.stringify(trimmedR)}`)
-    console.log(`s:${trimmedS.length} ${JSON.stringify(trimmedS)}`)
-
-    // Pad from the left if not big enough (same as Go code)
     trimmedR.copy(signature, 32 - trimmedR.length)
-    // Pad from the left if not big enough (same as Go code)
     trimmedS.copy(signature, 64 - trimmedS.length)
 
     return signature
@@ -138,6 +134,10 @@ export class EthereumApp extends LedgerApp {
       message.toString('hex')
     )
     return Buffer.from(r + s, 'hex')
+  }
+
+  getMininumRequiredVersion(): string {
+    return '1.17.0'
   }
 }
 
@@ -227,5 +227,9 @@ export class CosmosApp extends LedgerApp {
 
     // txtype 1: P2_VALUES.TEXTUAL
     return (await this.app.sign(path, message, HRP, 1)).signature
+  }
+
+  getMininumRequiredVersion(): string {
+    return '2.37.4'
   }
 }
