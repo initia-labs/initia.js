@@ -1,8 +1,14 @@
 {
-  "include": ["src", "types"],
-  "exclude": ["/node_modules/", "./src/**/*.spec.ts"],
+  "include": [
+    "src",
+    "types"
+  ],
+  "exclude": [
+    "/node_modules/",
+    "./src/**/*.spec.ts"
+  ],
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "ESNext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -10,7 +16,11 @@
     "allowSyntheticDefaultImports": true,
     "target": "es2022",
     "moduleResolution": "node",
-    "lib": ["es2019", "esnext", "dom"],
+    "lib": [
+      "es2019",
+      "esnext",
+      "dom"
+    ],
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "src",
