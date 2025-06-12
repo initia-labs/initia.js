@@ -116,7 +116,7 @@ export class EthereumApp extends LedgerApp {
   }
 
   setLoadConfig(config: LoadConfig): void {
-    return this.app.setLoadConfig(config)
+    this.app.setLoadConfig(config)
   }
 
   /**
