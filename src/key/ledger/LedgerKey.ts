@@ -32,7 +32,7 @@ export enum Kind {
 /**
  * Key implementation that uses Ledger hardware wallet for transaction signing.
  * This class extends the base Key class and provides Ledger-specific functionality.
- * 
+ *
  * Features:
  * - Supports both Ethereum and Cosmos applications
  * - Handles BIP44 derivation paths
