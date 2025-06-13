@@ -129,6 +129,9 @@ export class LedgerKey extends Key {
    * @returns LedgerApp instance
    */
   public getApplication(): LedgerApp {
+    if (!this.app) {
+      throw new LedgerError('Ledger app is not initialized')
+    }
     return this.app
   }
 
@@ -200,18 +203,6 @@ export class LedgerKey extends Key {
    */
   public async signText(payload: string | Buffer): Promise<Buffer> {
     return this.app.signText(this.getPath(), payload)
-  }
-
-  /**
-   * Gets the Ledger application instance
-   * @returns LedgerApp instance
-   * @throws LedgerError if the Ledger app is not initialized
-   */
-  public getApp(): LedgerApp {
-    if (!this.app) {
-      throw new LedgerError('Ledger app is not initialized')
-    }
-    return this.app
   }
 
   /**
