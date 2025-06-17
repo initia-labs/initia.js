@@ -32,10 +32,12 @@ export class MstakingAPI extends BaseAPI {
    * At least one of the parameters must be defined.
    * @param delegator delegator's account address
    * @param validator validator's operator address
+   * @param status to query for delegations with validators of a specific bond status
    */
   public async delegations(
     delegator?: AccAddress,
     validator?: ValAddress,
+    status?: Validator.Status,
     params: Partial<PaginationOptions & APIParams> = {},
     headers: Record<string, string> = {}
   ): Promise<[Delegation[], Pagination]> {
@@ -57,7 +59,11 @@ export class MstakingAPI extends BaseAPI {
         .get<{
           delegation_responses: Delegation.Data[]
           pagination: Pagination
-        }>(`/initia/mstaking/v1/delegations/${delegator}`, params, headers)
+        }>(
+          `/initia/mstaking/v1/delegations/${delegator}`,
+          { ...params, status },
+          headers
+        )
         .then((data) => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
@@ -93,9 +99,13 @@ export class MstakingAPI extends BaseAPI {
     validator: ValAddress,
     headers: Record<string, string> = {}
   ): Promise<Delegation> {
-    return this.delegations(delegator, validator, {}, headers).then(
-      (delgs) => delgs[0][0]
-    )
+    return this.delegations(
+      delegator,
+      validator,
+      undefined,
+      undefined,
+      headers
+    ).then((delgs) => delgs[0][0])
   }
 
   /**
@@ -228,9 +238,12 @@ export class MstakingAPI extends BaseAPI {
 
   /**
    * Query sum of all the delegations' balance of a delegator.
+   * @param delegator the delegator address to query for
+   * @param status to query for delegations with validators of a specific bond status
    */
   public async totalDelegationBalance(
     delegator: AccAddress,
+    status?: Validator.Status,
     params: APIParams = {},
     headers: Record<string, string> = {}
   ): Promise<Coins> {
@@ -239,7 +252,10 @@ export class MstakingAPI extends BaseAPI {
         balance: Coins.Data
       }>(
         `/initia/mstaking/v1/delegators/${delegator}/total_delegation_balance`,
-        params,
+        {
+          ...params,
+          status,
+        },
         headers
       )
       .then((d) => Coins.fromData(d.balance))

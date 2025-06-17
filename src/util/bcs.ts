@@ -1,5 +1,6 @@
+import { BigNumber } from 'bignumber.js'
 import { BcsTypeOptions, bcs as mystenBcs } from '@mysten/bcs'
-import { AccAddress, BigNumber, num } from '../core'
+import { AccAddress, num } from '../core'
 
 const initiaAddress = (
   options?: BcsTypeOptions<Uint8Array, Iterable<number>>
@@ -144,7 +145,7 @@ export const bcs = {
 }
 
 export function toLittleEndian(bigint: bigint): Uint8Array {
-  const result = []
+  const result: number[] = []
   while (bigint > 0) {
     result.push(Number(bigint % BigInt(256)))
     bigint = bigint / BigInt(256)

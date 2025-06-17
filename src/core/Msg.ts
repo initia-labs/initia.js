@@ -163,12 +163,18 @@ import {
 } from './mstaking'
 import {
   OpchildMsg,
+  MsgAddBridgeExecutor,
+  MsgAddFeeWhitelistAddresses,
   MsgAddValidator,
   MsgRemoveValidator,
   MsgFinalizeTokenDeposit,
   MsgInitiateTokenWithdrawal,
+  MsgRemoveBridgeExecutor,
+  MsgRemoveFeeWhitelistAddresses,
   MsgExecuteMessages,
   MsgSpendFeePool,
+  MsgUpdateMinGasPrices,
+  MsgUpdateOpchildAdmin,
   MsgSetBridgeInfo,
   MsgUpdateOracle,
   MsgUpdateOpchildParams,
@@ -183,6 +189,7 @@ import {
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
   MsgUpdateChallenger,
+  MsgUpdateFinalizationPeriod,
   MsgUpdateBatchInfo,
   MsgUpdateOracleConfig,
   MsgUpdateMetadata,
@@ -589,6 +596,10 @@ export namespace Msg {
         return MsgUpdateMstakingParams.fromAmino(data)
 
       // opchild
+      case 'opchild/MsgAddBridgeExecutor':
+        return MsgAddBridgeExecutor.fromAmino(data)
+      case 'opchild/MsgAddFeeWhitelistAddresses':
+        return MsgAddFeeWhitelistAddresses.fromAmino(data)
       case 'opchild/MsgAddValidator':
         return MsgAddValidator.fromAmino(data)
       case 'opchild/MsgRemoveValidator':
@@ -597,10 +608,18 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromAmino(data)
       case 'opchild/MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromAmino(data)
+      case 'opchild/MsgRemoveBridgeExecutor':
+        return MsgRemoveBridgeExecutor.fromAmino(data)
+      case 'opchild/MsgRemoveFeeWhitelistAddresses':
+        return MsgRemoveFeeWhitelistAddresses.fromAmino(data)
       case 'opchild/MsgExecuteMessages':
         return MsgExecuteMessages.fromAmino(data)
       case 'opchild/MsgSpendFeePool':
         return MsgSpendFeePool.fromAmino(data)
+      case 'opchild/MsgUpdateMinGasPrices':
+        return MsgUpdateMinGasPrices.fromAmino(data)
+      case 'opchild/MsgUpdateAdmin':
+        return MsgUpdateOpchildAdmin.fromAmino(data)
       case 'opchild/MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromAmino(data)
       case 'opchild/MsgUpdateOracle':
@@ -625,6 +644,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromAmino(data)
       case 'ophost/MsgUpdateChallenger':
         return MsgUpdateChallenger.fromAmino(data)
+      case 'ophost/MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromAmino(data)
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data)
       case 'ophost/MsgUpdateOracleConfig':
@@ -999,6 +1020,10 @@ export namespace Msg {
         return MsgUpdateMstakingParams.fromData(data)
 
       // opchild
+      case '/opinit.opchild.v1.MsgAddBridgeExecutor':
+        return MsgAddBridgeExecutor.fromData(data)
+      case '/opinit.opchild.v1.MsgAddFeeWhitelistAddresses':
+        return MsgAddFeeWhitelistAddresses.fromData(data)
       case '/opinit.opchild.v1.MsgAddValidator':
         return MsgAddValidator.fromData(data)
       case '/opinit.opchild.v1.MsgRemoveValidator':
@@ -1007,10 +1032,18 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromData(data)
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromData(data)
+      case '/opinit.opchild.v1.MsgRemoveBridgeExecutor':
+        return MsgRemoveBridgeExecutor.fromData(data)
+      case '/opinit.opchild.v1.MsgRemoveFeeWhitelistAddresses':
+        return MsgRemoveFeeWhitelistAddresses.fromData(data)
       case '/opinit.opchild.v1.MsgExecuteMessages':
         return MsgExecuteMessages.fromData(data)
       case '/opinit.opchild.v1.MsgSpendFeePool':
         return MsgSpendFeePool.fromData(data)
+      case '/opinit.opchild.v1.MsgUpdateMinGasPrices':
+        return MsgUpdateMinGasPrices.fromData(data)
+      case '/opinit.opchild.v1.MsgUpdateAdmin':
+        return MsgUpdateOpchildAdmin.fromData(data)
       case '/opinit.opchild.v1.MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromData(data)
       case '/opinit.opchild.v1.MsgUpdateOracle':
@@ -1035,6 +1068,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
@@ -1445,6 +1480,8 @@ export namespace Msg {
         return MsgUpdateProposer.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
