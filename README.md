@@ -158,7 +158,7 @@ const msg = new MsgExecute(
 Create a wallet and sign transaction. &#x20;
 
 ```typescript
-import { Wallet, RESTClient, MnemonicKey } from '@initia/initia.js'
+import { Wallet, RESTClient, MnemonicKey, MsgSend } from '@initia/initia.js'
 
 const key = new MnemonicKey({
   mnemonic: 
