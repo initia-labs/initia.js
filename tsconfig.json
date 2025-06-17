@@ -38,6 +38,6 @@
     "esModuleInterop": true,
     "noUnusedParameters": true,
     "strictFunctionTypes": true,
-    "strictPropertyInitialization": true
+    "strictPropertyInitialization": true,
   }
 }

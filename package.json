@@ -67,7 +67,6 @@
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
     "@mysten/bcs": "^1.1.0",
     "@zondax/ledger-cosmos-js": "^4.0.1",
-    "asn1-ts": "^9.0.2",
     "axios": "^1.9.0",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.2",

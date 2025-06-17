@@ -181,6 +181,7 @@ export class LedgerKey extends Key {
    * Signs a message using Keccak256 hash
    * @param payload - Message to sign
    * @returns Promise resolving to signature buffer
+   * @throws LedgerError if signature parsing fails
    */
   public async signWithKeccak256(payload: Buffer): Promise<Buffer> {
     return await this.app.signWithKeccak256(this.getPath(), payload)

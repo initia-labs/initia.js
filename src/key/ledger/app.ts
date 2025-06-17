@@ -6,7 +6,6 @@ import Transport from '@ledgerhq/hw-transport'
 import * as secp256k1 from 'secp256k1'
 import { LedgerError } from '.'
 import { EthPublicKey, PublicKey, SimplePublicKey } from '../..'
-import * as asn1 from 'asn1-ts'
 
 /** Human-readable part for Initia */
 const HRP = 'init'
@@ -15,7 +14,53 @@ const HRP = 'init'
 const trimBuffer = (buf: Buffer): Buffer => {
   let i = 0
   while (i < buf.length && buf[i] === 0) i++
-  return buf.slice(i)
+  return buf.subarray(i)
+}
+
+const derTagInteger = 0x02
+
+// simplfied function copied from comjs: https://github.com/cosmos/cosmjs/blob/95918dbe0f6b8c37ed512015c32dcfcca3f020da/packages/crypto/src/secp256k1signature.ts#L33
+function fromDer(data: Buffer): { r: Buffer; s: Buffer } {
+  let pos = 0
+
+  if (data[pos++] !== 0x30) {
+    throw new Error('Prefix 0x30 expected')
+  }
+
+  const bodyLength = data[pos++]
+  if (data.length - pos !== bodyLength) {
+    throw new Error('Data length mismatch detected')
+  }
+
+  // r
+  const rTag = data[pos++]
+  if (rTag !== derTagInteger) {
+    throw new Error('INTEGER tag expected')
+  }
+  const rLength = data[pos++]
+  if (rLength >= 0x80) {
+    throw new Error('Decoding length values above 127 not supported')
+  }
+  const rData = data.slice(pos, pos + rLength)
+  pos += rLength
+
+  // s
+  const sTag = data[pos++]
+  if (sTag !== derTagInteger) {
+    throw new Error('INTEGER tag expected')
+  }
+  const sLength = data[pos++]
+  if (sLength >= 0x80) {
+    throw new Error('Decoding length values above 127 not supported')
+  }
+  const sData = data.slice(pos, pos + sLength)
+  pos += sLength
+
+  return {
+    // r/s data can contain leading 0 bytes to express integers being non-negative in DER
+    r: trimBuffer(rData),
+    s: trimBuffer(sData),
+  }
 }
 
 /**
@@ -287,26 +332,15 @@ export class CosmosApp extends LedgerApp {
     // txtype 0: P2_VALUES.JSON
     const sigDER = (await this.app.sign(path, message, HRP, 0)).signature
 
-    // signature has been encoded with DER format. need to convert it to BER
-    const der = new asn1.DERElement()
-    der.fromBytes(sigDER)
-    if (der.components.length != 2) {
-      throw new LedgerError('invalid signature')
-    }
-
-    const r = der.components.at(0)
-    if (!r) {
-      throw new LedgerError('missing r component in signature')
-    }
-    const s = der.components.at(1)
-    if (!s) {
-      throw new LedgerError('missing s component in signature')
+    // Parse the DER signature using asn1.js
+    const parsed = fromDer(sigDER)
+    if (!parsed || !parsed.r || !parsed.s) {
+      throw new LedgerError('Invalid signature format')
     }
 
     const signature = Buffer.alloc(64)
-
-    const trimmedR = trimBuffer(Buffer.from(r.value))
-    const trimmedS = trimBuffer(Buffer.from(s.value))
+    const trimmedR = trimBuffer(parsed.r)
+    const trimmedS = trimBuffer(parsed.s)
     trimmedR.copy(signature, 32 - trimmedR.length)
     trimmedS.copy(signature, 64 - trimmedS.length)
     return signature

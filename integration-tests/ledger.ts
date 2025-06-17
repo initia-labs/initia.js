@@ -13,11 +13,11 @@ import {
 } from '../src'
 
 async function main() {
-  const appKind = Kind.Ethereum
+  const appKind = Kind.Cosmos
 
   const transport = await TransportNodeHid.create()
   const ledgerKey =
-    appKind === Kind.Ethereum
+    (appKind.valueOf() === Kind.Ethereum)
       ? await LedgerKey.createEthereumApp(transport)
       : await LedgerKey.createCosmosApp(transport)
 
@@ -72,7 +72,7 @@ async function main() {
     msgs: [msg1, msg2],
     fee,
     signMode:
-      appKind === Kind.Ethereum
+      appKind.valueOf() === Kind.Ethereum
         ? SignMode.SIGN_MODE_EIP_191
         : SignMode.SIGN_MODE_LEGACY_AMINO_JSON,
   })
