@@ -145,7 +145,7 @@ export const bcs = {
 }
 
 export function toLittleEndian(bigint: bigint): Uint8Array {
-  const result = []
+  const result: number[] = []
   while (bigint > 0) {
     result.push(Number(bigint % BigInt(256)))
     bigint = bigint / BigInt(256)
