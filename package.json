@@ -58,8 +58,8 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
-    "@initia/initia.proto": "^1.0.1",
-    "@initia/opinit.proto": "^1.0.1",
+    "@initia/initia.proto": "^1.0.2",
+    "@initia/opinit.proto": "^1.0.2",
     "@ledgerhq/hw-app-eth": "^6.45.5",
     "@ledgerhq/hw-transport": "^6.31.5",
     "@ledgerhq/hw-transport-node-hid": "^6.29.6",
