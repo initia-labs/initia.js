@@ -8,7 +8,7 @@ const api = new IbcAPI(c)
 
 describe('IbcClientAPI', () => {
   it('client_states', async () => {
-    const res = await api.clientStates()
+    const res = await api.clientStates({ "pagination.limit": '1' })
     expect(res).not.toBeNull()
     expect(res).not.toBeUndefined()
   })
