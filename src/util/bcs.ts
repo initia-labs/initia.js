@@ -47,14 +47,19 @@ const initiaBcs = {
    * @example
    * bcs.fixed_point32().serialize('1.23')
    */
-  fixed_point32: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+  fixed_point32: (
+    options?: DecimalBcsTypeOptions<string, string | number | bigint>
+  ) =>
     mystenBcs.u64(options).transform({
       input: (val: number | string) => {
         const n = num(val).times(new BigNumber('4294967296'))
 
         return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
-      output: (val) => num(val).div(new BigNumber('4294967296')).toNumber(),
+      output: (val) => {
+        const output = num(val).div(new BigNumber('4294967296'))
+        return convertDecimalOutput(output, options?.outputAsNumber)
+      },
     }),
 
   /**
@@ -62,15 +67,19 @@ const initiaBcs = {
    * @example
    * bcs.fixed_point64().serialize('1.23')
    */
-  fixed_point64: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+  fixed_point64: (
+    options?: DecimalBcsTypeOptions<string, string | number | bigint>
+  ) =>
     mystenBcs.u128(options).transform({
       input: (val: number | string) => {
         const n = num(val).times(new BigNumber('18446744073709551616'))
 
         return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
-      output: (val) =>
-        num(val).div(new BigNumber('18446744073709551616')).toNumber(),
+      output: (val) => {
+        const output = num(val).div(new BigNumber('18446744073709551616'))
+        return convertDecimalOutput(output, options?.outputAsNumber)
+      },
     }),
 
   /**
@@ -78,15 +87,19 @@ const initiaBcs = {
    * @example
    * bcs.decimal128().serialize('1.23')
    */
-  decimal128: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+  decimal128: (
+    options?: DecimalBcsTypeOptions<string, string | number | bigint>
+  ) =>
     mystenBcs.u128(options).transform({
       input: (val: number | string) => {
         const n = num(val).times(new BigNumber('1000000000000000000'))
 
         return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
-      output: (val) =>
-        num(val).div(new BigNumber('1000000000000000000')).toNumber(),
+      output: (val) => {
+        const output = num(val).div(new BigNumber('1000000000000000000'))
+        return convertDecimalOutput(output, options?.outputAsNumber)
+      },
     }),
 
   /**
@@ -94,15 +107,19 @@ const initiaBcs = {
    * @example
    * bcs.decimal256().serialize('1.23')
    */
-  decimal256: (options?: BcsTypeOptions<string, string | number | bigint>) =>
+  decimal256: (
+    options?: DecimalBcsTypeOptions<string, string | number | bigint>
+  ) =>
     mystenBcs.u256(options).transform({
       input: (val: number | string) => {
         const n = num(val).times(new BigNumber('1000000000000000000'))
 
         return n.toFixed(0, BigNumber.ROUND_DOWN)
       },
-      output: (val) =>
-        num(val).div(new BigNumber('1000000000000000000')).toNumber(),
+      output: (val) => {
+        const output = num(val).div(new BigNumber('1000000000000000000'))
+        return convertDecimalOutput(output, options?.outputAsNumber)
+      },
     }),
 
   /**
@@ -125,7 +142,7 @@ const initiaBcs = {
    * @example
    * bcs.bigdecimal().serialize('1.23')
    */
-  bigdecimal: (options?: BcsTypeOptions<string, string | number>) =>
+  bigdecimal: (options?: DecimalBcsTypeOptions<string, string | number>) =>
     mystenBcs.vector(mystenBcs.u8(options)).transform({
       input: (val: number | string) => {
         const n = num(val).times(new BigNumber('1000000000000000000'))
@@ -134,7 +151,8 @@ const initiaBcs = {
       },
       output: (val) => {
         const biguint = fromLittleEndian(val).toString()
-        return num(biguint).div(new BigNumber('1000000000000000000')).toNumber()
+        const output = num(biguint).div(new BigNumber('1000000000000000000'))
+        return convertDecimalOutput(output, options?.outputAsNumber)
       },
     }),
 }
@@ -159,4 +177,15 @@ export function fromLittleEndian(bytes: number[]): bigint {
     result = result * 256n + BigInt(bytes.pop() as number)
   }
   return result
+}
+
+type DecimalBcsTypeOptions<T, Input> = BcsTypeOptions<T, Input> & {
+  outputAsNumber?: boolean
+}
+
+function convertDecimalOutput(
+  output: BigNumber,
+  asNumber = true
+): number | string {
+  return asNumber ? output.toNumber() : output.toString()
 }
