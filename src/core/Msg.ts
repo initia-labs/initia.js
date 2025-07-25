@@ -233,6 +233,7 @@ import {
   MsgRemoveCodeUploadParamsAddresses,
   MsgUpdateContractLabel,
 } from './wasm'
+import { WasmExtensionMsg, MsgStoreCodeAdmin } from './wasmextension/msgs'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 export type Msg =
@@ -270,6 +271,7 @@ export type Msg =
   | TokenfactoryMsg
   | UpgradeMsg
   | WasmMsg
+  | WasmExtensionMsg
 
 export namespace Msg {
   export type Amino =
@@ -302,6 +304,7 @@ export namespace Msg {
     | TokenfactoryMsg.Amino
     | UpgradeMsg.Amino
     | WasmMsg.Amino
+    | WasmExtensionMsg.Amino
 
   export type Data =
     | AuctionMsg.Data
@@ -338,6 +341,7 @@ export namespace Msg {
     | TokenfactoryMsg.Data
     | UpgradeMsg.Data
     | WasmMsg.Data
+    | WasmExtensionMsg.Data
 
   export type Proto =
     | AuctionMsg.Proto
@@ -374,6 +378,7 @@ export namespace Msg {
     | TokenfactoryMsg.Proto
     | UpgradeMsg.Proto
     | WasmMsg.Proto
+    | WasmExtensionMsg.Proto
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
@@ -728,6 +733,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromAmino(data)
       case 'wasm/MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromAmino(data)
+
+      // wasmextension
+      case 'wasmextension/MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.fromAmino(data)
     }
   }
 
@@ -1152,6 +1161,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromData(data)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromData(data)
+
+      // wasmextension
+      case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.fromData(data)
     }
   }
 
@@ -1564,6 +1577,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.unpackAny(proto)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.unpackAny(proto)
+
+      // wasmextension
+      case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.unpackAny(proto)
 
       default:
         throw new Error(`not supported msg ${proto.typeUrl}`)
