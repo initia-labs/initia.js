@@ -13,6 +13,8 @@ import { MsgChannelUpgradeInit } from './MsgChannelUpgradeInit'
 import { MsgChannelUpgradeTry } from './MsgChannelUpgradeTry'
 import { MsgChannelUpgradeAck } from './MsgChannelUpgradeAck'
 import { MsgChannelUpgradeConfirm } from './MsgChannelUpgradeConfirm'
+import { MsgChannelUpgradeTimeout } from './MsgChannelUpgradeTimeout'
+import { MsgChannelUpgradeCancel } from './MsgChannelUpgradeCancel'
 
 export * from './MsgChannelOpenInit'
 export * from './MsgChannelOpenTry'
@@ -29,6 +31,8 @@ export * from './MsgChannelUpgradeInit'
 export * from './MsgChannelUpgradeTry'
 export * from './MsgChannelUpgradeAck'
 export * from './MsgChannelUpgradeConfirm'
+export * from './MsgChannelUpgradeTimeout'
+export * from './MsgChannelUpgradeCancel'
 
 export type IbcChannelMsg =
   | MsgChannelOpenInit
@@ -46,6 +50,8 @@ export type IbcChannelMsg =
   | MsgChannelUpgradeTry
   | MsgChannelUpgradeAck
   | MsgChannelUpgradeConfirm
+  | MsgChannelUpgradeTimeout
+  | MsgChannelUpgradeCancel
 
 export namespace IbcChannelMsg {
   export type Data =
@@ -64,6 +70,8 @@ export namespace IbcChannelMsg {
     | MsgChannelUpgradeTry.Data
     | MsgChannelUpgradeAck.Data
     | MsgChannelUpgradeConfirm.Data
+    | MsgChannelUpgradeTimeout.Data
+    | MsgChannelUpgradeCancel.Data
 
   export type Proto =
     | MsgChannelOpenInit.Proto
@@ -81,4 +89,6 @@ export namespace IbcChannelMsg {
     | MsgChannelUpgradeTry.Proto
     | MsgChannelUpgradeAck.Proto
     | MsgChannelUpgradeConfirm.Proto
+    | MsgChannelUpgradeTimeout.Proto
+    | MsgChannelUpgradeCancel.Proto
 }
