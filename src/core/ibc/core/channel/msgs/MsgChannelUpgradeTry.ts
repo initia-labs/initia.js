@@ -46,23 +46,27 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeTry.Data): MsgChannelUpgradeTry {
-    const { 
-      port_id, 
-      channel_id, 
-      proposed_upgrade_connection_hops, 
-      counterparty_upgrade_fields, 
+  public static fromData(
+    data: MsgChannelUpgradeTry.Data
+  ): MsgChannelUpgradeTry {
+    const {
+      port_id,
+      channel_id,
+      proposed_upgrade_connection_hops,
+      counterparty_upgrade_fields,
       counterparty_upgrade_sequence,
       proof_channel,
       proof_upgrade,
       proof_height,
-      signer 
+      signer,
     } = data
     return new MsgChannelUpgradeTry(
       port_id,
       channel_id,
       proposed_upgrade_connection_hops,
-      counterparty_upgrade_fields ? UpgradeFields.fromData(counterparty_upgrade_fields) : undefined,
+      counterparty_upgrade_fields
+        ? UpgradeFields.fromData(counterparty_upgrade_fields)
+        : undefined,
       Number(counterparty_upgrade_sequence),
       proof_channel,
       proof_upgrade,
@@ -72,16 +76,16 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeTry.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      proposed_upgrade_connection_hops, 
-      counterparty_upgrade_fields, 
+    const {
+      port_id,
+      channel_id,
+      proposed_upgrade_connection_hops,
+      counterparty_upgrade_fields,
       counterparty_upgrade_sequence,
       proof_channel,
       proof_upgrade,
       proof_height,
-      signer 
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeTry',
@@ -97,12 +101,16 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeTry.Proto): MsgChannelUpgradeTry {
+  public static fromProto(
+    proto: MsgChannelUpgradeTry.Proto
+  ): MsgChannelUpgradeTry {
     return new MsgChannelUpgradeTry(
       proto.portId,
       proto.channelId,
       proto.proposedUpgradeConnectionHops,
-      proto.counterpartyUpgradeFields ? UpgradeFields.fromProto(proto.counterpartyUpgradeFields) : undefined,
+      proto.counterpartyUpgradeFields
+        ? UpgradeFields.fromProto(proto.counterpartyUpgradeFields)
+        : undefined,
       Number(proto.counterpartyUpgradeSequence),
       proto.proofChannel,
       proto.proofUpgrade,
@@ -112,16 +120,16 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeTry.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      proposed_upgrade_connection_hops, 
-      counterparty_upgrade_fields, 
+    const {
+      port_id,
+      channel_id,
+      proposed_upgrade_connection_hops,
+      counterparty_upgrade_fields,
       counterparty_upgrade_sequence,
       proof_channel,
       proof_upgrade,
       proof_height,
-      signer 
+      signer,
     } = this
     return MsgChannelUpgradeTry_pb.fromPartial({
       portId: port_id,

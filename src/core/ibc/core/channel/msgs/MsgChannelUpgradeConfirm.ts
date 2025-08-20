@@ -44,16 +44,18 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeConfirm.Data): MsgChannelUpgradeConfirm {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+  public static fromData(
+    data: MsgChannelUpgradeConfirm.Data
+  ): MsgChannelUpgradeConfirm {
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = data
     return new MsgChannelUpgradeConfirm(
       port_id,
@@ -68,15 +70,15 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeConfirm.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeConfirm',
@@ -91,12 +93,16 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeConfirm.Proto): MsgChannelUpgradeConfirm {
+  public static fromProto(
+    proto: MsgChannelUpgradeConfirm.Proto
+  ): MsgChannelUpgradeConfirm {
     return new MsgChannelUpgradeConfirm(
       proto.portId,
       proto.channelId,
       proto.counterpartyChannelState,
-      proto.counterpartyUpgrade ? Upgrade.fromProto(proto.counterpartyUpgrade) : undefined,
+      proto.counterpartyUpgrade
+        ? Upgrade.fromProto(proto.counterpartyUpgrade)
+        : undefined,
       proto.proofChannel,
       proto.proofUpgrade,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
@@ -105,15 +111,15 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeConfirm.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = this
     return MsgChannelUpgradeConfirm_pb.fromPartial({
       portId: port_id,

@@ -32,11 +32,7 @@ export class UpgradeFields extends JSONSerializable<
 
   public static fromData(data: UpgradeFields.Data): UpgradeFields {
     const { ordering, connection_hops, version } = data
-    return new UpgradeFields(
-      ordering,
-      connection_hops,
-      version
-    )
+    return new UpgradeFields(ordering, connection_hops, version)
   }
 
   public toData(): UpgradeFields.Data {

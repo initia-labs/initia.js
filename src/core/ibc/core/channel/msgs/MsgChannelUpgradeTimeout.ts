@@ -40,14 +40,16 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeTimeout.Data): MsgChannelUpgradeTimeout {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel, 
-      proof_channel, 
-      proof_height, 
-      signer 
+  public static fromData(
+    data: MsgChannelUpgradeTimeout.Data
+  ): MsgChannelUpgradeTimeout {
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel,
+      proof_channel,
+      proof_height,
+      signer,
     } = data
     return new MsgChannelUpgradeTimeout(
       port_id,
@@ -60,13 +62,13 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeTimeout.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel, 
-      proof_channel, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel,
+      proof_channel,
+      proof_height,
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeTimeout',
@@ -79,11 +81,15 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeTimeout.Proto): MsgChannelUpgradeTimeout {
+  public static fromProto(
+    proto: MsgChannelUpgradeTimeout.Proto
+  ): MsgChannelUpgradeTimeout {
     return new MsgChannelUpgradeTimeout(
       proto.portId,
       proto.channelId,
-      proto.counterpartyChannel ? Channel.fromProto(proto.counterpartyChannel) : undefined,
+      proto.counterpartyChannel
+        ? Channel.fromProto(proto.counterpartyChannel)
+        : undefined,
       proto.proofChannel,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
@@ -91,13 +97,13 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeTimeout.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel, 
-      proof_channel, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel,
+      proof_channel,
+      proof_height,
+      signer,
     } = this
     return MsgChannelUpgradeTimeout_pb.fromPartial({
       portId: port_id,

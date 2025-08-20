@@ -35,7 +35,9 @@ export class MsgChannelUpgradeInit extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeInit.Data): MsgChannelUpgradeInit {
+  public static fromData(
+    data: MsgChannelUpgradeInit.Data
+  ): MsgChannelUpgradeInit {
     const { port_id, channel_id, fields, signer } = data
     return new MsgChannelUpgradeInit(
       port_id,
@@ -56,7 +58,9 @@ export class MsgChannelUpgradeInit extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeInit.Proto): MsgChannelUpgradeInit {
+  public static fromProto(
+    proto: MsgChannelUpgradeInit.Proto
+  ): MsgChannelUpgradeInit {
     return new MsgChannelUpgradeInit(
       proto.portId,
       proto.channelId,

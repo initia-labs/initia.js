@@ -32,10 +32,7 @@ export class ErrorReceipt extends JSONSerializable<
 
   public static fromData(data: ErrorReceipt.Data): ErrorReceipt {
     const { sequence, message } = data
-    return new ErrorReceipt(
-      Number(sequence),
-      message
-    )
+    return new ErrorReceipt(Number(sequence), message)
   }
 
   public toData(): ErrorReceipt.Data {
@@ -47,10 +44,7 @@ export class ErrorReceipt extends JSONSerializable<
   }
 
   public static fromProto(proto: ErrorReceipt.Proto): ErrorReceipt {
-    return new ErrorReceipt(
-      Number(proto.sequence),
-      proto.message
-    )
+    return new ErrorReceipt(Number(proto.sequence), proto.message)
   }
 
   public toProto(): ErrorReceipt.Proto {

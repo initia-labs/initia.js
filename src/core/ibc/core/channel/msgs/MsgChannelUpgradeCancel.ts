@@ -40,14 +40,16 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeCancel.Data): MsgChannelUpgradeCancel {
-    const { 
-      port_id, 
-      channel_id, 
-      error_receipt, 
-      proof_error_receipt, 
-      proof_height, 
-      signer 
+  public static fromData(
+    data: MsgChannelUpgradeCancel.Data
+  ): MsgChannelUpgradeCancel {
+    const {
+      port_id,
+      channel_id,
+      error_receipt,
+      proof_error_receipt,
+      proof_height,
+      signer,
     } = data
     return new MsgChannelUpgradeCancel(
       port_id,
@@ -60,13 +62,13 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeCancel.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      error_receipt, 
-      proof_error_receipt, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      error_receipt,
+      proof_error_receipt,
+      proof_height,
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeCancel',
@@ -79,11 +81,15 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeCancel.Proto): MsgChannelUpgradeCancel {
+  public static fromProto(
+    proto: MsgChannelUpgradeCancel.Proto
+  ): MsgChannelUpgradeCancel {
     return new MsgChannelUpgradeCancel(
       proto.portId,
       proto.channelId,
-      proto.errorReceipt ? ErrorReceipt.fromProto(proto.errorReceipt) : undefined,
+      proto.errorReceipt
+        ? ErrorReceipt.fromProto(proto.errorReceipt)
+        : undefined,
       proto.proofErrorReceipt,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
@@ -91,13 +97,13 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeCancel.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      error_receipt, 
-      proof_error_receipt, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      error_receipt,
+      proof_error_receipt,
+      proof_height,
+      signer,
     } = this
     return MsgChannelUpgradeCancel_pb.fromPartial({
       portId: port_id,

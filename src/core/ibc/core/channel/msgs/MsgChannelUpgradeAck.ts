@@ -42,15 +42,17 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeAck.Data): MsgChannelUpgradeAck {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+  public static fromData(
+    data: MsgChannelUpgradeAck.Data
+  ): MsgChannelUpgradeAck {
+    const {
+      port_id,
+      channel_id,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = data
     return new MsgChannelUpgradeAck(
       port_id,
@@ -64,14 +66,14 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeAck.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeAck',
@@ -85,11 +87,15 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeAck.Proto): MsgChannelUpgradeAck {
+  public static fromProto(
+    proto: MsgChannelUpgradeAck.Proto
+  ): MsgChannelUpgradeAck {
     return new MsgChannelUpgradeAck(
       proto.portId,
       proto.channelId,
-      proto.counterpartyUpgrade ? Upgrade.fromProto(proto.counterpartyUpgrade) : undefined,
+      proto.counterpartyUpgrade
+        ? Upgrade.fromProto(proto.counterpartyUpgrade)
+        : undefined,
       proto.proofChannel,
       proto.proofUpgrade,
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
@@ -98,14 +104,14 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeAck.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_upgrade, 
-      proof_channel, 
-      proof_upgrade, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_upgrade,
+      proof_channel,
+      proof_upgrade,
+      proof_height,
+      signer,
     } = this
     return MsgChannelUpgradeAck_pb.fromPartial({
       portId: port_id,
