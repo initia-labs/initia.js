@@ -1,7 +1,12 @@
 import { JSONSerializable } from '../../../../../util/json'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
+import {
+  stateFromJSON,
+  stateToJSON,
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { MsgChannelUpgradeConfirm as MsgChannelUpgradeConfirm_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
+import { ChannelState } from '../ChannelState'
 import { Upgrade } from '../Upgrade'
 import { Height } from '../../client/Height'
 
@@ -26,10 +31,10 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
   constructor(
     public port_id: string,
     public channel_id: string,
-    public counterparty_channel_state: number,
+    public counterparty_channel_state: ChannelState,
     public counterparty_upgrade: Upgrade | undefined,
-    public proof_channel: Uint8Array,
-    public proof_upgrade: Uint8Array,
+    public proof_channel: string,
+    public proof_upgrade: string,
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
@@ -60,7 +65,7 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
     return new MsgChannelUpgradeConfirm(
       port_id,
       channel_id,
-      counterparty_channel_state,
+      stateFromJSON(counterparty_channel_state),
       counterparty_upgrade ? Upgrade.fromData(counterparty_upgrade) : undefined,
       proof_channel,
       proof_upgrade,
@@ -84,7 +89,7 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeConfirm',
       port_id,
       channel_id,
-      counterparty_channel_state,
+      counterparty_channel_state: stateToJSON(counterparty_channel_state),
       counterparty_upgrade: counterparty_upgrade?.toData(),
       proof_channel,
       proof_upgrade,
@@ -103,8 +108,8 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
       proto.counterpartyUpgrade
         ? Upgrade.fromProto(proto.counterpartyUpgrade)
         : undefined,
-      proto.proofChannel,
-      proto.proofUpgrade,
+      Buffer.from(proto.proofChannel).toString('base64'),
+      Buffer.from(proto.proofUpgrade).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -126,8 +131,8 @@ export class MsgChannelUpgradeConfirm extends JSONSerializable<
       channelId: channel_id,
       counterpartyChannelState: counterparty_channel_state,
       counterpartyUpgrade: counterparty_upgrade?.toProto(),
-      proofChannel: proof_channel,
-      proofUpgrade: proof_upgrade,
+      proofChannel: Buffer.from(proof_channel, 'base64'),
+      proofUpgrade: Buffer.from(proof_upgrade, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
     })
@@ -152,10 +157,10 @@ export namespace MsgChannelUpgradeConfirm {
     '@type': '/ibc.core.channel.v1.MsgChannelUpgradeConfirm'
     port_id: string
     channel_id: string
-    counterparty_channel_state: number
+    counterparty_channel_state: string
     counterparty_upgrade?: Upgrade.Data
-    proof_channel: Uint8Array
-    proof_upgrade: Uint8Array
+    proof_channel: string
+    proof_upgrade: string
     proof_height?: Height.Data
     signer: AccAddress
   }

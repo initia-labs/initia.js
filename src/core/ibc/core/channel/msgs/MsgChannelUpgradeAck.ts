@@ -26,8 +26,8 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
     public port_id: string,
     public channel_id: string,
     public counterparty_upgrade: Upgrade | undefined,
-    public proof_channel: Uint8Array,
-    public proof_upgrade: Uint8Array,
+    public proof_channel: string,
+    public proof_upgrade: string,
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
@@ -96,8 +96,8 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
       proto.counterpartyUpgrade
         ? Upgrade.fromProto(proto.counterpartyUpgrade)
         : undefined,
-      proto.proofChannel,
-      proto.proofUpgrade,
+      Buffer.from(proto.proofChannel).toString('base64'),
+      Buffer.from(proto.proofUpgrade).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -117,8 +117,8 @@ export class MsgChannelUpgradeAck extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       counterpartyUpgrade: counterparty_upgrade?.toProto(),
-      proofChannel: proof_channel,
-      proofUpgrade: proof_upgrade,
+      proofChannel: Buffer.from(proof_channel, 'base64'),
+      proofUpgrade: Buffer.from(proof_upgrade, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
     })
@@ -144,8 +144,8 @@ export namespace MsgChannelUpgradeAck {
     port_id: string
     channel_id: string
     counterparty_upgrade?: Upgrade.Data
-    proof_channel: Uint8Array
-    proof_upgrade: Uint8Array
+    proof_channel: string
+    proof_upgrade: string
     proof_height?: Height.Data
     signer: AccAddress
   }

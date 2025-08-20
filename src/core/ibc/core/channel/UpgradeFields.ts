@@ -1,5 +1,10 @@
 import { JSONSerializable } from '../../../../util/json'
 import { UpgradeFields as UpgradeFields_pb } from '@initia/initia.proto/ibc/core/channel/v1/upgrade'
+import {
+  orderFromJSON,
+  orderToJSON,
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
+import { ChannelOrder } from './ChannelOrder'
 
 /**
  * UpgradeFields defines the fields that can be upgraded in a channel.
@@ -15,7 +20,7 @@ export class UpgradeFields extends JSONSerializable<
    * @param version the version of the channel
    */
   constructor(
-    public ordering: number,
+    public ordering: ChannelOrder,
     public connection_hops: string[],
     public version: string
   ) {
@@ -32,13 +37,13 @@ export class UpgradeFields extends JSONSerializable<
 
   public static fromData(data: UpgradeFields.Data): UpgradeFields {
     const { ordering, connection_hops, version } = data
-    return new UpgradeFields(ordering, connection_hops, version)
+    return new UpgradeFields(orderFromJSON(ordering), connection_hops, version)
   }
 
   public toData(): UpgradeFields.Data {
     const { ordering, connection_hops, version } = this
     return {
-      ordering,
+      ordering: orderToJSON(ordering),
       connection_hops,
       version,
     }
@@ -64,7 +69,7 @@ export class UpgradeFields extends JSONSerializable<
 
 export namespace UpgradeFields {
   export interface Data {
-    ordering: number
+    ordering: string
     connection_hops: string[]
     version: string
   }

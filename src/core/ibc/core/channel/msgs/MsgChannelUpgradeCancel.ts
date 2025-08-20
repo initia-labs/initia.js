@@ -25,7 +25,7 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
     public port_id: string,
     public channel_id: string,
     public error_receipt: ErrorReceipt | undefined,
-    public proof_error_receipt: Uint8Array,
+    public proof_error_receipt: string,
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
@@ -90,7 +90,7 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
       proto.errorReceipt
         ? ErrorReceipt.fromProto(proto.errorReceipt)
         : undefined,
-      proto.proofErrorReceipt,
+      Buffer.from(proto.proofErrorReceipt).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -109,7 +109,7 @@ export class MsgChannelUpgradeCancel extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       errorReceipt: error_receipt?.toProto(),
-      proofErrorReceipt: proof_error_receipt,
+      proofErrorReceipt: Buffer.from(proof_error_receipt, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
     })
@@ -135,7 +135,7 @@ export namespace MsgChannelUpgradeCancel {
     port_id: string
     channel_id: string
     error_receipt?: ErrorReceipt.Data
-    proof_error_receipt: Uint8Array
+    proof_error_receipt: string
     proof_height?: Height.Data
     signer: AccAddress
   }

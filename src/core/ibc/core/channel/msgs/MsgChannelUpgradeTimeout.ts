@@ -25,7 +25,7 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
     public port_id: string,
     public channel_id: string,
     public counterparty_channel: Channel | undefined,
-    public proof_channel: Uint8Array,
+    public proof_channel: string,
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
@@ -90,7 +90,7 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
       proto.counterpartyChannel
         ? Channel.fromProto(proto.counterpartyChannel)
         : undefined,
-      proto.proofChannel,
+      Buffer.from(proto.proofChannel).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -109,7 +109,7 @@ export class MsgChannelUpgradeTimeout extends JSONSerializable<
       portId: port_id,
       channelId: channel_id,
       counterpartyChannel: counterparty_channel?.toProto(),
-      proofChannel: proof_channel,
+      proofChannel: Buffer.from(proof_channel, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
     })
@@ -135,7 +135,7 @@ export namespace MsgChannelUpgradeTimeout {
     port_id: string
     channel_id: string
     counterparty_channel?: Channel.Data
-    proof_channel: Uint8Array
+    proof_channel: string
     proof_height?: Height.Data
     signer: AccAddress
   }

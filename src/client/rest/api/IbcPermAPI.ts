@@ -1,7 +1,7 @@
 import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 
-export interface ChannelState {
+export interface ChannelStateResponse {
   port_id: string
   channel_id: string
   admin: string
@@ -15,10 +15,10 @@ export class IbcPermAPI extends BaseAPI {
   public async channelStates(
     params: Partial<PaginationOptions & APIParams> = {},
     headers: Record<string, string> = {}
-  ): Promise<[ChannelState[], Pagination]> {
+  ): Promise<[ChannelStateResponse[], Pagination]> {
     return this.c
       .get<{
-        channel_states: ChannelState[]
+        channel_states: ChannelStateResponse[]
         pagination: Pagination
       }>(`/ibc/apps/perm/v1/channel_states`, params, headers)
       .then((d) => [d.channel_states, d.pagination])
@@ -34,10 +34,10 @@ export class IbcPermAPI extends BaseAPI {
     port_id: string,
     params: APIParams = {},
     headers: Record<string, string> = {}
-  ): Promise<ChannelState> {
+  ): Promise<ChannelStateResponse> {
     return this.c
       .get<{
-        channel_state: ChannelState
+        channel_state: ChannelStateResponse
       }>(
         `/ibc/apps/perm/v1/channel_states/${channel_id}/${port_id}`,
         params,

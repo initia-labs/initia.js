@@ -30,8 +30,8 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
     public proposed_upgrade_connection_hops: string[],
     public counterparty_upgrade_fields: UpgradeFields | undefined,
     public counterparty_upgrade_sequence: number,
-    public proof_channel: Uint8Array,
-    public proof_upgrade: Uint8Array,
+    public proof_channel: string,
+    public proof_upgrade: string,
     public proof_height: Height | undefined,
     public signer: AccAddress
   ) {
@@ -112,8 +112,8 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
         ? UpgradeFields.fromProto(proto.counterpartyUpgradeFields)
         : undefined,
       Number(proto.counterpartyUpgradeSequence),
-      proto.proofChannel,
-      proto.proofUpgrade,
+      Buffer.from(proto.proofChannel).toString('base64'),
+      Buffer.from(proto.proofUpgrade).toString('base64'),
       proto.proofHeight ? Height.fromProto(proto.proofHeight) : undefined,
       proto.signer
     )
@@ -137,8 +137,8 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
       proposedUpgradeConnectionHops: proposed_upgrade_connection_hops,
       counterpartyUpgradeFields: counterparty_upgrade_fields?.toProto(),
       counterpartyUpgradeSequence: BigInt(counterparty_upgrade_sequence),
-      proofChannel: proof_channel,
-      proofUpgrade: proof_upgrade,
+      proofChannel: Buffer.from(proof_channel, 'base64'),
+      proofUpgrade: Buffer.from(proof_upgrade, 'base64'),
       proofHeight: proof_height?.toProto(),
       signer,
     })
@@ -166,8 +166,8 @@ export namespace MsgChannelUpgradeTry {
     proposed_upgrade_connection_hops: string[]
     counterparty_upgrade_fields?: UpgradeFields.Data
     counterparty_upgrade_sequence: string
-    proof_channel: Uint8Array
-    proof_upgrade: Uint8Array
+    proof_channel: string
+    proof_upgrade: string
     proof_height?: Height.Data
     signer: AccAddress
   }
