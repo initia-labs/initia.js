@@ -106,6 +106,10 @@ import {
   MsgTimeout,
   MsgTimeoutOnClose,
   MsgUpdateIbcChannelParams,
+  MsgChannelUpgradeInit,
+  MsgChannelUpgradeTry,
+  MsgChannelUpgradeAck,
+  MsgChannelUpgradeConfirm,
 } from './ibc/core/channel/msgs'
 import {
   IbcClientMsg,
@@ -905,6 +909,14 @@ export namespace Msg {
         return MsgTimeoutOnClose.fromData(data)
       case '/ibc.core.channel.v1.MsgUpdateParams':
         return MsgUpdateIbcChannelParams.fromData(data)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeInit':
+        return MsgChannelUpgradeInit.fromData(data)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeTry':
+        return MsgChannelUpgradeTry.fromData(data)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeAck':
+        return MsgChannelUpgradeAck.fromData(data)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeConfirm':
+        return MsgChannelUpgradeConfirm.fromData(data)
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -1315,6 +1327,14 @@ export namespace Msg {
         return MsgTimeoutOnClose.unpackAny(proto)
       case '/ibc.core.channel.v1.MsgUpdateParams':
         return MsgUpdateIbcChannelParams.unpackAny(proto)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeInit':
+        return MsgChannelUpgradeInit.unpackAny(proto)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeTry':
+        return MsgChannelUpgradeTry.unpackAny(proto)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeAck':
+        return MsgChannelUpgradeAck.unpackAny(proto)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeConfirm':
+        return MsgChannelUpgradeConfirm.unpackAny(proto)
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
