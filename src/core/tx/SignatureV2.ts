@@ -171,7 +171,7 @@ export namespace SignatureV2 {
       public static fromData(data: Multi.Data): Multi {
         return new Multi(
           CompactBitArray.fromData(data.bitarray),
-          data.signatures.map((v) => Descriptor.fromData(v))
+          data.signatures.map(Descriptor.fromData)
         )
       }
 

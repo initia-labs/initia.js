@@ -22,21 +22,27 @@ export class UpgradeAPI extends BaseAPI {
    */
   public async appliedPlan(
     name: string,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<number> {
     return this.c
       .get<{
         height: string
-      }>(`/cosmos/upgrade/v1beta1/applied_plan/${name}`, params)
+      }>(`/cosmos/upgrade/v1beta1/applied_plan/${name}`, params, headers)
       .then((d) => parseInt(d.height))
   }
 
   /**
    * Query the current plan.
    */
-  public async currentPlan(params: APIParams = {}): Promise<Plan | undefined> {
+  public async currentPlan(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Plan | undefined> {
     return this.c
-      .get<{ plan?: Plan.Data }>(`/cosmos/upgrade/v1beta1/current_plan`, params)
+      .get<{
+        plan?: Plan.Data
+      }>(`/cosmos/upgrade/v1beta1/current_plan`, params, headers)
       .then((d) => (d.plan ? Plan.fromData(d.plan) : undefined))
   }
 
@@ -44,12 +50,13 @@ export class UpgradeAPI extends BaseAPI {
    * Query the versions of the modules.
    */
   public async moduleVersions(
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<ModuleVersion[]> {
     return this.c
       .get<{
         module_versions: ModuleVersion.Data[]
-      }>(`/cosmos/upgrade/v1beta1/module_versions`, params)
+      }>(`/cosmos/upgrade/v1beta1/module_versions`, params, headers)
       .then((d) =>
         d.module_versions.map((mv) => {
           return { name: mv.name, version: parseInt(mv.version) }

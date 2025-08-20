@@ -93,7 +93,7 @@ export class Proposal extends JSONSerializable<
       TallyResult.fromAmino(final_tally_result),
       new Date(submit_time),
       new Date(deposit_end_time),
-      Coins.fromAmino(total_deposit),
+      total_deposit ? Coins.fromAmino(total_deposit) : new Coins(),
       new Date(voting_start_time),
       new Date(voting_end_time),
       new Date(emergency_start_time),
@@ -137,7 +137,8 @@ export class Proposal extends JSONSerializable<
       final_tally_result: final_tally_result.toAmino(),
       submit_time: submit_time.toISOString(),
       deposit_end_time: deposit_end_time.toISOString(),
-      total_deposit: total_deposit.toAmino(),
+      total_deposit:
+        total_deposit.toArray().length > 0 ? total_deposit.toAmino() : null,
       voting_start_time: voting_start_time.toISOString(),
       voting_end_time: voting_end_time.toISOString(),
       emergency_start_time: emergency_start_time.toISOString(),
@@ -319,7 +320,7 @@ export namespace Proposal {
     final_tally_result: TallyResult.Amino
     submit_time: string
     deposit_end_time: string
-    total_deposit: Coins.Amino
+    total_deposit: Coins.Amino | null
     voting_start_time: string
     voting_end_time: string
     emergency_start_time: string

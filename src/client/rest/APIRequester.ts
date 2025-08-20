@@ -1,4 +1,4 @@
-import Axios, { AxiosInstance, AxiosHeaders, CreateAxiosDefaults } from 'axios'
+import Axios, { AxiosInstance, CreateAxiosDefaults } from 'axios'
 import { OrderBy as OrderBy_pb } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
 
 export type APIParams = Record<string, string | number | null | undefined>
@@ -65,26 +65,31 @@ export class APIRequester {
 
   public async getRaw<T>(
     endpoint: string,
-    params: URLSearchParams | APIParams = {}
-  ): Promise<T> {
-    this.validateEndpoint(endpoint)
-    const url = this.computeEndpoint(endpoint)
-    return this.axios.get(url, { params }).then((d) => d.data)
-  }
-
-  public async get<T>(
-    endpoint: string,
     params: URLSearchParams | APIParams = {},
-    headers: AxiosHeaders = new AxiosHeaders()
+    headers: Record<string, string> = {}
   ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
     return this.axios.get(url, { params, headers }).then((d) => d.data)
   }
 
-  public async post<T>(endpoint: string, data?: any): Promise<T> {
+  public async get<T>(
+    endpoint: string,
+    params: URLSearchParams | APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<T> {
     this.validateEndpoint(endpoint)
     const url = this.computeEndpoint(endpoint)
-    return this.axios.post(url, data).then((d) => d.data)
+    return this.axios.get(url, { params, headers }).then((d) => d.data)
+  }
+
+  public async post<T>(
+    endpoint: string,
+    data?: any,
+    headers: Record<string, string> = {}
+  ): Promise<T> {
+    this.validateEndpoint(endpoint)
+    const url = this.computeEndpoint(endpoint)
+    return this.axios.post(url, data, { headers }).then((d) => d.data)
   }
 }

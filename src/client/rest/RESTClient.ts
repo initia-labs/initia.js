@@ -32,7 +32,7 @@ import {
   WasmAPI,
 } from './api'
 import { Wallet } from './Wallet'
-import { Coin, Coins } from '../../core'
+import { Coins } from '../../core'
 import { Key } from '../../key'
 
 export interface RESTClientConfig {
@@ -169,19 +169,11 @@ export class RESTClient {
       return opchildParams.min_gas_prices.toArray()[0]?.toString() ?? '0uinit'
     } catch {
       try {
-        const moveParams = await this.move.parameters()
-        return new Coin(
-          moveParams.base_denom,
-          moveParams.base_min_gas_price
-        ).toString()
+        const gasPrice = await this.tx.gasPrice('uinit')
+        return gasPrice.toString()
       } catch {
         return undefined
       }
     }
   }
 }
-
-/**
- * @deprecated Use `RESTClient` instead. `LCDClient` will be removed in future releases.
- */
-export class LCDClient extends RESTClient {}

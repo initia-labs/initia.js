@@ -31,7 +31,7 @@ export class Deposit extends JSONSerializable<
     return new Deposit(
       parseInt(proposal_id),
       depositor,
-      Coins.fromAmino(amount)
+      amount ? Coins.fromAmino(amount) : new Coins()
     )
   }
 
@@ -40,7 +40,7 @@ export class Deposit extends JSONSerializable<
     return {
       proposal_id: proposal_id.toFixed(),
       depositor,
-      amount: amount.toAmino(),
+      amount: amount.toArray().length > 0 ? amount.toAmino() : null,
     }
   }
 
@@ -80,7 +80,7 @@ export namespace Deposit {
   export interface Amino {
     proposal_id: string
     depositor: AccAddress
-    amount: Coins.Amino
+    amount: Coins.Amino | null
   }
 
   export interface Data {

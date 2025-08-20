@@ -20,9 +20,14 @@ export class ForwardingAPI extends BaseAPI {
   /**
    * Query all the denoms that are allowed to be forwarded.
    */
-  public async denoms(params: APIParams = {}): Promise<string[]> {
+  public async denoms(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string[]> {
     return this.c
-      .get<{ allowed_denoms: string[] }>(`/noble/forwarding/v1/denoms`, params)
+      .get<{
+        allowed_denoms: string[]
+      }>(`/noble/forwarding/v1/denoms`, params, headers)
       .then((d) => d.allowed_denoms)
   }
 
@@ -36,14 +41,16 @@ export class ForwardingAPI extends BaseAPI {
     channel: string,
     recipient: string,
     fallback: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<AccAddress> {
     return this.c
       .get<{
         address: AccAddress
       }>(
         `/noble/forwarding/v1/address/${channel}/${recipient}/${fallback}`,
-        params
+        params,
+        headers
       )
       .then((d) => d.address)
   }
@@ -54,12 +61,14 @@ export class ForwardingAPI extends BaseAPI {
    */
   public async stats(
     channel: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<ForwardingStats> {
     return this.c
       .get<ForwardingStats.Data>(
         `/noble/forwarding/v1/stats/${channel}`,
-        params
+        params,
+        headers
       )
       .then((d) => ({
         num_of_accounts: parseInt(d.num_of_accounts),

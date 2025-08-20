@@ -7,11 +7,15 @@ export class IbcNftAPI extends BaseAPI {
    * Query a denomination trace information.
    * @param hash hash (in hex format) of the class id trace information
    */
-  public async classTrace(hash: string): Promise<NftClassTrace> {
+  public async classTrace(
+    hash: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<NftClassTrace> {
     return this.c
       .get<{
         class_trace: NftClassTrace.Data
-      }>(`/ibc/apps/nft_transfer/v1/class_traces/${hash}`)
+      }>(`/ibc/apps/nft_transfer/v1/class_traces/${hash}`, params, headers)
       .then((d) => NftClassTrace.fromData(d.class_trace))
   }
 
@@ -19,13 +23,14 @@ export class IbcNftAPI extends BaseAPI {
    * Query all the denomination traces.
    */
   public async classTraces(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[NftClassTrace[], Pagination]> {
     return this.c
       .get<{
         class_traces: NftClassTrace[]
         pagination: Pagination
-      }>(`/ibc/apps/nft_transfer/v1/class_traces`, params)
+      }>(`/ibc/apps/nft_transfer/v1/class_traces`, params, headers)
       .then((d) => [d.class_traces.map(NftClassTrace.fromData), d.pagination])
   }
 
@@ -33,9 +38,15 @@ export class IbcNftAPI extends BaseAPI {
    * Query a class id hash information.
    * @param trace the class id trace ([port_id]/[channel_id])+/[class_id]
    */
-  public async classHash(trace: string): Promise<string> {
-    return await this.c
-      .get<{ hash: string }>(`/ibc/apps/nft_transfer/v1/class_hashes/${trace}`)
+  public async classHash(
+    trace: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
+    return this.c
+      .get<{
+        hash: string
+      }>(`/ibc/apps/nft_transfer/v1/class_hashes/${trace}`, params, headers)
       .then((d) => d.hash)
   }
 
@@ -47,14 +58,16 @@ export class IbcNftAPI extends BaseAPI {
   public async escrowAddress(
     channel_id: string,
     port_id: string,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<string> {
     return this.c
       .get<{
         escrow_address: string
       }>(
         `/ibc/apps/nft_transfer/v1/channels/${channel_id}/ports/${port_id}/escrow_address`,
-        params
+        params,
+        headers
       )
       .then((d) => d.escrow_address)
   }
@@ -62,11 +75,14 @@ export class IbcNftAPI extends BaseAPI {
   /**
    * Query the parameters of the ibc nft transfer module.
    */
-  public async parameters(params: APIParams = {}): Promise<IbcNftParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<IbcNftParams> {
     return this.c
       .get<{
         params: IbcNftParams.Data
-      }>(`/ibc/apps/nft_transfer/v1/params`, params)
+      }>(`/ibc/apps/nft_transfer/v1/params`, params, headers)
       .then((d) => IbcNftParams.fromData(d.params))
   }
 }

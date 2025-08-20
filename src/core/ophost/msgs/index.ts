@@ -6,6 +6,7 @@ import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit'
 import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal'
 import { MsgUpdateProposer } from './MsgUpdateProposer'
 import { MsgUpdateChallenger } from './MsgUpdateChallenger'
+import { MsgUpdateFinalizationPeriod } from './MsgUpdateFinalizationPeriod'
 import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo'
 import { MsgUpdateOracleConfig } from './MsgUpdateOracleConfig'
 import { MsgUpdateMetadata } from './MsgUpdateMetadata'
@@ -19,6 +20,7 @@ export * from './MsgInitiateTokenDeposit'
 export * from './MsgFinalizeTokenWithdrawal'
 export * from './MsgUpdateProposer'
 export * from './MsgUpdateChallenger'
+export * from './MsgUpdateFinalizationPeriod'
 export * from './MsgUpdateBatchInfo'
 export * from './MsgUpdateOracleConfig'
 export * from './MsgUpdateMetadata'
@@ -33,6 +35,7 @@ export type OphostMsg =
   | MsgFinalizeTokenWithdrawal
   | MsgUpdateProposer
   | MsgUpdateChallenger
+  | MsgUpdateFinalizationPeriod
   | MsgUpdateBatchInfo
   | MsgUpdateOracleConfig
   | MsgUpdateMetadata
@@ -48,6 +51,7 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Amino
     | MsgUpdateProposer.Amino
     | MsgUpdateChallenger.Amino
+    | MsgUpdateFinalizationPeriod.Amino
     | MsgUpdateBatchInfo.Amino
     | MsgUpdateOracleConfig.Amino
     | MsgUpdateMetadata.Amino
@@ -62,6 +66,7 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Data
     | MsgUpdateProposer.Data
     | MsgUpdateChallenger.Data
+    | MsgUpdateFinalizationPeriod.Data
     | MsgUpdateBatchInfo.Data
     | MsgUpdateOracleConfig.Data
     | MsgUpdateMetadata.Data
@@ -76,6 +81,7 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Proto
     | MsgUpdateProposer.Proto
     | MsgUpdateChallenger.Proto
+    | MsgUpdateFinalizationPeriod.Proto
     | MsgUpdateBatchInfo.Proto
     | MsgUpdateOracleConfig.Proto
     | MsgUpdateMetadata.Proto

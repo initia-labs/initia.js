@@ -32,11 +32,14 @@ export class MstakingAPI extends BaseAPI {
    * At least one of the parameters must be defined.
    * @param delegator delegator's account address
    * @param validator validator's operator address
+   * @param status to query for delegations with validators of a specific bond status
    */
   public async delegations(
     delegator?: AccAddress,
     validator?: ValAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    status?: Validator.Status,
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Delegation[], Pagination]> {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
@@ -44,7 +47,8 @@ export class MstakingAPI extends BaseAPI {
           delegation_response: Delegation.Data
         }>(
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}`,
-          params
+          params,
+          headers
         )
         .then((d) => [
           [Delegation.fromData(d.delegation_response)],
@@ -55,7 +59,11 @@ export class MstakingAPI extends BaseAPI {
         .get<{
           delegation_responses: Delegation.Data[]
           pagination: Pagination
-        }>(`/initia/mstaking/v1/delegations/${delegator}`, params)
+        }>(
+          `/initia/mstaking/v1/delegations/${delegator}`,
+          { ...params, status },
+          headers
+        )
         .then((data) => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
@@ -65,7 +73,11 @@ export class MstakingAPI extends BaseAPI {
         .get<{
           delegation_responses: Delegation.Data[]
           pagination: Pagination
-        }>(`/initia/mstaking/v1/validators/${validator}/delegations`, params)
+        }>(
+          `/initia/mstaking/v1/validators/${validator}/delegations`,
+          params,
+          headers
+        )
         .then((data) => [
           data.delegation_responses.map(Delegation.fromData),
           data.pagination,
@@ -84,9 +96,16 @@ export class MstakingAPI extends BaseAPI {
    */
   public async delegation(
     delegator: AccAddress,
-    validator: ValAddress
+    validator: ValAddress,
+    headers: Record<string, string> = {}
   ): Promise<Delegation> {
-    return this.delegations(delegator, validator).then((delgs) => delgs[0][0])
+    return this.delegations(
+      delegator,
+      validator,
+      undefined,
+      undefined,
+      headers
+    ).then((delgs) => delgs[0][0])
   }
 
   /**
@@ -98,7 +117,8 @@ export class MstakingAPI extends BaseAPI {
   public async unbondingDelegations(
     delegator?: AccAddress,
     validator?: ValAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[UnbondingDelegation[], Pagination]> {
     if (delegator !== undefined && validator !== undefined) {
       return this.c
@@ -106,7 +126,8 @@ export class MstakingAPI extends BaseAPI {
           unbond: UnbondingDelegation.Data
         }>(
           `/initia/mstaking/v1/validators/${validator}/delegations/${delegator}/unbonding_delegation`,
-          params
+          params,
+          headers
         )
         .then((d) => [
           [UnbondingDelegation.fromData(d.unbond)],
@@ -119,7 +140,8 @@ export class MstakingAPI extends BaseAPI {
           pagination: Pagination
         }>(
           `/initia/mstaking/v1/delegators/${delegator}/unbonding_delegations`,
-          params
+          params,
+          headers
         )
         .then((data) => [
           data.unbonding_responses.map(UnbondingDelegation.fromData),
@@ -132,7 +154,8 @@ export class MstakingAPI extends BaseAPI {
           pagination: Pagination
         }>(
           `/initia/mstaking/v1/validators/${validator}/unbonding_delegations`,
-          params
+          params,
+          headers
         )
         .then((data) => [
           data.unbonding_responses.map(UnbondingDelegation.fromData),
@@ -152,9 +175,10 @@ export class MstakingAPI extends BaseAPI {
    */
   public async unbondingDelegation(
     delegator?: AccAddress,
-    validator?: ValAddress
+    validator?: ValAddress,
+    headers: Record<string, string> = {}
   ): Promise<UnbondingDelegation> {
-    return this.unbondingDelegations(delegator, validator).then(
+    return this.unbondingDelegations(delegator, validator, {}, headers).then(
       (udelgs) => udelgs[0][0]
     )
   }
@@ -169,17 +193,22 @@ export class MstakingAPI extends BaseAPI {
     delegator: AccAddress,
     src_validator_addr?: ValAddress,
     dst_validator_addr?: ValAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Redelegation[], Pagination]> {
     return this.c
       .get<{
         redelegation_responses: Redelegation.Data[]
         pagination: Pagination
-      }>(`/initia/mstaking/v1/delegators/${delegator}/redelegations`, {
-        ...params,
-        src_validator_addr,
-        dst_validator_addr,
-      })
+      }>(
+        `/initia/mstaking/v1/delegators/${delegator}/redelegations`,
+        {
+          ...params,
+          src_validator_addr,
+          dst_validator_addr,
+        },
+        headers
+      )
       .then((d) => [
         d.redelegation_responses.map(Redelegation.fromData),
         d.pagination,
@@ -192,29 +221,42 @@ export class MstakingAPI extends BaseAPI {
    */
   public async bondedValidators(
     delegator: AccAddress,
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Validator[], Pagination]> {
     return this.c
       .get<{
         validators: Validator.Data[]
         pagination: Pagination
-      }>(`/initia/mstaking/v1/delegators/${delegator}/validators`, params)
+      }>(
+        `/initia/mstaking/v1/delegators/${delegator}/validators`,
+        params,
+        headers
+      )
       .then((d) => [d.validators.map(Validator.fromData), d.pagination])
   }
 
   /**
    * Query sum of all the delegations' balance of a delegator.
+   * @param delegator the delegator address to query for
+   * @param status to query for delegations with validators of a specific bond status
    */
   public async totalDelegationBalance(
     delegator: AccAddress,
-    params: APIParams = {}
+    status?: Validator.Status,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Coins> {
     return this.c
       .get<{
         balance: Coins.Data
       }>(
         `/initia/mstaking/v1/delegators/${delegator}/total_delegation_balance`,
-        params
+        {
+          ...params,
+          status,
+        },
+        headers
       )
       .then((d) => Coins.fromData(d.balance))
   }
@@ -223,13 +265,14 @@ export class MstakingAPI extends BaseAPI {
    * Query all current registered validators, including validators that are not currently in the validating set.
    */
   public async validators(
-    params: Partial<PaginationOptions & APIParams> = {}
+    params: Partial<PaginationOptions & APIParams> = {},
+    headers: Record<string, string> = {}
   ): Promise<[Validator[], Pagination]> {
     return this.c
       .get<{
         validators: Validator.Data[]
         pagination: Pagination
-      }>(`/initia/mstaking/v1/validators`, params)
+      }>(`/initia/mstaking/v1/validators`, params, headers)
       .then((d) => [d.validators.map(Validator.fromData), d.pagination])
   }
 
@@ -239,21 +282,27 @@ export class MstakingAPI extends BaseAPI {
    */
   public async validator(
     validator: ValAddress,
-    params: APIParams = {}
+    params: APIParams = {},
+    headers: Record<string, string> = {}
   ): Promise<Validator> {
     return this.c
       .get<{
         validator: Validator.Data
-      }>(`/initia/mstaking/v1/validators/${validator}`, params)
+      }>(`/initia/mstaking/v1/validators/${validator}`, params, headers)
       .then((d) => Validator.fromData(d.validator))
   }
 
   /**
    * Query the current mstaking pool.
    */
-  public async pool(params: APIParams = {}): Promise<MstakingPool> {
+  public async pool(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<MstakingPool> {
     return this.c
-      .get<{ pool: MstakingPool.Data }>(`/initia/mstaking/v1/pool`, params)
+      .get<{
+        pool: MstakingPool.Data
+      }>(`/initia/mstaking/v1/pool`, params, headers)
       .then((d) => ({
         bonded_tokens: Coins.fromData(d.pool.bonded_tokens),
         not_bonded_tokens: Coins.fromData(d.pool.not_bonded_tokens),
@@ -263,11 +312,14 @@ export class MstakingAPI extends BaseAPI {
   /**
    * Query the parameters of the mstaking module.
    */
-  public async parameters(params: APIParams = {}): Promise<MstakingParams> {
+  public async parameters(
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<MstakingParams> {
     return this.c
       .get<{
         params: MstakingParams.Data
-      }>(`/initia/mstaking/v1/params`, params)
+      }>(`/initia/mstaking/v1/params`, params, headers)
       .then((d) => MstakingParams.fromData(d.params))
   }
 }

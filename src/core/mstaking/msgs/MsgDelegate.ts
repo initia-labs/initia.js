@@ -35,7 +35,7 @@ export class MsgDelegate extends JSONSerializable<
     return new MsgDelegate(
       delegator_address,
       validator_address,
-      Coins.fromAmino(amount)
+      amount ? Coins.fromAmino(amount) : new Coins()
     )
   }
 
@@ -46,7 +46,7 @@ export class MsgDelegate extends JSONSerializable<
       value: {
         delegator_address,
         validator_address,
-        amount: amount.toAmino(),
+        amount: amount.toArray().length > 0 ? amount.toAmino() : null,
       },
     }
   }
@@ -105,7 +105,7 @@ export namespace MsgDelegate {
     value: {
       delegator_address: AccAddress
       validator_address: ValAddress
-      amount: Coins.Amino
+      amount: Coins.Amino | null
     }
   }
 

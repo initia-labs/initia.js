@@ -169,12 +169,18 @@ import {
 } from './mstaking'
 import {
   OpchildMsg,
+  MsgAddBridgeExecutor,
+  MsgAddFeeWhitelistAddresses,
   MsgAddValidator,
   MsgRemoveValidator,
   MsgFinalizeTokenDeposit,
   MsgInitiateTokenWithdrawal,
+  MsgRemoveBridgeExecutor,
+  MsgRemoveFeeWhitelistAddresses,
   MsgExecuteMessages,
   MsgSpendFeePool,
+  MsgUpdateMinGasPrices,
+  MsgUpdateOpchildAdmin,
   MsgSetBridgeInfo,
   MsgUpdateOracle,
   MsgUpdateOpchildParams,
@@ -189,6 +195,7 @@ import {
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
   MsgUpdateChallenger,
+  MsgUpdateFinalizationPeriod,
   MsgUpdateBatchInfo,
   MsgUpdateOracleConfig,
   MsgUpdateMetadata,
@@ -232,6 +239,7 @@ import {
   MsgRemoveCodeUploadParamsAddresses,
   MsgUpdateContractLabel,
 } from './wasm'
+import { WasmExtensionMsg, MsgStoreCodeAdmin } from './wasmextension/msgs'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 export type Msg =
@@ -269,6 +277,7 @@ export type Msg =
   | TokenfactoryMsg
   | UpgradeMsg
   | WasmMsg
+  | WasmExtensionMsg
 
 export namespace Msg {
   export type Amino =
@@ -301,6 +310,7 @@ export namespace Msg {
     | TokenfactoryMsg.Amino
     | UpgradeMsg.Amino
     | WasmMsg.Amino
+    | WasmExtensionMsg.Amino
 
   export type Data =
     | AuctionMsg.Data
@@ -337,6 +347,7 @@ export namespace Msg {
     | TokenfactoryMsg.Data
     | UpgradeMsg.Data
     | WasmMsg.Data
+    | WasmExtensionMsg.Data
 
   export type Proto =
     | AuctionMsg.Proto
@@ -373,6 +384,7 @@ export namespace Msg {
     | TokenfactoryMsg.Proto
     | UpgradeMsg.Proto
     | WasmMsg.Proto
+    | WasmExtensionMsg.Proto
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
@@ -595,6 +607,10 @@ export namespace Msg {
         return MsgUpdateMstakingParams.fromAmino(data)
 
       // opchild
+      case 'opchild/MsgAddBridgeExecutor':
+        return MsgAddBridgeExecutor.fromAmino(data)
+      case 'opchild/MsgAddFeeWhitelistAddresses':
+        return MsgAddFeeWhitelistAddresses.fromAmino(data)
       case 'opchild/MsgAddValidator':
         return MsgAddValidator.fromAmino(data)
       case 'opchild/MsgRemoveValidator':
@@ -603,10 +619,18 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromAmino(data)
       case 'opchild/MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromAmino(data)
+      case 'opchild/MsgRemoveBridgeExecutor':
+        return MsgRemoveBridgeExecutor.fromAmino(data)
+      case 'opchild/MsgRemoveFeeWhitelistAddresses':
+        return MsgRemoveFeeWhitelistAddresses.fromAmino(data)
       case 'opchild/MsgExecuteMessages':
         return MsgExecuteMessages.fromAmino(data)
       case 'opchild/MsgSpendFeePool':
         return MsgSpendFeePool.fromAmino(data)
+      case 'opchild/MsgUpdateMinGasPrices':
+        return MsgUpdateMinGasPrices.fromAmino(data)
+      case 'opchild/MsgUpdateAdmin':
+        return MsgUpdateOpchildAdmin.fromAmino(data)
       case 'opchild/MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromAmino(data)
       case 'opchild/MsgUpdateOracle':
@@ -631,6 +655,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromAmino(data)
       case 'ophost/MsgUpdateChallenger':
         return MsgUpdateChallenger.fromAmino(data)
+      case 'ophost/MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromAmino(data)
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data)
       case 'ophost/MsgUpdateOracleConfig':
@@ -713,6 +739,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromAmino(data)
       case 'wasm/MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromAmino(data)
+
+      // wasmextension
+      case 'wasmextension/MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.fromAmino(data)
     }
   }
 
@@ -1017,6 +1047,10 @@ export namespace Msg {
         return MsgUpdateMstakingParams.fromData(data)
 
       // opchild
+      case '/opinit.opchild.v1.MsgAddBridgeExecutor':
+        return MsgAddBridgeExecutor.fromData(data)
+      case '/opinit.opchild.v1.MsgAddFeeWhitelistAddresses':
+        return MsgAddFeeWhitelistAddresses.fromData(data)
       case '/opinit.opchild.v1.MsgAddValidator':
         return MsgAddValidator.fromData(data)
       case '/opinit.opchild.v1.MsgRemoveValidator':
@@ -1025,10 +1059,18 @@ export namespace Msg {
         return MsgFinalizeTokenDeposit.fromData(data)
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
         return MsgInitiateTokenWithdrawal.fromData(data)
+      case '/opinit.opchild.v1.MsgRemoveBridgeExecutor':
+        return MsgRemoveBridgeExecutor.fromData(data)
+      case '/opinit.opchild.v1.MsgRemoveFeeWhitelistAddresses':
+        return MsgRemoveFeeWhitelistAddresses.fromData(data)
       case '/opinit.opchild.v1.MsgExecuteMessages':
         return MsgExecuteMessages.fromData(data)
       case '/opinit.opchild.v1.MsgSpendFeePool':
         return MsgSpendFeePool.fromData(data)
+      case '/opinit.opchild.v1.MsgUpdateMinGasPrices':
+        return MsgUpdateMinGasPrices.fromData(data)
+      case '/opinit.opchild.v1.MsgUpdateAdmin':
+        return MsgUpdateOpchildAdmin.fromData(data)
       case '/opinit.opchild.v1.MsgSetBridgeInfo':
         return MsgSetBridgeInfo.fromData(data)
       case '/opinit.opchild.v1.MsgUpdateOracle':
@@ -1053,6 +1095,8 @@ export namespace Msg {
         return MsgUpdateProposer.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
@@ -1135,6 +1179,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromData(data)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromData(data)
+
+      // wasmextension
+      case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.fromData(data)
     }
   }
 
@@ -1475,6 +1523,8 @@ export namespace Msg {
         return MsgUpdateProposer.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateOracleConfig':
@@ -1557,6 +1607,10 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.unpackAny(proto)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.unpackAny(proto)
+
+      // wasmextension
+      case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':
+        return MsgStoreCodeAdmin.unpackAny(proto)
 
       default:
         throw new Error(`not supported msg ${proto.typeUrl}`)

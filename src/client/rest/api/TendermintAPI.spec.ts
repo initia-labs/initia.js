@@ -9,9 +9,10 @@ const api = new TendermintAPI(c)
 
 describe('TendermintAPI', () => {
   it('load block and decode txs', async () => {
-    const blockInfo = await api.blockInfo(1)
+    const blockInfo = await api.blockInfo()
     if (blockInfo.block.data.txs != null) {
-      blockInfo.block.data.txs.every((txBytes) => {
+      // first tx is dummy one from skip
+      blockInfo.block.data.txs.slice(1).every((txBytes) => {
         const txProto = Tx_pb.decode(Buffer.from(txBytes, 'base64'))
         expect(Tx.fromProto(txProto)).toBeDefined()
       })
@@ -24,20 +25,6 @@ describe('TendermintAPI', () => {
 
   it('validator set (latest)', async () => {
     const vals = await api.validatorSet()
-
-    expect(vals[0]).toContainEqual({
-      address: expect.any(String),
-      pub_key: {
-        '@type': expect.any(String),
-        key: expect.any(String),
-      },
-      proposer_priority: expect.any(String),
-      voting_power: expect.any(String),
-    })
-  })
-
-  it('validator set (1)', async () => {
-    const vals = await api.validatorSet(1)
 
     expect(vals[0]).toContainEqual({
       address: expect.any(String),

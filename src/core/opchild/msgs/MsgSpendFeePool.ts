@@ -32,7 +32,11 @@ export class MsgSpendFeePool extends JSONSerializable<
     const {
       value: { authority, recipient, amount },
     } = data
-    return new MsgSpendFeePool(authority, recipient, Coins.fromAmino(amount))
+    return new MsgSpendFeePool(
+      authority,
+      recipient,
+      amount ? Coins.fromAmino(amount) : new Coins()
+    )
   }
 
   public toAmino(): MsgSpendFeePool.Amino {
@@ -42,7 +46,7 @@ export class MsgSpendFeePool extends JSONSerializable<
       value: {
         authority,
         recipient,
-        amount: amount.toAmino(),
+        amount: amount.toArray().length > 0 ? amount.toAmino() : null,
       },
     }
   }
@@ -97,7 +101,7 @@ export namespace MsgSpendFeePool {
     value: {
       authority: AccAddress
       recipient: AccAddress
-      amount: Coins.Amino
+      amount: Coins.Amino | null
     }
   }
 

@@ -43,9 +43,9 @@ export class EvmParams extends JSONSerializable<
 
     return new EvmParams(
       extra_eips.map(parseInt),
-      allowed_publishers,
+      allowed_publishers ?? [],
       allow_custom_erc20,
-      allowed_custom_erc20s,
+      allowed_custom_erc20s ?? [],
       fee_denom,
       gas_refund_ratio,
       parseInt(num_retain_block_hashes)
@@ -65,9 +65,11 @@ export class EvmParams extends JSONSerializable<
 
     return {
       extra_eips: extra_eips.map((eip) => eip.toFixed()),
-      allowed_publishers,
+      allowed_publishers:
+        allowed_publishers.length > 0 ? allowed_publishers : null,
       allow_custom_erc20,
-      allowed_custom_erc20s,
+      allowed_custom_erc20s:
+        allowed_custom_erc20s.length > 0 ? allowed_custom_erc20s : null,
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes: num_retain_block_hashes.toFixed(),
@@ -156,9 +158,9 @@ export class EvmParams extends JSONSerializable<
 export namespace EvmParams {
   export interface Amino {
     extra_eips: string[]
-    allowed_publishers: string[]
+    allowed_publishers: string[] | null
     allow_custom_erc20: boolean
-    allowed_custom_erc20s: string[]
+    allowed_custom_erc20s: string[] | null
     fee_denom: string
     gas_refund_ratio: string
     num_retain_block_hashes: string

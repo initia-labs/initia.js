@@ -41,7 +41,7 @@ export class ParameterChangeProposal extends JSONSerializable<
     return new ParameterChangeProposal(
       title,
       description,
-      ParamChanges.fromAmino(changes)
+      changes ? ParamChanges.fromAmino(changes) : []
     )
   }
 
@@ -52,7 +52,7 @@ export class ParameterChangeProposal extends JSONSerializable<
       value: {
         title,
         description,
-        changes: changes.toAmino(),
+        changes: changes.toAmino().length > 0 ? changes.toAmino() : null,
       },
     }
   }
@@ -117,7 +117,7 @@ export namespace ParameterChangeProposal {
     value: {
       title: string
       description: string
-      changes: ParamChange.Amino[]
+      changes: ParamChange.Amino[] | null
     }
   }
 

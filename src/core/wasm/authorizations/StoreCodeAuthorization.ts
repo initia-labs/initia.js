@@ -22,14 +22,19 @@ export class StoreCodeAuthorization extends JSONSerializable<
     data: StoreCodeAuthorization.Amino
   ): StoreCodeAuthorization {
     return new StoreCodeAuthorization(
-      data.value.grants.map(CodeGrant.fromAmino)
+      data.value.grants?.map(CodeGrant.fromAmino) ?? []
     )
   }
 
   public toAmino(): StoreCodeAuthorization.Amino {
     return {
       type: 'wasm/StoreCodeAuthorization',
-      value: { grants: this.grants.map((grant) => grant.toAmino()) },
+      value: {
+        grants:
+          this.grants.length > 0
+            ? this.grants.map((grant) => grant.toAmino())
+            : null,
+      },
     }
   }
 
@@ -76,7 +81,7 @@ export namespace StoreCodeAuthorization {
   export interface Amino {
     type: 'wasm/StoreCodeAuthorization'
     value: {
-      grants: CodeGrant.Amino[]
+      grants: CodeGrant.Amino[] | null
     }
   }
 

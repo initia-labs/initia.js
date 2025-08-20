@@ -44,7 +44,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
       delegator_address,
       validator_src_address,
       validator_dst_address,
-      Coins.fromAmino(amount)
+      amount ? Coins.fromAmino(amount) : new Coins()
     )
   }
 
@@ -61,7 +61,7 @@ export class MsgBeginRedelegate extends JSONSerializable<
         delegator_address,
         validator_src_address,
         validator_dst_address,
-        amount: amount.toAmino(),
+        amount: amount.toArray().length > 0 ? amount.toAmino() : null,
       },
     }
   }
@@ -142,7 +142,7 @@ export namespace MsgBeginRedelegate {
       delegator_address: AccAddress
       validator_src_address: ValAddress
       validator_dst_address: ValAddress
-      amount: Coins.Amino
+      amount: Coins.Amino | null
     }
   }
 
