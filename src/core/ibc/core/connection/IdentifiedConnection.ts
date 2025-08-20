@@ -2,13 +2,11 @@ import { IdentifiedConnection as IdentifiedConnection_pb } from '@initia/initia.
 import { JSONSerializable } from '../../../../util/json'
 import { IbcVersion } from './IbcVersion'
 import {
-  State,
   stateFromJSON,
   stateToJSON,
 } from '@initia/initia.proto/ibc/core/connection/v1/connection'
 import { ConnectionCounterparty } from './ConnectionCounterparty'
-
-export { State, stateFromJSON, stateToJSON }
+import { ConnectionState } from './ConnectionState'
 
 /**
  * IdentifiedConnection defines a connection with additional connection identifier field.
@@ -30,7 +28,7 @@ export class IdentifiedConnection extends JSONSerializable<
     public id: string,
     public client_id: string,
     public versions: IbcVersion[],
-    public state: State,
+    public state: ConnectionState,
     public counterparty: ConnectionCounterparty | undefined,
     public delay_period: number
   ) {
