@@ -93,7 +93,7 @@ export class MsgChannelUpgradeTry extends JSONSerializable<
       channel_id,
       proposed_upgrade_connection_hops,
       counterparty_upgrade_fields: counterparty_upgrade_fields?.toData(),
-      counterparty_upgrade_sequence: counterparty_upgrade_sequence.toString(),
+      counterparty_upgrade_sequence: counterparty_upgrade_sequence.toFixed(),
       proof_channel,
       proof_upgrade,
       proof_height: proof_height?.toData(),

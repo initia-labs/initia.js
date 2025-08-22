@@ -1,7 +1,12 @@
 import { JSONSerializable } from '../../../../../util/json'
 import { AccAddress } from '../../../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
+import {
+  stateFromJSON,
+  stateToJSON,
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { MsgChannelUpgradeOpen as MsgChannelUpgradeOpen_pb } from '@initia/initia.proto/ibc/core/channel/v1/tx'
+import { ChannelState } from '../ChannelState'
 import { Height } from '../../client/Height'
 
 /**
@@ -24,7 +29,7 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
   constructor(
     public port_id: string,
     public channel_id: string,
-    public counterparty_channel_state: number,
+    public counterparty_channel_state: ChannelState,
     public counterparty_upgrade_sequence: number,
     public proof_channel: string,
     public proof_height: Height | undefined,
@@ -56,7 +61,7 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
     return new MsgChannelUpgradeOpen(
       port_id,
       channel_id,
-      counterparty_channel_state,
+      stateFromJSON(counterparty_channel_state),
       Number(counterparty_upgrade_sequence),
       proof_channel,
       proof_height ? Height.fromData(proof_height) : undefined,
@@ -78,9 +83,9 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeOpen',
       port_id,
       channel_id,
-      counterparty_channel_state,
-      counterparty_upgrade_sequence: counterparty_upgrade_sequence.toString(),
-      proof_channel: Buffer.from(proof_channel).toString('base64'),
+      counterparty_channel_state: stateToJSON(counterparty_channel_state),
+      counterparty_upgrade_sequence: counterparty_upgrade_sequence.toFixed(),
+      proof_channel,
       proof_height: proof_height?.toData(),
       signer,
     }
@@ -140,7 +145,7 @@ export namespace MsgChannelUpgradeOpen {
     '@type': '/ibc.core.channel.v1.MsgChannelUpgradeOpen'
     port_id: string
     channel_id: string
-    counterparty_channel_state: number
+    counterparty_channel_state: string
     counterparty_upgrade_sequence: string
     proof_channel: string
     proof_height?: Height.Data
