@@ -41,15 +41,17 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
     throw new Error('Amino not supported')
   }
 
-  public static fromData(data: MsgChannelUpgradeOpen.Data): MsgChannelUpgradeOpen {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade_sequence, 
-      proof_channel, 
-      proof_height, 
-      signer 
+  public static fromData(
+    data: MsgChannelUpgradeOpen.Data
+  ): MsgChannelUpgradeOpen {
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade_sequence,
+      proof_channel,
+      proof_height,
+      signer,
     } = data
     return new MsgChannelUpgradeOpen(
       port_id,
@@ -63,14 +65,14 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
   }
 
   public toData(): MsgChannelUpgradeOpen.Data {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade_sequence, 
-      proof_channel, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade_sequence,
+      proof_channel,
+      proof_height,
+      signer,
     } = this
     return {
       '@type': '/ibc.core.channel.v1.MsgChannelUpgradeOpen',
@@ -84,7 +86,9 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
     }
   }
 
-  public static fromProto(proto: MsgChannelUpgradeOpen.Proto): MsgChannelUpgradeOpen {
+  public static fromProto(
+    proto: MsgChannelUpgradeOpen.Proto
+  ): MsgChannelUpgradeOpen {
     return new MsgChannelUpgradeOpen(
       proto.portId,
       proto.channelId,
@@ -97,14 +101,14 @@ export class MsgChannelUpgradeOpen extends JSONSerializable<
   }
 
   public toProto(): MsgChannelUpgradeOpen.Proto {
-    const { 
-      port_id, 
-      channel_id, 
-      counterparty_channel_state, 
-      counterparty_upgrade_sequence, 
-      proof_channel, 
-      proof_height, 
-      signer 
+    const {
+      port_id,
+      channel_id,
+      counterparty_channel_state,
+      counterparty_upgrade_sequence,
+      proof_channel,
+      proof_height,
+      signer,
     } = this
     return MsgChannelUpgradeOpen_pb.fromPartial({
       portId: port_id,
