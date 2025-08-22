@@ -1,8 +1,12 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { Order } from '@initia/initia.proto/ibc/core/channel/v1/channel'
+import {
+  orderFromJSON,
+  orderToJSON,
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { MsgRegisterAccount as MsgRegisterAccount_pb } from '@initia/initia.proto/initia/intertx/v1/tx'
+import { ChannelOrder } from '../../ibc'
 
 export class MsgRegisterAccount extends JSONSerializable<
   MsgRegisterAccount.Amino,
@@ -19,7 +23,7 @@ export class MsgRegisterAccount extends JSONSerializable<
     public owner: AccAddress,
     public connection_id: string,
     public version: string,
-    public ordering: Order
+    public ordering: ChannelOrder
   ) {
     super()
   }
@@ -29,20 +33,30 @@ export class MsgRegisterAccount extends JSONSerializable<
       value: { owner, connection_id, version, ordering },
     } = data
 
-    return new MsgRegisterAccount(owner, connection_id, version, ordering)
+    return new MsgRegisterAccount(
+      owner,
+      connection_id,
+      version,
+      orderFromJSON(ordering)
+    )
   }
 
   public toAmino(): MsgRegisterAccount.Amino {
     const { owner, connection_id, version, ordering } = this
     return {
       type: 'intertx/MsgRegisterAccount',
-      value: { owner, connection_id, version, ordering },
+      value: { owner, connection_id, version, ordering: orderToJSON(ordering) },
     }
   }
 
   public static fromData(data: MsgRegisterAccount.Data): MsgRegisterAccount {
     const { owner, connection_id, version, ordering } = data
-    return new MsgRegisterAccount(owner, connection_id, version, ordering)
+    return new MsgRegisterAccount(
+      owner,
+      connection_id,
+      version,
+      orderFromJSON(ordering)
+    )
   }
 
   public toData(): MsgRegisterAccount.Data {
@@ -52,7 +66,7 @@ export class MsgRegisterAccount extends JSONSerializable<
       owner,
       connection_id,
       version,
-      ordering,
+      ordering: orderToJSON(ordering),
     }
   }
 
@@ -96,7 +110,7 @@ export namespace MsgRegisterAccount {
       owner: AccAddress
       connection_id: string
       version: string
-      ordering: Order
+      ordering: string
     }
   }
 
@@ -105,7 +119,7 @@ export namespace MsgRegisterAccount {
     owner: AccAddress
     connection_id: string
     version: string
-    ordering: Order
+    ordering: string
   }
 
   export type Proto = MsgRegisterAccount_pb

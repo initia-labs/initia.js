@@ -112,6 +112,7 @@ import {
   MsgChannelUpgradeConfirm,
   MsgChannelUpgradeTimeout,
   MsgChannelUpgradeCancel,
+  MsgChannelUpgradeOpen,
 } from './ibc/core/channel/msgs'
 import {
   IbcClientMsg,
@@ -953,6 +954,8 @@ export namespace Msg {
         return MsgChannelUpgradeTimeout.fromData(data)
       case '/ibc.core.channel.v1.MsgChannelUpgradeCancel':
         return MsgChannelUpgradeCancel.fromData(data)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeOpen':
+        return MsgChannelUpgradeOpen.fromData(data)
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':
@@ -1393,6 +1396,8 @@ export namespace Msg {
         return MsgChannelUpgradeTimeout.unpackAny(proto)
       case '/ibc.core.channel.v1.MsgChannelUpgradeCancel':
         return MsgChannelUpgradeCancel.unpackAny(proto)
+      case '/ibc.core.channel.v1.MsgChannelUpgradeOpen':
+        return MsgChannelUpgradeOpen.unpackAny(proto)
 
       // ibc-client
       case '/ibc.core.client.v1.MsgCreateClient':

@@ -1,9 +1,13 @@
-import {
-  State,
-  Order,
-  IdentifiedChannel as IdentifiedChannel_pb,
-} from '@initia/initia.proto/ibc/core/channel/v1/channel'
 import { JSONSerializable } from '../../../../util/json'
+import {
+  IdentifiedChannel as IdentifiedChannel_pb,
+  stateFromJSON,
+  stateToJSON,
+  orderFromJSON,
+  orderToJSON,
+} from '@initia/initia.proto/ibc/core/channel/v1/channel'
+import { ChannelState } from './ChannelState'
+import { ChannelOrder } from './ChannelOrder'
 import { ChannelCounterparty } from './ChannelCounterparty'
 
 /**
@@ -25,8 +29,8 @@ export class IdentifiedChannel extends JSONSerializable<
    * @param upgrade_sequence the latest upgrade attempt performed by this channel; 0 indicates the channel has never been upgraded
    */
   constructor(
-    public state: State,
-    public ordering: Order,
+    public state: ChannelState,
+    public ordering: ChannelOrder,
     public counterparty: ChannelCounterparty | undefined,
     public connection_hops: string[],
     public version: string,
@@ -49,8 +53,8 @@ export class IdentifiedChannel extends JSONSerializable<
       upgrade_sequence,
     } = data
     return new IdentifiedChannel(
-      state,
-      ordering,
+      stateFromJSON(state),
+      orderFromJSON(ordering),
       counterparty ? ChannelCounterparty.fromAmino(counterparty) : undefined,
       connection_hops,
       version,
@@ -72,8 +76,8 @@ export class IdentifiedChannel extends JSONSerializable<
       upgrade_sequence,
     } = this
     return {
-      state,
-      ordering,
+      state: stateToJSON(state),
+      ordering: orderToJSON(ordering),
       counterparty: counterparty?.toAmino(),
       connection_hops,
       version,
@@ -95,8 +99,8 @@ export class IdentifiedChannel extends JSONSerializable<
       upgrade_sequence,
     } = data
     return new IdentifiedChannel(
-      state,
-      ordering,
+      stateFromJSON(state),
+      orderFromJSON(ordering),
       counterparty ? ChannelCounterparty.fromData(counterparty) : undefined,
       connection_hops,
       version,
@@ -118,8 +122,8 @@ export class IdentifiedChannel extends JSONSerializable<
       upgrade_sequence,
     } = this
     return {
-      state,
-      ordering,
+      state: stateToJSON(state),
+      ordering: orderToJSON(ordering),
       counterparty: counterparty?.toData(),
       connection_hops,
       version,
@@ -170,8 +174,8 @@ export class IdentifiedChannel extends JSONSerializable<
 
 export namespace IdentifiedChannel {
   export interface Amino {
-    state: State
-    ordering: Order
+    state: string
+    ordering: string
     counterparty?: ChannelCounterparty.Amino
     connection_hops: string[]
     version: string
@@ -181,8 +185,8 @@ export namespace IdentifiedChannel {
   }
 
   export interface Data {
-    state: State
-    ordering: Order
+    state: string
+    ordering: string
     counterparty?: ChannelCounterparty.Data
     connection_hops: string[]
     version: string
