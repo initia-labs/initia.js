@@ -18,41 +18,41 @@ export class Timeout extends JSONSerializable<
    */
   constructor(
     public height: Height,
-    public timestamp: number
+    public timestamp: string
   ) {
     super()
   }
 
   public static fromAmino(data: Timeout.Amino): Timeout {
     const { height, timestamp } = data
-    return new Timeout(Height.fromAmino(height), parseInt(timestamp))
+    return new Timeout(Height.fromAmino(height), timestamp)
   }
 
   public toAmino(): Timeout.Amino {
     const { height, timestamp } = this
     return {
       height: height.toAmino(),
-      timestamp: timestamp.toFixed(),
+      timestamp: timestamp,
     }
   }
 
   public static fromData(data: Timeout.Data): Timeout {
     const { height, timestamp } = data
-    return new Timeout(Height.fromData(height), parseInt(timestamp))
+    return new Timeout(Height.fromData(height), timestamp)
   }
 
   public toData(): Timeout.Data {
     const { height, timestamp } = this
     return {
       height: height.toData(),
-      timestamp: timestamp.toFixed(),
+      timestamp: timestamp,
     }
   }
 
   public static fromProto(proto: Timeout.Proto): Timeout {
     return new Timeout(
       Height.fromProto(proto.height as Height.Proto),
-      Number(proto.timestamp)
+      proto.timestamp.toString()
     )
   }
 
