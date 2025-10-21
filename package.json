@@ -61,7 +61,7 @@
     "@initia/initia.proto": "^1.0.3",
     "@initia/opinit.proto": "^1.0.2",
     "@ledgerhq/hw-app-eth": "^6.45.5",
-    "@ledgerhq/hw-transport": "^6.31.5",
+    "@ledgerhq/hw-transport": "^6.31.10",
     "@ledgerhq/hw-transport-node-hid": "^6.29.6",
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
@@ -80,6 +80,7 @@
     "ws": "^8.18.0"
   },
   "overrides": {
+    "@ledgerhq/hw-transport": "^6.31.10",
     "axios": "^1.9.0"
   },
   "lint-staged": {
