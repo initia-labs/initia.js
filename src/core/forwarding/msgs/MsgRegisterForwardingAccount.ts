@@ -15,11 +15,13 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
    * @param signer
    * @param recipient
    * @param channel
+   * @param fallback
    */
   constructor(
     public signer: AccAddress,
     public recipient: string,
-    public channel: string
+    public channel: string,
+    public fallback: AccAddress
   ) {
     super()
   }
@@ -28,19 +30,25 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
     data: MsgRegisterForwardingAccount.Amino
   ): MsgRegisterForwardingAccount {
     const {
-      value: { signer, recipient, channel },
+      value: { signer, recipient, channel, fallback },
     } = data
-    return new MsgRegisterForwardingAccount(signer, recipient, channel)
+    return new MsgRegisterForwardingAccount(
+      signer,
+      recipient,
+      channel,
+      fallback
+    )
   }
 
   public toAmino(): MsgRegisterForwardingAccount.Amino {
-    const { signer, recipient, channel } = this
+    const { signer, recipient, channel, fallback } = this
     return {
       type: 'noble/forwarding/RegisterAccount',
       value: {
         signer,
         recipient,
         channel,
+        fallback,
       },
     }
   }
@@ -48,17 +56,23 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
   public static fromData(
     data: MsgRegisterForwardingAccount.Data
   ): MsgRegisterForwardingAccount {
-    const { signer, recipient, channel } = data
-    return new MsgRegisterForwardingAccount(signer, recipient, channel)
+    const { signer, recipient, channel, fallback } = data
+    return new MsgRegisterForwardingAccount(
+      signer,
+      recipient,
+      channel,
+      fallback
+    )
   }
 
   public toData(): MsgRegisterForwardingAccount.Data {
-    const { signer, recipient, channel } = this
+    const { signer, recipient, channel, fallback } = this
     return {
       '@type': '/noble.forwarding.v1.MsgRegisterAccount',
       signer,
       recipient,
       channel,
+      fallback,
     }
   }
 
@@ -68,16 +82,18 @@ export class MsgRegisterForwardingAccount extends JSONSerializable<
     return new MsgRegisterForwardingAccount(
       data.signer,
       data.recipient,
-      data.channel
+      data.channel,
+      data.fallback
     )
   }
 
   public toProto(): MsgRegisterForwardingAccount.Proto {
-    const { signer, recipient, channel } = this
+    const { signer, recipient, channel, fallback } = this
     return MsgRegisterAccount_pb.fromPartial({
       signer,
       recipient,
       channel,
+      fallback,
     })
   }
 
@@ -102,6 +118,7 @@ export namespace MsgRegisterForwardingAccount {
       signer: AccAddress
       recipient: string
       channel: string
+      fallback: AccAddress
     }
   }
 
@@ -110,6 +127,7 @@ export namespace MsgRegisterForwardingAccount {
     signer: AccAddress
     recipient: string
     channel: string
+    fallback: AccAddress
   }
 
   export type Proto = MsgRegisterAccount_pb
