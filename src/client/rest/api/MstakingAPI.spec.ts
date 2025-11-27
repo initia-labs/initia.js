@@ -51,6 +51,7 @@ describe('MstakingAPI', () => {
     await expect(api.pool()).resolves.toMatchObject({
       bonded_tokens: expect.any(Coins),
       not_bonded_tokens: expect.any(Coins),
+      voting_power_weights: expect.any(Coins),
     })
   })
 

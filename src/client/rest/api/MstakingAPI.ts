@@ -17,12 +17,15 @@ export interface MstakingPool {
 
   /** amount of tokens that are not bonded */
   not_bonded_tokens: Coins
+
+  voting_power_weights: Coins
 }
 
 export namespace MstakingPool {
   export interface Data {
     bonded_tokens: Coins.Data
     not_bonded_tokens: Coins.Data
+    voting_power_weights: Coins.Data
   }
 }
 
@@ -306,6 +309,7 @@ export class MstakingAPI extends BaseAPI {
       .then((d) => ({
         bonded_tokens: Coins.fromData(d.pool.bonded_tokens),
         not_bonded_tokens: Coins.fromData(d.pool.not_bonded_tokens),
+        voting_power_weights: Coins.fromData(d.pool.voting_power_weights),
       }))
   }
 
