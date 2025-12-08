@@ -4,7 +4,7 @@ import { MsgRemoveAttestor as MsgRemoveAttestor_pb } from '@initia/opinit.proto/
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
- * MsgRemoveAttestor is a message to remove a attestor from the validator set.
+ * MsgRemoveAttestor is a message to remove an attestor from the validator set.
  */
 export class MsgRemoveAttestor extends JSONSerializable<
   MsgRemoveAttestor.Amino,

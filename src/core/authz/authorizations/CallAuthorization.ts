@@ -3,7 +3,7 @@ import { CallAuthorization as CallAuthorization_pb } from '@initia/initia.proto/
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 /**
- * CallAuthorization defines authorization for execute a move function.
+ * CallAuthorization defines authorization for calling a contract.
  */
 export class CallAuthorization extends JSONSerializable<
   CallAuthorization.Amino,

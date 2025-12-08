@@ -62,7 +62,7 @@ export class MsgRegisterL2MigrationInfo extends JSONSerializable<
     return {
       '@type': '/opinit.opchild.v1.MsgRegisterMigrationInfo',
       authority,
-      migration_info: migration_info.toAmino(),
+      migration_info: migration_info.toData(),
     }
   }
 
