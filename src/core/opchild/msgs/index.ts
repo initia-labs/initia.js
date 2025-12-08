@@ -1,7 +1,8 @@
 import { MsgAddBridgeExecutor } from './MsgAddBridgeExecutor'
 import { MsgAddFeeWhitelistAddresses } from './MsgAddFeeWhitelistAddresses'
-import { MsgAddValidator } from './MsgAddValidator'
-import { MsgRemoveValidator } from './MsgRemoveValidator'
+import { MsgUpdateSequencer } from './MsgUpdateSequencer'
+import { MsgAddAttestor } from './MsgAddAttestor'
+import { MsgRemoveAttestor } from './MsgRemoveAttestor'
 import { MsgFinalizeTokenDeposit } from './MsgFinalizeTokenDeposit'
 import { MsgInitiateTokenWithdrawal } from './MsgInitiateTokenWithdrawal'
 import { MsgRemoveBridgeExecutor } from './MsgRemoveBridgeExecutor'
@@ -12,12 +13,15 @@ import { MsgUpdateMinGasPrices } from './MsgUpdateMinGasPrices'
 import { MsgUpdateOpchildAdmin } from './MsgUpdateOpchildAdmin'
 import { MsgSetBridgeInfo } from './MsgSetBridgeInfo'
 import { MsgUpdateOracle } from './MsgUpdateOracle'
+import { MsgRegisterL2MigrationInfo } from './MsgRegisterL2MigrationInfo'
+import { MsgMigrateToken } from './MsgMigrateToken'
 import { MsgUpdateOpchildParams } from './MsgUpdateOpchildParams'
 
 export * from './MsgAddBridgeExecutor'
 export * from './MsgAddFeeWhitelistAddresses'
-export * from './MsgAddValidator'
-export * from './MsgRemoveValidator'
+export * from './MsgUpdateSequencer'
+export * from './MsgAddAttestor'
+export * from './MsgRemoveAttestor'
 export * from './MsgFinalizeTokenDeposit'
 export * from './MsgInitiateTokenWithdrawal'
 export * from './MsgRemoveBridgeExecutor'
@@ -28,13 +32,16 @@ export * from './MsgUpdateMinGasPrices'
 export * from './MsgUpdateOpchildAdmin'
 export * from './MsgSetBridgeInfo'
 export * from './MsgUpdateOracle'
+export * from './MsgRegisterL2MigrationInfo'
+export * from './MsgMigrateToken'
 export * from './MsgUpdateOpchildParams'
 
 export type OpchildMsg =
   | MsgAddBridgeExecutor
   | MsgAddFeeWhitelistAddresses
-  | MsgAddValidator
-  | MsgRemoveValidator
+  | MsgUpdateSequencer
+  | MsgAddAttestor
+  | MsgRemoveAttestor
   | MsgFinalizeTokenDeposit
   | MsgInitiateTokenWithdrawal
   | MsgRemoveBridgeExecutor
@@ -45,14 +52,17 @@ export type OpchildMsg =
   | MsgUpdateOpchildAdmin
   | MsgSetBridgeInfo
   | MsgUpdateOracle
+  | MsgRegisterL2MigrationInfo
+  | MsgMigrateToken
   | MsgUpdateOpchildParams
 
 export namespace OpchildMsg {
   export type Amino =
     | MsgAddBridgeExecutor.Amino
     | MsgAddFeeWhitelistAddresses.Amino
-    | MsgAddValidator.Amino
-    | MsgRemoveValidator.Amino
+    | MsgUpdateSequencer.Amino
+    | MsgAddAttestor.Amino
+    | MsgRemoveAttestor.Amino
     | MsgFinalizeTokenDeposit.Amino
     | MsgInitiateTokenWithdrawal.Amino
     | MsgRemoveBridgeExecutor.Amino
@@ -63,13 +73,16 @@ export namespace OpchildMsg {
     | MsgUpdateOpchildAdmin.Amino
     | MsgSetBridgeInfo.Amino
     | MsgUpdateOracle.Amino
+    | MsgRegisterL2MigrationInfo.Amino
+    | MsgMigrateToken.Amino
     | MsgUpdateOpchildParams.Amino
 
   export type Data =
     | MsgAddBridgeExecutor.Data
     | MsgAddFeeWhitelistAddresses.Data
-    | MsgAddValidator.Data
-    | MsgRemoveValidator.Data
+    | MsgUpdateSequencer.Data
+    | MsgAddAttestor.Data
+    | MsgRemoveAttestor.Data
     | MsgFinalizeTokenDeposit.Data
     | MsgInitiateTokenWithdrawal.Data
     | MsgRemoveBridgeExecutor.Data
@@ -80,13 +93,16 @@ export namespace OpchildMsg {
     | MsgUpdateOpchildAdmin.Data
     | MsgSetBridgeInfo.Data
     | MsgUpdateOracle.Data
+    | MsgRegisterL2MigrationInfo.Data
+    | MsgMigrateToken.Data
     | MsgUpdateOpchildParams.Data
 
   export type Proto =
     | MsgAddBridgeExecutor.Proto
     | MsgAddFeeWhitelistAddresses.Proto
-    | MsgAddValidator.Proto
-    | MsgRemoveValidator.Proto
+    | MsgUpdateSequencer.Proto
+    | MsgAddAttestor.Proto
+    | MsgRemoveAttestor.Proto
     | MsgFinalizeTokenDeposit.Proto
     | MsgInitiateTokenWithdrawal.Proto
     | MsgRemoveBridgeExecutor.Proto
@@ -97,5 +113,7 @@ export namespace OpchildMsg {
     | MsgUpdateOpchildAdmin.Proto
     | MsgSetBridgeInfo.Proto
     | MsgUpdateOracle.Proto
+    | MsgRegisterL2MigrationInfo.Proto
+    | MsgMigrateToken.Proto
     | MsgUpdateOpchildParams.Proto
 }

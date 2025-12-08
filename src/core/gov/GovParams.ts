@@ -38,6 +38,7 @@ export class GovParams extends JSONSerializable<
    * @param emergency_tally_interval tally interval for emergency proposal
    * @param low_threshold_functions low threshold functions for emergency and expedited proposal
    * @param vesting the vesting contract info for tally
+   * @param emergency_submitters whitelist addresses that can submit emergency proposals
    */
   constructor(
     min_deposit: Coins.Input,
@@ -59,7 +60,8 @@ export class GovParams extends JSONSerializable<
     emergency_min_deposit: Coins.Input,
     public emergency_tally_interval: Duration,
     public low_threshold_functions: string[],
-    public vesting?: Vesting
+    public vesting: Vesting | undefined,
+    public emergency_submitters: string[]
   ) {
     super()
     this.min_deposit = new Coins(min_deposit)
@@ -89,6 +91,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval,
       low_threshold_functions,
       vesting,
+      emergency_submitters,
     } = data
 
     return new GovParams(
@@ -115,7 +118,8 @@ export class GovParams extends JSONSerializable<
         : new Coins(),
       Duration.fromAmino(emergency_tally_interval),
       low_threshold_functions,
-      vesting ? Vesting.fromAmino(vesting) : undefined
+      vesting ? Vesting.fromAmino(vesting) : undefined,
+      emergency_submitters ?? []
     )
   }
 
@@ -141,6 +145,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval,
       low_threshold_functions,
       vesting,
+      emergency_submitters,
     } = this
 
     return {
@@ -171,6 +176,8 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval: emergency_tally_interval.toAmino(),
       low_threshold_functions,
       vesting: vesting?.toAmino(),
+      emergency_submitters:
+        emergency_submitters.length > 0 ? emergency_submitters : null,
     }
   }
 
@@ -196,6 +203,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval,
       low_threshold_functions,
       vesting,
+      emergency_submitters,
     } = data
 
     return new GovParams(
@@ -218,7 +226,8 @@ export class GovParams extends JSONSerializable<
       Coins.fromData(emergency_min_deposit),
       Duration.fromData(emergency_tally_interval),
       low_threshold_functions,
-      vesting ? Vesting.fromData(vesting) : undefined
+      vesting ? Vesting.fromData(vesting) : undefined,
+      emergency_submitters
     )
   }
 
@@ -244,6 +253,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval,
       low_threshold_functions,
       vesting,
+      emergency_submitters,
     } = this
 
     return {
@@ -267,6 +277,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval: emergency_tally_interval.toData(),
       low_threshold_functions,
       vesting: vesting?.toData(),
+      emergency_submitters,
     }
   }
 
@@ -291,7 +302,8 @@ export class GovParams extends JSONSerializable<
       Coins.fromProto(data.emergencyMinDeposit),
       Duration.fromProto(data.emergencyTallyInterval as Duration.Proto),
       data.lowThresholdFunctions,
-      data.vesting ? Vesting.fromProto(data.vesting) : undefined
+      data.vesting ? Vesting.fromProto(data.vesting) : undefined,
+      data.emergencySubmitters
     )
   }
 
@@ -317,6 +329,7 @@ export class GovParams extends JSONSerializable<
       emergency_tally_interval,
       low_threshold_functions,
       vesting,
+      emergency_submitters,
     } = this
 
     return Params_pb.fromPartial({
@@ -340,6 +353,7 @@ export class GovParams extends JSONSerializable<
       emergencyTallyInterval: emergency_tally_interval.toProto(),
       lowThresholdFunctions: low_threshold_functions,
       vesting: vesting?.toProto(),
+      emergencySubmitters: emergency_submitters,
     })
   }
 }
@@ -366,6 +380,7 @@ export namespace GovParams {
     emergency_tally_interval: Duration.Amino
     low_threshold_functions: string[]
     vesting?: Vesting.Amino
+    emergency_submitters: string[] | null
   }
 
   export interface Data {
@@ -389,6 +404,7 @@ export namespace GovParams {
     emergency_tally_interval: Duration.Data
     low_threshold_functions: string[]
     vesting?: Vesting.Data
+    emergency_submitters: string[]
   }
 
   export type Proto = Params_pb

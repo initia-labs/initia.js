@@ -6,11 +6,13 @@ import { MsgInitiateTokenDeposit } from './MsgInitiateTokenDeposit'
 import { MsgFinalizeTokenWithdrawal } from './MsgFinalizeTokenWithdrawal'
 import { MsgUpdateProposer } from './MsgUpdateProposer'
 import { MsgUpdateChallenger } from './MsgUpdateChallenger'
-import { MsgUpdateFinalizationPeriod } from './MsgUpdateFinalizationPeriod'
 import { MsgUpdateBatchInfo } from './MsgUpdateBatchInfo'
-import { MsgUpdateOracleConfig } from './MsgUpdateOracleConfig'
 import { MsgUpdateMetadata } from './MsgUpdateMetadata'
+import { MsgUpdateOracleConfig } from './MsgUpdateOracleConfig'
 import { MsgUpdateOphostParams } from './MsgUpdateOphostParams'
+import { MsgUpdateFinalizationPeriod } from './MsgUpdateFinalizationPeriod'
+import { MsgDisableBridge } from './MsgDisableBridge'
+import { MsgRegisterL1MigrationInfo } from './MsgRegisterL1MigrationInfo'
 
 export * from './MsgRecordBatch'
 export * from './MsgCreateBridge'
@@ -20,11 +22,13 @@ export * from './MsgInitiateTokenDeposit'
 export * from './MsgFinalizeTokenWithdrawal'
 export * from './MsgUpdateProposer'
 export * from './MsgUpdateChallenger'
-export * from './MsgUpdateFinalizationPeriod'
 export * from './MsgUpdateBatchInfo'
-export * from './MsgUpdateOracleConfig'
 export * from './MsgUpdateMetadata'
+export * from './MsgUpdateOracleConfig'
 export * from './MsgUpdateOphostParams'
+export * from './MsgUpdateFinalizationPeriod'
+export * from './MsgDisableBridge'
+export * from './MsgRegisterL1MigrationInfo'
 
 export type OphostMsg =
   | MsgRecordBatch
@@ -35,11 +39,13 @@ export type OphostMsg =
   | MsgFinalizeTokenWithdrawal
   | MsgUpdateProposer
   | MsgUpdateChallenger
-  | MsgUpdateFinalizationPeriod
   | MsgUpdateBatchInfo
-  | MsgUpdateOracleConfig
   | MsgUpdateMetadata
+  | MsgUpdateOracleConfig
   | MsgUpdateOphostParams
+  | MsgUpdateFinalizationPeriod
+  | MsgDisableBridge
+  | MsgRegisterL1MigrationInfo
 
 export namespace OphostMsg {
   export type Amino =
@@ -51,11 +57,13 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Amino
     | MsgUpdateProposer.Amino
     | MsgUpdateChallenger.Amino
-    | MsgUpdateFinalizationPeriod.Amino
     | MsgUpdateBatchInfo.Amino
-    | MsgUpdateOracleConfig.Amino
     | MsgUpdateMetadata.Amino
+    | MsgUpdateOracleConfig.Amino
     | MsgUpdateOphostParams.Amino
+    | MsgUpdateFinalizationPeriod.Amino
+    | MsgDisableBridge.Amino
+    | MsgRegisterL1MigrationInfo.Amino
 
   export type Data =
     | MsgRecordBatch.Data
@@ -66,11 +74,13 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Data
     | MsgUpdateProposer.Data
     | MsgUpdateChallenger.Data
-    | MsgUpdateFinalizationPeriod.Data
     | MsgUpdateBatchInfo.Data
-    | MsgUpdateOracleConfig.Data
     | MsgUpdateMetadata.Data
+    | MsgUpdateOracleConfig.Data
     | MsgUpdateOphostParams.Data
+    | MsgUpdateFinalizationPeriod.Data
+    | MsgDisableBridge.Data
+    | MsgRegisterL1MigrationInfo.Data
 
   export type Proto =
     | MsgRecordBatch.Proto
@@ -81,9 +91,11 @@ export namespace OphostMsg {
     | MsgFinalizeTokenWithdrawal.Proto
     | MsgUpdateProposer.Proto
     | MsgUpdateChallenger.Proto
-    | MsgUpdateFinalizationPeriod.Proto
     | MsgUpdateBatchInfo.Proto
-    | MsgUpdateOracleConfig.Proto
     | MsgUpdateMetadata.Proto
+    | MsgUpdateOracleConfig.Proto
     | MsgUpdateOphostParams.Proto
+    | MsgUpdateFinalizationPeriod.Proto
+    | MsgDisableBridge.Proto
+    | MsgRegisterL1MigrationInfo.Proto
 }

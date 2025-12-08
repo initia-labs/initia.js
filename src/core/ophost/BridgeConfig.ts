@@ -21,6 +21,8 @@ export class BridgeConfig extends JSONSerializable<
    * @param submission_start_height the first l2 block will be recorded on l1
    * @param oracle_enabled flag to enable oracle
    * @param metadata normally IBC channelID for permissioned IBC relayer
+   * @param bridge_disabled flag to disable the bridge
+   * @param bridge_disabled_at the timestamp when the bridge is disabled
    */
   constructor(
     public challenger: AccAddress,
@@ -30,7 +32,9 @@ export class BridgeConfig extends JSONSerializable<
     public finalization_period: Duration,
     public submission_start_height: number,
     public oracle_enabled: boolean,
-    public metadata?: string
+    public metadata: string | undefined,
+    public bridge_disabled: boolean,
+    public bridge_disabled_at: Date
   ) {
     super()
   }
@@ -45,6 +49,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height,
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at,
     } = data
 
     return new BridgeConfig(
@@ -55,7 +61,9 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromAmino(finalization_period),
       parseInt(submission_start_height),
       oracle_enabled,
-      metadata
+      metadata,
+      bridge_disabled,
+      new Date(bridge_disabled_at)
     )
   }
 
@@ -69,6 +77,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height,
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at,
     } = this
 
     return {
@@ -80,6 +90,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height: submission_start_height.toFixed(),
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at: bridge_disabled_at.toISOString(),
     }
   }
 
@@ -93,6 +105,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height,
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at,
     } = data
 
     return new BridgeConfig(
@@ -103,7 +117,9 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromData(finalization_period),
       parseInt(submission_start_height),
       oracle_enabled,
-      metadata
+      metadata,
+      bridge_disabled,
+      new Date(bridge_disabled_at)
     )
   }
 
@@ -117,6 +133,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height,
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at,
     } = this
 
     return {
@@ -128,6 +146,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height: submission_start_height.toFixed(),
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at: bridge_disabled_at.toISOString(),
     }
   }
 
@@ -140,7 +160,9 @@ export class BridgeConfig extends JSONSerializable<
       Duration.fromProto(data.finalizationPeriod as Duration.Proto),
       Number(data.submissionStartHeight),
       data.oracleEnabled,
-      Buffer.from(data.metadata).toString('base64')
+      Buffer.from(data.metadata).toString('base64'),
+      data.bridgeDisabled,
+      data.bridgeDisabledAt as Date
     )
   }
 
@@ -154,6 +176,8 @@ export class BridgeConfig extends JSONSerializable<
       submission_start_height,
       oracle_enabled,
       metadata,
+      bridge_disabled,
+      bridge_disabled_at,
     } = this
 
     return BridgeConfig_pb.fromPartial({
@@ -165,6 +189,8 @@ export class BridgeConfig extends JSONSerializable<
       submissionStartHeight: BigInt(submission_start_height),
       oracleEnabled: oracle_enabled,
       metadata: metadata ? Buffer.from(metadata, 'base64') : undefined,
+      bridgeDisabled: bridge_disabled,
+      bridgeDisabledAt: bridge_disabled_at,
     })
   }
 }
@@ -179,6 +205,8 @@ export namespace BridgeConfig {
     submission_start_height: string
     oracle_enabled: boolean
     metadata?: string
+    bridge_disabled: boolean
+    bridge_disabled_at: string
   }
 
   export interface Data {
@@ -190,6 +218,8 @@ export namespace BridgeConfig {
     submission_start_height: string
     oracle_enabled: boolean
     metadata?: string
+    bridge_disabled: boolean
+    bridge_disabled_at: string
   }
 
   export type Proto = BridgeConfig_pb
