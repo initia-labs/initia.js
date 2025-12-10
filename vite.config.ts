@@ -12,7 +12,6 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        new RegExp('^@ledgerhq/.*'),
         '@bitcoinerlab/secp256k1',
         '@mysten/bcs',
         'axios',
