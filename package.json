@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "1.0.19",
+  "version": "1.0.20",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -60,18 +60,13 @@
     "@bitcoinerlab/secp256k1": "^1.1.1",
     "@initia/initia.proto": "^1.0.3",
     "@initia/opinit.proto": "^1.0.2",
-    "@ledgerhq/hw-app-eth": "^6.45.5",
-    "@ledgerhq/hw-transport": "^6.31.10",
-    "@ledgerhq/hw-transport-node-hid": "^6.29.6",
-    "@ledgerhq/hw-transport-webhid": "^6.29.4",
-    "@ledgerhq/hw-transport-webusb": "^6.29.4",
     "@mysten/bcs": "^1.1.0",
-    "@zondax/ledger-cosmos-js": "^4.0.1",
     "axios": "^1.9.0",
     "bech32": "^2.0.0",
     "bignumber.js": "^9.1.2",
     "bip32": "^5.0.0-rc.0",
     "bip39": "^3.1.0",
+    "events": "^3.3.0",
     "jscrypto": "^1.0.3",
     "keccak256": "^1.0.6",
     "ripemd160": "^2.0.2",
@@ -80,7 +75,6 @@
     "ws": "^8.18.0"
   },
   "overrides": {
-    "@ledgerhq/hw-transport": "^6.31.10",
     "axios": "^1.9.0"
   },
   "lint-staged": {
