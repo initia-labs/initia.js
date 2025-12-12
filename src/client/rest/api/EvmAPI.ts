@@ -1,4 +1,9 @@
-import { AccAddress, AccessTuple, EvmParams } from '../../../core'
+import {
+  AccAddress,
+  AccessTuple,
+  EvmParams,
+  SetCodeAuthorization,
+} from '../../../core'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { BaseAPI } from './BaseAPI'
 
@@ -30,6 +35,7 @@ export interface CallResponse {
     data: string
   }[]
   trace_output: string
+  error: string
 }
 
 export class EvmAPI extends BaseAPI {
@@ -221,15 +227,18 @@ export class EvmAPI extends BaseAPI {
    * @param contract_addr contract address to execute
    * @param input hex encoded call input
    * @param value the amount of fee denom token to transfer to the contract
-   * @param with_trace whether to trace the call
+   * @param access_list list of Ethereum addresses and their corresponding storage slots that a transaction will interact with during its execution
+   * @param trace_options whether to trace the call
+   * @param auth_list list of authorizations that allow code deployment at specific addresses
    */
   public async call(
     sender: AccAddress,
     contract_addr: AccAddress,
     input: string,
     value: string,
-    access_list?: AccessTuple[],
-    trace_options?: TraceOptions,
+    access_list: AccessTuple[] | undefined,
+    trace_options: TraceOptions | undefined,
+    auth_list: SetCodeAuthorization[],
     headers: Record<string, string> = {}
   ): Promise<CallResponse> {
     return this.c.post<CallResponse>(
@@ -241,6 +250,7 @@ export class EvmAPI extends BaseAPI {
         value,
         access_list,
         trace_options,
+        auth_list: auth_list.map((auth) => auth.toData()),
       },
       headers
     )

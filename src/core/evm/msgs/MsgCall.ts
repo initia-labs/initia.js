@@ -3,6 +3,7 @@ import { AccAddress } from '../../bech32'
 import { AccessTuple } from '../AccessTuple'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgCall as MsgCall_pb } from '@initia/initia.proto/minievm/evm/v1/tx'
+import { SetCodeAuthorization } from '../SetCodeAuthorization'
 
 /**
  * MsgCall defines a method submitting Ethereum transactions.
@@ -18,20 +19,22 @@ export class MsgCall extends JSONSerializable<
    * @param input hex encoded execution input bytes
    * @param value the amount of fee denom token to transfer to the contract
    * @param access_list predefined list of Ethereum addresses and their corresponding storage slots that a transaction will interact with during its execution
+   * @param auth_list list of authorizations that allow code deployment at specific addresses
    */
   constructor(
     public sender: AccAddress,
     public contract_addr: AccAddress,
     public input: string,
     public value: string,
-    public access_list: AccessTuple[]
+    public access_list: AccessTuple[],
+    public auth_list?: SetCodeAuthorization[]
   ) {
     super()
   }
 
   public static fromAmino(data: MsgCall.Amino): MsgCall {
     const {
-      value: { sender, contract_addr, input, value, access_list },
+      value: { sender, contract_addr, input, value, access_list, auth_list },
     } = data
 
     return new MsgCall(
@@ -39,12 +42,13 @@ export class MsgCall extends JSONSerializable<
       contract_addr,
       input,
       value,
-      access_list?.map(AccessTuple.fromAmino) ?? []
+      access_list?.map(AccessTuple.fromAmino) ?? [],
+      auth_list?.map(SetCodeAuthorization.fromAmino)
     )
   }
 
   public toAmino(): MsgCall.Amino {
-    const { sender, contract_addr, input, value, access_list } = this
+    const { sender, contract_addr, input, value, access_list, auth_list } = this
     return {
       type: 'evm/MsgCall',
       value: {
@@ -56,23 +60,25 @@ export class MsgCall extends JSONSerializable<
           access_list.length > 0
             ? access_list.map((acc) => acc.toAmino())
             : null,
+        auth_list: auth_list?.map((auth) => auth.toAmino()),
       },
     }
   }
 
   public static fromData(data: MsgCall.Data): MsgCall {
-    const { sender, contract_addr, input, value, access_list } = data
+    const { sender, contract_addr, input, value, access_list, auth_list } = data
     return new MsgCall(
       sender,
       contract_addr,
       input,
       value,
-      access_list.map(AccessTuple.fromData)
+      access_list.map(AccessTuple.fromData),
+      auth_list?.map(SetCodeAuthorization.fromData)
     )
   }
 
   public toData(): MsgCall.Data {
-    const { sender, contract_addr, input, value, access_list } = this
+    const { sender, contract_addr, input, value, access_list, auth_list } = this
     return {
       '@type': '/minievm.evm.v1.MsgCall',
       sender,
@@ -80,6 +86,7 @@ export class MsgCall extends JSONSerializable<
       input,
       value,
       access_list: access_list.map((acc) => acc.toData()),
+      auth_list: auth_list?.map((auth) => auth.toData()),
     }
   }
 
@@ -89,18 +96,20 @@ export class MsgCall extends JSONSerializable<
       data.contractAddr,
       data.input,
       data.value,
-      data.accessList.map(AccessTuple.fromProto)
+      data.accessList.map(AccessTuple.fromProto),
+      data.authList?.map(SetCodeAuthorization.fromProto)
     )
   }
 
   public toProto(): MsgCall.Proto {
-    const { sender, contract_addr, input, value, access_list } = this
+    const { sender, contract_addr, input, value, access_list, auth_list } = this
     return MsgCall_pb.fromPartial({
       sender,
       contractAddr: contract_addr,
       input,
       value,
       accessList: access_list.map((acc) => acc.toProto()),
+      authList: auth_list?.map((auth) => auth.toProto()),
     })
   }
 
@@ -125,6 +134,7 @@ export namespace MsgCall {
       input: string
       value: string
       access_list: AccessTuple.Amino[] | null
+      auth_list?: SetCodeAuthorization.Amino[]
     }
   }
 
@@ -135,6 +145,7 @@ export namespace MsgCall {
     input: string
     value: string
     access_list: AccessTuple.Data[]
+    auth_list?: SetCodeAuthorization.Data[]
   }
 
   export type Proto = MsgCall_pb

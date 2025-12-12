@@ -10,6 +10,7 @@ import {
   ContractMigrationAuthorization,
 } from '../../wasm'
 import { TransferAuthorization } from '../../ibc/applications/transfer'
+import { CallAuthorization } from './CallAuthorization'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { Grant as Grant_pb } from '@initia/initia.proto/cosmos/authz/v1beta1/authz'
 
@@ -104,6 +105,7 @@ export type Authorization =
   | ContractExecutionAuthorization
   | ContractMigrationAuthorization
   | TransferAuthorization
+  | CallAuthorization
 
 export namespace Authorization {
   export type Amino =
@@ -115,6 +117,7 @@ export namespace Authorization {
     | StoreCodeAuthorization.Amino
     | ContractExecutionAuthorization.Amino
     | ContractMigrationAuthorization.Amino
+    | CallAuthorization.Amino
   export type Data =
     | SendAuthorization.Data
     | GenericAuthorization.Data
@@ -125,6 +128,7 @@ export namespace Authorization {
     | ContractExecutionAuthorization.Data
     | ContractMigrationAuthorization.Data
     | TransferAuthorization.Data
+    | CallAuthorization.Data
   export type Proto =
     | SendAuthorization.Proto
     | GenericAuthorization.Proto
@@ -135,6 +139,7 @@ export namespace Authorization {
     | ContractExecutionAuthorization.Proto
     | ContractMigrationAuthorization.Proto
     | TransferAuthorization.Proto
+    | CallAuthorization.Proto
 
   export function fromAmino(data: Authorization.Amino): Authorization {
     switch (data.type) {
@@ -154,6 +159,8 @@ export namespace Authorization {
         return ContractExecutionAuthorization.fromAmino(data)
       case 'wasm/ContractMigrationAuthorization':
         return ContractMigrationAuthorization.fromAmino(data)
+      case 'evm/CallAuthorization':
+        return CallAuthorization.fromAmino(data)
     }
   }
 
@@ -177,6 +184,8 @@ export namespace Authorization {
         return ContractMigrationAuthorization.fromData(data)
       case '/ibc.applications.transfer.v1.TransferAuthorization':
         return TransferAuthorization.fromData(data)
+      case '/minievm.evm.v1.CallAuthorization':
+        return CallAuthorization.fromData(data)
     }
   }
 
@@ -201,6 +210,8 @@ export namespace Authorization {
         return ContractMigrationAuthorization.unpackAny(proto)
       case '/ibc.applications.transfer.v1.TransferAuthorization':
         return TransferAuthorization.unpackAny(proto)
+      case '/minievm.evm.v1.CallAuthorization':
+        return CallAuthorization.unpackAny(proto)
     }
 
     throw new Error(`Authorization type ${typeUrl} not recognized`)

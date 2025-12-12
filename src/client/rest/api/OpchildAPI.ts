@@ -5,7 +5,20 @@ import {
   ValAddress,
   OpchildParams,
   BridgeInfo,
+  L2MigrationInfo,
 } from '../../../core'
+
+export interface MigrationInfoResponse {
+  migration_info: L2MigrationInfo
+  ibc_denom: string
+}
+
+export namespace MigrationInfoResponse {
+  export interface Data {
+    migration_info: L2MigrationInfo.Data
+    ibc_denom: string
+  }
+}
 
 export class OpchildAPI extends BaseAPI {
   /**
@@ -95,6 +108,27 @@ export class OpchildAPI extends BaseAPI {
         base_denom: string
       }>(`/opinit/opchild/v1/base_denom/${denom}`, params, headers)
       .then((d) => d.base_denom)
+  }
+
+  /**
+   * Query the migration information.
+   * @param denom denom to query
+   */
+  public async migrationInfo(
+    denom: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<MigrationInfoResponse> {
+    return this.c
+      .get<MigrationInfoResponse.Data>(
+        `/opinit/opchild/v1/migration_info/by_denom`,
+        { ...params, denom },
+        headers
+      )
+      .then((d) => ({
+        migration_info: L2MigrationInfo.fromData(d.migration_info),
+        ibc_denom: d.ibc_denom,
+      }))
   }
 
   /**

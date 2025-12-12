@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Params as Params_pb } from '@initia/initia.proto/minievm/evm/v1/types'
+import { GasEnforcement } from './GasEnforcement'
 
 /**
  * EvmParams defines the set of evm parameters.
@@ -17,6 +18,7 @@ export class EvmParams extends JSONSerializable<
    * @param fee_denom the fee denom for the evm transactions
    * @param gas_refund_ratio the gas refund ratio for the evm transactions; 0 to disable
    * @param num_retain_block_hashes the number of block hashes to retain for the evm opcode `BLOCKHASH`; minimum 256 and 0 to disable
+   * @param gas_enforcement specifies the rules for enforcing gas usage on EVM transactions
    */
   constructor(
     public extra_eips: number[],
@@ -25,7 +27,8 @@ export class EvmParams extends JSONSerializable<
     public allowed_custom_erc20s: string[],
     public fee_denom: string,
     public gas_refund_ratio: string,
-    public num_retain_block_hashes: number
+    public num_retain_block_hashes: number,
+    public gas_enforcement?: GasEnforcement
   ) {
     super()
   }
@@ -39,6 +42,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes,
+      gas_enforcement,
     } = data
 
     return new EvmParams(
@@ -48,7 +52,8 @@ export class EvmParams extends JSONSerializable<
       allowed_custom_erc20s ?? [],
       fee_denom,
       gas_refund_ratio,
-      parseInt(num_retain_block_hashes)
+      parseInt(num_retain_block_hashes),
+      gas_enforcement ? GasEnforcement.fromAmino(gas_enforcement) : undefined
     )
   }
 
@@ -61,6 +66,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes,
+      gas_enforcement,
     } = this
 
     return {
@@ -73,6 +79,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes: num_retain_block_hashes.toFixed(),
+      gas_enforcement: gas_enforcement?.toAmino() ?? null,
     }
   }
 
@@ -85,6 +92,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes,
+      gas_enforcement,
     } = data
 
     return new EvmParams(
@@ -94,7 +102,8 @@ export class EvmParams extends JSONSerializable<
       allowed_custom_erc20s,
       fee_denom,
       gas_refund_ratio,
-      parseInt(num_retain_block_hashes)
+      parseInt(num_retain_block_hashes),
+      gas_enforcement ? GasEnforcement.fromData(gas_enforcement) : undefined
     )
   }
 
@@ -107,6 +116,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes,
+      gas_enforcement,
     } = this
 
     return {
@@ -117,6 +127,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes: num_retain_block_hashes.toFixed(),
+      gas_enforcement: gas_enforcement?.toData() ?? null,
     }
   }
 
@@ -128,7 +139,10 @@ export class EvmParams extends JSONSerializable<
       proto.allowedCustomErc20s,
       proto.feeDenom,
       proto.gasRefundRatio,
-      Number(proto.numRetainBlockHashes)
+      Number(proto.numRetainBlockHashes),
+      proto.gasEnforcement
+        ? GasEnforcement.fromProto(proto.gasEnforcement)
+        : undefined
     )
   }
 
@@ -141,6 +155,7 @@ export class EvmParams extends JSONSerializable<
       fee_denom,
       gas_refund_ratio,
       num_retain_block_hashes,
+      gas_enforcement,
     } = this
 
     return Params_pb.fromPartial({
@@ -151,6 +166,7 @@ export class EvmParams extends JSONSerializable<
       feeDenom: fee_denom,
       gasRefundRatio: gas_refund_ratio,
       numRetainBlockHashes: BigInt(num_retain_block_hashes),
+      gasEnforcement: gas_enforcement?.toProto(),
     })
   }
 }
@@ -164,6 +180,7 @@ export namespace EvmParams {
     fee_denom: string
     gas_refund_ratio: string
     num_retain_block_hashes: string
+    gas_enforcement: GasEnforcement.Amino | null
   }
 
   export interface Data {
@@ -174,6 +191,7 @@ export namespace EvmParams {
     fee_denom: string
     gas_refund_ratio: string
     num_retain_block_hashes: string
+    gas_enforcement: GasEnforcement.Data | null
   }
 
   export type Proto = Params_pb

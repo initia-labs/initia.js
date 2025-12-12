@@ -15,6 +15,7 @@ import { MsgStoreAndMigrateContract } from './MsgStoreAndMigrateContract'
 import { MsgAddCodeUploadParamsAddresses } from './MsgAddCodeUploadParamsAddresses'
 import { MsgRemoveCodeUploadParamsAddresses } from './MsgRemoveCodeUploadParamsAddresses'
 import { MsgUpdateContractLabel } from './MsgUpdateContractLabel'
+import { MsgUpdateMaxWasmSize } from './MsgUpdateMaxWasmSize'
 
 export * from './MsgStoreCode'
 export * from './MsgInstantiateContract'
@@ -33,6 +34,7 @@ export * from './MsgStoreAndMigrateContract'
 export * from './MsgAddCodeUploadParamsAddresses'
 export * from './MsgRemoveCodeUploadParamsAddresses'
 export * from './MsgUpdateContractLabel'
+export * from './MsgUpdateMaxWasmSize'
 
 export type WasmMsg =
   | MsgStoreCode
@@ -52,6 +54,7 @@ export type WasmMsg =
   | MsgAddCodeUploadParamsAddresses
   | MsgRemoveCodeUploadParamsAddresses
   | MsgUpdateContractLabel
+  | MsgUpdateMaxWasmSize
 
 export namespace WasmMsg {
   export type Amino =
@@ -72,6 +75,7 @@ export namespace WasmMsg {
     | MsgAddCodeUploadParamsAddresses.Amino
     | MsgRemoveCodeUploadParamsAddresses.Amino
     | MsgUpdateContractLabel.Amino
+    | MsgUpdateMaxWasmSize.Amino
   export type Data =
     | MsgStoreCode.Data
     | MsgInstantiateContract.Data
@@ -90,6 +94,7 @@ export namespace WasmMsg {
     | MsgAddCodeUploadParamsAddresses.Data
     | MsgRemoveCodeUploadParamsAddresses.Data
     | MsgUpdateContractLabel.Data
+    | MsgUpdateMaxWasmSize.Data
   export type Proto =
     | MsgStoreCode.Proto
     | MsgInstantiateContract.Proto
@@ -108,4 +113,5 @@ export namespace WasmMsg {
     | MsgAddCodeUploadParamsAddresses.Proto
     | MsgRemoveCodeUploadParamsAddresses.Proto
     | MsgUpdateContractLabel.Proto
+    | MsgUpdateMaxWasmSize.Proto
 }

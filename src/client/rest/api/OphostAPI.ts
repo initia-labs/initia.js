@@ -5,6 +5,7 @@ import {
   Output,
   BridgeInfo,
   BatchInfoWithOutput,
+  L1MigrationInfo,
 } from '../../../core'
 
 export interface TokenPair {
@@ -261,6 +262,28 @@ export class OphostAPI extends BaseAPI {
         d.batch_infos.map((info) => BatchInfoWithOutput.fromData(info)),
         d.pagination,
       ])
+  }
+
+  /**
+   * Query the migration info.
+   * @param bridge_id unique bridge identifier
+   * @param l1_denom l1 denom
+   */
+  public async migrationInfo(
+    bridge_id: number,
+    l1_denom: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<L1MigrationInfo> {
+    return this.c
+      .get<{
+        migration_info: L1MigrationInfo.Data
+      }>(
+        `/opinit/ophost/v1/bridges/${bridge_id}/migration_info/by_l1_denom`,
+        { ...params, l1_denom },
+        headers
+      )
+      .then((d) => L1MigrationInfo.fromData(d.migration_info))
   }
 
   /**
