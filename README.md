@@ -59,6 +59,7 @@ For Ledger hardware wallet support, use [@initia/ledger-key](./ledger-key):
 ```typescript
 import { LedgerKey } from '@initia/ledger-key'
 
+// e.g. `transport` from @ledgerhq/hw-transport-webhid / webusb / node-hid
 const key = await LedgerKey.create(transport)
 ```
 

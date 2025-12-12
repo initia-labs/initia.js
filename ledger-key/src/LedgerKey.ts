@@ -70,11 +70,11 @@ export class LedgerKey extends Key {
   /**
    * Gets the Initia account address
    * @returns Bech32 encoded address with 'init' as human-readable part
-   * @throws Error if Ledger is not initialized
+   * @throws LedgerError if Ledger is not initialized
    */
   public get accAddress(): AccAddress {
     if (!this.publicKey) {
-      throw new Error('Ledger is uninitialized. Initialize it first.')
+      throw new LedgerError('Ledger is uninitialized. Initialize it first.')
     }
 
     return this.publicKey.address()
@@ -189,11 +189,11 @@ export class LedgerKey extends Key {
   /**
    * Creates a signature for a transaction
    * @param _tx - SignDoc to sign
-   * @throws Error as direct sign mode is not supported
+   * @throws LedgerError as direct sign mode is not supported
    */
   // eslint-disable-next-line @typescript-eslint/require-await
   public async createSignature(_tx: SignDoc): Promise<SignatureV2> {
-    throw new Error('direct sign mode is not supported')
+    throw new LedgerError('direct sign mode is not supported')
   }
 
   /**
