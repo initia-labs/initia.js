@@ -90,7 +90,7 @@ export abstract class LedgerApp {
    * Gets the minimum required version for this application
    * @returns Minimum version string in semver format
    */
-  abstract getMininumRequiredVersion(): string
+  abstract getMinimumRequiredVersion(): string
 
   /**
    * Sets the load configuration for the application
@@ -102,7 +102,7 @@ export abstract class LedgerApp {
    * Retrieves the address for a given derivation path
    * @param path - HD derivation path
    * @param display - Whether to display the address on the device
-   * @returns Address string (in hex for Etherum and in bech32 for Cosmos)
+   * @returns Address string (in hex for Ethereum and in bech32 for Cosmos)
    */
   abstract getAddress(path: string, display: boolean): Promise<string>
 
@@ -264,7 +264,7 @@ export class EthereumApp extends LedgerApp {
     return Buffer.from(r + s, 'hex')
   }
 
-  getMininumRequiredVersion(): string {
+  getMinimumRequiredVersion(): string {
     return '1.17.0'
   }
 }
@@ -370,7 +370,7 @@ export class CosmosApp extends LedgerApp {
     return (await this.app.sign(path, message, HRP, 1)).signature
   }
 
-  getMininumRequiredVersion(): string {
+  getMinimumRequiredVersion(): string {
     return '2.37.3'
   }
 }

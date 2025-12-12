@@ -107,7 +107,7 @@ export class LedgerKey extends Key {
    */
   private async initialize() {
     const version = await this.app.getVersion()
-    if (semver.lt(version, this.app.getMininumRequiredVersion())) {
+    if (semver.lt(version, this.app.getMinimumRequiredVersion())) {
       throw new LedgerError(
         `Outdated version: Update Ledger ${this.appKind === Kind.Ethereum ? 'Ethereum' : 'Cosmos'} App to the latest version`
       )
