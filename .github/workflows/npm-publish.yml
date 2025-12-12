@@ -32,6 +32,10 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+      # Build root project first (required for file:.. dependency)
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      # Build and publish ledger-key
       - run: npm ci --ignore-scripts
         working-directory: ./ledger-key
       - run: npm publish
