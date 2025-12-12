@@ -198,7 +198,7 @@ export class EthereumApp extends LedgerApp {
         publicKeyStr = Buffer.from(buf).toString('base64')
         return new EthPublicKey(publicKeyStr)
       default:
-        throw new Error('Invalid public key length')
+        throw new LedgerError(`Invalid public key length: ${publicKeyStr.length}`)
     }
   }
 
