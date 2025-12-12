@@ -1,3 +1,5 @@
 export * from './msgs'
 export * from './EvmParams'
 export * from './AccessTuple'
+export * from './GasEnforcement'
+export * from './SetCodeAuthorization'

@@ -58,8 +58,8 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
-    "@initia/initia.proto": "^1.0.3",
-    "@initia/opinit.proto": "^1.0.2",
+    "@initia/initia.proto": "^1.0.4",
+    "@initia/opinit.proto": "^1.0.3",
     "@mysten/bcs": "^1.1.0",
     "axios": "^1.9.0",
     "bech32": "^2.0.0",

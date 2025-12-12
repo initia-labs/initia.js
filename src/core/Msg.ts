@@ -40,6 +40,8 @@ import {
   ForwardingMsg,
   MsgRegisterForwardingAccount,
   MsgClearForwardingAccount,
+  MsgSetAllowedDenoms,
+  MsgSetMemo,
 } from './forwarding'
 import {
   GovMsg,
@@ -53,6 +55,9 @@ import {
   MsgVoteWeightedLegacy,
   MsgVoteWeighted,
   MsgUpdateGovParams,
+  MsgAddEmergencySubmitters,
+  MsgRemoveEmergencySubmitters,
+  MsgActivateEmergencyProposal,
 } from './gov'
 import {
   GroupMsg,
@@ -172,8 +177,9 @@ import {
   OpchildMsg,
   MsgAddBridgeExecutor,
   MsgAddFeeWhitelistAddresses,
-  MsgAddValidator,
-  MsgRemoveValidator,
+  MsgUpdateSequencer,
+  MsgAddAttestor,
+  MsgRemoveAttestor,
   MsgFinalizeTokenDeposit,
   MsgInitiateTokenWithdrawal,
   MsgRemoveBridgeExecutor,
@@ -184,6 +190,8 @@ import {
   MsgUpdateOpchildAdmin,
   MsgSetBridgeInfo,
   MsgUpdateOracle,
+  MsgRegisterL2MigrationInfo,
+  MsgMigrateToken,
   MsgUpdateOpchildParams,
 } from './opchild'
 import {
@@ -196,18 +204,24 @@ import {
   MsgFinalizeTokenWithdrawal,
   MsgUpdateProposer,
   MsgUpdateChallenger,
-  MsgUpdateFinalizationPeriod,
   MsgUpdateBatchInfo,
-  MsgUpdateOracleConfig,
   MsgUpdateMetadata,
+  MsgUpdateOracleConfig,
   MsgUpdateOphostParams,
+  MsgUpdateFinalizationPeriod,
+  MsgDisableBridge,
+  MsgRegisterL1MigrationInfo,
 } from './ophost'
 import {
   OracleMsg,
   MsgAddCurrencyPairs,
   MsgRemoveCurrencyPairs,
 } from './oracle'
-import { RewardMsg, MsgUpdateRewardParams } from './reward'
+import {
+  RewardMsg,
+  MsgUpdateRewardParams,
+  MsgFundCommunityPoolReward,
+} from './reward'
 import { SlashingMsg, MsgUnjail, MsgUpdateSlashingParams } from './slashing'
 import {
   TokenfactoryMsg,
@@ -239,6 +253,7 @@ import {
   MsgAddCodeUploadParamsAddresses,
   MsgRemoveCodeUploadParamsAddresses,
   MsgUpdateContractLabel,
+  MsgUpdateMaxWasmSize,
 } from './wasm'
 import { WasmExtensionMsg, MsgStoreCodeAdmin } from './wasmextension/msgs'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
@@ -470,6 +485,10 @@ export namespace Msg {
         return MsgRegisterForwardingAccount.fromAmino(data)
       case 'noble/forwarding/ClearAccount':
         return MsgClearForwardingAccount.fromAmino(data)
+      case 'noble/forwarding/SetAllowedDenoms':
+        return MsgSetAllowedDenoms.fromAmino(data)
+      case 'noble/forwarding/SetMemo':
+        return MsgSetMemo.fromAmino(data)
 
       // gov
       case 'cosmos-sdk/v1/MsgCancelProposal':
@@ -492,6 +511,12 @@ export namespace Msg {
         return MsgVoteWeighted.fromAmino(data)
       case 'gov/MsgUpdateParams':
         return MsgUpdateGovParams.fromAmino(data)
+      case 'gov/MsgAddEmergencySubmitters':
+        return MsgAddEmergencySubmitters.fromAmino(data)
+      case 'gov/MsgRemoveEmergencySubmitters':
+        return MsgRemoveEmergencySubmitters.fromAmino(data)
+      case 'gov/MsgActivateEmergencyProposal':
+        return MsgActivateEmergencyProposal.fromAmino(data)
 
       // group
       case 'cosmos-sdk/MsgCreateGroup':
@@ -612,10 +637,12 @@ export namespace Msg {
         return MsgAddBridgeExecutor.fromAmino(data)
       case 'opchild/MsgAddFeeWhitelistAddresses':
         return MsgAddFeeWhitelistAddresses.fromAmino(data)
-      case 'opchild/MsgAddValidator':
-        return MsgAddValidator.fromAmino(data)
-      case 'opchild/MsgRemoveValidator':
-        return MsgRemoveValidator.fromAmino(data)
+      case 'opchild/MsgUpdateSequencer':
+        return MsgUpdateSequencer.fromAmino(data)
+      case 'opchild/MsgAddAttestor':
+        return MsgAddAttestor.fromAmino(data)
+      case 'opchild/MsgRemoveAttestor':
+        return MsgRemoveAttestor.fromAmino(data)
       case 'opchild/MsgFinalizeTokenDeposit':
         return MsgFinalizeTokenDeposit.fromAmino(data)
       case 'opchild/MsgInitiateTokenWithdrawal':
@@ -636,6 +663,10 @@ export namespace Msg {
         return MsgSetBridgeInfo.fromAmino(data)
       case 'opchild/MsgUpdateOracle':
         return MsgUpdateOracle.fromAmino(data)
+      case 'opchild/MsgRegisterMigrationInfo':
+        return MsgRegisterL2MigrationInfo.fromAmino(data)
+      case 'opchild/MsgMigrateToken':
+        return MsgMigrateToken.fromAmino(data)
       case 'opchild/MsgUpdateParams':
         return MsgUpdateOpchildParams.fromAmino(data)
 
@@ -656,16 +687,20 @@ export namespace Msg {
         return MsgUpdateProposer.fromAmino(data)
       case 'ophost/MsgUpdateChallenger':
         return MsgUpdateChallenger.fromAmino(data)
-      case 'ophost/MsgUpdateFinalizationPeriod':
-        return MsgUpdateFinalizationPeriod.fromAmino(data)
       case 'ophost/MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromAmino(data)
-      case 'ophost/MsgUpdateOracleConfig':
-        return MsgUpdateOracleConfig.fromAmino(data)
       case 'ophost/MsgUpdateMetadata':
         return MsgUpdateMetadata.fromAmino(data)
+      case 'ophost/MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.fromAmino(data)
       case 'ophost/MsgUpdateParams':
         return MsgUpdateOphostParams.fromAmino(data)
+      case 'ophost/MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromAmino(data)
+      case 'ophost/MsgDisableBridge':
+        return MsgDisableBridge.fromAmino(data)
+      case 'ophost/MsgRegisterMigrationInfo':
+        return MsgRegisterL1MigrationInfo.fromAmino(data)
 
       // oracle
       case 'connect/x/oracle/MsgAddCurrencyPairs':
@@ -676,6 +711,8 @@ export namespace Msg {
       // reward
       case 'reward/MsgUpdateParams':
         return MsgUpdateRewardParams.fromAmino(data)
+      case 'reward/MsgFundCommunityPool':
+        return MsgFundCommunityPoolReward.fromAmino(data)
 
       // slashing
       case 'cosmos-sdk/MsgUnjail':
@@ -740,6 +777,8 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromAmino(data)
       case 'wasm/MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromAmino(data)
+      case 'wasm/MsgUpdateMaxWasmSize':
+        return MsgUpdateMaxWasmSize.fromAmino(data)
 
       // wasmextension
       case 'wasmextension/MsgStoreCodeAdmin':
@@ -834,6 +873,10 @@ export namespace Msg {
         return MsgRegisterForwardingAccount.fromData(data)
       case '/noble.forwarding.v1.MsgClearAccount':
         return MsgClearForwardingAccount.fromData(data)
+      case '/noble.forwarding.v1.MsgSetAllowedDenoms':
+        return MsgSetAllowedDenoms.fromData(data)
+      case '/noble.forwarding.v1.MsgSetMemo':
+        return MsgSetMemo.fromData(data)
 
       // gov
       case '/cosmos.gov.v1.MsgCancelProposal':
@@ -856,6 +899,12 @@ export namespace Msg {
         return MsgVoteWeighted.fromData(data)
       case '/initia.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.fromData(data)
+      case '/initia.gov.v1.MsgAddEmergencySubmitters':
+        return MsgAddEmergencySubmitters.fromData(data)
+      case '/initia.gov.v1.MsgRemoveEmergencySubmitters':
+        return MsgRemoveEmergencySubmitters.fromData(data)
+      case '/initia.gov.v1.MsgActivateEmergencyProposal':
+        return MsgActivateEmergencyProposal.fromData(data)
 
       // group
       case '/cosmos.group.v1.MsgCreateGroup':
@@ -1054,10 +1103,12 @@ export namespace Msg {
         return MsgAddBridgeExecutor.fromData(data)
       case '/opinit.opchild.v1.MsgAddFeeWhitelistAddresses':
         return MsgAddFeeWhitelistAddresses.fromData(data)
-      case '/opinit.opchild.v1.MsgAddValidator':
-        return MsgAddValidator.fromData(data)
-      case '/opinit.opchild.v1.MsgRemoveValidator':
-        return MsgRemoveValidator.fromData(data)
+      case '/opinit.opchild.v1.MsgUpdateSequencer':
+        return MsgUpdateSequencer.fromData(data)
+      case '/opinit.opchild.v1.MsgAddAttestor':
+        return MsgAddAttestor.fromData(data)
+      case '/opinit.opchild.v1.MsgRemoveAttestor':
+        return MsgRemoveAttestor.fromData(data)
       case '/opinit.opchild.v1.MsgFinalizeTokenDeposit':
         return MsgFinalizeTokenDeposit.fromData(data)
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
@@ -1078,6 +1129,10 @@ export namespace Msg {
         return MsgSetBridgeInfo.fromData(data)
       case '/opinit.opchild.v1.MsgUpdateOracle':
         return MsgUpdateOracle.fromData(data)
+      case '/opinit.opchild.v1.MsgRegisterMigrationInfo':
+        return MsgRegisterL2MigrationInfo.fromData(data)
+      case '/opinit.opchild.v1.MsgMigrateToken':
+        return MsgMigrateToken.fromData(data)
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.fromData(data)
 
@@ -1098,16 +1153,20 @@ export namespace Msg {
         return MsgUpdateProposer.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.fromData(data)
-      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
-        return MsgUpdateFinalizationPeriod.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.fromData(data)
-      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
-        return MsgUpdateOracleConfig.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateMetadata':
         return MsgUpdateMetadata.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.fromData(data)
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.fromData(data)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.fromData(data)
+      case '/opinit.ophost.v1.MsgDisableBridge':
+        return MsgDisableBridge.fromData(data)
+      case '/opinit.ophost.v1.MsgRegisterMigrationInfo':
+        return MsgRegisterL1MigrationInfo.fromData(data)
 
       // oracle
       case '/connect.oracle.v2.MsgAddCurrencyPairs':
@@ -1118,6 +1177,8 @@ export namespace Msg {
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
         return MsgUpdateRewardParams.fromData(data)
+      case '/initia.reward.v1.MsgFundCommunityPool':
+        return MsgFundCommunityPoolReward.fromData(data)
 
       // slashing
       case '/cosmos.slashing.v1beta1.MsgUnjail':
@@ -1182,6 +1243,8 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.fromData(data)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.fromData(data)
+      case '/cosmwasm.wasm.v1.MsgUpdateMaxWasmSize':
+        return MsgUpdateMaxWasmSize.fromData(data)
 
       // wasmextension
       case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':
@@ -1276,6 +1339,10 @@ export namespace Msg {
         return MsgRegisterForwardingAccount.unpackAny(proto)
       case '/noble.forwarding.v1.MsgClearAccount':
         return MsgClearForwardingAccount.unpackAny(proto)
+      case '/noble.forwarding.v1.MsgSetAllowedDenoms':
+        return MsgSetAllowedDenoms.unpackAny(proto)
+      case '/noble.forwarding.v1.MsgSetMemo':
+        return MsgSetMemo.unpackAny(proto)
 
       // gov
       case '/cosmos.gov.v1.MsgCancelProposal':
@@ -1298,6 +1365,12 @@ export namespace Msg {
         return MsgVoteWeighted.unpackAny(proto)
       case '/initia.gov.v1.MsgUpdateParams':
         return MsgUpdateGovParams.unpackAny(proto)
+      case '/initia.gov.v1.MsgAddEmergencySubmitters':
+        return MsgAddEmergencySubmitters.unpackAny(proto)
+      case '/initia.gov.v1.MsgRemoveEmergencySubmitters':
+        return MsgRemoveEmergencySubmitters.unpackAny(proto)
+      case '/initia.gov.v1.MsgActivateEmergencyProposal':
+        return MsgActivateEmergencyProposal.unpackAny(proto)
 
       // group
       case '/cosmos.group.v1.MsgCreateGroup':
@@ -1492,10 +1565,12 @@ export namespace Msg {
         return MsgUpdateMstakingParams.unpackAny(proto)
 
       // opchild
-      case '/opinit.opchild.v1.MsgAddValidator':
-        return MsgAddValidator.unpackAny(proto)
-      case '/opinit.opchild.v1.MsgRemoveValidator':
-        return MsgRemoveValidator.unpackAny(proto)
+      case '/opinit.opchild.v1.MsgUpdateSequencer':
+        return MsgUpdateSequencer.unpackAny(proto)
+      case '/opinit.opchild.v1.MsgAddAttestor':
+        return MsgAddAttestor.unpackAny(proto)
+      case '/opinit.opchild.v1.MsgRemoveAttestor':
+        return MsgRemoveAttestor.unpackAny(proto)
       case '/opinit.opchild.v1.MsgFinalizeTokenDeposit':
         return MsgFinalizeTokenDeposit.unpackAny(proto)
       case '/opinit.opchild.v1.MsgInitiateTokenWithdrawal':
@@ -1508,6 +1583,10 @@ export namespace Msg {
         return MsgSetBridgeInfo.unpackAny(proto)
       case '/opinit.opchild.v1.MsgUpdateOracle':
         return MsgUpdateOracle.unpackAny(proto)
+      case '/opinit.opchild.v1.MsgRegisterMigrationInfo':
+        return MsgRegisterL2MigrationInfo.unpackAny(proto)
+      case '/opinit.opchild.v1.MsgMigrateToken':
+        return MsgMigrateToken.unpackAny(proto)
       case '/opinit.opchild.v1.MsgUpdateParams':
         return MsgUpdateOpchildParams.unpackAny(proto)
 
@@ -1528,16 +1607,20 @@ export namespace Msg {
         return MsgUpdateProposer.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateChallenger':
         return MsgUpdateChallenger.unpackAny(proto)
-      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
-        return MsgUpdateFinalizationPeriod.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateBatchInfo':
         return MsgUpdateBatchInfo.unpackAny(proto)
-      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
-        return MsgUpdateOracleConfig.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateMetadata':
         return MsgUpdateMetadata.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateOracleConfig':
+        return MsgUpdateOracleConfig.unpackAny(proto)
       case '/opinit.ophost.v1.MsgUpdateParams':
         return MsgUpdateOphostParams.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgUpdateFinalizationPeriod':
+        return MsgUpdateFinalizationPeriod.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgDisableBridge':
+        return MsgDisableBridge.unpackAny(proto)
+      case '/opinit.ophost.v1.MsgRegisterMigrationInfo':
+        return MsgRegisterL1MigrationInfo.unpackAny(proto)
 
       // oracle
       case '/connect.oracle.v2.MsgAddCurrencyPairs':
@@ -1548,6 +1631,8 @@ export namespace Msg {
       // reward
       case '/initia.reward.v1.MsgUpdateParams':
         return MsgUpdateRewardParams.unpackAny(proto)
+      case '/initia.reward.v1.MsgFundCommunityPool':
+        return MsgFundCommunityPoolReward.unpackAny(proto)
 
       // slashing
       case '/cosmos.slashing.v1beta1.MsgUnjail':
@@ -1612,6 +1697,8 @@ export namespace Msg {
         return MsgRemoveCodeUploadParamsAddresses.unpackAny(proto)
       case '/cosmwasm.wasm.v1.MsgUpdateContractLabel':
         return MsgUpdateContractLabel.unpackAny(proto)
+      case '/cosmwasm.wasm.v1.MsgUpdateMaxWasmSize':
+        return MsgUpdateMaxWasmSize.unpackAny(proto)
 
       // wasmextension
       case '/miniwasm.wasmextension.v1.MsgStoreCodeAdmin':

@@ -12,7 +12,7 @@ export default tseslint.config(
   {
     languageOptions: {
       parserOptions: {
-        project: './tsconfig.json',
+        project: ['./tsconfig.json', './ledger-key/tsconfig.json'],
         tsconfigRootDir: import.meta.dirname,
       },
     },
@@ -42,6 +42,6 @@ export default tseslint.config(
   },
   eslintPluginPrettierRecommended,
   {
-    ignores: ['dist/**/*', 'integration-tests/**/*', '**/*.config.js', '**/*.config.mjs', '**/*.spec.ts', '**/*.config.ts'],
+    ignores: ['**/dist/**/*', 'integration-tests/**/*', '**/*.config.js', '**/*.config.mjs', '**/*.spec.ts', '**/*.config.ts'],
   },
 )

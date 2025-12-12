@@ -51,6 +51,22 @@ export class IbcNftAPI extends BaseAPI {
   }
 
   /**
+   * Query a class id data information.
+   * @param hash hash (in hex format) of the class id trace information
+   */
+  public async classData(
+    hash: string,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<string> {
+    return this.c
+      .get<{
+        data: string
+      }>(`/ibc/apps/nft_transfer/v1/class_data/${hash}`, params, headers)
+      .then((d) => d.data)
+  }
+
+  /**
    * Query the escrow address for a particular port and channel id.
    * @param channel_id unique channel identifier
    * @param port_id unique port identifier

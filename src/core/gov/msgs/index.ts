@@ -8,6 +8,9 @@ import { MsgDeposit } from './MsgDeposit'
 import { MsgVoteWeightedLegacy } from './MsgVoteWeightedLegacy'
 import { MsgVoteWeighted } from './MsgVoteWeighted'
 import { MsgUpdateGovParams } from './MsgUpdateGovParams'
+import { MsgAddEmergencySubmitters } from './MsgAddEmergencySubmitters'
+import { MsgRemoveEmergencySubmitters } from './MsgRemoveEmergencySubmitters'
+import { MsgActivateEmergencyProposal } from './MsgActivateEmergencyProposal'
 
 export * from './MsgCancelProposal'
 export * from './MsgDepositLegacy'
@@ -19,6 +22,9 @@ export * from './MsgVote'
 export * from './MsgVoteWeightedLegacy'
 export * from './MsgVoteWeighted'
 export * from './MsgUpdateGovParams'
+export * from './MsgAddEmergencySubmitters'
+export * from './MsgRemoveEmergencySubmitters'
+export * from './MsgActivateEmergencyProposal'
 
 export type GovMsg =
   | MsgCancelProposal
@@ -31,6 +37,9 @@ export type GovMsg =
   | MsgVoteWeightedLegacy
   | MsgVoteWeighted
   | MsgUpdateGovParams
+  | MsgAddEmergencySubmitters
+  | MsgRemoveEmergencySubmitters
+  | MsgActivateEmergencyProposal
 
 export namespace GovMsg {
   export type Amino =
@@ -44,6 +53,9 @@ export namespace GovMsg {
     | MsgVoteWeightedLegacy.Amino
     | MsgVoteWeighted.Amino
     | MsgUpdateGovParams.Amino
+    | MsgAddEmergencySubmitters.Amino
+    | MsgRemoveEmergencySubmitters.Amino
+    | MsgActivateEmergencyProposal.Amino
   export type Data =
     | MsgCancelProposal.Data
     | MsgDepositLegacy.Data
@@ -55,6 +67,9 @@ export namespace GovMsg {
     | MsgVoteWeightedLegacy.Data
     | MsgVoteWeighted.Data
     | MsgUpdateGovParams.Data
+    | MsgAddEmergencySubmitters.Data
+    | MsgRemoveEmergencySubmitters.Data
+    | MsgActivateEmergencyProposal.Data
   export type Proto =
     | MsgCancelProposal.Proto
     | MsgDepositLegacy.Proto
@@ -66,4 +81,7 @@ export namespace GovMsg {
     | MsgVoteWeightedLegacy.Proto
     | MsgVoteWeighted.Proto
     | MsgUpdateGovParams.Proto
+    | MsgAddEmergencySubmitters.Proto
+    | MsgRemoveEmergencySubmitters.Proto
+    | MsgActivateEmergencyProposal.Proto
 }

@@ -1,0 +1,56 @@
+{
+  "name": "@initia/ledger-key",
+  "version": "1.0.0",
+  "description": "LedgerKey implementation to support Ledger in initia.js",
+  "license": "Apache-2.0",
+  "author": "Initia Foundation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/initia-labs/initia.js",
+    "directory": "ledger-key"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "files": ["dist"],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "LEDGER_TEST=true vitest run",
+    "lint": "npx eslint . --fix",
+    "prepublishOnly": "rm -rf ./dist && npm run build"
+  },
+  "peerDependencies": {
+    "@initia/initia.js": "^1.0.0"
+  },
+  "dependencies": {
+    "@ledgerhq/hw-app-eth": "^6.45.5",
+    "@ledgerhq/hw-transport": "^6.31.10",
+    "@ledgerhq/hw-transport-webhid": "^6.29.4",
+    "@ledgerhq/hw-transport-webusb": "^6.29.4",
+    "@zondax/ledger-cosmos-js": "^4.0.1",
+    "secp256k1": "^5.0.1",
+    "semver": "^7.6.3"
+  },
+  "devDependencies": {
+    "@initia/initia.js": "file:..",
+    "@ledgerhq/hw-transport-node-hid": "^6.29.6",
+    "@types/secp256k1": "^4.0.6",
+    "@types/semver": "^7.5.8",
+    "typescript": "^5.4.5",
+    "vite": "^6.2.4",
+    "vite-plugin-dts": "^4.2.3",
+    "vitest": "^3.0.9"
+  }
+}
