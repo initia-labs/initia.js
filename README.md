@@ -52,6 +52,17 @@ const key = new MnemonicKey({
 })
 ```
 
+#### Ledger Hardware Wallet
+
+For Ledger hardware wallet support, use [@initia/ledger-key](./ledger-key):
+
+```typescript
+import { LedgerKey } from '@initia/ledger-key'
+
+// e.g. `transport` from @ledgerhq/hw-transport-webhid / webusb / node-hid
+const key = await LedgerKey.create(transport)
+```
+
 ### BCS
 
 **BCS**(Binary Canonical Serialization) is the binary encoding for Move resources and other non-module values published on-chain. &#x20;
