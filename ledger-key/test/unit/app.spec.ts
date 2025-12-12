@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { EthereumApp, CosmosApp, LedgerError } from '../../src'
+import { CosmosApp, LedgerError } from '../../src'
 
-// Minimal mock transport with required methods for Eth app
+// Minimal mock transport
 const mockTransport = {
   decorateAppAPIMethods: () => {},
 } as any
 
-describe('EthereumApp', () => {
+describe('CosmosApp', () => {
   it('should throw error on signWithKeccak256', async () => {
     const app = new CosmosApp(mockTransport)
     await expect(app.signWithKeccak256('path', Buffer.from('test'))).rejects.toThrow(LedgerError)
