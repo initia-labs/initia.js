@@ -55,7 +55,7 @@ export class SendAuthorization extends JSONSerializable<
     const { spend_limit, allow_list } = this
     return {
       '@type': '/cosmos.bank.v1beta1.SendAuthorization',
-      spend_limit: spend_limit.toAmino(),
+      spend_limit: spend_limit.toData(),
       allow_list,
     }
   }
