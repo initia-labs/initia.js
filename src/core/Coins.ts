@@ -240,6 +240,14 @@ export class Coins
   public toProto(): Coins.Proto {
     return this.toArray().map((c) => c.toProto())
   }
+
+  public static fromProtoDec(data?: Coins.Proto): Coins {
+    return new Coins((data ?? []).map(Coin.fromProtoDec))
+  }
+
+  public toProtoDec(): Coins.Proto {
+    return this.toArray().map((c) => c.toProtoDec())
+  }
 }
 
 export namespace Coins {

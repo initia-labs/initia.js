@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Coin } from '../Coin'
+import { num } from '../num'
 import { Params as Params_pb } from '@initia/initia.proto/sdk/auction/v1/genesis'
 
 /**
@@ -122,7 +123,7 @@ export class AuctionParams extends JSONSerializable<
       Coin.fromProto(data.reserveFee as Coin),
       Coin.fromProto(data.minBidIncrement as Coin),
       data.frontRunningProtection,
-      data.proposerFee
+      num(data.proposerFee).shiftedBy(-18).toFixed()
     )
   }
 
@@ -142,7 +143,7 @@ export class AuctionParams extends JSONSerializable<
       reserveFee: reserve_fee.toProto(),
       minBidIncrement: min_bid_increment.toProto(),
       frontRunningProtection: front_running_protection,
-      proposerFee: proposer_fee,
+      proposerFee: num(proposer_fee).shiftedBy(18).toFixed(0),
     })
   }
 }

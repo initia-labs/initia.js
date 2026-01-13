@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
+import { num } from '../num'
 import { Params as Params_pb } from '@initia/initia.proto/initia/mstaking/v1/staking'
 
 /**
@@ -129,7 +130,7 @@ export class MstakingParams extends JSONSerializable<
       data.historicalEntries,
       data.bondDenoms,
       Number(data.minVotingPower),
-      data.minCommissionRate
+      num(data.minCommissionRate).shiftedBy(-18).toFixed()
     )
   }
 
@@ -150,7 +151,7 @@ export class MstakingParams extends JSONSerializable<
       historicalEntries: historical_entries,
       bondDenoms: bond_denoms,
       minVotingPower: BigInt(min_voting_power),
-      minCommissionRate: min_commission_rate,
+      minCommissionRate: num(min_commission_rate).shiftedBy(18).toFixed(0),
     })
   }
 }

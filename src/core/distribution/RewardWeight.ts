@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Denom } from '../Denom'
+import { num } from '../num'
 import { RewardWeight as RewardWeight_pb } from '@initia/initia.proto/initia/distribution/v1/distribution'
 
 /**
@@ -48,14 +49,17 @@ export class RewardWeight extends JSONSerializable<
   }
 
   public static fromProto(data: RewardWeight.Proto): RewardWeight {
-    return new RewardWeight(data.denom, data.weight)
+    return new RewardWeight(
+      data.denom,
+      num(data.weight).shiftedBy(-18).toFixed()
+    )
   }
 
   public toProto(): RewardWeight.Proto {
     const { denom, weight } = this
     return RewardWeight_pb.fromPartial({
       denom,
-      weight,
+      weight: num(weight).shiftedBy(18).toFixed(0),
     })
   }
 }

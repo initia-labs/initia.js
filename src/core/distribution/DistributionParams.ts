@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { num } from '../num'
 import { RewardWeight } from './RewardWeight'
 import { Params as Params_pb } from '@initia/initia.proto/initia/distribution/v1/distribution'
 
@@ -67,7 +68,7 @@ export class DistributionParams extends JSONSerializable<
 
   public static fromProto(data: DistributionParams.Proto): DistributionParams {
     return new DistributionParams(
-      data.communityTax,
+      num(data.communityTax).shiftedBy(-18).toFixed(),
       data.withdrawAddrEnabled,
       data.rewardWeights.map(RewardWeight.fromProto)
     )
@@ -76,7 +77,7 @@ export class DistributionParams extends JSONSerializable<
   public toProto(): DistributionParams.Proto {
     const { community_tax, withdraw_addr_enabled, reward_weights } = this
     return Params_pb.fromPartial({
-      communityTax: community_tax,
+      communityTax: num(community_tax).shiftedBy(18).toFixed(0),
       withdrawAddrEnabled: withdraw_addr_enabled,
       rewardWeights: reward_weights.map((d) => d.toProto()),
     })

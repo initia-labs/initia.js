@@ -1,6 +1,7 @@
 import { JSONSerializable } from '../../util/json'
 import { Coins } from '../Coins'
 import { ValAddress } from '../bech32'
+import { num } from '../num'
 import { ValConsPublicKey } from '../PublicKey'
 import {
   Validator as Validator_pb,
@@ -367,15 +368,19 @@ export namespace Validator {
     }
 
     public static fromProto(proto: CommissionRates.Proto): CommissionRates {
-      return new CommissionRates(proto.rate, proto.maxRate, proto.maxChangeRate)
+      return new CommissionRates(
+        num(proto.rate).shiftedBy(-18).toFixed(),
+        num(proto.maxRate).shiftedBy(-18).toFixed(),
+        num(proto.maxChangeRate).shiftedBy(-18).toFixed()
+      )
     }
 
     public toProto(): Validator.CommissionRates.Proto {
       const { rate, max_rate, max_change_rate } = this
       return CommissionRates_pb.fromPartial({
-        maxChangeRate: max_change_rate,
-        maxRate: max_rate,
-        rate,
+        rate: num(rate).shiftedBy(18).toFixed(0),
+        maxRate: num(max_rate).shiftedBy(18).toFixed(0),
+        maxChangeRate: num(max_change_rate).shiftedBy(18).toFixed(0),
       })
     }
   }

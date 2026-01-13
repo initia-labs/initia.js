@@ -210,6 +210,17 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
       amount: this.isDecimal ? num(this.amount).toFixed(18) : this.amount,
     })
   }
+
+  public static fromProtoDec(proto: Coin.Proto): Coin {
+    return new Coin(proto.denom, num(proto.amount).shiftedBy(-18).toFixed(18))
+  }
+
+  public toProtoDec(): Coin.Proto {
+    return Coin_pb.fromPartial({
+      denom: this.denom,
+      amount: num(this.amount).shiftedBy(18).toFixed(0),
+    })
+  }
 }
 
 export namespace Coin {
