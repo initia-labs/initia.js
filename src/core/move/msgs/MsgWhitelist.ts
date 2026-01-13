@@ -44,7 +44,7 @@ export class MsgWhitelist extends JSONSerializable<
       value: {
         authority,
         metadata_lp,
-        reward_weight,
+        reward_weight: num(reward_weight).toFixed(18),
       },
     }
   }

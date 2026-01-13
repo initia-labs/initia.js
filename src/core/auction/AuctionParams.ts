@@ -70,7 +70,7 @@ export class AuctionParams extends JSONSerializable<
         reserve_fee: reserve_fee.toAmino(),
         min_bid_increment: min_bid_increment.toAmino(),
         front_running_protection,
-        proposer_fee,
+        proposer_fee: num(proposer_fee).toFixed(18),
       },
     }
   }

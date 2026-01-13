@@ -40,7 +40,7 @@ export class DistributionParams extends JSONSerializable<
     return {
       type: 'distribution/Params',
       value: {
-        community_tax,
+        community_tax: num(community_tax).toFixed(18),
         withdraw_addr_enabled,
         reward_weights: reward_weights.map((d) => d.toAmino()),
       },

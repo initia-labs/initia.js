@@ -62,8 +62,8 @@ export class RewardParams extends JSONSerializable<
       value: {
         reward_denom,
         dilution_period: dilution_period.toAmino(),
-        release_rate,
-        dilution_rate,
+        release_rate: num(release_rate).toFixed(18),
+        dilution_rate: num(dilution_rate).toFixed(18),
         release_enabled,
       },
     }

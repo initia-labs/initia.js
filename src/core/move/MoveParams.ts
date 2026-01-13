@@ -57,8 +57,10 @@ export class MoveParams extends JSONSerializable<
       type: 'move/Params',
       value: {
         base_denom,
-        base_min_gas_price,
-        contract_shared_revenue_ratio,
+        base_min_gas_price: num(base_min_gas_price).toFixed(18),
+        contract_shared_revenue_ratio: num(
+          contract_shared_revenue_ratio
+        ).toFixed(18),
         script_enabled,
         allowed_publishers:
           allowed_publishers.length > 0 ? allowed_publishers : null,

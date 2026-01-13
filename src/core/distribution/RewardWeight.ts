@@ -31,7 +31,7 @@ export class RewardWeight extends JSONSerializable<
     const { denom, weight } = this
     return {
       denom,
-      weight,
+      weight: num(weight).toFixed(18),
     }
   }
 

@@ -44,7 +44,9 @@ export class MsgEditValidator extends JSONSerializable<
       value: {
         description,
         validator_address,
-        commission_rate,
+        commission_rate: commission_rate
+          ? num(commission_rate).toFixed(18)
+          : undefined,
       },
     }
   }

@@ -74,7 +74,7 @@ export class MstakingParams extends JSONSerializable<
         historical_entries,
         bond_denoms,
         min_voting_power: min_voting_power.toFixed(),
-        min_commission_rate,
+        min_commission_rate: num(min_commission_rate).toFixed(18),
       },
     }
   }

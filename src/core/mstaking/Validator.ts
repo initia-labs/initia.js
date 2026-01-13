@@ -347,9 +347,9 @@ export namespace Validator {
     public toAmino(): Validator.CommissionRates.Amino {
       const { rate, max_rate, max_change_rate } = this
       return {
-        rate,
-        max_rate,
-        max_change_rate,
+        rate: num(rate).toFixed(18),
+        max_rate: num(max_rate).toFixed(18),
+        max_change_rate: num(max_change_rate).toFixed(18),
       }
     }
 
