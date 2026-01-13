@@ -133,7 +133,7 @@ export class OpchildParams extends JSONSerializable<
     return new OpchildParams(
       data.maxValidators,
       data.historicalEntries,
-      Coins.fromProto(data.minGasPrices),
+      Coins.fromProtoDec(data.minGasPrices),
       data.bridgeExecutors,
       data.admin,
       data.feeWhitelist,
@@ -155,7 +155,7 @@ export class OpchildParams extends JSONSerializable<
     return Params_pb.fromPartial({
       maxValidators: max_validators,
       historicalEntries: historical_entries,
-      minGasPrices: min_gas_prices.toProto(),
+      minGasPrices: min_gas_prices.toProtoDec(),
       bridgeExecutors: bridge_executors,
       admin,
       feeWhitelist: fee_whitelist,

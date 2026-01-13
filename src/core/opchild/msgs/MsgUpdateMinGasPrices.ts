@@ -67,7 +67,7 @@ export class MsgUpdateMinGasPrices extends JSONSerializable<
   ): MsgUpdateMinGasPrices {
     return new MsgUpdateMinGasPrices(
       data.authority,
-      Coins.fromProto(data.minGasPrices)
+      Coins.fromProtoDec(data.minGasPrices)
     )
   }
 
@@ -75,7 +75,7 @@ export class MsgUpdateMinGasPrices extends JSONSerializable<
     const { authority, min_gas_prices } = this
     return MsgUpdateMinGasPrices_pb.fromPartial({
       authority,
-      minGasPrices: min_gas_prices.toProto(),
+      minGasPrices: min_gas_prices.toProtoDec(),
     })
   }
 

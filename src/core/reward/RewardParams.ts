@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../util/json'
 import { Duration } from '../Duration'
+import { num } from '../num'
 import { Params as Params_pb } from '@initia/initia.proto/initia/reward/v1/types'
 
 /**
@@ -61,8 +62,8 @@ export class RewardParams extends JSONSerializable<
       value: {
         reward_denom,
         dilution_period: dilution_period.toAmino(),
-        release_rate,
-        dilution_rate,
+        release_rate: num(release_rate).toFixed(18),
+        dilution_rate: num(dilution_rate).toFixed(18),
         release_enabled,
       },
     }
@@ -109,8 +110,8 @@ export class RewardParams extends JSONSerializable<
     return new RewardParams(
       data.rewardDenom,
       Duration.fromProto(data.dilutionPeriod as Duration.Proto),
-      data.releaseRate,
-      data.dilutionRate,
+      num(data.releaseRate).shiftedBy(-18).toFixed(),
+      num(data.dilutionRate).shiftedBy(-18).toFixed(),
       data.releaseEnabled
     )
   }
@@ -127,8 +128,8 @@ export class RewardParams extends JSONSerializable<
     return Params_pb.fromPartial({
       rewardDenom: reward_denom,
       dilutionPeriod: dilution_period.toProto(),
-      releaseRate: release_rate,
-      dilutionRate: dilution_rate,
+      releaseRate: num(release_rate).shiftedBy(18).toFixed(0),
+      dilutionRate: num(dilution_rate).shiftedBy(18).toFixed(0),
       releaseEnabled: release_enabled,
     })
   }

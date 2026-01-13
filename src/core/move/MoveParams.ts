@@ -1,4 +1,5 @@
 import { JSONSerializable } from '../../util/json'
+import { num } from '../num'
 import { Params as Params_pb } from '@initia/initia.proto/initia/move/v1/types'
 
 /**
@@ -56,8 +57,10 @@ export class MoveParams extends JSONSerializable<
       type: 'move/Params',
       value: {
         base_denom,
-        base_min_gas_price,
-        contract_shared_revenue_ratio,
+        base_min_gas_price: num(base_min_gas_price).toFixed(18),
+        contract_shared_revenue_ratio: num(
+          contract_shared_revenue_ratio
+        ).toFixed(18),
         script_enabled,
         allowed_publishers:
           allowed_publishers.length > 0 ? allowed_publishers : null,
@@ -103,8 +106,8 @@ export class MoveParams extends JSONSerializable<
   public static fromProto(data: MoveParams.Proto): MoveParams {
     return new MoveParams(
       data.baseDenom,
-      data.baseMinGasPrice,
-      data.contractSharedRevenueRatio,
+      num(data.baseMinGasPrice).shiftedBy(-18).toFixed(),
+      num(data.contractSharedRevenueRatio).shiftedBy(-18).toFixed(),
       data.scriptEnabled,
       data.allowedPublishers
     )
@@ -120,8 +123,10 @@ export class MoveParams extends JSONSerializable<
     } = this
     return Params_pb.fromPartial({
       baseDenom: base_denom,
-      baseMinGasPrice: base_min_gas_price,
-      contractSharedRevenueRatio: contract_shared_revenue_ratio,
+      baseMinGasPrice: num(base_min_gas_price).shiftedBy(18).toFixed(0),
+      contractSharedRevenueRatio: num(contract_shared_revenue_ratio)
+        .shiftedBy(18)
+        .toFixed(0),
       scriptEnabled: script_enabled,
       allowedPublishers: allowed_publishers,
     })

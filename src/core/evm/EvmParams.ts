@@ -1,6 +1,7 @@
 import { JSONSerializable } from '../../util/json'
-import { Params as Params_pb } from '@initia/initia.proto/minievm/evm/v1/types'
 import { GasEnforcement } from './GasEnforcement'
+import { num } from '../num'
+import { Params as Params_pb } from '@initia/initia.proto/minievm/evm/v1/types'
 
 /**
  * EvmParams defines the set of evm parameters.
@@ -51,7 +52,7 @@ export class EvmParams extends JSONSerializable<
       allow_custom_erc20,
       allowed_custom_erc20s ?? [],
       fee_denom,
-      gas_refund_ratio,
+      num(gas_refund_ratio).shiftedBy(-18).toFixed(), // TODO: rollback after upgrade
       parseInt(num_retain_block_hashes),
       gas_enforcement ? GasEnforcement.fromAmino(gas_enforcement) : undefined
     )
@@ -77,7 +78,7 @@ export class EvmParams extends JSONSerializable<
       allowed_custom_erc20s:
         allowed_custom_erc20s.length > 0 ? allowed_custom_erc20s : null,
       fee_denom,
-      gas_refund_ratio,
+      gas_refund_ratio: num(gas_refund_ratio).shiftedBy(18).toFixed(0), // TODO: rollback after upgrade
       num_retain_block_hashes: num_retain_block_hashes.toFixed(),
       gas_enforcement: gas_enforcement?.toAmino() ?? null,
     }
@@ -138,7 +139,7 @@ export class EvmParams extends JSONSerializable<
       proto.allowCustomErc20,
       proto.allowedCustomErc20s,
       proto.feeDenom,
-      proto.gasRefundRatio,
+      num(proto.gasRefundRatio).shiftedBy(-18).toFixed(),
       Number(proto.numRetainBlockHashes),
       proto.gasEnforcement
         ? GasEnforcement.fromProto(proto.gasEnforcement)
@@ -164,7 +165,7 @@ export class EvmParams extends JSONSerializable<
       allowCustomErc20: allow_custom_erc20,
       allowedCustomErc20s: allowed_custom_erc20s,
       feeDenom: fee_denom,
-      gasRefundRatio: gas_refund_ratio,
+      gasRefundRatio: num(gas_refund_ratio).shiftedBy(18).toFixed(0),
       numRetainBlockHashes: BigInt(num_retain_block_hashes),
       gasEnforcement: gas_enforcement?.toProto(),
     })

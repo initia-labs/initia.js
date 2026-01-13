@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../../util/json'
 import { ValAddress } from '../../bech32'
+import { num } from '../../num'
 import { Validator } from '../Validator'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgEditValidator as MsgEditValidator_pb } from '@initia/initia.proto/initia/mstaking/v1/tx'
@@ -43,7 +44,9 @@ export class MsgEditValidator extends JSONSerializable<
       value: {
         description,
         validator_address,
-        commission_rate,
+        commission_rate: commission_rate
+          ? num(commission_rate).toFixed(18)
+          : undefined,
       },
     }
   }
@@ -73,7 +76,9 @@ export class MsgEditValidator extends JSONSerializable<
         data.description as Validator.Description.Proto
       ),
       data.validatorAddress,
-      data.commissionRate !== '' ? data.commissionRate : undefined
+      data.commissionRate !== ''
+        ? num(data.commissionRate).shiftedBy(-18).toFixed()
+        : undefined
     )
   }
 
@@ -81,7 +86,9 @@ export class MsgEditValidator extends JSONSerializable<
     const { description, validator_address, commission_rate } = this
     return MsgEditValidator_pb.fromPartial({
       description: description.toProto(),
-      commissionRate: commission_rate,
+      commissionRate: commission_rate
+        ? num(commission_rate).shiftedBy(18).toFixed(0)
+        : undefined,
       validatorAddress: validator_address,
     })
   }

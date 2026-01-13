@@ -1,5 +1,6 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
+import { num } from '../../num'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
@@ -43,7 +44,7 @@ export class MsgWhitelist extends JSONSerializable<
       value: {
         authority,
         metadata_lp,
-        reward_weight,
+        reward_weight: num(reward_weight).toFixed(18),
       },
     }
   }
@@ -66,7 +67,11 @@ export class MsgWhitelist extends JSONSerializable<
   }
 
   public static fromProto(data: MsgWhitelist.Proto): MsgWhitelist {
-    return new MsgWhitelist(data.authority, data.metadataLp, data.rewardWeight)
+    return new MsgWhitelist(
+      data.authority,
+      data.metadataLp,
+      num(data.rewardWeight).shiftedBy(-18).toFixed()
+    )
   }
 
   public toProto(): MsgWhitelist.Proto {
@@ -75,7 +80,7 @@ export class MsgWhitelist extends JSONSerializable<
     return MsgWhitelist_pb.fromPartial({
       authority,
       metadataLp: metadata_lp,
-      rewardWeight: reward_weight,
+      rewardWeight: num(reward_weight).shiftedBy(18).toFixed(0),
     })
   }
 
