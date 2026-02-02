@@ -24,7 +24,7 @@ export class APIRequester {
   private axios: AxiosInstance
   private readonly baseURL: string
 
-  constructor(baseURL: string, config?: CreateAxiosDefaults<any> | undefined) {
+  constructor(baseURL: string, config?: CreateAxiosDefaults<any>) {
     this.baseURL = baseURL
     const defaultConfig: CreateAxiosDefaults<any> = {
       headers: {

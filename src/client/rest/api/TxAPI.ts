@@ -484,7 +484,7 @@ export class TxAPI extends BaseAPI {
     for (let i = 0; i <= timeout / POLL_INTERVAL; i++) {
       try {
         txInfo = await this.txInfo(txResponse.txhash, {}, headers)
-      } catch (error) {
+      } catch {
         // Errors when transaction is not found
       }
 
@@ -589,7 +589,7 @@ export class TxAPI extends BaseAPI {
     delete options['query']
 
     Object.entries(options).forEach((v) => {
-      params.append(v[0], v[1].toString())
+      params.append(v[0], String(v[1]))
     })
 
     return this.c

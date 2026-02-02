@@ -23,7 +23,7 @@ function checkPrefixAndLength(
   try {
     const vals = bech32.decode(data)
     return vals.prefix === prefix && data.length == length
-  } catch (e) {
+  } catch {
     return false
   }
 }

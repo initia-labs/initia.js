@@ -64,9 +64,11 @@ export namespace SignatureV2 {
     public single?: Descriptor.Single
     public multi?: Descriptor.Multi
     constructor(data: Descriptor.Single | Descriptor.Multi) {
-      data instanceof Descriptor.Single
-        ? (this.single = data)
-        : (this.multi = data)
+      if (data instanceof Descriptor.Single) {
+        this.single = data
+      } else {
+        this.multi = data
+      }
     }
 
     public static fromData(data: Descriptor.Data): Descriptor {

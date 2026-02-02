@@ -34,7 +34,6 @@ export abstract class JSONSerializable<A, D, P> {
 
 export function removeNull(obj: any): any {
   if (obj !== null && typeof obj === 'object') {
-    // eslint-disable-line @typescript-eslint/no-unsafe-argument
     return Object.entries(obj) // eslint-disable-line @typescript-eslint/no-unsafe-argument
       .filter(([, v]) => v != null)
       .reduce(

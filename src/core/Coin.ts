@@ -234,8 +234,11 @@ export namespace Coin {
     amount: string
   }
 
-  export class ArithmeticError {
-    constructor(public readonly message: string) {}
+  export class ArithmeticError extends Error {
+    constructor(message: string) {
+      super(message)
+      this.name = 'ArithmeticError'
+    }
   }
 
   export type Proto = Coin_pb

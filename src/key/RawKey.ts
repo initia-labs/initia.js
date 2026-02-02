@@ -39,7 +39,6 @@ export class RawKey extends Key {
     return new RawKey(Buffer.from(hex, 'hex'))
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   public async sign(payload: Buffer): Promise<Buffer> {
     if (this.eth) return this.signWithKeccak256(payload)
 

@@ -34,6 +34,7 @@ export default tseslint.config(
           varsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-base-to-string': 'off',
     }
   },
   {
