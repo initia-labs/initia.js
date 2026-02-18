@@ -449,7 +449,7 @@ export namespace Msg {
         return MsgSetWithdrawAddress.fromAmino(data)
       case 'cosmos-sdk/MsgWithdrawDelegationReward':
         return MsgWithdrawDelegatorReward.fromAmino(data)
-      case 'cosmos-sdk/MsgWithdrawValidatorCommission':
+      case 'cosmos-sdk/MsgWithdrawValCommission':
         return MsgWithdrawValidatorCommission.fromAmino(data)
       case 'cosmos-sdk/MsgFundCommunityPool':
         return MsgFundCommunityPool.fromAmino(data)
@@ -491,8 +491,6 @@ export namespace Msg {
         return MsgSetMemo.fromAmino(data)
 
       // gov
-      case 'cosmos-sdk/v1/MsgCancelProposal':
-        return MsgCancelProposal.fromAmino(data)
       case 'cosmos-sdk/MsgDeposit':
         return MsgDepositLegacy.fromAmino(data)
       case 'cosmos-sdk/v1/MsgDeposit':
