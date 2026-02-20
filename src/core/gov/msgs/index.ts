@@ -43,7 +43,6 @@ export type GovMsg =
 
 export namespace GovMsg {
   export type Amino =
-    | MsgCancelProposal.Amino
     | MsgDepositLegacy.Amino
     | MsgDeposit.Amino
     | MsgSubmitProposalLegacy.Amino

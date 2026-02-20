@@ -7,7 +7,7 @@ import { MsgCancelProposal as MsgCancelProposal_pb } from '@initia/initia.proto/
  * MsgCancelProposal defines a method to cancel governance proposal.
  */
 export class MsgCancelProposal extends JSONSerializable<
-  MsgCancelProposal.Amino,
+  any,
   MsgCancelProposal.Data,
   MsgCancelProposal.Proto
 > {
@@ -22,22 +22,12 @@ export class MsgCancelProposal extends JSONSerializable<
     super()
   }
 
-  public static fromAmino(data: MsgCancelProposal.Amino): MsgCancelProposal {
-    const {
-      value: { proposal_id, proposer },
-    } = data
-    return new MsgCancelProposal(parseInt(proposal_id), proposer)
+  public static fromAmino(_: any): MsgCancelProposal {
+    throw new Error('Amino not supported')
   }
 
-  public toAmino(): MsgCancelProposal.Amino {
-    const { proposal_id, proposer } = this
-    return {
-      type: 'cosmos-sdk/v1/MsgCancelProposal',
-      value: {
-        proposal_id: proposal_id.toFixed(),
-        proposer,
-      },
-    }
+  public toAmino(): any {
+    throw new Error('Amino not supported')
   }
 
   public static fromData(data: MsgCancelProposal.Data): MsgCancelProposal {
@@ -81,14 +71,6 @@ export class MsgCancelProposal extends JSONSerializable<
 }
 
 export namespace MsgCancelProposal {
-  export interface Amino {
-    type: 'cosmos-sdk/v1/MsgCancelProposal'
-    value: {
-      proposal_id: string
-      proposer: AccAddress
-    }
-  }
-
   export interface Data {
     '@type': '/cosmos.gov.v1.MsgCancelProposal'
     proposal_id: string
