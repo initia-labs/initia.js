@@ -54,7 +54,6 @@ function fromDer(data: Buffer): { r: Buffer; s: Buffer } {
     throw new Error('Decoding length values above 127 not supported')
   }
   const sData = data.slice(pos, pos + sLength)
-  pos += sLength
 
   return {
     // r/s data can contain leading 0 bytes to express integers being non-negative in DER

@@ -347,15 +347,13 @@ async function createTransport(): Promise<Transport> {
       )
     }
 
-    const { default: TransportWebHid } = await import(
-      '@ledgerhq/hw-transport-webhid'
-    )
+    const { default: TransportWebHid } =
+      await import('@ledgerhq/hw-transport-webhid')
     transport = await TransportWebHid.create(INTERACTION_TIMEOUT * 1000)
   } else {
     // For other than Windows
-    const { default: TransportWebUsb } = await import(
-      '@ledgerhq/hw-transport-webusb'
-    )
+    const { default: TransportWebUsb } =
+      await import('@ledgerhq/hw-transport-webusb')
     transport = await TransportWebUsb.create(INTERACTION_TIMEOUT * 1000)
   }
   return transport
