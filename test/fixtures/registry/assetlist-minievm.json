@@ -1,0 +1,19 @@
+{
+  "chain_name": "minievm",
+  "assets": [
+    {
+      "description": "Wrapped ETH on MiniEVM",
+      "base": "aETH",
+      "display": "ETH",
+      "name": "Ethereum",
+      "symbol": "ETH",
+      "denom_units": [
+        { "denom": "aETH", "exponent": 0 },
+        { "denom": "ETH", "exponent": 18 }
+      ],
+      "type_asset": "erc20",
+      "address": "0x1234567890abcdef1234567890abcdef12345678",
+      "oracle_symbol": "WETH"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "types": ["node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "paths": {
+      "initia.js": ["../src/entry.node.ts"],
+      "initia.js/bridge": ["../src/entry.bridge.node.ts"],
+      "initia.js/client": ["../src/entry.client.node.ts"],
+      "initia.js/cosmos": ["../src/entry.cosmos.ts"],
+      "initia.js/events": ["../src/entry.events.ts"],
+      "initia.js/evm": ["../src/entry.evm.ts"],
+      "initia.js/move": ["../src/entry.move.ts"],
+      "initia.js/msgs": ["../src/entry.msgs.ts"],
+      "initia.js/provider": ["../src/entry.provider.ts"],
+      "initia.js/signer": ["../src/entry.signer.ts"],
+      "initia.js/tx": ["../src/entry.tx.ts"],
+      "initia.js/usernames": ["../src/entry.usernames.ts"],
+      "initia.js/util": ["../src/entry.util.ts"],
+      "initia.js/vip": ["../src/entry.vip.ts"],
+      "initia.js/wasm": ["../src/entry.wasm.ts"]
+    }
+  },
+  "include": ["./**/*", "../src/**/*"],
+  "exclude": []
+}

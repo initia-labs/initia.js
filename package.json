@@ -1,0 +1,214 @@
+{
+  "name": "@initia/initia.js",
+  "version": "2.0.0-rc.0", 
+  "author": "Initia Foundation",
+  "description": "TypeScript SDK for Initia and the interwoven ecosystem",
+  "repository": "github:initia-labs/initia.js",
+  "homepage": "https://github.com/initia-labs/initia.js",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/entry.node.mjs",
+  "types": "dist/entry.node.d.mts",
+  "exports": {
+    ".": {
+      "node": {
+        "types": "./dist/entry.node.d.mts",
+        "import": "./dist/entry.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.browser.d.mts",
+        "import": "./dist/entry.browser.mjs"
+      }
+    },
+    "./tx": {
+      "types": "./dist/entry.tx.d.mts",
+      "import": "./dist/entry.tx.mjs"
+    },
+    "./msgs": {
+      "types": "./dist/entry.msgs.d.mts",
+      "import": "./dist/entry.msgs.mjs"
+    },
+    "./client": {
+      "node": {
+        "types": "./dist/entry.client.node.d.mts",
+        "import": "./dist/entry.client.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.client.browser.d.mts",
+        "import": "./dist/entry.client.browser.mjs"
+      }
+    },
+    "./evm": {
+      "types": "./dist/entry.evm.d.mts",
+      "import": "./dist/entry.evm.mjs"
+    },
+    "./move": {
+      "types": "./dist/entry.move.d.mts",
+      "import": "./dist/entry.move.mjs"
+    },
+    "./wasm": {
+      "types": "./dist/entry.wasm.d.mts",
+      "import": "./dist/entry.wasm.mjs"
+    },
+    "./bridge": {
+      "node": {
+        "types": "./dist/entry.bridge.node.d.mts",
+        "import": "./dist/entry.bridge.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.bridge.browser.d.mts",
+        "import": "./dist/entry.bridge.browser.mjs"
+      }
+    },
+    "./provider": {
+      "types": "./dist/entry.provider.d.mts",
+      "import": "./dist/entry.provider.mjs"
+    },
+    "./util": {
+      "types": "./dist/entry.util.d.mts",
+      "import": "./dist/entry.util.mjs"
+    },
+    "./signer": {
+      "types": "./dist/entry.signer.d.mts",
+      "import": "./dist/entry.signer.mjs"
+    },
+    "./events": {
+      "types": "./dist/entry.events.d.mts",
+      "import": "./dist/entry.events.mjs"
+    },
+    "./usernames": {
+      "types": "./dist/entry.usernames.d.mts",
+      "import": "./dist/entry.usernames.mjs"
+    },
+    "./cosmos": {
+      "types": "./dist/entry.cosmos.d.mts",
+      "import": "./dist/entry.cosmos.mjs"
+    },
+    "./codegen": {
+      "types": "./dist/entry.codegen.d.mts",
+      "import": "./dist/entry.codegen.mjs"
+    },
+    "./vip": {
+      "types": "./dist/entry.vip.d.mts",
+      "import": "./dist/entry.vip.mjs"
+    },
+    "./modules": {
+      "types": "./dist/entry.modules.d.mts",
+      "import": "./dist/entry.modules.mjs"
+    },
+    "./initia": {
+      "node": {
+        "types": "./dist/entry.chain.initia.node.d.mts",
+        "import": "./dist/entry.chain.initia.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.chain.initia.browser.d.mts",
+        "import": "./dist/entry.chain.initia.browser.mjs"
+      }
+    },
+    "./minievm": {
+      "node": {
+        "types": "./dist/entry.chain.minievm.node.d.mts",
+        "import": "./dist/entry.chain.minievm.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.chain.minievm.browser.d.mts",
+        "import": "./dist/entry.chain.minievm.browser.mjs"
+      }
+    },
+    "./minimove": {
+      "node": {
+        "types": "./dist/entry.chain.minimove.node.d.mts",
+        "import": "./dist/entry.chain.minimove.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.chain.minimove.browser.d.mts",
+        "import": "./dist/entry.chain.minimove.browser.mjs"
+      }
+    },
+    "./miniwasm": {
+      "node": {
+        "types": "./dist/entry.chain.miniwasm.node.d.mts",
+        "import": "./dist/entry.chain.miniwasm.node.mjs"
+      },
+      "default": {
+        "types": "./dist/entry.chain.miniwasm.browser.d.mts",
+        "import": "./dist/entry.chain.miniwasm.browser.mjs"
+      }
+    }
+  },
+  "bin": {
+    "abigen": "./dist/codegen/cli.mjs"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsdown src/entry.node.ts src/entry.browser.ts src/entry.cosmos.ts src/entry.tx.ts src/entry.msgs.ts src/entry.client.node.ts src/entry.client.browser.ts src/entry.evm.ts src/entry.move.ts src/entry.wasm.ts src/entry.bridge.node.ts src/entry.bridge.browser.ts src/entry.provider.ts src/entry.util.ts src/entry.signer.ts src/entry.events.ts src/entry.usernames.ts src/entry.codegen.ts src/entry.vip.ts src/entry.modules.ts src/entry.chain.initia.node.ts src/entry.chain.initia.browser.ts src/entry.chain.minievm.node.ts src/entry.chain.minievm.browser.ts src/entry.chain.minimove.node.ts src/entry.chain.minimove.browser.ts src/entry.chain.miniwasm.node.ts src/entry.chain.miniwasm.browser.ts src/codegen/cli.ts --format esm --dts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:l2": "vitest run test/e2e/l2.spec.ts --reporter verbose",
+    "test:bridge": "vitest run test/e2e/bridge.spec.ts --reporter verbose",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "npm run build && changeset publish"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22",
+    "bun": ">=1.3.11",
+    "deno": ">=2.5"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.11.0",
+    "@chain-registry/types": "^2.0.178",
+    "@connectrpc/connect": "^2.1.1",
+    "@connectrpc/connect-node": "^2.1.1",
+    "@connectrpc/connect-web": "^2.1.1",
+    "@initia/initia-registry-types": "^1.0.13",
+    "@mysten/bcs": "^2.0.3",
+    "@noble/curves": "^2.0.1",
+    "@noble/hashes": "^2.0.1",
+    "@scure/base": "^2.0.0",
+    "@scure/bip32": "^2.0.1",
+    "@scure/bip39": "^2.0.1",
+    "abitype": "^1.2.3",
+    "chain-registry": "^2.0.178",
+    "tiny-lru": "^11.4.7",
+    "valibot": "^1.3.1",
+    "viem": "^2.47.6"
+  },
+  "devDependencies": {
+    "@buf/cosmos_cosmos-sdk.bufbuild_es": "2.11.0-20231107180110-5a6ab7bc1431.1",
+    "@buf/cosmos_ibc.bufbuild_es": "2.11.0-20231018090243-cc1d31ac98a0.1",
+    "@buf/cosmwasm_wasmd.bufbuild_es": "2.11.0-20250430124536-3c30b822226c.1",
+    "@buf/initia-labs_initia.bufbuild_es": "2.11.0-00000000000000-028bcaed3471.1",
+    "@buf/initia-labs_minievm.bufbuild_es": "2.11.0-20260328053104-c8197393f339.1",
+    "@buf/initia-labs_miniwasm.bufbuild_es": "2.11.0-00000000000000-6ab22afdffef.1",
+    "@buf/initia-labs_opinit.bufbuild_es": "2.11.0-00000000000000-b24498c79126.1",
+    "@buf/skip-mev_connect.bufbuild_es": "2.11.0-20250116194036-ea643a0e8c46.1",
+    "@changesets/cli": "^2.30.0",
+    "@types/node": "^25.5.0",
+    "esbuild": "^0.27.4",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
+    "tsdown": "^0.21.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.2",
+    "vitest": "^4.1.2"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
+}

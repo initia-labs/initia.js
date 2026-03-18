@@ -1,0 +1,96 @@
+[
+  {
+    "chain_name": "initia",
+    "chain_id": "interwoven-1",
+    "evm_chain_id": null,
+    "pretty_name": "Initia",
+    "network_type": "mainnet",
+    "bech32_prefix": "init",
+    "slip44": 118,
+    "fees": {
+      "fee_tokens": [{ "denom": "uinit" }]
+    },
+    "apis": {
+      "rpc": [{ "address": "https://rpc.initia.xyz" }],
+      "rest": [{ "address": "https://rest.initia.xyz" }],
+      "grpc": [{ "address": "grpc.initia.xyz:443" }],
+      "grpc-web": [{ "address": "grpc-web.initia.xyz:443" }],
+      "api": [{ "address": "https://api.initia.xyz" }],
+      "indexer": [{ "address": "https://indexer.initia.xyz" }]
+    },
+    "explorers": [{ "url": "https://scan.initia.xyz" }],
+    "metadata": {
+      "is_l1": true,
+      "ibc_channels": [
+        {
+          "chain_id": "noble-1",
+          "port_id": "transfer",
+          "channel_id": "channel-3",
+          "version": "ics20-1"
+        },
+        {
+          "chain_id": "minievm-1",
+          "port_id": "nft-transfer",
+          "channel_id": "channel-99",
+          "version": "ics721-1"
+        }
+      ],
+      "assetlist": "https://raw.example.com/initia/assetlist.json"
+    }
+  },
+  {
+    "chain_name": "minievm",
+    "chain_id": "minievm-1",
+    "evm_chain_id": 1234567,
+    "pretty_name": "MiniEVM",
+    "network_type": "mainnet",
+    "bech32_prefix": "init",
+    "slip44": 60,
+    "fees": {
+      "fee_tokens": [{ "denom": "umin" }]
+    },
+    "apis": {
+      "rpc": [{ "address": "https://rpc.minievm.xyz" }],
+      "rest": [{ "address": "https://rest.minievm.xyz" }],
+      "grpc": [{ "address": "grpc.minievm.xyz:9090" }],
+      "json-rpc": [{ "address": "https://json-rpc.minievm.xyz" }]
+    },
+    "explorers": [{ "url": "https://scan.minievm.xyz" }],
+    "metadata": {
+      "op_bridge_id": "42",
+      "op_denoms": ["uinit", "uusdc"],
+      "executor_uri": "https://executor.minievm.xyz",
+      "ibc_channels": [
+        {
+          "chain_id": "interwoven-1",
+          "port_id": "transfer",
+          "channel_id": "channel-0",
+          "version": "ics20-1"
+        }
+      ],
+      "minitia": { "type": "minievm", "version": "v0.5.5" },
+      "assetlist": "https://raw.example.com/minievm/assetlist.json"
+    }
+  },
+  {
+    "chain_name": "minimove",
+    "chain_id": "minimove-1",
+    "pretty_name": "MiniMove",
+    "network_type": "mainnet",
+    "bech32_prefix": "init",
+    "slip44": 60,
+    "fees": {
+      "fee_tokens": [{ "denom": "umove" }]
+    },
+    "apis": {
+      "rpc": [{ "address": "https://rpc.minimove.xyz" }],
+      "rest": [{ "address": "https://rest.minimove.xyz" }],
+      "grpc": [{ "address": "grpc.minimove.xyz:9090" }]
+    },
+    "metadata": {
+      "op_bridge_id": "7",
+      "minitia": { "type": "minimove", "version": "v0.5.6" },
+      "assetlist": "https://raw.example.com/minimove/assetlist.json"
+    }
+  }
+]

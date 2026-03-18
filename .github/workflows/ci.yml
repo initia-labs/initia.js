@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup BSR Registry
+        run: npm config set @buf:registry https://buf.build/gen/npm/v1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Test
+        run: npm test
+
+  changeset-check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Setup BSR Registry
+        run: npm config set @buf:registry https://buf.build/gen/npm/v1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for changeset
+        run: |
+          CHANGESET_FILES=$(find .changeset -name "*.md" ! -name "README.md" 2>/dev/null | wc -l)
+
+          if [ "$CHANGESET_FILES" -eq 0 ]; then
+            echo "::warning::No changeset found. If this PR includes user-facing changes, please run 'npx changeset' to add one."
+            echo ""
+            echo "To add a changeset:"
+            echo "  1. Run: npx changeset"
+            echo "  2. Select the type of change (major/minor/patch)"
+            echo "  3. Describe the change"
+            echo "  4. Commit the generated file"
+            echo ""
+            echo "Skip this if the PR only includes:"
+            echo "  - Documentation updates"
+            echo "  - Internal refactoring with no API changes"
+            echo "  - Test updates"
+          else
+            echo "Found $CHANGESET_FILES changeset file(s)"
+          fi
