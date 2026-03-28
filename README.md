@@ -296,6 +296,7 @@ See the [examples/](./examples) directory for runnable scripts:
 - [cache-management.ts](./examples/cache-management.ts) -- gRPC response cache control
 - [provider-assets.ts](./examples/provider-assets.ts) -- Provider asset and denom lookup
 - [keystore.ts](./examples/keystore.ts) -- KeyStore multi-key management
+- [ledger.ts](./examples/ledger.ts) -- Ledger hardware wallet (`@initia/ledger-key`)
 
 ## License
 

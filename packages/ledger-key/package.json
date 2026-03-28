@@ -1,7 +1,7 @@
 {
   "name": "@initia/ledger-key",
   "version": "2.0.0-rc.0",
-  "description": "Ledger hardware wallet support for initia.js",
+  "description": "Ledger hardware wallet support for initia.js@v2",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
   "repository": {
@@ -28,22 +28,24 @@
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:integration": "LEDGER_TEST=true vitest run"
+    "test:integration": "LEDGER_TEST=true vitest run",
+    "test:integration:eth": "LEDGER_TEST=true vitest run -t 'Ethereum'",
+    "test:integration:cosmos": "LEDGER_TEST=true vitest run -t 'Cosmos'"
   },
   "peerDependencies": {
-    "initia.js": "^2.0.0"
+    "@initia/initia.js": "next"
   },
   "dependencies": {
-    "@ledgerhq/hw-app-eth": "^6.45.0",
-    "@ledgerhq/hw-transport": "^6.31.0",
+    "@ledgerhq/hw-app-eth": "^7.6.1",
+    "@ledgerhq/hw-transport": "^6.34.1",
     "@noble/curves": "^2.0.0",
     "@noble/hashes": "^2.0.0",
     "@zondax/ledger-cosmos-js": "^4.0.0"
   },
   "devDependencies": {
-    "@ledgerhq/hw-transport-mocker": "^6.29.0",
-    "@ledgerhq/hw-transport-node-hid": "^6.32.0",
+    "@ledgerhq/hw-transport-mocker": "^6.33.1",
+    "@ledgerhq/hw-transport-node-hid": "^6.32.1",
     "typescript": "^5.0.0",
-    "vitest": "^4.0.0"
+    "vitest": "^4.1.2"
   }
 }

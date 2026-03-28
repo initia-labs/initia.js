@@ -5,9 +5,9 @@
  * - Ledger device connected via USB
  * - Open the appropriate app on the device before running each describe block
  *
- * Run all:    npx vitest run --config vitest.config.ts --project integration
- * Ethereum:   npx vitest run --config vitest.config.ts --project integration -t "Ethereum"
- * Cosmos:     npx vitest run --config vitest.config.ts --project integration -t "Cosmos"
+ * Run all:    npm run test:integration
+ * Ethereum:   npm run test:integration:eth
+ * Cosmos:     npm run test:integration:cosmos
  *
  * These tests are NOT run in CI — only locally with a physical device.
  */
@@ -37,7 +37,10 @@ describe('LedgerKey with real USB device (Ethereum app)', () => {
 
     console.log('Address:', key.address)
     console.log('EVM Address:', key.evmAddress)
-    console.log('Public Key:', [...key.publicKey].map(b => b.toString(16).padStart(2, '0')).join(''))
+    console.log(
+      'Public Key:',
+      [...key.publicKey].map(b => b.toString(16).padStart(2, '0')).join('')
+    )
   }, 30000)
 
   it('should derive a valid init1 address', async () => {
@@ -61,7 +64,10 @@ describe('LedgerKey with real USB device (Ethereum app)', () => {
 
     expect(signature).toBeInstanceOf(Uint8Array)
     expect(signature.length).toBe(64)
-    console.log('Signature (hex):', [...signature].map(b => b.toString(16).padStart(2, '0')).join(''))
+    console.log(
+      'Signature (hex):',
+      [...signature].map(b => b.toString(16).padStart(2, '0')).join('')
+    )
   }, 60000)
 
   it('should sign and broadcast MsgSend via EIP-191', async () => {
@@ -87,7 +93,7 @@ describe('LedgerKey with real USB device (Ethereum app)', () => {
   }, 120000)
 
   it('should get app configuration', async () => {
-    const config = await key.getAppConfiguration() as { version: string }
+    const config = (await key.getAppConfiguration()) as { version: string }
     expect(config).toBeDefined()
     expect(config.version).toBeDefined()
     console.log('App config:', config)
@@ -120,7 +126,10 @@ describe('LedgerKey with real USB device (Cosmos app)', () => {
     expect(key.algorithm).toBe('secp256k1')
 
     console.log('Address:', key.address)
-    console.log('Public Key:', [...key.publicKey].map(b => b.toString(16).padStart(2, '0')).join(''))
+    console.log(
+      'Public Key:',
+      [...key.publicKey].map(b => b.toString(16).padStart(2, '0')).join('')
+    )
   }, 30000)
 
   it('should derive a valid init1 address', () => {
