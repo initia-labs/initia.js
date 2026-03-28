@@ -13,127 +13,127 @@
     ".": {
       "node": {
         "types": "./dist/entry.node.d.mts",
-        "import": "./dist/entry.node.mjs"
+        "default": "./dist/entry.node.mjs"
       },
       "default": {
         "types": "./dist/entry.browser.d.mts",
-        "import": "./dist/entry.browser.mjs"
+        "default": "./dist/entry.browser.mjs"
       }
     },
     "./tx": {
       "types": "./dist/entry.tx.d.mts",
-      "import": "./dist/entry.tx.mjs"
+      "default": "./dist/entry.tx.mjs"
     },
     "./msgs": {
       "types": "./dist/entry.msgs.d.mts",
-      "import": "./dist/entry.msgs.mjs"
+      "default": "./dist/entry.msgs.mjs"
     },
     "./client": {
       "node": {
         "types": "./dist/entry.client.node.d.mts",
-        "import": "./dist/entry.client.node.mjs"
+        "default": "./dist/entry.client.node.mjs"
       },
       "default": {
         "types": "./dist/entry.client.browser.d.mts",
-        "import": "./dist/entry.client.browser.mjs"
+        "default": "./dist/entry.client.browser.mjs"
       }
     },
     "./evm": {
       "types": "./dist/entry.evm.d.mts",
-      "import": "./dist/entry.evm.mjs"
+      "default": "./dist/entry.evm.mjs"
     },
     "./move": {
       "types": "./dist/entry.move.d.mts",
-      "import": "./dist/entry.move.mjs"
+      "default": "./dist/entry.move.mjs"
     },
     "./wasm": {
       "types": "./dist/entry.wasm.d.mts",
-      "import": "./dist/entry.wasm.mjs"
+      "default": "./dist/entry.wasm.mjs"
     },
     "./bridge": {
       "node": {
         "types": "./dist/entry.bridge.node.d.mts",
-        "import": "./dist/entry.bridge.node.mjs"
+        "default": "./dist/entry.bridge.node.mjs"
       },
       "default": {
         "types": "./dist/entry.bridge.browser.d.mts",
-        "import": "./dist/entry.bridge.browser.mjs"
+        "default": "./dist/entry.bridge.browser.mjs"
       }
     },
     "./provider": {
       "types": "./dist/entry.provider.d.mts",
-      "import": "./dist/entry.provider.mjs"
+      "default": "./dist/entry.provider.mjs"
     },
     "./util": {
       "types": "./dist/entry.util.d.mts",
-      "import": "./dist/entry.util.mjs"
+      "default": "./dist/entry.util.mjs"
     },
     "./signer": {
       "types": "./dist/entry.signer.d.mts",
-      "import": "./dist/entry.signer.mjs"
+      "default": "./dist/entry.signer.mjs"
     },
     "./events": {
       "types": "./dist/entry.events.d.mts",
-      "import": "./dist/entry.events.mjs"
+      "default": "./dist/entry.events.mjs"
     },
     "./usernames": {
       "types": "./dist/entry.usernames.d.mts",
-      "import": "./dist/entry.usernames.mjs"
+      "default": "./dist/entry.usernames.mjs"
     },
     "./cosmos": {
       "types": "./dist/entry.cosmos.d.mts",
-      "import": "./dist/entry.cosmos.mjs"
+      "default": "./dist/entry.cosmos.mjs"
     },
     "./codegen": {
       "types": "./dist/entry.codegen.d.mts",
-      "import": "./dist/entry.codegen.mjs"
+      "default": "./dist/entry.codegen.mjs"
     },
     "./vip": {
       "types": "./dist/entry.vip.d.mts",
-      "import": "./dist/entry.vip.mjs"
+      "default": "./dist/entry.vip.mjs"
     },
     "./modules": {
       "types": "./dist/entry.modules.d.mts",
-      "import": "./dist/entry.modules.mjs"
+      "default": "./dist/entry.modules.mjs"
     },
     "./initia": {
       "node": {
         "types": "./dist/entry.chain.initia.node.d.mts",
-        "import": "./dist/entry.chain.initia.node.mjs"
+        "default": "./dist/entry.chain.initia.node.mjs"
       },
       "default": {
         "types": "./dist/entry.chain.initia.browser.d.mts",
-        "import": "./dist/entry.chain.initia.browser.mjs"
+        "default": "./dist/entry.chain.initia.browser.mjs"
       }
     },
     "./minievm": {
       "node": {
         "types": "./dist/entry.chain.minievm.node.d.mts",
-        "import": "./dist/entry.chain.minievm.node.mjs"
+        "default": "./dist/entry.chain.minievm.node.mjs"
       },
       "default": {
         "types": "./dist/entry.chain.minievm.browser.d.mts",
-        "import": "./dist/entry.chain.minievm.browser.mjs"
+        "default": "./dist/entry.chain.minievm.browser.mjs"
       }
     },
     "./minimove": {
       "node": {
         "types": "./dist/entry.chain.minimove.node.d.mts",
-        "import": "./dist/entry.chain.minimove.node.mjs"
+        "default": "./dist/entry.chain.minimove.node.mjs"
       },
       "default": {
         "types": "./dist/entry.chain.minimove.browser.d.mts",
-        "import": "./dist/entry.chain.minimove.browser.mjs"
+        "default": "./dist/entry.chain.minimove.browser.mjs"
       }
     },
     "./miniwasm": {
       "node": {
         "types": "./dist/entry.chain.miniwasm.node.d.mts",
-        "import": "./dist/entry.chain.miniwasm.node.mjs"
+        "default": "./dist/entry.chain.miniwasm.node.mjs"
       },
       "default": {
         "types": "./dist/entry.chain.miniwasm.browser.d.mts",
-        "import": "./dist/entry.chain.miniwasm.browser.mjs"
+        "default": "./dist/entry.chain.miniwasm.browser.mjs"
       }
     }
   },
