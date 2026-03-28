@@ -27,9 +27,12 @@
       "initia.js/usernames": ["../src/entry.usernames.ts"],
       "initia.js/util": ["../src/entry.util.ts"],
       "initia.js/vip": ["../src/entry.vip.ts"],
-      "initia.js/wasm": ["../src/entry.wasm.ts"]
+      "initia.js/wasm": ["../src/entry.wasm.ts"],
+      "initia.js/modules": ["../src/entry.modules.ts"],
+      "@initia/ledger-key": ["../packages/ledger-key/dist/index.d.ts"],
+      "@ledgerhq/hw-transport-node-hid": ["../packages/ledger-key/node_modules/@ledgerhq/hw-transport-node-hid/lib/TransportNodeHid"]
     }
   },
   "include": ["./**/*", "../src/**/*"],
-  "exclude": []
+  "exclude": ["../packages/**/*"]
 }
