@@ -1,5 +1,5 @@
 import Eth from '@ledgerhq/hw-app-eth'
-import type { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types.js'
+import type { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types'
 import Cosmos from '@zondax/ledger-cosmos-js'
 import type Transport from '@ledgerhq/hw-transport'
 import { secp256k1 } from '@noble/curves/secp256k1.js'

@@ -22,28 +22,28 @@ TypeScript SDK for Initia and its rollup ecosystem.
 
 ## Supported Environments
 
-| Environment | Version | Transport |
-|-------------|---------|-----------|
-| Node.js | >= 22 | Native gRPC (HTTP/2) |
-| Browser | Modern | gRPC-Web |
-| Bun | >= 1.3.11 | Native gRPC (HTTP/2) |
-| Deno | >= 2.5 | Native gRPC (HTTP/2) |
+| Environment | Version    | Transport              |
+| ----------- | ---------- | ---------------------- |
+| Node.js     | >= 22      | Native gRPC (HTTP/2)   |
+| Browser     | Modern     | gRPC-Web               |
+| Bun         | >= 1.3.11  | Native gRPC (HTTP/2)   |
+| Deno        | >= 2.5     | Native gRPC (HTTP/2)   |
 
 ## Compatibility
 
 ### Chain Versions
 
-| initia.js | Initia L1 | Minievm | Minimove | Miniwasm | OPinit |
-|-----------|-----------|---------|----------|----------|--------|
-| v2.0.x | v1.4.0 | v1.2.15 | v1.1.11\* | v1.2.11 | v1.3.0 |
+| initia.js | Initia L1 | Minievm | Minimove   | Miniwasm | OPinit |
+| --------- | --------- | ------- | ---------- | -------- | ------ |
+| v2.0.x    | v1.4.0    | v1.2.15 | v1.1.11\*  | v1.2.11  | v1.3.0 |
 
 \* Minimove v1.1.11 uses Initia v1.2.2 move proto — governance messages (Whitelist/Delist) differ from v1.4.0. Core move execute/view/query are compatible.
 
 ### Proto Dependencies
 
-| initia.js | Cosmos SDK | IBC | CosmWasm | Connect (Oracle) |
-|-----------|-----------|-----|---------|-----------------|
-| v2.0.x | [`5a6ab7bc`][cs] | [`cc1d31ac`][ibc] | [`3c30b822`][cw] | [`ea643a0e`][co] |
+| initia.js | Cosmos SDK       | IBC               | CosmWasm          | Connect (Oracle)  |
+| --------- | ---------------- | ----------------- | ----------------- | ----------------- |
+| v2.0.x    | [`5a6ab7bc`][cs] | [`cc1d31ac`][ibc] | [`3c30b822`][cw]  | [`ea643a0e`][co]  |
 
 [cs]: https://buf.build/cosmos/cosmos-sdk/commits/5a6ab7bc14314acaa912d5e53aef1c2f
 [ibc]: https://buf.build/cosmos/ibc/commits/cc1d31ac98a0477580379346dab8e87b
@@ -195,7 +195,7 @@ const account = keyToViemAccount(rawKey)
 
 ## Architecture
 
-```
+```text
 Provider  -->  ChainInfo  -->  ChainContext
 (registry)     (chain data)    (client + signer + msgs)
 ```
@@ -203,7 +203,7 @@ Provider  -->  ChainInfo  -->  ChainContext
 ### Which provider to use
 
 | Provider | Use case |
-|----------|----------|
+| --- | --- |
 | `createRegistryProvider()` | **Default choice.** Fetches chain data from Initia registry. Works for all Initia L1/L2 chains. |
 | `CustomProvider` | Private chains, local testnets, or non-Initia chains with manual config. |
 | `CosmosRegistryProvider` | External Cosmos chains (Osmosis, Noble, etc.) via chain-registry npm package. |
@@ -225,7 +225,7 @@ const provider = composeProviders(
 Domain-specific APIs are available via subpath exports:
 
 | Import path | Description |
-|-------------|-------------|
+| --- | --- |
 | `initia.js` | Core types, keys, wallet, typed context factories |
 | `initia.js/client` | gRPC client, transport, interceptors |
 | `initia.js/tx` | Signing, serialization, Amino conversion |
@@ -247,7 +247,7 @@ Domain-specific APIs are available via subpath exports:
 
 See the [examples/](./examples) directory for runnable scripts:
 
-**Getting started**
+### Getting started
 
 - [query.ts](./examples/query.ts) -- Read-only gRPC queries
 - [send.ts](./examples/send.ts) -- Send tokens with high-level API
@@ -255,7 +255,7 @@ See the [examples/](./examples) directory for runnable scripts:
 - [staking.ts](./examples/staking.ts) -- Delegate, redelegate, undelegate, claim rewards
 - [get-tx.ts](./examples/get-tx.ts) -- Decode transactions with VM-aware arg enrichment
 
-**Smart contracts**
+### Smart contracts
 
 - [move-contract.ts](./examples/move-contract.ts) -- ABI-driven Move contract interactions
 - [move-typed.ts](./examples/move-typed.ts) -- Move contract with full type inference
@@ -265,7 +265,7 @@ See the [examples/](./examples) directory for runnable scripts:
 - [wasm-typed.ts](./examples/wasm-typed.ts) -- CosmWasm contract with full type inference
 - [deploy-cw20.ts](./examples/deploy-cw20.ts) -- Deploy and interact with a CW20 token
 
-**RPC & low-level**
+### RPC & low-level
 
 - [evm-rpc.ts](./examples/evm-rpc.ts) -- EVM JSON-RPC (blocks, logs, receipts)
 - [evm-jsonrpc.ts](./examples/evm-jsonrpc.ts) -- EVM JSON-RPC direct calls
@@ -274,7 +274,7 @@ See the [examples/](./examples) directory for runnable scripts:
 - [raw-send.ts](./examples/raw-send.ts) -- Send using raw BSR proto messages
 - [raw-query-historical.ts](./examples/raw-query-historical.ts) -- Query at historical block heights
 
-**Cross-chain**
+### Cross-chain
 
 - [op-bridge.ts](./examples/op-bridge.ts) -- OP Bridge deposit, withdraw, and claim
 - [smart-route.ts](./examples/smart-route.ts) -- Router API for cross-chain transfers
@@ -282,12 +282,12 @@ See the [examples/](./examples) directory for runnable scripts:
 - [noble-ibc-transfer.ts](./examples/noble-ibc-transfer.ts) -- IBC from external Cosmos chains
 - [osmosis-custom-provider.ts](./examples/osmosis-custom-provider.ts) -- Custom provider for external Cosmos chains
 
-**Custom chains & modules**
+### Custom chains & modules
 
 - [custom-chain.ts](./examples/custom-chain.ts) -- CustomProvider, CosmosRegistryProvider, composeProviders
 - [custom-rollup.ts](./examples/custom-rollup.ts) -- Add custom proto modules to rollup contexts
 
-**Utilities**
+### Utilities
 
 - [usernames.ts](./examples/usernames.ts) -- `.init` domain resolution
 - [token.ts](./examples/token.ts) -- VM-agnostic token operations

@@ -3,8 +3,8 @@ import { LedgerKey, Kind } from '../../src/LedgerKey.js'
 import { LedgerError } from '../../src/error.js'
 import type { LedgerApp } from '../../src/app.js'
 import type { EthereumApp } from '../../src/app.js'
-import { UnsignedTx } from 'initia.js'
-import { MultisigPublicKey } from 'initia.js'
+import { UnsignedTx } from '@initia/initia.js'
+import { MultisigPublicKey } from '@initia/initia.js'
 
 // ---------------------------------------------------------------------------
 // Helpers

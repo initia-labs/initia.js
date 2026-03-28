@@ -16,7 +16,7 @@ import { describe, it, expect } from 'vitest'
 import TransportNodeHidModule from '@ledgerhq/hw-transport-node-hid'
 import type Transport from '@ledgerhq/hw-transport'
 import { LedgerKey } from '../../src/LedgerKey'
-import { coin } from 'initia.js'
+import { coin } from '@initia/initia.js'
 import { createInitiaContext } from '../../../../src/entry.chain.initia.node'
 
 // Handle CJS/ESM interop — the default export may be nested

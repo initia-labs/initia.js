@@ -16,7 +16,7 @@
 
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { LedgerKey } from '@initia/ledger-key'
-import { createInitiaContext, coin } from 'initia.js'
+import { createInitiaContext, coin } from '@initia/initia.js'
 
 async function main() {
   // 1. Connect to Ledger

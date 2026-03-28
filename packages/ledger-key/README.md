@@ -4,10 +4,10 @@ Ledger hardware wallet support for [initia.js](https://github.com/initia-labs/in
 
 ## Supported Apps
 
-| Ledger App | Sign Mode | Coin Type | Notes |
-|------------|-----------|-----------|-------|
-| Ethereum | EIP-191 | 60 | Recommended. Uses `signPersonalMessage` internally. |
-| Cosmos | Amino | 118 | For wallets that require Cosmos-native signing. |
+| Ledger App | Sign Mode | Coin Type | Notes                                                |
+| ---------- | --------- | --------- | ---------------------------------------------------- |
+| Ethereum   | EIP-191   | 60        | Recommended. Uses `signPersonalMessage` internally.  |
+| Cosmos     | Amino     | 118       | For wallets that require Cosmos-native signing.      |
 
 ## Installation
 
@@ -15,7 +15,7 @@ Ledger hardware wallet support for [initia.js](https://github.com/initia-labs/in
 npm install @initia/ledger-key
 ```
 
-Peer dependency: `initia.js@^2`
+Peer dependency: `@initia/initia.js@^2`
 
 ## Quick Start
 
@@ -24,7 +24,7 @@ Peer dependency: `initia.js@^2`
 ```typescript
 import TransportNodeHid from '@ledgerhq/hw-transport-node-hid'
 import { LedgerKey } from '@initia/ledger-key'
-import { createInitiaContext, coin } from 'initia.js'
+import { createInitiaContext, coin } from '@initia/initia.js'
 
 const transport = await TransportNodeHid.create()
 const key = await LedgerKey.createEthereumApp(transport)
@@ -64,7 +64,7 @@ const key = await LedgerKey.createEthereumApp(transport, {
 ## API
 
 | Method | Description |
-|--------|-------------|
+| --- | --- |
 | `LedgerKey.createEthereumApp(transport, opts?)` | Connect via Ethereum app |
 | `LedgerKey.createCosmosApp(transport, opts?)` | Connect via Cosmos app |
 | `key.address` | Bech32 address (init1...) |

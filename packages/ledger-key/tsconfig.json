@@ -13,8 +13,8 @@
     "noFallthroughCasesInSwitch": true,
     "noEmit": true,
     "paths": {
-      "initia.js": ["../../src/index.ts"]
+      "@initia/initia.js": ["../../src/index.ts"]
     }
   },
-  "include": ["src", "test"]
+  "include": ["src", "test", "vitest.config.ts"]
 }

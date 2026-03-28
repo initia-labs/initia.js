@@ -1,5 +1,10 @@
 node_modules/
 dist/
+src/**/*.js
+src/**/*.js.map
+src/**/*.d.ts
+!src/global.d.ts
+src/**/*.d.ts.map
 *.log
 .env
 .env.local
