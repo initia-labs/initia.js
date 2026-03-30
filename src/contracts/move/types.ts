@@ -198,9 +198,15 @@ export interface MoveContract {
    * @param tableHandle - Table handle address
    * @param key - Key value (will be BCS encoded)
    * @param keyType - Key type for BCS encoding
-   * @returns Parsed value
+   * @param valueType - Optional value type for auto-conversion. Omit for raw JSON-parsed data.
+   * @returns Parsed value; auto-converted if valueType is provided
    */
-  tableEntry(tableHandle: string, key: unknown, keyType: string): Promise<unknown>
+  tableEntry(
+    tableHandle: string,
+    key: unknown,
+    keyType: string,
+    valueType?: string
+  ): Promise<unknown>
 
   /**
    * Parse a human-readable amount to minimum units for a specific coin type
@@ -291,6 +297,7 @@ export type MoveClient = Client<typeof MoveQuery>
  * MsgPublish is used for publishing Move modules.
  */
 export type { MsgExecuteJSON as MsgExecute, MsgScriptJSON as MsgScript, MsgPublish }
+export type { TableEntry } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/types_pb'
 export { UpgradePolicy } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/types_pb'
 
 // =============================================================================

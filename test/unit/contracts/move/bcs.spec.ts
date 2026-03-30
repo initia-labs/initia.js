@@ -6,6 +6,7 @@ import { describe, it, expect } from 'vitest'
 import {
   bcs,
   parseMoveType,
+  stringifyType,
   getBcsType,
   encodeMoveArg,
   encodeMoveArgs,
@@ -65,6 +66,67 @@ describe('Move BCS', () => {
 
     it('should handle whitespace', () => {
       expect(parseMoveType('  u64  ')).toEqual({ base: 'u64', typeArgs: [] })
+    })
+  })
+
+  describe('stringifyType', () => {
+    it('should stringify primitive types', () => {
+      expect(stringifyType({ base: 'u64', typeArgs: [] })).toBe('u64')
+    })
+
+    it('should stringify simple generic types', () => {
+      expect(stringifyType({ base: 'vector', typeArgs: [{ base: 'u8', typeArgs: [] }] })).toBe(
+        'vector<u8>'
+      )
+    })
+
+    it('should stringify nested generic types', () => {
+      expect(
+        stringifyType({
+          base: 'vector',
+          typeArgs: [{ base: 'vector', typeArgs: [{ base: 'u8', typeArgs: [] }] }],
+        })
+      ).toBe('vector<vector<u8>>')
+    })
+
+    it('should stringify module types without type args', () => {
+      expect(stringifyType({ base: '0x1::coin::Coin', typeArgs: [] })).toBe('0x1::coin::Coin')
+    })
+
+    it('should stringify module types with type args', () => {
+      expect(
+        stringifyType({
+          base: '0x1::coin::CoinInfo',
+          typeArgs: [{ base: '0x1::native_uinit::Coin', typeArgs: [] }],
+        })
+      ).toBe('0x1::coin::CoinInfo<0x1::native_uinit::Coin>')
+    })
+
+    it('should stringify multiple type args', () => {
+      expect(
+        stringifyType({
+          base: '0x1::table::Table',
+          typeArgs: [
+            { base: 'address', typeArgs: [] },
+            { base: 'u64', typeArgs: [] },
+          ],
+        })
+      ).toBe('0x1::table::Table<address, u64>')
+    })
+
+    it('should round-trip with parseMoveType', () => {
+      const inputs = [
+        'u64',
+        'vector<u8>',
+        'vector<vector<u8>>',
+        '0x1::coin::Coin',
+        '0x1::option::Option<u64>',
+        '0x1::coin::CoinStore<0x1::native_uinit::Coin>',
+        '0x1::table::Table<address, u64>',
+      ]
+      for (const input of inputs) {
+        expect(stringifyType(parseMoveType(input))).toBe(input)
+      }
     })
   })
 

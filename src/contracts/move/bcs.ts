@@ -179,9 +179,9 @@ export const bcs: typeof mystenBcs & {
  */
 export interface ParsedMoveType {
   /** Base type name (e.g., 'vector', 'u64', 'address') */
-  base: string
+  readonly base: string
   /** Type arguments for generic types */
-  typeArgs: ParsedMoveType[]
+  readonly typeArgs: readonly ParsedMoveType[]
 }
 
 /**
@@ -239,6 +239,98 @@ export function parseMoveType(typeStr: string): ParsedMoveType {
   }
 
   return { base, typeArgs }
+}
+
+/**
+ * Converts a ParsedMoveType back to its string representation.
+ * Inverse of `parseMoveType()`.
+ *
+ * @param parsed - Parsed Move type structure
+ * @returns Move type string (e.g., 'vector<u8>', '0x1::coin::Coin<T>')
+ *
+ * @example
+ * ```typescript
+ * stringifyType({ base: 'u64', typeArgs: [] })                         // 'u64'
+ * stringifyType({ base: 'vector', typeArgs: [{ base: 'u8', typeArgs: [] }] }) // 'vector<u8>'
+ * ```
+ */
+export function stringifyType(parsed: ParsedMoveType): string {
+  if (parsed.typeArgs.length === 0) return parsed.base
+  return `${parsed.base}<${parsed.typeArgs.map(stringifyType).join(', ')}>`
+}
+
+/**
+ * Resolves generic type references (T0, T1, ...) in Move type strings
+ * using the provided typeArgs array.
+ */
+export function resolveGenericTypes(types: string[], typeArgs: string[]): string[] {
+  if (typeArgs.length === 0) return types
+  return types.map(t =>
+    t.replace(/\bT(\d+)\b/g, (match, indexStr: string) => {
+      const i = parseInt(indexStr)
+      return i < typeArgs.length ? typeArgs[i] : match
+    })
+  )
+}
+
+/**
+ * Converts a JSON-parsed Move value to its JavaScript equivalent
+ * based on the Move return type from the ABI.
+ *
+ * Converts types where JSON representation differs from target:
+ * - u8/u16/u32 strings → number (defensive; chain normally returns numbers)
+ * - u64/u128/u256 strings or numbers → bigint
+ * - vector<T> → recursively converts elements
+ * - Option<T> → null or recursively converts inner value
+ *
+ * Types that are already correct (bool, address, string,
+ * Object<T>, decimal, fixed_point) pass through unchanged.
+ */
+export function convertJsonValue(value: unknown, parsed: ParsedMoveType): unknown {
+  const { base, typeArgs } = parsed
+
+  switch (base) {
+    case 'u8':
+    case 'u16':
+    case 'u32':
+      if (typeof value === 'string') return Number(value)
+      return value
+
+    case 'u64':
+    case 'u128':
+    case 'u256':
+      if (typeof value === 'string') return BigInt(value)
+      if (typeof value === 'number') return BigInt(value)
+      return value
+
+    case 'vector':
+      if (Array.isArray(value) && typeArgs.length === 1) {
+        return value.map(v => convertJsonValue(v, typeArgs[0]))
+      }
+      return value
+
+    case '0x1::option::Option':
+      if (value === null || value === undefined) return null
+      if (typeof value === 'object' && value !== null && 'vec' in value) {
+        const vec = (value as { vec: unknown[] }).vec
+        if (vec.length === 0) return null
+        if (vec.length > 1) {
+          throw new Error(
+            `Invalid Option value: vec contains ${vec.length} elements (expected 0 or 1)`
+          )
+        }
+        if (typeArgs.length === 1) {
+          return convertJsonValue(vec[0], typeArgs[0])
+        }
+      }
+      if (typeArgs.length === 1) {
+        return convertJsonValue(value, typeArgs[0])
+      }
+      return value
+
+    default:
+      return value
+  }
 }
 
 // =============================================================================
