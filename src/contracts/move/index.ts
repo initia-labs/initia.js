@@ -32,7 +32,7 @@ export type {
 } from './types'
 
 // Re-export BSR types
-export type { MsgExecute, MsgScript, MsgPublish } from './types'
+export type { MsgExecute, MsgScript, MsgPublish, TableEntry } from './types'
 export { UpgradePolicy } from './types'
 
 // Contract factory and helpers
@@ -68,10 +68,21 @@ export {
   type FetchAbiOptions,
 } from './abi-fetcher'
 
+// Resource conversion
+export {
+  parseStructTag,
+  createAbiResolver,
+  convertResourceValue,
+  DEFAULT_OPAQUE_TYPES,
+  type ParsedStructTag,
+  type AbiResolver,
+} from './resource-conversion'
+
 // BCS utilities
 export {
   bcs,
   parseMoveType,
+  stringifyType,
   getBcsType,
   encodeMoveArg,
   encodeMoveArgs,

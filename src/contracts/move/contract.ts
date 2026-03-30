@@ -41,9 +41,20 @@ import type {
   BuildMoveViewOptions,
 } from './types'
 import { getModuleAbi, findFunction, getNonSignerParams, type MoveQueryClient } from './abi-fetcher'
-import { encodeMoveArgs, parseMoveType, type ParsedMoveType } from './bcs'
+import {
+  encodeMoveArgs,
+  parseMoveType,
+  convertJsonValue,
+  resolveGenericTypes,
+  type ParsedMoveType,
+} from './bcs'
 import { AccAddress } from '../../util/address'
 import { jsonStringifyArg } from '../../util/json'
+import {
+  createAbiResolver,
+  convertResourceValue,
+  DEFAULT_OPAQUE_TYPES,
+} from './resource-conversion'
 
 // =============================================================================
 // Types
@@ -59,6 +70,11 @@ export interface CreateMoveContractOptions {
   useCache?: boolean
   /** Cache TTL in milliseconds (default: 5 minutes) */
   cacheTtl?: number
+  /**
+   * Additional opaque types to skip ABI resolution for (performance optimization).
+   * Must be base type strings without type arguments (e.g., `'0x1::table::Table'`).
+   */
+  opaqueTypes?: string[]
 }
 
 // =============================================================================
@@ -194,20 +210,6 @@ function hasUnresolvedGenerics(paramTypes: string[]): boolean {
   return paramTypes.some(p => /\bT\d+\b/.test(p))
 }
 
-/**
- * Resolves generic type references (T0, T1, ...) in Move type strings
- * using the provided typeArgs array.
- */
-function resolveGenericTypes(types: string[], typeArgs: string[]): string[] {
-  if (typeArgs.length === 0) return types
-  return types.map(t =>
-    t.replace(/\bT(\d+)\b/g, (match, indexStr: string) => {
-      const i = parseInt(indexStr)
-      return i < typeArgs.length ? typeArgs[i] : match
-    })
-  )
-}
-
 const KNOWN_BCS_BASES = new Set([
   'bool',
   'u8',
@@ -251,54 +253,6 @@ function allTypesResolvable(paramTypes: string[]): boolean {
 // =============================================================================
 
 /**
- * Converts a JSON-parsed view response value to a typed value
- * based on the Move return type from the ABI.
- *
- * Only converts types where JSON representation differs from target:
- * - u64/u128/u256 JSON strings → bigint
- * - vector<T> → recursively converts elements
- * - Option<T> → null or recursively converts inner value
- *
- * Types that are already correct (bool, u8/u16/u32, address, string,
- * Object<T>, decimal, fixed_point) pass through unchanged.
- */
-function convertJsonValue(value: unknown, parsed: ParsedMoveType): unknown {
-  const { base, typeArgs } = parsed
-
-  switch (base) {
-    case 'u64':
-    case 'u128':
-    case 'u256':
-      if (typeof value === 'string') return BigInt(value)
-      if (typeof value === 'number') return BigInt(value)
-      return value
-
-    case 'vector':
-      if (Array.isArray(value) && typeArgs.length === 1) {
-        return value.map(v => convertJsonValue(v, typeArgs[0]))
-      }
-      return value
-
-    case '0x1::option::Option':
-      if (value === null || value === undefined) return null
-      if (typeof value === 'object' && value !== null && 'vec' in value) {
-        const vec = (value as { vec: unknown[] }).vec
-        if (vec.length === 0) return null
-        if (vec.length === 1 && typeArgs.length === 1) {
-          return convertJsonValue(vec[0], typeArgs[0])
-        }
-      }
-      if (typeArgs.length === 1) {
-        return convertJsonValue(value, typeArgs[0])
-      }
-      return value
-
-    default:
-      return value
-  }
-}
-
-/**
  * Converts a view function's JSON response to typed values.
  *
  * @param jsonParsed - Result of JSON.parse(response.data)
@@ -333,12 +287,17 @@ function buildContract(
   context: HasMoveService,
   moduleAddress: string,
   moduleName: string,
-  abi: MoveModuleAbi
+  abi: MoveModuleAbi,
+  opaqueTypes?: string[]
 ): MoveContract {
   const moveClient = context.client.move
 
   // Cache for token decimals by coin type
   const decimalsCache = new Map<string, number>()
+
+  // Resolver for struct ABI lookups (used by resource auto-conversion)
+  const resolver = createAbiResolver(context)
+  const mergedOpaqueTypes = new Set([...DEFAULT_OPAQUE_TYPES, ...(opaqueTypes ?? [])])
 
   // Create execute proxy for entry functions
   const execute = new Proxy({} as MoveExecuteProxy, {
@@ -437,7 +396,7 @@ function buildContract(
     },
   })
 
-  // Query resource
+  // Query resource (auto-converts using ABI resolution)
   async function resource(address: string, structTag: string): Promise<unknown> {
     const response = await moveClient.resource({
       address,
@@ -448,16 +407,22 @@ function buildContract(
       throw new ContractError('move', 0, `Resource not found: ${structTag}`)
     }
 
-    // Parse JSON resource
+    let raw: unknown
     try {
-      return JSON.parse(response.resource.moveResource)
+      raw = JSON.parse(response.resource.moveResource)
     } catch {
       return response.resource.moveResource
     }
+    return convertResourceValue(raw, parseMoveType(structTag), resolver, mergedOpaqueTypes)
   }
 
   // Query table entry
-  async function tableEntry(tableHandle: string, key: unknown, keyType: string): Promise<unknown> {
+  async function tableEntry(
+    tableHandle: string,
+    key: unknown,
+    keyType: string,
+    valueType?: string
+  ): Promise<unknown> {
     // Encode key to BCS bytes
     const keyBytes = encodeMoveArgs([key], [keyType])[0]
 
@@ -471,11 +436,17 @@ function buildContract(
     }
 
     // Parse JSON value
+    let raw: unknown
     try {
-      return JSON.parse(response.tableEntry.value)
+      raw = JSON.parse(response.tableEntry.value)
     } catch {
       return response.tableEntry.value
     }
+
+    if (valueType) {
+      return convertResourceValue(raw, parseMoveType(valueType), resolver, mergedOpaqueTypes)
+    }
+    return raw
   }
 
   // Get decimals for a coin type
@@ -523,7 +494,7 @@ function buildContract(
       name: string
       symbol: string
       decimals: number
-      supply?: { value: string }
+      supply?: { value: bigint }
     }
 
     // Cache decimals
@@ -533,7 +504,7 @@ function buildContract(
       name: coinInfo.name,
       symbol: coinInfo.symbol,
       decimals: coinInfo.decimals,
-      totalSupply: coinInfo.supply ? BigInt(coinInfo.supply.value) : undefined,
+      totalSupply: coinInfo.supply?.value,
     }
   }
 
@@ -634,7 +605,7 @@ export function createMoveContract<T extends ReadonlyMoveModuleAbi>(
         useCache: options.useCache,
         cacheTtl: options.cacheTtl,
       }))
-    return buildContract(context, moduleAddress, moduleName!, fetchedAbi)
+    return buildContract(context, moduleAddress, moduleName!, fetchedAbi, options.opaqueTypes)
   })()
 }
 
@@ -1002,20 +973,30 @@ export async function buildMoveView(
 /**
  * Queries a Move resource directly.
  *
+ * By default, performs automatic type conversion (u64 strings to bigint, Option
+ * unwrapping, etc.) via ABI resolution. Pass `{ convert: false }` to receive
+ * raw JSON-parsed data instead.
+ *
  * @param context - ChainContext with client (must have move service)
  * @param address - Account address
  * @param structTag - Resource struct tag (e.g., '0x1::coin::CoinStore<0x1::native_uinit::Coin>')
+ * @param options - Optional conversion settings
  * @returns Parsed resource data
  *
  * @example
  * ```typescript
- * const resource = await queryResource(ctx, '0x1', '0x1::coin::CoinInfo<...>')
+ * // Auto-converted (default)
+ * const typed = await queryResource(ctx, '0x1', '0x1::coin::CoinInfo<...>')
+ *
+ * // Raw JSON without conversion
+ * const raw = await queryResource(ctx, '0x1', '0x1::coin::CoinInfo<...>', { convert: false })
  * ```
  */
 export async function queryResource(
   context: HasMoveService,
   address: string,
-  structTag: string
+  structTag: string,
+  options?: { convert?: boolean; opaqueTypes?: string[] }
 ): Promise<unknown> {
   const moveClient = context.client.move
   const response = await moveClient.resource({
@@ -1027,11 +1008,20 @@ export async function queryResource(
     throw new ContractError('move', 0, `Resource not found: ${structTag}`)
   }
 
+  let raw: unknown
   try {
-    return JSON.parse(response.resource.moveResource)
+    raw = JSON.parse(response.resource.moveResource)
   } catch {
     return response.resource.moveResource
   }
+
+  if (options?.convert === false) {
+    return raw
+  }
+
+  const resolver = createAbiResolver(context)
+  const opaqueTypes = new Set([...DEFAULT_OPAQUE_TYPES, ...(options?.opaqueTypes ?? [])])
+  return convertResourceValue(raw, parseMoveType(structTag), resolver, opaqueTypes)
 }
 
 /**
@@ -1041,18 +1031,26 @@ export async function queryResource(
  * @param tableHandle - Table handle address
  * @param key - Key value
  * @param keyType - Key type for BCS encoding
- * @returns Parsed table entry value
+ * @param valueType - Optional value type for auto-conversion (e.g., '0x1::stake::StakeInfo')
+ * @param options - Optional settings; pass `opaqueTypes` to skip ABI resolution for specific type bases
+ * @returns Parsed table entry value; auto-converted if valueType is provided
  *
  * @example
  * ```typescript
+ * // Raw result (no conversion)
  * const entry = await queryTableEntry(ctx, tableHandle, key, 'address')
+ *
+ * // With auto-conversion
+ * const typed = await queryTableEntry(ctx, tableHandle, key, 'address', '0x1::stake::StakeInfo')
  * ```
  */
 export async function queryTableEntry(
   context: HasMoveService,
   tableHandle: string,
   key: unknown,
-  keyType: string
+  keyType: string,
+  valueType?: string,
+  options?: { opaqueTypes?: string[] }
 ): Promise<unknown> {
   const moveClient = context.client.move
   const keyBytes = encodeMoveArgs([key], [keyType])[0]
@@ -1066,11 +1064,19 @@ export async function queryTableEntry(
     throw new ContractError('move', 0, `Table entry not found`)
   }
 
+  let raw: unknown
   try {
-    return JSON.parse(response.tableEntry.value)
+    raw = JSON.parse(response.tableEntry.value)
   } catch {
     return response.tableEntry.value
   }
+
+  if (valueType) {
+    const resolver = createAbiResolver(context)
+    const opaqueTypes = new Set([...DEFAULT_OPAQUE_TYPES, ...(options?.opaqueTypes ?? [])])
+    return convertResourceValue(raw, parseMoveType(valueType), resolver, opaqueTypes)
+  }
+  return raw
 }
 
 // =============================================================================

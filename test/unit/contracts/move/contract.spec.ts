@@ -441,6 +441,26 @@ describe('Move Contract', () => {
   describe('resource query', () => {
     it('should query and parse resource', async () => {
       const mockMoveClient = createDefaultMockMoveClient()
+      // Add CoinStore struct to ABI so conversion succeeds
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'coin',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'CoinStore',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [{ constraints: [] }],
+                fields: [{ name: 'value', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
       const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'coin')
 
       const result = await contract.resource(
@@ -452,7 +472,7 @@ describe('Move Contract', () => {
         address: 'init1address...',
         structTag: '0x1::coin::CoinStore<0x1::native_uinit::Coin>',
       })
-      expect(result).toEqual({ value: '1000000' })
+      expect(result).toEqual({ value: 1000000n })
     })
 
     it('should throw if resource not found', async () => {
@@ -463,6 +483,150 @@ describe('Move Contract', () => {
       await expect(
         contract.resource('init1address...', '0x1::nonexistent::Resource')
       ).rejects.toThrow('Resource not found')
+    })
+
+    it('should auto-convert u64 fields when struct ABI is available', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      // Return a resource with a u64 field as string (chain JSON format)
+      mockMoveClient.resource.mockResolvedValue({
+        resource: { moveResource: '{"value":"12345"}' },
+      })
+      // Mock module to return ABI with a struct that has a u64 field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'coin',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'CoinStore',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [{ name: 'value', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
+
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'coin')
+      const result = await contract.resource('init1address...', '0x1::coin::CoinStore')
+
+      // u64 string "12345" should be converted to bigint 12345n
+      expect(result).toEqual({ value: 12345n })
+    })
+
+    it('should skip opaque types like Table without resolving', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      // Resource with a Table field (should remain as-is)
+      mockMoveClient.resource.mockResolvedValue({
+        resource: {
+          moveResource: JSON.stringify({
+            balance: '999',
+            ledger: { handle: '0xabc' },
+          }),
+        },
+      })
+      // Mock module returns struct with a u64 field and a Table field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'account',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'Account',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [
+                  { name: 'balance', type: 'u64' },
+                  { name: 'ledger', type: '0x1::table::Table<address, u64>' },
+                ],
+              },
+            ],
+          }),
+        },
+      })
+
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'account')
+      const result = await contract.resource('init1address...', '0x1::account::Account')
+
+      // balance should be converted (u64), but Table should remain as-is
+      expect(result).toEqual({
+        balance: 999n,
+        ledger: { handle: '0xabc' },
+      })
+    })
+
+    it('should propagate conversion errors instead of silently returning raw data', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.resource.mockResolvedValue({
+        resource: { moveResource: '{"value":"100"}' },
+      })
+
+      // First call succeeds (contract creation), subsequent calls fail (resource conversion)
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'coin')
+      mockMoveClient.module.mockRejectedValue(new Error('gRPC unavailable'))
+
+      await expect(contract.resource('init1address...', '0x1::other::Struct')).rejects.toThrow(
+        'gRPC unavailable'
+      )
+    })
+  })
+
+  describe('CreateMoveContractOptions', () => {
+    it('should accept opaqueTypes option', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      // Resource with a custom opaque field
+      mockMoveClient.resource.mockResolvedValue({
+        resource: {
+          moveResource: JSON.stringify({
+            value: '100',
+            custom: { inner: 'data' },
+          }),
+        },
+      })
+      // Mock struct with u64 field and a custom struct field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'test',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'MyResource',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [
+                  { name: 'value', type: 'u64' },
+                  { name: 'custom', type: '0x1::custom::Opaque' },
+                ],
+              },
+            ],
+          }),
+        },
+      })
+
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'test', {
+        opaqueTypes: ['0x1::custom::Opaque'],
+      })
+
+      const result = await contract.resource('init1address...', '0x1::test::MyResource')
+
+      // value converted, custom skipped because it's in opaqueTypes
+      expect(result).toEqual({
+        value: 100n,
+        custom: { inner: 'data' },
+      })
     })
   })
 
@@ -485,6 +649,58 @@ describe('Move Contract', () => {
       await expect(contract.tableEntry('0xtable', 'key', 'string')).rejects.toThrow(
         'Table entry not found'
       )
+    })
+
+    it('should auto-convert u64 fields when valueType is provided', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"amount":"100"}' },
+      })
+      // Mock module to return struct ABI with a u64 field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'some',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'Type',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [{ name: 'amount', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
+
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'some')
+
+      const result = await contract.tableEntry(
+        '0xtablehandle',
+        'mykey',
+        'string',
+        '0x1::some::Type'
+      )
+
+      expect(result).toEqual({ amount: 100n })
+    })
+
+    it('should not convert values when valueType is not provided', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"amount":"100"}' },
+      })
+
+      const contract = await createMoveContract(createMockContext(mockMoveClient), '0x1', 'coin')
+
+      const result = await contract.tableEntry('0xtablehandle', 'mykey', 'string')
+
+      // Without valueType, u64 string remains a string
+      expect(result).toEqual({ amount: '100' })
     })
   })
 
@@ -659,6 +875,25 @@ describe('Move Contract', () => {
   describe('queryResource', () => {
     it('should query resource directly', async () => {
       const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'coin',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'CoinStore',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [{ constraints: [] }],
+                fields: [{ name: 'value', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
 
       const result = await queryResource(
         createMockContext(mockMoveClient),
@@ -666,7 +901,7 @@ describe('Move Contract', () => {
         '0x1::coin::CoinStore<0x1::native_uinit::Coin>'
       )
 
-      expect(result).toEqual({ value: '1000000' })
+      expect(result).toEqual({ value: 1000000n })
     })
 
     it('should throw if resource not found', async () => {
@@ -680,6 +915,119 @@ describe('Move Contract', () => {
           '0x1::nonexistent::Resource'
         )
       ).rejects.toThrow('Resource not found')
+    })
+
+    it('should auto-convert u64 strings to bigint by default', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.resource.mockResolvedValue({
+        resource: { moveResource: '{"value":"12345"}' },
+      })
+      // Mock module to return struct ABI with u64 field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'coin',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'CoinStore',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [{ name: 'value', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
+
+      const result = await queryResource(
+        createMockContext(mockMoveClient),
+        'init1address...',
+        '0x1::coin::CoinStore'
+      )
+
+      // u64 string "12345" should be converted to bigint by default
+      expect(result).toEqual({ value: 12345n })
+    })
+
+    it('should not convert values when convert: false', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.resource.mockResolvedValue({
+        resource: { moveResource: '{"value":"12345"}' },
+      })
+
+      const result = await queryResource(
+        createMockContext(mockMoveClient),
+        'init1address...',
+        '0x1::coin::CoinStore',
+        { convert: false }
+      )
+
+      // With convert: false, u64 string remains a string
+      expect(result).toEqual({ value: '12345' })
+    })
+
+    it('should respect opaqueTypes option when converting', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.resource.mockResolvedValue({
+        resource: {
+          moveResource: JSON.stringify({
+            balance: '500',
+            data: { inner: 'opaque' },
+          }),
+        },
+      })
+      // Mock module to return struct ABI
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'test',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'MyStruct',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [
+                  { name: 'balance', type: 'u64' },
+                  { name: 'data', type: '0x1::custom::Opaque' },
+                ],
+              },
+            ],
+          }),
+        },
+      })
+
+      const result = await queryResource(
+        createMockContext(mockMoveClient),
+        'init1address...',
+        '0x1::test::MyStruct',
+        { convert: true, opaqueTypes: ['0x1::custom::Opaque'] }
+      )
+
+      // balance converted, custom opaque type skipped
+      expect(result).toEqual({
+        balance: 500n,
+        data: { inner: 'opaque' },
+      })
+    })
+
+    it('should propagate conversion errors instead of silently returning raw data', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.resource.mockResolvedValue({
+        resource: { moveResource: '{"value":"100"}' },
+      })
+      mockMoveClient.module.mockRejectedValue(new Error('gRPC unavailable'))
+
+      await expect(
+        queryResource(createMockContext(mockMoveClient), 'init1address...', '0x1::other::Struct')
+      ).rejects.toThrow('gRPC unavailable')
     })
   })
 
@@ -695,6 +1043,122 @@ describe('Move Contract', () => {
       )
 
       expect(result).toEqual({ key: 'value' })
+    })
+
+    it('should not convert values when valueType is not provided', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"amount":"999"}' },
+      })
+
+      const result = await queryTableEntry(
+        createMockContext(mockMoveClient),
+        '0xtable',
+        'mykey',
+        'string'
+      )
+
+      // Without valueType, u64 string remains a string
+      expect(result).toEqual({ amount: '999' })
+    })
+
+    it('should convert u64 strings to bigint when valueType is provided', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"amount":"999"}' },
+      })
+      // Mock module to return struct ABI with u64 field
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'stake',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'StakeInfo',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [{ name: 'amount', type: 'u64' }],
+              },
+            ],
+          }),
+        },
+      })
+
+      const result = await queryTableEntry(
+        createMockContext(mockMoveClient),
+        '0xtable',
+        'mykey',
+        'string',
+        '0x1::stake::StakeInfo'
+      )
+
+      // u64 string "999" should be converted to bigint
+      expect(result).toEqual({ amount: 999n })
+    })
+
+    it('should respect opaqueTypes option when converting', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"balance":"100","data":{"inner":"opaque"}}' },
+      })
+      mockMoveClient.module.mockResolvedValue({
+        module: {
+          abi: JSON.stringify({
+            address: '0x1',
+            name: 'test',
+            friends: [],
+            exposed_functions: [],
+            structs: [
+              {
+                name: 'Entry',
+                is_native: false,
+                abilities: ['key'],
+                generic_type_params: [],
+                fields: [
+                  { name: 'balance', type: 'u64' },
+                  { name: 'data', type: '0x1::custom::Opaque' },
+                ],
+              },
+            ],
+          }),
+        },
+      })
+
+      const result = await queryTableEntry(
+        createMockContext(mockMoveClient),
+        '0xtable',
+        'mykey',
+        'string',
+        '0x1::test::Entry',
+        { opaqueTypes: ['0x1::custom::Opaque'] }
+      )
+
+      expect(result).toEqual({
+        balance: 100n,
+        data: { inner: 'opaque' },
+      })
+    })
+
+    it('should propagate ABI fetch errors when valueType is provided', async () => {
+      const mockMoveClient = createDefaultMockMoveClient()
+      mockMoveClient.tableEntry.mockResolvedValue({
+        tableEntry: { value: '{"amount":"100"}' },
+      })
+      mockMoveClient.module.mockRejectedValue(new Error('gRPC unavailable'))
+
+      await expect(
+        queryTableEntry(
+          createMockContext(mockMoveClient),
+          '0xtable',
+          'mykey',
+          'string',
+          '0x1::stake::StakeInfo'
+        )
+      ).rejects.toThrow('gRPC unavailable')
     })
   })
 })
