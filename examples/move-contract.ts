@@ -66,8 +66,10 @@ const COIN_STORE = `0x1::coin::CoinStore<${UINIT_COIN}>`
 async function main() {
   const chain = await createMinimoveContext({ network: 'testnet', chainId: 'move-1' })
 
-  // createMoveContract fetches ABI from chain (cached after first call)
-  const coin = await createMoveContract(chain, MODULE.moveStdlib, 'coin')
+  // PRIMARY API — ctx.contract() dispatches to the correct VM factory
+  const coin = await chain.contract('0x1', 'coin')
+
+  // Equivalent: const coin = await createMoveContract(chain, '0x1', 'coin')
 
   // =========================================================================
   // Pattern 1: ABI introspection — explore module structure
@@ -181,7 +183,7 @@ async function main() {
 
   // Query CoinStore resource for UINIT balance
   const coinStore = (await coin.resource(SENDER.bech32, COIN_STORE)) as {
-    coin: { value: string }
+    coin: { value: bigint } // u64 fields are auto-converted to bigint
     frozen: boolean
   }
   console.log(`CoinStore balance: ${coinStore.coin.value}`)
@@ -338,7 +340,8 @@ function bcsExample() {
 // =============================================================================
 
 async function standaloneQueries(ctx: Parameters<typeof callViewFunction>[0]) {
-  // callViewFunction — no contract instance needed
+  // callViewFunction — low-level, no struct field conversion
+  // For struct conversion, prefer ctx.contract() or createMoveContract + contract.view.*
   const balance = await callViewFunction(
     ctx,
     MODULE.moveStdlib,

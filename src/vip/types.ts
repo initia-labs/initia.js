@@ -1,15 +1,28 @@
 import type { Numeric } from '../types'
 import type { Message } from '../msgs/types'
-import type { TypedMoveContract } from '../contracts/move/types'
-import type { LOCK_STAKING_ABI } from './abi/lock-staking'
-import type { WEIGHT_VOTE_ABI } from './abi/weight-vote'
+import type { TypedMoveContract, WidenAddress } from '../contracts/move/types'
+import type { LOCK_STAKING_MAINNET_ABI } from './abi/lock-staking-mainnet'
+import type { WEIGHT_VOTE_MAINNET_ABI } from './abi/weight-vote-mainnet'
+import type { VIP_MAINNET_ABI } from './abi/vip-mainnet'
 import type { VIP_TESTNET_ABI } from './abi/vip-testnet'
 
 // =============================================================================
 // Vip Interface
 // =============================================================================
 
-export interface Vip {
+/** lock_staking/weight_vote are identical across networks — use WidenAddress to erase address difference */
+type LockStakingContract = TypedMoveContract<WidenAddress<typeof LOCK_STAKING_MAINNET_ABI>>
+type WeightVoteContract = TypedMoveContract<WidenAddress<typeof WEIGHT_VOTE_MAINNET_ABI>>
+
+export interface VipContracts<N extends 'mainnet' | 'testnet' = 'mainnet'> {
+  lockStaking: LockStakingContract
+  weightVote: WeightVoteContract
+  vip: N extends 'testnet'
+    ? TypedMoveContract<WidenAddress<typeof VIP_TESTNET_ABI>>
+    : TypedMoveContract<WidenAddress<typeof VIP_MAINNET_ABI>>
+}
+
+export interface Vip<N extends 'mainnet' | 'testnet' = 'mainnet'> {
   // === Lock Staking ===
   delegate(params: DelegateParams): Message
   provideAndDelegate(params: ProvideAndDelegateParams): Message
@@ -37,11 +50,7 @@ export interface Vip {
   getClaimableRewards(address?: string): Promise<ClaimableReward[]>
 
   // === Move Contract Proxies (escape hatch) ===
-  contracts: {
-    lockStaking: TypedMoveContract<typeof LOCK_STAKING_ABI>
-    weightVote: TypedMoveContract<typeof WEIGHT_VOTE_ABI>
-    vip: TypedMoveContract<typeof VIP_TESTNET_ABI>
-  }
+  contracts: VipContracts<N>
 }
 
 // =============================================================================
@@ -198,6 +207,7 @@ export interface VipIndexerOptions {
 // =============================================================================
 
 export interface VipOptions {
+  network?: 'mainnet' | 'testnet'
   vipAddress?: string
   indexer?: VipIndexer
 }

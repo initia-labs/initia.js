@@ -98,6 +98,24 @@ import { makeStdSignDoc, makeAminoSignBytes, encodeTxDirect, buildStdFee } from 
 import { DEFAULT_GAS_LIMIT } from '../constants'
 import type { TokenContract } from '../token/types'
 import type { TokenInfo } from '../contracts/types'
+import type {
+  MoveContract,
+  ReadonlyMoveModuleAbi,
+  TypedMoveContract,
+} from '../contracts/move/types'
+import type { CreateMoveContractOptions } from '../contracts/move/contract'
+import type { Abi } from 'abitype'
+import type {
+  EvmContract,
+  EvmContractJsonRpc,
+  EvmContractJsonRpcOptions,
+} from '../contracts/evm/types'
+import type {
+  WasmContract,
+  ReadonlyWasmContractSchema,
+  TypedWasmContract,
+} from '../contracts/wasm/types'
+import type { CreateWasmContractOptions } from '../contracts/wasm/contract'
 import type { UsernameService } from '../client/usernames'
 import {
   createUsernameService,
@@ -140,6 +158,19 @@ export type TokenResolver = (
   token: string,
   sender?: string
 ) => TokenContract
+
+// =============================================================================
+// Contract Resolver
+// =============================================================================
+
+/**
+ * Contract resolver function type.
+ * Injected into ChainContext to decouple chain-context from specific VM contract implementations.
+ * By convention, called with (context, chainType, ...vmArgs) matching resolveContract's signature.
+ * Typed as permissive to accommodate VM-specific overloads.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ContractResolver = (...args: any[]) => any
 
 // =============================================================================
 // Options Types
@@ -453,15 +484,39 @@ interface BaseChainContext<
 /**
  * Map of chain-type-specific extensions.
  *
- * Only minievm adds `evmRpc` — other chain types have no extensions.
+ * All VM types expose `contract()`. Minievm also adds `evmRpc` and `evmTransport`.
  * This is intersected with BaseChainContext to form the final ChainContext type,
  * so the extra properties only appear when T is narrowed to 'minievm'.
  */
+interface MoveContractMethods {
+  contract<T extends ReadonlyMoveModuleAbi>(abi: T): TypedMoveContract<T>
+  contract(
+    moduleAddress: string,
+    moduleName: string,
+    options?: CreateMoveContractOptions
+  ): Promise<MoveContract>
+}
+
 interface ChainContextExtrasMap {
-  initia: Record<never, never>
-  minievm: { readonly evmRpc: EvmRpcClient; readonly evmTransport: 'grpc' | 'jsonrpc' | undefined }
-  miniwasm: Record<never, never>
-  minimove: Record<never, never>
+  initia: MoveContractMethods
+  minievm: {
+    readonly evmRpc: EvmRpcClient
+    readonly evmTransport: 'grpc' | 'jsonrpc' | undefined
+    contract<T extends Abi>(
+      address: string,
+      abi: T,
+      options: EvmContractJsonRpcOptions
+    ): EvmContractJsonRpc<T>
+    contract<T extends Abi>(address: string, abi: T): EvmContract<T>
+  }
+  miniwasm: {
+    contract<T extends ReadonlyWasmContractSchema>(
+      contractAddress: string,
+      schema: T
+    ): TypedWasmContract<T>
+    contract(contractAddress: string, options?: CreateWasmContractOptions): WasmContract
+  }
+  minimove: MoveContractMethods
   other: Record<never, never>
 }
 
@@ -513,6 +568,7 @@ function pickQueryOptions(options?: {
 interface ContextCarryover {
   evmTransport?: 'grpc' | 'jsonrpc'
   tokenResolver?: TokenResolver
+  contractResolver?: ContractResolver
   rpcOptions: {
     auth?: AuthConfig
     headers?: Record<string, string>
@@ -541,6 +597,7 @@ class ChainContextImpl<
   private readonly _evmTransport: 'grpc' | 'jsonrpc' | undefined
   private _rpc: RpcClient | undefined
   private readonly _tokenResolver: TokenResolver | undefined
+  private readonly _contractResolver: ContractResolver | undefined
   private readonly _enricherFactory: EnricherFactory | undefined
   private readonly _enrichers: MessageEnricher[]
   private readonly _rpcOptions: {
@@ -567,6 +624,7 @@ class ChainContextImpl<
 
     this._evmTransport = options?.evmTransport
     this._tokenResolver = options?.tokenResolver
+    this._contractResolver = options?.contractResolver
     this._enricherFactory = options?.enricherFactory
     this._rpcOptions = options?.rpcOptions ?? {}
     if (options?.evmRpc) this._evmRpc = options.evmRpc
@@ -716,6 +774,7 @@ class ChainContextImpl<
     return {
       evmTransport: this._evmTransport,
       tokenResolver: this._tokenResolver,
+      contractResolver: this._contractResolver,
       rpcOptions: this._rpcOptions,
       evmRpc: this._evmRpc,
       rpc: this._rpc,
@@ -1081,6 +1140,17 @@ class ChainContextImpl<
     }
     return this._tokenResolver(this.client, this.chainInfo.chainType, token, this._address)
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  contract(...args: unknown[]): any {
+    if (!this._contractResolver) {
+      throw new Error(
+        'Contract resolver not configured. ' +
+          'Use a typed factory (createInitiaContext, createMinievmContext, etc.) or pass contractResolver to buildChainContextFactory.'
+      )
+    }
+    return this._contractResolver(this, this.chainType, ...args)
+  }
 }
 
 // ============================================================================
@@ -1109,6 +1179,7 @@ export function buildChainContextFactory(
   getMsgs: (chainType: ChainType) => MsgsForChain<ChainType>,
   factoryOptions?: {
     tokenResolver?: TokenResolver
+    contractResolver?: ContractResolver
     enricherFactory?: EnricherFactory
     getTypeRegistry?: (chainInfo: ChainInfo) => Registry
   }
@@ -1153,6 +1224,7 @@ export function buildChainContextFactory(
       address: options?.address,
       evmTransport: options?.evmTransport,
       tokenResolver: factoryOptions?.tokenResolver,
+      contractResolver: factoryOptions?.contractResolver,
       enricherFactory: factoryOptions?.enricherFactory,
       rpcOptions: {
         auth: options?.auth,

@@ -6,21 +6,13 @@
  *
  * ## Caching Behavior
  *
- * ABIs are cached based on the module's upgrade policy:
- *
- * - **IMMUTABLE modules**: Cached permanently (no staleness possible)
- * - **COMPATIBLE modules**: Cached with TTL (default 5 minutes)
- *
- * For upgradeable modules, the cache may become stale after upgrades.
- * Options to handle this:
- * - Use `useCache: false` to always fetch fresh data
- * - Call `clearAbiCache(moduleAddress)` after known upgrades
- * - Reduce `cacheTtl` for frequently upgraded modules
+ * Caching is handled entirely by `cached-client` on a per-instance basis with
+ * upgradePolicy-aware TTL. Use `useCache: false` to bypass the cache and force
+ * a fresh gRPC fetch.
  */
 
 import type { Client } from '@connectrpc/connect'
 import type { Query as MoveQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/query_pb'
-import { UpgradePolicy } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/types_pb'
 import type { HasMoveService } from '../../client/types'
 import type {
   MoveModuleAbi,
@@ -40,111 +32,6 @@ import { ParseError, ContractError } from '../../errors'
  * Move gRPC query client type.
  */
 export type MoveQueryClient = Client<typeof MoveQuery>
-
-/**
- * Cache key for module ABI.
- */
-type CacheKey = `${string}::${string}`
-
-/**
- * Cached ABI entry with metadata.
- */
-interface CacheEntry {
-  abi: MoveModuleAbi
-  timestamp: number
-  /** If true, cache never expires (IMMUTABLE modules) */
-  permanent: boolean
-}
-
-// =============================================================================
-// ABI Cache
-// =============================================================================
-
-/** In-memory ABI cache */
-const abiCache = new Map<CacheKey, CacheEntry>()
-
-/** Default cache TTL (5 minutes) */
-const DEFAULT_CACHE_TTL = 5 * 60 * 1000
-
-/**
- * Gets the cache key for a module.
- */
-function getCacheKey(moduleAddress: string, moduleName: string): CacheKey {
-  return `${moduleAddress.toLowerCase()}::${moduleName}`
-}
-
-/**
- * Gets a cached ABI if available and not expired.
- *
- * @param moduleAddress - Module address
- * @param moduleName - Module name
- * @param ttl - Cache TTL in milliseconds (ignored for IMMUTABLE modules)
- * @returns Cached ABI or undefined
- */
-export function getCachedAbi(
-  moduleAddress: string,
-  moduleName: string,
-  ttl: number = DEFAULT_CACHE_TTL
-): MoveModuleAbi | undefined {
-  const key = getCacheKey(moduleAddress, moduleName)
-  const entry = abiCache.get(key)
-
-  if (!entry) return undefined
-
-  // Permanent cache (IMMUTABLE modules) never expires
-  if (entry.permanent) {
-    return entry.abi
-  }
-
-  // Check if cache is expired for upgradeable modules
-  if (Date.now() - entry.timestamp > ttl) {
-    abiCache.delete(key)
-    return undefined
-  }
-
-  return entry.abi
-}
-
-/**
- * Caches a module ABI.
- *
- * @param moduleAddress - Module address
- * @param moduleName - Module name
- * @param abi - Module ABI to cache
- * @param permanent - If true, cache never expires (for IMMUTABLE modules)
- */
-export function cacheModuleAbi(
-  moduleAddress: string,
-  moduleName: string,
-  abi: MoveModuleAbi,
-  permanent: boolean = false
-): void {
-  const key = getCacheKey(moduleAddress, moduleName)
-  abiCache.set(key, {
-    abi,
-    timestamp: Date.now(),
-    permanent,
-  })
-}
-
-/**
- * Clears the ABI cache.
- * Optionally clear only entries for a specific address.
- *
- * @param moduleAddress - Optional address to clear cache for
- */
-export function clearAbiCache(moduleAddress?: string): void {
-  if (moduleAddress) {
-    const prefix = moduleAddress.toLowerCase() + '::'
-    for (const key of abiCache.keys()) {
-      if (key.startsWith(prefix)) {
-        abiCache.delete(key)
-      }
-    }
-  } else {
-    abiCache.clear()
-  }
-}
 
 // =============================================================================
 // ABI Parsing
@@ -288,22 +175,16 @@ function parseVisibility(visibility: string): MoveFunctionVisibility {
  * Options for fetching module ABI.
  */
 export interface FetchAbiOptions {
-  /** Use cached ABI if available (default: true) */
+  /** Use cached ABI if available (default: true). Set false to force fresh gRPC fetch. */
   useCache?: boolean
-  /** Cache TTL in milliseconds (default: 5 minutes) */
-  cacheTtl?: number
 }
 
 /**
  * Fetches and parses a Move module ABI from the chain.
  *
- * **Caching behavior:**
- * - **IMMUTABLE modules**: Cached permanently (staleness impossible)
- * - **COMPATIBLE/upgradeable modules**: Cached with TTL (default 5 minutes)
- *
- * For upgradeable modules, the cache may become stale after upgrades.
- * Use `clearAbiCache(moduleAddress)` after known upgrades, or set
- * `useCache: false` to always fetch fresh data.
+ * **Caching behavior:** delegated entirely to `cached-client`, which caches
+ * per client instance with upgradePolicy-aware TTL. Pass `useCache: false` to
+ * bypass the cache and force a fresh gRPC fetch.
  *
  * @param context - ChainContext with client (must have move service)
  * @param moduleAddress - Module address (hex or bech32)
@@ -317,12 +198,8 @@ export interface FetchAbiOptions {
  * console.log(abi.exposed_functions)
  * ```
  *
- * @example Handle upgradeable module
+ * @example Bypass cache entirely
  * ```typescript
- * // After module upgrade, clear cache
- * clearAbiCache('0x1')
- *
- * // Or bypass cache entirely
  * const abi = await getModuleAbi(ctx, '0x1', 'coin', { useCache: false })
  * ```
  */
@@ -333,21 +210,12 @@ export async function getModuleAbi(
   options: FetchAbiOptions = {}
 ): Promise<MoveModuleAbi> {
   const moveClient = context.client.move
-  const { useCache = true, cacheTtl = DEFAULT_CACHE_TTL } = options
+  const { useCache = true } = options
 
-  // Check cache first
-  if (useCache) {
-    const cached = getCachedAbi(moduleAddress, moduleName, cacheTtl)
-    if (cached) {
-      return cached
-    }
-  }
+  const queryOpts = useCache ? undefined : { skipCache: true }
 
-  // Fetch from chain
-  const response = await moveClient.module({
-    address: moduleAddress,
-    moduleName: moduleName,
-  })
+  // Fetch from chain (cached-client handles caching by upgradePolicy)
+  const response = await moveClient.module({ address: moduleAddress, moduleName }, queryOpts)
 
   if (!response.module) {
     throw new ContractError('move', 0, `Module not found: ${moduleAddress}::${moduleName}`)
@@ -358,14 +226,7 @@ export async function getModuleAbi(
     throw new ContractError('move', 0, `Module ABI not available: ${moduleAddress}::${moduleName}`)
   }
 
-  // Parse ABI
-  const abi = parseModuleAbi(abiJson)
-
-  // Cache the result - IMMUTABLE modules are cached permanently
-  const isImmutable = response.module.upgradePolicy === UpgradePolicy.IMMUTABLE
-  cacheModuleAbi(moduleAddress, moduleName, abi, isImmutable)
-
-  return abi
+  return parseModuleAbi(abiJson)
 }
 
 /**
@@ -395,8 +256,6 @@ export async function getModulesAbi(
     if (mod.abi) {
       try {
         const abi = parseModuleAbi(mod.abi)
-        const isImmutable = mod.upgradePolicy === UpgradePolicy.IMMUTABLE
-        cacheModuleAbi(address, mod.moduleName, abi, isImmutable)
         abis.push(abi)
       } catch {
         // Skip modules with invalid ABI - silent failure for library usage

@@ -10,6 +10,7 @@ import type { MoveEnabled } from '../token/resolver'
 import type { AbiRegistry } from '../tx/get-tx'
 import type { MoveModuleAbi } from '../contracts/move/types'
 import { L1_CHAIN_IDS } from '../wallet/typed-context'
+import { resolveContract } from '../contracts/resolver'
 
 export const initiaContextConfig = [
   initiaChain,
@@ -17,6 +18,7 @@ export const initiaContextConfig = [
     getDefaultChainId: (n: string) => L1_CHAIN_IDS[n],
     tokenResolver: (_client, _ct, token) =>
       createFungibleAssetToken((_client as MoveEnabled).move, token),
+    contractResolver: resolveContract,
     enricherFactory: (client, abis) => [
       createMoveEnricher(
         (client as unknown as MoveEnabled).move,

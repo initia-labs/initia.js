@@ -1,9 +1,9 @@
 import type { ReadonlyMoveModuleAbi } from '../../contracts/move/types'
 
-export const LOCK_STAKING_ABI = {
-  address: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789',
+export const LOCK_STAKING_TESTNET_ABI = {
+  address: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77',
   name: 'lock_staking',
-  friends: ['0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::vip'],
+  friends: ['0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::vip'],
   exposed_functions: [
     {
       name: 'delegate',
@@ -99,7 +99,7 @@ export const LOCK_STAKING_ABI = {
       generic_type_params: [],
       params: ['address'],
       return: [
-        'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::LockedDelegationResponse>',
+        'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::LockedDelegationResponse>',
       ],
     },
     {
@@ -119,7 +119,7 @@ export const LOCK_STAKING_ABI = {
       generic_type_params: [],
       params: ['address'],
       return: [
-        'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::LockedDelegationResponse>',
+        'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::LockedDelegationResponse>',
       ],
     },
     {
@@ -139,7 +139,7 @@ export const LOCK_STAKING_ABI = {
       generic_type_params: [],
       params: ['address'],
       return: [
-        '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::DelegationBalanceResponse',
+        '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::DelegationBalanceResponse',
       ],
     },
     {
@@ -275,7 +275,7 @@ export const LOCK_STAKING_ABI = {
       is_view: false,
       generic_type_params: [],
       params: [
-        '&0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::LockedDelegationResponse',
+        '&0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::LockedDelegationResponse',
       ],
       return: [
         '0x1::object::Object<0x1::fungible_asset::Metadata>',
@@ -375,7 +375,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_address', type: '0x1::string::String' },
         {
           name: 'shares',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::DecCoin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::DecCoin>',
         },
       ],
     },
@@ -387,7 +387,7 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'delegation_response',
-          type: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::DelegationResponseInner',
+          type: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::DelegationResponseInner',
         },
       ],
     },
@@ -421,7 +421,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'staking_account', type: 'address' },
         {
           name: 'balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -454,11 +454,11 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'delegation',
-          type: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Delegation',
+          type: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Delegation',
         },
         {
           name: 'balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -511,7 +511,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_dst_address', type: '0x1::string::String' },
         {
           name: 'amount',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -526,7 +526,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_address', type: '0x1::string::String' },
         {
           name: 'amount',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -541,7 +541,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_address', type: '0x1::string::String' },
         {
           name: 'amount',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -567,7 +567,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_dst_address', type: '0x1::string::String' },
         {
           name: 'entries',
-          type: '0x1::option::Option<vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::RedelegationEntry>>',
+          type: '0x1::option::Option<vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::RedelegationEntry>>',
         },
       ],
     },
@@ -581,11 +581,11 @@ export const LOCK_STAKING_ABI = {
         { name: 'completion_time', type: '0x1::string::String' },
         {
           name: 'initial_balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
         {
           name: 'shares_dst',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::DecCoin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::DecCoin>',
         },
         { name: 'unbonding_id', type: 'u32' },
       ],
@@ -598,11 +598,11 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'redelegation_entry',
-          type: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::RedelegationEntry',
+          type: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::RedelegationEntry',
         },
         {
           name: 'balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -614,11 +614,11 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'redelegation',
-          type: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Redelegation',
+          type: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Redelegation',
         },
         {
           name: 'entries',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::RedelegationEntryResponse>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::RedelegationEntryResponse>',
         },
       ],
     },
@@ -641,11 +641,11 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'redelegation_responses',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::RedelegationResponse>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::RedelegationResponse>',
         },
         {
           name: 'pagination',
-          type: '0x1::option::Option<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::PageResponse>',
+          type: '0x1::option::Option<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::PageResponse>',
         },
       ],
     },
@@ -660,11 +660,11 @@ export const LOCK_STAKING_ABI = {
         { name: 'validators', type: '0x1::table::Table<0x1::string::String, u16>' },
         {
           name: 'delegations',
-          type: '0x1::table::Table<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::DelegationKey, 0x1::bigdecimal::BigDecimal>',
+          type: '0x1::table::Table<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::DelegationKey, 0x1::bigdecimal::BigDecimal>',
         },
         {
           name: 'total_locked_shares',
-          type: '0x1::table::Table<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::LockedShareKey, 0x1::bigdecimal::BigDecimal>',
+          type: '0x1::table::Table<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::LockedShareKey, 0x1::bigdecimal::BigDecimal>',
         },
       ],
     },
@@ -693,7 +693,7 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
       ],
     },
@@ -707,7 +707,7 @@ export const LOCK_STAKING_ABI = {
         { name: 'validator_address', type: '0x1::string::String' },
         {
           name: 'entries',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::UnbondingDelegationEntry>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::UnbondingDelegationEntry>',
         },
       ],
     },
@@ -721,11 +721,11 @@ export const LOCK_STAKING_ABI = {
         { name: 'completion_time', type: '0x1::string::String' },
         {
           name: 'initial_balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
         {
           name: 'balance',
-          type: 'vector<0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::Coin>',
+          type: 'vector<0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::Coin>',
         },
         { name: 'unbonding_id', type: 'u64' },
         { name: 'unbonding_on_hold_ref_count', type: 'u64' },
@@ -749,7 +749,7 @@ export const LOCK_STAKING_ABI = {
       fields: [
         {
           name: 'unbond',
-          type: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789::lock_staking::UnbondingDelegation',
+          type: '0x1e90c1e45682a1b877035b8443879a0332651a8cc965e9417d5091b25906bf77::lock_staking::UnbondingDelegation',
         },
       ],
     },

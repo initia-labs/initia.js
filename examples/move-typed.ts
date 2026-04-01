@@ -8,16 +8,15 @@
  *
  * Key difference from move-contract.ts:
  *   - ABI lives in a separate file (./abis/coin.ts)
- *   - `createMoveContract(ctx, ABI)` is sync (no gRPC fetch)
+ *   - `ctx.contract(ABI)` is sync (no gRPC fetch)
  *   - Function names autocomplete in IDE
  *
  * Compare:
- *   const coin = createMoveContract(ctx, COIN_ABI)                    // sync, typed
- *   const coin = await createMoveContract(ctx, '0x1', 'coin')        // async, untyped
+ *   const coin = ctx.contract(COIN_ABI)                               // sync, typed
+ *   const coin = await ctx.contract('0x1', 'coin')                    // async, untyped
  */
 
 import { createMinimoveContext } from 'initia.js'
-import { createMoveContract } from 'initia.js/move'
 import { SENDER, RECIPIENT } from './constants'
 
 // Import static ABI from separate file — `as const satisfies ReadonlyMoveModuleAbi`
@@ -28,9 +27,11 @@ const UINIT_COIN = '0x1::native_uinit::Coin'
 async function main() {
   const chain = await createMinimoveContext({ network: 'testnet', chainId: 'move-1' })
 
-  // Create typed contract — sync! No gRPC call needed.
-  // Try typing `coin.view.` or `coin.execute.` to see autocomplete.
-  const coin = createMoveContract(chain, COIN_ABI)
+  // Static ABI — sync (no await needed, ABI is already known)
+  const coin = chain.contract(COIN_ABI)
+
+  // Runtime ABI — async (fetches ABI from chain, must await)
+  // const coin = await chain.contract('0x1', 'coin')
 
   // =========================================================================
   // Typed views — non-generic functions have typed args and return values
@@ -38,6 +39,11 @@ async function main() {
   //   coin.view.decimals({ args: [metadataAddr] })  → Promise<number>
   //   coin.view.is_frozen({ args: [meta, addr] })   → Promise<boolean>
   //   coin.view.balance(...)                         → Promise<unknown> (generic)
+  //
+  // When the ABI includes struct definitions, return types are fully inferred:
+  //   contract.view.get_proposal({ args: ['1'] })
+  //     → Promise<{ total_tally: bigint; voting_end_time: bigint; executed: boolean }>
+  // No `as` cast needed — TypeScript infers the struct shape from the ABI.
   // =========================================================================
   const metadataAddr = '0x15bb76e1a08dd8f8fb5e569a79f32f767ceec701fcc0dedc1e1e7c523d849781'
 

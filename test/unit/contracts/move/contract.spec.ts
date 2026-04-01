@@ -23,8 +23,9 @@ import type {
   MoveViewProxyTyped,
   MoveExecuteProxyTyped,
   TypedMoveContract,
+  MoveTypeToTsWithStructs,
 } from '../../../../src/contracts/move/types'
-import { clearAbiCache } from '../../../../src/contracts/move/abi-fetcher'
+import { moveAbi } from '../../../../src/contracts/abi-helpers'
 import { AccAddress } from '../../../../src/util/address'
 import { encodeMoveArg } from '../../../../src/contracts/move/bcs'
 import type { MoveModuleAbi } from '../../../../src/contracts/move/types'
@@ -160,7 +161,6 @@ function createTypedMockClient(
 
 describe('Move Contract', () => {
   beforeEach(() => {
-    clearAbiCache()
     vi.clearAllMocks()
   })
 
@@ -198,24 +198,30 @@ describe('Move Contract', () => {
       expect(contract.abi).toBe(customAbi)
     })
 
-    it('should cache ABI by default', async () => {
+    it('should pass useCache=true by default (caching delegated to cached-client)', async () => {
       const mockMoveClient = createDefaultMockMoveClient()
       const ctx = createMockContext(mockMoveClient)
 
       await createMoveContract(ctx, '0x1', 'coin')
-      await createMoveContract(ctx, '0x1', 'coin')
 
-      expect(mockMoveClient.module).toHaveBeenCalledTimes(1)
+      // module() is called without skipCache (useCache defaults to true)
+      expect(mockMoveClient.module).toHaveBeenCalledWith(
+        { address: '0x1', moduleName: 'coin' },
+        undefined
+      )
     })
 
-    it('should skip cache when useCache is false', async () => {
+    it('should pass skipCache when useCache is false', async () => {
       const mockMoveClient = createDefaultMockMoveClient()
       const ctx = createMockContext(mockMoveClient)
 
-      await createMoveContract(ctx, '0x1', 'coin')
       await createMoveContract(ctx, '0x1', 'coin', { useCache: false })
 
-      expect(mockMoveClient.module).toHaveBeenCalledTimes(2)
+      // module() is called with skipCache: true
+      expect(mockMoveClient.module).toHaveBeenCalledWith(
+        { address: '0x1', moduleName: 'coin' },
+        { skipCache: true }
+      )
     })
   })
 
@@ -435,6 +441,143 @@ describe('Move Contract', () => {
       const contract = await createMoveContract(createMockContext(mockClient), '0x1', 'test')
       const result = await contract.view.test_view()
       expect(result).toBe('generic_value')
+    })
+
+    it('should auto-convert struct return types via ABI resolution', async () => {
+      const mockClient = {
+        module: vi.fn().mockResolvedValue({
+          module: {
+            abi: JSON.stringify({
+              address: '0x1',
+              name: 'gov',
+              friends: [],
+              exposed_functions: [
+                {
+                  name: 'get_proposal',
+                  visibility: 'public',
+                  is_entry: false,
+                  is_view: true,
+                  generic_type_params: [],
+                  params: ['u64'],
+                  return: ['0x1::gov::Proposal'],
+                },
+              ],
+              structs: [
+                {
+                  name: 'Proposal',
+                  is_native: false,
+                  abilities: ['key'],
+                  generic_type_params: [],
+                  fields: [
+                    { name: 'total_tally', type: 'u64' },
+                    { name: 'voting_end_time', type: 'u64' },
+                    { name: 'executed', type: 'bool' },
+                  ],
+                },
+              ],
+            }),
+          },
+        }),
+        viewJSON: vi.fn().mockResolvedValue({
+          data: JSON.stringify({ total_tally: '1000', voting_end_time: '9999', executed: true }),
+        }),
+        resource: vi.fn(),
+        tableEntry: vi.fn(),
+      }
+
+      const contract = await createMoveContract(createMockContext(mockClient), '0x1', 'gov')
+      const result = await contract.view.get_proposal({ args: [1] })
+
+      expect(result).toEqual({
+        total_tally: 1000n,
+        voting_end_time: 9999n,
+        executed: true,
+      })
+    })
+
+    it('should fall back to raw JSON when ABI fetch fails during view conversion', async () => {
+      const mockClient = {
+        module: vi.fn().mockResolvedValue({
+          module: {
+            abi: JSON.stringify({
+              address: '0x1',
+              name: 'gov',
+              friends: [],
+              exposed_functions: [
+                {
+                  name: 'get_info',
+                  visibility: 'public',
+                  is_entry: false,
+                  is_view: true,
+                  generic_type_params: [],
+                  params: [],
+                  return: ['0x1::other::Info'],
+                },
+              ],
+              structs: [],
+            }),
+          },
+        }),
+        viewJSON: vi.fn().mockResolvedValue({
+          data: JSON.stringify({ count: '42' }),
+        }),
+        resource: vi.fn(),
+        tableEntry: vi.fn(),
+      }
+
+      const contract = await createMoveContract(createMockContext(mockClient), '0x1', 'gov')
+
+      // After contract creation, make module fetch fail for cross-module resolution
+      mockClient.module.mockRejectedValue(new Error('gRPC unavailable'))
+
+      const result = await contract.view.get_info()
+
+      // Should NOT throw — falls back to raw parsed JSON
+      expect(result).toEqual({ count: '42' })
+    })
+
+    it('should convert struct in multi-return tuple', async () => {
+      const mockClient = {
+        module: vi.fn().mockResolvedValue({
+          module: {
+            abi: JSON.stringify({
+              address: '0x1',
+              name: 'gov',
+              friends: [],
+              exposed_functions: [
+                {
+                  name: 'get_stats',
+                  visibility: 'public',
+                  is_entry: false,
+                  is_view: true,
+                  generic_type_params: [],
+                  params: [],
+                  return: ['u64', '0x1::gov::Info'],
+                },
+              ],
+              structs: [
+                {
+                  name: 'Info',
+                  is_native: false,
+                  abilities: ['key'],
+                  generic_type_params: [],
+                  fields: [{ name: 'count', type: 'u64' }],
+                },
+              ],
+            }),
+          },
+        }),
+        viewJSON: vi.fn().mockResolvedValue({
+          data: JSON.stringify(['42', { count: '7' }]),
+        }),
+        resource: vi.fn(),
+        tableEntry: vi.fn(),
+      }
+
+      const contract = await createMoveContract(createMockContext(mockClient), '0x1', 'gov')
+      const result = await contract.view.get_stats()
+
+      expect(result).toEqual([42n, { count: 7n }])
     })
   })
 
@@ -1169,7 +1312,6 @@ describe('Move Contract', () => {
 
 describe('BCS execute proxy', () => {
   beforeEach(() => {
-    clearAbiCache()
     vi.clearAllMocks()
   })
 
@@ -1312,7 +1454,6 @@ describe('BCS execute proxy', () => {
 
 describe('generic type resolution', () => {
   beforeEach(() => {
-    clearAbiCache()
     vi.clearAllMocks()
   })
 
@@ -1511,7 +1652,7 @@ describe('static ABI type inference (Phase 4)', () => {
     expectTypeOf<MoveTypeToTs<'u256'>>().toEqualTypeOf<bigint>()
     expectTypeOf<MoveTypeToTs<'address'>>().toEqualTypeOf<`0x${string}`>()
     expectTypeOf<MoveTypeToTs<'0x1::string::String'>>().toEqualTypeOf<string>()
-    expectTypeOf<MoveTypeToTs<'vector<u8>'>>().toEqualTypeOf<number[]>()
+    expectTypeOf<MoveTypeToTs<'vector<u8>'>>().toEqualTypeOf<string>()
     expectTypeOf<MoveTypeToTs<'0x1::object::Object<T0>'>>().toEqualTypeOf<`0x${string}`>()
     expectTypeOf<MoveTypeToTs<'0x1::option::Option<u64>'>>().toEqualTypeOf<bigint | null>()
     // Unknown type → unknown
@@ -1675,6 +1816,134 @@ describe('static ABI type inference (Phase 4)', () => {
       typeArgs: ['0x1::native_uinit::Coin'],
       args: [JSON.stringify(MOVE_HEX_ADDR)],
     })
+  })
+})
+
+// =============================================================================
+// Compile-Time Struct Type Inference (Phase 4b)
+// =============================================================================
+
+const STATIC_ABI_WITH_STRUCTS = moveAbi({
+  address: '0x1',
+  name: 'gov',
+  friends: [],
+  exposed_functions: [
+    {
+      name: 'get_proposal',
+      visibility: 'public',
+      is_entry: false,
+      is_view: true,
+      generic_type_params: [],
+      params: ['u64'],
+      return: ['0x1::gov::ProposalResponse'],
+    },
+    {
+      name: 'get_count',
+      visibility: 'public',
+      is_entry: false,
+      is_view: true,
+      generic_type_params: [],
+      params: [],
+      return: ['u64'],
+    },
+  ],
+  structs: [
+    {
+      name: 'ProposalResponse',
+      is_native: false,
+      abilities: ['drop'],
+      generic_type_params: [],
+      fields: [
+        { name: 'total_tally', type: 'u64' },
+        { name: 'voting_end_time', type: 'u64' },
+        { name: 'executed', type: 'bool' },
+      ],
+    },
+  ],
+})
+
+describe('compile-time struct type inference (Phase 4b)', () => {
+  it('6. MoveViewProxyTyped resolves struct return types from ABI', () => {
+    expect(STATIC_ABI_WITH_STRUCTS.structs).toHaveLength(1)
+    type ViewProxy = MoveViewProxyTyped<typeof STATIC_ABI_WITH_STRUCTS>
+    type ProposalResult = Awaited<ReturnType<ViewProxy['get_proposal']>>
+    expectTypeOf<ProposalResult>().toHaveProperty('total_tally')
+    expectTypeOf<ProposalResult['total_tally']>().toEqualTypeOf<bigint>()
+    expectTypeOf<ProposalResult['voting_end_time']>().toEqualTypeOf<bigint>()
+    expectTypeOf<ProposalResult['executed']>().toEqualTypeOf<boolean>()
+
+    type CountResult = Awaited<ReturnType<ViewProxy['get_count']>>
+    expectTypeOf<CountResult>().toEqualTypeOf<bigint>()
+  })
+
+  it('7. MoveTypeToTsWithStructs resolves nested structs', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars -- used as typeof in type positions
+    const NESTED_ABI = moveAbi({
+      address: '0x1',
+      name: 'nested',
+      friends: [],
+      exposed_functions: [],
+      structs: [
+        {
+          name: 'Inner',
+          is_native: false,
+          abilities: ['drop'],
+          generic_type_params: [],
+          fields: [{ name: 'value', type: 'u64' }],
+        },
+        {
+          name: 'Wrapper',
+          is_native: false,
+          abilities: ['drop'],
+          generic_type_params: [],
+          fields: [{ name: 'inner', type: '0x1::nested::Inner' }],
+        },
+      ],
+    })
+
+    type WrapperResult = MoveTypeToTsWithStructs<
+      '0x1::nested::Wrapper',
+      (typeof NESTED_ABI)['structs']
+    >
+    expectTypeOf<WrapperResult>().toHaveProperty('inner')
+    expectTypeOf<WrapperResult['inner']['value']>().toEqualTypeOf<bigint>()
+  })
+
+  it('8. Cross-module struct references resolve to unknown', () => {
+    type Result = MoveTypeToTsWithStructs<
+      '0x2::other::Foo',
+      (typeof STATIC_ABI_WITH_STRUCTS)['structs'],
+      (typeof STATIC_ABI_WITH_STRUCTS)['address'],
+      (typeof STATIC_ABI_WITH_STRUCTS)['name']
+    >
+    expectTypeOf<Result>().toEqualTypeOf<unknown>()
+  })
+
+  it('8b. Cross-module struct with same name as local struct resolves to unknown', () => {
+    // ProposalResponse exists in local ABI (0x1::gov), but a reference from
+    // a different module (0x2::other::ProposalResponse) must NOT match it
+    type Result = MoveTypeToTsWithStructs<
+      '0x2::other::ProposalResponse',
+      (typeof STATIC_ABI_WITH_STRUCTS)['structs'],
+      (typeof STATIC_ABI_WITH_STRUCTS)['address'],
+      (typeof STATIC_ABI_WITH_STRUCTS)['name']
+    >
+    expectTypeOf<Result>().toEqualTypeOf<unknown>()
+  })
+
+  it('9. vector<u8> resolves to string (hex-encoded bytes)', () => {
+    expectTypeOf<MoveTypeToTs<'vector<u8>'>>().toEqualTypeOf<string>()
+    type WithStructs = MoveTypeToTsWithStructs<'vector<u8>', readonly []>
+    expectTypeOf<WithStructs>().toEqualTypeOf<string>()
+  })
+
+  it('10. existing STATIC_ABI with empty structs still works (no regression)', () => {
+    type ViewProxy = MoveViewProxyTyped<typeof STATIC_ABI>
+    type DecimalsReturn = Awaited<ReturnType<ViewProxy['decimals']>>
+    expectTypeOf<DecimalsReturn>().toEqualTypeOf<number>()
+
+    type NameReturn = Awaited<ReturnType<ViewProxy['name']>>
+    expectTypeOf<NameReturn>().toEqualTypeOf<string>()
   })
 })
 
@@ -2073,6 +2342,44 @@ describe('mid-level standalone functions (Phase 5)', () => {
           args: ['"1000000"', '"0xabc"'],
         })
       )
+    })
+
+    it('should convert struct return types in buildMoveView', async () => {
+      const mockClient = {
+        module: vi.fn().mockResolvedValue({
+          module: {
+            abi: JSON.stringify({
+              address: '0x1',
+              name: 'gov',
+              friends: [],
+              exposed_functions: [],
+              structs: [
+                {
+                  name: 'Info',
+                  is_native: false,
+                  abilities: ['key'],
+                  generic_type_params: [],
+                  fields: [{ name: 'count', type: 'u64' }],
+                },
+              ],
+            }),
+          },
+        }),
+        viewJSON: vi.fn().mockResolvedValue({
+          data: JSON.stringify({ count: '42' }),
+        }),
+        resource: vi.fn(),
+        tableEntry: vi.fn(),
+      }
+      const ctx = createMockContext(mockClient)
+
+      const result = await buildMoveView(ctx, {
+        function: '0x1::gov::get_info',
+        args: [],
+        returns: ['0x1::gov::Info'],
+      })
+
+      expect(result).toEqual({ count: 42n })
     })
   })
 })

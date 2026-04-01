@@ -30,6 +30,7 @@ import {
   type ChainContext,
   type ChainContextOptions,
   type TokenResolver,
+  type ContractResolver,
   type EnricherFactory,
 } from './chain-context'
 import { ChainNotFoundError, ValidationError } from '../errors'
@@ -153,6 +154,8 @@ export interface TypedFactoryOptions {
   getDefaultChainId?: (network: string) => string | undefined
   /** Token resolver injected into ChainContext for getTokenContract(). */
   tokenResolver?: TokenResolver
+  /** Contract resolver injected into ChainContext for contract(). */
+  contractResolver?: ContractResolver
   /** Enricher factory for VM-aware tx decoding (injected per chain type). */
   enricherFactory?: EnricherFactory
 }
@@ -203,6 +206,7 @@ export function buildTypedFactory<T extends ChainType>(
     () => defaultConfig.msgs as unknown as MsgsForChain<ChainType>,
     {
       tokenResolver: options?.tokenResolver,
+      contractResolver: options?.contractResolver,
       enricherFactory: options?.enricherFactory,
       getTypeRegistry: () => defaultConfig.registry,
     }
@@ -269,6 +273,7 @@ export function buildTypedFactory<T extends ChainType>(
       () => extConfig.msgs as unknown as MsgsForChain<ChainType>,
       {
         tokenResolver: options?.tokenResolver,
+        contractResolver: options?.contractResolver,
         enricherFactory: options?.enricherFactory,
         getTypeRegistry: () => extConfig.registry,
       }

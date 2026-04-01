@@ -8,12 +8,14 @@ import type { TypedFactoryOptions } from '../wallet/typed-context'
 import type { MoveEnabled } from '../token/resolver'
 import type { AbiRegistry } from '../tx/get-tx'
 import type { MoveModuleAbi } from '../contracts/move/types'
+import { resolveContract } from '../contracts/resolver'
 
 export const minimoveContextConfig = [
   minimoveChain,
   {
     tokenResolver: (_client, _ct, token) =>
       createFungibleAssetToken((_client as MoveEnabled).move, token),
+    contractResolver: resolveContract,
     enricherFactory: (client, abis) => [
       createMoveEnricher(
         (client as unknown as MoveEnabled).move,
