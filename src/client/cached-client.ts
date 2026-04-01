@@ -59,6 +59,7 @@
 import type { Client as ServiceClient } from '@connectrpc/connect'
 import type { Query as MoveQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/query_pb'
 import type { Query as EvmQuery } from '@buf/initia-labs_minievm.bufbuild_es/minievm/evm/v1/query_pb'
+import { UpgradePolicy } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/types_pb'
 import { createCacheManager, type CacheManager } from '../cache'
 import {
   cacheKeys,
@@ -197,9 +198,9 @@ function createCachedMoveService(
           // 1. Check cache (unless skipCache)
           if (!options?.skipCache) {
             const cached = cache.moveAbi.get(key)
-            if (cached !== undefined) {
-              return cached
-            }
+            if (cached !== undefined) return cached
+            const ttlCached = cache.moveAbiTtl.get(key)
+            if (ttlCached !== undefined) return ttlCached
           }
 
           // 2. Check inflight request (deduplication)
@@ -211,8 +212,14 @@ function createCachedMoveService(
           // 3. Fetch with deduplication
           const promise = originalModule(request, options)
             .then(result => {
-              // Cache the result object directly (no JSON serialization)
-              cache.moveAbi.set(key, result)
+              const isImmutable =
+                (result as { module?: { upgradePolicy?: number } }).module?.upgradePolicy ===
+                UpgradePolicy.IMMUTABLE
+              if (isImmutable) {
+                cache.moveAbi.set(key, result)
+              } else {
+                cache.moveAbiTtl.set(key, result)
+              }
               return result
             })
             .finally(() => {
@@ -367,6 +374,7 @@ export function wrapClientWithCache<T extends Record<string, unknown>>(
    */
   function clearCache(): void {
     cache.moveAbi.clear()
+    cache.moveAbiTtl.clear()
     cache.denomToContract.clear()
     cache.contractToDenom.clear()
     cache.heightCache.clear()

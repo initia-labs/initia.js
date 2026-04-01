@@ -79,6 +79,16 @@ export function parseStructTag(tag: string): ParsedStructTag {
 export const DEFAULT_OPAQUE_TYPES: ReadonlySet<string> = new Set([
   '0x1::table::Table',
   '0x1::object::ExtendRef',
+  '0x1::object::DeleteRef',
+  '0x1::object::TransferRef',
+  '0x1::object::LinearTransferRef',
+  '0x1::object::ConstructorRef',
+  '0x1::object::DeriveRef',
+  '0x1::bigdecimal::BigDecimal',
+  '0x1::decimal128::Decimal128',
+  '0x1::decimal256::Decimal256',
+  '0x1::fixed_point32::FixedPoint32',
+  '0x1::fixed_point64::FixedPoint64',
 ])
 
 // =============================================================================
@@ -196,7 +206,7 @@ export async function convertResourceValue(
   const result = { ...(value as Record<string, unknown>) }
   await Promise.all(
     fields.map(async (field, i) => {
-      if (field.name in result) {
+      if (Object.hasOwn(result, field.name)) {
         result[field.name] = await convertResourceValue(
           result[field.name],
           parseMoveType(resolvedTypeStrs[i]),

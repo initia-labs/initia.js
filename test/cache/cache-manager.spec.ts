@@ -1,5 +1,5 @@
 // test/cache/cache-manager.spec.ts
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { createCacheManager, type CacheManager } from '../../src/cache/cache-manager'
 import {
   cacheKeys,
@@ -326,6 +326,36 @@ describe('CacheManager', () => {
 
       expect(cache.moveAbi.get('same-key')).toEqual({ type: 'move' })
       expect(cache.denomToContract.get('same-key')).toBe('denom-value')
+    })
+  })
+
+  describe('moveAbiTtl cache', () => {
+    it('should exist on cache manager', () => {
+      expect(cache.moveAbiTtl).toBeDefined()
+    })
+
+    it('should store and retrieve values', () => {
+      cache.moveAbiTtl.set('key1', { name: 'test' })
+      expect(cache.moveAbiTtl.get('key1')).toEqual({ name: 'test' })
+    })
+
+    it('should expire entries after TTL', async () => {
+      cache.moveAbiTtl.set('key1', { name: 'test' })
+      expect(cache.moveAbiTtl.get('key1')).toEqual({ name: 'test' })
+
+      vi.useFakeTimers()
+      cache.moveAbiTtl.set('key2', { name: 'ttl-test' })
+      vi.advanceTimersByTime(61_000)
+      expect(cache.moveAbiTtl.get('key2')).toBeUndefined()
+      vi.useRealTimers()
+    })
+
+    it('should not expire entries before TTL', () => {
+      vi.useFakeTimers()
+      cache.moveAbiTtl.set('key1', { name: 'fresh' })
+      vi.advanceTimersByTime(30_000)
+      expect(cache.moveAbiTtl.get('key1')).toEqual({ name: 'fresh' })
+      vi.useRealTimers()
     })
   })
 })

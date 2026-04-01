@@ -41,19 +41,14 @@ import type {
   BuildMoveViewOptions,
 } from './types'
 import { getModuleAbi, findFunction, getNonSignerParams, type MoveQueryClient } from './abi-fetcher'
-import {
-  encodeMoveArgs,
-  parseMoveType,
-  convertJsonValue,
-  resolveGenericTypes,
-  type ParsedMoveType,
-} from './bcs'
+import { encodeMoveArgs, parseMoveType, resolveGenericTypes, type ParsedMoveType } from './bcs'
 import { AccAddress } from '../../util/address'
 import { jsonStringifyArg } from '../../util/json'
 import {
   createAbiResolver,
   convertResourceValue,
   DEFAULT_OPAQUE_TYPES,
+  type AbiResolver,
 } from './resource-conversion'
 
 // =============================================================================
@@ -68,8 +63,6 @@ export interface CreateMoveContractOptions {
   abi?: MoveModuleAbi
   /** Use cached ABI (default: true) */
   useCache?: boolean
-  /** Cache TTL in milliseconds (default: 5 minutes) */
-  cacheTtl?: number
   /**
    * Additional opaque types to skip ABI resolution for (performance optimization).
    * Must be base type strings without type arguments (e.g., `'0x1::table::Table'`).
@@ -253,22 +246,36 @@ function allTypesResolvable(paramTypes: string[]): boolean {
 // =============================================================================
 
 /**
- * Converts a view function's JSON response to typed values.
+ * Converts a view function's JSON response to typed values using ABI resolution.
+ *
+ * Uses `convertResourceValue` for struct-aware conversion (u64→bigint, Option unwrapping,
+ * and recursive struct field conversion via ABI resolver).
  *
  * @param jsonParsed - Result of JSON.parse(response.data)
  * @param returnTypes - ABI return types (fn.return)
+ * @param resolver - ABI resolver for fetching struct field definitions
+ * @param opaqueTypes - Set of type bases to skip ABI resolution for
  * @returns Typed value (single) or typed array (multiple returns)
  */
-function convertViewResponse(jsonParsed: unknown, returnTypes: string[]): unknown {
+async function convertViewResponse(
+  jsonParsed: unknown,
+  returnTypes: string[],
+  resolver: AbiResolver,
+  opaqueTypes: ReadonlySet<string>
+): Promise<unknown> {
   if (returnTypes.length === 0) return jsonParsed
 
   if (returnTypes.length === 1) {
-    return convertJsonValue(jsonParsed, parseMoveType(returnTypes[0]))
+    return convertResourceValue(jsonParsed, parseMoveType(returnTypes[0]), resolver, opaqueTypes)
   }
 
   if (Array.isArray(jsonParsed)) {
-    return (jsonParsed as unknown[]).map((val, i) =>
-      i < returnTypes.length ? convertJsonValue(val, parseMoveType(returnTypes[i])) : val
+    return Promise.all(
+      (jsonParsed as unknown[]).map((val, i) =>
+        i < returnTypes.length
+          ? convertResourceValue(val, parseMoveType(returnTypes[i]), resolver, opaqueTypes)
+          : val
+      )
     )
   }
 
@@ -375,23 +382,26 @@ function buildContract(
           args: jsonArgs,
         })
 
-        // Parse JSON response and convert to typed values using ABI return info
+        // Split catch: only JSON.parse failure returns raw string
+        let parsed: unknown
         try {
-          const parsed: unknown = JSON.parse(response.data)
-
-          const resolvedReturns = resolveGenericTypes(fn.return, typeArgs)
-          if (
-            resolvedReturns.length > 0 &&
-            !hasUnresolvedGenerics(resolvedReturns) &&
-            allTypesResolvable(resolvedReturns)
-          ) {
-            return convertViewResponse(parsed, resolvedReturns)
-          }
-
-          return parsed
+          parsed = JSON.parse(response.data)
         } catch {
           return response.data
         }
+
+        // Best-effort conversion: if it fails, fall back to raw parsed JSON.
+        // This is intentionally different from resource()/queryResource() which throw on failure.
+        // View proxy previously had no struct conversion, so fallback = previous behavior.
+        const resolvedReturns = resolveGenericTypes(fn.return, typeArgs)
+        if (resolvedReturns.length > 0 && !hasUnresolvedGenerics(resolvedReturns)) {
+          try {
+            return await convertViewResponse(parsed, resolvedReturns, resolver, mergedOpaqueTypes)
+          } catch {
+            return parsed
+          }
+        }
+        return parsed
       }
     },
   })
@@ -603,7 +613,6 @@ export function createMoveContract<T extends ReadonlyMoveModuleAbi>(
       options.abi ??
       (await getModuleAbi(context, moduleAddress, moduleName!, {
         useCache: options.useCache,
-        cacheTtl: options.cacheTtl,
       }))
     return buildContract(context, moduleAddress, moduleName!, fetchedAbi, options.opaqueTypes)
   })()
@@ -747,7 +756,10 @@ export function createExecuteMsg(
 // =============================================================================
 
 /**
- * Calls a view function directly without creating a contract instance.
+ * Calls a Move view function directly without a contract instance.
+ *
+ * For struct return type conversion and IDE autocomplete,
+ * prefer `ctx.contract()` or `createMoveContract()` + `contract.view.*` instead.
  *
  * @param context - ChainContext with client (must have move service)
  * @param moduleAddress - Module address
@@ -759,14 +771,12 @@ export function createExecuteMsg(
  *
  * @example
  * ```typescript
- * const balance = await callViewFunction(
- *   ctx,
- *   '0x1',
- *   'coin',
- *   'balance',
- *   ['0x1::native_uinit::Coin'],
- *   [address]
- * )
+ * // Low-level — returns raw JSON-parsed result (no struct field conversion)
+ * const balance = await callViewFunction(ctx, '0x1', 'coin', 'balance', ['0x1::native_uinit::Coin'], [addr])
+ *
+ * // Preferred — auto-converts struct fields, IDE autocomplete
+ * const coin = await ctx.contract('0x1', 'coin')
+ * const balance = await coin.view.balance({ typeArgs: ['0x1::native_uinit::Coin'], args: [addr] })
  * ```
  */
 export async function callViewFunction(
@@ -899,6 +909,9 @@ export function buildMoveExecute(
 /**
  * Call a Move view function using a combined function identifier.
  *
+ * Note: Creates a fresh ABI resolver per call. For repeated view calls,
+ * prefer `createMoveContract()` + `contract.view.*` which shares a single resolver.
+ *
  * Without returns: returns raw JSON.parse result.
  * With returns: converts response to typed values (u64→bigint, etc.).
  * With paramTypes: applies bech32→hex conversion on args.
@@ -949,21 +962,30 @@ export async function buildMoveView(
     args: jsonArgs,
   })
 
+  let parsed: unknown
   try {
-    const parsed: unknown = JSON.parse(response.data)
-
-    // Typed conversion if returns provided and all types resolvable
-    if (options.returns && options.returns.length > 0) {
-      const resolvedReturns = resolveGenericTypes(options.returns, typeArgs)
-      if (!hasUnresolvedGenerics(resolvedReturns) && allTypesResolvable(resolvedReturns)) {
-        return convertViewResponse(parsed, resolvedReturns)
-      }
-    }
-
-    return parsed
+    parsed = JSON.parse(response.data)
   } catch {
     return response.data
   }
+
+  if (options.returns && options.returns.length > 0) {
+    const resolvedReturns = resolveGenericTypes(options.returns, typeArgs)
+    if (!hasUnresolvedGenerics(resolvedReturns)) {
+      try {
+        const viewResolver = createAbiResolver(context)
+        return await convertViewResponse(
+          parsed,
+          resolvedReturns,
+          viewResolver,
+          DEFAULT_OPAQUE_TYPES
+        )
+      } catch {
+        return parsed
+      }
+    }
+  }
+  return parsed
 }
 
 // =============================================================================

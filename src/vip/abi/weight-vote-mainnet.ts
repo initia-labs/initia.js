@@ -1,6 +1,6 @@
 import type { ReadonlyMoveModuleAbi } from '../../contracts/move/types'
 
-export const WEIGHT_VOTE_ABI = {
+export const WEIGHT_VOTE_MAINNET_ABI = {
   address: '0x3a886b32a802582f2e446e74d4a24d1d7ed01adf46d2a8f65c5723887e708789',
   name: 'weight_vote',
   friends: [],

@@ -337,6 +337,11 @@ export interface ReadonlyMoveModuleAbi {
   }[]
 }
 
+/** Widen the address field to `string`, erasing literal address differences between networks */
+export type WidenAddress<T extends ReadonlyMoveModuleAbi> = Omit<T, 'address'> & {
+  readonly address: string
+}
+
 /** Map Move primitive type strings to TypeScript types */
 export type MoveTypeToTs<T extends string> = T extends 'bool'
   ? boolean
@@ -352,16 +357,115 @@ export type MoveTypeToTs<T extends string> = T extends 'bool'
             ? `0x${string}`
             : T extends `0x1::option::Option<${infer Inner}>`
               ? MoveTypeToTs<Inner> | null
-              : T extends `vector<${infer Inner}>`
-                ? MoveTypeToTs<Inner>[]
-                : unknown
+              : T extends 'vector<u8>'
+                ? string // chain serializes vector<u8> as hex-encoded string
+                : T extends `vector<${infer Inner}>`
+                  ? MoveTypeToTs<Inner>[]
+                  : unknown
 
-/** Convert an array of Move return types to TS types */
-export type MoveReturnToTs<T extends readonly string[]> = T extends readonly []
+/**
+ * Extract struct name only if it belongs to the local module (addr::mod::Name).
+ * Cross-module references (different addr or mod) return `never` → resolve to `unknown`.
+ *
+ * Generic branch must precede plain branch; otherwise 'Foo<Bar>' would match as Name='Foo<Bar>'.
+ */
+type ExtractLocalStructName<
+  T extends string,
+  ModuleAddr extends string,
+  ModuleName extends string,
+> = T extends `${ModuleAddr}::${ModuleName}::${infer Name}<${string}>`
+  ? Name
+  : T extends `${ModuleAddr}::${ModuleName}::${infer Name}`
+    ? Name
+    : never
+
+/** Structs constraint shorthand */
+type StructsDef = readonly {
+  readonly name: string
+  readonly fields: readonly { readonly name: string; readonly type: string }[]
+}[]
+
+/** Find a struct by name in the structs array and map its fields to TS types */
+type FindStructFields<
+  Name extends string,
+  Structs extends StructsDef,
+  ModuleAddr extends string,
+  ModuleName extends string,
+> = [Extract<Structs[number], { readonly name: Name }>] extends [never]
+  ? unknown
+  : Extract<Structs[number], { readonly name: Name }> extends {
+        readonly fields: infer Fields extends readonly {
+          readonly name: string
+          readonly type: string
+        }[]
+      }
+    ? {
+        [F in Fields[number] as F['name']]: MoveTypeToTsWithStructs<
+          F['type'],
+          Structs,
+          ModuleAddr,
+          ModuleName
+        >
+      }
+    : unknown
+
+/**
+ * Map Move type strings to TS types, with struct resolution from ABI.
+ *
+ * Resolves struct types by matching the full module path (addr::mod::Name),
+ * so cross-module references correctly resolve to `unknown` even if a local
+ * struct has the same name.
+ *
+ * Note: Self-referential struct types (e.g., Node { next: Option<Node> }) may
+ * hit TypeScript's instantiation depth limit. This is a TS compiler constraint.
+ */
+export type MoveTypeToTsWithStructs<
+  T extends string,
+  Structs extends StructsDef,
+  ModuleAddr extends string = string,
+  ModuleName extends string = string,
+> = T extends 'bool'
+  ? boolean
+  : T extends 'u8' | 'u16' | 'u32'
+    ? number
+    : T extends 'u64' | 'u128' | 'u256'
+      ? bigint
+      : T extends 'address'
+        ? `0x${string}`
+        : T extends '0x1::string::String'
+          ? string
+          : T extends `0x1::object::Object<${string}>`
+            ? `0x${string}`
+            : T extends `0x1::option::Option<${infer Inner}>`
+              ? MoveTypeToTsWithStructs<Inner, Structs, ModuleAddr, ModuleName> | null
+              : T extends 'vector<u8>'
+                ? string
+                : T extends `vector<${infer Inner}>`
+                  ? MoveTypeToTsWithStructs<Inner, Structs, ModuleAddr, ModuleName>[]
+                  : ExtractLocalStructName<T, ModuleAddr, ModuleName> extends never
+                    ? unknown
+                    : FindStructFields<
+                        ExtractLocalStructName<T, ModuleAddr, ModuleName>,
+                        Structs,
+                        ModuleAddr,
+                        ModuleName
+                      >
+
+/** Convert return types to TS types with struct resolution */
+export type MoveReturnToTs<
+  T extends readonly string[],
+  Structs extends StructsDef = readonly [],
+  ModuleAddr extends string = string,
+  ModuleName extends string = string,
+> = T extends readonly []
   ? void
   : T extends readonly [infer R extends string]
-    ? MoveTypeToTs<R>
-    : { [K in keyof T]: T[K] extends string ? MoveTypeToTs<T[K]> : never }
+    ? MoveTypeToTsWithStructs<R, Structs, ModuleAddr, ModuleName>
+    : {
+        [K in keyof T]: T[K] extends string
+          ? MoveTypeToTsWithStructs<T[K], Structs, ModuleAddr, ModuleName>
+          : never
+      }
 
 /** Remove &signer from params array */
 export type FilterSigner<T extends readonly string[]> = T extends readonly [
@@ -389,7 +493,7 @@ export type MoveViewProxyTyped<T extends ReadonlyMoveModuleAbi> = {
     : never]: F['generic_type_params'] extends readonly []
     ? (
         options: TypedMoveCallOptions<FilterSigner<F['params']>>
-      ) => Promise<MoveReturnToTs<F['return']>>
+      ) => Promise<MoveReturnToTs<F['return'], T['structs'], T['address'], T['name']>>
     : (options: { typeArgs: string[]; args: unknown[] }) => Promise<unknown>
 }
 

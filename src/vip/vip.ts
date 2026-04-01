@@ -3,13 +3,11 @@ import { createMoveContract } from '../contracts/move/contract'
 import type { ChainContext } from '../wallet/chain-context'
 import { VIP_ADDRESSES } from './constants'
 import { getVipAbi } from './abi'
-import type { LOCK_STAKING_ABI } from './abi/lock-staking'
-import type { WEIGHT_VOTE_ABI } from './abi/weight-vote'
-import type { VIP_TESTNET_ABI } from './abi/vip-testnet'
 import { createVipIndexer } from './indexer'
 import type {
   Vip,
   VipOptions,
+  VipContracts,
   VestingPosition,
   ClaimableReward,
   PositionInfo,
@@ -25,10 +23,34 @@ import type {
  * Creates a VIP client for lock staking, gauge voting, and reward claims.
  *
  * @param ctx - ChainContext for Initia L1 (requires move service)
- * @param options - Override VIP address or indexer
+ * @param options - Override VIP address, network, or indexer
  * @returns Vip instance with curated methods and contract proxies
  */
-export function createVip(ctx: ChainContext<'initia'>, options?: VipOptions): Vip {
+export function createVip(
+  ctx: ChainContext<'initia'>,
+  options: VipOptions & { network: 'testnet' }
+): Vip<'testnet'>
+export function createVip(
+  ctx: ChainContext<'initia'>,
+  options: VipOptions & { network: 'mainnet' }
+): Vip<'mainnet'>
+export function createVip(ctx: ChainContext<'initia'>, options?: VipOptions): Vip
+export function createVip(
+  ctx: ChainContext<'initia'>,
+  options?: VipOptions
+): Vip<'mainnet'> | Vip<'testnet'> {
+  // Detect network from chain context, allow explicit override
+  const detectedNetwork = ctx.chainInfo.network === 'testnet' ? 'testnet' : 'mainnet'
+  const effectiveNetwork = options?.network ?? detectedNetwork
+
+  // Prevent mixed-network state: if network overridden, require explicit address
+  if (options?.network && options.network !== detectedNetwork && !options.vipAddress) {
+    throw new Error(
+      `Network override "${options.network}" requires explicit vipAddress. ` +
+        `Chain ${ctx.chainInfo.chainId} detected as "${detectedNetwork}".`
+    )
+  }
+
   // Resolve VIP contract address
   const vipAddress = options?.vipAddress ?? VIP_ADDRESSES[ctx.chainInfo.chainId]
   if (!vipAddress) {
@@ -39,28 +61,24 @@ export function createVip(ctx: ChainContext<'initia'>, options?: VipOptions): Vi
   }
 
   // Create typed contract instances with resolved address
-  const { lockStakingAbi, weightVoteAbi, vipAbi } = getVipAbi(ctx.chainInfo.chainId)
+  const { lockStakingAbi, weightVoteAbi, vipAbi } = getVipAbi(
+    ctx.chainInfo.chainId,
+    effectiveNetwork
+  )
   const addr = vipAddress as `0x${string}`
 
   const lockStaking = createMoveContract(ctx, {
     ...lockStakingAbi,
     address: addr,
-  } as unknown as typeof LOCK_STAKING_ABI)
+  } as typeof lockStakingAbi)
   const weightVote = createMoveContract(ctx, {
     ...weightVoteAbi,
     address: addr,
-  } as unknown as typeof WEIGHT_VOTE_ABI)
-  const vipContract = createMoveContract(ctx, {
-    ...vipAbi,
-    address: addr,
-  } as unknown as typeof VIP_TESTNET_ABI)
+  } as typeof weightVoteAbi)
+  const vipContract = createMoveContract(ctx, { ...vipAbi, address: addr } as typeof vipAbi)
 
-  // Create indexer (auto-detect network or use override)
-  const indexer =
-    options?.indexer ??
-    createVipIndexer({
-      network: ctx.chainInfo.network === 'testnet' ? 'testnet' : 'mainnet',
-    })
+  // Create indexer using effective network (respects override)
+  const indexer = options?.indexer ?? createVipIndexer({ network: effectiveNetwork })
 
   // Helper: resolve address from explicit param or ctx.address
   function requireAddress(addressOverride?: string): string {
@@ -345,6 +363,6 @@ export function createVip(ctx: ChainContext<'initia'>, options?: VipOptions): Vi
       lockStaking,
       weightVote,
       vip: vipContract,
-    },
+    } as unknown as VipContracts,
   }
 }

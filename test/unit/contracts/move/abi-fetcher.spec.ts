@@ -2,12 +2,9 @@
  * Move ABI Fetcher Tests
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import {
   parseModuleAbi,
-  getCachedAbi,
-  cacheModuleAbi,
-  clearAbiCache,
   findFunction,
   findStruct,
   getEntryFunctions,
@@ -166,89 +163,6 @@ describe('Move ABI Fetcher', () => {
 
       const abi = parseModuleAbi(abiWithUpperVis)
       expect(abi.exposed_functions[0].visibility).toBe('public')
-    })
-  })
-
-  describe('ABI Cache', () => {
-    beforeEach(() => {
-      clearAbiCache()
-    })
-
-    it('should cache and retrieve ABI', () => {
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0x1', 'coin', abi)
-
-      const cached = getCachedAbi('0x1', 'coin')
-      expect(cached).toEqual(abi)
-    })
-
-    it('should return undefined for uncached ABI', () => {
-      const cached = getCachedAbi('0x2', 'other')
-      expect(cached).toBeUndefined()
-    })
-
-    it('should be case-insensitive for address', () => {
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0xABC', 'test', abi)
-
-      expect(getCachedAbi('0xabc', 'test')).toEqual(abi)
-      expect(getCachedAbi('0xABC', 'test')).toEqual(abi)
-    })
-
-    it('should clear all cache', () => {
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0x1', 'coin', abi)
-      cacheModuleAbi('0x2', 'other', abi)
-
-      clearAbiCache()
-
-      expect(getCachedAbi('0x1', 'coin')).toBeUndefined()
-      expect(getCachedAbi('0x2', 'other')).toBeUndefined()
-    })
-
-    it('should clear cache for specific address', () => {
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0x1', 'coin', abi)
-      cacheModuleAbi('0x1', 'other', abi)
-      cacheModuleAbi('0x2', 'module', abi)
-
-      clearAbiCache('0x1')
-
-      expect(getCachedAbi('0x1', 'coin')).toBeUndefined()
-      expect(getCachedAbi('0x1', 'other')).toBeUndefined()
-      expect(getCachedAbi('0x2', 'module')).toEqual(abi)
-    })
-
-    it('should expire cache after TTL', () => {
-      vi.useFakeTimers()
-
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0x1', 'coin', abi)
-
-      // Advance time past TTL (default 5 minutes)
-      vi.advanceTimersByTime(6 * 60 * 1000)
-
-      expect(getCachedAbi('0x1', 'coin')).toBeUndefined()
-
-      vi.useRealTimers()
-    })
-
-    it('should respect custom TTL', () => {
-      vi.useFakeTimers()
-
-      const abi = parseModuleAbi(sampleAbiJson)
-      cacheModuleAbi('0x1', 'coin', abi)
-
-      // Advance time to 30 seconds
-      vi.advanceTimersByTime(30 * 1000)
-
-      // With 1 minute TTL, should still be valid
-      expect(getCachedAbi('0x1', 'coin', 60 * 1000)).toEqual(abi)
-
-      // With 10 second TTL, should be expired
-      expect(getCachedAbi('0x1', 'coin', 10 * 1000)).toBeUndefined()
-
-      vi.useRealTimers()
     })
   })
 
