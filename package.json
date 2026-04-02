@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "2.0.0-rc.4", 
+  "version": "2.0.0-rc.5",
   "author": "Initia Foundation",
   "description": "TypeScript SDK for Initia and the interwoven ecosystem",
   "repository": "github:initia-labs/initia.js",
