@@ -19,7 +19,9 @@
       "import": "./dist/index.mjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "engines": {
     "node": ">=20"
   },
@@ -42,6 +44,9 @@
     "@zondax/ledger-cosmos-js": "^4.0.1",
     "secp256k1": "^5.0.1",
     "semver": "^7.6.3"
+  },
+  "overrides": {
+    "axios": "1.14.0"
   },
   "devDependencies": {
     "@initia/initia.js": "file:..",
