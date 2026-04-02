@@ -32,7 +32,7 @@ export class MsgWhitelistGasPrice extends JSONSerializable<
       value: { authority, metadata_lp, metadata_quote },
     } = data
 
-    return new MsgWhitelistGasPrice(authority, metadata_lp, metadata_quote)
+    return new MsgWhitelistGasPrice(authority, metadata_quote, metadata_lp)
   }
 
   public toAmino(): MsgWhitelistGasPrice.Amino {
@@ -53,7 +53,7 @@ export class MsgWhitelistGasPrice extends JSONSerializable<
   ): MsgWhitelistGasPrice {
     const { authority, metadata_quote, metadata_lp } = data
 
-    return new MsgWhitelistGasPrice(authority, metadata_lp, metadata_quote)
+    return new MsgWhitelistGasPrice(authority, metadata_quote, metadata_lp)
   }
 
   public toData(): MsgWhitelistGasPrice.Data {
