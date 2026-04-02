@@ -22,7 +22,7 @@ describe('MstakingAPI', () => {
       operator_address: expect.any(String),
       consensus_pubkey: expect.any(ValConsPublicKey),
       jailed: expect.any(Boolean),
-      status: expect.any(String),
+      status: expect.any(Number),
       tokens: expect.any(Coins),
       delegator_shares: expect.any(Coins),
       description: {

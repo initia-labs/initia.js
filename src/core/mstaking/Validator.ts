@@ -9,6 +9,8 @@ import {
   Commission as Commission_pb,
   CommissionRates as CommissionRates_pb,
   BondStatus,
+  bondStatusFromJSON,
+  bondStatusToJSON,
 } from '@initia/initia.proto/initia/mstaking/v1/staking'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
@@ -65,7 +67,7 @@ export class Validator extends JSONSerializable<
       data.operator_address,
       ValConsPublicKey.fromAmino(data.consensus_pubkey),
       data.jailed || false,
-      data.status || 0,
+      bondStatusFromJSON(data.status),
       Coins.fromAmino(data.tokens),
       Coins.fromAmino(data.delegator_shares),
       Validator.Description.fromAmino(data.description),
@@ -82,7 +84,7 @@ export class Validator extends JSONSerializable<
       operator_address: this.operator_address,
       consensus_pubkey: this.consensus_pubkey.toAmino(),
       jailed: this.jailed,
-      status: this.status,
+      status: bondStatusToJSON(this.status),
       tokens: this.tokens.toAmino(),
       delegator_shares: this.delegator_shares.toAmino(),
       description: this.description,
@@ -99,7 +101,7 @@ export class Validator extends JSONSerializable<
       data.operator_address,
       ValConsPublicKey.fromData(data.consensus_pubkey),
       data.jailed || false,
-      data.status || 0,
+      bondStatusFromJSON(data.status),
       Coins.fromData(data.tokens),
       Coins.fromData(data.delegator_shares),
       Validator.Description.fromData(data.description),
@@ -116,7 +118,7 @@ export class Validator extends JSONSerializable<
       operator_address: this.operator_address,
       consensus_pubkey: this.consensus_pubkey.toData(),
       jailed: this.jailed,
-      status: this.status,
+      status: bondStatusToJSON(this.status),
       tokens: this.tokens.toData(),
       delegator_shares: this.delegator_shares.toData(),
       description: this.description,
@@ -188,7 +190,7 @@ export namespace Validator {
     operator_address: ValAddress
     consensus_pubkey: ValConsPublicKey.Amino
     jailed: boolean
-    status: BondStatus
+    status: string
     tokens: Coins.Amino
     delegator_shares: Coins.Amino
     description: Description.Amino
@@ -203,7 +205,7 @@ export namespace Validator {
     operator_address: ValAddress
     consensus_pubkey: ValConsPublicKey.Data
     jailed: boolean
-    status: BondStatus
+    status: string
     tokens: Coins.Data
     delegator_shares: Coins.Data
     description: Description.Data
