@@ -1,6 +1,6 @@
 {
   "name": "@initia/initia.js",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "The JavaScript SDK for Initia",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
@@ -26,7 +26,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "test": "vitest",
+    "test": "vitest run",
     "lint": "npx eslint . --fix",
     "prepare": "husky",
     "prepublishOnly": "rm -rf ./dist && npm run build"
@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "@bitcoinerlab/secp256k1": "^1.1.1",
-    "@initia/initia.proto": "^1.0.4",
+    "@initia/initia.proto": "^1.0.5",
     "@initia/opinit.proto": "^1.0.3",
     "@mysten/bcs": "^1.1.0",
     "axios": "^1.9.0",

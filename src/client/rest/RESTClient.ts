@@ -1,6 +1,5 @@
 import { APIRequester } from './APIRequester'
 import {
-  AuctionAPI,
   AuthAPI,
   AuthzAPI,
   BankAPI,
@@ -77,7 +76,6 @@ export class RESTClient {
   public apiRequester: APIRequester
 
   // API access
-  public auction: AuctionAPI
   public auth: AuthAPI
   public authz: AuthzAPI
   public bank: BankAPI
@@ -124,7 +122,6 @@ export class RESTClient {
     this.apiRequester = apiRequester ?? new APIRequester(this.URL)
 
     // instantiate APIs
-    this.auction = new AuctionAPI(this.apiRequester)
     this.auth = new AuthAPI(this.apiRequester)
     this.authz = new AuthzAPI(this.apiRequester)
     this.bank = new BankAPI(this.apiRequester)

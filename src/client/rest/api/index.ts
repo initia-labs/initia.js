@@ -1,4 +1,3 @@
-export * from './AuctionAPI'
 export * from './AuthAPI'
 export * from './AuthzAPI'
 export * from './BankAPI'

@@ -2,18 +2,15 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { num } from '../../num'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
-import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
+import { MsgWhitelistStaking as MsgWhitelistStaking_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 /**
- * MsgWhitelist registers a dex pair to whitelist of various features.
- * - whitelist from coin register operation
- * - allow counter party denom can be used as gas fee
- * - register lp denom as staking denom
+ * MsgWhitelistStaking registers a DEX pair in the staking whitelist.
  */
-export class MsgWhitelist extends JSONSerializable<
-  MsgWhitelist.Amino,
-  MsgWhitelist.Data,
-  MsgWhitelist.Proto
+export class MsgWhitelistStaking extends JSONSerializable<
+  MsgWhitelistStaking.Amino,
+  MsgWhitelistStaking.Data,
+  MsgWhitelistStaking.Proto
 > {
   /**
    * @param authority the address that controls the module
@@ -28,19 +25,21 @@ export class MsgWhitelist extends JSONSerializable<
     super()
   }
 
-  public static fromAmino(data: MsgWhitelist.Amino): MsgWhitelist {
+  public static fromAmino(
+    data: MsgWhitelistStaking.Amino
+  ): MsgWhitelistStaking {
     const {
       value: { authority, metadata_lp, reward_weight },
     } = data
 
-    return new MsgWhitelist(authority, metadata_lp, reward_weight)
+    return new MsgWhitelistStaking(authority, metadata_lp, reward_weight)
   }
 
-  public toAmino(): MsgWhitelist.Amino {
+  public toAmino(): MsgWhitelistStaking.Amino {
     const { authority, metadata_lp, reward_weight } = this
 
     return {
-      type: 'move/MsgWhitelist',
+      type: 'move/MsgWhitelistStaking',
       value: {
         authority,
         metadata_lp,
@@ -49,35 +48,37 @@ export class MsgWhitelist extends JSONSerializable<
     }
   }
 
-  public static fromData(data: MsgWhitelist.Data): MsgWhitelist {
+  public static fromData(data: MsgWhitelistStaking.Data): MsgWhitelistStaking {
     const { authority, metadata_lp, reward_weight } = data
 
-    return new MsgWhitelist(authority, metadata_lp, reward_weight)
+    return new MsgWhitelistStaking(authority, metadata_lp, reward_weight)
   }
 
-  public toData(): MsgWhitelist.Data {
+  public toData(): MsgWhitelistStaking.Data {
     const { authority, metadata_lp, reward_weight } = this
 
     return {
-      '@type': '/initia.move.v1.MsgWhitelist',
+      '@type': '/initia.move.v1.MsgWhitelistStaking',
       authority,
       metadata_lp,
       reward_weight,
     }
   }
 
-  public static fromProto(data: MsgWhitelist.Proto): MsgWhitelist {
-    return new MsgWhitelist(
+  public static fromProto(
+    data: MsgWhitelistStaking.Proto
+  ): MsgWhitelistStaking {
+    return new MsgWhitelistStaking(
       data.authority,
       data.metadataLp,
       num(data.rewardWeight).shiftedBy(-18).toFixed()
     )
   }
 
-  public toProto(): MsgWhitelist.Proto {
+  public toProto(): MsgWhitelistStaking.Proto {
     const { authority, metadata_lp, reward_weight } = this
 
-    return MsgWhitelist_pb.fromPartial({
+    return MsgWhitelistStaking_pb.fromPartial({
       authority,
       metadataLp: metadata_lp,
       rewardWeight: num(reward_weight).shiftedBy(18).toFixed(0),
@@ -86,19 +87,21 @@ export class MsgWhitelist extends JSONSerializable<
 
   public packAny(): Any {
     return Any.fromPartial({
-      typeUrl: '/initia.move.v1.MsgWhitelist',
-      value: MsgWhitelist_pb.encode(this.toProto()).finish(),
+      typeUrl: '/initia.move.v1.MsgWhitelistStaking',
+      value: MsgWhitelistStaking_pb.encode(this.toProto()).finish(),
     })
   }
 
-  public static unpackAny(msgAny: Any): MsgWhitelist {
-    return MsgWhitelist.fromProto(MsgWhitelist_pb.decode(msgAny.value))
+  public static unpackAny(msgAny: Any): MsgWhitelistStaking {
+    return MsgWhitelistStaking.fromProto(
+      MsgWhitelistStaking_pb.decode(msgAny.value)
+    )
   }
 }
 
-export namespace MsgWhitelist {
+export namespace MsgWhitelistStaking {
   export interface Amino {
-    type: 'move/MsgWhitelist'
+    type: 'move/MsgWhitelistStaking'
     value: {
       authority: AccAddress
       metadata_lp: string
@@ -107,11 +110,11 @@ export namespace MsgWhitelist {
   }
 
   export interface Data {
-    '@type': '/initia.move.v1.MsgWhitelist'
+    '@type': '/initia.move.v1.MsgWhitelistStaking'
     authority: AccAddress
     metadata_lp: string
     reward_weight: string
   }
 
-  export type Proto = MsgWhitelist_pb
+  export type Proto = MsgWhitelistStaking_pb
 }

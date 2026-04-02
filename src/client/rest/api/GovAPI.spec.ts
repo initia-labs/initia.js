@@ -13,16 +13,21 @@ describe('GovAPI', () => {
   })
 
   it('proposals', async () => {
-    const proposals = await api.proposals()
+    const proposals = await api.proposals({
+      'pagination.limit': '10',
+      'pagination.reverse': 'true',
+    })
     for (const proposal of proposals[0]) {
       expect(proposal).toEqual(expect.any(Proposal))
     }
   })
 
   it('deposits', async () => {
-    const proposals = await api.proposals().then(v => v[0])
+    const proposals = await api
+      .proposals({ 'pagination.limit': '10', 'pagination.reverse': 'true' })
+      .then((v) => v[0])
     const proposalId = proposals[0].id
-    const deposits = await api.deposits(proposalId).then(v => v[0][0])
+    const deposits = await api.deposits(proposalId).then((v) => v[0][0])
     if (deposits !== undefined) {
       expect(deposits).toEqual(expect.any(Deposit))
     }
