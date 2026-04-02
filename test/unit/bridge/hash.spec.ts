@@ -29,6 +29,36 @@ describe('calculateWithdrawalHash', () => {
     expect(bytesToHex(hash1)).not.toBe(bytesToHex(hash2))
   })
 
+  it('should accept number inputs and produce same hash as bigint', () => {
+    const hashBigint = calculateWithdrawalHash(
+      1n,
+      42n,
+      'init1sender',
+      'init1receiver',
+      'uinit',
+      1000000n
+    )
+    const hashNumber = calculateWithdrawalHash(
+      1,
+      42,
+      'init1sender',
+      'init1receiver',
+      'uinit',
+      1000000
+    )
+    const hashMixed = calculateWithdrawalHash(
+      1,
+      42n,
+      'init1sender',
+      'init1receiver',
+      'uinit',
+      1000000n
+    )
+
+    expect(bytesToHex(hashNumber)).toBe(bytesToHex(hashBigint))
+    expect(bytesToHex(hashMixed)).toBe(bytesToHex(hashBigint))
+  })
+
   it('should be sensitive to all parameters', () => {
     const base = [3n, 42n, 'init1sender', 'init1receiver', 'uinit', 1000000n] as const
     const baseHash = bytesToHex(calculateWithdrawalHash(...base))

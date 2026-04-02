@@ -1647,16 +1647,32 @@ describe('static ABI type inference (Phase 4)', () => {
     expectTypeOf<MoveTypeToTs<'u8'>>().toEqualTypeOf<number>()
     expectTypeOf<MoveTypeToTs<'u16'>>().toEqualTypeOf<number>()
     expectTypeOf<MoveTypeToTs<'u32'>>().toEqualTypeOf<number>()
-    expectTypeOf<MoveTypeToTs<'u64'>>().toEqualTypeOf<bigint>()
-    expectTypeOf<MoveTypeToTs<'u128'>>().toEqualTypeOf<bigint>()
-    expectTypeOf<MoveTypeToTs<'u256'>>().toEqualTypeOf<bigint>()
+    expectTypeOf<MoveTypeToTs<'u64'>>().toEqualTypeOf<number | bigint>()
+    expectTypeOf<MoveTypeToTs<'u128'>>().toEqualTypeOf<number | bigint>()
+    expectTypeOf<MoveTypeToTs<'u256'>>().toEqualTypeOf<number | bigint>()
     expectTypeOf<MoveTypeToTs<'address'>>().toEqualTypeOf<`0x${string}`>()
     expectTypeOf<MoveTypeToTs<'0x1::string::String'>>().toEqualTypeOf<string>()
     expectTypeOf<MoveTypeToTs<'vector<u8>'>>().toEqualTypeOf<string>()
     expectTypeOf<MoveTypeToTs<'0x1::object::Object<T0>'>>().toEqualTypeOf<`0x${string}`>()
-    expectTypeOf<MoveTypeToTs<'0x1::option::Option<u64>'>>().toEqualTypeOf<bigint | null>()
+    expectTypeOf<MoveTypeToTs<'0x1::option::Option<u64>'>>().toEqualTypeOf<number | bigint | null>()
     // Unknown type → unknown
     expectTypeOf<MoveTypeToTs<'SomeCustomStruct'>>().toEqualTypeOf<unknown>()
+  })
+
+  it('1b. MoveTypeToTs accepts number for u64/u128/u256 (input), MoveTypeToTsWithStructs stays bigint (return)', () => {
+    // Input types: Numeric (number | bigint) — both number and bigint are assignable
+    expectTypeOf<number>().toMatchTypeOf<MoveTypeToTs<'u64'>>()
+    expectTypeOf<bigint>().toMatchTypeOf<MoveTypeToTs<'u64'>>()
+    expectTypeOf<number>().toMatchTypeOf<MoveTypeToTs<'u128'>>()
+    expectTypeOf<bigint>().toMatchTypeOf<MoveTypeToTs<'u256'>>()
+
+    // Return types: strictly bigint (chain always returns bigint)
+    expectTypeOf<MoveTypeToTsWithStructs<'u64', readonly []>>().toEqualTypeOf<bigint>()
+    expectTypeOf<MoveTypeToTsWithStructs<'u128', readonly []>>().toEqualTypeOf<bigint>()
+    expectTypeOf<MoveTypeToTsWithStructs<'u256', readonly []>>().toEqualTypeOf<bigint>()
+
+    // Return types via MoveReturnToTs also stay bigint
+    expectTypeOf<MoveReturnToTs<readonly ['u64']>>().toEqualTypeOf<bigint>()
   })
 
   it('2. MoveReturnToTs handles void, single, and multi returns', () => {
