@@ -5,6 +5,7 @@
  */
 
 import { sha3_256 } from '@noble/hashes/sha3.js'
+import type { Numeric } from '../types'
 
 const textEncoder = new TextEncoder()
 
@@ -42,20 +43,20 @@ function bigintToBeBytes(value: bigint): Uint8Array {
  * @returns 32-byte withdrawal hash
  */
 export function calculateWithdrawalHash(
-  bridgeId: bigint,
-  l2Sequence: bigint,
+  bridgeId: Numeric,
+  l2Sequence: Numeric,
   sender: string,
   receiver: string,
   denom: string,
-  amount: bigint
+  amount: Numeric
 ): Uint8Array {
   const parts = [
-    bigintToBeBytes(bridgeId),
-    bigintToBeBytes(l2Sequence),
+    bigintToBeBytes(BigInt(bridgeId)),
+    bigintToBeBytes(BigInt(l2Sequence)),
     sha3_256(textEncoder.encode(sender)),
     sha3_256(textEncoder.encode(receiver)),
     sha3_256(textEncoder.encode(denom)),
-    bigintToBeBytes(amount),
+    bigintToBeBytes(BigInt(amount)),
   ]
 
   // Concatenate all parts

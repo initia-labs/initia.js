@@ -5,6 +5,7 @@
  * Based on the Move VM ABI structure from initia.move.v1.Module.
  */
 
+import type { Numeric } from '../../types'
 import type { Client } from '@connectrpc/connect'
 import type { Query as MoveQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/query_pb'
 import type {
@@ -348,7 +349,7 @@ export type MoveTypeToTs<T extends string> = T extends 'bool'
   : T extends 'u8' | 'u16' | 'u32'
     ? number
     : T extends 'u64' | 'u128' | 'u256'
-      ? bigint
+      ? Numeric
       : T extends 'address'
         ? `0x${string}`
         : T extends '0x1::string::String'
