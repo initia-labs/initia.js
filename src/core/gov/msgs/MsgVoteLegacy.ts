@@ -2,7 +2,11 @@ import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgVote as MsgVote_pb } from '@initia/initia.proto/cosmos/gov/v1beta1/tx'
-import { VoteOption } from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
+import {
+  VoteOption,
+  voteOptionFromJSON,
+  voteOptionToJSON,
+} from '@initia/initia.proto/cosmos/gov/v1beta1/gov'
 
 /**
  * MsgVoteLegacy votes for a proposal.
@@ -29,7 +33,11 @@ export class MsgVoteLegacy extends JSONSerializable<
     const {
       value: { proposal_id, voter, option },
     } = data
-    return new MsgVoteLegacy(parseInt(proposal_id), voter, option)
+    return new MsgVoteLegacy(
+      parseInt(proposal_id),
+      voter,
+      voteOptionFromJSON(option)
+    )
   }
 
   public toAmino(): MsgVoteLegacy.Amino {
@@ -46,7 +54,11 @@ export class MsgVoteLegacy extends JSONSerializable<
 
   public static fromData(data: MsgVoteLegacy.Data): MsgVoteLegacy {
     const { proposal_id, voter, option } = data
-    return new MsgVoteLegacy(parseInt(proposal_id), voter, option)
+    return new MsgVoteLegacy(
+      parseInt(proposal_id),
+      voter,
+      voteOptionFromJSON(option)
+    )
   }
 
   public toData(): MsgVoteLegacy.Data {
@@ -55,7 +67,7 @@ export class MsgVoteLegacy extends JSONSerializable<
       '@type': '/cosmos.gov.v1beta1.MsgVote',
       proposal_id: proposal_id.toFixed(),
       voter,
-      option,
+      option: voteOptionToJSON(option),
     }
   }
 
@@ -105,7 +117,7 @@ export namespace MsgVoteLegacy {
     '@type': '/cosmos.gov.v1beta1.MsgVote'
     proposal_id: string
     voter: AccAddress
-    option: Option
+    option: string
   }
 
   export type Proto = MsgVote_pb

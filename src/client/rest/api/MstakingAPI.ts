@@ -10,6 +10,7 @@ import {
 } from '../../../core'
 import { BaseAPI } from './BaseAPI'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
+import { bondStatusToJSON } from '@initia/initia.proto/initia/mstaking/v1/staking'
 
 export interface MstakingPool {
   /** amount of tokens are bonded, including those that are currently unbonding */
@@ -64,7 +65,7 @@ export class MstakingAPI extends BaseAPI {
           pagination: Pagination
         }>(
           `/initia/mstaking/v1/delegations/${delegator}`,
-          { ...params, status },
+          { ...params, status: status ? bondStatusToJSON(status) : undefined },
           headers
         )
         .then((data) => [
@@ -257,7 +258,7 @@ export class MstakingAPI extends BaseAPI {
         `/initia/mstaking/v1/delegators/${delegator}/total_delegation_balance`,
         {
           ...params,
-          status,
+          status: status ? bondStatusToJSON(status) : undefined,
         },
         headers
       )

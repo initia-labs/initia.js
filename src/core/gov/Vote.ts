@@ -3,6 +3,8 @@ import { AccAddress } from '../bech32'
 import {
   Vote as Vote_pb,
   VoteOption,
+  voteOptionFromJSON,
+  voteOptionToJSON,
   WeightedVoteOption as WeightedVoteOption_pb,
 } from '@initia/initia.proto/cosmos/gov/v1/gov'
 
@@ -123,7 +125,7 @@ export class WeightedVoteOption extends JSONSerializable<
 
   public static fromAmino(data: WeightedVoteOption.Amino): WeightedVoteOption {
     const { option, weight } = data
-    return new WeightedVoteOption(option, parseFloat(weight))
+    return new WeightedVoteOption(voteOptionFromJSON(option), parseFloat(weight))
   }
 
   public toAmino(): WeightedVoteOption.Amino {
@@ -136,13 +138,13 @@ export class WeightedVoteOption extends JSONSerializable<
 
   public static fromData(data: WeightedVoteOption.Data): WeightedVoteOption {
     const { option, weight } = data
-    return new WeightedVoteOption(option, parseFloat(weight))
+    return new WeightedVoteOption(voteOptionFromJSON(option), parseFloat(weight))
   }
 
   public toData(): WeightedVoteOption.Data {
     const { option, weight } = this
     return {
-      option,
+      option: voteOptionToJSON(option),
       weight: weight.toString(),
     }
   }
@@ -167,7 +169,7 @@ export namespace WeightedVoteOption {
   }
 
   export interface Data {
-    option: VoteOption
+    option: string
     weight: string
   }
 
