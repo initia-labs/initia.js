@@ -5,7 +5,8 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWhitelistGasPrice as MsgWhitelistGasPrice_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 /**
- * MsgWhitelistGasPrice registers a DEX pair in the staking whitelist.
+ * MsgWhitelistGasPrice registers a DEX pair in the gas price whitelist.
+ * This allows the counterparty denom to be used as gas fee.
  */
 export class MsgWhitelistGasPrice extends JSONSerializable<
   MsgWhitelistGasPrice.Amino,
