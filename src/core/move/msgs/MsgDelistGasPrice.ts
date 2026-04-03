@@ -71,11 +71,11 @@ export class MsgDelistGasPrice extends JSONSerializable<
   }
 
   public toProto(): MsgDelistGasPrice.Proto {
-    const { authority, metadata_lp } = this
+    const { authority, metadata_quote, metadata_lp } = this
 
     return MsgDelistGasPrice_pb.fromPartial({
       authority,
-      metadataQuote: this.metadata_quote,
+      metadataQuote: metadata_quote,
       metadataLp: metadata_lp,
     })
   }

@@ -1,6 +1,5 @@
 import { JSONSerializable } from '../../../util/json'
 import { AccAddress } from '../../bech32'
-import { num } from '../../num'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWhitelistGasPrice as MsgWhitelistGasPrice_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
@@ -43,7 +42,7 @@ export class MsgWhitelistGasPrice extends JSONSerializable<
       type: 'move/MsgWhitelistGasPrice',
       value: {
         authority,
-        metadata_quote: num(metadata_quote).toFixed(18),
+        metadata_quote,
         metadata_lp,
       },
     }
@@ -73,7 +72,7 @@ export class MsgWhitelistGasPrice extends JSONSerializable<
   ): MsgWhitelistGasPrice {
     return new MsgWhitelistGasPrice(
       data.authority,
-      num(data.metadataQuote).shiftedBy(-18).toFixed(),
+      data.metadataQuote,
       data.metadataLp
     )
   }
@@ -83,7 +82,7 @@ export class MsgWhitelistGasPrice extends JSONSerializable<
 
     return MsgWhitelistGasPrice_pb.fromPartial({
       authority,
-      metadataQuote: num(metadata_quote).shiftedBy(18).toFixed(0),
+      metadataQuote: metadata_quote,
       metadataLp: metadata_lp,
     })
   }
