@@ -14,7 +14,7 @@ export class MsgDelistGasPrice extends JSONSerializable<
   /**
    * @param authority the address that controls the module
    * @param metadata_quote the metadata address of the token to whitelist as a gas token
-   * @param metadata_lp dex coin LP metadata address
+   * @param metadata_lp the LP metadata address of the DEX pair
    */
   constructor(
     public authority: AccAddress,

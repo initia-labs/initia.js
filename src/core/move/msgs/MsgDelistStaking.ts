@@ -13,7 +13,7 @@ export class MsgDelistStaking extends JSONSerializable<
 > {
   /**
    * @param authority the address that controls the module
-   * @param metadata_lp dex coin LP metadata address
+   * @param metadata_lpthe LP metadata address of the DEX pair.
    */
   constructor(
     public authority: AccAddress,
