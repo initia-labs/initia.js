@@ -4,8 +4,10 @@ import { MsgExecuteJSON } from './MsgExecuteJSON'
 import { MsgScript } from './MsgScript'
 import { MsgScriptJSON } from './MsgScriptJSON'
 import { MsgUpdateMoveParams } from './MsgUpdateMoveParams'
-import { MsgWhitelist } from './MsgWhitelist'
-import { MsgDelist } from './MsgDelist'
+import { MsgWhitelistStaking } from './MsgWhitelistStaking'
+import { MsgWhitelistGasPrice } from './MsgWhitelistGasPrice'
+import { MsgDelistStaking } from './MsgDelistStaking'
+import { MsgDelistGasPrice } from './MsgDelistGasPrice'
 import { MsgGovExecute } from './MsgGovExecute'
 import { MsgGovExecuteJSON } from './MsgGovExecuteJSON'
 import { MsgGovPublish } from './MsgGovPublish'
@@ -18,8 +20,10 @@ export * from './MsgExecuteJSON'
 export * from './MsgScript'
 export * from './MsgScriptJSON'
 export * from './MsgUpdateMoveParams'
-export * from './MsgWhitelist'
-export * from './MsgDelist'
+export * from './MsgWhitelistStaking'
+export * from './MsgWhitelistGasPrice'
+export * from './MsgDelistStaking'
+export * from './MsgDelistGasPrice'
 export * from './MsgGovExecute'
 export * from './MsgGovExecuteJSON'
 export * from './MsgGovPublish'
@@ -33,8 +37,10 @@ export type MoveMsg =
   | MsgScript
   | MsgScriptJSON
   | MsgUpdateMoveParams
-  | MsgWhitelist
-  | MsgDelist
+  | MsgWhitelistStaking
+  | MsgWhitelistGasPrice
+  | MsgDelistStaking
+  | MsgDelistGasPrice
   | MsgGovExecute
   | MsgGovExecuteJSON
   | MsgGovPublish
@@ -49,8 +55,10 @@ export namespace MoveMsg {
     | MsgScript.Amino
     | MsgScriptJSON.Amino
     | MsgUpdateMoveParams.Amino
-    | MsgWhitelist.Amino
-    | MsgDelist.Amino
+    | MsgWhitelistStaking.Amino
+    | MsgWhitelistGasPrice.Amino
+    | MsgDelistStaking.Amino
+    | MsgDelistGasPrice.Amino
     | MsgGovExecute.Amino
     | MsgGovExecuteJSON.Amino
     | MsgGovPublish.Amino
@@ -64,8 +72,10 @@ export namespace MoveMsg {
     | MsgScript.Data
     | MsgScriptJSON.Data
     | MsgUpdateMoveParams.Data
-    | MsgWhitelist.Data
-    | MsgDelist.Data
+    | MsgWhitelistStaking.Data
+    | MsgWhitelistGasPrice.Data
+    | MsgDelistStaking.Data
+    | MsgDelistGasPrice.Data
     | MsgGovExecute.Data
     | MsgGovExecuteJSON.Data
     | MsgGovPublish.Data
@@ -79,8 +89,10 @@ export namespace MoveMsg {
     | MsgScript.Proto
     | MsgScriptJSON.Proto
     | MsgUpdateMoveParams.Proto
-    | MsgWhitelist.Proto
-    | MsgDelist.Proto
+    | MsgWhitelistStaking.Proto
+    | MsgWhitelistGasPrice.Proto
+    | MsgDelistStaking.Proto
+    | MsgDelistGasPrice.Proto
     | MsgGovExecute.Proto
     | MsgGovExecuteJSON.Proto
     | MsgGovPublish.Proto

@@ -1,4 +1,3 @@
-import { AuctionMsg, MsgAuctionBid, MsgUpdateAuctionParams } from './auction'
 import { AuthMsg, MsgUpdateAuthParams } from './auth'
 import {
   AuthzMsg,
@@ -155,8 +154,10 @@ import {
   MsgScript,
   MsgScriptJSON,
   MsgUpdateMoveParams,
-  MsgWhitelist,
-  MsgDelist,
+  MsgWhitelistStaking,
+  MsgWhitelistGasPrice,
+  MsgDelistStaking,
+  MsgDelistGasPrice,
   MsgGovExecute,
   MsgGovExecuteJSON,
   MsgGovPublish,
@@ -259,7 +260,6 @@ import { WasmExtensionMsg, MsgStoreCodeAdmin } from './wasmextension/msgs'
 import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 export type Msg =
-  | AuctionMsg
   | AuthMsg
   | AuthzMsg
   | BankMsg
@@ -297,7 +297,6 @@ export type Msg =
 
 export namespace Msg {
   export type Amino =
-    | AuctionMsg.Amino
     | AuthMsg.Amino
     | AuthzMsg.Amino
     | BankMsg.Amino
@@ -329,7 +328,6 @@ export namespace Msg {
     | WasmExtensionMsg.Amino
 
   export type Data =
-    | AuctionMsg.Data
     | AuthMsg.Data
     | AuthzMsg.Data
     | BankMsg.Data
@@ -366,7 +364,6 @@ export namespace Msg {
     | WasmExtensionMsg.Data
 
   export type Proto =
-    | AuctionMsg.Proto
     | AuthMsg.Proto
     | AuthzMsg.Proto
     | BankMsg.Proto
@@ -404,12 +401,6 @@ export namespace Msg {
 
   export function fromAmino(data: Msg.Amino): Msg {
     switch (data.type) {
-      // auction
-      case 'block-sdk/x/auction/MsgAuctionBid':
-        return MsgAuctionBid.fromAmino(data)
-      case 'block-sdk/x/auction/MsgUpdateParams':
-        return MsgUpdateAuctionParams.fromAmino(data)
-
       // auth
       case 'cosmos-sdk/x/auth/MsgUpdateParams':
         return MsgUpdateAuthParams.fromAmino(data)
@@ -599,10 +590,14 @@ export namespace Msg {
         return MsgScriptJSON.fromAmino(data)
       case 'move/MsgUpdateParams':
         return MsgUpdateMoveParams.fromAmino(data)
-      case 'move/MsgWhitelist':
-        return MsgWhitelist.fromAmino(data)
-      case 'move/MsgDelist':
-        return MsgDelist.fromAmino(data)
+      case 'move/MsgWhitelistStaking':
+        return MsgWhitelistStaking.fromAmino(data)
+      case 'move/MsgWhitelistGasPrice':
+        return MsgWhitelistGasPrice.fromAmino(data)
+      case 'move/MsgDelistStaking':
+        return MsgDelistStaking.fromAmino(data)
+      case 'move/MsgDelistGasPrice':
+        return MsgDelistGasPrice.fromAmino(data)
       case 'move/MsgGovExecute':
         return MsgGovExecute.fromAmino(data)
       case 'move/MsgGovExecuteJSON':
@@ -786,12 +781,6 @@ export namespace Msg {
 
   export function fromData(data: Msg.Data): Msg {
     switch (data['@type']) {
-      // auction
-      case '/sdk.auction.v1.MsgAuctionBid':
-        return MsgAuctionBid.fromData(data)
-      case '/sdk.auction.v1.MsgUpdateParams':
-        return MsgUpdateAuctionParams.fromData(data)
-
       //auth
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.fromData(data)
@@ -1065,10 +1054,14 @@ export namespace Msg {
         return MsgScriptJSON.fromData(data)
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.fromData(data)
-      case '/initia.move.v1.MsgWhitelist':
-        return MsgWhitelist.fromData(data)
-      case '/initia.move.v1.MsgDelist':
-        return MsgDelist.fromData(data)
+      case '/initia.move.v1.MsgWhitelistStaking':
+        return MsgWhitelistStaking.fromData(data)
+      case '/initia.move.v1.MsgWhitelistGasPrice':
+        return MsgWhitelistGasPrice.fromData(data)
+      case '/initia.move.v1.MsgDelistStaking':
+        return MsgDelistStaking.fromData(data)
+      case '/initia.move.v1.MsgDelistGasPrice':
+        return MsgDelistGasPrice.fromData(data)
       case '/initia.move.v1.MsgGovExecute':
         return MsgGovExecute.fromData(data)
       case '/initia.move.v1.MsgGovExecuteJSON':
@@ -1252,12 +1245,6 @@ export namespace Msg {
 
   export function fromProto(proto: Any): Msg {
     switch (proto.typeUrl) {
-      // auction
-      case '/sdk.auction.v1.MsgAuctionBid':
-        return MsgAuctionBid.unpackAny(proto)
-      case '/sdk.auction.v1.MsgUpdateParams':
-        return MsgUpdateAuctionParams.unpackAny(proto)
-
       // auth
       case '/cosmos.auth.v1beta1.MsgUpdateParams':
         return MsgUpdateAuthParams.unpackAny(proto)
@@ -1531,10 +1518,14 @@ export namespace Msg {
         return MsgScriptJSON.unpackAny(proto)
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.unpackAny(proto)
-      case '/initia.move.v1.MsgWhitelist':
-        return MsgWhitelist.unpackAny(proto)
-      case '/initia.move.v1.MsgDelist':
-        return MsgDelist.unpackAny(proto)
+      case '/initia.move.v1.MsgWhitelistStaking':
+        return MsgWhitelistStaking.unpackAny(proto)
+      case '/initia.move.v1.MsgWhitelistGasPrice':
+        return MsgWhitelistGasPrice.unpackAny(proto)
+      case '/initia.move.v1.MsgDelistStaking':
+        return MsgDelistStaking.unpackAny(proto)
+      case '/initia.move.v1.MsgDelistGasPrice':
+        return MsgDelistGasPrice.unpackAny(proto)
       case '/initia.move.v1.MsgGovExecute':
         return MsgGovExecute.unpackAny(proto)
       case '/initia.move.v1.MsgGovExecuteJSON':

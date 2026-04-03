@@ -8,7 +8,6 @@ export * from './PublicKey'
 export * from './bech32'
 export * from './num'
 
-export * from './auction'
 export * from './auth'
 export * from './authz'
 export * from './bank'
