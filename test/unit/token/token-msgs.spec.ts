@@ -63,14 +63,44 @@ describe('token module message builders return Message instances', () => {
       expect(msg.toAny().typeUrl).toContain('MsgExecute')
     })
 
-    it('viewJSON should not crash with bigint-like args', async () => {
+    it('viewJSON should pass FA_METADATA_TYPE as typeArgs', async () => {
       const mockMoveClient = {
         viewJSON: vi.fn().mockResolvedValue({ data: '"1000000"' }),
       }
       const token = createFungibleAssetToken(mockMoveClient as any, '0x1::metadata::Metadata')
       const balance = await token.balanceOf('0xowner')
-      expect(mockMoveClient.viewJSON).toHaveBeenCalled()
       expect(balance).toBe(1000000n)
+      expect(mockMoveClient.viewJSON).toHaveBeenCalledWith({
+        address: '0x1',
+        moduleName: 'primary_fungible_store',
+        functionName: 'balance',
+        typeArgs: ['0x1::fungible_asset::Metadata'],
+        args: ['"0xowner"', '"0x1::metadata::Metadata"'],
+      })
+    })
+
+    it('getInfo should pass FA_METADATA_TYPE as typeArgs', async () => {
+      const responses = ['"TestToken"', '"TT"', '6', '"1000000"']
+      let callIndex = 0
+      const mockMoveClient = {
+        viewJSON: vi.fn().mockImplementation(() => {
+          return Promise.resolve({ data: responses[callIndex++] })
+        }),
+      }
+      const token = createFungibleAssetToken(mockMoveClient as any, '0xmeta')
+      const info = await token.getInfo()
+
+      expect(mockMoveClient.viewJSON).toHaveBeenCalledTimes(4)
+      for (const call of mockMoveClient.viewJSON.mock.calls) {
+        expect(call[0]).toEqual(
+          expect.objectContaining({ typeArgs: ['0x1::fungible_asset::Metadata'] })
+        )
+      }
+
+      expect(info.name).toBe('TestToken')
+      expect(info.symbol).toBe('TT')
+      expect(info.decimals).toBe(6)
+      expect(info.totalSupply).toBe(1000000n)
     })
   })
 })
