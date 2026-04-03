@@ -17,6 +17,8 @@ import type { TokenContract } from './types'
 
 type MoveClient = ConnectClient<typeof MoveQuery>
 
+const FA_METADATA_TYPE = '0x1::fungible_asset::Metadata'
+
 /**
  * Create a Move Fungible Asset TokenContract adapter.
  *
@@ -53,10 +55,10 @@ export function createFungibleAssetToken(
   return {
     async getInfo(): Promise<TokenInfo> {
       const [name, symbol, decimals, supply] = await Promise.all([
-        viewJSON('fungible_asset', 'name', [metadataAddress]),
-        viewJSON('fungible_asset', 'symbol', [metadataAddress]),
-        viewJSON('fungible_asset', 'decimals', [metadataAddress]),
-        viewJSON('fungible_asset', 'supply', [metadataAddress]),
+        viewJSON('fungible_asset', 'name', [metadataAddress], [FA_METADATA_TYPE]),
+        viewJSON('fungible_asset', 'symbol', [metadataAddress], [FA_METADATA_TYPE]),
+        viewJSON('fungible_asset', 'decimals', [metadataAddress], [FA_METADATA_TYPE]),
+        viewJSON('fungible_asset', 'supply', [metadataAddress], [FA_METADATA_TYPE]),
       ])
 
       return {
@@ -68,7 +70,12 @@ export function createFungibleAssetToken(
     },
 
     async balanceOf(owner: string): Promise<bigint> {
-      const result = await viewJSON('primary_fungible_store', 'balance', [owner, metadataAddress])
+      const result = await viewJSON(
+        'primary_fungible_store',
+        'balance',
+        [owner, metadataAddress],
+        [FA_METADATA_TYPE]
+      )
       return BigInt(result as string)
     },
 
