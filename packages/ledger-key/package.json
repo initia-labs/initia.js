@@ -1,6 +1,6 @@
 {
   "name": "@initia/ledger-key",
-  "version": "2.0.0-rc.0",
+  "version": "2.0.0-rc.3",
   "description": "Ledger hardware wallet support for initia.js@v2",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
