@@ -21,11 +21,14 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "engines": {
     "node": ">=22"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "lint": "eslint src",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:integration": "LEDGER_TEST=true vitest run",
@@ -33,7 +36,7 @@
     "test:integration:cosmos": "LEDGER_TEST=true vitest run -t 'Cosmos'"
   },
   "peerDependencies": {
-    "@initia/initia.js": "next"
+    "@initia/initia.js": "^2.0.0-rc.0"
   },
   "dependencies": {
     "@ledgerhq/hw-app-eth": "^7.6.1",
@@ -43,9 +46,13 @@
     "@zondax/ledger-cosmos-js": "^4.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@ledgerhq/hw-transport-mocker": "^6.33.1",
     "@ledgerhq/hw-transport-node-hid": "^6.32.1",
-    "typescript": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.39.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.57.2",
     "vitest": "^4.1.2"
   }
 }

@@ -4,7 +4,7 @@ import Cosmos from '@zondax/ledger-cosmos-js'
 import type Transport from '@ledgerhq/hw-transport'
 import { secp256k1 } from '@noble/curves/secp256k1.js'
 import { hexToBytes, bytesToHex } from '@noble/hashes/utils.js'
-import { LedgerError } from './error'
+import { LedgerError } from './error.js'
 
 /** Human-readable part for Initia */
 const HRP = 'init'

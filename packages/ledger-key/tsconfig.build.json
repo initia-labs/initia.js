@@ -4,6 +4,11 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "lib": ["ES2022"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -13,11 +18,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noEmit": true,
-    "types": ["node"],
-    "paths": {
-      "@initia/initia.js": ["../../src/index.ts"]
-    }
+    "types": ["node"]
   },
-  "include": ["src", "test", "vitest.config.ts"]
+  "include": ["src"]
 }

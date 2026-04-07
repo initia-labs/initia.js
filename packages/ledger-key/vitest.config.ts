@@ -1,12 +1,9 @@
 import { defineConfig } from 'vitest/config'
 import { resolve } from 'node:path'
 
-const initiaAlias = { '@initia/initia.js': resolve(__dirname, '../../src/index.ts') }
+const initiaAlias = { '@initia/initia.js': resolve(import.meta.dirname, '../../src/index.ts') }
 
 export default defineConfig({
-  resolve: {
-    alias: initiaAlias,
-  },
   test: {
     globals: true,
     environment: 'node',
