@@ -1,10 +1,10 @@
 import type Transport from '@ledgerhq/hw-transport'
-import type { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types.js'
+import type { LoadConfig } from '@ledgerhq/hw-app-eth/lib/services/types'
 import { Key, makeStdSignDoc, makeAminoSignBytes, buildStdFee } from '@initia/initia.js'
 import type { UnsignedTx } from '@initia/initia.js'
-import { LedgerError } from './error'
-import type { LedgerApp } from './app'
-import { EthereumApp, CosmosApp } from './app'
+import { LedgerError } from './error.js'
+import type { LedgerApp } from './app.js'
+import { EthereumApp, CosmosApp } from './app.js'
 
 /** Initia/Ethereum coin type (BIP44) */
 export const INIT_COIN_TYPE = 60

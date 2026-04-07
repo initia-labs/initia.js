@@ -22,7 +22,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['test/**/*.ts', 'packages/**/test/**/*.ts'],
+    files: ['test/**/*.ts'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
@@ -38,24 +38,6 @@ export default tseslint.config(
     },
   },
   {
-    files: ['examples/**/*.ts'],
-    rules: {
-      'no-console': 'off',
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
-      '@typescript-eslint/require-await': 'off',
-      '@typescript-eslint/restrict-template-expressions': 'off',
-      '@typescript-eslint/no-base-to-string': 'off',
-      '@typescript-eslint/no-floating-promises': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
-    },
-  },
-  {
-    ignores: ['dist/**', 'node_modules/**', '*.config.js', '*.config.ts', 'packages/ledger-key/**'],
+    ignores: ['dist/**', 'node_modules/**', '*.config.js', '*.config.ts'],
   }
 )
