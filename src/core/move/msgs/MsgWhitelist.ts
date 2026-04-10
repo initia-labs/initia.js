@@ -5,10 +5,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgWhitelist as MsgWhitelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 /**
- * MsgWhitelist registers a dex pair to whitelist of various features.
- * - whitelist from coin register operation
- * - allow counter party denom can be used as gas fee
- * - register lp denom as staking denom
+ * MsgWhitelist is kept for backward-compatible decoding of historical txs.
+ * Deprecated: use MsgWhitelistStaking and MsgWhitelistGasPrice instead.
+ *
+ * @deprecated
  */
 export class MsgWhitelist extends JSONSerializable<
   MsgWhitelist.Amino,

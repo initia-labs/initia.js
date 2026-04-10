@@ -4,7 +4,10 @@ import { Any } from '@initia/initia.proto/google/protobuf/any'
 import { MsgDelist as MsgDelist_pb } from '@initia/initia.proto/initia/move/v1/tx'
 
 /**
- * MsgDelist unregisters a dex pair from the whitelist.
+ * MsgDelist is kept for backward-compatible decoding of historical txs.
+ * Deprecated: use MsgDelistStaking and MsgDelistGasPrice instead.
+ *
+ * @deprecated
  */
 export class MsgDelist extends JSONSerializable<
   MsgDelist.Amino,
