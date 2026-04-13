@@ -188,7 +188,7 @@
     "@buf/cosmos_cosmos-sdk.bufbuild_es": "2.11.0-20231107180110-5a6ab7bc1431.1",
     "@buf/cosmos_ibc.bufbuild_es": "2.11.0-20231018090243-cc1d31ac98a0.1",
     "@buf/cosmwasm_wasmd.bufbuild_es": "2.11.0-20250430124536-3c30b822226c.1",
-    "@buf/initia-labs_initia.bufbuild_es": "2.11.0-00000000000000-028bcaed3471.1",
+    "@buf/initia-labs_initia.bufbuild_es": "2.11.0-20260407025205-ae23267d409d.1",
     "@buf/initia-labs_minievm.bufbuild_es": "2.11.0-20260328053104-c8197393f339.1",
     "@buf/initia-labs_miniwasm.bufbuild_es": "2.11.0-00000000000000-6ab22afdffef.1",
     "@buf/initia-labs_opinit.bufbuild_es": "2.11.0-00000000000000-b24498c79126.1",
