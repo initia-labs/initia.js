@@ -54,19 +54,19 @@ export const createInitiaContext = /* @__PURE__ */ buildTypedFactory(
   initiaContextConfig[0],
   initiaContextConfig[1]
 )
-export const createMinievmContext = /* @__PURE__ */ buildTypedFactory(
+export const createEvmContext = /* @__PURE__ */ buildTypedFactory(
   'minievm',
   createTransport,
   minievmContextConfig[0],
   minievmContextConfig[1]
 )
-export const createMiniwasmContext = /* @__PURE__ */ buildTypedFactory(
+export const createWasmContext = /* @__PURE__ */ buildTypedFactory(
   'miniwasm',
   createTransport,
   miniwasmContextConfig[0],
   miniwasmContextConfig[1]
 )
-export const createMinimoveContext = /* @__PURE__ */ buildTypedFactory(
+export const createMoveContext = /* @__PURE__ */ buildTypedFactory(
   'minimove',
   createTransport,
   minimoveContextConfig[0],
@@ -88,7 +88,7 @@ export const createCosmosContext = /* @__PURE__ */ buildTypedFactory(
  *
  * Note: This imports all chain configs at runtime for dynamic resolution.
  * If your chain type is known at build time, prefer the typed factories
- * (createInitiaContext, createMinievmContext, etc.) for smaller bundles.
+ * (createInitiaContext, createEvmContext, etc.) for smaller bundles.
  */
 export const createChainContext = /* @__PURE__ */ buildChainContextFactory(
   createTransport,

@@ -9,7 +9,7 @@
  * await ctx.signAndBroadcast([msg])
  *
  * // L2 chains require explicit chainId
- * const evm = await createMinievmContext({ network: 'testnet', chainId: 'evm-1' })
+ * const evm = await createEvmContext({ network: 'testnet', chainId: 'evm-1' })
  * ```
  *
  * Generic `createChainContext(chainInfo, options?)` is also available for
@@ -166,11 +166,29 @@ export type TokenResolver = (
 /**
  * Contract resolver function type.
  * Injected into ChainContext to decouple chain-context from specific VM contract implementations.
- * By convention, called with (context, chainType, ...vmArgs) matching resolveContract's signature.
+ * By convention, called with (context, chainType, ...vmArgs) by ChainContext.contract().
  * Typed as permissive to accommodate VM-specific overloads.
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ContractResolver = (...args: any[]) => any
+
+/** Wrap a VM-specific contract factory as a ContractResolver with a chainType guard. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function createContractResolver(
+  expectedChainType: string,
+  factory: (...args: any[]) => any
+): ContractResolver {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (context: any, chainType: string, ...args: any[]) => {
+    if (chainType !== expectedChainType) {
+      throw new Error(
+        `Contract resolver for "${expectedChainType}" called with unexpected chain type "${chainType}"`
+      )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-return
+    return factory(context, ...args)
+  }
+}
 
 // =============================================================================
 // Options Types
@@ -268,7 +286,7 @@ export class NoSignerError extends Error {
 /**
  * Context for interacting with a specific chain.
  *
- * Created via typed factories (`createInitiaContext`, `createMinievmContext`, etc.)
+ * Created via typed factories (`createInitiaContext`, `createEvmContext`, etc.)
  * or the generic `createChainContext(chainInfo, options?)`.
  *
  * Supports three modes:
@@ -451,7 +469,7 @@ interface BaseChainContext<
    *
    * **Note**: `createChainContext()` (generic factory) provides protobuf decode only —
    * no VM enrichment (functionName, args, contractMsg will be undefined).
-   * Use typed factories (`createInitiaContext`, `createMinievmContext`, etc.)
+   * Use typed factories (`createInitiaContext`, `createEvmContext`, etc.)
    * for full VM-aware arg decoding.
    */
   getTx(hash: string, options?: GetTxOptionsFor<T>): Promise<DecodedTx>
@@ -532,7 +550,7 @@ interface ChainContextExtrasMap {
  * const ctx = createChainContext(chainInfo)
  *
  * // Narrowed — evmRpc available
- * const ctx = createMinievmContext(chainInfo)
+ * const ctx = createEvmContext(chainInfo)
  * ctx.evmRpc.getBalance('0x...')   // OK, no '?' needed
  * ctx.client.evm.call(...)         // OK, evm service autocompletes
  * ```
@@ -1135,7 +1153,7 @@ class ChainContextImpl<
     if (!this._tokenResolver) {
       throw new Error(
         'Token resolver not configured. ' +
-          'Use a typed factory (createInitiaContext, createMinievmContext, etc.) or pass tokenResolver to buildChainContextFactory.'
+          'Use a typed factory (createInitiaContext, createEvmContext, etc.) or pass tokenResolver to buildChainContextFactory.'
       )
     }
     return this._tokenResolver(this.client, this.chainInfo.chainType, token, this._address)
@@ -1146,7 +1164,7 @@ class ChainContextImpl<
     if (!this._contractResolver) {
       throw new Error(
         'Contract resolver not configured. ' +
-          'Use a typed factory (createInitiaContext, createMinievmContext, etc.) or pass contractResolver to buildChainContextFactory.'
+          'Use a typed factory (createInitiaContext, createEvmContext, etc.) or pass contractResolver to buildChainContextFactory.'
       )
     }
     return this._contractResolver(this, this.chainType, ...args)

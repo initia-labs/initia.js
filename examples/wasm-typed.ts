@@ -14,7 +14,7 @@
  * variant name autocomplete, not deep type inference for args/returns.
  */
 
-import { createMiniwasmContext } from 'initia.js'
+import { createWasmContext } from 'initia.js'
 import { createWasmContract } from 'initia.js/wasm'
 import { SENDER, RECIPIENT, WASM_CONTRACT } from './constants'
 
@@ -22,7 +22,7 @@ import { SENDER, RECIPIENT, WASM_CONTRACT } from './constants'
 import { CW20_SCHEMA } from './abis/cw20'
 
 async function main() {
-  const chain = await createMiniwasmContext({ network: 'testnet', chainId: 'wasm-1' })
+  const chain = await createWasmContext({ network: 'testnet', chainId: 'wasm-1' })
 
   // Create typed contract — pass schema directly (not in options)
   // Try typing `cw20.execute.` or `cw20.query.` to see autocomplete.

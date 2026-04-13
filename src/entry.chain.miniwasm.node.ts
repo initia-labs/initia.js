@@ -11,8 +11,11 @@ import type { TransportOptions } from './client/transport-common'
 import type { MiniwasmClient } from './client/types'
 
 export { miniwasmChain } from './chains/miniwasm'
-export const createMiniwasmContext = /* @__PURE__ */ buildTypedFactory(
-  'miniwasm', createTransport, miniwasmContextConfig[0], miniwasmContextConfig[1]
+export const createWasmContext = /* @__PURE__ */ buildTypedFactory(
+  'miniwasm',
+  createTransport,
+  miniwasmContextConfig[0],
+  miniwasmContextConfig[1]
 )
 export function createClient(chainInfo: ChainInfo, options?: TransportOptions): MiniwasmClient {
   const transport = createTransport(chainInfo, options)

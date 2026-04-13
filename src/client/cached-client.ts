@@ -59,7 +59,6 @@
 import type { Client as ServiceClient } from '@connectrpc/connect'
 import type { Query as MoveQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/query_pb'
 import type { Query as EvmQuery } from '@buf/initia-labs_minievm.bufbuild_es/minievm/evm/v1/query_pb'
-import { UpgradePolicy } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/types_pb'
 import { createCacheManager, type CacheManager } from '../cache'
 import {
   cacheKeys,
@@ -174,6 +173,11 @@ function createHeightCachedService(
 // Move Service Wrapper
 // =============================================================================
 
+// Redeclared to avoid importing UpgradePolicy from move proto,
+// which would pull the entire proto file into shared chunks.
+// Kept in sync by test/unit/client/cached-client.spec.ts.
+export const UPGRADE_POLICY_IMMUTABLE = 2
+
 /**
  * Wrap move service with:
  * - Immutable cache for module() (Move ABI never changes after deploy)
@@ -214,7 +218,7 @@ function createCachedMoveService(
             .then(result => {
               const isImmutable =
                 (result as { module?: { upgradePolicy?: number } }).module?.upgradePolicy ===
-                UpgradePolicy.IMMUTABLE
+                UPGRADE_POLICY_IMMUTABLE
               if (isImmutable) {
                 cache.moveAbi.set(key, result)
               } else {

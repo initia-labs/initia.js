@@ -11,8 +11,11 @@ import type { TransportOptions } from './client/transport-common'
 import type { MinievmClient } from './client/types'
 
 export { minievmChain } from './chains/minievm'
-export const createMinievmContext = /* @__PURE__ */ buildTypedFactory(
-  'minievm', createTransport, minievmContextConfig[0], minievmContextConfig[1]
+export const createEvmContext = /* @__PURE__ */ buildTypedFactory(
+  'minievm',
+  createTransport,
+  minievmContextConfig[0],
+  minievmContextConfig[1]
 )
 export function createClient(chainInfo: ChainInfo, options?: TransportOptions): MinievmClient {
   const transport = createTransport(chainInfo, options)

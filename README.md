@@ -6,7 +6,7 @@ TypeScript SDK for Initia and its rollup ecosystem.
 
 - Multi-VM support: Move, EVM, and CosmWasm contracts in one SDK
 - Type-safe gRPC client with Proxy-based service access
-- Typed context factories: `createInitiaContext`, `createMinievmContext`, `createMiniwasmContext`, `createMinimoveContext`
+- Typed context factories: `createInitiaContext`, `createEvmContext`, `createWasmContext`, `createMoveContext`
 - VM-agnostic token abstraction (Fungible Asset, ERC20, CW20)
 - OP Bridge and Router API for L1/L2 cross-chain transfers
 - Automatic Amino conversion via proto schema options

@@ -19,7 +19,7 @@
  * 12. Cache management    — clearAbiCache for upgradeable modules
  */
 
-import { createMinimoveContext } from 'initia.js'
+import { createMoveContext } from 'initia.js'
 import {
   createMoveContract,
   createExecuteMsg,
@@ -64,7 +64,7 @@ const COIN_STORE = `0x1::coin::CoinStore<${UINIT_COIN}>`
 // =============================================================================
 
 async function main() {
-  const chain = await createMinimoveContext({ network: 'testnet', chainId: 'move-1' })
+  const chain = await createMoveContext({ network: 'testnet', chainId: 'move-1' })
 
   // PRIMARY API — ctx.contract() dispatches to the correct VM factory
   const coin = await chain.contract('0x1', 'coin')

@@ -19,7 +19,7 @@
  *  5. Token helpers (parseUnits / formatUnits / getTokenInfo)
  */
 
-import { createMinievmContext, MnemonicKey } from 'initia.js'
+import { createEvmContext, MnemonicKey } from 'initia.js'
 import { createEvmContract, decodeRevertReason } from 'initia.js/evm'
 import { ContractError } from 'initia.js/util'
 import { SENDER, RECIPIENT, CONTRACT, TEST_MNEMONIC } from './constants'
@@ -40,7 +40,7 @@ async function main() {
   // All contracts created from this context automatically use JSON-RPC.
   // The signer provides the private key for write/estimateGas operations.
   // -------------------------------------------------------------------------
-  const chain = await createMinievmContext({
+  const chain = await createEvmContext({
     network: 'testnet',
     chainId: 'evm-1',
     signer: senderKey,

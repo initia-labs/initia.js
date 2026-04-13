@@ -17,7 +17,7 @@
  *   TEST_MNEMONIC="..." npx tsx examples/verify-evm-signing.ts
  */
 
-import { createChainContext, createMinievmContext, MnemonicKey } from 'initia.js'
+import { createChainContext, createEvmContext, MnemonicKey } from 'initia.js'
 import { createRegistryProvider } from 'initia.js/provider'
 import { sendEvmTxAndWait } from 'initia.js/evm'
 import { TEST_MNEMONIC, SENDER } from './constants'
@@ -38,7 +38,7 @@ async function main() {
   // -------------------------------------------------------------------------
   // 1. Check EVM balance on evm-1
   // -------------------------------------------------------------------------
-  const ctx = createMinievmContext(provider, L2_CHAIN, {
+  const ctx = createEvmContext(provider, L2_CHAIN, {
     signer: key,
     evmTransport: 'jsonrpc',
   })
