@@ -11,7 +11,7 @@
  * Try typing `erc20.read.` or `erc20.write.` in your IDE to see autocomplete.
  */
 
-import { createMinievmContext } from 'initia.js'
+import { createEvmContext } from 'initia.js'
 import { createEvmContract } from 'initia.js/evm'
 import { SENDER, RECIPIENT, CONTRACT } from './constants'
 
@@ -19,7 +19,7 @@ import { SENDER, RECIPIENT, CONTRACT } from './constants'
 import { ERC20_ABI } from './abis/erc20'
 
 async function main() {
-  const chain = await createMinievmContext({ network: 'testnet', chainId: 'evm-1' })
+  const chain = await createEvmContext({ network: 'testnet', chainId: 'evm-1' })
 
   // Create typed contract — ABI from separate file
   const erc20 = createEvmContract(chain, CONTRACT.evm, ERC20_ABI)

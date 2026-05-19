@@ -18,7 +18,7 @@
  * 11. Address helpers  — EVM ↔ bech32 conversion
  */
 
-import { createMinievmContext } from 'initia.js'
+import { createEvmContext } from 'initia.js'
 import {
   createEvmContract,
   createDeployEvmContractMsg,
@@ -176,7 +176,7 @@ const ERC20_ABI = [
 // =============================================================================
 
 async function main() {
-  const chain = await createMinievmContext({ network: 'testnet', chainId: 'evm-1' })
+  const chain = await createEvmContext({ network: 'testnet', chainId: 'evm-1' })
   const erc20 = createEvmContract(chain, CONTRACT.evm, ERC20_ABI)
 
   // =========================================================================

@@ -148,11 +148,11 @@ interface CreateViemSignerOptions {
  * ```typescript
  * import { privateKeyToAccount } from 'viem/accounts'
  * import { createViemSigner } from 'initia.js/signer'
- * import { createMinievmContext } from 'initia.js'
+ * import { createEvmContext } from 'initia.js'
  *
  * const account = privateKeyToAccount('0x...')
  * const signer = createViemSigner(account)
- * const ctx = await createMinievmContext({ network: 'testnet', chainId: 'evm-1', signer })
+ * const ctx = await createEvmContext({ network: 'testnet', chainId: 'evm-1', signer })
  * ```
  */
 export function createViemSigner(

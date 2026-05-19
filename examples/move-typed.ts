@@ -16,7 +16,7 @@
  *   const coin = await ctx.contract('0x1', 'coin')                    // async, untyped
  */
 
-import { createMinimoveContext } from 'initia.js'
+import { createMoveContext } from 'initia.js'
 import { SENDER, RECIPIENT } from './constants'
 
 // Import static ABI from separate file — `as const satisfies ReadonlyMoveModuleAbi`
@@ -25,7 +25,7 @@ import { COIN_ABI } from './abis/coin'
 const UINIT_COIN = '0x1::native_uinit::Coin'
 
 async function main() {
-  const chain = await createMinimoveContext({ network: 'testnet', chainId: 'move-1' })
+  const chain = await createMoveContext({ network: 'testnet', chainId: 'move-1' })
 
   // Static ABI — sync (no await needed, ABI is already known)
   const coin = chain.contract(COIN_ABI)

@@ -11,8 +11,11 @@ import type { TransportOptions } from './client/transport-common'
 import type { MinimoveClient } from './client/types'
 
 export { minimoveChain } from './chains/minimove'
-export const createMinimoveContext = /* @__PURE__ */ buildTypedFactory(
-  'minimove', createTransport, minimoveContextConfig[0], minimoveContextConfig[1]
+export const createMoveContext = /* @__PURE__ */ buildTypedFactory(
+  'minimove',
+  createTransport,
+  minimoveContextConfig[0],
+  minimoveContextConfig[1]
 )
 export function createClient(chainInfo: ChainInfo, options?: TransportOptions): MinimoveClient {
   const transport = createTransport(chainInfo, options)

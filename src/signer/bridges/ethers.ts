@@ -56,11 +56,11 @@ interface CreateEthersSignerOptions {
  * ```typescript
  * import { ethers } from 'ethers'
  * import { createEthersSigner } from 'initia.js/signer'
- * import { createMinievmContext } from 'initia.js'
+ * import { createEvmContext } from 'initia.js'
  *
  * const wallet = new ethers.Wallet('0x...')
  * const signer = createEthersSigner(wallet)
- * const ctx = await createMinievmContext({ network: 'testnet', chainId: 'evm-1', signer })
+ * const ctx = await createEvmContext({ network: 'testnet', chainId: 'evm-1', signer })
  * ```
  */
 export function createEthersSigner(

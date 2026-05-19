@@ -38,7 +38,7 @@ import { Msg as BankTxMsg } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/bank
 function demoModulesCallback() {
   console.log('=== 1. modules callback — addModule accumulation ===\n')
 
-  // Simulate what happens inside createMinievmContext({ modules: ... })
+  // Simulate what happens inside createEvmContext({ modules: ... })
   const baseConfig = createChainConfig().addModule('bank', { query: BankQuery, tx: BankTxMsg })
 
   // User's modules callback extends the base
@@ -104,7 +104,7 @@ function demoReusableModule() {
 
   // Usage with typed factory (pseudocode):
   console.log('With typed factory:')
-  console.log('  const ctx = createMinievmContext(chainInfo, {')
+  console.log('  const ctx = createEvmContext(chainInfo, {')
   console.log('    modules: (base) => withMyDex(base)  // inline wrapper for type inference')
   console.log('  })')
   console.log()

@@ -15,7 +15,7 @@
 
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import { createMiniwasmContext, MnemonicKey } from 'initia.js'
+import { createWasmContext, MnemonicKey } from 'initia.js'
 import { findEvent, getEventAttribute } from 'initia.js/events'
 import { TEST_MNEMONIC, SENDER } from './constants'
 
@@ -61,7 +61,7 @@ async function main() {
 
   // 2. Connect to chain
   const key = new MnemonicKey({ mnemonic: TEST_MNEMONIC })
-  const ctx = await createMiniwasmContext({ network: 'testnet', chainId: CHAIN_ID, signer: key })
+  const ctx = await createWasmContext({ network: 'testnet', chainId: CHAIN_ID, signer: key })
   console.log(`Connected to ${ctx.chainId} as ${key.address}`)
 
   // 3. Store code

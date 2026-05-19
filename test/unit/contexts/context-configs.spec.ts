@@ -58,4 +58,27 @@ describe('context configs', () => {
   it('cosmos has no tokenResolver', () => {
     expect((cosmosContextConfig[1] as Record<string, unknown>).tokenResolver).toBeUndefined()
   })
+
+  // contractResolver presence
+  const vmConfigs = [
+    ['initia', initiaContextConfig],
+    ['minievm', minievmContextConfig],
+    ['minimove', minimoveContextConfig],
+    ['miniwasm', miniwasmContextConfig],
+  ] as const
+
+  for (const [name, config] of vmConfigs) {
+    it(`${name} has contractResolver`, () => {
+      expect(config[1].contractResolver).toBeDefined()
+    })
+
+    it(`${name} contractResolver rejects wrong chainType`, () => {
+      const resolver = config[1].contractResolver
+      expect(() => resolver({}, 'wrong-chain-type')).toThrow('unexpected chain type')
+    })
+  }
+
+  it('cosmos has no contractResolver', () => {
+    expect((cosmosContextConfig[1] as Record<string, unknown>).contractResolver).toBeUndefined()
+  })
 })

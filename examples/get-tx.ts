@@ -45,7 +45,7 @@ async function main() {
   console.log(`\n[Fast mode] ${fastTx.txHash}: ${fastTx.messages.length} messages`)
 
   // ---- EVM chain — register ABI for repeated use ----
-  // const evmCtx = await createMinievmContext({ network: 'testnet', chainId: 'evm-1' })
+  // const evmCtx = await createEvmContext({ network: 'testnet', chainId: 'evm-1' })
   // evmCtx.abis.set('0x1234...', erc20Abi)
   // const evmTx = await evmCtx.getTx(evmTxHash)
 

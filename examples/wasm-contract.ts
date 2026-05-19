@@ -20,7 +20,7 @@
  * 13. Event parsing       — parse Wasm events from tx results
  */
 
-import { createMiniwasmContext } from 'initia.js'
+import { createWasmContext } from 'initia.js'
 import {
   createWasmContract,
   // Lifecycle message builders
@@ -287,7 +287,7 @@ const CW20_SCHEMA: WasmContractSchema = {
 // =============================================================================
 
 async function main() {
-  const chain = await createMiniwasmContext({ network: 'testnet', chainId: 'wasm-1' })
+  const chain = await createWasmContext({ network: 'testnet', chainId: 'wasm-1' })
 
   // =========================================================================
   // Pattern 2: Schema introspection — discover contract capabilities
