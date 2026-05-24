@@ -9,6 +9,11 @@ import { coin } from '../../../src/core/coin'
 import { Message } from '../../../src/msgs/types'
 import { create } from '@bufbuild/protobuf'
 import { AnySchema } from '@bufbuild/protobuf/wkt'
+import {
+  MsgWhitelistSchema,
+  MsgDelistSchema,
+} from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
+import { anyPack } from '../../../src/util/any'
 
 const baseMsgs = createBaseConfig().build().msgs
 const initiaMsgs = initiaChain.build().msgs
@@ -82,6 +87,36 @@ describe('Message.toJson', () => {
     const msg = Message.fromAny(any)
 
     expect(() => msg.toJson()).toThrow('Cannot convert to JSON on a pre-packed Any')
+  })
+
+  it('should return JSON for legacy Move MsgWhitelist', () => {
+    const value = create(MsgWhitelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+      rewardWeight: '0.5',
+    })
+    const json = Message.fromAny(MsgWhitelistSchema, anyPack(MsgWhitelistSchema, value)).toJson()
+
+    expect(json.typeUrl).toBe('/initia.move.v1.MsgWhitelist')
+    expect(json.value).toEqual({
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+      rewardWeight: '0.5',
+    })
+  })
+
+  it('should return JSON for legacy Move MsgDelist', () => {
+    const value = create(MsgDelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+    })
+    const json = Message.fromAny(MsgDelistSchema, anyPack(MsgDelistSchema, value)).toJson()
+
+    expect(json.typeUrl).toBe('/initia.move.v1.MsgDelist')
+    expect(json.value).toEqual({
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+    })
   })
 
   it('should be usable with map for multiple messages', () => {

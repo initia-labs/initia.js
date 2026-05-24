@@ -18,6 +18,8 @@ export {
   encodeTxDirect,
 } from './sign'
 
+export { ExtensionOptionQueuedTx } from './extension-options'
+
 // EVM transaction utilities
 export { sendEvmTx, sendEvmTxAndWait, type SendEvmTxOptions, type EvmTxResult } from './evm'
 

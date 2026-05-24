@@ -17,6 +17,7 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest'
+import { Code, ConnectError } from '@connectrpc/connect'
 import { createRegistryProvider } from '../../src/provider/registry-provider'
 import { createTransport, createChainContext } from '../../src/entry.node'
 import { MnemonicKey } from '../../src/key/mnemonic-key'
@@ -61,6 +62,37 @@ function skipInfra(condition: boolean, reason: string): boolean {
   return true
 }
 
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error)
+}
+
+function isNetworkInfraError(error: unknown): boolean {
+  if (error instanceof ConnectError) {
+    return error.code === Code.Unavailable || error.code === Code.DeadlineExceeded
+  }
+
+  return /ETIMEDOUT|EHOSTUNREACH|ECONNRESET|ECONNREFUSED|ENOTFOUND|fetch failed|timeout/i.test(
+    errorMessage(error)
+  )
+}
+
+function skipNetworkInfra(error: unknown, context: string): boolean {
+  if (!isNetworkInfraError(error)) throw error
+  return skipInfra(false, `${context}: ${errorMessage(error)}`)
+}
+
+function isBridgeStateInfraFailure(rawLog: string): boolean {
+  return /burn amount exceeds balance|insufficient funds|insufficient balance|balance insufficient/i.test(
+    rawLog
+  )
+}
+
+function skipBridgeStateInfra(result: { code: number; rawLog: string }, context: string): boolean {
+  if (result.code === 0) return false
+  if (!isBridgeStateInfraFailure(result.rawLog)) return false
+  return skipInfra(false, `${context}: code=${result.code} log=${result.rawLog}`)
+}
+
 // ---------------------------------------------------------------------------
 // Asset info (populated during beforeAll)
 // ---------------------------------------------------------------------------
@@ -91,22 +123,35 @@ async function waitForBalance(chainId: string, asset: AssetInfo, needed: bigint)
   const ctx = createChainContext(_provider.getChainInfo(chainId)!)
 
   while (Date.now() - start < maxWait) {
-    const balances = await ctx.getBalance({ denom: asset.denom, address: _key.address })
-    const balance = balances.length > 0 ? BigInt(balances[0].amount) : 0n
-    if (balance >= needed) {
+    try {
+      const balances = await ctx.getBalance({ denom: asset.denom, address: _key.address })
+      const balance = balances.length > 0 ? BigInt(balances[0].amount) : 0n
+      if (balance >= needed) {
+        log(
+          `[${chainId}] Balance ready: ${balance} (waited ${((Date.now() - start) / 1000).toFixed(0)}s)`
+        )
+        return balance
+      }
       log(
-        `[${chainId}] Balance ready: ${balance} (waited ${((Date.now() - start) / 1000).toFixed(0)}s)`
+        `[${chainId}] Waiting for balance... ${balance}/${needed} (${((Date.now() - start) / 1000).toFixed(0)}s)`
       )
-      return balance
+    } catch (err) {
+      if (!isNetworkInfraError(err)) throw err
+      log(
+        `[${chainId}] Waiting for balance... network error: ${errorMessage(err)} (${((Date.now() - start) / 1000).toFixed(0)}s)`
+      )
     }
-    log(
-      `[${chainId}] Waiting for balance... ${balance}/${needed} (${((Date.now() - start) / 1000).toFixed(0)}s)`
-    )
     await new Promise(r => setTimeout(r, pollInterval))
   }
 
-  const balances = await ctx.getBalance({ denom: asset.denom, address: _key.address })
-  return balances.length > 0 ? BigInt(balances[0].amount) : 0n
+  try {
+    const balances = await ctx.getBalance({ denom: asset.denom, address: _key.address })
+    return balances.length > 0 ? BigInt(balances[0].amount) : 0n
+  } catch (err) {
+    if (!isNetworkInfraError(err)) throw err
+    log(`[${chainId}] Final balance query failed: ${errorMessage(err)}`)
+    return 0n
+  }
 }
 
 // ---------------------------------------------------------------------------
@@ -147,6 +192,7 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
   describe('Step 1: L1 → move-1', () => {
     let route: Route
     let txs: TransferTx[]
+    let l1BalanceReady = false
 
     it('should have sufficient L1 balance', async () => {
       const l1 = createChainContext(provider.getChainInfo(L1)!, { signer: key })
@@ -155,6 +201,7 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
       const needed = BigInt(toAmount(TEST_HUMAN_AMOUNT * 3, L1_ASSET))
       log(`L1 balance: ${balance} ${L1_ASSET.denom}`)
       if (skipInfra(balance > needed, `L1 balance insufficient (need ${needed})`)) return
+      l1BalanceReady = true
       expect(balance).toBeGreaterThan(0n)
     }, 30_000)
 
@@ -174,6 +221,7 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
     }, 30_000)
 
     it('should build and broadcast L1 → move-1 tx', async () => {
+      if (skipInfra(l1BalanceReady, 'L1 balance not ready')) return
       if (skipUnless(!!route, 'no route')) return
       txs = await provider.bridge.buildTransferMsgs({
         route,
@@ -187,10 +235,16 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
       if (skipUnless(!!cosmosTx, 'no cosmos msgs in built txs')) return
 
       const ctx = createChainContext(provider.getChainInfo(cosmosTx!.chainId)!, { signer: key })
-      const result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
-        waitForConfirmation: true,
-      })
+      let result
+      try {
+        result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
+          waitForConfirmation: true,
+        })
+      } catch (err) {
+        if (skipNetworkInfra(err, 'L1 → move-1 broadcast failed')) return
+      }
       log(`Tx: ${result.txHash} code=${result.code} gas=${result.gasUsed}`)
+      if (skipBridgeStateInfra(result, 'L1 → move-1 tx failed on-chain')) return
       expect(result.code).toBe(0)
     }, 120_000)
   })
@@ -202,15 +256,17 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
   describe('Step 2: move-1 → evm-1', () => {
     let route: Route
     let txs: TransferTx[]
+    let moveBalanceReady = false
 
     it('should wait for move-1 balance', async () => {
       if (skipUnless(!!MOVE_ASSET.denom, 'move-1 denom not discovered')) return
       const needed = BigInt(toAmount(TEST_HUMAN_AMOUNT, MOVE_ASSET))
       const balance = await waitForBalance(MOVE_L2, MOVE_ASSET, needed)
       if (
-        skipUnless(balance >= needed, `move-1 balance insufficient after polling (need ${needed})`)
+        skipInfra(balance >= needed, `move-1 balance insufficient after polling (need ${needed})`)
       )
         return
+      moveBalanceReady = true
       expect(balance).toBeGreaterThanOrEqual(needed)
     }, 120_000)
 
@@ -230,6 +286,7 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
     }, 30_000)
 
     it('should build and broadcast move-1 → evm-1 tx', async () => {
+      if (skipInfra(moveBalanceReady, 'move-1 balance not ready')) return
       if (skipUnless(!!route, 'no route')) return
       txs = await provider.bridge.buildTransferMsgs({
         route,
@@ -243,10 +300,16 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
       if (skipUnless(!!cosmosTx, 'no cosmos msgs in built txs')) return
 
       const ctx = createChainContext(provider.getChainInfo(cosmosTx!.chainId)!, { signer: key })
-      const result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
-        waitForConfirmation: true,
-      })
+      let result
+      try {
+        result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
+          waitForConfirmation: true,
+        })
+      } catch (err) {
+        if (skipNetworkInfra(err, 'move-1 → evm-1 broadcast failed')) return
+      }
       log(`Tx: ${result.txHash} code=${result.code} gas=${result.gasUsed}`)
+      if (skipBridgeStateInfra(result, 'move-1 → evm-1 tx failed on-chain')) return
       expect(result.code).toBe(0)
     }, 120_000)
   })
@@ -258,15 +321,15 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
   describe('Step 3: evm-1 → L1', () => {
     let route: Route
     let txs: TransferTx[]
+    let evmBalanceReady = false
 
     it('should wait for evm-1 balance', async () => {
       if (skipUnless(!!EVM_ASSET.denom, 'evm-1 denom not discovered')) return
       const needed = BigInt(toAmount(TEST_HUMAN_AMOUNT, EVM_ASSET))
       const balance = await waitForBalance(EVM_L2, EVM_ASSET, needed)
-      if (
-        skipUnless(balance >= needed, `evm-1 balance insufficient after polling (need ${needed})`)
-      )
+      if (skipInfra(balance >= needed, `evm-1 balance insufficient after polling (need ${needed})`))
         return
+      evmBalanceReady = true
       expect(balance).toBeGreaterThanOrEqual(needed)
     }, 120_000)
 
@@ -286,6 +349,7 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
     }, 30_000)
 
     it('should build and broadcast evm-1 → L1 tx', async () => {
+      if (skipInfra(evmBalanceReady, 'evm-1 balance not ready')) return
       if (skipUnless(!!route, 'no route')) return
       txs = await provider.bridge.buildTransferMsgs({
         route,
@@ -299,10 +363,16 @@ describe.skipIf(SKIP)('Router E2E: L1 → move-1 → evm-1 → L1', () => {
       if (skipUnless(!!cosmosTx, 'no cosmos msgs in built txs')) return
 
       const ctx = createChainContext(provider.getChainInfo(cosmosTx!.chainId)!, { signer: key })
-      const result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
-        waitForConfirmation: true,
-      })
+      let result
+      try {
+        result = await ctx.signAndBroadcast(cosmosTx!.cosmosMsgs!, {
+          waitForConfirmation: true,
+        })
+      } catch (err) {
+        if (skipNetworkInfra(err, 'evm-1 → L1 broadcast failed')) return
+      }
       log(`Tx: ${result.txHash} code=${result.code} gas=${result.gasUsed}`)
+      if (skipBridgeStateInfra(result, 'evm-1 → L1 tx failed on-chain')) return
       expect(result.code).toBe(0)
     }, 120_000)
   })

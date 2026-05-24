@@ -1,10 +1,17 @@
 import { describe, it, expect } from 'vitest'
+import { create } from '@bufbuild/protobuf'
 import { initiaChain } from '../../src/chains/initia'
 import { minievmChain } from '../../src/chains/minievm'
 import { minimoveChain } from '../../src/chains/minimove'
 import { miniwasmChain } from '../../src/chains/miniwasm'
 import { createBaseConfig } from '../../src/chains/common'
 import { coin } from '../../src/core/coin'
+import {
+  MsgWhitelistSchema,
+  MsgDelistSchema,
+} from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
+import { Query as MstakingQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/mstaking/v1/query_pb'
+import { anyPack } from '../../src/util/any'
 
 describe('chain configs', () => {
   describe('initia', () => {
@@ -24,6 +31,10 @@ describe('chain configs', () => {
     it('has ophost', () => {
       expect(config.services.ophost).toBeDefined()
       expect(typeof config.msgs.ophost.createBridge).toBe('function')
+    })
+
+    it('wires the generated mstaking query service', () => {
+      expect(config.services.mstaking).toBe(MstakingQuery)
     })
 
     it('all tx-only modules have callable builders', () => {
@@ -67,6 +78,43 @@ describe('chain configs', () => {
       // ethsecp256k1 key (type-only registration)
       const desc = config.registry.getMessage('initia.crypto.v1beta1.ethsecp256k1.PubKey')
       expect(desc).toBeDefined()
+    })
+
+    it('decodes legacy Move whitelist and delist messages without adding builders', () => {
+      const whitelist = create(MsgWhitelistSchema, {
+        authority: 'init1authority',
+        metadataLp: 'lptoken',
+        rewardWeight: '0.5',
+      })
+      const delist = create(MsgDelistSchema, {
+        authority: 'init1authority',
+        metadataLp: 'lptoken',
+      })
+
+      const decodedWhitelist = config.msgs.decode(anyPack(MsgWhitelistSchema, whitelist))
+      expect(decodedWhitelist.typeUrl).toBe('/initia.move.v1.MsgWhitelist')
+      expect(decodedWhitelist.toAmino()).toEqual({
+        type: 'move/MsgWhitelist',
+        value: {
+          authority: 'init1authority',
+          metadata_lp: 'lptoken',
+          reward_weight: '0.5',
+        },
+      })
+      const decodedDelist = config.msgs.decode(anyPack(MsgDelistSchema, delist))
+      expect(decodedDelist.typeUrl).toBe('/initia.move.v1.MsgDelist')
+      expect(decodedDelist.toAmino()).toEqual({
+        type: 'move/MsgDelist',
+        value: {
+          authority: 'init1authority',
+          metadata_lp: 'lptoken',
+        },
+      })
+      expect(config.registry.getMessage('initia.move.v1.MsgWhitelist')).toBeDefined()
+      expect(config.registry.getMessage('initia.move.v1.MsgDelist')).toBeDefined()
+      const moveBuilders = config.msgs.move as unknown as Record<string, unknown>
+      expect(moveBuilders.whitelist).toBeUndefined()
+      expect(moveBuilders.delist).toBeUndefined()
     })
   })
 

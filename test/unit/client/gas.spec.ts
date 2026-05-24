@@ -3,9 +3,13 @@
  */
 
 import { describe, it, expect, vi } from 'vitest'
+import { create } from '@bufbuild/protobuf'
+import { AnySchema } from '@bufbuild/protobuf/wkt'
+import { SignMode } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/tx/signing/v1beta1/signing_pb'
 import { DecCoins } from '../../../src/core/coins'
 import { ConnectError, Code } from '@connectrpc/connect'
 import { AccountNotFoundError, SimulationError } from '../../../src/errors'
+import { ExtensionOptionQueuedTx } from '../../../src/tx/extension-options'
 
 // Hoist mock objects so they're available in vi.mock factory
 const { mockAuth, mockTx } = vi.hoisted(() => ({
@@ -152,6 +156,62 @@ describe('estimateGas error narrowing', () => {
     mockTx.simulate.mockResolvedValueOnce({ gasInfo: undefined })
 
     await expect(estimateGas(client, [], 'init1test')).rejects.toThrow(SimulationError)
+  })
+})
+
+describe('estimateGas TxBody options', () => {
+  it('always simulates with SIGN_MODE_DIRECT', async () => {
+    const client = createMockClient()
+    mockedGetAccount.mockResolvedValueOnce({ sequence: 9n, accountNumber: 1n } as any)
+    mockTx.simulate.mockResolvedValueOnce(defaultSimResponse)
+
+    await estimateGas(client, [], 'init1test')
+
+    const simulatedTx = mockTx.simulate.mock.calls.at(-1)?.[0].tx as {
+      authInfo?: {
+        signerInfos?: Array<{
+          modeInfo?: {
+            sum: {
+              case: string
+              value: { mode: number }
+            }
+          }
+        }>
+      }
+    }
+    expect(simulatedTx.authInfo?.signerInfos?.[0].modeInfo?.sum.case).toBe('single')
+    expect(simulatedTx.authInfo?.signerInfos?.[0].modeInfo?.sum.value.mode).toBe(SignMode.DIRECT)
+  })
+
+  it('passes timeout height and extension option arrays into simulation', async () => {
+    const client = createMockClient()
+    const nonCritical = create(AnySchema, {
+      typeUrl: '/example.NonCritical',
+      value: new Uint8Array([4, 5, 6]),
+    })
+    mockedGetAccount.mockResolvedValueOnce({ sequence: 3n, accountNumber: 1n } as any)
+    mockTx.simulate.mockResolvedValueOnce(defaultSimResponse)
+
+    await estimateGas(client, [], 'init1test', {
+      timeoutHeight: 123n,
+      extensionOptions: [ExtensionOptionQueuedTx.packAny()],
+      nonCriticalExtensionOptions: [nonCritical],
+    })
+
+    const simulatedTx = mockTx.simulate.mock.calls.at(-1)?.[0].tx as {
+      body?: {
+        timeoutHeight?: bigint
+        extensionOptions?: Array<{ typeUrl: string }>
+        nonCriticalExtensionOptions?: Array<{ typeUrl: string }>
+      }
+    }
+    expect(simulatedTx.body?.timeoutHeight).toBe(123n)
+    expect(simulatedTx.body?.extensionOptions?.map(o => o.typeUrl)).toEqual([
+      '/initia.tx.v1.ExtensionOptionQueuedTx',
+    ])
+    expect(simulatedTx.body?.nonCriticalExtensionOptions?.map(o => o.typeUrl)).toEqual([
+      '/example.NonCritical',
+    ])
   })
 })
 

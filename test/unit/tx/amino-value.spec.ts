@@ -13,6 +13,8 @@
 import { describe, it, expect } from 'vitest'
 import { Message } from '../../../src/msgs/types'
 import { create } from '@bufbuild/protobuf'
+import { toAmino } from '../../../src/tx/amino'
+import { anyPack } from '../../../src/util/any'
 
 // ============= Schema imports =============
 
@@ -28,6 +30,8 @@ import { MsgTransferSchema } from '@buf/cosmos_ibc.bufbuild_es/ibc/applications/
 import {
   MsgExecuteSchema as MsgMoveExecuteSchema,
   MsgScriptSchema,
+  MsgWhitelistSchema,
+  MsgDelistSchema,
 } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
 import {
   MsgVoteSchema,
@@ -316,6 +320,52 @@ describe('Move', () => {
     expect(typeof amino.value.code_bytes).toBe('string')
     expect(amino.value.code_bytes).toBe(toBase64(codeBytes))
     expect(amino.value.type_args).toEqual(['0x1::string::String'])
+  })
+
+  it('legacy MsgWhitelist', () => {
+    const value = create(MsgWhitelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+      rewardWeight: '0.5',
+    })
+
+    const direct = toAmino(MsgWhitelistSchema, value)
+    const fromAny = Message.fromAny(
+      MsgWhitelistSchema,
+      anyPack(MsgWhitelistSchema, value)
+    ).toAmino()
+
+    expect(direct).toEqual({
+      type: 'move/MsgWhitelist',
+      value: {
+        authority: 'init1authority',
+        metadata_lp: 'lptoken',
+        reward_weight: '0.5',
+      },
+    })
+    expect(fromAny).toEqual(direct)
+    expect(direct.value).not.toHaveProperty('metadataLp')
+    expect(direct.value).not.toHaveProperty('rewardWeight')
+  })
+
+  it('legacy MsgDelist', () => {
+    const value = create(MsgDelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+    })
+
+    const direct = toAmino(MsgDelistSchema, value)
+    const fromAny = Message.fromAny(MsgDelistSchema, anyPack(MsgDelistSchema, value)).toAmino()
+
+    expect(direct).toEqual({
+      type: 'move/MsgDelist',
+      value: {
+        authority: 'init1authority',
+        metadata_lp: 'lptoken',
+      },
+    })
+    expect(fromAny).toEqual(direct)
+    expect(direct.value).not.toHaveProperty('metadataLp')
   })
 })
 

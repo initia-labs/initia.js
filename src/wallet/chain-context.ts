@@ -173,7 +173,7 @@ export type TokenResolver = (
 export type ContractResolver = (...args: any[]) => any
 
 /** Wrap a VM-specific contract factory as a ContractResolver with a chainType guard. */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export function createContractResolver(
   expectedChainType: string,
   factory: (...args: any[]) => any
@@ -880,6 +880,9 @@ class ChainContextImpl<
       fee: options?.fee ?? [],
       gasLimit: BigInt(options?.gasLimit ?? DEFAULT_GAS_LIMIT),
       memo: options?.memo ?? '',
+      timeoutHeight: BigInt(options?.timeoutHeight ?? 0),
+      extensionOptions: options?.extensionOptions ?? [],
+      nonCriticalExtensionOptions: options?.nonCriticalExtensionOptions ?? [],
     })
   }
 
@@ -966,6 +969,7 @@ class ChainContextImpl<
       fee: buildStdFee(tx),
       msgs: aminoMsgs,
       memo: tx.memo,
+      ...(tx.timeoutHeight !== 0n ? { timeout_height: tx.timeoutHeight.toString() } : {}),
     }
 
     const response = await signer.signAmino(address, aminoSignDoc)
@@ -975,9 +979,9 @@ class ChainContextImpl<
     const txBody = create(TxBodySchema, {
       messages: tx.msgs.map(m => m.toAny()),
       memo: signed.memo,
-      timeoutHeight: 0n,
-      extensionOptions: [],
-      nonCriticalExtensionOptions: [],
+      timeoutHeight: BigInt(signed.timeout_height ?? tx.timeoutHeight),
+      extensionOptions: tx.extensionOptions,
+      nonCriticalExtensionOptions: tx.nonCriticalExtensionOptions,
     })
     const bodyBytes = toBinary(TxBodySchema, txBody)
 
@@ -1027,7 +1031,8 @@ class ChainContextImpl<
       tx.chainId,
       tx.memo,
       tx.accountNumber,
-      tx.sequence
+      tx.sequence,
+      tx.timeoutHeight
     )
     const aminoBytes = makeAminoSignBytes(stdSignDoc)
     const signature = await (signer as EIP191Signer).signPersonal(aminoBytes)
@@ -1083,6 +1088,9 @@ class ChainContextImpl<
         gasPrice: options?.gasPrice ?? this.chainInfo.gasPrice,
         multiplier: options?.gasMultiplier,
         signer: options?.signer,
+        timeoutHeight: options?.timeoutHeight,
+        extensionOptions: options?.extensionOptions,
+        nonCriticalExtensionOptions: options?.nonCriticalExtensionOptions,
       })
       txOptions = {
         ...options,

@@ -5,6 +5,7 @@
 import type { QueryClient } from './grpc-client'
 import type { Numeric } from '../types'
 import type { CoinLike } from '../core/coin'
+import type { Any } from '@bufbuild/protobuf/wkt'
 
 // Derived client types (computed from chain config builders)
 export type {
@@ -214,6 +215,12 @@ export interface TxOptions {
   gasLimit?: Numeric
   /** Optional memo to include */
   memo?: string
+  /** Timeout block height (0 or undefined = no timeout) */
+  timeoutHeight?: Numeric
+  /** Cosmos TxBody extension options */
+  extensionOptions?: Any[]
+  /** Cosmos TxBody non-critical extension options */
+  nonCriticalExtensionOptions?: Any[]
   /** Signing mode (default: 'direct') */
   signMode?: SignModeType
 }

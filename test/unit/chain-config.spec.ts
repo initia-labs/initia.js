@@ -1,9 +1,14 @@
 import { describe, it, expect } from 'vitest'
+import { create } from '@bufbuild/protobuf'
 import { createChainConfig } from '../../src/chain-config'
 import { Msg as BankTxMsg } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/bank/v1beta1/tx_pb'
 import { Query as BankQuery } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/bank/v1beta1/query_pb'
 import { Query as AuthQuery } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/auth/v1beta1/query_pb'
-import { Msg as MoveTxMsg } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
+import {
+  Msg as MoveTxMsg,
+  MsgWhitelistSchema,
+  MsgDelistSchema,
+} from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
 import { file_cosmos_crypto_ed25519_keys } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/crypto/ed25519/keys_pb'
 import { Msg as ChannelTxMsg } from '@buf/cosmos_ibc.bufbuild_es/ibc/core/channel/v1/tx_pb'
 import { Msg as ClientTxMsg } from '@buf/cosmos_ibc.bufbuild_es/ibc/core/client/v1/tx_pb'
@@ -12,6 +17,7 @@ import { Query as IbcChannelQuery } from '@buf/cosmos_ibc.bufbuild_es/ibc/core/c
 import { Query as IbcClientQuery } from '@buf/cosmos_ibc.bufbuild_es/ibc/core/client/v1/query_pb'
 import { Query as AuthzQuery } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/authz/v1beta1/query_pb'
 import { coin } from '../../src/core/coin'
+import { anyPack } from '../../src/util/any'
 
 describe('createChainConfig', () => {
   it('returns a ChainConfigBuilder', () => {
@@ -137,6 +143,52 @@ describe('addTypes', () => {
 
     const desc = config.registry.getMessage('cosmos.crypto.ed25519.PubKey')
     expect(desc).toBeDefined()
+  })
+})
+
+describe('addDecodeTypes', () => {
+  it('allows decode-only schemas without module builders', () => {
+    const config = createChainConfig().addDecodeTypes(MsgWhitelistSchema, MsgDelistSchema).build()
+
+    const whitelist = create(MsgWhitelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+      rewardWeight: '0.5',
+    })
+    const delist = create(MsgDelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+    })
+
+    expect(config.msgs.decode(anyPack(MsgWhitelistSchema, whitelist)).typeUrl).toBe(
+      '/initia.move.v1.MsgWhitelist'
+    )
+    expect(config.msgs.decode(anyPack(MsgDelistSchema, delist)).typeUrl).toBe(
+      '/initia.move.v1.MsgDelist'
+    )
+    expect((config.msgs as unknown as Record<string, unknown>).move).toBeUndefined()
+  })
+
+  it('returns a new builder without mutating the original builder', () => {
+    const base = createChainConfig()
+    const withDecode = base.addDecodeTypes(MsgWhitelistSchema)
+    const value = create(MsgWhitelistSchema, {
+      authority: 'init1authority',
+      metadataLp: 'lptoken',
+      rewardWeight: '0.5',
+    })
+
+    expect(() => base.build().msgs.decode(anyPack(MsgWhitelistSchema, value))).toThrow()
+    expect(withDecode.build().msgs.decode(anyPack(MsgWhitelistSchema, value)).typeUrl).toBe(
+      '/initia.move.v1.MsgWhitelist'
+    )
+  })
+
+  it('registers decode-only schemas in the registry', () => {
+    const config = createChainConfig().addDecodeTypes(MsgWhitelistSchema, MsgDelistSchema).build()
+
+    expect(config.registry.getMessage('initia.move.v1.MsgWhitelist')).toBeDefined()
+    expect(config.registry.getMessage('initia.move.v1.MsgDelist')).toBeDefined()
   })
 })
 

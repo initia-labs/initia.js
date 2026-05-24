@@ -74,6 +74,7 @@ export type {
 export { createSignedTx, makeStdSignDoc, makeAminoSignBytes, buildStdFee } from './tx/sign'
 export { UnsignedTx } from './tx/unsigned-tx'
 export type { MultisigSignature } from './tx/unsigned-tx'
+export { ExtensionOptionQueuedTx } from './tx/extension-options'
 
 // =============================================================================
 // Key Management

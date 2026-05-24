@@ -141,7 +141,8 @@ export abstract class Key implements OfflineSigner {
           tx.chainId,
           tx.memo,
           tx.accountNumber,
-          tx.sequence
+          tx.sequence,
+          tx.timeoutHeight
         )
         const signBytes =
           tx.signMode === 'eip191'
