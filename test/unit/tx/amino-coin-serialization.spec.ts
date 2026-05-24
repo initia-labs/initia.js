@@ -79,6 +79,34 @@ describe('Coin amino serialization', () => {
     expect(aminoJson).toContain('"amount":"20000"')
   })
 
+  it('full amino sign doc includes timeout_height when provided', () => {
+    const stdSignDoc = makeStdSignDoc(
+      [],
+      { amount: [], gas: '200000' },
+      'test-chain',
+      '',
+      0n,
+      0n,
+      42n
+    )
+    const aminoBytes = makeAminoSignBytes(stdSignDoc)
+    const aminoJson = new TextDecoder().decode(aminoBytes)
+
+    expect(JSON.parse(aminoJson)).toMatchObject({ timeout_height: '42' })
+  })
+
+  it('full amino sign doc omits timeout_height when unset or zero', () => {
+    const unset = makeStdSignDoc([], { amount: [], gas: '200000' }, 'test-chain', '', 0n, 0n)
+    const zero = makeStdSignDoc([], { amount: [], gas: '200000' }, 'test-chain', '', 0n, 0n, 0n)
+
+    expect(JSON.parse(new TextDecoder().decode(makeAminoSignBytes(unset)))).not.toHaveProperty(
+      'timeout_height'
+    )
+    expect(JSON.parse(new TextDecoder().decode(makeAminoSignBytes(zero)))).not.toHaveProperty(
+      'timeout_height'
+    )
+  })
+
   it('full amino sign doc WITHOUT buildStdFee should ALSO not contain _amount', () => {
     // This tests the path where Coin instances go directly into stdFee
     // WITHOUT toAmino() conversion — relies on sortObject + JSON.stringify

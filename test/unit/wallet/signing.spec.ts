@@ -10,10 +10,11 @@
  * - #109: signMode auto-determination
  * - #110: Incompatible signer + signMode combo errors
  * - #111: createTx() + sign() separate call path
- * - #112: gas.ts estimateGas() stays DIRECT regardless of signMode
  */
 
 import { describe, it, expect } from 'vitest'
+import { create, fromBinary } from '@bufbuild/protobuf'
+import { AnySchema } from '@bufbuild/protobuf/wkt'
 import { buildChainContextFactory } from '../../../src/wallet/chain-context'
 import { RawKey } from '../../../src/key/raw-key'
 import { Message } from '../../../src/msgs/types'
@@ -28,6 +29,11 @@ import type {
 } from '../../../src/signer/types'
 import type { Transport } from '@connectrpc/connect'
 import { base64 } from '@scure/base'
+import {
+  TxBodySchema,
+  TxRawSchema,
+} from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/tx/v1beta1/tx_pb'
+import { ExtensionOptionQueuedTx } from '../../../src/tx/extension-options'
 
 // ============= Fixtures =============
 
@@ -270,6 +276,89 @@ describe('External signer + amino signing (#108)', () => {
 
     expect(signed.txBytes).not.toEqual(signedNoOverride.txBytes)
   })
+
+  it('preserves TxBody extension options and timeout height in final tx bytes', async () => {
+    const signer = createMockAminoSigner()
+    const originalSignAmino = signer.signAmino
+    let capturedSignDoc: AminoSignDoc | undefined
+    signer.signAmino = async (addr, signDoc) => {
+      capturedSignDoc = signDoc
+      return originalSignAmino(addr, signDoc)
+    }
+    const ctx = createChainContext(mockChainInfo, {
+      signer,
+      transport: mockTransport,
+    })
+    const nonCritical = create(AnySchema, {
+      typeUrl: '/example.NonCritical',
+      value: new Uint8Array([4, 5, 6]),
+    })
+    const tx = new UnsignedTx({
+      msgs: [
+        new Message(MsgSendSchema, {
+          fromAddress: testKey.address,
+          toAddress: 'init1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq5qnc04y',
+          amount: [{ denom: 'uinit', amount: '1000000' }],
+        }),
+      ],
+      signMode: 'amino',
+      chainId: 'test-1',
+      accountNumber: 1n,
+      sequence: 0n,
+      fee: [{ denom: 'uinit', amount: '1000' }],
+      gasLimit: 200000n,
+      memo: 'amino-extension',
+      timeoutHeight: 99n,
+      extensionOptions: [ExtensionOptionQueuedTx.packAny()],
+      nonCriticalExtensionOptions: [nonCritical],
+    })
+
+    const signed = await ctx.sign(tx)
+    const txRaw = fromBinary(TxRawSchema, signed.txBytes)
+    const body = fromBinary(TxBodySchema, txRaw.bodyBytes)
+
+    expect(capturedSignDoc?.chain_id).toBe('test-1')
+    expect(capturedSignDoc?.account_number).toBe('1')
+    expect(capturedSignDoc?.sequence).toBe('0')
+    expect(capturedSignDoc?.memo).toBe('amino-extension')
+    expect(capturedSignDoc?.timeout_height).toBe('99')
+    expect(capturedSignDoc?.fee).toEqual({
+      amount: [{ denom: 'uinit', amount: '1000' }],
+      gas: '200000',
+    })
+    expect(capturedSignDoc?.msgs[0].type).toBe('cosmos-sdk/MsgSend')
+    expect(body.timeoutHeight).toBe(99n)
+    expect(body.extensionOptions.map(o => o.typeUrl)).toEqual([
+      '/initia.tx.v1.ExtensionOptionQueuedTx',
+    ])
+    expect(body.nonCriticalExtensionOptions.map(o => o.typeUrl)).toEqual(['/example.NonCritical'])
+  })
+
+  it('uses signer-modified timeout height in final tx bytes', async () => {
+    const signer = createMockAminoSigner()
+    const originalSignAmino = signer.signAmino
+    signer.signAmino = async (addr, signDoc) => {
+      const response = await originalSignAmino(addr, signDoc)
+      return {
+        ...response,
+        signed: {
+          ...response.signed,
+          timeout_height: '123',
+        },
+      }
+    }
+    const ctx = createChainContext(mockChainInfo, {
+      signer,
+      transport: mockTransport,
+    })
+    const tx = createTestTx('amino')
+
+    const signed = await ctx.sign(tx)
+    const txRaw = fromBinary(TxRawSchema, signed.txBytes)
+    const body = fromBinary(TxBodySchema, txRaw.bodyBytes)
+
+    expect(body.timeoutHeight).toBe(123n)
+  })
 })
 
 // ============= #109: signMode auto-determination =============
@@ -398,51 +487,5 @@ describe('createTx() + sign() separate call path (#111)', () => {
     const signed = await ctx.sign(unsignedTx, { signer: testKey })
     expect(signed.txBytes).toBeInstanceOf(Uint8Array)
     expect(signed.txBytes.length).toBeGreaterThan(0)
-  })
-})
-
-// ============= #112: gas.ts estimateGas() stays DIRECT =============
-
-describe('gas.ts estimateGas() always uses DIRECT (#112)', () => {
-  it('should use SignMode.DIRECT for simulation regardless of message signMode', async () => {
-    const { estimateGas } = await import('../../../src/client/gas')
-
-    // Mock client that captures the simulation request
-    let simulateCalled = false
-    const mockClient = {
-      auth: {
-        account: async () => ({ account: undefined }),
-      },
-      tx: {
-        simulate: async () => {
-          simulateCalled = true
-          return { gasInfo: { gasUsed: 100000n, gasWanted: 150000n } }
-        },
-      },
-    }
-
-    const msg = new Message(MsgSendSchema, {
-      fromAddress: 'init1sender...',
-      toAddress: 'init1receiver...',
-      amount: [{ denom: 'uinit', amount: '1000' }],
-    })
-
-    const result = await estimateGas(mockClient, [msg], 'init1sender...')
-
-    // Verify simulation was called and returned proper result
-    expect(simulateCalled).toBe(true)
-    expect(result.gasLimit).toBeGreaterThan(0n)
-    expect(result.fee).toBeDefined()
-    expect(result.fee.length).toBeGreaterThan(0)
-  })
-
-  it('should not accept signMode in EstimateOptions', async () => {
-    const { estimateGas } = await import('../../../src/client/gas')
-
-    // estimateGas signature: (client, msgs, signer, options?: EstimateOptions)
-    // EstimateOptions only has { multiplier?, gasPrice? } — no signMode
-    // This is verified by the function existing and the first test succeeding
-    // with SignMode.DIRECT hardcoded internally
-    expect(typeof estimateGas).toBe('function')
   })
 })

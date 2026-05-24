@@ -152,6 +152,7 @@ export interface StdSignDoc {
   memo: string
   msgs: AminoMsg[]
   sequence: string
+  timeout_height?: string
 }
 
 /**
@@ -163,6 +164,7 @@ export interface StdSignDoc {
  * @param memo - Transaction memo
  * @param accountNumber - Account number
  * @param sequence - Account sequence
+ * @param timeoutHeight - Optional timeout block height
  * @returns StdSignDoc ready for canonical JSON serialization
  */
 export function makeStdSignDoc(
@@ -171,8 +173,10 @@ export function makeStdSignDoc(
   chainId: string,
   memo: string,
   accountNumber: Numeric,
-  sequence: Numeric
+  sequence: Numeric,
+  timeoutHeight?: Numeric
 ): StdSignDoc {
+  const normalizedTimeoutHeight = BigInt(timeoutHeight ?? 0)
   return {
     account_number: accountNumber.toString(),
     chain_id: chainId,
@@ -180,6 +184,9 @@ export function makeStdSignDoc(
     memo,
     msgs,
     sequence: sequence.toString(),
+    ...(normalizedTimeoutHeight !== 0n
+      ? { timeout_height: normalizedTimeoutHeight.toString() }
+      : {}),
   }
 }
 
@@ -250,6 +257,8 @@ export function encodeTxDirect(
     messages: tx.msgs.map(m => m.toAny()),
     memo: tx.memo,
     timeoutHeight: tx.timeoutHeight,
+    extensionOptions: tx.extensionOptions,
+    nonCriticalExtensionOptions: tx.nonCriticalExtensionOptions,
   })
   const bodyBytes = toBinary(TxBodySchema, txBody)
 

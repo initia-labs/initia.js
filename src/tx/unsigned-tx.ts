@@ -12,6 +12,7 @@ import { MultiSignature } from '../key/multisig'
 import { createSignedTx, makeSignBytes } from './sign'
 import { Coin } from '../core/coin'
 import type { CoinLike } from '../core/coin'
+import type { Any } from '@bufbuild/protobuf/wkt'
 import { create, toBinary } from '@bufbuild/protobuf'
 import {
   TxBodySchema,
@@ -69,6 +70,10 @@ export class UnsignedTx {
   readonly memo: string
   /** Timeout block height (0 = no timeout) */
   readonly timeoutHeight: bigint
+  /** Cosmos TxBody extension options */
+  readonly extensionOptions: Any[]
+  /** Cosmos TxBody non-critical extension options */
+  readonly nonCriticalExtensionOptions: Any[]
 
   constructor(data: {
     msgs: Message[]
@@ -80,16 +85,20 @@ export class UnsignedTx {
     gasLimit: bigint
     memo: string
     timeoutHeight?: bigint
+    extensionOptions?: Any[]
+    nonCriticalExtensionOptions?: Any[]
   }) {
     this.msgs = data.msgs
     this.signMode = data.signMode
     this.chainId = data.chainId
     this.accountNumber = data.accountNumber
     this.sequence = data.sequence
-    this.fee = data.fee.map(c => c instanceof Coin ? c : new Coin(c.denom, c.amount))
+    this.fee = data.fee.map(c => (c instanceof Coin ? c : new Coin(c.denom, c.amount)))
     this.gasLimit = data.gasLimit
     this.memo = data.memo
     this.timeoutHeight = data.timeoutHeight ?? 0n
+    this.extensionOptions = [...(data.extensionOptions ?? [])]
+    this.nonCriticalExtensionOptions = [...(data.nonCriticalExtensionOptions ?? [])]
   }
 
   /**
@@ -149,6 +158,8 @@ export class UnsignedTx {
       messages: this.msgs.map(m => m.toAny()),
       memo: this.memo,
       timeoutHeight: this.timeoutHeight,
+      extensionOptions: this.extensionOptions,
+      nonCriticalExtensionOptions: this.nonCriticalExtensionOptions,
     })
   }
 

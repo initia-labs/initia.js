@@ -52,6 +52,8 @@ import { MsgWithdrawDelegatorRewardSchema } from '@buf/cosmos_cosmos-sdk.bufbuil
 import {
   MsgExecuteSchema as MsgMoveExecuteSchema,
   MsgScriptSchema,
+  MsgWhitelistSchema,
+  MsgDelistSchema,
 } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
 
 // Gov v1
@@ -197,6 +199,11 @@ describe('Exception type mappings (proto-amino-conversion-rules.md §1.2)', () =
 
   it('OpInit pattern: ophost/MsgInitiateTokenDeposit', () => {
     expect(getAminoType(MsgInitiateTokenDepositSchema)).toBe('ophost/MsgInitiateTokenDeposit')
+  })
+
+  it('legacy Move whitelist/delist patterns', () => {
+    expect(getAminoType(MsgWhitelistSchema)).toBe('move/MsgWhitelist')
+    expect(getAminoType(MsgDelistSchema)).toBe('move/MsgDelist')
   })
 })
 

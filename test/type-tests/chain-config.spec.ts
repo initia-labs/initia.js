@@ -3,7 +3,11 @@ import { createChainConfig } from '../../src/chain-config'
 import { Msg as BankTxMsg } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/bank/v1beta1/tx_pb'
 import { Query as BankQuery } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/bank/v1beta1/query_pb'
 import { Query as AuthQuery } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/auth/v1beta1/query_pb'
-import { Msg as MoveTxMsg } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
+import {
+  Msg as MoveTxMsg,
+  MsgWhitelistSchema,
+  MsgDelistSchema,
+} from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
 
 test('ChainConfigBuilder type inference', () => {
   const config = createChainConfig()
@@ -31,4 +35,15 @@ test('ChainConfigBuilder type inference', () => {
   // custom and decode always present
   expectTypeOf(config.msgs.custom).toBeFunction()
   expectTypeOf(config.msgs.decode).toBeFunction()
+})
+
+test('addDecodeTypes preserves module type inference without adding builders', () => {
+  const config = createChainConfig()
+    .addModule('move', { tx: MoveTxMsg })
+    .addDecodeTypes(MsgWhitelistSchema, MsgDelistSchema)
+    .build()
+
+  expectTypeOf(config.msgs.move.execute).toBeFunction()
+  expectTypeOf(config.msgs.move).not.toHaveProperty('whitelist')
+  expectTypeOf(config.msgs.move).not.toHaveProperty('delist')
 })

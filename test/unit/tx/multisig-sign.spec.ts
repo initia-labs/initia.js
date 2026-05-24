@@ -5,12 +5,16 @@ import { MultisigPublicKey, MultiSignature } from '../../../src/key/multisig'
 import { RawKey } from '../../../src/key/raw-key'
 import { UnsignedTx } from '../../../src/tx/unsigned-tx'
 import { create, fromBinary, toBinary } from '@bufbuild/protobuf'
+import { AnySchema } from '@bufbuild/protobuf/wkt'
 import {
   TxBodySchema,
   AuthInfoSchema,
   FeeSchema,
+  SignDocSchema,
+  TxRawSchema,
 } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/tx/v1beta1/tx_pb'
 import { MultiSignatureSchema } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/crypto/multisig/v1beta1/multisig_pb'
+import { ExtensionOptionQueuedTx } from '../../../src/tx/extension-options'
 
 describe('createSignedTx', () => {
   it('should create TxRaw from multisig components', () => {
@@ -130,9 +134,15 @@ describe('createSignedTx fee preservation', () => {
 describe('multisig e2e signing', () => {
   it('should produce valid signatures that verify against signBytes', async () => {
     // 1. Setup keys
-    const key1 = RawKey.fromHex('0x0000000000000000000000000000000000000000000000000000000000000001')
-    const key2 = RawKey.fromHex('0x0000000000000000000000000000000000000000000000000000000000000002')
-    const key3 = RawKey.fromHex('0x0000000000000000000000000000000000000000000000000000000000000003')
+    const key1 = RawKey.fromHex(
+      '0x0000000000000000000000000000000000000000000000000000000000000001'
+    )
+    const key2 = RawKey.fromHex(
+      '0x0000000000000000000000000000000000000000000000000000000000000002'
+    )
+    const key3 = RawKey.fromHex(
+      '0x0000000000000000000000000000000000000000000000000000000000000003'
+    )
     const pubKeys = [key1.publicKey, key2.publicKey, key3.publicKey]
     const mpk = new MultisigPublicKey(2, pubKeys)
 
@@ -196,7 +206,10 @@ describe('key.sign(tx) overloads', () => {
   })
 
   it('sign(tx, mpk) auto-detects signer index', async () => {
-    const mpk = new MultisigPublicKey(2, keys.map(k => k.publicKey))
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
     const tx = new UnsignedTx({
       msgs: [],
       signMode: 'direct',
@@ -216,8 +229,45 @@ describe('key.sign(tx) overloads', () => {
     expect(sig2.index).toBe(2)
   })
 
+  it('getMultisigSignBytes preserves timeout and both extension option arrays', () => {
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
+    const nonCritical = create(AnySchema, {
+      typeUrl: '/example.NonCritical',
+      value: new Uint8Array([4, 5, 6]),
+    })
+    const tx = new UnsignedTx({
+      msgs: [],
+      signMode: 'direct',
+      chainId: 'test-1',
+      accountNumber: 0n,
+      sequence: 0n,
+      fee: [],
+      gasLimit: 200000n,
+      memo: 'multisig-extension',
+      timeoutHeight: 44n,
+      extensionOptions: [ExtensionOptionQueuedTx.packAny()],
+      nonCriticalExtensionOptions: [nonCritical],
+    })
+
+    const signBytes = tx.getMultisigSignBytes(mpk)
+    const signDoc = fromBinary(SignDocSchema, signBytes)
+    const body = fromBinary(TxBodySchema, signDoc.bodyBytes)
+
+    expect(body.timeoutHeight).toBe(44n)
+    expect(body.extensionOptions.map(o => o.typeUrl)).toEqual([
+      '/initia.tx.v1.ExtensionOptionQueuedTx',
+    ])
+    expect(body.nonCriticalExtensionOptions.map(o => o.typeUrl)).toEqual(['/example.NonCritical'])
+  })
+
   it('sign(tx, mpk) throws if key not member', async () => {
-    const mpk = new MultisigPublicKey(2, keys.slice(0, 2).map(k => k.publicKey))
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.slice(0, 2).map(k => k.publicKey)
+    )
     const tx = new UnsignedTx({
       msgs: [],
       signMode: 'direct',
@@ -232,7 +282,10 @@ describe('key.sign(tx) overloads', () => {
   })
 
   it('full multisig e2e with new API', async () => {
-    const mpk = new MultisigPublicKey(2, keys.map(k => k.publicKey))
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
     const tx = new UnsignedTx({
       msgs: [],
       signMode: 'direct',
@@ -252,8 +305,47 @@ describe('key.sign(tx) overloads', () => {
     expect(signedTx.txBytes.length).toBeGreaterThan(0)
   })
 
+  it('assembleMultisig preserves timeout and both extension option arrays in final TxRaw', async () => {
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
+    const nonCritical = create(AnySchema, {
+      typeUrl: '/example.NonCritical',
+      value: new Uint8Array([4, 5, 6]),
+    })
+    const tx = new UnsignedTx({
+      msgs: [],
+      signMode: 'direct',
+      chainId: 'test-1',
+      accountNumber: 0n,
+      sequence: 0n,
+      fee: [],
+      gasLimit: 200000n,
+      memo: 'e2e-extension',
+      timeoutHeight: 45n,
+      extensionOptions: [ExtensionOptionQueuedTx.packAny()],
+      nonCriticalExtensionOptions: [nonCritical],
+    })
+
+    const sig1 = await keys[0].sign(tx, mpk)
+    const sig2 = await keys[1].sign(tx, mpk)
+    const signedTx = tx.assembleMultisig(mpk, [sig1, sig2])
+    const txRaw = fromBinary(TxRawSchema, signedTx.txBytes)
+    const body = fromBinary(TxBodySchema, txRaw.bodyBytes)
+
+    expect(body.timeoutHeight).toBe(45n)
+    expect(body.extensionOptions.map(o => o.typeUrl)).toEqual([
+      '/initia.tx.v1.ExtensionOptionQueuedTx',
+    ])
+    expect(body.nonCriticalExtensionOptions.map(o => o.typeUrl)).toEqual(['/example.NonCritical'])
+  })
+
   it('assembleMultisig throws when threshold not met', async () => {
-    const mpk = new MultisigPublicKey(2, keys.map(k => k.publicKey))
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
     const tx = new UnsignedTx({
       msgs: [],
       signMode: 'direct',
@@ -270,7 +362,10 @@ describe('key.sign(tx) overloads', () => {
   })
 
   it('assembleMultisig throws with zero signatures', () => {
-    const mpk = new MultisigPublicKey(2, keys.map(k => k.publicKey))
+    const mpk = new MultisigPublicKey(
+      2,
+      keys.map(k => k.publicKey)
+    )
     const tx = new UnsignedTx({
       msgs: [],
       signMode: 'direct',
@@ -323,7 +418,15 @@ describe('key.sign(tx) overloads', () => {
   })
 
   it('sign(tx) produces different signatures for different signModes', async () => {
-    const base = { msgs: [], chainId: 'test-1', accountNumber: 0n, sequence: 0n, fee: [], gasLimit: 200000n, memo: '' }
+    const base = {
+      msgs: [],
+      chainId: 'test-1',
+      accountNumber: 0n,
+      sequence: 0n,
+      fee: [],
+      gasLimit: 200000n,
+      memo: '',
+    }
     const directSig = await keys[0].sign(new UnsignedTx({ ...base, signMode: 'direct' }))
     const aminoSig = await keys[0].sign(new UnsignedTx({ ...base, signMode: 'amino' }))
     const eip191Sig = await keys[0].sign(new UnsignedTx({ ...base, signMode: 'eip191' }))

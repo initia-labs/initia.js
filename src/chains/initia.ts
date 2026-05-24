@@ -14,7 +14,11 @@ import { Query as PermQuery } from '@buf/initia-labs_initia.bufbuild_es/ibc/appl
 import { Query as InitiaTxQuery } from '@buf/initia-labs_initia.bufbuild_es/initia/tx/v1/query_pb'
 
 // Tx services — full modules (query + tx)
-import { Msg as MoveTxMsg } from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
+import {
+  Msg as MoveTxMsg,
+  MsgWhitelistSchema,
+  MsgDelistSchema,
+} from '@buf/initia-labs_initia.bufbuild_es/initia/move/v1/tx_pb'
 import { Msg as MstakingTxMsg } from '@buf/initia-labs_initia.bufbuild_es/initia/mstaking/v1/tx_pb'
 import { Msg as DistributionTxMsg } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/distribution/v1beta1/tx_pb'
 import { Msg as GovTxMsg } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/gov/v1/tx_pb'
@@ -52,4 +56,5 @@ export const initiaChain = createBaseConfig()
   .addModule('nftTransfer', { query: NftTransferQuery, tx: NftTransferTxMsg })
   .addModule('perm', { query: PermQuery, tx: PermTxMsg })
   .addModule('initiaTx', { query: InitiaTxQuery })
+  .addDecodeTypes(MsgWhitelistSchema, MsgDelistSchema)
   .addTypes(file_initia_move_v1_auth)

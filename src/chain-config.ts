@@ -126,6 +126,7 @@ export class ChainConfigBuilder<
 > {
   private modules: Record<string, ModuleInput> = {}
   private typeInputs: TypeInput[] = []
+  private decodeSchemas: DescMessage[] = []
 
   addModule<K extends string, M extends ModuleInput>(
     name: K,
@@ -147,6 +148,12 @@ export class ChainConfigBuilder<
   addTypes(...inputs: TypeInput[]): ChainConfigBuilder<TDefault> {
     const next = this.clone()
     next.typeInputs.push(...inputs)
+    return next
+  }
+
+  addDecodeTypes(...schemas: DescMessage[]): ChainConfigBuilder<TDefault> {
+    const next = this.clone()
+    next.decodeSchemas.push(...schemas)
     return next
   }
 
@@ -173,12 +180,13 @@ export class ChainConfigBuilder<
     for (const mod of Object.values(this.modules)) {
       if (mod.tx) allSchemas.push(...extractSchemas(mod.tx))
     }
+    allSchemas.push(...this.decodeSchemas)
 
     // decode: resolves Any by typeUrl using schemas from registered modules
     // registry: resolves types from typeInputs (accumulated via addModule + addTypes),
     //           additionally contains non-module types from addTypes() (e.g., crypto keys, auth)
     const decode = createDecode(allSchemas)
-    const registry = createRegistry(...this.typeInputs)
+    const registry = createRegistry(...this.typeInputs, ...this.decodeSchemas)
 
     const msgs = {
       ...msgBuilders,
@@ -194,6 +202,7 @@ export class ChainConfigBuilder<
     const next = new ChainConfigBuilder<TDefault>()
     next.modules = { ...this.modules }
     next.typeInputs = [...this.typeInputs]
+    next.decodeSchemas = [...this.decodeSchemas]
     return next
   }
 }

@@ -16,6 +16,8 @@ import {
 import type { ChainInfo } from '../../../src/provider/types'
 import { getInitiaTestnet, getEvmTestnet } from '../../helpers/test-chains'
 
+const RUN_REAL_WEBSOCKET_TESTS = process.env.TEST_REAL_WEBSOCKET === 'true'
+
 // ============================================================================
 // Mock ChainInfo for mock tests
 // ============================================================================
@@ -416,7 +418,7 @@ describe('WebSocketSession (Mock Tests)', () => {
 // Part 2: Real Network Tests (using testnet)
 // ============================================================================
 
-describe('WebSocketSession (Real Network Tests)', () => {
+describe.skipIf(!RUN_REAL_WEBSOCKET_TESTS)('WebSocketSession (Real Network Tests)', () => {
   let initiaChainInfo: ChainInfo | null = null
   let evmChainInfo: ChainInfo | null = null
 

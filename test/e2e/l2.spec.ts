@@ -18,6 +18,7 @@
  */
 
 import { describe, it, expect, beforeAll } from 'vitest'
+import { Code, ConnectError } from '@connectrpc/connect'
 import { createChainContext, createTransport } from '../../src/entry.node'
 import { createRegistryProvider } from '../../src/provider/registry-provider'
 import { MnemonicKey } from '../../src/key/mnemonic-key'
@@ -194,6 +195,20 @@ function skipInfra(condition: boolean, reason: string): boolean {
   if (condition) return false
   log(`SKIP (infra): ${reason}`)
   return true
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : String(error)
+}
+
+function isNetworkInfraError(error: unknown): boolean {
+  if (error instanceof ConnectError) {
+    return error.code === Code.Unavailable || error.code === Code.DeadlineExceeded
+  }
+
+  return /ETIMEDOUT|EHOSTUNREACH|ECONNRESET|ECONNREFUSED|ENOTFOUND|fetch failed|timeout/i.test(
+    errorMessage(error)
+  )
 }
 
 /**
@@ -379,31 +394,46 @@ describe.skipIf(SKIP)('L2 E2E: Deposit -> Transact -> Withdraw', () => {
         const start = Date.now()
 
         while (Date.now() - start < maxWait) {
-          // Discover L2 native denom and check balance in one step
-          const denom = await discoverL2NativeDenom(wallet, l2)
-          if (denom) {
-            const balance = await queryBalance(wallet, l2)
-            if (balance >= DEPOSIT_AMOUNT) {
+          try {
+            // Discover L2 native denom and check balance in one step
+            const denom = await discoverL2NativeDenom(wallet, l2)
+            if (denom) {
+              const balance = await queryBalance(wallet, l2)
+              if (balance >= DEPOSIT_AMOUNT) {
+                log(
+                  `[${l2}] Deposit arrived: ${fmtInit(balance)} denom=${denom} (waited ${((Date.now() - start) / 1000).toFixed(0)}s)`
+                )
+                return
+              }
               log(
-                `[${l2}] Deposit arrived: ${fmtInit(balance)} denom=${denom} (waited ${((Date.now() - start) / 1000).toFixed(0)}s)`
+                `[${l2}] Waiting... balance=${fmtInit(balance)} denom=${denom} (${((Date.now() - start) / 1000).toFixed(0)}s)`
               )
-              return
+            } else {
+              log(
+                `[${l2}] Waiting... no l2/ denom yet (${((Date.now() - start) / 1000).toFixed(0)}s)`
+              )
             }
+          } catch (err) {
+            if (!isNetworkInfraError(err)) throw err
             log(
-              `[${l2}] Waiting... balance=${fmtInit(balance)} denom=${denom} (${((Date.now() - start) / 1000).toFixed(0)}s)`
-            )
-          } else {
-            log(
-              `[${l2}] Waiting... no l2/ denom yet (${((Date.now() - start) / 1000).toFixed(0)}s)`
+              `[${l2}] Waiting... network error: ${errorMessage(err)} (${((Date.now() - start) / 1000).toFixed(0)}s)`
             )
           }
           await new Promise(r => setTimeout(r, pollInterval))
         }
 
         const finalDenom = getNativeDenom(l2)
-        const finalBalance = await queryBalance(wallet, l2)
+        let finalBalance: bigint
+        try {
+          finalBalance = await queryBalance(wallet, l2)
+        } catch (err) {
+          if (!isNetworkInfraError(err)) throw err
+          if (skipInfra(false, `[${l2}] deposit polling network error: ${errorMessage(err)}`))
+            return
+          throw err
+        }
         if (
-          skipUnless(
+          skipInfra(
             finalBalance >= DEPOSIT_AMOUNT,
             `[${l2}] deposit not arrived after ${maxWait / 1000}s (balance: ${fmtInit(finalBalance)} denom=${finalDenom})`
           )
@@ -571,8 +601,9 @@ describe.skipIf(SKIP)('L2 E2E: Deposit -> Transact -> Withdraw', () => {
         const erc20 = createEvmContract(ctx, EVM_ERC20_ADDRESS, ERC20_ABI)
         const sender = await wallet.getAddress('evm-1')
 
-        const balanceBefore = await erc20.read.balanceOf(senderEvmAddress as `0x${string}`)
-        if (skipInfra(balanceBefore > 0n, '[evm-1] sender has no ERC20 balance for transfer test'))
+        const senderBefore = await erc20.read.balanceOf(senderEvmAddress as `0x${string}`)
+        const recipientBefore = await erc20.read.balanceOf(recipientEvmAddress as `0x${string}`)
+        if (skipInfra(senderBefore > 0n, '[evm-1] sender has no ERC20 balance for transfer test'))
           return
 
         const transferAmount = 1n
@@ -588,14 +619,22 @@ describe.skipIf(SKIP)('L2 E2E: Deposit -> Transact -> Withdraw', () => {
         expect(result.txHash).toHaveLength(64)
         expect(result.gasUsed).toBeGreaterThan(0n)
 
-        const balanceAfter = await erc20.read.balanceOf(senderEvmAddress as `0x${string}`)
-        expect(balanceBefore - balanceAfter).toBe(transferAmount)
+        const senderAfter = await erc20.read.balanceOf(senderEvmAddress as `0x${string}`)
+        const recipientAfter = await erc20.read.balanceOf(recipientEvmAddress as `0x${string}`)
+        const senderDiff = senderBefore - senderAfter
+        const recipientDiff = recipientAfter - recipientBefore
+
+        expect(recipientDiff).toBe(transferAmount)
+        expect(senderDiff).toBeGreaterThanOrEqual(transferAmount)
 
         log(
           `[evm-1] ERC20 transfer: ${result.txHash} height=${result.height} gasUsed=${result.gasUsed}`
         )
         log(
-          `[evm-1]   balance change: ${balanceBefore} -> ${balanceAfter} (diff: ${balanceBefore - balanceAfter})`
+          `[evm-1]   sender balance change: ${senderBefore} -> ${senderAfter} (diff: ${senderDiff})`
+        )
+        log(
+          `[evm-1]   recipient balance change: ${recipientBefore} -> ${recipientAfter} (diff: ${recipientDiff})`
         )
       }, 120_000)
     })

@@ -1,4 +1,5 @@
 export * from './tx/sign'
+export { ExtensionOptionQueuedTx } from './tx/extension-options'
 
 export {
   toAmino,

@@ -3,6 +3,8 @@
  */
 
 import { create } from '@bufbuild/protobuf'
+import type { Any } from '@bufbuild/protobuf/wkt'
+import type { Numeric } from '../types'
 import { type MsgInput, normalizeMsg } from '../msgs/types'
 import {
   TxSchema,
@@ -36,6 +38,12 @@ export interface EstimateOptions {
   multiplier?: number
   /** Gas price (e.g., '0.015uinit') */
   gasPrice?: string
+  /** Timeout block height for simulated TxBody (0 or undefined = no timeout) */
+  timeoutHeight?: Numeric
+  /** Cosmos TxBody extension options for simulation */
+  extensionOptions?: Any[]
+  /** Cosmos TxBody non-critical extension options for simulation */
+  nonCriticalExtensionOptions?: Any[]
 }
 
 /**
@@ -145,9 +153,9 @@ export async function estimateGas(
   const txBody = create(TxBodySchema, {
     messages: msgs.map(m => normalizeMsg(m).toAny()),
     memo: '',
-    timeoutHeight: 0n,
-    extensionOptions: [],
-    nonCriticalExtensionOptions: [],
+    timeoutHeight: BigInt(options?.timeoutHeight ?? 0),
+    extensionOptions: options?.extensionOptions ?? [],
+    nonCriticalExtensionOptions: options?.nonCriticalExtensionOptions ?? [],
   })
 
   // Create minimal auth info (empty signature is ok for simulation)

@@ -7,7 +7,12 @@ import type {
   BaseClient,
   ClientFor,
   Client,
+  TxOptions,
 } from '../../src/client/types'
+import type { EstimateOptions } from '../../src/client/gas'
+import type { Numeric } from '../../src/types'
+import type { Any } from '@bufbuild/protobuf/wkt'
+import type { QueryDelegatorTotalUnbondingBalanceResponse } from '@buf/initia-labs_initia.bufbuild_es/initia/mstaking/v1/query_pb'
 
 describe('derived client types', () => {
   describe('InitiaClient', () => {
@@ -24,6 +29,17 @@ describe('derived client types', () => {
       expectTypeOf<InitiaClient>().toHaveProperty('distribution')
       expectTypeOf<InitiaClient>().toHaveProperty('ophost')
       expectTypeOf<InitiaClient>().toHaveProperty('gov')
+    })
+
+    it('has generated mstaking total unbonding query but no v1-style wrapper', () => {
+      expectTypeOf<InitiaClient['mstaking']>().toHaveProperty('delegatorTotalUnbondingBalance')
+      expectTypeOf<InitiaClient['mstaking']>().not.toHaveProperty('totalUnbondingBalance')
+
+      type Method = InitiaClient['mstaking']['delegatorTotalUnbondingBalance']
+      expectTypeOf<{ delegatorAddr: string }>().toMatchTypeOf<Parameters<Method>[0]>()
+      expectTypeOf<
+        Awaited<ReturnType<Method>>
+      >().toMatchTypeOf<QueryDelegatorTotalUnbondingBalanceResponse>()
     })
   })
 
@@ -104,5 +120,28 @@ describe('derived client types', () => {
       expectTypeOf<MiniwasmClient>().toMatchTypeOf<Client>()
       expectTypeOf<BaseClient>().toMatchTypeOf<Client>()
     })
+  })
+})
+
+describe('transaction option types', () => {
+  it('exposes TxBody fields on TxOptions', () => {
+    expectTypeOf<TxOptions>().toHaveProperty('timeoutHeight').toEqualTypeOf<Numeric | undefined>()
+    expectTypeOf<TxOptions>().toHaveProperty('extensionOptions').toEqualTypeOf<Any[] | undefined>()
+    expectTypeOf<TxOptions>()
+      .toHaveProperty('nonCriticalExtensionOptions')
+      .toEqualTypeOf<Any[] | undefined>()
+  })
+
+  it('exposes TxBody fields on EstimateOptions', () => {
+    expectTypeOf<EstimateOptions>()
+      .toHaveProperty('timeoutHeight')
+      .toEqualTypeOf<Numeric | undefined>()
+    expectTypeOf<EstimateOptions>()
+      .toHaveProperty('extensionOptions')
+      .toEqualTypeOf<Any[] | undefined>()
+    expectTypeOf<EstimateOptions>()
+      .toHaveProperty('nonCriticalExtensionOptions')
+      .toEqualTypeOf<Any[] | undefined>()
+    expectTypeOf<EstimateOptions>().not.toHaveProperty('signMode')
   })
 })

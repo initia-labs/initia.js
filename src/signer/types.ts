@@ -149,6 +149,7 @@ export interface AminoSignDoc {
   fee: AminoFee
   msgs: AminoMsg[]
   memo: string
+  timeout_height?: string
 }
 
 /**
