@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { APIRequester } from '../APIRequester'
 import { MstakingAPI } from './MstakingAPI'
 import { Coins, MstakingParams, ValConsPublicKey } from '../../../core'
@@ -58,5 +58,24 @@ describe('MstakingAPI', () => {
   it('params', async () => {
     const params = await api.parameters()
     expect(params).toEqual(expect.any(MstakingParams))
+  })
+
+  it('totalUnbondingBalance', async () => {
+    const get = vi.spyOn(APIRequester.prototype, 'get').mockResolvedValueOnce({
+      balance: [{ denom: 'uinit', amount: '123' }],
+    })
+
+    const balance = await api.totalUnbondingBalance(
+      'init1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqeup2p7'
+    )
+
+    expect(get).toHaveBeenCalledWith(
+      '/initia/mstaking/v1/delegators/init1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqeup2p7/total_unbonding_balance',
+      {},
+      {}
+    )
+    expect(balance).toEqual(new Coins('123uinit'))
+
+    get.mockRestore()
   })
 })

@@ -46,7 +46,7 @@ export class Tx {
       new TxBody(
         data.value.msg.map(Msg.fromAmino),
         data.value.memo,
-        parseInt(data.value.timeout_height)
+        parseInt(data.value.timeout_height || '0')
       ),
       new AuthInfo([], Fee.fromAmino(data.value.fee)),
       signatures.map((s) => s.data.single?.signature ?? '')
@@ -171,6 +171,20 @@ export namespace Tx {
   export type Proto = Tx_pb
 }
 
+function anyToData(any: Any): TxBody.AnyData {
+  return {
+    type_url: any.typeUrl,
+    value: Buffer.from(any.value).toString('base64'),
+  }
+}
+
+function anyFromData(data: TxBody.AnyData): Any {
+  return Any.fromPartial({
+    typeUrl: data.type_url,
+    value: Buffer.from(data.value, 'base64'),
+  })
+}
+
 /**
  * TxBody is the body of a transaction that all signers sign over.
  */
@@ -179,18 +193,24 @@ export class TxBody {
    * @param messages list of messages to be executed
    * @param memo any arbitrary note/comment to be added to the transaction
    * @param timeout_height the block height after which this transaction will not be processed by the chain
+   * @param extension_options extension options preserved end-to-end during proto round-trips
+   * @param non_critical_extension_options non-critical extension options preserved end-to-end during proto round-trips
    */
   constructor(
     public messages: Msg[],
     public memo?: string,
-    public timeout_height?: number
+    public timeout_height?: number,
+    public extension_options: Any[] = [],
+    public non_critical_extension_options: Any[] = []
   ) {}
 
   public static fromData(data: TxBody.Data): TxBody {
     return new TxBody(
       data.messages.map(Msg.fromData),
       data.memo,
-      parseInt(data.timeout_height)
+      data.timeout_height ? parseInt(data.timeout_height) : undefined,
+      (data.extension_options ?? []).map(anyFromData),
+      (data.non_critical_extension_options ?? []).map(anyFromData)
     )
   }
 
@@ -199,6 +219,9 @@ export class TxBody {
       memo: this.memo ?? '',
       messages: this.messages.map((m) => m.toData()),
       timeout_height: (this.timeout_height ?? 0).toFixed(),
+      extension_options: this.extension_options.map(anyToData),
+      non_critical_extension_options:
+        this.non_critical_extension_options.map(anyToData),
     }
   }
 
@@ -206,7 +229,9 @@ export class TxBody {
     return new TxBody(
       proto.messages.map(Msg.fromProto),
       proto.memo,
-      Number(proto.timeoutHeight)
+      Number(proto.timeoutHeight),
+      proto.extensionOptions,
+      proto.nonCriticalExtensionOptions
     )
   }
 
@@ -217,6 +242,8 @@ export class TxBody {
       timeoutHeight: this.timeout_height
         ? BigInt(this.timeout_height)
         : undefined,
+      extensionOptions: this.extension_options,
+      nonCriticalExtensionOptions: this.non_critical_extension_options,
     })
   }
 
@@ -226,10 +253,17 @@ export class TxBody {
 }
 
 export namespace TxBody {
+  export interface AnyData {
+    type_url: string
+    value: string
+  }
+
   export interface Data {
     messages: Msg.Data[]
     memo: string
     timeout_height: string
+    extension_options?: AnyData[]
+    non_critical_extension_options?: AnyData[]
   }
   export type Proto = TxBody_pb
 }

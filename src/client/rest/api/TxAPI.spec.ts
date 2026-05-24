@@ -2,7 +2,7 @@ import { describe, beforeEach, afterEach, it, expect, vi } from 'vitest'
 import { RESTClient } from '../RESTClient'
 import { APIRequester } from '../APIRequester'
 import { isTxError } from './TxAPI'
-import { MsgSend } from '../../../core'
+import { MsgSend, ExtensionOptionQueuedTx, Fee } from '../../../core'
 import { MnemonicKey } from '../../../key'
 
 const mk = new MnemonicKey({
@@ -134,6 +134,30 @@ describe('TxAPI', () => {
       await expect(async () => {
         await initia.tx.broadcast(tx, 500)
       }).rejects.toThrow('Transaction was not included in a block')
+    })
+  })
+
+  describe('create', () => {
+    it('preserves tx body extension options', async () => {
+      const tx = await initia.tx.create(
+        [
+          {
+            address: mk.accAddress,
+            sequenceNumber: 1,
+            publicKey: mk.publicKey,
+          },
+        ],
+        {
+          msgs: [],
+          fee: new Fee(1, '1uinit'),
+          extensionOptions: [ExtensionOptionQueuedTx.packAny()],
+        }
+      )
+
+      expect(tx.body.extension_options).toHaveLength(1)
+      expect(tx.toProto().body?.extensionOptions[0].typeUrl).toBe(
+        '/initia.tx.v1.ExtensionOptionQueuedTx'
+      )
     })
   })
 })

@@ -18,6 +18,7 @@ import { hashToHex } from '../../../util'
 import { RESTClient } from '../RESTClient'
 import { APIParams, Pagination, PaginationOptions } from '../APIRequester'
 import { BroadcastMode } from '@initia/initia.proto/cosmos/tx/v1beta1/service'
+import { Any } from '@initia/initia.proto/google/protobuf/any'
 
 interface Wait {
   height: number
@@ -127,6 +128,8 @@ export interface CreateTxOptions {
   gasAdjustment?: number | string
   feeDenoms?: string[]
   timeoutHeight?: number
+  extensionOptions?: Any[]
+  nonCriticalExtensionOptions?: Any[]
 }
 
 export interface TxResult {
@@ -267,7 +270,13 @@ export class TxAPI extends BaseAPI {
     }
 
     return new Tx(
-      new TxBody(msgs, memo ?? '', timeoutHeight ?? 0),
+      new TxBody(
+        msgs,
+        memo ?? '',
+        timeoutHeight ?? 0,
+        options.extensionOptions ?? [],
+        options.nonCriticalExtensionOptions ?? []
+      ),
       new AuthInfo([], fee),
       []
     )
@@ -329,7 +338,13 @@ export class TxAPI extends BaseAPI {
       }
     }
 
-    const txBody = new TxBody(options.msgs, options.memo ?? '')
+    const txBody = new TxBody(
+      options.msgs,
+      options.memo ?? '',
+      undefined,
+      options.extensionOptions ?? [],
+      options.nonCriticalExtensionOptions ?? []
+    )
     const authInfo = new AuthInfo([], new Fee(0, new Coins()))
     const tx = new Tx(txBody, authInfo, [])
 
@@ -393,7 +408,13 @@ export class TxAPI extends BaseAPI {
     options: CreateTxOptions & { sequence: number },
     headers: Record<string, string> = {}
   ): Promise<SimulateResponse> {
-    const txBody = new TxBody(options.msgs, options.memo ?? '')
+    const txBody = new TxBody(
+      options.msgs,
+      options.memo ?? '',
+      undefined,
+      options.extensionOptions ?? [],
+      options.nonCriticalExtensionOptions ?? []
+    )
     const authInfo = new AuthInfo([], new Fee(0, new Coins()))
     const tx = new Tx(txBody, authInfo, [])
     tx.appendEmptySignatures([{ sequenceNumber: options.sequence }])
