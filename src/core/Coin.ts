@@ -69,7 +69,9 @@ export class Coin extends JSONSerializable<Coin.Amino, Coin.Data, Coin.Proto> {
   }
 
   public static fromString(str: string): Coin {
-    const m = str.match(/^(-?[0-9]+(\.[0-9]+)?)([a-zA-Z][0-9a-zA-Z/:._-]{2,127})$/)
+    const m = str.match(
+      /^(-?[0-9]+(\.[0-9]+)?)([a-zA-Z][0-9a-zA-Z/:._-]{2,127})$/
+    )
     if (m === null) {
       throw new Error(`failed to parse to Coin: ${str}`)
     }
