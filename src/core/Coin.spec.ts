@@ -147,5 +147,19 @@ describe('Coin', () => {
       )
       expect(coin3).toEqual(coin4)
     })
+
+    it('parses denoms containing "-", "." and "_" (e.g. tokenfactory subdenoms)', () => {
+      const coin1 = new Coin('factory/init1abc/my-token', 1001)
+      const coin2 = Coin.fromString('1001factory/init1abc/my-token')
+      expect(coin1).toEqual(coin2)
+
+      // fromString(toString()) must round-trip for any valid Cosmos denom
+      expect(Coin.fromString(coin1.toString())).toEqual(coin1)
+    })
+
+    it('throws on a numeric-only string (a denom must start with a letter)', () => {
+      expect(() => Coin.fromString('5000')).toThrow()
+      expect(() => Coin.fromString('12')).toThrow()
+    })
   })
 })
