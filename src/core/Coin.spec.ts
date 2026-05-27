@@ -149,8 +149,8 @@ describe('Coin', () => {
     })
 
     it('parses denoms containing "-", "." and "_" (e.g. tokenfactory subdenoms)', () => {
-      const coin1 = new Coin('factory/init1abc/my-token', 1001)
-      const coin2 = Coin.fromString('1001factory/init1abc/my-token')
+      const coin1 = new Coin('factory/init1abc/my-token_v1.5', 1001)
+      const coin2 = Coin.fromString('1001factory/init1abc/my-token_v1.5')
       expect(coin1).toEqual(coin2)
 
       // fromString(toString()) must round-trip for any valid Cosmos denom
