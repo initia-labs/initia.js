@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { Coin, coin, coins, parseCoin, DecCoin } from '../../../src/core/coin'
+import { Coin, coin, coins, parseCoin, parseDecCoin, DecCoin } from '../../../src/core/coin'
 import { ValidationError } from '../../../src/errors'
 
 describe('Coin', () => {
@@ -260,6 +260,26 @@ describe('parseCoin', () => {
     expect(c.amount).toBe('1000')
   })
 
+  it('should parse denoms containing ":", "-", "." and "_"', () => {
+    const c = parseCoin('1001factory/init1abc/my-token_v1.5')
+    expect(c.denom).toBe('factory/init1abc/my-token_v1.5')
+    expect(c.amount).toBe('1001')
+
+    expect(parseCoin('7move/module:coin')).toEqual(new Coin('move/module:coin', '7'))
+  })
+
+  it('should enforce Cosmos denom length bounds', () => {
+    const minDenom = 'abc'
+    const maxDenom = `a${'b'.repeat(127)}`
+    const tooShortDenom = 'ab'
+    const tooLongDenom = `a${'b'.repeat(128)}`
+
+    expect(parseCoin(`1${minDenom}`).denom).toBe(minDenom)
+    expect(parseCoin(`1${maxDenom}`).denom).toBe(maxDenom)
+    expect(() => parseCoin(`1${tooShortDenom}`)).toThrow('Invalid format')
+    expect(() => parseCoin(`1${tooLongDenom}`)).toThrow('Invalid format')
+  })
+
   it('should throw for empty string', () => {
     expect(() => parseCoin('')).toThrow('Empty string')
   })
@@ -272,6 +292,28 @@ describe('parseCoin', () => {
 
   it('should throw for decimal amounts', () => {
     expect(() => parseCoin('1.5uinit')).toThrow('Invalid format')
+  })
+})
+
+describe('parseDecCoin', () => {
+  it('should parse denoms containing ":", "-", "." and "_"', () => {
+    const c = parseDecCoin('1001.5factory/init1abc/my-token_v1.5')
+    expect(c.denom).toBe('factory/init1abc/my-token_v1.5')
+    expect(c.amount).toBe('1001.500000000000000000')
+
+    expect(parseDecCoin('-1move/module:coin')).toEqual(new DecCoin('move/module:coin', '-1'))
+  })
+
+  it('should enforce Cosmos denom length bounds', () => {
+    const minDenom = 'abc'
+    const maxDenom = `a${'b'.repeat(127)}`
+    const tooShortDenom = 'ab'
+    const tooLongDenom = `a${'b'.repeat(128)}`
+
+    expect(parseDecCoin(`1.5${minDenom}`).denom).toBe(minDenom)
+    expect(parseDecCoin(`1.5${maxDenom}`).denom).toBe(maxDenom)
+    expect(() => parseDecCoin(`1.5${tooShortDenom}`)).toThrow('Invalid format')
+    expect(() => parseDecCoin(`1.5${tooLongDenom}`)).toThrow('Invalid format')
   })
 })
 

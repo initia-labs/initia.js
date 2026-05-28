@@ -14,6 +14,10 @@ import {
 } from '@buf/cosmos_cosmos-sdk.bufbuild_es/cosmos/base/v1beta1/coin_pb'
 import { ValidationError, ParseError } from '../errors'
 
+const DENOM_REGEX_FRAGMENT = '[a-zA-Z][a-zA-Z0-9/:._-]{2,127}'
+const COIN_STRING_REGEX = new RegExp(`^(\\d+)(${DENOM_REGEX_FRAGMENT})$`)
+const DEC_COIN_STRING_REGEX = new RegExp(`^(-?\\d+(?:\\.\\d+)?)(${DENOM_REGEX_FRAGMENT})$`)
+
 /**
  * Object with denom and amount fields (compatible with protobuf Coin).
  */
@@ -364,12 +368,17 @@ export class DecCoin {
   constructor(denom: string, amount: string | bigint | number) {
     let amountStr: string
     switch (typeof amount) {
-      case 'string': amountStr = amount; break
-      case 'bigint': amountStr = amount.toString(); break
+      case 'string':
+        amountStr = amount
+        break
+      case 'bigint':
+        amountStr = amount.toString()
+        break
       case 'number':
         if (!Number.isSafeInteger(amount))
           throw new ValidationError('amount', `Amount must be a safe integer, got: ${amount}`)
-        amountStr = amount.toString(); break
+        amountStr = amount.toString()
+        break
     }
 
     if (!/^-?\d+(\.\d+)?$/.test(amountStr)) {
@@ -589,8 +598,7 @@ export function parseCoin(str: string): Coin {
     throw new ParseError('coin', 'Empty string')
   }
 
-  // Match amount (digits) followed by denom (non-digits)
-  const match = str.match(/^(\d+)([a-zA-Z][a-zA-Z0-9/]*)$/)
+  const match = str.match(COIN_STRING_REGEX)
   if (!match) {
     throw new ParseError('coin', `Invalid format: ${str}`)
   }
@@ -632,7 +640,7 @@ export function parseDecCoin(str: string): DecCoin {
     throw new ParseError('decCoin', 'Empty string')
   }
 
-  const match = str.match(/^(-?\d+(?:\.\d+)?)([a-zA-Z][a-zA-Z0-9/]*)$/)
+  const match = str.match(DEC_COIN_STRING_REGEX)
   if (!match) {
     throw new ParseError('decCoin', `Invalid format: ${str}`)
   }
