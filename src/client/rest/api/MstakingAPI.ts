@@ -266,6 +266,26 @@ export class MstakingAPI extends BaseAPI {
   }
 
   /**
+   * Query sum of all the unbonding delegations' balance of a delegator.
+   * @param delegator the delegator address to query for
+   */
+  public async totalUnbondingBalance(
+    delegator: AccAddress,
+    params: APIParams = {},
+    headers: Record<string, string> = {}
+  ): Promise<Coins> {
+    return this.c
+      .get<{
+        balance: Coins.Data
+      }>(
+        `/initia/mstaking/v1/delegators/${delegator}/total_unbonding_balance`,
+        params,
+        headers
+      )
+      .then((d) => Coins.fromData(d.balance))
+  }
+
+  /**
    * Query all current registered validators, including validators that are not currently in the validating set.
    */
   public async validators(

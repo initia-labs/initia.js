@@ -154,8 +154,10 @@ import {
   MsgScript,
   MsgScriptJSON,
   MsgUpdateMoveParams,
+  MsgWhitelist,
   MsgWhitelistStaking,
   MsgWhitelistGasPrice,
+  MsgDelist,
   MsgDelistStaking,
   MsgDelistGasPrice,
   MsgGovExecute,
@@ -590,10 +592,14 @@ export namespace Msg {
         return MsgScriptJSON.fromAmino(data)
       case 'move/MsgUpdateParams':
         return MsgUpdateMoveParams.fromAmino(data)
+      case 'move/MsgWhitelist':
+        return MsgWhitelist.fromAmino(data)
       case 'move/MsgWhitelistStaking':
         return MsgWhitelistStaking.fromAmino(data)
       case 'move/MsgWhitelistGasPrice':
         return MsgWhitelistGasPrice.fromAmino(data)
+      case 'move/MsgDelist':
+        return MsgDelist.fromAmino(data)
       case 'move/MsgDelistStaking':
         return MsgDelistStaking.fromAmino(data)
       case 'move/MsgDelistGasPrice':
@@ -1054,10 +1060,14 @@ export namespace Msg {
         return MsgScriptJSON.fromData(data)
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.fromData(data)
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.fromData(data)
       case '/initia.move.v1.MsgWhitelistStaking':
         return MsgWhitelistStaking.fromData(data)
       case '/initia.move.v1.MsgWhitelistGasPrice':
         return MsgWhitelistGasPrice.fromData(data)
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.fromData(data)
       case '/initia.move.v1.MsgDelistStaking':
         return MsgDelistStaking.fromData(data)
       case '/initia.move.v1.MsgDelistGasPrice':
@@ -1518,10 +1528,14 @@ export namespace Msg {
         return MsgScriptJSON.unpackAny(proto)
       case '/initia.move.v1.MsgUpdateParams':
         return MsgUpdateMoveParams.unpackAny(proto)
+      case '/initia.move.v1.MsgWhitelist':
+        return MsgWhitelist.unpackAny(proto)
       case '/initia.move.v1.MsgWhitelistStaking':
         return MsgWhitelistStaking.unpackAny(proto)
       case '/initia.move.v1.MsgWhitelistGasPrice':
         return MsgWhitelistGasPrice.unpackAny(proto)
+      case '/initia.move.v1.MsgDelist':
+        return MsgDelist.unpackAny(proto)
       case '/initia.move.v1.MsgDelistStaking':
         return MsgDelistStaking.unpackAny(proto)
       case '/initia.move.v1.MsgDelistGasPrice':

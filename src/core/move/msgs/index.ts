@@ -4,8 +4,10 @@ import { MsgExecuteJSON } from './MsgExecuteJSON'
 import { MsgScript } from './MsgScript'
 import { MsgScriptJSON } from './MsgScriptJSON'
 import { MsgUpdateMoveParams } from './MsgUpdateMoveParams'
+import { MsgWhitelist } from './MsgWhitelist'
 import { MsgWhitelistStaking } from './MsgWhitelistStaking'
 import { MsgWhitelistGasPrice } from './MsgWhitelistGasPrice'
+import { MsgDelist } from './MsgDelist'
 import { MsgDelistStaking } from './MsgDelistStaking'
 import { MsgDelistGasPrice } from './MsgDelistGasPrice'
 import { MsgGovExecute } from './MsgGovExecute'
@@ -20,8 +22,10 @@ export * from './MsgExecuteJSON'
 export * from './MsgScript'
 export * from './MsgScriptJSON'
 export * from './MsgUpdateMoveParams'
+export * from './MsgWhitelist'
 export * from './MsgWhitelistStaking'
 export * from './MsgWhitelistGasPrice'
+export * from './MsgDelist'
 export * from './MsgDelistStaking'
 export * from './MsgDelistGasPrice'
 export * from './MsgGovExecute'
@@ -37,8 +41,10 @@ export type MoveMsg =
   | MsgScript
   | MsgScriptJSON
   | MsgUpdateMoveParams
+  | MsgWhitelist
   | MsgWhitelistStaking
   | MsgWhitelistGasPrice
+  | MsgDelist
   | MsgDelistStaking
   | MsgDelistGasPrice
   | MsgGovExecute
@@ -55,8 +61,10 @@ export namespace MoveMsg {
     | MsgScript.Amino
     | MsgScriptJSON.Amino
     | MsgUpdateMoveParams.Amino
+    | MsgWhitelist.Amino
     | MsgWhitelistStaking.Amino
     | MsgWhitelistGasPrice.Amino
+    | MsgDelist.Amino
     | MsgDelistStaking.Amino
     | MsgDelistGasPrice.Amino
     | MsgGovExecute.Amino
@@ -72,8 +80,10 @@ export namespace MoveMsg {
     | MsgScript.Data
     | MsgScriptJSON.Data
     | MsgUpdateMoveParams.Data
+    | MsgWhitelist.Data
     | MsgWhitelistStaking.Data
     | MsgWhitelistGasPrice.Data
+    | MsgDelist.Data
     | MsgDelistStaking.Data
     | MsgDelistGasPrice.Data
     | MsgGovExecute.Data
@@ -89,8 +99,10 @@ export namespace MoveMsg {
     | MsgScript.Proto
     | MsgScriptJSON.Proto
     | MsgUpdateMoveParams.Proto
+    | MsgWhitelist.Proto
     | MsgWhitelistStaking.Proto
     | MsgWhitelistGasPrice.Proto
+    | MsgDelist.Proto
     | MsgDelistStaking.Proto
     | MsgDelistGasPrice.Proto
     | MsgGovExecute.Proto
