@@ -7,6 +7,6 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     testTimeout: 30000,
-    exclude: ['ledger-key/**', 'node_modules/**', 'dist/**'],
+    exclude: ['ledger-key/**', '**/node_modules/**', '**/dist/**'],
   },
 })
