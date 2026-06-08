@@ -46,7 +46,7 @@
     "semver": "^7.6.3"
   },
   "overrides": {
-    "axios": "1.14.0"
+    "axios": "1.17.0"
   },
   "devDependencies": {
     "@initia/initia.js": "file:..",
@@ -56,6 +56,6 @@
     "typescript": "^5.4.5",
     "vite": "^6.2.4",
     "vite-plugin-dts": "^4.2.3",
-    "vitest": "^3.0.9"
+    "vitest": "^4.1.8"
   }
 }
