@@ -1,6 +1,6 @@
 {
   "name": "@initia/ledger-key",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "LedgerKey implementation to support Ledger in initia.js",
   "license": "Apache-2.0",
   "author": "Initia Foundation",
