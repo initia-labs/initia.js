@@ -20,8 +20,6 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci --ignore-scripts
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   ledger-key:
     if: ${{ startsWith(github.event.release.tag_name, 'ledger-key@') }}
@@ -40,5 +38,3 @@ jobs:
         working-directory: ./ledger-key
       - run: npm publish
         working-directory: ./ledger-key
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
