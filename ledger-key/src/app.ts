@@ -7,6 +7,15 @@ import * as secp256k1 from 'secp256k1'
 import { LedgerError } from './error'
 import { EthPublicKey, PublicKey, SimplePublicKey } from '@initia/initia.js'
 
+// hw-app-eth and ledger-cosmos-js are CommonJS builds that export their class as
+// `exports.default`. Bundlers hand us the class, but plain Node hands us the whole
+// exports object, so use its `default` when there is one.
+const defaultExport = <T>(mod: T): T =>
+  (mod as T & { default?: T }).default ?? mod
+
+const EthAppClass = defaultExport(Eth)
+const CosmosAppClass = defaultExport(Cosmos)
+
 /** Human-readable part for Initia */
 const HRP = 'init'
 
@@ -147,7 +156,7 @@ export class EthereumApp extends LedgerApp {
 
   constructor(transport: Transport) {
     super(transport)
-    this.app = new Eth(transport)
+    this.app = new EthAppClass(transport)
   }
 
   async getVersion(): Promise<string> {
@@ -279,7 +288,7 @@ export class CosmosApp extends LedgerApp {
 
   constructor(transport: Transport) {
     super(transport)
-    this.app = new Cosmos(transport)
+    this.app = new CosmosAppClass(transport)
   }
 
   async getVersion(): Promise<string> {
