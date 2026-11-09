@@ -23,7 +23,14 @@
     "dist"
   ],
   "engines": {
-    "node": ">=20"
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.10.0",
+      "onFail": "error"
+    }
   },
   "scripts": {
     "build": "vite build",
@@ -37,7 +44,7 @@
     "@initia/initia.js": "^1.0.0"
   },
   "dependencies": {
-    "@ledgerhq/hw-app-eth": "^6.45.5",
+    "@ledgerhq/hw-app-eth": "^7.12.1",
     "@ledgerhq/hw-transport": "^6.31.10",
     "@ledgerhq/hw-transport-webhid": "^6.29.4",
     "@ledgerhq/hw-transport-webusb": "^6.29.4",
@@ -46,7 +53,8 @@
     "semver": "^7.6.3"
   },
   "overrides": {
-    "axios": "1.17.0"
+    "axios": "1.21.0",
+    "minimatch": "^11.0.1"
   },
   "devDependencies": {
     "@initia/initia.js": "file:..",
@@ -54,8 +62,8 @@
     "@types/secp256k1": "^4.0.6",
     "@types/semver": "^7.5.8",
     "typescript": "^5.4.5",
-    "vite": "^6.2.4",
+    "vite": "^6.4.5",
     "vite-plugin-dts": "^4.2.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.12"
   }
 }
