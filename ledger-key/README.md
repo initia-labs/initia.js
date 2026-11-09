@@ -63,7 +63,15 @@ const cosmosKey = await LedgerKey.create(transport, 0, Kind.Cosmos);
 
 ## Testing
 
+The tests load `@initia/initia.js` from the repository root through `file:..`, so build the root package first.
+
 ```bash
+# In the repository root
+npm ci && npm run build
+
+# Then in ledger-key
+npm ci
+
 # Unit tests
 npm test
 
