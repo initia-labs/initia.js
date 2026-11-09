@@ -24,6 +24,13 @@
   "engines": {
     "node": ">=20"
   },
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": ">=11.10.0",
+      "onFail": "error"
+    }
+  },
   "scripts": {
     "build": "vite build",
     "test": "vitest run",
