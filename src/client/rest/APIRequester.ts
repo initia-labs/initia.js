@@ -41,8 +41,9 @@ export class APIRequester {
   }
 
   private validateEndpoint(endpoint: string) {
-    const traversalPatterns = ['../', '..\\', '%2E%2E%2F', '%2E%2E%5C']
-    if (traversalPatterns.some((pattern) => endpoint.includes(pattern))) {
+    const traversalPatterns = ['../', '..\\', '%2e%2e%2f', '%2e%2e%5c']
+    const lowerEndpoint = endpoint.toLowerCase()
+    if (traversalPatterns.some((pattern) => lowerEndpoint.includes(pattern))) {
       throw new Error('Relative path not allowed')
     }
 

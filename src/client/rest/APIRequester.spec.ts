@@ -33,6 +33,10 @@ describe('APIRequester endpoint validation', () => {
       '/opinit/opchild/v1/base_denom/l2/a.b..c',
       'https://lcd.test/opinit/opchild/v1/base_denom/l2/a.b..c',
     ],
+    [
+      '/opinit/opchild/v1/base_denom/l2/a%2eb',
+      'https://lcd.test/opinit/opchild/v1/base_denom/l2/a%2eb',
+    ],
   ])('keeps the legitimate endpoint %s', async (endpoint, url) => {
     expect(await requester().get(endpoint)).toEqual(url)
   })
@@ -53,10 +57,20 @@ describe('APIRequester endpoint validation', () => {
     '/cosmos/wasm/v1/contract/init1a/%2e/init1b',
     '/cosmos/wasm/v1/contract/init1a/..',
     '/cosmos/wasm/v1/contract/init1a/.\t./init1b',
+    '/cosmos/wasm/v1/contract/init1a/.\n./init1b',
+    '/cosmos/wasm/v1/contract/init1a/.\r./init1b',
     '/cosmos/wasm/v1/contract/init1a\\init1b',
+    '/cosmos/wasm/v1/contract/init1a%2e%2e%2finit1b',
+    '/cosmos/wasm/v1/contract/init1a%2e%2e%5cinit1b',
   ])('rejects the dot segment in %j', async (endpoint) => {
     await expect(requester().get(endpoint)).rejects.toThrow(
       'Relative path not allowed'
     )
+  })
+
+  it('validates getRaw the same way', async () => {
+    await expect(
+      requester().getRaw('/cosmos/wasm/v1/contract/init1a/%2e%2e/init1b')
+    ).rejects.toThrow('Relative path not allowed')
   })
 })

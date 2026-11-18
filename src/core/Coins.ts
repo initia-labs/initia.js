@@ -99,6 +99,10 @@ export class Coins
 
       for (const coin of coins) {
         const { denom } = coin
+        // assigning "__proto__" would replace the prototype instead of adding a coin
+        if (denom === '__proto__') {
+          throw new Error('Invalid denom: __proto__')
+        }
         const x = this.get(denom)
         if (x !== undefined) {
           this._coins[denom] = x.add(coin)

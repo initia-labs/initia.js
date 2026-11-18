@@ -103,4 +103,10 @@ describe('Coins', () => {
   it('returns undefined for a missing denom named like an inherited member', () => {
     expect(new Coins({ uinit: 1 }).get('constructor')).toBeUndefined()
   })
+
+  it('rejects a __proto__ denom instead of dropping it', () => {
+    expect(
+      () => new Coins([new Coin('__proto__', 1), new Coin('uinit', 2)])
+    ).toThrow('Invalid denom: __proto__')
+  })
 })
