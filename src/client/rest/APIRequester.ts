@@ -46,6 +46,15 @@ export class APIRequester {
       throw new Error('Relative path not allowed')
     }
 
+    // the URL parser still resolves "%2e" (any case), "\" and tab-split dots
+    const hasDotSegment = endpoint
+      .split('/')
+      .map((segment) => segment.replace(/[\t\n\r]/g, '').replace(/%2e/gi, '.'))
+      .some((segment) => segment === '.' || segment === '..')
+    if (endpoint.includes('\\') || hasDotSegment) {
+      throw new Error('Relative path not allowed')
+    }
+
     if (endpoint.includes('?')) {
       throw new Error('Query param should be passed via the params argument')
     }

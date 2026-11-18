@@ -86,4 +86,21 @@ describe('Coins', () => {
     // shouldn't fail or ts giving errors on type
     expect(Array.isArray(Array.from(gasPrices))).toBe(true)
   })
+
+  it('builds coins whose denom is constructor or toString', () => {
+    const coins = new Coins([
+      new Coin('constructor', 1),
+      new Coin('toString', 2),
+      new Coin('constructor', 3),
+    ])
+
+    expect(coins.toData()).toEqual([
+      { amount: '4', denom: 'constructor' },
+      { amount: '2', denom: 'toString' },
+    ])
+  })
+
+  it('returns undefined for a missing denom named like an inherited member', () => {
+    expect(new Coins({ uinit: 1 }).get('constructor')).toBeUndefined()
+  })
 })

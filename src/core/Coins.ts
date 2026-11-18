@@ -99,7 +99,7 @@ export class Coins
 
       for (const coin of coins) {
         const { denom } = coin
-        const x = this._coins[denom]
+        const x = this.get(denom)
         if (x !== undefined) {
           this._coins[denom] = x.add(coin)
         } else {
@@ -121,7 +121,10 @@ export class Coins
    * @param denom denomination to lookup
    */
   public get(denom: Denom): Coin | undefined {
-    return this._coins[denom]
+    // own keys only, so a denom like "constructor" is not read from the prototype
+    return Object.prototype.hasOwnProperty.call(this._coins, denom)
+      ? this._coins[denom]
+      : undefined
   }
 
   /**

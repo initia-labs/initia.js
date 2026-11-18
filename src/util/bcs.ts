@@ -15,7 +15,8 @@ const initiaAddress = (
         val = val.slice(2).padStart(64, '0')
       }
 
-      if (!val.match(/[0-9a-f]+$/i)) {
+      // same check as /[0-9a-f]+$/i without its quadratic backtracking
+      if (!val.match(/[0-9a-f]$/i)) {
         throw new Error('invalid address')
       }
 
