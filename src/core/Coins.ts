@@ -2,6 +2,13 @@ import { Coin } from './Coin'
 import { JSONSerializable } from '../util/json'
 import { Denom } from './Denom'
 
+// assigning "__proto__" would replace the prototype instead of adding a coin
+const assertAssignableDenom = (denom: Denom): void => {
+  if (denom === '__proto__') {
+    throw new Error('Invalid denom: __proto__')
+  }
+}
+
 /**
  * Analogous to `sdk.Coins` and `sdk.DecCoins` from Cosmos-SDK, and represents a collection
  * of [[Coin]] objects.
@@ -99,10 +106,7 @@ export class Coins
 
       for (const coin of coins) {
         const { denom } = coin
-        // assigning "__proto__" would replace the prototype instead of adding a coin
-        if (denom === '__proto__') {
-          throw new Error('Invalid denom: __proto__')
-        }
+        assertAssignableDenom(denom)
         const x = this.get(denom)
         if (x !== undefined) {
           this._coins[denom] = x.add(coin)
@@ -137,6 +141,7 @@ export class Coins
    * @param value value to set
    */
   public set(denom: Denom, value: number | string | Coin): void {
+    assertAssignableDenom(denom)
     let val
     if (value instanceof Coin) {
       if (value.denom != denom) {

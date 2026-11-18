@@ -109,4 +109,15 @@ describe('Coins', () => {
       () => new Coins([new Coin('__proto__', 1), new Coin('uinit', 2)])
     ).toThrow('Invalid denom: __proto__')
   })
+
+  it('rejects setting a __proto__ denom and keeps other denoms', () => {
+    const coins = new Coins({ uinit: 1 })
+
+    expect(() => coins.set('__proto__', 2)).toThrow('Invalid denom: __proto__')
+    coins.set('uusdc', 3)
+    expect(coins.toData()).toEqual([
+      { amount: '1', denom: 'uinit' },
+      { amount: '3', denom: 'uusdc' },
+    ])
+  })
 })
