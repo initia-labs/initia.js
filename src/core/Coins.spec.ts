@@ -86,4 +86,38 @@ describe('Coins', () => {
     // shouldn't fail or ts giving errors on type
     expect(Array.isArray(Array.from(gasPrices))).toBe(true)
   })
+
+  it('builds coins whose denom is constructor or toString', () => {
+    const coins = new Coins([
+      new Coin('constructor', 1),
+      new Coin('toString', 2),
+      new Coin('constructor', 3),
+    ])
+
+    expect(coins.toData()).toEqual([
+      { amount: '4', denom: 'constructor' },
+      { amount: '2', denom: 'toString' },
+    ])
+  })
+
+  it('returns undefined for a missing denom named like an inherited member', () => {
+    expect(new Coins({ uinit: 1 }).get('constructor')).toBeUndefined()
+  })
+
+  it('rejects a __proto__ denom instead of dropping it', () => {
+    expect(
+      () => new Coins([new Coin('__proto__', 1), new Coin('uinit', 2)])
+    ).toThrow('Invalid denom: __proto__')
+  })
+
+  it('rejects setting a __proto__ denom and keeps other denoms', () => {
+    const coins = new Coins({ uinit: 1 })
+
+    expect(() => coins.set('__proto__', 2)).toThrow('Invalid denom: __proto__')
+    coins.set('uusdc', 3)
+    expect(coins.toData()).toEqual([
+      { amount: '1', denom: 'uinit' },
+      { amount: '3', denom: 'uusdc' },
+    ])
+  })
 })
